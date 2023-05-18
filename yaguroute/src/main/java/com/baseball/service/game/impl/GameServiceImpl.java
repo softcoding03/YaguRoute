@@ -1,5 +1,4 @@
 package com.baseball.service.game.impl;
-
 import com.baseball.service.game.GameService;
 
 public class GameServiceImpl implements GameService {
