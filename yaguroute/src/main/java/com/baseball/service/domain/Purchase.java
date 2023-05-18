@@ -1,6 +1,6 @@
-ï»¿package com.baseball.service.domain;
+package com.baseball.service.domain;
 
-//==>íšŒì›ì •ë³´ë¥¼ ëª¨ë¸ë§(ì¶”ìƒí™”/ìº¡ìŠí™”)í•œ Bean
+//==>È¸¿øÁ¤º¸¸¦ ¸ğµ¨¸µ(Ãß»óÈ­/Ä¸½¶È­)ÇÑ Bean
 public class Purchase {
 	
 }
