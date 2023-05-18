@@ -26,7 +26,7 @@
 		<typeAlias alias="ticket" type="com.baseball.service.domain.Ticket"/>
 		<typeAlias alias="channel" type="com.baseball.service.domain.Channel"/>
 		<typeAlias alias="transaction" type="com.baseball.service.domain.Transaction"/>
-		<typeAlias alias="trandetail" type="com.baseball.service.domain.Trandetail"/>
+		<typeAlias alias="trandetail" type="com.baseball.service.domain.TranDetail"/>
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -43,7 +43,7 @@
 		<mapper resource="sql/TicketMapper.xml"/>
 		<mapper resource="sql/ChannelMapper.xml"/>
 		<mapper resource="sql/TransactionMapper.xml"/>
-		<mapper resource="sql/TrandetailMapper.xml"/>
+		<mapper resource="sql/TranDetailMapper.xml"/>
 	</mappers>
 
 </configuration>
