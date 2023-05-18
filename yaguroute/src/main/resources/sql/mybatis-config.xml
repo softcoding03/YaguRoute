@@ -27,7 +27,6 @@
 		<typeAlias alias="channel" type="com.baseball.service.domain.Channel"/>
 		<typeAlias alias="transaction" type="com.baseball.service.domain.Transaction"/>
 		<typeAlias alias="trandetail" type="com.baseball.service.domain.Trandetail"/>
-		<typeAlias alias="emote" type="com.baseball.service.domain.Emote"/>
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -45,7 +44,6 @@
 		<mapper resource="sql/ChannelMapper.xml"/>
 		<mapper resource="sql/TransactionMapper.xml"/>
 		<mapper resource="sql/TrandetailMapper.xml"/>
-		<mapper resource="sql/EmoteMapper.xml"/>
 	</mappers>
 
 </configuration>
