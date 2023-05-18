@@ -1,13 +1,12 @@
 package com.baseball.test.user;
 
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class UserTests {
+public class UserTest {
 	
 //	@Autowired
 //	@Qualifier("meetingServiceImpl")
@@ -152,13 +151,13 @@ public class UserTests {
 //		Map<String, String> map = new HashMap<>();
 //		map.put("memberNo", "1");
 //		map.put("state", "1");
-//				ㄴ
+//
 //				
 //		meetingService.updateMember(map);
 
 	}
 	
-	@Test
+	//@Test
 	public void testDeleteMeetingMember() throws Exception{	
 				
 //		meetingService.deleteMeetingMember(1);
