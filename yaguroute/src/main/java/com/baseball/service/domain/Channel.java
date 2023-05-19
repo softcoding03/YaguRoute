@@ -5,9 +5,9 @@ public class Channel {
 	private String channelID;
 	private Game gameInfo;
 	private String channelName;
-	private String channelCDN;
-	private String channelServiceURL;
 	private String bucketName;
+	private String channelCDN;
+	private String envType;
 	private String uploadPath;
 	private String thumbNail;
 	private int homeClick;
@@ -17,8 +17,7 @@ public class Channel {
 	public Channel() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	//get,set method
+
 	public String getChannelID() {
 		return channelID;
 	}
@@ -31,16 +30,16 @@ public class Channel {
 		return channelName;
 	}
 
+	public String getBucketName() {
+		return bucketName;
+	}
+
 	public String getChannelCDN() {
 		return channelCDN;
 	}
 
-	public String getChannelServiceURL() {
-		return channelServiceURL;
-	}
-
-	public String getBucketName() {
-		return bucketName;
+	public String getEnvType() {
+		return envType;
 	}
 
 	public String getUploadPath() {
@@ -71,16 +70,16 @@ public class Channel {
 		this.channelName = channelName;
 	}
 
+	public void setBucketName(String bucketName) {
+		this.bucketName = bucketName;
+	}
+
 	public void setChannelCDN(String channelCDN) {
 		this.channelCDN = channelCDN;
 	}
 
-	public void setChannelServiceURL(String channelServiceURL) {
-		this.channelServiceURL = channelServiceURL;
-	}
-
-	public void setBucketName(String bucketName) {
-		this.bucketName = bucketName;
+	public void setEnvType(String envType) {
+		this.envType = envType;
 	}
 
 	public void setUploadPath(String uploadPath) {
@@ -98,6 +97,8 @@ public class Channel {
 	public void setAwayClick(int awayClick) {
 		this.awayClick = awayClick;
 	}
+	
+	
 	
 	
 	
