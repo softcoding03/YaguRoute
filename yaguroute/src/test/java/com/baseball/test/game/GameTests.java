@@ -9,9 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
+import com.baseball.service.game.GameDao;
 
 @SpringBootTest
 public class GameTests {
@@ -20,7 +24,19 @@ public class GameTests {
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Autowired
+	@Qualifier("gamDao")
+	GameDao gameDao;
+	
 	@Test
+	public void getTeamInfoByTeamName() {
+		String teamName = "µÎ»ê";
+		Team testTeam = gameDao.getTeamInfoByTeamName(teamName);
+		
+		System.out.println(testTeam);
+	}
+	
+	//@Test
 	public void addThisYearGameSchedule() {
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
