@@ -10,7 +10,7 @@
 <mapper namespace="com.baseball.service.post.PostDao">
  	
 	<resultMap id="postSelectMap" type="post">
-		<result property="postNo" 				column="post_no" 			jdbcType="NUMERIC"/>
+		<result property="postNo" 				column="post_no" 			jdbcType="INTEGER"/>
 		<result property="user.userId"			column="user_id" 			jdbcType="VARCHAR"/>
 		<result property="user.userNickName" 	column="user_nickname" 		jdbcType="VARCHAR"/>
 		<result property="user.userImage" 		column="user_image" 		jdbcType="VARCHAR"/>
@@ -18,10 +18,10 @@
 		<result property="postTitle" 			column="post_title" 		jdbcType="VARCHAR"/>
 		<result property="postContents" 		column="post_contents" 		jdbcType="LONGVARCHAR"/>
 		<result property="postDate" 			column="post_date" 			jdbcType="TIMESTAMP"/>
-		<result property="postViews" 			column="post_views" 		jdbcType="NUMERIC"/>
-		<result property="notice" 				column="notice" 			jdbcType="NUMERIC"/>
-		<result property="postLikes" 			column="likes" 				jdbcType="NUMERIC"/>
-		<result property="postDislikes" 		column="dislikes" 			jdbcType="NUMERIC"/>
+		<result property="postViews" 			column="post_views" 		jdbcType="INTEGER"/>
+		<result property="notice" 				column="notice" 			jdbcType="INTEGER"/>
+		<result property="postLikes" 			column="likes" 				jdbcType="INTEGER"/>
+		<result property="postDislikes" 		column="dislikes" 			jdbcType="INTEGER"/>
 	</resultMap>
 	
 	

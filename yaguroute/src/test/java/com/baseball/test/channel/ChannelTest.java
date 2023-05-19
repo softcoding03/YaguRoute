@@ -11,7 +11,7 @@ public class ChannelTest {
 	
 	//wiring
 	@Autowired
-	@Qualifier("channelServiceImpl")
+	@Qualifier("channelService")
 	private ChannelService channelSerivce;
 	
 	//constructor

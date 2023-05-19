@@ -2,6 +2,7 @@ package com.baseball.service.channel.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,8 @@ import com.baseball.service.channel.ChannelDao;
 import com.baseball.service.channel.ChannelService;
 import com.baseball.service.domain.Channel;
 
-@Service("channelService")
+@Mapper
+@Service("channelServiceImpl")
 public class ChannelServiceImpl implements ChannelService {
 	//field
 	@Autowired
