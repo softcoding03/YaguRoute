@@ -1,18 +1,18 @@
 package com.baseball.service.domain;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Post {
 	
 	private int postNo;
-	private String userId;
+	private User user;  //userId, userNickName, userImage 
 	private String teamCode;
 	private String postTitle;
 	private String postContents;
-	private Date postDate;
+	private Timestamp postDate;
 	private int postViews;
-	private String postType;
-	private int notice;
+	private String postType; //0:잡담 1:응원 2:중고판매 3:중고구매
+	private int notice;  //0 or 1
 	private int postLikes;
 	private int postDislikes;
 	
@@ -26,11 +26,11 @@ public class Post {
         this.postNo = postNo;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTeamCode() {
@@ -100,7 +100,7 @@ public class Post {
 	// Override
     public String toString() {
         return "PostVO: [postNo=" + postNo +
-                ", userId='" + userId + '\'' +
+                ", user='" + user + '\'' +
                 ", teamCode='" + teamCode + '\'' +
                 ", postTitle='" + postTitle + '\'' +
                 ", postContents='" + postContents + '\'' +

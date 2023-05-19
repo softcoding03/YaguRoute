@@ -1,1 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SpringBoot 사용시 변경경된 부분 : DaoImpl 을 만들지 않는다.
+<mapper namespace="UserMapper10">
+-->
+<mapper namespace="com.baseball.service.post.PostDao">
+ 	
+	<resultMap id="postSelectMap" type="post">
+		<result property="postNo" 				column="post_no" 			jdbcType="NUMERIC"/>
+		<result property="user.userId"			column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="user.userNickName" 	column="user_nickname" 		jdbcType="VARCHAR"/>
+		<result property="user.userImage" 		column="user_image" 		jdbcType="VARCHAR"/>
+		<result property="teamCode" 			column="team_code" 			jdbcType="VARCHAR"/>
+		<result property="postTitle" 			column="post_title" 		jdbcType="VARCHAR"/>
+		<result property="postContents" 		column="post_contents" 		jdbcType="LONGVARCHAR"/>
+		<result property="postDate" 			column="post_date" 			jdbcType="TIMESTAMP"/>
+		<result property="postViews" 			column="post_views" 		jdbcType="NUMERIC"/>
+		<result property="notice" 				column="notice" 			jdbcType="NUMERIC"/>
+		<result property="postLikes" 			column="likes" 				jdbcType="NUMERIC"/>
+		<result property="postDislikes" 		column="dislikes" 			jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	
+	<select id="getPost" parameterType="int" resultMap="postSelectMap">
+		SELECT * FROM post
+		WHERE post_no = #{value}
+	</select>
+	
+	 
+</mapper>
