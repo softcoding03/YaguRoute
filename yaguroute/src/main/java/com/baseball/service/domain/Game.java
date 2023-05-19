@@ -11,6 +11,7 @@ public class Game {
 	private String gameDate;
 	private String gameTime;
 	private String gameStatusCode;
+	private String score;
 	private String winningTeamAllocation;
 	private String videoName;
 	private String videoLink;
@@ -84,12 +85,18 @@ public class Game {
 		this.videoThumbNail = videoThumbNail;
 	}
 	
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
 	@Override
 	public String toString() {
 		return "Game [gameCode=" + gameCode + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", winningTeamCode="
 				+ winningTeamCode + ", gameDate=" + gameDate + ", gameTime=" + gameTime + ", gameStatusCode="
-				+ gameStatusCode + ", winningTeamAllocation=" + winningTeamAllocation + ", videoName=" + videoName
-				+ ", videoLink=" + videoLink + ", videoThumbNail=" + videoThumbNail + "]";
+				+ gameStatusCode + ", score=" + score + ", winningTeamAllocation=" + winningTeamAllocation
+				+ ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail=" + videoThumbNail + "]";
 	}
 	
 }

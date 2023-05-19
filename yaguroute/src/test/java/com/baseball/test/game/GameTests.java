@@ -31,7 +31,7 @@ public class GameTests {
 	
 	@Test
 	public void getTeamInfoByTeamName() {
-		String teamName = "µÎ»ê";
+		String teamName = "ë‘ì‚°";
 		Team testTeam = gameService.getTeamInfoByTeamName(teamName);
 		
 		System.out.println(testTeam);
@@ -45,7 +45,7 @@ public class GameTests {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
 		ChromeOptions ops = new ChromeOptions();
-		ops.setCapability("ignoreProtectedModeSettings", true);//Driver SetUp ( ¼¿·¹´Ï¿òÀ» ¸·´Â °ÍÀ» ¹æÁö )
+		ops.setCapability("ignoreProtectedModeSettings", true);//Driver SetUp ( ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ )
 		ops.addArguments("--remote-allow-origins=*");
 		ops.addArguments("headless");
 		ops.addArguments("--no-sandbox");
@@ -79,10 +79,12 @@ public class GameTests {
 						state = 1;
 					}
 				}
-				System.out.println(oneGame.findElement(By.cssSelector(".td_hour")).getText());
-				System.out.println(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim());
+				game.setGameStatusCode(String.valueOf(state));
+				game.setGameTime(oneGame.findElement(By.cssSelector(".td_hour")).getText());
+				game.setAwayTeam(gameService.getTeamInfoByTeamName(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim()));
+				game.setHomeTeam(gameService.getTeamInfoByTeamName(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim()));
+				
 				System.out.println(oneGame.findElement(By.cssSelector(".td_score")).getText());
-				System.out.println(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim());
 				System.out.println(state+"\n");
 				
 			}
