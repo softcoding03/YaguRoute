@@ -21,7 +21,7 @@
 	
 	<!-- game Assosiation Select -->
 	<select id="selectGame" resultType="game">
-		SELECT * FROM game Where gameCode = #{value}
+		SELECT game_code gameCode,  FROM game Where gameCode = #{value}
 	</select>
 
 	<!--SQL : Insert  -->
@@ -30,4 +30,22 @@
 		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click)
 		values (#{channelID:VARCHAR}, #{gameInfo.gameCode:VARCHAR}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
 	</insert>
+	
+	<!-- SQL : select -->
+	<select id="getChannel" parameterType="string" resultMap="ChannelSelectMap">
+		SELECT * FROM channel WHERE channel_id = #{value}
+	</select>
+	
+	<!--  SQL : update -->
+	<update id="updateChannel"	parameterType="Channel">
+		UPDATE channel
+		<set>
+			channel_name = #{channelName},
+			bucket_name = #{bucketName},
+			channel_CDN = #{channelCDN},
+			env_type = #{envType},
+			thumbnail = #{thumbNail}
+		</set>
+		WHERE channel_id = #{channelID}
+	</update>
 </mapper>
