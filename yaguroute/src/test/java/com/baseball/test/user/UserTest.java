@@ -4,13 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.baseball.service.domain.User;
+import com.baseball.service.user.UserService;
 
 @SpringBootTest
+
 public class UserTest {
 	
-//	@Autowired
-//	@Qualifier("meetingServiceImpl")
-//	MeetingService meetingService;
+	@Autowired
+	@Qualifier("userServiceImpl")
+	UserService userService;
 	
 	//@Test
 	public void testGetMeeting() throws Exception{
@@ -34,33 +37,27 @@ public class UserTest {
 
 	}
 	
-	//@Test
-	public void testAddMeeting() throws Exception{
+	@Test
+	public void testAddUser() throws Exception{
 		
-//		Meeting meeting = new Meeting();
+		User user = new User();
 		
-//        meeting.setEntryFee(0);
-//        meeting.setMeetingDate(new java.sql.Date(new Date().getTime()));
-//        meeting.setMeetingStartTime(new Time(10, 0, 0));
-//        meeting.setMeetingEndTime(new Time(12, 0, 0));
-//        meeting.setMeetingAddr("Sample Address");
-//        meeting.setMeetingDetailAddr("Sample Detail Address");
-//        meeting.setMeetingLat(37.123456);
-//        meeting.setMeetingLng(127.123456);
-//        meeting.setMeetingName("Sample Meeting");
-//        meeting.setMeetingIntro("Sample Introduction");
-//        meeting.setMeetingLeaderNo(1);
-//        meeting.setMeetingMaxMemberNo(20);
-//        meeting.setMeetingRegDate(new java.sql.Date(new Date().getTime()));
-//        meeting.setMeetingImg("sample.jpg");
-//        meeting.setFilterGender(1);
-//        meeting.setFilterMinAge(20);
-//        meeting.setFilterMaxAge(40);
-//        meeting.setFilterTag("sample");
-//        meeting.setParentClubNo(1);
-//		
-//		meetingService.addMeeting(meeting);
+		user.setUserId("rockseong");
+		user.setPassword("rockseong1234");
+		user.setPhone("01012341234");
+		user.setUserName("유우자");
+		user.setUserNickName("호날두");
+		user.setUserAddr("경기도 시흥시 팔달구");
+		user.setUserBirth("19980808");
+		user.setUserEmail("rockseong@naver.com");
+		user.setUserPoint("95000");
+		user.setRole("user");
+		user.setGender("M");
+		user.setWithDraw(false);
+		user.setUserImage("C://workSpringBoot");
+		user.setTeamCode("HH");
 		
+		userService.addUser(user);
 	}
 	
 	//@Test

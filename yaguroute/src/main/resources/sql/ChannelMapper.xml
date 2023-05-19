@@ -1,1 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ChannelMapper">
+	
+	
+	<resultMap id="ChannelSelectMap" type="channel">
+		<result property="channelID"	column="channel_id"		jdbcType="VARCHAR"/>
+		<result property="channelName"	column="channel_Name"		jdbcType="VARCHAR"/>
+		<result property="bucketName"	column="bucket_name"		jdbcType="VARCHAR"/>
+		<result property="channelCDN"	column="channel_cdn"		jdbcType="VARCHAR"/>
+		<result property="envType"	column="env_type"		jdbcType="VARCHAR"/>
+		<result property="thumbNail"	column="thumbnail"		jdbcType="VARCHAR"/>
+		<result property="homeClick"	column="home_click"		jdbcType="INTEGER"/>
+		<result property="awayClick"	column="away_click"		jdbcType="INTEGER"/>
+		<association property="gameInfo"	column="game_code"	javaType="game" select="selectGame"/>
+	</resultMap>
+	
+	<!-- game Assosiation Select -->
+	<select id="selectGame" resultType="game">
+		SELECT * FROM game Where gameCode = #{value}
+	</select>
+
+	<!--SQL : Insert  -->
+	<insert id="addChannel" parameterType="channel">
+		INSERT 
+		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click)
+		values (#{channelID:VARCHAR}, #{gameInfo.gameCode:VARCHAR}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
+	</insert>
+</mapper>
