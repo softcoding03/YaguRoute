@@ -31,11 +31,11 @@ public class ProductTest {
 		
 		Assert.assertEquals(3, product.getProdNo());
 		Assert.assertEquals("정수빈레고피규어", product.getProdName());
-		Assert.assertEquals(0, 0);
-		Assert.assertEquals(0, 0);
-		Assert.assertEquals(0, 0);
-		Assert.assertEquals(0, 0);
-		Assert.assertEquals(0, 0);
+		Assert.assertEquals(24000, product.getProdPrice());
+		Assert.assertEquals(400, product.getProdStock());
+		Assert.assertEquals("잡화", product.getProdCategory());
+		Assert.assertEquals("testImageFile", product.getProdImage());
+		Assert.assertEquals("OB", product.getProdTeamCode());
 
 	}
 }
