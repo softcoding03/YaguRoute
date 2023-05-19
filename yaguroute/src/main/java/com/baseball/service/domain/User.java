@@ -6,6 +6,7 @@ public class User {
 	//field
 	private String userId;
 	private String userName;
+	private String userNickName;
 	private String userBirth;
 	private String userPoint;
 	private String userEmail;
@@ -15,6 +16,7 @@ public class User {
 	private String phone;
 	private int phoneCheck;
 	private String role;
+	private String userImage;
 	
 	//method
 	public String getUserId() {
@@ -83,7 +85,18 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+	public String getUserNickName() {
+		return userNickName;
+	}
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
+	public String getUserImage() {
+		return userImage;
+	}
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userBirth=" + userBirth + ", userPoint="
