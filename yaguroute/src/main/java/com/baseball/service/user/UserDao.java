@@ -3,7 +3,7 @@
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baseball.service.domain.User;
-@Mapper
+//@Mapper
 public interface UserDao {
 	
 	public void addUser(User user)throws Exception;
