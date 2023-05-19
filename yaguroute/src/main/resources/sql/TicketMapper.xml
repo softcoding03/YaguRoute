@@ -5,7 +5,7 @@
 		
 		
 
-<mapper namespace="com.baseball.service.post.TicketDao">
+<mapper namespace="com.baseball.service.ticket.TicketDao">
 
 
 </mapper>
