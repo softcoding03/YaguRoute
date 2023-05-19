@@ -1,11 +1,11 @@
-package com.baseball.service.game;
+package com.baseball.test.game;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baseball.common.domain.Team;
 
 @Mapper
-public interface GameDao {
+public interface GameDaoTest {
 
 	public Team getTeamInfoByTeamName(String teamName);
 

@@ -21,7 +21,7 @@
 		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-	<select id="getTeamInfoByTeamName" parameterType="string">
+	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
 		select 
 		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
 		from team

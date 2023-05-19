@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.game.GameDao;
+import com.baseball.service.game.GameService;
 
 @SpringBootTest
 public class GameTests {
@@ -25,13 +26,13 @@ public class GameTests {
 	}
 	
 	@Autowired
-	@Qualifier("gamDao")
-	GameDao gameDao;
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
 	
 	@Test
 	public void getTeamInfoByTeamName() {
 		String teamName = "µÎ»ê";
-		Team testTeam = gameDao.getTeamInfoByTeamName(teamName);
+		Team testTeam = gameService.getTeamInfoByTeamName(teamName);
 		
 		System.out.println(testTeam);
 	}
