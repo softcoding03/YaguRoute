@@ -16,6 +16,7 @@ public class Game {
 	private String videoLink;
 	private String videoThumbNail;
 	
+	//method
 	public String getGameCode() {
 		return gameCode;
 	}

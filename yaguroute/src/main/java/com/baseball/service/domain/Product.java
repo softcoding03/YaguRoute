@@ -110,7 +110,13 @@ public class Product {
 	public void setProRefundCode(String proRefundCode) {
 		this.proRefundCode = proRefundCode;
 	}
-
 	
+
+	// 디버깅용 Override
+	public String toString() {
+		return "Product domain: [prodNo]" + prodNo + "[prodName]" + prodName + "[prodPrice]" + prodPrice 
+				+ "[prodRegDate]" + prodRegDate + "[prodStock]" + prodStock + "[prodCategory]" + prodCategory
+				+ "[prodImage]" + prodImage + "[proTranCode]" + proTranCode + "[proRefundCode]" + proRefundCode;
+	}
 	
 }
