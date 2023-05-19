@@ -1,1 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.baseball.service.game.GameDao">
+
+	<resultMap id="teamSelectMap" type="team">
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="teamNickName" column="TEAM_NICKNAME" jdbcType="VARCHAR"/>
+		<result property="teamEmblem" column="TEAM_EMBLEM" jdbcType="VARCHAR"/>
+		<result property="stadiumName" column="STADIUM_NAME" jdbcType="VARCHAR"/>
+		<result property="stadiumImageFile" column="STADIUM_IMAGE_FILE" jdbcType="VARCHAR"/>
+		<result property="hometown" column="HOMETOWN" jdbcType="VARCHAR"/>
+		<result property="stadiumLat" column="STADIUM_LAT_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumLng" column="STADIUM_LNG_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumAddress" column="STADIUM_ADDRESS" jdbcType="VARCHAR"/>
+		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
+		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
+		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
+		select 
+		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
+		from team
+		<where>
+			team_nickname=#{value}
+		</where>
+	</select>
+
+
+</mapper>

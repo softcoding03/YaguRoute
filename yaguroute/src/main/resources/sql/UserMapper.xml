@@ -1,1 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "userMapper">
+
+	<resultMap id="userSelectMap" type="user">
+		<result property="userId" 	column="user_id"	jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="userNickName" column="user_nickname" jdbcType="VARCHAR"/>
+		<result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+		<result property="userAddr" column="user_addr" jdbcType="VARCHAR"/>
+		<result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+		<result property="userBirth" column="user_birth" jdbcType="VARCHAR"/>
+		<result property="userImage" column="user_image" jdbcType="VARCHAR"/>
+		<result property="userPoint" column="user_point" jdbcType="INT"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="gender" column="gender" jdbcType="CHAR"/>
+		<result property="role" column="role" jdbcType="VARCAHR"/>
+		<result property="withDraw" column="with_draw" jdbcType="TINYINT"/>
+		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<insert id="addUser" parameterType="user">
+		INSERT INTO user
+		(user_id, user_name, user_nickname, user_email, user_addr, user_phone, user_birth, user_image, 
+		 user_point, password, gender, role, with_draw, team_code)
+		VALUES 
+		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, #{userPoint},
+		#{password}, #{gender}, #{role}, #{withDraw}, #{teamCode} )
+	</insert>
+</mapper>
