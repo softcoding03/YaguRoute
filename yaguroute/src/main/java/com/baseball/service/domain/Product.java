@@ -12,8 +12,9 @@ public class Product {
 	private int prodStock;
 	private String prodCategory;
 	private String prodImage;
-	private String proTranCode;
-	private String proRefundCode;
+	private String prodTranCode;
+	private String prodRefundCode;
+	private String prodTeamCode;
 
 	
 	//Constructor
@@ -92,31 +93,40 @@ public class Product {
 	}
 
 
-	public String getProTranCode() {
-		return proTranCode;
+	public String getProdTranCode() {
+		return prodTranCode;
 	}
 
 
-	public void setProTranCode(String proTranCode) {
-		this.proTranCode = proTranCode;
+	public void setProdTranCode(String prodTranCode) {
+		this.prodTranCode = prodTranCode;
 	}
 
 
-	public String getProRefundCode() {
-		return proRefundCode;
+	public String getProdRefundCode() {
+		return prodRefundCode;
 	}
 
 
-	public void setProRefundCode(String proRefundCode) {
-		this.proRefundCode = proRefundCode;
+	public void setProdRefundCode(String prodRefundCode) {
+		this.prodRefundCode = prodRefundCode;
 	}
 	
+	
+	public String getProdTeamCode() {
+		return prodTeamCode;
+	}
+
+	public void setProdteamCode(String prodTeamCode) {
+		this.prodTeamCode = prodTeamCode;
+	}
 
 	// 디버깅용 Override
 	public String toString() {
 		return "Product domain: [prodNo]" + prodNo + "[prodName]" + prodName + "[prodPrice]" + prodPrice 
 				+ "[prodRegDate]" + prodRegDate + "[prodStock]" + prodStock + "[prodCategory]" + prodCategory
-				+ "[prodImage]" + prodImage + "[proTranCode]" + proTranCode + "[proRefundCode]" + proRefundCode;
+				+ "[prodImage]" + prodImage + "[proTranCode]" + prodTranCode + "[proRefundCode]" + prodRefundCode
+				+ "[prodTeamCode]" + prodTeamCode;
 	}
 	
 }
