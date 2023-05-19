@@ -36,8 +36,8 @@
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/GameMapper.xml"/>
 		<mapper resource="sql/PredictMapper.xml"/>
-		<mapper resource="sql/PlayerMapper.xml"/>
-		<mapper resource="sql/BestPlayerMapper.xml"/>
+		<!-- <mapper resource="sql/PlayerMapper.xml"/>
+		<mapper resource="sql/BestPlayerMapper.xml"/> -->
 		<mapper resource="sql/BasketMapper.xml"/>
 		<mapper resource="sql/PostMapper.xml"/>
 		<mapper resource="sql/CommentMapper.xml"/>
@@ -45,7 +45,7 @@
 		<mapper resource="sql/ChannelMapper.xml"/>
 		<mapper resource="sql/TransactionMapper.xml"/>
 		<mapper resource="sql/TranDetailMapper.xml"/>
-		<mapper resource="sql/TeamMapper.xml"/>
+		<!-- <mapper resource="sql/TeamMapper.xml"/> -->
 	</mappers>
 
 </configuration>

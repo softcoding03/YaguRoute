@@ -54,12 +54,12 @@ public class Post {
         this.postContents = postContents;
     }
 
-//    public Date getPostDate() {
-//        return postDate;
-//    }
-//    public void setPostDate(Date postDate) {
-//        this.postDate = postDate;
-//    }
+    public Timestamp getPostDate() {
+        return postDate;
+    }
+    public void setPostDate(Timestamp postDate) {
+        this.postDate = postDate;
+    }
 
     public int getPostViews() {
         return postViews;
