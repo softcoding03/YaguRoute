@@ -10,13 +10,13 @@ import com.baseball.service.domain.User;
 import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
 
-@MapperScan("com.baseball.service.user.impl")
-@Service("userServiceImpl")
+@Mapper
+//@Service("userServiceImpl")
 public class UserServiceImpl implements UserService{
 
 	//Field
 	@Autowired
-	@Qualifier("UserDao")
+	@Qualifier("userDao")
 	private UserDao userDao;
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;

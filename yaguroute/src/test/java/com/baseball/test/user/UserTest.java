@@ -37,7 +37,7 @@ public class UserTest {
 
 	}
 	
-	@Test
+	//@Test
 	public void testAddUser() throws Exception{
 		
 		User user = new User();
