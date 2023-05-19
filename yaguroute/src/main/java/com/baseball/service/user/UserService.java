@@ -11,4 +11,6 @@ public interface UserService {
 	
 	public void updateUser(User user) throws Exception;
 	
+	public void withDraw(User user) throws Exception;
+	
 }

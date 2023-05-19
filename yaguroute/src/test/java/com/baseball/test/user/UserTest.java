@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.baseball.service.domain.User;
+import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
+
+import junit.framework.Assert;
+
 
 @SpringBootTest
 
@@ -14,7 +18,7 @@ public class UserTest {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	UserService userService;
-	
+	UserDao userDao;
 	//@Test
 	public void testGetMeeting() throws Exception{
 		
@@ -33,56 +37,62 @@ public class UserTest {
 //		//Assert.assertEquals("15:00:00", meeting.getMeetingEndTime());
 //		Assert.assertEquals(1, meeting.getMeetingSuccess());
 //		Assert.assertEquals("123 Main Street", meeting.getMeetingDetailAddr());
-
-
 	}
 	
-	@Test
+	//@Test
 	public void testAddUser() throws Exception{
 		
 		User user = new User();
 		
-		user.setUserId("rockseong");
-		user.setPassword("rockseong1234");
-		user.setPhone("01012341234");
-		user.setUserName("유우자");
-		user.setUserNickName("호날두");
-		user.setUserAddr("경기도 시흥시 팔달구");
-		user.setUserBirth("19980808");
-		user.setUserEmail("rockseong@naver.com");
-		user.setUserPoint("95000");
-		user.setRole("user");
-		user.setGender("M");
-		user.setWithDraw(false);
-		user.setUserImage("C://workSpringBoot");
-		user.setTeamCode("HH");
+//		user.setUserId("rockseong4");
+//		user.setPassword("rockseong1234");
+//		user.setUserPhone("01012341234");
+//		user.setUserName("유우자");
+//		user.setUserNickName("호날두이3");
+//		user.setUserAddr("경기도 시흥시 팔달구");
+//		user.setUserBirth("19980808");
+//		user.setUserEmail("rockseong@naver.com");
+//		user.setUserPoint("95000");
+//		user.setRole("user");
+//		user.setGender("M");
+//		user.setWithDraw(0);
+//		user.setUserImage("C://workSpringBoot");
+//		user.setTeamCode("HH");
+//		System.out.println("RockSeong 바부");
+//		userService.addUser(user);
 		
-		userService.addUser(user);
+		user = userService.getUser("rockseong4");
+		
+		Assert.assertEquals("rockseong4", user.getUserId());
+		Assert.assertEquals("rockseong1234", user.getPassword());
+		System.out.println(user);
+		
 	}
 	
-	//@Test
+	//@Test 
+	public void testGetUser() throws Exception{
+		User user = new User();
+		user = userService.getUser("rockseong");
+		System.out.println(user);
+	} 
+	
+	@Test
 	public void testUpdateMeeting() throws Exception{
-		
-//		Meeting meeting = meetingService.getMeeting(9);
-//		Assert.assertNotNull(meeting);
-//		
-//		Assert.assertEquals("Sample Meeting", meeting.getMeetingName());
-//		Assert.assertEquals("sample.jpg", meeting.getMeetingImg());
-//		Assert.assertEquals("Sample Introduction", meeting.getMeetingIntro());
-//		
-//        meeting.setMeetingName("Update Sample Meeting");
-//        meeting.setMeetingImg("updatesample.jpg");
-//        meeting.setMeetingIntro("Update Sample Introduction");
-//        
-//        meetingService.updateMeeting(meeting);
-//        
-//        meeting = meetingService.getMeeting(meeting.getMeetingNo());
-//		Assert.assertNotNull(meeting);
-//        
-//		Assert.assertEquals("Update Sample Meeting", meeting.getMeetingName());
-//		Assert.assertEquals("updatesample.jpg", meeting.getMeetingImg());
-//		Assert.assertEquals("Update Sample Introduction", meeting.getMeetingIntro());
 
+		
+		User user = new User();
+		user = userService.getUser("rockseong3");
+		user.setUserEmail("ronaldo@naver.com");
+		user.setGender("M");
+		user.setPassword("ronaldo12345");
+		user.setTeamCode("SK");
+		user.setUserBirth("20200505");
+		user.setUserImage("ronaldo.png");
+		user.setUserName("호두");
+		user.setUserNickName("크리스티아누");
+		user.setUserPhone("01000000000");
+		
+		userService.updateUser(user);
 	}
 	
 	//@Test
@@ -110,11 +120,11 @@ public class UserTest {
 	}
 	
 	//@Test
-	public void testDeleteMeeting() throws Exception{
+	public void withDrawTest() throws Exception{
 		
-//		meetingService.deleteMeeting(5);
-
-
+		User user = new User();
+		user = userService.getUser("rockseong4");
+		userService.withDraw(user);
 	}
 	
 	//@Test
@@ -143,8 +153,8 @@ public class UserTest {
 	
 	//@Test
 	public void testUpdateMeetingMember() throws Exception{
-		
-		
+//		
+//		
 //		Map<String, String> map = new HashMap<>();
 //		map.put("memberNo", "1");
 //		map.put("state", "1");
