@@ -15,24 +15,32 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	@Qualifier("userDao")
 	private UserDao userDao;
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 	
+	// Constructor
+	public UserServiceImpl() {
+		System.out.println(this.getClass());
+	}
 	
+	// Method
 	@Override
 	public void addUser(User user) throws Exception {
 		// TODO Auto-generated method stub
-		
+		userDao.addUser(user);
 	}
 
 	@Override
 	public User getUser(String userId) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUser(userId);
 	}
 
 	@Override
 	public void updateUser(User user) throws Exception {
 		// TODO Auto-generated method stub
-		
+		userDao.updateUser(user);
 	}
 	
 }
