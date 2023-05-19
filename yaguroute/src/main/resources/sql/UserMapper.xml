@@ -18,16 +18,36 @@
 		<result property="password" column="password" jdbcType="VARCHAR"/>
 		<result property="gender" column="gender" jdbcType="CHAR"/>
 		<result property="role" column="role" jdbcType="VARCHAR"/>
-		<result property="withDraw" column="with_draw" jdbcType="INTEGER"/>
+		<result property="withDraw" column="withdraw" jdbcType="INTEGER"/>
 		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<insert id="addUser" parameterType="user">
 		INSERT INTO user
 		(user_id, user_name, user_nickname, user_email, user_addr, user_phone, user_birth, user_image, 
-		 user_point, password, gender, role, with_draw, team_code)
+		 user_point, password, gender, role, withdraw, team_code)
 		VALUES 
 		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, #{userPoint},
 		#{password}, #{gender}, #{role}, #{withDraw}, #{teamCode} )
 	</insert>
+	
+	<select id="getUser" parameterType="String" resultMap="userSelectMap">
+		SELECT *
+		FROM user
+		WHERE user_id = #{value}
+	</select>
+	
+	<update id="updateUser" parameterType="user">
+		UPDATE user
+		SET user_name = #{userName}, user_nickname = #{userNickName}, user_email = #{userEmail}, user_phone = #{userPhone}, user_birth = #{userBirth}, user_image = #{userImage},
+			password = #{password}, gender = #{gender}, team_code = #{teamCode}		
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="withDraw" parameterType="user">
+		UPDATE user
+		SET withdraw = 1
+		WHERE user_id = #{userId}
+	</update>
+	
 </mapper>

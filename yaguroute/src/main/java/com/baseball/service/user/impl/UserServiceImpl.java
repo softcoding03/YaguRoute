@@ -42,5 +42,11 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		userDao.updateUser(user);
 	}
+
+	@Override
+	public void withDraw(User user) throws Exception {
+		// TODO Auto-generated method stub
+		userDao.withDraw(user);
+	}
 	
 }
