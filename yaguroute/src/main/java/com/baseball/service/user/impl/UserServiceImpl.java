@@ -1,5 +1,6 @@
 ﻿package com.baseball.service.user.impl;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import com.baseball.service.domain.User;
 import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
 
+@Mapper
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService{
 

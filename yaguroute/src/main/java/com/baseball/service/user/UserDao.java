@@ -1,7 +1,9 @@
 ﻿package com.baseball.service.user;
 
-import com.baseball.service.domain.User;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.baseball.service.domain.User;
+@Mapper
 public interface UserDao {
 	
 	public void addUser(User user)throws Exception;
