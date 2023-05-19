@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.baseball.service.domain.User;
 import com.baseball.service.user.UserService;
 
 @SpringBootTest
+
 public class UserTest {
 	
 	@Autowired
@@ -37,7 +37,7 @@ public class UserTest {
 
 	}
 	
-	//@Test
+	@Test
 	public void testAddUser() throws Exception{
 		
 		User user = new User();
@@ -52,7 +52,12 @@ public class UserTest {
 		user.setUserEmail("rockseong@naver.com");
 		user.setUserPoint("95000");
 		user.setRole("user");
+		user.setGender("M");
+		user.setWithDraw(false);
+		user.setUserImage("C://workSpringBoot");
+		user.setTeamCode("HH");
 		
+		userService.addUser(user);
 	}
 	
 	//@Test
