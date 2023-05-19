@@ -8,10 +8,11 @@ public class Game {
 	private Team homeTeam;
 	private Team awayTeam;
 	private String winningTeamCode;
+	private String gameYear;
 	private String gameDate;
 	private String gameTime;
 	private String gameStatusCode;
-	private String score;
+	private String gameScore;
 	private String winningTeamAllocation;
 	private String videoName;
 	private String videoLink;
@@ -85,18 +86,27 @@ public class Game {
 		this.videoThumbNail = videoThumbNail;
 	}
 	
-	public String getScore() {
-		return score;
+	public String getGameScore() {
+		return gameScore;
 	}
-	public void setScore(String score) {
-		this.score = score;
+	public void setGameScore(String score) {
+		this.gameScore = score;
 	}
+	public String getGameYear() {
+		return gameYear;
+	}
+	public void setGameYear(String gameYear) {
+		this.gameYear = gameYear;
+	}
+	
 	@Override
 	public String toString() {
 		return "Game [gameCode=" + gameCode + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", winningTeamCode="
-				+ winningTeamCode + ", gameDate=" + gameDate + ", gameTime=" + gameTime + ", gameStatusCode="
-				+ gameStatusCode + ", score=" + score + ", winningTeamAllocation=" + winningTeamAllocation
-				+ ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail=" + videoThumbNail + "]";
+				+ winningTeamCode + ", gameYear=" + gameYear + ", gameDate=" + gameDate + ", gameTime=" + gameTime
+				+ ", gameStatusCode=" + gameStatusCode + ", gameScore=" + gameScore + ", winningTeamAllocation="
+				+ winningTeamAllocation + ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail="
+				+ videoThumbNail + "]";
 	}
+	
 	
 }

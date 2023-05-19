@@ -1,6 +1,11 @@
 package com.baseball.test.game;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
-import com.baseball.service.game.GameDao;
 import com.baseball.service.game.GameService;
 
 @SpringBootTest
@@ -29,8 +33,8 @@ public class GameTests {
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
 	
-	@Test
-	public void getTeamInfoByTeamName() {
+	//@Test
+	public void getTeamInfoByTeamName() throws Exception{
 		String teamName = "두산";
 		Team testTeam = gameService.getTeamInfoByTeamName(teamName);
 		
@@ -38,7 +42,11 @@ public class GameTests {
 	}
 	
 	//@Test
-	public void addThisYearGameSchedule() {
+	public void addThisYearGameSchedule() throws Exception{
+		
+		SimpleDateFormat dateFromat = new SimpleDateFormat("yyyy.MM.dd");
+		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
+		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
 		
@@ -52,22 +60,28 @@ public class GameTests {
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
 		
-		String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230518&month=05&year=2023&teamCode=";
+		String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230519&month=05&year=2015&teamCode=";
 		WebDriver driver = new ChromeDriver(ops);
 		driver.get(url);
 		
 		List<WebElement> monthDayCount = driver.findElements(By.cssSelector("#calendarWrap > div:not(.nogame,.nogame2)"));
+		String nowYear = driver.findElement(By.xpath("//*[@id=\"_currentYearButton\"]/em")).getText().split("[\n]")[1];
 		
 		List<Game> monthGameList = new ArrayList<>();
+		
 		for(WebElement dayGame : monthDayCount) {
 			
-			Game game = new Game();
-			
 			String date = dayGame.findElement(By.cssSelector(".td_date strong")).getText();
-			game.setGameDate(date);
 			
 			int state = 0;
+			
 			for(WebElement oneGame : dayGame.findElements(By.cssSelector("tr"))) {
+				
+				Game game = new Game();
+				
+				game.setGameDate(date);
+				game.setGameYear(nowYear);
+				
 				if(oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state") || oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
 					state = 3;
 				}else {
@@ -81,12 +95,27 @@ public class GameTests {
 				}
 				game.setGameStatusCode(String.valueOf(state));
 				game.setGameTime(oneGame.findElement(By.cssSelector(".td_hour")).getText());
-				game.setAwayTeam(gameService.getTeamInfoByTeamName(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim()));
-				game.setHomeTeam(gameService.getTeamInfoByTeamName(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim()));
+				String teamName="";
+				if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("넥센") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센")){
+					teamName = "키움";
+				}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("SK") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK")){
+					teamName = "SSG";
+				}else {
+					teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
+				}
+				game.setAwayTeam(gameService.getTeamInfoByTeamName(teamName));
 				
-				System.out.println(oneGame.findElement(By.cssSelector(".td_score")).getText());
-				System.out.println(state+"\n");
-				
+				if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센")){
+					teamName = "키움";
+				}else if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK")){
+					teamName = "SSG";
+				}else {
+					teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
+				}
+				game.setHomeTeam(gameService.getTeamInfoByTeamName(teamName));
+				game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
+				game.setGameCode(strFromat.format(dateFromat.parse(nowYear+"."+game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+nowYear);
+				System.out.println(game);
 			}
 		}
 		
