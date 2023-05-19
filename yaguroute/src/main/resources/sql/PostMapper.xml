@@ -29,6 +29,5 @@
 		SELECT * FROM post
 		WHERE post_no = #{value}
 	</select>
-	
-	 
 </mapper>
+	 
