@@ -107,7 +107,6 @@ public class User {
 	public void setGender(String string) {
 		this.gender = string;
 	}
-	
 	public int getWithDraw() {
 		return withDraw;
 	}

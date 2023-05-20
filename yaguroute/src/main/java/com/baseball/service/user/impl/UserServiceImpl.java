@@ -48,5 +48,16 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		userDao.withDraw(user);
 	}
+
+	@Override
+	public boolean checkDuplication(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		boolean result = true;
+		User user = userDao.getUser(userId);
+		if(user != null) {
+			result=false;
+		}
+		return result;
+	}
 	
 }
