@@ -50,4 +50,30 @@
 		WHERE user_id = #{userId}
 	</update>
 	
+	<update id="updatePoint" parameterType="String" >
+		UPDATE user
+		SET userPoint = #{userPoint}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<!-- search 도메인 필요함. -->
+	
+	<!-- <select id="getUserList" parameterType="search" resultMap="userSelectMap">
+	</select> -->
+	
+	<!-- <select id="getAllUserList" parameterType="search" resultMap="userSelectMap">
+	</select> -->
+	
+	<!-- <select id="getTotalCount" parameterType="search" resultMap="userSelectMap">
+	</select> -->
+	
+	<!-- <select id="userIdCheck" parameterType="user" resultMap="userSelectMap">
+		
+	</select> -->
+	
+	<!-- <select id="nickNameCheck" parameterType="user" resultMap="userSelectMap">
+	
+	</select> -->
+	
+	
 </mapper>

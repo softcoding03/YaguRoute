@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService{
 	
 	// Constructor
 	public UserServiceImpl() {
-		System.out.println(this.getClass());
+		System.out.println("userServiceImpl Success...");
 	}
 	
 	// Method
@@ -58,6 +58,12 @@ public class UserServiceImpl implements UserService{
 			result=false;
 		}
 		return result;
+	}
+
+	@Override
+	public void updatePoint(String userPoint) throws Exception {
+		// TODO Auto-generated method stub
+		userDao.updatePoint(userPoint);
 	}
 	
 }

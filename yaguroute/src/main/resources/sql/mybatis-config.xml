@@ -28,6 +28,7 @@
 		<typeAlias alias="transaction" type="com.baseball.service.domain.Transaction"/>
 		<typeAlias alias="trandetail" type="com.baseball.service.domain.TranDetail"/>
 		<typeAlias alias="team" type="com.baseball.common.domain.Team"/>
+		<!-- <typeAlias alias="search" type="com.baseball.common.domain.Search"/> -->
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -36,8 +37,8 @@
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/GameMapper.xml"/>
 		<mapper resource="sql/PredictMapper.xml"/>
-		<!-- <mapper resource="sql/PlayerMapper.xml"/>
-		<mapper resource="sql/BestPlayerMapper.xml"/> -->
+		<mapper resource="sql/PlayerMapper.xml"/>
+		<!-- <mapper resource="sql/BestPlayerMapper.xml"/> -->
 		<mapper resource="sql/BasketMapper.xml"/>
 		<mapper resource="sql/PostMapper.xml"/>
 		<mapper resource="sql/CommentMapper.xml"/>
@@ -46,6 +47,7 @@
 		<mapper resource="sql/TransactionMapper.xml"/>
 		<mapper resource="sql/TranDetailMapper.xml"/>
 		<!-- <mapper resource="sql/TeamMapper.xml"/> -->
+		<!-- <mapper resource="sql/SearchMapper.xml"/> -->
 	</mappers>
 
 </configuration>
