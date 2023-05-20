@@ -15,6 +15,7 @@ public class Comment {
 	private String commentContents;
 	private String commentImage;
 	private String grade;
+	private int changed;
 	
 	public Comment(){
 	}
@@ -95,12 +96,19 @@ public class Comment {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+    
+    public int getChanged() {
+        return changed;
+    }
+    public void setChanged(int changed) {
+        this.changed = changed;
+    }
 
 	// Override
 	public String toString() {
 		return "CommnetVO : [commentNo]" + commentNo
 		+ "[postNo]" + postNo+ "[gameCode]" + gameCode + "[prodNo]" + prodNo + "[secondCommentNo]" + secondCommentNo+ "[userId]" + userId
 		+ "[userImage]" + userImage+ "[commentDate]" + commentDate+ "[commentContents]" 
-		+ commentContents+ "[commentImage]" + commentImage+ "[grade]" + grade;
+		+ commentContents+ "[commentImage]" + commentImage+ "[grade]" + grade+ "[changed]" + changed;
 	}	
 }
