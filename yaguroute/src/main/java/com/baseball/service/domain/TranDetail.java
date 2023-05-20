@@ -3,8 +3,8 @@ package com.baseball.service.domain;
 public class TranDetail {
 
 	private int tranDetailNo;
-	private Product tranDetailProd;
-	private Transaction tranDetailTran;
+	private Product tranDetailProd;    //prodNo
+	private Transaction tranDetailTran; //tranNo
 	private String tranStatusCode;
 	private String refundTranStatusCode;
 	private int tranQuantity;
