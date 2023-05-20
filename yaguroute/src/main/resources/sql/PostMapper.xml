@@ -24,10 +24,54 @@
 		<result property="postDislikes" 		column="dislikes" 			jdbcType="INTEGER"/>
 	</resultMap>
 	
-	
 	<select id="getPost" parameterType="int" resultMap="postSelectMap">
 		SELECT * FROM post
 		WHERE post_no = #{value}
 	</select>
+	
+	<insert id="addPost" parameterType="post">
+	 	INSERT 
+		INTO post(user_id, team_code, post_title, post_contents, post_date) 
+		VALUES (#{user.userId},#{teamCode},#{postTitle},#{postContents},sysdate())
+	</insert>
+	
+	<delete	id="deletePost" parameterType="int">
+	 	DELETE FROM post 
+		WHERE post_no = #{value}
+	</delete>
+	
+	<update	id="updatePost"	parameterType="post">
+	   	UPDATE post
+	   	<set>
+	   		post_title 	= #{postTitle},
+			post_contents = #{postContents},
+			post_type 	=  #{postType},
+			notice		= #{notice}
+	   	</set>
+	   	WHERE post_no = #{postNo}
+	</update>
+	
+	<!-- like_procedure 호출 -->
+	<insert id="like" parameterType="post" statementType="CALLABLE">
+	    {CALL like_procedure(#{user.userId}, #{postNo})}
+	</insert>
+	
+	<!-- dislike_procedure 호출 -->
+	<insert id="dislike" parameterType="post" statementType="CALLABLE">
+	    {CALL dislike_procedure(#{user.userId}, #{postNo})}
+	</insert>
+	
+	<select id="getLikes" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM emote WHERE post_no=#{value} AND `like`=1
+	</select>
+	
+	<select id="getDislikes" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM emote WHERE post_no=#{value} AND dislike=1
+	</select>
+	
+	<update id="addViews" parameterType="int">
+		UPDATE post SET post_views=post.post_views+1 WHERE post_no=#{value};
+	</update>
+	
 </mapper>
 	 

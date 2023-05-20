@@ -7,21 +7,61 @@
 <mapper namespace="com.baseball.service.channel.ChannelDao">
 	
 	
-	<resultMap id="ChannelSelectMap" type="channel">
-		<result property="channelID"	column="channel_id"		jdbcType="VARCHAR"/>
-		<result property="channelName"	column="channel_Name"		jdbcType="VARCHAR"/>
-		<result property="bucketName"	column="bucket_name"		jdbcType="VARCHAR"/>
-		<result property="channelCDN"	column="channel_cdn"		jdbcType="VARCHAR"/>
-		<result property="envType"	column="env_type"		jdbcType="VARCHAR"/>
-		<result property="thumbNail"	column="thumbnail"		jdbcType="VARCHAR"/>
-		<result property="homeClick"	column="home_click"		jdbcType="INTEGER"/>
-		<result property="awayClick"	column="away_click"		jdbcType="INTEGER"/>
-		<association property="gameInfo"	column="game_code"	javaType="game" select="selectGame"/>
+	<resultMap id="channelSelectMap" type="channel">
+		<result property="channelID" column="channel_id" jdbcType="VARCHAR"/>
+		<result property="channelName" column="channel_Name" jdbcType="VARCHAR"/>
+		<result property="bucketName" column="bucket_name" jdbcType="VARCHAR"/>
+		<result property="channelCDN" column="channel_cdn" jdbcType="VARCHAR"/>
+		<result property="envType"	 column="env_type" jdbcType="VARCHAR"/>
+		<result property="thumbNail" column="thumbnail" jdbcType="VARCHAR"/>
+		<result property="homeClick" column="home_click" jdbcType="INTEGER"/>
+		<result property="awayClick" column="away_click" jdbcType="INTEGER"/>
+		<association property="gameInfo" column="game_code" javaType="game" select="select"/>
+	</resultMap>
+	
+	<resultMap id="gameSelectMap" type="game">
+		<result property="gameCode" column="GAME_CODE" jdbcType="VARCHAR"/>
+		<result property="gameYear" column="GAME_YEAR" jdbcType="VARCHAR"/>
+		<result property="gameDate" column="GAME_DATE" jdbcType="DATE"/>
+		<result property="gameTime" column="GAME_TIME" jdbcType="TIME"/>
+		<result property="gameStatusCode" column="GAME_STATUS_CODE" jdbcType="CHAR"/>
+		<result property="gameScore" column="GAME_SCORE" jdbcType="VARCHAR"/>
+		<result property="winningTeamAllocation" column="WINNING_TEAM_ALLOCATION" jdbcType="DOUBLE"/>
+		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
+		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
+		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="select"/>
+		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team"/>
+		<association property="winningTeamCode" column="WINNING_TEAM_CODE" javaType="team"/>
+	</resultMap>
+	
+	<resultMap id="teamSelectMap" type="team">
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="teamNickName" column="TEAM_NICKNAME" jdbcType="VARCHAR"/>
+		<result property="teamEmblem" column="TEAM_EMBLEM" jdbcType="VARCHAR"/>
+		<result property="stadiumName" column="STADIUM_NAME" jdbcType="VARCHAR"/>
+		<result property="stadiumImageFile" column="STADIUM_IMAGE_FILE" jdbcType="VARCHAR"/>
+		<result property="hometown" column="HOMETOWN" jdbcType="VARCHAR"/>
+		<result property="stadiumLat" column="STADIUM_LAT_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumLng" column="STADIUM_LNG_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumAddress" column="STADIUM_ADDRESS" jdbcType="VARCHAR"/>
+		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
+		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
+		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- game Assosiation Select -->
-	<select id="selectGame" resultType="game">
-		SELECT game_code gameCode,  FROM game Where gameCode = #{value}
+	<select id="selectGame" resultMap="gameSelectMap">
+		SELECT * FROM game Where gameCode = #{value}
+	</select>
+	
+	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
+		select 
+		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
+		from team
+		<where>
+			team_nickname=#{value}
+		</where>
 	</select>
 
 	<!--SQL : Insert  -->
@@ -32,7 +72,7 @@
 	</insert>
 	
 	<!-- SQL : select -->
-	<select id="getChannel" parameterType="string" resultMap="ChannelSelectMap">
+	<select id="getChannel" parameterType="string" resultMap="channelSelectMap">
 		SELECT * FROM channel WHERE channel_id = #{value}
 	</select>
 	

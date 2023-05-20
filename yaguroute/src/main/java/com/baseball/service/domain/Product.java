@@ -117,7 +117,7 @@ public class Product {
 		return prodTeamCode;
 	}
 
-	public void setProdteamCode(String prodTeamCode) {
+	public void setProdTeamCode(String prodTeamCode) {
 		this.prodTeamCode = prodTeamCode;
 	}
 

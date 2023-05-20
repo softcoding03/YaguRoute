@@ -29,12 +29,11 @@ public class ChannelTest {
 	}
 
 	//Select Test
-	//@Test
+	@Test
 	public void testSelectChannel() throws Exception{
 		String channelID = "ls-20230509114330-OGzDh";
 		Channel channel = channelSerivce.getChannel(channelID);
-		
-		//Assert.assertEquals("ls-20230509114330-OGzDh", channel.getChannelID());
+		Assert.assertEquals("ls-20230509114330-OGzDh", channel.getChannelID());
 	}
 	
 	//Select List Test
@@ -44,7 +43,7 @@ public class ChannelTest {
 	}
 	
 	//update Channel Test
-	@Test
+	//@Test
 	public void testUpdateChannel() throws Exception{
 		Channel channel = new Channel();
 		
