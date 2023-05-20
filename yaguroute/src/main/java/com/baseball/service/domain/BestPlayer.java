@@ -4,19 +4,22 @@ import java.util.Date;
 
 public class BestPlayer {
 
+	//Field
 	private int id;
-	private String playerId;
+	private Player playerId;
 	private Date bestDate;
+	
+	//Method
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getPlayerId() {
+	public Player getPlayerId() {
 		return playerId;
 	}
-	public void setPlayerId(String playerId) {
+	public void setPlayerId(Player playerId) {
 		this.playerId = playerId;
 	}
 	public Date getBestDate() {
@@ -25,6 +28,7 @@ public class BestPlayer {
 	public void setBestDate(Date bestDate) {
 		this.bestDate = bestDate;
 	}
+	
 	@Override
 	public String toString() {
 		return "BestPlayer [id=" + id + ", playerId=" + playerId + ", bestDate=" + bestDate + "]";

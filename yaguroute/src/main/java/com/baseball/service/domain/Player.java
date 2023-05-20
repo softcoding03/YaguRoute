@@ -14,7 +14,7 @@ public class Player {
     private int playerSalary;
     private float era;
     private int threeOut;
-    private float battingAvg;
+    private double battingAvg;
     private int hitter;
     private int homeRun;
     private int stolenBase;
@@ -87,10 +87,10 @@ public class Player {
 	public void setThreeOut(int threeOut) {
 		this.threeOut = threeOut;
 	}
-	public float getBattingAvg() {
+	public double getBattingAvg() {
 		return battingAvg;
 	}
-	public void setBattingAvg(float battingAvg) {
+	public void setBattingAvg(double battingAvg) {
 		this.battingAvg = battingAvg;
 	}
 	public int getHitter() {

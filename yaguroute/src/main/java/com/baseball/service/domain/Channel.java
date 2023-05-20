@@ -98,7 +98,13 @@ public class Channel {
 		this.awayClick = awayClick;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Channel [channelID =" + channelID + ", gameInfo=" + gameInfo + ", channelName=" + channelName + ", bucketName="
+				+ bucketName + ", channelCDN=" + channelCDN + ", envType=" + envType + ", uploadPath=" + uploadPath
+				+ ", thumbnail=" + thumbNail + ", homeClick=" + homeClick + ", awayClick="
+				+ awayClick+ "]";
+	}
 	
 	
 	

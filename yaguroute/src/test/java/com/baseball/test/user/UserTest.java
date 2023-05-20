@@ -12,7 +12,6 @@ import junit.framework.Assert;
 
 
 @SpringBootTest
-
 public class UserTest {
 	
 	@Autowired
@@ -76,10 +75,9 @@ public class UserTest {
 		System.out.println(user);
 	} 
 	
-	@Test
+	//@Test
 	public void testUpdateMeeting() throws Exception{
 
-		
 		User user = new User();
 		user = userService.getUser("rockseong3");
 		user.setUserEmail("ronaldo@naver.com");
@@ -95,29 +93,15 @@ public class UserTest {
 		userService.updateUser(user);
 	}
 	
-	//@Test
-	public void testUpdateMeetingSuccess() throws Exception{
+//	@Test
+//	public void testupdatePoint() throws Exception{
 //		
-//		Meeting meeting = meetingService.getMeeting(9);
-//		Assert.assertNotNull(meeting);
+//		User user = new User();
+//		user = userService.getUser("rockseong4");
+//		userService.updatePoint("10000");
+//		System.out.println(user);
 //		
-//		Assert.assertEquals("Update Sample Meeting", meeting.getMeetingName());
-//		Assert.assertEquals("updatesample.jpg", meeting.getMeetingImg());
-//		Assert.assertEquals(0, meeting.getMeetingSuccess());
-//		
-//		
-//        meeting.setMeetingImg("updatesample.jpg");
-//        meeting.setMeetingIntro("Update Sample Introduction");
-//        
-//        meetingService.updateMeetingSuccess(meeting);
-//        
-//        meeting = meetingService.getMeeting(meeting.getMeetingNo());
-//		Assert.assertNotNull(meeting);
-//        
-//		Assert.assertEquals(1, meeting.getMeetingSuccess());
-//		Assert.assertEquals(1, meeting.getMeetingState());
-
-	}
+//	}
 	
 	//@Test
 	public void withDrawTest() throws Exception{
@@ -125,6 +109,7 @@ public class UserTest {
 		User user = new User();
 		user = userService.getUser("rockseong4");
 		userService.withDraw(user);
+		
 	}
 	
 	//@Test

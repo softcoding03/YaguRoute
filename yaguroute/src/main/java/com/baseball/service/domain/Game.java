@@ -8,7 +8,6 @@ public class Game {
 	private Team homeTeam;
 	private Team awayTeam;
 	private String winningTeamCode;
-	private String gameYear;
 	private String gameDate;
 	private String gameTime;
 	private String gameStatusCode;
@@ -92,17 +91,11 @@ public class Game {
 	public void setGameScore(String score) {
 		this.gameScore = score;
 	}
-	public String getGameYear() {
-		return gameYear;
-	}
-	public void setGameYear(String gameYear) {
-		this.gameYear = gameYear;
-	}
 	
 	@Override
 	public String toString() {
 		return "Game [gameCode=" + gameCode + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", winningTeamCode="
-				+ winningTeamCode + ", gameYear=" + gameYear + ", gameDate=" + gameDate + ", gameTime=" + gameTime
+				+ winningTeamCode + ", gameDate=" + gameDate + ", gameTime=" + gameTime
 				+ ", gameStatusCode=" + gameStatusCode + ", gameScore=" + gameScore + ", winningTeamAllocation="
 				+ winningTeamAllocation + ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail="
 				+ videoThumbNail + "]";
