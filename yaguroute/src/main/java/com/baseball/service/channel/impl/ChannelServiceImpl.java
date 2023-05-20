@@ -44,9 +44,9 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Channel> getChannelList() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object> getChannelList() throws Exception {
+		List<Object> channelList = channelDao.getChannelList();
+		return channelList;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ChannelServiceImpl implements ChannelService {
 
 	@Override
 	public void deleteChannel(String channelID) throws Exception {
-		// TODO Auto-generated method stub
+		channelDao.deleteChannel(channelID);
 
 	}
 

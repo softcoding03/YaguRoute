@@ -13,7 +13,7 @@ public interface ChannelDao {
 	
 	public Channel getChannel(String channelID) throws Exception;
 	
-	public List<Channel> getChannelList() throws Exception;
+	public List<Object> getChannelList() throws Exception;
 	
 	public void updateChannel (Channel channel) throws Exception;
 	
