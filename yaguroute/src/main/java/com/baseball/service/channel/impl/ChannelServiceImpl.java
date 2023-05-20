@@ -38,19 +38,20 @@ public class ChannelServiceImpl implements ChannelService {
 
 	@Override
 	public Channel getChannel(String channelID) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println(channelID);
+		Channel channel = channelDao.getChannel(channelID);
+		return channel;
 	}
 
 	@Override
-	public List<Object> getChannel() throws Exception {
+	public List<Channel> getChannelList() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateChannel(Channel channel) throws Exception {
-		// TODO Auto-generated method stub
+		channelDao.updateChannel(channel);
 
 	}
 

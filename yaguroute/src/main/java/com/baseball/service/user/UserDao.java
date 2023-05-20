@@ -12,4 +12,6 @@ public interface UserDao {
 	public User getUser(String userId) throws Exception;
 	
 	public void updateUser(User user) throws Exception;
+	
+	public void withDraw(User user) throws Exception;
 }

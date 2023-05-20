@@ -14,12 +14,12 @@ public class User {
 	private String userAddr;
 	private String password;
 	private String passwordCheck;
-	private String phone;
+	private String userPhone;
 	private int phoneCheck;
 	private String role;
 	private String userImage;
 	private String gender;
-	private boolean withDraw;
+	private int withDraw;
 	private String teamCode;
 	
 	//method
@@ -71,11 +71,11 @@ public class User {
 	public void setPasswordCheck(String passwordCheck) {
 		this.passwordCheck = passwordCheck;
 	}
-	public String getPhone() {
-		return phone;
+	public String getUserPhone() {
+		return userPhone;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
 	}
 	public int getPhoneCheck() {
 		return phoneCheck;
@@ -107,10 +107,11 @@ public class User {
 	public void setGender(String string) {
 		this.gender = string;
 	}
-	public boolean isWithDraw() {
+	
+	public int getWithDraw() {
 		return withDraw;
 	}
-	public void setWithDraw(boolean withDraw) {
+	public void setWithDraw(int withDraw) {
 		this.withDraw = withDraw;
 	}
 	public String getTeamCode() {
@@ -124,7 +125,7 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userBirth=" + userBirth + ", userPoint="
 				+ userPoint + ", userEmail=" + userEmail + ", userAddr=" + userAddr + ", password=" + password
-				+ ", passwordCheck=" + passwordCheck + ", phone=" + phone + ", phoneCheck=" + phoneCheck + ", role="
+				+ ", passwordCheck=" + passwordCheck + ", userPhone=" + userPhone + ", phoneCheck=" + phoneCheck + ", role="
 				+ role + "]";
 	}
 
