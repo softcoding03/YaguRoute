@@ -1,5 +1,13 @@
 package com.baseball.service.trandetail;
 
-public class TranDetailDao {
+import org.apache.ibatis.annotations.Mapper;
 
+import com.baseball.service.domain.TranDetail;
+
+@Mapper
+public interface TranDetailDao {
+	
+	public void addTranDetail(TranDetail tranDetail) throws Exception;
+
+	public TranDetail getTranDetail(int tranDetailNo) throws Exception;
 }

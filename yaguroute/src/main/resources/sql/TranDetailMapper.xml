@@ -4,4 +4,90 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-<mapper namespace = "com.baseball.service.trandetail.TranDetailDao"></mapper>
+<mapper namespace = "com.baseball.service.trandetail.TranDetailDao">
+
+	<resultMap id="tranDetailSelectMap" type="tranDetail">
+	
+		<result property="tranDetailNo"			column="tran_detail_no"			jdbcType="NUMERIC"/>
+		<result property="tranStatusCode"		column="tran_status_code"		jdbcType="CHAR"/>
+		<result property="tranQuantity"			column="tran_quantity"			jdbcType="NUMERIC"/>
+		<result property="refundTranStatusCode"	column="refund_status_code"		jdbcType="CHAR"/>
+		
+		<association property="tranDetailProd" 	column="prod_no" 	javaType="product" 		select="selectProdNo"/>		
+		<association property="tranDetailTran" 	column="tran_no"  	javaType="transaction"	select="selectTranNo"/>
+
+	</resultMap>
+
+	<!--  product Association  -->
+	<resultMap id="productSelectMap" type="product">
+	
+		<result property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
+		<result property="prodName" 		column="prod_name" 			jdbcType="VARCHAR"/>
+		<result property="prodPrice" 		column="prod_price"			jdbcType="NUMERIC"/>
+		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
+		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
+		<result property="prodCategory"		column="prod_category"		jdbcType="VARCHAR"/>
+		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
+		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
+		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>
+		<result property="prodTeamCode"		column="team_code"			jdbcType="VARCHAR"/>
+	
+	</resultMap>
+
+	<select id="selectProdNo"	resultMap="productSelectMap">
+	
+		SELECT	prod_no
+		FROM product
+		WHERE prod_no = #{prodNo}
+	
+	</select>
+	
+		<!--  transaction Association  -->
+		<resultMap id="transactionSelectMap" type="transaction">
+	
+		<result property="tranNo"				column="tran_no"				jdbcType="NUMERIC"/>
+		<result property="impNo"				column="imp_no"					jdbcType="VARCHAR"/>
+		<result property="receiverName"			column="receiver_name"			jdbcType="VARCHAR"/>
+		<result property="receiverPhone"		column="receiver_phone"			jdbcType="VARCHAR"/>
+		<result property="receiverAddr"			column="receiver_addr"			jdbcType="VARCHAR"/>
+		<result property="tranTotalPrice"		column="tran_total_price"		jdbcType="NUMERIC"/>
+		<result property="tranPaymentOption" 	column="tran_payment_option"	jdbcType="VARCHAR"/>
+		<result property="dlvyRequest"			column="dlvy_request"			jdbcType="VARCHAR"/>
+		<result property="tranDate"				column="tran_date"				jdbcType="TIMESTAMP"/>
+		<result property="tranType"				column="tran_type"				jdbcType="VARCHAR"/>
+		<result property="tranUsePoint"			column="tran_use_point"			jdbcType="NUMERIC"/>
+		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
+		
+	</resultMap>
+	
+	
+	<select id="selectTranNo"	resultMap="transactionSelectMap">
+	
+		SELECT	tran_no
+		FROM transaction
+		WHERE tran_no = #{tranNo}
+	
+	</select>
+
+
+	<insert		id="addTranDetail"		parameterType="tranDetail">
+	
+	INSERT INTO tranDetail
+	(tran_detail_no, prod_no, tran_no, tran_status_code, tran_quantity, refund_status_code)
+	VALUES (null, #{tranDetailProd.prodNo}, #{tranDetailTran.tranNo}, #{tranStatusCode},
+	#{tranQuantity}, #{refundTranStatusCode})
+	
+	</insert>
+	
+	
+	<select		id="getTranDetail"	parameterType="int" resultMap="tranDetailSelectMap">
+	
+		SELECT
+		 *
+		FROM tranDetail
+		WHERE tran_detail_no = #{value}
+		
+	</select>
+
+
+</mapper>
