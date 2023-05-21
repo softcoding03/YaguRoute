@@ -16,7 +16,7 @@
 		<result property="thumbNail" column="thumbnail" jdbcType="VARCHAR"/>
 		<result property="homeClick" column="home_click" jdbcType="INTEGER"/>
 		<result property="awayClick" column="away_click" jdbcType="INTEGER"/>
-		<association property="gameInfo" column="game_code" javaType="game" select="select"/>
+		<association property="gameInfo" column="game_code" javaType="game" select="selectGame"/>
 	</resultMap>
 	
 	<resultMap id="gameSelectMap" type="game">
@@ -30,7 +30,7 @@
 		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
 		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
 		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
-		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="select"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfoByTeamName"/>
 		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team"/>
 		<association property="winningTeamCode" column="WINNING_TEAM_CODE" javaType="team"/>
 	</resultMap>
@@ -52,7 +52,7 @@
 	
 	<!-- game Assosiation Select -->
 	<select id="selectGame" resultMap="gameSelectMap">
-		SELECT * FROM game Where gameCode = #{value}
+		SELECT * FROM game Where game_code = #{value}
 	</select>
 	
 	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
@@ -68,12 +68,17 @@
 	<insert id="addChannel" parameterType="channel">
 		INSERT 
 		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click)
-		values (#{channelID:VARCHAR}, #{gameInfo.gameCode:VARCHAR}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
+		values (#{channelID:VARCHAR}, #{gameInfo.gameCode}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{uploadPath:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
 	</insert>
 	
 	<!-- SQL : select -->
 	<select id="getChannel" parameterType="string" resultMap="channelSelectMap">
 		SELECT * FROM channel WHERE channel_id = #{value}
+	</select>
+	
+	<!--  SQL : Select List -->
+	<select id="getChannelList"	resultMap="channelSelectMap">
+		SELECT * FROM channel
 	</select>
 	
 	<!--  SQL : update -->
@@ -88,4 +93,9 @@
 		</set>
 		WHERE channel_id = #{channelID}
 	</update>
+	
+	<!-- SQL : delete -->
+	<delete id="deleteChannel" parameterType="string">
+		DELETE FROM channel WHERE channel_id = #{value}
+	</delete>
 </mapper>

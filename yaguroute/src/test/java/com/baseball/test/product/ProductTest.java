@@ -1,7 +1,5 @@
 package com.baseball.test.product;
 
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +67,7 @@ public class ProductTest {
 	}
 	
 	//@Test
-	public void testUpdate() throws Exception {
+	public void testUpdateProduct() throws Exception {
 		
 		Product product = productService.getProduct(1);
 		Assert.assertNotNull(product);

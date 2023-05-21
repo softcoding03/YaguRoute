@@ -1,5 +1,8 @@
 package com.baseball.test.channel;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.service.channel.ChannelService;
 import com.baseball.service.domain.Channel;
+import com.baseball.service.domain.Game;
+import com.baseball.service.game.GameService;
 
 import junit.framework.Assert;
 
@@ -18,31 +23,58 @@ public class ChannelTest {
 	@Qualifier("channelServiceImpl")
 	private ChannelService channelSerivce;
 	
+	//gameService Wiring
+	@Autowired
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
+	
 	//constructor
 	public ChannelTest() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	//add Channel Test
+	//add Channel Test => Success
+	//@Test
 	public void testAddChannel() throws Exception{
+		Channel channel = new Channel();
+		Game game = new Game();
+		
+		game.setGameCode("20230314SKSS02023");
+		channel.setChannelID("ls-20230509114330-test");
+		channel.setGameInfo(game);
+		channel.setChannelCDN("Test_Test");
+		channel.setBucketName("test_test_t");
+		channel.setChannelName("testChannelName");
+		channel.setEnvType("REAL");
+		channel.setUploadPath("TEST_path");
+		channel.setHomeClick(0);
+		channel.setAwayClick(0);
+		
+		channelSerivce.addChannel(channel);;
+	}
+
+	//Select Test => success
+	//@Test
+	public void testSelectChannel() throws Exception{
+		String channelID = "ls-20230509114330-test";
+		Channel channel = channelSerivce.getChannel(channelID);
+		System.out.println("channel_id: "+channel.getChannelID());
+		System.out.println("game_code : "+channel.getGameInfo());
+		Assert.assertEquals("ls-20230509114330-test", channel.getChannelID());
+	}
+	
+	//Select List Test => success
+	@Test
+	public void testSelectChannelList() throws Exception{
+		List<Object> channelList = channelSerivce.getChannelList();
+		System.out.println(channelList.size());
+		for(Object list : channelList) {
+			System.out.println(list.toString());
+		}
 		
 	}
-
-	//Select Test
-	@Test
-	public void testSelectChannel() throws Exception{
-		String channelID = "ls-20230509114330-OGzDh";
-		Channel channel = channelSerivce.getChannel(channelID);
-		Assert.assertEquals("ls-20230509114330-OGzDh", channel.getChannelID());
-	}
 	
-	//Select List Test
-	//@Test
-	public void testSelectChannelList() throws Exception{
-
-	}
-	
-	//update Channel Test
+	//update Channel Test =>success
 	//@Test
 	public void testUpdateChannel() throws Exception{
 		Channel channel = new Channel();
@@ -56,6 +88,12 @@ public class ChannelTest {
 		System.out.println("아무거나");
 		channelSerivce.updateChannel(channel);
 		System.out.println("아무거나1");
+	}
+	
+	//DELETE Channel Test =>
+	@Test
+	public void testDeleteChannel() throws Exception{
+		channelSerivce.deleteChannel("ls-20230509114330-test");
 	}
 
 }

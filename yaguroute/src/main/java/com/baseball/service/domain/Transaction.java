@@ -9,7 +9,8 @@ public class Transaction {
 	private User buyer;
 	private String impNo;
 	private String receiverName;
-	private String receiverPhone;	
+	private String receiverPhone;
+	private String receiverAddr;
 	private int tranTotalPrice;
 	private String tranPaymentOption;
 	private String dlvyRequest;
@@ -17,6 +18,7 @@ public class Transaction {
 	private String tranType;
 	private int tranAddPoint;
 	private int tranUsePoint;
+
 	
 	
 	public Transaction() {
@@ -141,6 +143,17 @@ public class Transaction {
 
 	public void setTranUsePoint(int tranUsePoint) {
 		this.tranUsePoint = tranUsePoint;
+	}
+
+
+	public String getReceiverAddr() {
+		return receiverAddr;
+	}
+
+
+	public void setReceiverAddr(String receiverAddr) {
+		this.receiverAddr = receiverAddr;
 	}		
+	
 		
 }

@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService{
 	
 	// Constructor
 	public UserServiceImpl() {
-		System.out.println(this.getClass());
+		System.out.println("userServiceImpl Success...");
 	}
 	
 	// Method
@@ -47,6 +47,23 @@ public class UserServiceImpl implements UserService{
 	public void withDraw(User user) throws Exception {
 		// TODO Auto-generated method stub
 		userDao.withDraw(user);
+	}
+
+	@Override
+	public boolean checkDuplication(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		boolean result = true;
+		User user = userDao.getUser(userId);
+		if(user != null) {
+			result=false;
+		}
+		return result;
+	}
+
+	@Override
+	public void updatePoint(String userPoint) throws Exception {
+		// TODO Auto-generated method stub
+		userDao.updatePoint(userPoint);
 	}
 	
 }

@@ -4,4 +4,50 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.baseball.service.predict.GamePredictDao"></mapper>
+<mapper namespace = "com.baseball.service.player.PlayerDao">
+	
+	<resultMap id="playerSelectMap" type="player">
+		<result property="playerId" column="PLAYER_ID" jdbcType="VARCHAR"/>
+		<result property="playerPosition" column="PLAYER_POSITION" jdbcType="VARCHAR"/>
+		<result property="playerName" column="PLAYER_NAME" jdbcType="VARCHAR"/>
+		<result property="playerNumber" column="PLAYER_NUMBER" jdbcType="INTEGER"/>
+		<result property="playerHeight" column="PLAYER_HEIGHT" jdbcType="INTEGER"/>
+		<result property="playerWeight" column="PLAYER_WEIGHT" jdbcType="INTEGER"/>
+		<result property="playerImage" column="PLAYER_IMAGE" jdbcType="VARCHAR"/>
+		<result property="playerBirth" column="PLAYER_BIRTH" jdbcType="VARCHAR"/>
+		<result property="playerSalary" column="PLAYER_SALARY" jdbcType="INTEGER"/>
+		<result property="era" column="ERA" jdbcType="FLOAT"/>
+		<result property="threeOut" column="THREEOUT" jdbcType="INTEGER"/>
+		<result property="battingAvg" column="BAVF" jdbcType="FLOAT"/>
+		<result property="hitter" column="H" jdbcType="INTEGER"/>
+		<result property="homeRun" column="HR" jdbcType="INTEGER"/>
+		<result property="stolenBase" column="SB" jdbcType="INTEGER"/>
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="addPlayer" parameterType="player">
+	  INSERT INTO player (
+	    PLAYER_ID, PLAYER_POSITION, PLAYER_NAME, PLAYER_NUMBER, PLAYER_HEIGHT, PLAYER_WEIGHT,
+	    PLAYER_IMAGE, PLAYER_BIRTH, PLAYER_SALARY, ERA, THREEOUT, BAVF, H, HR, SB, TEAM_CODE
+	  )
+	  VALUES (
+	    #{playerId, jdbcType=VARCHAR}, #{playerPosition, jdbcType=VARCHAR}, #{playerName, jdbcType=VARCHAR},
+	    #{playerNumber, jdbcType=INTEGER}, #{playerHeight, jdbcType=INTEGER}, #{playerWeight, jdbcType=INTEGER},
+	    #{playerImage, jdbcType=VARCHAR}, #{playerBirth, jdbcType=VARCHAR}, #{playerSalary, jdbcType=INTEGER},
+	    #{era, jdbcType=FLOAT}, #{threeOut, jdbcType=INTEGER}, #{battingAvg, jdbcType=FLOAT},
+	    #{hitter, jdbcType=INTEGER}, #{homeRun, jdbcType=INTEGER}, #{stolenBase, jdbcType=INTEGER},
+	    #{teamCode, jdbcType=VARCHAR}
+	  )
+	</insert>
+	
+	<select id="getPlayer" parameterType="String" resultMap="playerSelectMap">
+		SELECT * 
+		FROM player
+		WHERE player_id = #{playerId}
+	</select>
+	
+	<!-- <select id="getPlayerList" parameterType="Search" resultMap="playerSelectMap">
+	</select> -->
+	
+	
+</mapper>
