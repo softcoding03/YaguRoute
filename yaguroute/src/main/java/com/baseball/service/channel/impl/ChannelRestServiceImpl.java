@@ -11,12 +11,15 @@ import com.baseball.service.domain.Channel;
 public class ChannelRestServiceImpl implements ChannelRestService {
 
 	public ChannelRestServiceImpl() {
-		// TODO Auto-generated constructor stub
+		System.out.println("ChannelRestService strart...");
 	}
 
 	@Override
 	public Channel addChannel(Channel channel) throws Exception {
 		System.out.print("addChannel 실행");
+		System.out.println("Channel Info : "+channel.toString());
+		
+		
 		
 		return null;
 	}
