@@ -4,4 +4,98 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-<mapper namespace = "com.baseball.service.predict.GamePredictDao"></mapper>
+<mapper namespace = "com.baseball.service.predict.GamePredictDao">
+
+	<resultMap id="predSelectMap" type="predict">
+		<result property="predNo" column="pred_no" jdbcType="INTEGER"/>
+		<result property="predGame.gameCode" column="GAME_CODE" jdbcType="VARCHAR"/>
+		<result property="predUser.userId" column="USER_ID" jdbcType="VARCHAR"/>
+		<result property="predWinningTeamCode" column="PRED_WINNING_TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="predPoint" column="PRED_POINT" jdbcType="INTEGER"/>
+		<result property="afterGamePredPoint" column="STADIUM_IMAGE_FILE" jdbcType="INTEGER"/>
+		<result property="predSuccess" column="HOMETOWN" jdbcType="CHAR"/>
+	</resultMap>
+
+	<insert id="addUserPred" parameterType="predict">
+		insert into predict
+		values(
+			null,
+			#{predGame.gameCode},
+			#{predUser.userId},
+			#{predWinningTeamCode},
+			#{predPoint},
+			#{afterGamePredPoint},
+			#{predSuccess}
+		)
+	</insert>
+	
+	<delete id="deleteUserPred" parameterType="string">
+		delete p
+		from predict p
+		LEFT JOIN game g
+		ON p.game_code = g.game_code
+		<where>
+			p.user_id = #{userId} AND g.game_date = #{date}
+		</where>
+	</delete>
+	
+	<update id="updatePredSuccess" parameterType="game">
+		update predict p
+		LEFT JOIN game g
+		ON p.game_code = g.game_code
+		<set>
+			pred_success = IF(p.pred_winning_team_code = g.winning_team_code, 1, 0)
+		</set>
+		<where>
+			AND p.game_code = #{gameCode}
+		</where>
+	</update>
+	
+	<select id="getUserPred" parameterType="string" resultMap="predSelectMap">
+		select p.*
+		from predict p
+		LEFT JOIN game g
+		ON p.game_code = g.game_code
+		<where>
+			p.user_id = #{userId} AND g.game_date = #{date}
+		</where>
+	</select>
+	
+	<select id="getPredAllocation" parameterType="Game" resultType="double">
+		select IF(twpp.total_winning_pred_point=0,twpp.total_winning_pred_point,tpp.total_pred_point/twpp.total_winning_pred_point)
+		from (<include refid="getTotalPredPoint"/>) tpp,
+		(<include refid="getTotalWinningTeamPredPoint"/>) twpp
+	</select>
+	
+	<sql id="getTotalPredPoint">
+		select SUM(pred_point) total_pred_point from predict
+		<where>
+			game_code = #{gameCode}
+		</where>
+	</sql>
+	
+	<sql id="getTotalWinningTeamPredPoint">
+		select IF(COUNT(p.pred_point)=0,0,SUM(p.pred_point)) total_winning_pred_point
+		from predict p
+		LEFT JOIN game g
+		ON p.game_code = g.game_code
+		<where>
+			p.pred_winning_team_code = g.winning_team_code
+			AND g.game_code = #{gameCode}
+		</where>
+	</sql>
+	
+	<update id="updateUserAfterGamePredPoint"  parameterType="game">
+		update game g 
+		RIGHT JOIN predict p ON p.game_code = g.game_code 
+		LEFT JOIN user u ON p.user_id = u.user_id
+		<set>
+			p.after_game_pred_point = IF(p.pred_success = 1,ROUND( 3 * p.after_game_pred_point),0)
+			, u.user_point = u.user_point+p.AFTER_GAME_PRED_POINT
+		</set>
+		<where>
+			AND p.game_code = #{gameCode}
+		</where>
+	</update>
+
+</mapper>

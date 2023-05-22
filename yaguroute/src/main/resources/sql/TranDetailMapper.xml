@@ -11,7 +11,7 @@
 		<result property="tranDetailNo"			column="tran_detail_no"			jdbcType="NUMERIC"/>
 		<result property="tranStatusCode"		column="tran_status_code"		jdbcType="CHAR"/>
 		<result property="tranQuantity"			column="tran_quantity"			jdbcType="NUMERIC"/>
-		<result property="refundTranStatusCode"	column="refund_status_code"		jdbcType="CHAR"/>
+		<result property="refundStatusCode"		column="refund_status_code"		jdbcType="CHAR"/>
 		
 		<association property="tranDetailProd" 	column="prod_no" 	javaType="product" 		select="selectProdNo"/>		
 		<association property="tranDetailTran" 	column="tran_no"  	javaType="transaction"	select="selectTranNo"/>
@@ -75,7 +75,7 @@
 	INSERT INTO tranDetail
 	(tran_detail_no, prod_no, tran_no, tran_status_code, tran_quantity, refund_status_code)
 	VALUES (null, #{tranDetailProd.prodNo}, #{tranDetailTran.tranNo}, #{tranStatusCode},
-	#{tranQuantity}, #{refundTranStatusCode})
+	#{tranQuantity}, #{refundStatusCode})
 	
 	</insert>
 	
@@ -88,6 +88,64 @@
 		WHERE tran_detail_no = #{value}
 		
 	</select>
+	
+	<update id="updateTranStatusCode" parameterType="tranDetail">
+	
+		UPDATE tranDetail		
+		<set>
+		tran_status_code = #{tranStatusCode}		
+		</set>
+		WHERE tran_detail_no = #{tranDetailNo}
+	
+	</update>
+	
+	<select id="updateTranCodeByProd" parameterType="tranDetail">
+		 
+		 UPDATE tranDetail 
+		 <set>
+		 tran_status_code = #{tranStatusCode}
+		 </set>
+		 WHERE prod_no = #{tranDetailProd.prodNo}
+		 	
+	</select>
+	
+	<update id="updateRefundStatusCode"	parameterType="tranDetail">
+	
+		UPDATE tranDetail
+		<set>
+		refund_status_code = #{refundStatusCode}
+		</set>
+		WHERE tran_detail_no = #{tranDetailNo}
+	
+	</update>
+	
+	<select id="updateRefundCodeByProd" parameterType="tranDetail">
+	
+		UPDATE tranDetail
+		<set>
+		refund_status_code = #{refundStatusCode}
+		</set>
+		WHERE prod_no = #{tranDetailProd.prodNo}
+		
+	</select>
 
+
+	<select id="getDeliveryList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	
+		SELECT *
+		FROM tranDetail
+		WHERE tran_detail_no = #{tranDetailNo}
+		LIMIT #{search.startRowNum}, #{search.pageSize}
+		
+	</select>
+	
+	<select id="getTotalCount" parameterType="search" resultType="int">
+			
+		SELECT COUNT(*) 
+		FROM ( SELECT * 
+				FROM tranDetail 
+				WHERE tran_detail_no = #{tranDetailNo}) countTable
+	
+	</select>
 
 </mapper>
