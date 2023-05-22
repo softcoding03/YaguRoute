@@ -32,18 +32,9 @@
 		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
 		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
 		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
-		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getAssociationTeam"/>
-		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team" select="getAssociationTeam"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfo"/>
+		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team" select="getTeamInfo"/>
 	</resultMap>
-	
-	<select id="getAssociationTeam" resultMap="teamSelectMap">
-		select 
-		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
-		from team
-		<where>
-			TEAM_CODE=#{value}
-		</where>
-	</select>
 	
 	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
 		select 
@@ -51,6 +42,15 @@
 		from team
 		<where>
 			team_nickname=#{value}
+		</where>
+	</select>
+	
+	<select id="getTeamInfo" parameterType="string" resultMap="teamSelectMap">
+		select 
+		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
+		from team
+		<where>
+			team_code=#{value}
 		</where>
 	</select>
 	
@@ -62,21 +62,38 @@
 		</where>
 	</select>
 	
+	<select id="getGameListByDate" parameterType="string" resultMap="gameSelectMap">
+		select * 
+		from game 
+		<where>
+			game_date = #{value}
+		</where>
+	</select>
+	
 	<update id="updateGameState" parameterType="game">
 		update game
 		<set>
 			GAME_STATUS_CODE = #{gameStatusCode}
+			<if test="winningTeamCode != null">
+				, winning_team_code = #{winningTeamCode}
+				, game_score= #{gameScore}
+			</if>
 		</set>
 		<where>
-			GAME_DATE = #{gameDate}
+			GAME_CODE = #{gameCode}
 		</where>
 	</update>
 	
-	<select id="getGameScheduleList" parameterType="String" resultMap="gameSelectMap">
+	<select id="getGameListTwoWeeks" resultMap="gameSelectMap">
+      SELECT * FROM GAME
+      WHERE game_date BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 14 DAY)
+   </select>
+	
+	<select id="getGameListByMonthly" parameterType="String" resultMap="gameSelectMap">
 		select *
 		from game
 		WHERE GAME_DATE LIKE '${date}%'
-		<if test="#{teamCode} != null">
+		<if test="teamCode != null">
 			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
 		</if>
 	</select>
@@ -93,5 +110,15 @@
 			#{gameScore}
 		)
 	</insert>
+	<update id="updateGamePredAllocation" parameterType="game">
+		update game
+		<set>
+			WINNING_TEAM_ALLOCATION = #{winningTeamAllocation}
+		</set>
+		<where>
+			GAME_CODE = #{gameCode}
+		</where>
+	</update>
+	
 	
 </mapper>

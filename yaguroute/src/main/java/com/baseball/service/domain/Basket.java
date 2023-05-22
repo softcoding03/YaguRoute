@@ -4,6 +4,7 @@ public class Basket {
 	//Field
 	private int basketNo;
 	private Product product;
+	private String userId;
 	private int prodQuantity;
 	
 	public int getBasketNo() {
@@ -25,9 +26,16 @@ public class Basket {
 		this.prodQuantity = prodQuantity;
 	}
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	@Override
 	public String toString() {
-		return "Basket [basketNo=" + basketNo + ", product=" + product + ", prodQuantity="
+		return "Basket [basketNo=" + basketNo + ", product=" + product + ", userId=" + userId + ", prodQuantity="
 				+ prodQuantity + "]";
 	}
 	
