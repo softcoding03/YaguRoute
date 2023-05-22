@@ -11,12 +11,20 @@ public interface GameService {
 	
 	public Team getTeamInfoByTeamName(String teamName);
 	
-	public void addThisYearGameSchedule(Game game);
+	public Team getTeamInfo(String teamCode);
 	
 	public Game getGameInfo(String gameCode);
 	
-	public void updateGameState(Game game);
+	public List<Game> getGameListByDate(String date);
 	
-	public List<Game> getGameScheduleList(String date,String teamCode); 
+	public void updateGameState(List<Game> game);
+	
+	public List<Game> getGameListByMonthly(String date,String teamCode); 
+	
+	public void addThisYearGameSchedule(Game game);
+	
+	public List<Game> getGameListTwoWeeks();
+	
+	public void updateGamePredAllocation(Game game);
 
 }

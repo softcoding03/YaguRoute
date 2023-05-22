@@ -45,13 +45,13 @@ public class GameTests {
 		System.out.println(game);
 	}
 	
-	@Test
+	//@Test
 	public void getGameScheduleList() throws Exception{
 		
 		Map<String,String> map = new HashMap<>();
 		String date = "2023-06";
 		String teamCode = "OB";
-		List<Game> list = gameService.getGameScheduleList(date,teamCode);
+		List<Game> list = gameService.getGameListByMonthly(date,teamCode);
 		for(Game tmp : list) {
 			System.out.println(tmp);
 		}
@@ -59,13 +59,16 @@ public class GameTests {
 		
 	//@Test
 	public void updateGameState() throws Exception{
-		String date = "2023.5.20";
+		String date = "2008.3.29";
 		Game game = new Game();
-		game.setGameStatusCode("0");
+		List<Game> tmpGame = gameService.getGameListByDate(date);
+		for(Game gametmp : tmpGame) {
+			gametmp.setGameStatusCode("2");
+		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
 		game.setGameDate(dateFormat.format(dateFormat.parse(date)));
-		System.out.println(dateFormat.format(dateFormat.parse(date)));
-		gameService.updateGameState(game);
+		gameService.updateGameState(tmpGame);
+		
 	}
 	
 	//@Test
@@ -217,13 +220,6 @@ public class GameTests {
 //			test.add(driver.findElement(By.xpath("//*[@id=\"calendarWrap\"]/div["+i+"]/table/tbody")));
 //			System.out.println(test.get(i-1).getText()+"\n\n");
 //		}
-		
-		
-		
-		
-		
-		
-		
 		
 		
 	}

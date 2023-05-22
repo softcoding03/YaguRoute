@@ -12,10 +12,11 @@ public class Game {
 	private String gameTime;
 	private String gameStatusCode;
 	private String gameScore;
-	private String winningTeamAllocation;
+	private double winningTeamAllocation;
 	private String videoName;
 	private String videoLink;
 	private String videoThumbNail;
+	private int salesTicket;
 	
 	//method
 	public String getGameCode() {
@@ -60,12 +61,7 @@ public class Game {
 	public void setGameStatusCode(String gameStatusCode) {
 		this.gameStatusCode = gameStatusCode;
 	}
-	public String getWinningTeamAllocation() {
-		return winningTeamAllocation;
-	}
-	public void setWinningTeamAllocation(String winningTeamAllocation) {
-		this.winningTeamAllocation = winningTeamAllocation;
-	}
+	
 	public String getVideoName() {
 		return videoName;
 	}
@@ -92,14 +88,26 @@ public class Game {
 		this.gameScore = score;
 	}
 	
+	public double getWinningTeamAllocation() {
+		return winningTeamAllocation;
+	}
+	public void setWinningTeamAllocation(double winningTeamAllocation) {
+		this.winningTeamAllocation = winningTeamAllocation;
+	}
+	public int getSalesTicket() {
+		return salesTicket;
+	}
+	public void setSalesTicket(int salesTicket) {
+		this.salesTicket = salesTicket;
+	}
+	
 	@Override
 	public String toString() {
 		return "Game [gameCode=" + gameCode + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", winningTeamCode="
-				+ winningTeamCode + ", gameDate=" + gameDate + ", gameTime=" + gameTime
-				+ ", gameStatusCode=" + gameStatusCode + ", gameScore=" + gameScore + ", winningTeamAllocation="
-				+ winningTeamAllocation + ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail="
-				+ videoThumbNail + "]";
+				+ winningTeamCode + ", gameDate=" + gameDate + ", gameTime=" + gameTime + ", gameStatusCode="
+				+ gameStatusCode + ", gameScore=" + gameScore + ", winningTeamAllocation=" + winningTeamAllocation
+				+ ", videoName=" + videoName + ", videoLink=" + videoLink + ", videoThumbNail=" + videoThumbNail
+				+ ", salesTicket=" + salesTicket + "]";
 	}
-	
 	
 }
