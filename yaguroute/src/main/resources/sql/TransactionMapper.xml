@@ -101,20 +101,24 @@
 	</delete>
 	
 
-	<update id="updateTranCode" parameterType="transaction"	>
+	<select id="getTransactionList" parameterType="java.util.Map"	resultMap="transactionSelectMap">
 	
-		UPDATE transaction
+		SELECT *
+		FROM transaction
+		WHERE user_id = #{userId}
+		LIMIT #{search.startRowNum}, #{search.pageSize}
 		
-		<set>
-		tran_
-		</set>
-	
-	
-	
-	</update>
+		
+	</select>
 
+	<select id="getTotalCount" parameterType="search" resultType="int">
 	
+		SELECT COUNT(*) 
+		FROM ( SELECT * 
+				FROM transaction 
+				WHERE user_id = #{userId}) countTable
 	
+	</select>
 	
 
 

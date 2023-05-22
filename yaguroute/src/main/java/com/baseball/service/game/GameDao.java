@@ -1,7 +1,6 @@
 package com.baseball.service.game;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,12 +12,20 @@ public interface GameDao {
 
 	public Team getTeamInfoByTeamName(String teamName);
 	
-	public void addThisYearGameSchedule(Game game);
+	public Team getTeamInfo(String teamCode);
 	
 	public Game getGameInfo(String gameCode);
 	
+	public List<Game> getGameListByDate(String date);
+	
 	public void updateGameState(Game game);
 	
-	public List<Game> getGameScheduleList(String date, String teamCode); 
+	public List<Game> getGameListByMonthly(String date, String teamCode); 
+	
+	public void addGame(Game game);
+	
+	public List<Game> getGameListTwoWeeks();
+	
+	public void updateGamePredAllocation(Game game);
 
 }

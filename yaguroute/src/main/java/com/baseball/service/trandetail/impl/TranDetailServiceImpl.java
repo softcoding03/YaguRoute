@@ -1,9 +1,14 @@
 package com.baseball.service.trandetail.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.TranDetail;
 import com.baseball.service.trandetail.TranDetailDao;
 import com.baseball.service.trandetail.TranDetailService;
@@ -32,4 +37,30 @@ public class TranDetailServiceImpl implements TranDetailService {
 	public TranDetail getTranDetail(int tranDetail) throws Exception {		
 		return tranDetailDao.getTranDetail(tranDetail);
 	}
+
+	@Override
+	public void updateTranStatusCode(TranDetail tranDetail) throws Exception {
+		tranDetailDao.updateTranStatusCode(tranDetail);
+		
+	}
+
+	@Override
+	public void updateRefundStatusCode(TranDetail tranDetail) throws Exception {
+		tranDetailDao.updateRefundStatusCode(tranDetail);
+		
+	}
+
+	@Override
+	public Map<String, Object> getTranDetailList(Search search, int tranDetailNo) throws Exception {
+		List<TranDetail> list = tranDetailDao.getDeliveryList(search, tranDetailNo);
+		int totalCount = tranDetailDao.getTotalCount(tranDetailNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+	
 }

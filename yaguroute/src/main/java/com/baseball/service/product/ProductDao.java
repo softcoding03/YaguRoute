@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Product;
 
 
@@ -23,7 +24,11 @@ public interface ProductDao {
 	
 	
 	//getList
-	public List<Product> getProductList (Product product) throws Exception;
+	public List<Product> getProductList (Search search) throws Exception;
 	
-	
+	public int getTotalCount(Search search) throws Exception;
+
+	//autoComplete
+	public List autoComplete() throws Exception;
+	//public List<Product> autoComplete(String searchKeyword) throws Exception;
 }

@@ -1,11 +1,15 @@
 package com.baseball.test.transaction;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.User;
 import com.baseball.service.transaction.TransactionService;
@@ -84,5 +88,30 @@ public class TransactionTest {
 		System.out.println("testDeleteTransaction:: ");
 	}
 
+	
+	@Test
+	public void testGetTransactionList() throws Exception {
+	
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(5);
+		
+		String userId = "john123";
+		
+		Map<String, Object> map = transactionService.getTransactionList(search, userId);
+		List<Transaction> list = (List<Transaction>)map.get("list");
+		
+		System.out.println("TransactionList:: "+list);
+		
+		Integer totalCount = (Integer)map.get("totalCount");
+		System.out.println("total찍혔나요 진짜 마지막 희망이다 살려주라: "+totalCount);
+		
+		System.out.println("=======================================");
+		
+		
+		totalCount = (Integer)map.get("totalCount");
+		System.out.println(totalCount);
+	}
+		
 }
 

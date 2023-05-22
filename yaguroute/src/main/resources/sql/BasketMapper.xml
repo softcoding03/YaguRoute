@@ -4,4 +4,50 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-<mapper namespace = "com.baseball.service.basket.BasketDao"></mapper>
+<mapper namespace = "com.baseball.service.basket.BasketDao">
+
+	<resultMap id="basketSelectMap" type="basket">
+		<result property="basketNo" 			column="BASKET_NO" 			jdbcType="INTEGER"/>
+		<result property="product.prodNo"	column="PROD_NO" 		jdbcType="INTEGER" />
+		<result property="userId" 	column="USER_ID" 		jdbcType="VARCHAR" />
+		<result property="prodQuantity" 	column="PROD_QUANTITY"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<insert id="addBasketProd" parameterType="basket">
+		insert into basket
+		values(
+			null,
+			#{product.prodNo},
+			#{userId},
+			#{prodQuantity}
+		)
+	</insert>
+	
+	<select id="getBasketList" parameterType="String" resultMap="basketSelectMap">
+		select * 
+		from basket
+		<where>
+			user_Id = #{userId}
+		</where> 
+	</select>
+	
+	<delete id="deleteBasket" parameterType="basket">
+		delete from basket
+		<where>
+			user_id = #{userId}
+			<if test="product != null">
+			AND prod_no = #{product.prodNo}
+			</if>
+		</where>
+	</delete>
+	
+	<update id="updateBasketProdQuantity" parameterType="basket">
+		update basket 
+		<set>
+			prod_quantity = #{prodQuantity}
+		</set> 
+		where user_id = #{userId} 
+		AND prod_no = #{product.prodNo}
+	</update>
+
+</mapper>
