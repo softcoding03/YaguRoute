@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
@@ -16,6 +17,7 @@ import com.baseball.service.post.PostDao;
 import com.baseball.service.post.PostService;
 import com.baseball.service.ticket.TicketDao;
 import com.baseball.service.ticket.TicketService;
+import com.baseball.service.transaction.TransactionService;
 
 
 @SpringBootTest
@@ -28,6 +30,11 @@ public class TestTicket{
 	@Autowired
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
+	
+	@Autowired
+	@Qualifier("transactionServiceImpl")
+	private TransactionService transactionService;
+	
 	
 	@Autowired
 	@Qualifier("ticketDao")
@@ -64,6 +71,15 @@ public class TestTicket{
 		System.out.println("stadium??? "+ticket.getGame().getHomeTeam().getStadiumImageFile());
 		System.out.println("판매완료된 좌석 수" + salesTicket);
 		System.out.println("getStadium END");
+	}
+	
+	//addTicketPurchase 티켓 구매
+	//@Test
+	public void addTicketPurchase() throws Exception{
+		System.out.println(":: addTicketPurchase START");
+		Transaction transaction = new Transaction();
+		transactionService.addTransaction(transaction);
+		System.out.println(":: addTicketPurchase END");
 	}
 	
 	//해당 게임 총 판매 티켓 수
