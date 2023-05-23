@@ -61,9 +61,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void updatePoint(String userPoint) throws Exception {
+	public void updatePoint(User user) throws Exception {
 		// TODO Auto-generated method stub
-		userDao.updatePoint(userPoint);
+		userDao.updatePoint(user);
 	}
 	
 }

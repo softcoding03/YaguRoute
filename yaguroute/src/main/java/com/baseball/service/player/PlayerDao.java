@@ -2,6 +2,8 @@ package com.baseball.service.player;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Update;
+
 import com.baseball.service.domain.Player;
 
 public interface PlayerDao {
@@ -14,4 +16,9 @@ public interface PlayerDao {
 	
 //	public int getTotalCount(Search search) throws Exception;
 	
+	public void deletePlayer();
+	
+	public void dropForeignKey();
+	
+	public void addForeignKey();
 }

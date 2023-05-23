@@ -110,6 +110,7 @@
 			#{gameScore}
 		)
 	</insert>
+	
 	<update id="updateGamePredAllocation" parameterType="game">
 		update game
 		<set>
@@ -117,6 +118,18 @@
 		</set>
 		<where>
 			GAME_CODE = #{gameCode}
+		</where>
+	</update>
+	
+	<update id="updateGameVideo" parameterType="game">
+		update game
+		<set>
+			VIDEO_NAME = #{videoName},
+			VIDOE_LINK = #{videoLink},
+			VIDEO_THUMBNAIL = #{videoThumbNail}
+		</set>
+		<where>
+			game_code = #{gameCode}
 		</where>
 	</update>
 	
