@@ -94,8 +94,8 @@ public class TransactionTest {
 		search.setPageSize(5);
 		
 		String userId = "john123";
-		
-		Map<String, Object> map = transactionService.getTransactionList(search, userId);
+		String tranType = "p";
+		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
 		Assert.assertEquals(5, list.size());
 		 
