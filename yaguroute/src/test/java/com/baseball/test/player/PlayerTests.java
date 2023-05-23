@@ -1,15 +1,17 @@
 package com.baseball.test.player;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.service.domain.Player;
-import com.baseball.service.domain.User;
 import com.baseball.service.player.PlayerService;
-import com.baseball.service.user.UserDao;
-import com.baseball.service.user.UserService;
 
 import junit.framework.Assert;
 
@@ -44,10 +46,36 @@ public class PlayerTests {
 		playerService.addPlayer(player);
 	}
 	
-	@Test
+	//@Test
 	public void testGetPlayer() throws Exception{
 		Player player = new Player();
 		player = playerService.getPlayer("12345");
 		System.out.println(player);
 	}
+	@Test
+	public void addPlayer_with_crawling() throws Exception{
+		
+		System.setProperty("webdriver.chorme.driver", "/chromedriver_win32/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.koreabaseball.com/Player/Search.aspx");
+		System.out.println("왜 안돌아가");
+		ChromeOptions options = new ChromeOptions();
+		options.setExperimentalOption("useAutomationExtension", false);
+		options.addArguments("disable-infobars");
+		options.addArguments("start-maximized");
+		options.addArguments("--disable-extensions");
+		options.addArguments("--disable-gpu");
+		options.addArguments("--disable-dev-shm-usage");
+		options.addArguments("--no-sandbox");
+		
+		Thread.sleep(2000);
+		WebElement element1 = driver.findElement(By.id("cphContents_cphContents_cphContents_ddlTeam"));
+		element1.click();
+		System.out.println("11111111111111111");
+		Thread.sleep(2000);
+		
+		
+	}
+	
+	
 }	
