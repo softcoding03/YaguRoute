@@ -27,5 +27,7 @@ public interface GameDao {
 	public List<Game> getGameListTwoWeeks();
 	
 	public void updateGamePredAllocation(Game game);
+	
+	public void updatevideoThumbNail(Game game);
 
 }

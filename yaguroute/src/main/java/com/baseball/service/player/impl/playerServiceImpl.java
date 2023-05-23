@@ -1,5 +1,6 @@
 package com.baseball.service.player.impl;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class playerServiceImpl implements PlayerService{
 	@Autowired
 	@Qualifier("playerDao")
 	private PlayerDao playerDao;
+	private SqlSession sqlSession;
 	public void setPlayerDao(PlayerDao playerDao) {
 		this.playerDao = playerDao;
 	}
@@ -35,6 +37,24 @@ public class playerServiceImpl implements PlayerService{
 	public Player getPlayer(String playerId) throws Exception {
 		// TODO Auto-generated method stub
 		return playerDao.getPlayer(playerId);
+	}
+
+	@Override
+	public void deletePlayer() {
+		// TODO Auto-generated method stub
+		playerDao.deletePlayer();
+	}
+
+	@Override
+	public void dropForeignKey() {
+		// TODO Auto-generated method stub
+		playerDao.dropForeignKey();
+	}
+
+	@Override
+	public void addForeignKey() {
+		// TODO Auto-generated method stub
+		playerDao.addForeignKey();
 	}
 
 }

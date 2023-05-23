@@ -50,9 +50,9 @@
 		WHERE user_id = #{userId}
 	</update>
 	
-	<update id="updatePoint" parameterType="String" >
+	<update id="updatePoint" parameterType="user" >
 		UPDATE user
-		SET userPoint = #{userPoint}
+		SET user_Point = #{userPoint}
 		WHERE user_id = #{userId}
 	</update>
 	

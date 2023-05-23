@@ -30,6 +30,7 @@ public class TranDetailServiceImpl implements TranDetailService {
 	@Override
 	public void addTranDetail(TranDetail tranDetail) throws Exception {
 		tranDetailDao.addTranDetail(tranDetail);
+		tranDetailDao.updateProdStock(tranDetail);
 		
 	}
 
@@ -51,9 +52,9 @@ public class TranDetailServiceImpl implements TranDetailService {
 	}
 
 	@Override
-	public Map<String, Object> getTranDetailList(Search search, int tranDetailNo) throws Exception {
-		List<TranDetail> list = tranDetailDao.getDeliveryList(search, tranDetailNo);
-		int totalCount = tranDetailDao.getTotalCount(tranDetailNo);
+	public Map<String, Object> getDeliveryList(Search search, int tranNo) throws Exception {
+		List<TranDetail> list = tranDetailDao.getDeliveryList(search, tranNo);
+		int totalCount = tranDetailDao.getTotalCount(tranNo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);

@@ -9,9 +9,9 @@ public interface GamePredictService {
 	
 	public List<Predict> getUserPred(String userId, String date);
 	
-	public void addUserPred(Predict pred);
+	public void addUserPred(List<Predict> pred) throws Exception ;
 	
-	public void deleteUserPred(String userId, String date);
+	public void deleteUserPred(String userId, String date) throws Exception;
 	
 	public void updatePredAfterGame();
 	

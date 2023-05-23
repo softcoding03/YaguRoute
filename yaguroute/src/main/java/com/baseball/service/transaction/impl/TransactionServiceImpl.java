@@ -28,14 +28,15 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	@Override
-	public void addTransaction(Transaction transaction) throws Exception {
+	public int addTransaction(Transaction transaction) throws Exception {
 		transactionDao.addTransaction(transaction);
+		return transactionDao.getLastTranNo();
 		
 	}
 
 	@Override
-	public Transaction getTransaction(int transaction) throws Exception {
-		return transactionDao.getTransaction(transaction);
+	public Transaction getTransaction(int tranNo) throws Exception {
+		return transactionDao.getTransaction(tranNo);
 	}
 
 	@Override
@@ -50,17 +51,20 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Map<String, Object> getTransactionList(Search search, String userId) throws Exception {
-		List<Transaction> list = transactionDao.getTransactionList(search, userId);
-		int totalCount = transactionDao.getTotalCount(userId);
+	public Map<String, Object> getTransactionList(Search search, String userId, String tranType) throws Exception {
+		List<Transaction> list = transactionDao.getTransactionList(search, userId, tranType);
+		int totalCount = transactionDao.getTotalCount(userId, tranType);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
-		
 	}
-	
+
+	@Override
+	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception {
+		return transactionDao.getPurchaseListByGameCode(gameCode);
+	}
 
 }

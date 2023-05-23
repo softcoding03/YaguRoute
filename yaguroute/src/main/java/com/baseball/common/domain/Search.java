@@ -79,14 +79,17 @@ public class Search {
 	}
 	//==> Select Query 시 ROWNUM 시작 값
 	public int getStartRowNum() {
-		return (getCurrentPage()-1)*getPageSize()+1;
+		return (getCurrentPage()-1)*getPageSize();
 	}
 
+	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", standard="
+				+ standard + ", category=" + category + ", teamCondition=" + teamCondition + ", currentPage="
+				+ currentPage + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ "]";
 	}
+	
+
 	
 }
