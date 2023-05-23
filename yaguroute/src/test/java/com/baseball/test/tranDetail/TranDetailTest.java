@@ -91,12 +91,12 @@ public class TranDetailTest {
 		search.setCurrentPage(1);
 		search.setPageSize(5);
 		
-		int tranDetailNo = 3;
+		int tranNo = 3;
 		
-		Map<String, Object> map = tranDetailService.getTranDetailList(search, tranDetailNo);
+		Map<String, Object> map = tranDetailService.getDeliveryList(search, tranNo);
 		List<TranDetail> list = (List<TranDetail>)map.get("list");
 	
-		System.out.println("TranDetailListTest:: "+list);
+		System.out.println("DeliveryListTest:: "+list);
 		
 		Integer totalCount = (Integer)map.get("totalCount");
 		System.out.println("total찍혔나요 진짜 마지막 희망이다 살려주라22222: "+totalCount);

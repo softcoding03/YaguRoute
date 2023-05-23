@@ -47,7 +47,7 @@ public class TransactionTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testGetTransaction() throws Exception {
 	
 		Transaction transaction = new Transaction();
@@ -55,7 +55,7 @@ public class TransactionTest {
 		transaction = transactionService.getTransaction(3);
 
 		System.out.println("TestgetTransaction:: "+transaction);
-	
+		System.out.println("getTran:: ");
 	}
 	
 	//@Test
@@ -89,7 +89,7 @@ public class TransactionTest {
 	}
 
 	
-	@Test
+	//@Test
 	public void testGetTransactionList() throws Exception {
 	
 		Search search = new Search();

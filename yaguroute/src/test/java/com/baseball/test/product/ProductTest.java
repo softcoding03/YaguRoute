@@ -135,6 +135,7 @@ public class ProductTest {
 	 	search.setPageSize(5);
 	 	search.setSearchCondition("0");
 	 	search.setSearchKeyword("");
+	 	
 	 	map = productService.getProductList(search);
 	 	
 	 	list = (List<Object>)map.get("list");
@@ -142,6 +143,7 @@ public class ProductTest {
 	 
 	 	//==> console 확인
 	 	System.out.println(list);
+	 	System.out.println("productListTest:: "+totalCount);
 		System.out.println("==================");
 		
 	 	totalCount = (Integer)map.get("totalCount");

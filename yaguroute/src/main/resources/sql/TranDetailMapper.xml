@@ -134,7 +134,7 @@
 	
 		SELECT *
 		FROM tranDetail
-		WHERE tran_detail_no = #{tranDetailNo}
+		WHERE tran_No = #{tranNo}
 		LIMIT #{search.startRowNum}, #{search.pageSize}
 		
 	</select>
@@ -144,7 +144,7 @@
 		SELECT COUNT(*) 
 		FROM ( SELECT * 
 				FROM tranDetail 
-				WHERE tran_detail_no = #{tranDetailNo}) countTable
+				WHERE tran_No = #{tranNo}) countTable
 	
 	</select>
 
