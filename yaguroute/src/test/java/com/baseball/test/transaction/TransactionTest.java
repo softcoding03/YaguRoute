@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.common.domain.Search;
+import com.baseball.service.domain.Product;
 import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.User;
 import com.baseball.service.transaction.TransactionService;
@@ -26,11 +27,10 @@ public class TransactionTest {
 		
 		User user = new User();
 		Transaction transaction = new Transaction();
-		transaction.setTranNo(2);
 		
 		user.setUserId("john123");
 		transaction.setBuyer(user);
-		transaction.setImpNo("imp4");
+		transaction.setImpNo("imp14");
 		transaction.setReceiverName("최성락");
 		transaction.setReceiverPhone("010-2222-5555");
 		transaction.setReceiverAddr("경기도 김포시 종로1가 202호");
@@ -40,14 +40,11 @@ public class TransactionTest {
 		transaction.setTranType("p");
 		transaction.setTranUsePoint(1000);
 		transaction.setTranAddPoint(950);
-		
-		transactionService.addTransaction(transaction);
-		transaction = transactionService.getTransaction(2);
-		
 
+		System.out.println("마지막 insert TranNo?? " +transactionService.addTransaction(transaction)); //마지막에 insert한 transaction의 tranNo 가져오기
 	}
 
-	@Test
+	//@Test
 	public void testGetTransaction() throws Exception {
 	
 		Transaction transaction = new Transaction();
@@ -89,7 +86,7 @@ public class TransactionTest {
 	}
 
 	
-	//@Test
+	@Test
 	public void testGetTransactionList() throws Exception {
 	
 		Search search = new Search();
@@ -100,17 +97,17 @@ public class TransactionTest {
 		
 		Map<String, Object> map = transactionService.getTransactionList(search, userId);
 		List<Transaction> list = (List<Transaction>)map.get("list");
-		
-		System.out.println("TransactionList:: "+list);
+		Assert.assertEquals(5, list.size());
+		 
+	 	for(Transaction tran:list) {
+	 		System.out.println(tran);
+	 	}
 		
 		Integer totalCount = (Integer)map.get("totalCount");
-		System.out.println("total찍혔나요 진짜 마지막 희망이다 살려주라: "+totalCount);
-		
-		System.out.println("=======================================");
-		
-		
+		System.out.println("Transaction TotalCount:: "+totalCount);
+				
 		totalCount = (Integer)map.get("totalCount");
-		System.out.println(totalCount);
+
 	}
 		
 }

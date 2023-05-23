@@ -28,8 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	@Override
-	public void addTransaction(Transaction transaction) throws Exception {
+	public int addTransaction(Transaction transaction) throws Exception {
 		transactionDao.addTransaction(transaction);
+		return transactionDao.getLastTranNo();
 		
 	}
 
@@ -59,8 +60,6 @@ public class TransactionServiceImpl implements TransactionService {
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
-		
 	}
-	
 
 }

@@ -65,6 +65,10 @@
 	
 	</insert>
 	
+	<select id="getLastTranNo" resultType="int">
+		select last_insert_id()
+	</select>
+	
 	
 	<select		id="getTransaction"	parameterType="int" resultMap="transactionSelectMap">
 	
