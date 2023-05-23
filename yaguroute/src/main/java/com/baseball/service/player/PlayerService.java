@@ -14,4 +14,9 @@ public interface PlayerService {
 	
 //	public int getTotalCount(Search search) throws Exception;
 	
+	public void deletePlayer();
+	
+	public void dropForeignKey();
+	
+	public void addForeignKey();
 }
