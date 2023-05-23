@@ -1,5 +1,7 @@
 package com.baseball.service.channel;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.json.simple.JSONObject;
 
@@ -16,9 +18,9 @@ public interface ChannelRestDao {
 	
 	public void deleteChannel(String ChannelID) throws Exception;
 	
-	public Channel StopChannel(String channleID) throws Exception;
+	public Map<String, Object> StopChannel(String channleID) throws Exception;
 	
-	public String geteVideo(String bucketName, String uploadPath) throws Exception;
+	public String geteVideo(Channel channel, String videoName) throws Exception;
 	
 	
 }
