@@ -6,4 +6,68 @@
 		
 		
 <mapper namespace="com.baseball.service.comment.CommentDao">
+
+	<resultMap id="commentSelectMap" type="comment">
+		<result property="commentNo" 		column="comment_no" 		jdbcType="INTEGER"/>
+		<result property="postNo"			column="post_no" 			jdbcType="INTEGER"/>
+		<result property="gameCode" 		column="game_code" 			jdbcType="VARCHAR"/>
+		<result property="prodNo" 			column="prod_no" 			jdbcType="INTEGER"/>
+		<result property="secondCommentNo" 	column="second_comment_no" 	jdbcType="INTEGER"/>
+		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="userImage" 		column="user_image" 		jdbcType="VARCHAR"/>
+		<result property="commentDate" 		column="comment_date" 		jdbcType="TIMESTAMP"/>
+		<result property="commentContents" 	column="comment_contents" 	jdbcType="VARCHAR"/>
+		<result property="commentImage" 	column="comment_image" 		jdbcType="VARCHAR"/>
+		<result property="grade" 			column="grade" 				jdbcType="VARCHAR"/>
+		<result property="changed" 			column="changed" 			jdbcType="INTEGER"/>
+	</resultMap>
+
+
+	<insert id="addComment" parameterType="comment">
+		INSERT INTO comment (post_no, game_code, prod_no, second_comment_no, user_id, user_image, comment_date, comment_contents, comment_Image, grade)
+	  	VALUES (
+	    	<if test="postNo != 0">#{postNo}</if>
+	    	<if test="postNo == 0">NULL</if>,
+			#{gameCode},
+	    	<if test="prodNo != 0">#{prodNo}</if>
+	    	<if test="prodNo == 0">NULL</if>,
+	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
+	    	<if test="secondCommentNo == 0">NULL</if>,
+	    	#{userId},#{userImage},sysdate(),#{commentContents},#{commentImage},#{grade}
+	  	)
+	</insert>
+
+	<select id="getCommentList" parameterType="comment" resultMap="commentSelectMap">
+		SELECT * FROM comment
+		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
+		<if test="gameCode != null">WHERE game_code = #{gameCode}</if>
+		<if test="prodNo != 0">WHERE prod_no = #{prodNo}</if>
+	</select>
+		
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM comment
+		WHERE comment_no = #{value}
+	</delete>
+
+	<update id="updateComment" parameterType="comment">
+		UPDATE comment
+		<set>
+			comment_no=#{commentNo},
+			<if test="postNo != 0">#{postNo}</if>
+	    	<if test="postNo == 0">NULL</if>,
+	    	#{gameCode},
+	    	<if test="prodNo != 0">#{prodNo}</if>
+	    	<if test="prodNo == 0">NULL</if>,
+	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
+	    	<if test="secondCommentNo == 0">NULL</if>,
+	    	user_id=#{userId},
+	    	user_name=#{userName},
+	    	comment_date=#{commentDate},
+	    	comment_image=#{commentImage},
+	    	grade=#{grade},
+	    	changed=1
+		</set>
+		WHERE comment_no=#{postNo}
+	</update>
+
 </mapper>

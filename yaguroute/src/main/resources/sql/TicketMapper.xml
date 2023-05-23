@@ -3,9 +3,47 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		
-		
-
 <mapper namespace="com.baseball.service.ticket.TicketDao">
-
-
+	<resultMap id="ticketSelectMap" type="ticket">
+		<result property="ticketNo" 			column="ticket_no" 			jdbcType="VARCHAR"/>
+		<result property="game.gameCode" 		column="game_code" 			jdbcType="VARCHAR"/>
+		<result property="transaction.tranNo" 	column="tran_no" 			jdbcType="INTEGER"/>
+		<result property="ticketStatus" 		column="ticket_status"	 	jdbcType="VARCHAR"/>
+		<result property="seatCode" 			column="seat_code" 			jdbcType="VARCHAR"/>
+		<result property="seatPrice" 			column="seat_price" 		jdbcType="INTEGER"/>
+		<result property="ticketRefund" 		column="ticket_refund" 		jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<select id="getTickets" parameterType="string" resultMap="ticketSelectMap">
+		SELECT * FROM ticket
+		WHERE game_code = #{value}
+	</select>
+	
+	<insert id="addTicketPurchase" parameterType="java.util.List">
+		
+	</insert>
+	
+	
+	
+	<update id="updateTicketStatus" parameterType="ticket">
+		UPDATE ticket
+		<set>
+			ticket_status = #{ticketStatus}
+		</set>
+		WHERE ticket_no = #{ticketNo}
+	</update>
+	
+	<update id="updateTicketRefund" parameterType="ticket">
+		UPDATE ticket
+		<set>
+			ticket_refund = #{ticketRefund}
+		</set>
+		WHERE ticket_no = #{ticketNo}
+	</update>
+	
+	<select id="getSalesTicket" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM ticket
+		WHERE game_code = #{gameCode} AND ticket_status = 2
+	</select>
+	
 </mapper>

@@ -3,10 +3,10 @@ package com.baseball.service.domain;
 public class TranDetail {
 
 	private int tranDetailNo;
-	private Product tranDetailProd;
-	private Transaction tranDetailTran;
+	private Product tranDetailProd;    //prodNo
+	private Transaction tranDetailTran; //tranNo
 	private String tranStatusCode;
-	private String refundTranStatusCode;
+	private String refundStatusCode;
 	private int tranQuantity;
 	
 	
@@ -54,13 +54,13 @@ public class TranDetail {
 	}
 
 
-	public String getRefundTranStatusCode() {
-		return refundTranStatusCode;
+	public String getRefundStatusCode() {
+		return refundStatusCode;
 	}
 
 
-	public void setRefundTranStatusCode(String refundTranStatusCode) {
-		this.refundTranStatusCode = refundTranStatusCode;
+	public void setRefundStatusCode(String refundStatusCode) {
+		this.refundStatusCode = refundStatusCode;
 	}
 
 

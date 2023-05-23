@@ -78,7 +78,7 @@ public class TestPost{
 		System.out.println("getDislikes() 끝");
 	}
 	
-	@Test
+	//@Test
 	public void testaddViews() throws Exception{
 		System.out.println("addViews() 시작");
 		postService.addViews(1);

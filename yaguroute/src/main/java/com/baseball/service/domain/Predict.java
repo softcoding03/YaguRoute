@@ -1,6 +1,6 @@
 package com.baseball.service.domain;
 
-class Predict {
+public class Predict {
 	//Field
 	private int predNo;
 	private Game predGame;
@@ -19,7 +19,7 @@ class Predict {
 	public Game getPredGame() {
 		return predGame;
 	}
-	public void setGame(Game game) {
+	public void setPredGame(Game game) {
 		this.predGame = game;
 	}
 	public User getPredUser() {

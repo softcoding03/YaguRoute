@@ -1,6 +1,7 @@
 package com.baseball.test.product;
 
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Product;
 import com.baseball.service.product.ProductService;
 
@@ -69,7 +71,7 @@ public class ProductTest {
 	}
 	
 	//@Test
-	public void testUpdate() throws Exception {
+	public void testUpdateProduct() throws Exception {
 		
 		Product product = productService.getProduct(1);
 		Assert.assertNotNull(product);
@@ -113,7 +115,42 @@ public class ProductTest {
 		System.out.println("testDelete:: ");
 		
 	}
-
+	
+	@Test
+	public void testGetProductList() throws Exception {
+		
+		Search search = new Search ();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		Map<String, Object> map = productService.getProductList(search);
+		
+		List<Object> list = (List<Object>)map.get("list");
+		Assert.assertEquals(3, list.size());
+		//System.out.println("왔니");
+		
+		Integer totalCount = (Integer)map.get("totalCount");		
+		System.out.println("==================");
+		
+	 	search.setCurrentPage(1);
+	 	search.setPageSize(5);
+	 	search.setSearchCondition("0");
+	 	search.setSearchKeyword("");
+	 	
+	 	map = productService.getProductList(search);
+	 	
+	 	list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(5, list.size());
+	 
+	 	//==> console 확인
+	 	System.out.println(list);
+	 	System.out.println("productListTest:: "+totalCount);
+		System.out.println("==================");
+		
+	 	totalCount = (Integer)map.get("totalCount");
+	 	
+			
+		
+	}
 	
 	
 }

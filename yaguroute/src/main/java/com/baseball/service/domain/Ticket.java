@@ -1,27 +1,25 @@
 package com.baseball.service.domain;
 
+import com.baseball.common.domain.Team;
+
 public class Ticket {
 	
 	private String ticketNo;
-	private String gameCode;
+	private Game game;  //Team1, Team2 정보 모두 포함되어 있음
 	private String ticketStatus;
 	private int ticketRefund;
 	private String seatCode;
 	private int seatPrice;
 	private Transaction transaction;
 	
+	public Ticket(){
+	}
+	
 	public String getTicketNo() {
 	    return ticketNo;
 	}
 	public void setTicketNo(String ticketNo) {
 	    this.ticketNo = ticketNo;
-	}
-
-	public String getGameCode() {
-	    return gameCode;
-	}
-	public void setGameCode(String gameCode) {
-	    this.gameCode = gameCode;
 	}
 
 	public String getTicketStatus() {
@@ -31,6 +29,12 @@ public class Ticket {
 	    this.ticketStatus = ticketStatus;
 	}
 
+	public Game getGame() {
+		return game;
+	}
+	public void setGame(Game game) {
+		this.game = game;
+	}
 	public int getTicketRefund() {
 	    return ticketRefund;
 	}
@@ -59,18 +63,16 @@ public class Ticket {
 	    this.transaction = transaction;
 	}
 	
-	
-
 	// Override
 	public String toString() {
 	    return "TicketVO {" +
 	            "ticketNo='" + ticketNo + '\'' +
-	            ", gameCode='" + gameCode + '\'' +
+	            ", Game='" + game + '\'' +
 	            ", ticketStatus='" + ticketStatus + '\'' +
 	            ", ticketRefund=" + ticketRefund +
 	            ", seatCode='" + seatCode + '\'' +
 	            ", seatPrice=" + seatPrice +
-	            ", transaction=" + transaction +
+	            ", Transaction=" + transaction +
 	            '}';
 	}
 
