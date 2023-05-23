@@ -30,6 +30,7 @@ public class TranDetailServiceImpl implements TranDetailService {
 	@Override
 	public void addTranDetail(TranDetail tranDetail) throws Exception {
 		tranDetailDao.addTranDetail(tranDetail);
+		tranDetailDao.updateProdStock(tranDetail);
 		
 	}
 
