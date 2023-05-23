@@ -109,18 +109,18 @@
 	
 		SELECT *
 		FROM transaction
-		WHERE user_id = #{userId}
+		WHERE user_id = #{userId} AND tran_type = #{tranType}
 		LIMIT #{search.startRowNum}, #{search.pageSize}
 		
 		
 	</select>
 
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
 	
 		SELECT COUNT(*) 
 		FROM ( SELECT * 
 				FROM transaction 
-				WHERE user_id = #{userId}) countTable
+				WHERE user_id = #{userId} AND tran_type=#{tranType}) countTable
 	
 	</select>
 	

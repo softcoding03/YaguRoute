@@ -21,7 +21,7 @@ public interface TransactionDao {
 	
 	public int deleteTransaction(int tranNo) throws Exception;
 
-	public List<Transaction>getTransactionList(Search search, String userId) throws Exception;   //구매현황조회 (user)
+	public List<Transaction>getTransactionList(Search search, String userId ,String tranType) throws Exception;   //구매현황조회 (user)
 	
-	public int getTotalCount(String userId) throws Exception;
+	public int getTotalCount(String userId, String tranType) throws Exception;
 }
