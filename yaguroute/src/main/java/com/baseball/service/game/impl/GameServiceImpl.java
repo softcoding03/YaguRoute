@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.GamePreview;
+import com.baseball.service.domain.GameRecord;
+import com.baseball.service.game.GameCrawlingDao;
 import com.baseball.service.game.GameDao;
 import com.baseball.service.game.GameService;
 
@@ -21,6 +24,10 @@ public class GameServiceImpl implements GameService {
 	@Qualifier("gameDao")
 	private GameDao gameDao;
 	
+	@Autowired
+	@Qualifier("gameCrawlingDaoImpl")
+	private GameCrawlingDao gameCrawlingDao;
+	
 	//팀 이름으로 팀 정보 검색
 	public Team getTeamInfoByTeamName(String teamName) {
 		return gameDao.getTeamInfoByTeamName(teamName);
@@ -28,7 +35,8 @@ public class GameServiceImpl implements GameService {
 	
 	//팀 코드(teamCode = HH)로 팀 정보 검색
 	public Team getTeamInfo(String teamCode) {
-		return gameDao.getTeamInfo(teamCode);
+		Team team = gameDao.getTeamInfo(teamCode);
+		return gameCrawlingDao.getTeamCrawlingInfo(team);
 	}
 	
 	//gameCode로 한경기 정보 검색
@@ -56,7 +64,7 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	// 크롤링 데이터 하나씩 db에 저장
-	public void addThisYearGameSchedule(Game game) {
+	public void addGame(Game game) {
 		gameDao.addGame(game);
 	}
 	
@@ -69,6 +77,19 @@ public class GameServiceImpl implements GameService {
 	//끝난 경기의 배당정보 업데이트(gameCode, winningTeamAllocation 필수)
 	public void updateGamePredAllocation(Game game) {
 		gameDao.updateGamePredAllocation(game);
+	}
+	
+	public void updatevideoThumbNail(Game game) {
+		gameDao.updatevideoThumbNail(game);
+	}
+	
+	public GameRecord getGameRecord(Game game) throws Exception{
+		return gameCrawlingDao.getGameCrawlingRecord(game);
+	}
+	
+	public GamePreview getGamePreview() {
+		
+		return null;
 	}
 
 }

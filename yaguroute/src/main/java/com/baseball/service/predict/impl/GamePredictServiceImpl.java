@@ -40,7 +40,7 @@ public class GamePredictServiceImpl implements GamePredictService {
 		return gamePredictDao.getUserPred(userId, date);
 	}
 	
-	//사용자의 예측정보 확인
+	//사용자의 예측정보 추가
 	public void addUserPred(List<Predict> pred) throws Exception {
 		User user = userDao.getUser(pred.get(0).getPredUser().getUserId());
 		int totalUserPredPoint = 0;
@@ -50,7 +50,6 @@ public class GamePredictServiceImpl implements GamePredictService {
 		}
 		user.setUserPoint(user.getUserPoint()-totalUserPredPoint);
 		userDao.updatePoint(user);
-		
 	}
 	
 	//사용자가 예측정보 취소를 눌렀을 시 삭제
