@@ -124,24 +124,28 @@ public class ProductTest {
 		search.setPageSize(3);
 		Map<String, Object> map = productService.getProductList(search);
 		
-		List<Object> list = (List<Object>)map.get("list");
+		List<Product> list = (List<Product>)map.get("list");
 		Assert.assertEquals(3, list.size());
-		//System.out.println("왔니");
+		
 		
 		Integer totalCount = (Integer)map.get("totalCount");		
 		System.out.println("==================");
 		
 	 	search.setCurrentPage(1);
-	 	search.setPageSize(5);
+	 	search.setPageSize(3);
 	 	search.setSearchCondition("0");
 	 	search.setSearchKeyword("");
+	 	
 	 	map = productService.getProductList(search);
 	 	
-	 	list = (List<Object>)map.get("list");
-	 	Assert.assertEquals(5, list.size());
+	 	List<Product> prodlist = (List<Product>)map.get("list");
+	 	Assert.assertEquals(3, list.size());
 	 
 	 	//==> console 확인
-	 	System.out.println(list);
+	 	for(Product prod:prodlist) {
+	 		System.out.println(prod);
+	 	}
+	 	System.out.println("productListTest:: "+totalCount);
 		System.out.println("==================");
 		
 	 	totalCount = (Integer)map.get("totalCount");

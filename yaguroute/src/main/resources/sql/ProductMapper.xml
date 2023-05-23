@@ -22,18 +22,18 @@
 	</resultMap>
 
 	<sql id="prodList">
-		SELECT p.*, COALESCE(t.tran_status_code, 0) prod_tran_code
-		FROM product p
-		LEFT OUTER JOIN tranDetail t
-		ON p.prod_no = t.prod_no
-			
-		<if test="searchCondition != null">
-			<where>
-			<if test="searchCondition == 0 and searchKeyword !=''">
-				      AND p.prod_name LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>
-			</where>
-		</if>
+	  SELECT prod_no,prod_name, prod_price, prod_regdate, prod_stock, prod_category, prod_image, team_code
+	  FROM product
+	    ORDER BY prod_no
+	  <where>
+	    <if test="searchCondition != null">
+	      <if test="searchCondition == 0 and searchKeyword != ''">
+	        AND prod_name LIKE CONCAT('%', #{searchKeyword}, '%')
+	      </if>
+	    </if>
+
+	  </where>
+	
 	</sql>
 
 	<!--  INSERT SQL -->

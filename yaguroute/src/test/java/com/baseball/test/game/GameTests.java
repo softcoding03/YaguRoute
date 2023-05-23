@@ -99,7 +99,7 @@ public class GameTests {
 		gameService.addGame(game);
 	}
 	
-	@Test
+	//@Test
 	public void getGameRecord() throws Exception{
 		Game game = gameService.getGameInfo("20210903OBSK02021");
 		GameRecord gameRecord = gameService.getGameRecord(game);

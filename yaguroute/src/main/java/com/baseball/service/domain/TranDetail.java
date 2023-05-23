@@ -72,6 +72,14 @@ public class TranDetail {
 	public void setTranQuantity(int tranQuantity) {
 		this.tranQuantity = tranQuantity;
 	}
+
+
+	@Override
+	public String toString() {
+		return "TranDetail [tranDetailNo=" + tranDetailNo + ", tranDetailProd=" + tranDetailProd + ", tranDetailTran="
+				+ tranDetailTran + ", tranStatusCode=" + tranStatusCode + ", refundStatusCode=" + refundStatusCode
+				+ ", tranQuantity=" + tranQuantity + "]";
+	}
 	
 	
 	

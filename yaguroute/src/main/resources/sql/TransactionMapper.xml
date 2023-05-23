@@ -21,7 +21,7 @@
 		<result property="tranUsePoint"			column="tran_use_point"			jdbcType="NUMERIC"/>
 		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
 			
-		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUserId"/>		
+		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUser"/>		
 		
 	
 	</resultMap>
@@ -45,10 +45,10 @@
 		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-		<select id="selectUserId" resultMap="userSelectMap">
+		<select id="selectUser" resultMap="userSelectMap">
 	
 		SELECT 
-		user_id
+		*
 		FROM user
 		WHERE user_id = #{userId}
 		
@@ -64,6 +64,10 @@
 	#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint})
 	
 	</insert>
+	
+	<select id="getLastTranNo" resultType="int">
+		select last_insert_id()
+	</select>
 	
 	
 	<select		id="getTransaction"	parameterType="int" resultMap="transactionSelectMap">
@@ -105,18 +109,18 @@
 	
 		SELECT *
 		FROM transaction
-		WHERE user_id = #{userId}
+		WHERE user_id = #{userId} AND tran_type = #{tranType}
 		LIMIT #{search.startRowNum}, #{search.pageSize}
 		
 		
 	</select>
 
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
 	
 		SELECT COUNT(*) 
 		FROM ( SELECT * 
 				FROM transaction 
-				WHERE user_id = #{userId}) countTable
+				WHERE user_id = #{userId} AND tran_type=#{tranType}) countTable
 	
 	</select>
 	
