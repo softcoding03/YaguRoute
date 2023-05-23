@@ -1,5 +1,6 @@
 package com.baseball.service.transaction;
 
+import java.util.List;
 import java.util.Map;
 
 import com.baseball.common.domain.Search;
@@ -15,6 +16,7 @@ public interface TransactionService {
 	
 	public int deleteTransaction(int tranNo) throws Exception;
 	
-	public Map<String, Object>getTransactionList(Search search, String userId, String tranType) throws Exception;
-	
+	public Map<String, Object> getTransactionList(Search search, String userId, String tranType) throws Exception;
+
+	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception;
 }

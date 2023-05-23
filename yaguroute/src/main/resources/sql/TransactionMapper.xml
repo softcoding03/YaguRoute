@@ -124,6 +124,16 @@
 	
 	</select>
 	
+	<select id="getPurchaseListByGameCode" parameterType="string" resultMap="transactionSelectMap">
+		SELECT *
+		FROM transaction t, (
+			SELECT DISTINCT tran_no
+			FROM ticket
+			WHERE game_code=#{value} AND tran_no IS NOT NULL
+		) a
+		WHERE t.tran_no = a.tran_no
+	</select>
+	
 
 
 </mapper>

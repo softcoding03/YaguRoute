@@ -62,4 +62,9 @@ public class TransactionServiceImpl implements TransactionService {
 		return map;
 	}
 
+	@Override
+	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception {
+		return transactionDao.getPurchaseListByGameCode(gameCode);
+	}
+
 }
