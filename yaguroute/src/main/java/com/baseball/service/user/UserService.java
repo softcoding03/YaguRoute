@@ -13,7 +13,7 @@ public interface UserService {
 	
 	public void withDraw(User user) throws Exception;
 	
-	public void updatePoint(String string) throws Exception;
+	public void updatePoint(User user) throws Exception;
 	
 	public boolean checkDuplication(String userId) throws Exception;
 

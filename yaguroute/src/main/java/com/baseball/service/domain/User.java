@@ -9,7 +9,7 @@ public class User {
 	private String userName;
 	private String userNickName;
 	private String userBirth;
-	private String userPoint;
+	private int userPoint;
 	private String userEmail;
 	private String userAddr;
 	private String password;
@@ -41,12 +41,6 @@ public class User {
 	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
-	public String getUserPoint() {
-		return userPoint;
-	}
-	public void setUserPoint(String userPoint) {
-		this.userPoint = userPoint;
-	}
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -58,6 +52,12 @@ public class User {
 	}
 	public void setUserAddr(String userAddr) {
 		this.userAddr = userAddr;
+	}
+	public int getUserPoint() {
+		return userPoint;
+	}
+	public void setUserPoint(int userPoint) {
+		this.userPoint = userPoint;
 	}
 	public String getPassword() {
 		return password;
