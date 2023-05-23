@@ -19,11 +19,14 @@
 		WHERE game_code = #{value}
 	</select>
 	
-	<insert id="addTicketPurchase" parameterType="java.util.List">
-		
-	</insert>
-	
-	
+	<update id="addTicketPurchase" parameterType="map">
+		UPDATE ticket 
+		SET	tran_no = #{tranNo}, ticket_status=2
+		WHERE ticket_no IN 
+		<foreach collection="list" item="ticketNo" separator="," open="(" close=")">
+			#{ticketNo}
+		</foreach>
+	</update>
 	
 	<update id="updateTicketStatus" parameterType="ticket">
 		UPDATE ticket

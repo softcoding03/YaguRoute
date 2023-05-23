@@ -1,20 +1,20 @@
 package com.baseball.test.ticket;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
-import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.Ticket;
-import com.baseball.service.domain.Post;
+import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
-import com.baseball.service.post.PostDao;
-import com.baseball.service.post.PostService;
 import com.baseball.service.ticket.TicketDao;
 import com.baseball.service.ticket.TicketService;
 import com.baseball.service.transaction.TransactionService;
@@ -73,13 +73,44 @@ public class TestTicket{
 		System.out.println("getStadium END");
 	}
 	
-	//addTicketPurchase 티켓 구매
-	//@Test
+	//addTicketPurchase 티켓 구매(transaction add + ticket update)
+	@Test
 	public void addTicketPurchase() throws Exception{
 		System.out.println(":: addTicketPurchase START");
 		Transaction transaction = new Transaction();
-		transactionService.addTransaction(transaction);
+		User user = new User();
+		user.setUserId("john123");
+		transaction.setBuyer(user);
+		transaction.setImpNo("imp1002");
+		transaction.setTranTotalPrice(60000);
+		transaction.setTranPaymentOption("0");
+		transaction.setTranType("t");
+		transaction.setTranUsePoint(500);
+		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
+		//int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
+		int tranNo = 12;
+		Map<String, Object> map = new HashMap<>(); // Mapper에 map 객체 보내주기 위함
+		map.put("tranNo", tranNo);
+		List<String> list = new ArrayList<>(); //ticketNo가 최대 4개 올 수 있음.
+		list.add("20230313HTHH02023-A13");
+		list.add("20230313HTHH02023-A14");
+		list.add("20230313HTHH02023-A15");
+		list.add("20230313HTHH02023-A16");
+		map.put("list", list);
+		
+		System.out.println(":: map 저장된 것은? ? "+map);
+		ticketService.addTicketPurchase(map);
 		System.out.println(":: addTicketPurchase END");
+	}
+	
+	//결제내역 List get
+	public void getPurchaseList() throws Exception{
+		
+	}
+	
+	//결제번호에 해당하는 ticket List get
+	public void getTicketPurchaseList() throws Exception{
+		
 	}
 	
 	//해당 게임 총 판매 티켓 수

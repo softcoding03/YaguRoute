@@ -1,6 +1,7 @@
 package com.baseball.service.ticket.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +44,11 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public List<Ticket> getTickets(String gameCode) throws Exception {
 		return ticketDao.getTickets(gameCode);
+	}
+
+	@Override
+	public void addTicketPurchase(Map<String, Object> map) throws Exception {
+		ticketDao.addTicketPurchase(map);
 	}
 			
 
