@@ -21,7 +21,7 @@
 		<result property="tranUsePoint"			column="tran_use_point"			jdbcType="NUMERIC"/>
 		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
 			
-		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUserId"/>		
+		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUser"/>		
 		
 	
 	</resultMap>
@@ -45,10 +45,10 @@
 		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-		<select id="selectUserId" resultMap="userSelectMap">
+		<select id="selectUser" resultMap="userSelectMap">
 	
 		SELECT 
-		user_id
+		*
 		FROM user
 		WHERE user_id = #{userId}
 		

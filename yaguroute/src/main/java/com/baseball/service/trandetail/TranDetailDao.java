@@ -23,8 +23,8 @@ public interface TranDetailDao {
 
 	public void updateRefundCodeByProd(TranDetail tranDetail) throws Exception;			  //RefundCode By Prod
 	
-	public List<TranDetail>getDeliveryList(Search search, int tranDetailNo) throws Exception; 	 //배송현황조회 (admin)
+	public List<TranDetail>getDeliveryList(Search search, int tranNo) throws Exception; 	 //배송현황조회 (admin)
 	
-	public int getTotalCount(int tranDetailNo) throws Exception;
+	public int getTotalCount(int tranNo) throws Exception;
 	
 }

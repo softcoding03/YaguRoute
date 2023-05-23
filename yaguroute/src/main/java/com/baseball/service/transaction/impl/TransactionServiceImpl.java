@@ -34,8 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction getTransaction(int transaction) throws Exception {
-		return transactionDao.getTransaction(transaction);
+	public Transaction getTransaction(int tranNo) throws Exception {
+		return transactionDao.getTransaction(tranNo);
 	}
 
 	@Override

@@ -153,6 +153,16 @@ public class Transaction {
 
 	public void setReceiverAddr(String receiverAddr) {
 		this.receiverAddr = receiverAddr;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", receiverName="
+				+ receiverName + ", receiverPhone=" + receiverPhone + ", receiverAddr=" + receiverAddr
+				+ ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption + ", dlvyRequest="
+				+ dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType + ", tranAddPoint=" + tranAddPoint
+				+ ", tranUsePoint=" + tranUsePoint + "]";
 	}		
 	
 		
