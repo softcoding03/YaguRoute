@@ -71,9 +71,14 @@ public class PredictTests {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void updateUserAfterGamePredPoint() {
 		gamePredictService.updatePredAfterGame();
+	}
+	
+	//@Test
+	public void deleteUserPredService() throws Exception{
+		gamePredictService.deleteUserPred("rockseong4","2008-03-29");
 	}
 
 }

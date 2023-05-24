@@ -52,7 +52,7 @@
 	
 	<update id="updatePoint" parameterType="user" >
 		UPDATE user
-		SET user_point = #{userPoint}
+		SET user_Point = #{userPoint}
 		WHERE user_id = #{userId}
 	</update>
 	
