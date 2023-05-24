@@ -12,6 +12,7 @@ import com.baseball.service.comment.CommentService;
 import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
+import com.baseball.service.domain.User;
 import com.baseball.service.ticket.TicketDao;
 import com.baseball.service.ticket.TicketService;
 
@@ -32,13 +33,13 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public void updateTicketStatus(Ticket ticket) throws Exception {
-		ticketDao.updateTicketStatus(ticket);
+	public void updateRefundStatus(int tranNo) throws Exception {
+		ticketDao.updateRefundStatus(tranNo);
 	}
 
 	@Override
-	public void updateTicketRefund(Ticket ticket) throws Exception {
-		ticketDao.updateTicketRefund(ticket);
+	public void updateTicketStatus(Ticket ticket) throws Exception {
+		ticketDao.updateTicketStatus(ticket);
 	}
 
 	@Override
@@ -49,6 +50,21 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public void addTicketPurchase(Map<String, Object> map) throws Exception {
 		ticketDao.addTicketPurchase(map);
+	}
+
+	@Override
+	public String getGameCode(int tranNo) throws Exception {
+		return ticketDao.getGameCode(tranNo);
+	}
+
+	@Override
+	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception {
+		return ticketDao.getTicketPurchaseList(tranNo);
+	}
+
+	@Override
+	public void updatePoint(User user) throws Exception {
+		ticketDao.updatePoint(user);
 	}
 			
 

@@ -7,7 +7,6 @@ public class Ticket {
 	private String ticketNo;
 	private Game game;  //Team1, Team2 정보 모두 포함되어 있음
 	private String ticketStatus;
-	private int ticketRefund;
 	private String seatCode;
 	private int seatPrice;
 	private Transaction transaction;
@@ -34,12 +33,6 @@ public class Ticket {
 	}
 	public void setGame(Game game) {
 		this.game = game;
-	}
-	public int getTicketRefund() {
-	    return ticketRefund;
-	}
-	public void setTicketRefund(int ticketRefund) {
-	    this.ticketRefund = ticketRefund;
 	}
 
 	public String getSeatCode() {
@@ -69,7 +62,6 @@ public class Ticket {
 	            "ticketNo='" + ticketNo + '\'' +
 	            ", Game='" + game + '\'' +
 	            ", ticketStatus='" + ticketStatus + '\'' +
-	            ", ticketRefund=" + ticketRefund +
 	            ", seatCode='" + seatCode + '\'' +
 	            ", seatPrice=" + seatPrice +
 	            ", Transaction=" + transaction +
