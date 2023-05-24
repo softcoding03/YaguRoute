@@ -13,8 +13,6 @@ public interface TransactionDao {
 	//Add
 	public void addTransaction(Transaction transaction) throws Exception;
 	
-	public int getLastTranNo() throws Exception;
-	
 	public Transaction getTransaction(int tranNo) throws Exception;
 
 	public void updateTransaction(Transaction transaction) throws Exception;
@@ -24,6 +22,9 @@ public interface TransactionDao {
 	public List<Transaction> getTransactionList(Search search, String userId ,String tranType) throws Exception;   //구매현황조회 (user)
 	
 	public int getTotalCount(String userId, String tranType) throws Exception;
+	
+
+	public int getLastTranNo() throws Exception;
 	
 	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception;
 

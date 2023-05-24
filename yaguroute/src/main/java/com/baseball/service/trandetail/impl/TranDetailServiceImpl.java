@@ -10,34 +10,42 @@ import org.springframework.stereotype.Service;
 
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.TranDetail;
+import com.baseball.service.domain.Transaction;
+import com.baseball.service.domain.User;
 import com.baseball.service.trandetail.TranDetailDao;
 import com.baseball.service.trandetail.TranDetailService;
+import com.baseball.service.user.UserDao;
 
-@Service("tranDetailServiceImpl")
+@Service
 public class TranDetailServiceImpl implements TranDetailService {
+	
+	public TranDetailServiceImpl() {
+		System.out.println(this.getClass());
+	
+	}
 	
 	@Autowired
 	@Qualifier("tranDetailDao")
 	private TranDetailDao tranDetailDao;
-	public void setTranDetailDao(TranDetailDao tranDetailDao) {
-		this.tranDetailDao = tranDetailDao;
-	}
-	
-	public TranDetailServiceImpl() {
-		System.out.println(this.getClass());
-	}
 
-	@Override
-	public void addTranDetail(TranDetail tranDetail) throws Exception {
-		tranDetailDao.addTranDetail(tranDetail);
-		tranDetailDao.updateProdStock(tranDetail);
 		
-	}
+	@Autowired
+	@Qualifier("userDao")
+	private UserDao userDao;
 
 	@Override
 	public TranDetail getTranDetail(int tranDetail) throws Exception {		
 		return tranDetailDao.getTranDetail(tranDetail);
 	}
+
+
+	@Override
+	public void addTranDetail(TranDetail tranDetail) throws Exception {		
+		tranDetailDao.addTranDetail(tranDetail);
+		tranDetailDao.updateProdStock(tranDetail);
+		
+	}
+
 
 	@Override
 	public void updateTranStatusCode(TranDetail tranDetail) throws Exception {
