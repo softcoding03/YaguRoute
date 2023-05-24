@@ -7,6 +7,7 @@ import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
+import com.baseball.service.domain.Player;
 
 
 public interface GameService {
@@ -27,12 +28,16 @@ public interface GameService {
 	
 	public List<Game> getGameListTwoWeeks();
 	
+	public void updateTodayGameSchedule() throws Exception;
+	
 	public void updateGamePredAllocation(Game game);
 	
 	public void updatevideoThumbNail(Game game);
 	
 	public GameRecord getGameRecord(Game game) throws Exception;
 	
-	public GamePreview getGamePreview();
+	public GamePreview getGamePreview(Game game) throws Exception;
+	
+	public Map<String, List<Player>> getGameCrawlingLineup(Game game) throws Exception;
 
 }

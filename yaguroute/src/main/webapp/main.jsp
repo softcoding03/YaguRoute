@@ -1,4 +1,4 @@
-﻿<%-- <%@ page contentType="text/html; charset=EUC-KR" %>
+﻿<%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
@@ -67,4 +67,3 @@
 </body>
 
 </html>
- --%>

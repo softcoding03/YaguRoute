@@ -17,8 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
+import com.baseball.service.domain.Player;
 import com.baseball.service.game.GameService;
+
 
 @SpringBootTest
 public class GameTests {
@@ -101,9 +104,32 @@ public class GameTests {
 	
 	//@Test
 	public void getGameRecord() throws Exception{
-		Game game = gameService.getGameInfo("20210903OBSK02021");
+		Game game = gameService.getGameInfo("20230524NCLT02023");
 		GameRecord gameRecord = gameService.getGameRecord(game);
 		System.out.println(gameRecord);
+	}
+	
+	//@Test
+	public void getGamePreview() throws Exception{
+		Game game = gameService.getGameInfo("20230906SSLT02023");
+		GamePreview gamepreview = gameService.getGamePreview(game);
+		System.out.println(gamepreview);
+	}
+	
+	//@Test
+	public void updateTodayGameSchedule() throws Exception{
+		gameService.updateTodayGameSchedule();
+	}
+	
+	@Test
+	public void getLineup() throws Exception{
+		Game game = gameService.getGameInfo("20230524NCLT02023");
+		Map<String, List<Player>> map = gameService.getGameCrawlingLineup(game);
+		List<Player> homePlayerList = map.get("homePlayerList");
+		List<Player> awayPlayerList =map.get("awayPlayerList");
+		for(int i=0;i<awayPlayerList.size();i++) {
+			System.out.println("home : "+homePlayerList.get(i));
+		}
 	}
 
 }
