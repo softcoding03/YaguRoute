@@ -18,7 +18,7 @@ public interface ChannelRestDao {
 	
 	public void deleteChannel(String ChannelID) throws Exception;
 	
-	public Map<String, Object> StopChannel(String channleID) throws Exception;
+	public String StopChannel(String channleID) throws Exception;
 	
 	public String geteVideo(Channel channel, String videoName) throws Exception;
 	

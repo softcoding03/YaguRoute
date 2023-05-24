@@ -327,7 +327,7 @@ public class PlayerTests {
 				    				/// ---THREEOUT(삼진아웃)---
 				    				/// 모두 0값 입력!!!
 				    				
-				    				playerService.addPlayer(player);
+//				    				playerService.addPlayer(player);
 				    				
 				    			}
 				    			
@@ -367,7 +367,7 @@ public class PlayerTests {
 				    				/// ---THREEOUT(삼진아웃)---
 				    				/// 데이터 입력하기 
 				    				
-				    				playerService.addPlayer(player);
+//				    				playerService.addPlayer(player);
 				    				
 				    			}// end of else[기록이 있는지 없는지 구별]
 				    			
@@ -395,7 +395,7 @@ public class PlayerTests {
 			    					/// ---THREEOUT(삼진아웃)---
 			    					/// ---ERA(평균자책점)---
 			    					// 위 데이터 모두 0 입력하기
-			    					playerService.addPlayer(player);
+//			    					playerService.addPlayer(player);
 			    					
 			    				}
 			    				else { // 데이터가 존재할 때...
@@ -410,11 +410,20 @@ public class PlayerTests {
 			    					/// 2. 평균자책점
 			    					WebElement era = driver.findElement(By.xpath("//*[@id=\"contents\"]/div/div[2]/div[2]/table/tbody/tr/td[2]"));
 			    					System.out.println("평균 자책점 : " + era.getText());
-			    					float eraa = Float.parseFloat(era.getText());
+			    					float eraa;
+			    					if(era.getText() == "-") {
+			    						eraa = 0;
+			    						player.setEra(eraa);
+			    					}
+			    					else {
+			    					eraa = Float.parseFloat(era.getText());
 			    					player.setEra(eraa);
+			    					
+			    					}
+			    					playerService.addPlayer(player);
+			    					
 			    					/// ---THREEOUT(삼진아웃)---
 			    					/// ---ERA(평균자책점)---
-			    					playerService.addPlayer(player);
 			    					
 			    				}// end of else[데이터 기록이 존재 할 때...]
 			    			}// end of else[타자인지 투수인지 구별]
@@ -584,7 +593,7 @@ public class PlayerTests {
 						    				/// ---THREEOUT(삼진아웃)---
 						    				/// 모두 0값 입력!!!
 						    				
-						    				playerService.addPlayer(player);
+//						    				playerService.addPlayer(player);
 						    				
 						    			}
 						    			else {
@@ -651,27 +660,37 @@ public class PlayerTests {
 					    					/// ---ERA(평균자책점)---
 					    					// 위 데이터 모두 0 입력하기
 					    					
-					    					playerService.addPlayer(player);
+//					    					playerService.addPlayer(player);
 					    				}// end of if
 					    				
 					    				else {
 					    					
-					    					/// 1. 평균 자책점(ERA)
-					    					WebElement era = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[2]/table/tbody/tr/td[2]"));
-					    					System.out.println("평균 자책점 : "+era.getText());
-					    					float eraa = Float.parseFloat(era.getText());
-					    					player.setEra(eraa);
-					    					/// 2. 삼진아웃(THREEOUT)
+					    					
+					    					/// 1. 삼진아웃(THREEOUT)
 					    					WebElement threeout = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[3]/table/tbody/tr/td[5]"));
 					    					System.out.println("삼진아웃 : "+threeout.getText());
 					    					int to = Integer.parseInt(threeout.getText());
 					    					player.setThreeOut(to);
+					    					/// 2. 평균 자책점(ERA)
+					    					WebElement era = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[2]/table/tbody/tr/td[2]"));
+					    					System.out.println("평균 자책점 : "+era.getText());
+					    					float eraa;
+					    					if(era.getText().contains("-")) {
+					    						eraa = 0;
+					    						player.setEra(eraa);
+					    					}
+					    					else {
+					    						eraa = Float.parseFloat(era.getText());
+					    						player.setEra(eraa);
+					    					}
+					    					
+					    					playerService.addPlayer(player);
 					    					
 					    					/// ---THREEOUT(삼진아웃)---
 					    					/// ---ERA(평균자책점)---
 					    					/// 데이터 입력하기 
 					    					
-					    					playerService.addPlayer(player);
+//					    					playerService.addPlayer(player);
 					    					
 					    				}// end of else [투수의 기록이 존재 할 때...]
 									}// end of else

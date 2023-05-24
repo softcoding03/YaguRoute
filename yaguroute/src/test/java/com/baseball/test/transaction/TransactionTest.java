@@ -22,24 +22,25 @@ public class TransactionTest {
 	@Qualifier("transactionServiceImpl")
 	private TransactionService transactionService;
 
-	//@Test
+	@Test
 	public void testAddTransaction() throws Exception {
 		
 		User user = new User();
 		Transaction transaction = new Transaction();
 		
-		user.setUserId("john123");
+		user.setUserId("rockseong3");
 		transaction.setBuyer(user);
-		transaction.setImpNo("imp14");
-		transaction.setReceiverName("최성락");
-		transaction.setReceiverPhone("010-2222-5555");
-		transaction.setReceiverAddr("경기도 김포시 종로1가 202호");
-		transaction.setTranTotalPrice(95000);
+		transaction.setImpNo("imp22");
+		transaction.setMerchantNo("3");
+		transaction.setReceiverName("김양수");
+		transaction.setReceiverPhone("010-9856-2345");
+		transaction.setReceiverAddr("서울시 당산동");
+		transaction.setTranTotalPrice(58000);
 		transaction.setTranPaymentOption("2");
-		transaction.setDlvyRequest("배송 완료 후 문자주세요");
-		transaction.setTranType("p");
-		transaction.setTranUsePoint(1000);
-		transaction.setTranAddPoint(950);
+		transaction.setDlvyRequest("경비실에 맡겨주세요");
+		transaction.setTranType("P");
+		transaction.setTranUsePoint(100);
+		transaction.setTranAddPoint(580);
 
 		System.out.println("마지막 insert TranNo?? " +transactionService.addTransaction(transaction)); //마지막에 insert한 transaction의 tranNo 가져오기
 	}

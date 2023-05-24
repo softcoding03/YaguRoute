@@ -13,6 +13,7 @@ import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Product;
 import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.Transaction;
+import com.baseball.service.domain.User;
 import com.baseball.service.trandetail.TranDetailDao;
 import com.baseball.service.trandetail.TranDetailService;
 import com.baseball.service.trandetail.impl.TranDetailServiceImpl;
@@ -27,6 +28,8 @@ public class TranDetailTest {
 	//@Test
 	public void testAddTranDetail() throws Exception {
 		
+		
+		//User user = new User();
 		Product product = new Product();
 		Transaction transaction = new Transaction();
 		TranDetail tranDetail = new TranDetail();
@@ -111,8 +114,7 @@ public class TranDetailTest {
 		System.out.println("TranDetail TotalCount: "+totalCount);
 		
 		System.out.println("=======================================");
-		
-		
+
 		totalCount = (Integer)map.get("totalCount");
 
 	}

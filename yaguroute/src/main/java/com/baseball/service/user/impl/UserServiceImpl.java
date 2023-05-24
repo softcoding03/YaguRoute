@@ -1,9 +1,14 @@
 ﻿package com.baseball.service.user.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.User;
 import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
@@ -14,6 +19,7 @@ public class UserServiceImpl implements UserService{
 	//Field
 	@Autowired
 	@Qualifier("userDao")
+	
 	private UserDao userDao;
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
@@ -65,5 +71,24 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		userDao.updatePoint(user);
 	}
+
+	@Override
+	public Map<String, Object> getUserList(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		/*현재 데이터가 4개임을 알 수 있는 이유는 mapper로 이동해서 include한 userList의 개수를 가져왔기 때문이다.*/
+		List<User> list = userDao.getUserList(search); 
+		int totalCount = userDao.getTotalCount(search); // totalCount는 따로 service, serviceImpl에 메소드 형태로 만들지 않는다. 
+		
+		System.out.println("totalCount : " +totalCount); // totalCount : User리스트의 User 갯수 : 4개
+		Map<String, Object> map = new HashMap<String, Object>(); // Map<String,Object> 객체 생성
+		
+		map.put("호날두", list); // "list" 문자 내부에 정렬되어 list=[User [userId = beatles123.. 라고 저장된다.]]
+		map.put("totalCount", new Integer(totalCount));
+		
+		System.out.println("userServiceImpl에서의 list... : "+map);
+		
+		return map;
+	}
+
 	
 }

@@ -8,8 +8,6 @@ public class GamePreview {
 	private Hitter awayKeyPlayer;
 	private Pitcher homeStartingPitcher;
 	private Pitcher awayStartingPitcher;
-	private String lastFiveGameGrade;
-	private String headToHeadRecord;//상대전적
 	
 	//Constructor
 	public GamePreview() {
@@ -56,28 +54,11 @@ public class GamePreview {
 		this.awayStartingPitcher = awayStartingPitcher;
 	}
 
-	public String getLastFiveGameGrade() {
-		return lastFiveGameGrade;
-	}
-
-	public void setLastFiveGameGrade(String lastFiveGameGrade) {
-		this.lastFiveGameGrade = lastFiveGameGrade;
-	}
-
-	public String getHeadToHeadRecord() {
-		return headToHeadRecord;
-	}
-
-	public void setHeadToHeadRecord(String headToHeadRecord) {
-		this.headToHeadRecord = headToHeadRecord;
-	}
-
 	@Override
 	public String toString() {
 		return "GamePreview [gameInfo=" + gameInfo + ", homeKeyPlayer=" + homeKeyPlayer + ", awayKeyPlayer="
 				+ awayKeyPlayer + ", homeStartingPitcher=" + homeStartingPitcher + ", awayStartingPitcher="
-				+ awayStartingPitcher + ", lastFiveGameGrade=" + lastFiveGameGrade + ", headToHeadRecord="
-				+ headToHeadRecord + "]";
+				+ awayStartingPitcher + "]";
 	}
 
 }

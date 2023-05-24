@@ -35,23 +35,24 @@ public class ChannelRestTest {
 		
 	}
 	
-	//@Test => success
+	//@Test //=> success
 	public void testAddChannel() throws Exception{
 		Channel channel = new Channel();
 		Game game = new Game();
-		game.setGameCode("20230314SKSS02023");
+		game.setGameCode("20090920HHSK0");
 		
 
 		channel.setGameInfo(game);
-		channel.setChannelName("testchannel");
+		channel.setChannelName("jeonghochannel");
 		channel.setBucketName("mainpjt");
-		channel.setUploadPath("/streaming");
+		channel.setUploadPath("streaming");
 		System.out.println(channel.toString());
 		
 		Channel testChannel = channelRestService.addChannel(channel);
 		System.out.println("test Channel : "+testChannel.toString());
 		
 		channelService.addChannel(testChannel);
+		System.out.println();
 		System.out.println("testAddChannel() 종료");
 	}
 	
@@ -82,35 +83,26 @@ public class ChannelRestTest {
 		channelRestService.updateChannel(channel);
 	}
 	
-	//@Test //=> success
+	@Test //=> success
 	public void stopRecordChannel() throws Exception {
 		
 		System.out.println("채널 녹화 종료");
-		String channelID = "ls-20230522185940-acP14";
+		String channelID = "ls-20230524170238-iwkOL";
 		Channel channel = channelService.getChannel(channelID);
 		
-		Map<String, Object> returnData = channelRestService.stopChannel(channelID);
+		String videoName = channelRestService.stopChannel(channelID);
 		
-		//Map 구조 해체
-		Map content = (Map)returnData.get("content");
-		Map recordList = (Map)content.get("recordList");
+		String videoLink = channelRestService.getVideo(channel, videoName);
+		System.out.println("videoLink : "+videoLink);
 		
-		System.out.println(recordList);
-		System.out.println("recordList key값 : "+recordList.keySet());
-		
-		//key값 List로 전환
-		List<String> recordKey = new ArrayList<>(recordList.keySet());
-		System.out.println("recordKey 중 최신 값 : "+recordKey.get(0));
-		System.out.println("가장 최신 녹화본 파일 Name : "+((Map)recordList.get(recordKey.get(0))).get("fileName"));
-		System.out.println("가장 최신 녹화본 uploadPath"+((Map)recordList.get(recordKey.get(0))).get("fileName"));
 	}
 	
-	@Test
+	//@Test
 	public void getvideo() throws Exception {
 		
 		System.out.println("getVideo start");
 		String channelID = "ls-20230522185940-acP14";
-		String fileName = "171689-723413-202305231637.mp4";
+		String fileName = "171689-723338-202305231549.mp4";
 		
 		Channel channel = channelService.getChannel(channelID);
 		System.out.println("channel uploadPath : "+channel);

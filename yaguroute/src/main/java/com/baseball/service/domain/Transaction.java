@@ -8,6 +8,7 @@ public class Transaction {
 	private int tranNo;
 	private User buyer;
 	private String impNo;
+	private String merchantNo;
 	private String receiverName;
 	private String receiverPhone;
 	private String receiverAddr;
@@ -18,9 +19,12 @@ public class Transaction {
 	private String tranType;
 	private int tranAddPoint;
 	private int tranUsePoint;
+	private int refundStatus;
+	
+	
 
-	
-	
+
+
 	public Transaction() {
 		
 	}
@@ -156,14 +160,33 @@ public class Transaction {
 	}
 
 
+	public String getMerchantNo() {
+		return merchantNo;
+	}
+
+
+	public void setMerchantNo(String merchantNo) {
+		this.merchantNo = merchantNo;
+	}
+	
+	public int getRefundStatus() {
+		return refundStatus;
+	}
+	public void setRefundStatus(int refundStatus) {
+		this.refundStatus = refundStatus;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", receiverName="
-				+ receiverName + ", receiverPhone=" + receiverPhone + ", receiverAddr=" + receiverAddr
-				+ ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption + ", dlvyRequest="
-				+ dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType + ", tranAddPoint=" + tranAddPoint
-				+ ", tranUsePoint=" + tranUsePoint + "]";
-	}		
-	
+		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", merchantNo=" + merchantNo
+				+ ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", receiverAddr="
+				+ receiverAddr + ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption
+				+ ", dlvyRequest=" + dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType
+				+ ", tranAddPoint=" + tranAddPoint + ", tranUsePoint=" + tranUsePoint + ", refundStatus=" + refundStatus
+				+ "]";
+	}
+
+
 		
 }
