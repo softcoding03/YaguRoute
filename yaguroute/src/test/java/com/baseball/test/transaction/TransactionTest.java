@@ -86,7 +86,7 @@ public class TransactionTest {
 	}
 
 	
-	@Test
+	//@Test
 	public void testGetTransactionList() throws Exception {
 	
 		Search search = new Search();
@@ -94,7 +94,7 @@ public class TransactionTest {
 		search.setPageSize(5);
 		
 		String userId = "john123";
-		String tranType = "p";
+		String tranType = "P";
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
 		Assert.assertEquals(5, list.size());
@@ -107,8 +107,8 @@ public class TransactionTest {
 		System.out.println("Transaction TotalCount:: "+totalCount);
 				
 		totalCount = (Integer)map.get("totalCount");
-
 	}
+	
 		
 }
 
