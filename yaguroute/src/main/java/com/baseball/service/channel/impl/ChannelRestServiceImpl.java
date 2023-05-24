@@ -1,5 +1,7 @@
 package com.baseball.service.channel.impl;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +50,14 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 	}
 
 	@Override
-	public Channel stopChannel(String ChannelID) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> stopChannel(String ChannelID) throws Exception {
+		Map returnData = channelRestDao.StopChannel(ChannelID);
+		return returnData;
 	}
 
 	@Override
-	public String getVideo(String bucketName, String uploadPath) throws Exception {
-		// TODO Auto-generated method stub
+	public String getVideo(Channel channel, String videoName) throws Exception {
+		String returnData = channelRestDao.geteVideo(channel, videoName);
 		return null;
 	}
 

@@ -1,14 +1,19 @@
 package com.baseball.service.channel.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Mac;
@@ -22,20 +27,40 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.Region;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.baseball.service.channel.ChannelRestDao;
 import com.baseball.service.domain.Channel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Repository("channelRestDaoImpl")
 public class ChannelRestDaoImpl implements ChannelRestDao {
 	
 	//field
-	@Value("${acessKey}")
+	@Value("${accessKey}")
 	private String accessKey;
 	
 	@Value("${secretKey}")
-	private String secreteKey;
-
+	private String secretKey;
+	
+	@Value("${endPoint}")
+	private String endPoint;
+	
+	@Value("${regionName}")
+	private String regionName;
+	
+	//Constructor
 	public ChannelRestDaoImpl() {
 		System.out.println("ChannelRestDaoImpl Start...");
 	}
@@ -86,7 +111,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			con.setRequestMethod(method);
 			con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
 			con.setRequestProperty("x-ncp-iam-access-key", accessKey);
-			con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secreteKey));
+			con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
 			con.setRequestProperty("Content-Type","application/json");
 			con.setRequestProperty("x-ncp-region_code", "KR");
 			con.setDoOutput(true);
@@ -152,7 +177,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		con.setRequestProperty("Content-Type", "application/json");
 		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
 		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
-		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secreteKey));
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
 		con.setRequestProperty("x-ncp-region_code", "KR");
 		
 		//response 확인
@@ -225,7 +250,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		con.setRequestProperty("Content-Type", "application/json");
 		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
 		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
-		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secreteKey));
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
 		con.setRequestProperty("x-ncp-region_code", "KR");
 		con.setDoOutput(true);
 		
@@ -274,7 +299,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		con.setRequestProperty("Content-Type", "application/json");
 		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
 		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
-		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secreteKey));
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
 		con.setRequestProperty("x-ncp-region_code", "KR");
 		
 		int responseCode = con.getResponseCode();
@@ -290,14 +315,83 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	}
 
 	@Override
-	public Channel StopChannel(String channleID) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> StopChannel(String channleID) throws Exception {
+		System.out.println("Stop Record");
+		
+		String jsonData = "";
+		StringBuffer response = new StringBuffer();
+		String channelHost = "https://livestation.apigw.ntruss.com";
+		String requestURL = "/api/v2/channels/"+channleID+"/stopRecord";
+		String apiURL = channelHost+requestURL;
+		System.out.println("apiURL : "+apiURL);
+		String method = "PUT";
+		String timestamp = getTimestamp();
+		
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod(method);
+		con.setRequestProperty("Content-Type", "application/json");
+		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
+		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
+		con.setRequestProperty("x-ncp-region_code", "KR");
+		
+		int responseCode = con.getResponseCode();
+		BufferedReader br = null;
+		//response data 확인
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			System.out.println("녹화 중단 완료");
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+					
+		} else {
+			System.out.println("Http Error Code : "+responseCode);
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		
+		while((jsonData = br.readLine()) != null) {
+			response.append(jsonData);
+		}
+		
+		String json = response.toString();
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map mapObj = objectMapper.readValue(json, Map.class);
+		
+		System.out.println(mapObj.get("content"));
+
+		return mapObj;
 	}
 
 	@Override
-	public String geteVideo(String bucketName, String uploadPath) throws Exception {
-		// TODO Auto-generated method stub
+	public String geteVideo(Channel channel, String videoName) throws Exception {
+		System.out.println("getVideo start");
+		
+		final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+			    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, regionName))
+			    .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+			    .build();
+		
+		String bucketName = channel.getBucketName();
+		try {
+		    S3Object s3Object = s3.getObject(bucketName, videoName);
+		    S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
+
+		    OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(""));
+		    byte[] bytesArray = new byte[4096];
+		    int bytesRead = -1;
+		    while ((bytesRead = s3ObjectInputStream.read(bytesArray)) != -1) {
+		        outputStream.write(bytesArray, 0, bytesRead);
+		    }
+
+		    outputStream.close();
+		    s3ObjectInputStream.close();
+		    System.out.format("Object %s has been downloaded.\n", videoName);
+		} catch (AmazonS3Exception e) {
+		    e.printStackTrace();
+		} catch(SdkClientException e) {
+		    e.printStackTrace();
+		}
+		
+		
 		return null;
 	}
 	
@@ -308,6 +402,19 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		String timestamp = String.valueOf(System.currentTimeMillis());
 		System.out.println(timestamp);	
 		return timestamp;
+	}
+	
+	//iso 8601 TimeStamp생성
+	public String getIsoTime() {
+		//현재 시각
+		ZonedDateTime dateTime = ZonedDateTime.now();
+		// ISO 8601 형식으로 변환
+		String iso8601 = dateTime.format(DateTimeFormatter.ISO_INSTANT);
+		// x-amz-date 형식으로 변환
+		String xAmzDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"));
+		
+		System.out.println("xAmzDate  : "+xAmzDate);
+		return xAmzDate;
 	}
 	
 	//x-ncp-apigw-signature-v2 생성 method

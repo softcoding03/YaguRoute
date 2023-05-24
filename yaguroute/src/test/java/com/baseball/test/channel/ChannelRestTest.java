@@ -1,5 +1,9 @@
 package com.baseball.test.channel;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,7 +67,7 @@ public class ChannelRestTest {
 		channelRestService.deleteChannel("ls-20230522190731-z9Ufu");
 	}
 	
-	@Test
+	//@Test //=> success
 	public void updataRestChannel() throws Exception{
 		
 		Channel channel = channelService.getChannel("ls-20230522185940-acP14");
@@ -76,6 +80,44 @@ public class ChannelRestTest {
 		
 		
 		channelRestService.updateChannel(channel);
+	}
+	
+	//@Test //=> success
+	public void stopRecordChannel() throws Exception {
+		
+		System.out.println("채널 녹화 종료");
+		String channelID = "ls-20230522185940-acP14";
+		Channel channel = channelService.getChannel(channelID);
+		
+		Map<String, Object> returnData = channelRestService.stopChannel(channelID);
+		
+		//Map 구조 해체
+		Map content = (Map)returnData.get("content");
+		Map recordList = (Map)content.get("recordList");
+		
+		System.out.println(recordList);
+		System.out.println("recordList key값 : "+recordList.keySet());
+		
+		//key값 List로 전환
+		List<String> recordKey = new ArrayList<>(recordList.keySet());
+		System.out.println("recordKey 중 최신 값 : "+recordKey.get(0));
+		System.out.println("가장 최신 녹화본 파일 Name : "+((Map)recordList.get(recordKey.get(0))).get("fileName"));
+		System.out.println("가장 최신 녹화본 uploadPath"+((Map)recordList.get(recordKey.get(0))).get("fileName"));
+	}
+	
+	@Test
+	public void getvideo() throws Exception {
+		
+		System.out.println("getVideo start");
+		String channelID = "ls-20230522185940-acP14";
+		String fileName = "171689-723413-202305231637.mp4";
+		
+		Channel channel = channelService.getChannel(channelID);
+		System.out.println("channel uploadPath : "+channel);
+		
+		channelRestService.getVideo(channel, fileName);
+		
+		
 	}
 
 }

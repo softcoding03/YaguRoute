@@ -12,6 +12,7 @@
 		<result property="channelName" column="channel_Name" jdbcType="VARCHAR"/>
 		<result property="bucketName" column="bucket_name" jdbcType="VARCHAR"/>
 		<result property="channelCDN" column="channel_cdn" jdbcType="VARCHAR"/>
+		<result property="uploadPath" column="upload_path" jdbcType="VARCHAR"/>
 		<result property="envType"	 column="env_type" jdbcType="VARCHAR"/>
 		<result property="thumbNail" column="thumbnail" jdbcType="VARCHAR"/>
 		<result property="homeClick" column="home_click" jdbcType="INTEGER"/>

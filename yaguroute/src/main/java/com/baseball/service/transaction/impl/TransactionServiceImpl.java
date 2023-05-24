@@ -10,12 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Transaction;
+import com.baseball.service.domain.User;
 import com.baseball.service.transaction.TransactionDao;
 import com.baseball.service.transaction.TransactionService;
+import com.baseball.service.user.UserDao;
 
 @Service("transactionServiceImpl")
 public class TransactionServiceImpl implements TransactionService {
 	
+	@Autowired
+	@Qualifier("userDao")
+	private UserDao userDao;
+
 	@Autowired
 	@Qualifier("transactionDao")
 	private TransactionDao transactionDao;
@@ -29,7 +35,17 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	@Override
 	public int addTransaction(Transaction transaction) throws Exception {
+		User user = userDao.getUser("rockseong3");
+		//int userPoint = user.getUserPoint();
+		int tranUsePoint = transaction.getTranUsePoint();
+		int tranAddPoint = (transaction.getTranTotalPrice()/1000) *10 ; 
+		
+		user.setUserPoint(user.getUserPoint()-tranUsePoint+tranAddPoint);
+						
 		transactionDao.addTransaction(transaction);
+		
+		userDao.updatePoint(user);
+		
 		return transactionDao.getLastTranNo();
 		
 	}
@@ -60,6 +76,11 @@ public class TransactionServiceImpl implements TransactionService {
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+
+	@Override
+	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception {
+		return transactionDao.getPurchaseListByGameCode(gameCode);
 	}
 
 }

@@ -10,6 +10,7 @@
 	
 		<result property="tranNo"				column="tran_no"				jdbcType="NUMERIC"/>
 		<result property="impNo"				column="imp_no"					jdbcType="VARCHAR"/>
+		<result property="merchantNo"			column="merchant_no"			jdbcType="VARCHAR"/>
 		<result property="receiverName"			column="receiver_name"			jdbcType="VARCHAR"/>
 		<result property="receiverPhone"		column="receiver_phone"			jdbcType="VARCHAR"/>
 		<result property="receiverAddr"			column="receiver_addr"			jdbcType="VARCHAR"/>
@@ -57,13 +58,23 @@
 	
 	<insert		id="addTransaction"		parameterType="transaction">
 	
-	INSERT INTO transaction
-	(tran_no, user_id, imp_no, receiver_name, receiver_phone, receiver_addr, tran_total_price, tran_payment_option
-	, dlvy_request, tran_date, tran_type, tran_use_point, tran_add_point)
-	VALUES (null, #{buyer.userId}, #{impNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr}, #{tranTotalPrice}, 
-	#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint})
+		INSERT INTO transaction
+		(tran_no, user_id, imp_no, merchant_no, receiver_name, receiver_phone, receiver_addr, tran_total_price, tran_payment_option
+		, dlvy_request, tran_date, tran_type, tran_use_point, tran_add_point)
+		VALUES (null, #{buyer.userId}, #{impNo}, #{merchantNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr}, 
+		<choose>
+       	 <when test="tranUsePoint > 0">
+            #{tranTotalPrice} - #{tranUsePoint},
+        </when>
+        <otherwise>
+            #{tranTotalPrice},
+        </otherwise>
+  	  </choose>
+    
+		#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint})
 	
 	</insert>
+	
 	
 	<select id="getLastTranNo" resultType="int">
 		select last_insert_id()
@@ -122,6 +133,16 @@
 				FROM transaction 
 				WHERE user_id = #{userId} AND tran_type=#{tranType}) countTable
 	
+	</select>
+	
+	<select id="getPurchaseListByGameCode" parameterType="string" resultMap="transactionSelectMap">
+		SELECT *
+		FROM transaction t, (
+			SELECT DISTINCT tran_no
+			FROM ticket
+			WHERE game_code=#{value} AND tran_no IS NOT NULL
+		) a
+		WHERE t.tran_no = a.tran_no
 	</select>
 	
 

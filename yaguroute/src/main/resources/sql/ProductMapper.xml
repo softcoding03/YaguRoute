@@ -28,7 +28,7 @@
 	  <where>
 	    <if test="searchCondition != null">
 	      <if test="searchCondition == 0 and searchKeyword != ''">
-	        AND prod_name LIKE CONCAT('%', #{searchKeyword}, '%')
+	        AND prod_name LIKE '%${searchKeyword}%'
 	      </if>
 	    </if>
 
