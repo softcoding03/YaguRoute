@@ -50,18 +50,38 @@
 		WHERE user_id = #{userId}
 	</update>
 	
-	<update id="updatePoint" parameterType="String" >
+	<update id="updatePoint" parameterType="user" >
 		UPDATE user
-		SET userPoint = #{userPoint}
+		SET user_point = #{userPoint}
 		WHERE user_id = #{userId}
 	</update>
 	
-	<!-- search 도메인 필요함. -->
+	<select id="getUserList" parameterType="Search" resultMap="userSelectMap">
+	  
+	  	<include refid="userList"/>
+	  	Limit #{startRowNum}, #{pageSize}
+	  	
+	</select>
 	
-	<!-- <select id="getUserList" parameterType="search" resultMap="userSelectMap">
-	</select> -->
+	<sql id="userList">
+	SELECT *
+	FROM user
+	ORDER BY user_name
+	<where>
+		<if test="searchCondition != null">
+		  <if test="searchCondition == 0 and searchKeyword != ''">
+		  	AND user_name LIKE CONCAT('%', #{searchKeyword}, '%')
+		  </if>
+		</if>
+	</where>
+	</sql>
 	
-	<!-- <select id="getAllUserList" parameterType="search" resultMap="userSelectMap">
+	<select id="getTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*)
+		FROM (<include refid="userList"/>) countTable
+	</select>
+	
+	<!-- <select id="getUserAutoComplete" parameterType="search" resultMap="userSelectMap">
 	</select> -->
 	
 	<!-- <select id="getTotalCount" parameterType="search" resultMap="userSelectMap">

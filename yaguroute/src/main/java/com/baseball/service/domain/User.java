@@ -1,5 +1,7 @@
 ﻿package com.baseball.service.domain;
 
+import com.baseball.common.domain.Team;
+
 //==>회원정보를 모델링(추상화/캡슐화)한 Bean
 
 public class User {
@@ -9,7 +11,7 @@ public class User {
 	private String userName;
 	private String userNickName;
 	private String userBirth;
-	private String userPoint;
+	private int userPoint;
 	private String userEmail;
 	private String userAddr;
 	private String password;
@@ -41,10 +43,10 @@ public class User {
 	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
-	public String getUserPoint() {
+	public int getUserPoint() {
 		return userPoint;
 	}
-	public void setUserPoint(String userPoint) {
+	public void setUserPoint(int userPoint) {
 		this.userPoint = userPoint;
 	}
 	public String getUserEmail() {
@@ -113,13 +115,13 @@ public class User {
 	public void setWithDraw(int withDraw) {
 		this.withDraw = withDraw;
 	}
+	
 	public String getTeamCode() {
 		return teamCode;
 	}
 	public void setTeamCode(String teamCode) {
 		this.teamCode = teamCode;
 	}
-	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userBirth=" + userBirth + ", userPoint="
