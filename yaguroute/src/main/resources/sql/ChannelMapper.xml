@@ -31,8 +31,8 @@
 		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
 		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
 		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
-		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfoByTeamName"/>
-		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfo"/>
+		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team" select="getTeamInfo"/>
 		<association property="winningTeamCode" column="WINNING_TEAM_CODE" javaType="team"/>
 	</resultMap>
 	
@@ -56,12 +56,12 @@
 		SELECT * FROM game Where game_code = #{value}
 	</select>
 	
-	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
+	<select id="getTeamInfo" parameterType="string" resultMap="teamSelectMap">
 		select 
 		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
 		from team
 		<where>
-			team_nickname=#{value}
+			team_code=#{value}
 		</where>
 	</select>
 
