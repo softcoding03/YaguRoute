@@ -1,5 +1,7 @@
 package com.baseball.service.post.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void addViews(int postNo) throws Exception {
 		postDao.addViews(postNo);
+	}
+
+	@Override
+	public List<Post> getPostList(String teamCode) throws Exception {
+		return postDao.getPostList(teamCode);
 	}
 	
 }

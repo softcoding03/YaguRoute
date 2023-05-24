@@ -1,6 +1,7 @@
 package com.baseball.test.post;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,24 @@ public class TestPost{
 		System.out.println("get 시작");
 		System.out.println("  쿼리 결과 값?"+postService.getPost(9));
 		System.out.println("get 끝");
+	}
+	
+	//특정 팀의 모든 게시글 조회
+	//@Test
+	public void getPostList() throws Exception{
+		String teamCode ="OB";
+		List<Post> list = postService.getPostList(teamCode);
+		for(Post post:list) {
+			System.out.println(post);
+		}
+	}
+	//특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get
+	public void getPostList() throws Exception{
+		String teamCode ="OB";
+		List<Post> list = postService.getPostList(teamCode);
+		for(Post post:list) {
+			System.out.println(post);
+		}
 	}
 	
 	//@Test

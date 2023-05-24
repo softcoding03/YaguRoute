@@ -29,6 +29,20 @@
 		WHERE post_no = #{value}
 	</select>
 	
+	<!--해당 클럽의 전체 게시글 조회 -->
+	<select id="getPostList" parameterType="string" resultMap="postSelectMap">
+		SELECT * FROM post
+		WHERE team_code = #{value}
+		ORDER BY post_no DESC
+	</select>
+	
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get-->
+	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
+		SELECT * FROM post
+		WHERE tram_code = #{value}
+		ORDER BY l
+	</select>
+	
 	<insert id="addPost" parameterType="post">
 	 	INSERT 
 		INTO post(user_id, team_code, post_title, post_contents, post_date) 
