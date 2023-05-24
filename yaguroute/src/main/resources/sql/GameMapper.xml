@@ -70,6 +70,20 @@
 		</where>
 	</select>
 	
+	<select id="getGameListByMonthly" parameterType="String" resultMap="gameSelectMap">
+		select *
+		from game
+		WHERE GAME_DATE LIKE '${date}%'
+		<if test="teamCode != null">
+			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
+		</if>
+	</select>
+	
+	<select id="getGameListTwoWeeks" resultMap="gameSelectMap">
+      SELECT * FROM GAME
+      WHERE game_date BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 14 DAY)
+    </select>
+	
 	<update id="updateGameState" parameterType="game">
 		update game
 		<set>
@@ -83,20 +97,6 @@
 			GAME_CODE = #{gameCode}
 		</where>
 	</update>
-	
-	<select id="getGameListTwoWeeks" resultMap="gameSelectMap">
-      SELECT * FROM GAME
-      WHERE game_date BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 14 DAY)
-   </select>
-	
-	<select id="getGameListByMonthly" parameterType="String" resultMap="gameSelectMap">
-		select *
-		from game
-		WHERE GAME_DATE LIKE '${date}%'
-		<if test="teamCode != null">
-			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
-		</if>
-	</select>
 	
 	<insert id="addThisYearGameSchedule" parameterType="game">
 		insert into game (GAME_CODE, HOME_TEAM_CODE, AWAY_TEAM_CODE,GAME_DATE,GAME_TIME,GAME_STATUS_CODE,GAME_SCORE)

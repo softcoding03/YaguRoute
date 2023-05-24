@@ -20,7 +20,7 @@ import com.baseball.service.user.UserDao;
 public class GamePredictServiceImpl implements GamePredictService {
 
 	public GamePredictServiceImpl() {
-		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
 	}
 	
 	@Autowired
@@ -48,6 +48,7 @@ public class GamePredictServiceImpl implements GamePredictService {
 			totalUserPredPoint += predTmp.getPredPoint();
 			gamePredictDao.addUserPred(predTmp);
 		}
+		//예측할때 사용한 포인트(상품 구매할때 사용한포인트)
 		user.setUserPoint(user.getUserPoint()-totalUserPredPoint);
 		userDao.updatePoint(user);
 	}
@@ -67,9 +68,8 @@ public class GamePredictServiceImpl implements GamePredictService {
 	
 	public void updatePredAfterGame() {
 		LocalDate now = LocalDate.now();
-		LocalDate tommorw = now.plusDays(1);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String strNow = tommorw.format(formatter);
+		String strNow = now.format(formatter);
 		System.out.println(strNow);
 		List<Game> gameList = gameDao.getGameListByDate(strNow);
 		
@@ -84,7 +84,6 @@ public class GamePredictServiceImpl implements GamePredictService {
 	}
 	
 	public double getPredAllocation(Game game) {
-		
 		return gamePredictDao.getPredAllocation(game);
 	}
 

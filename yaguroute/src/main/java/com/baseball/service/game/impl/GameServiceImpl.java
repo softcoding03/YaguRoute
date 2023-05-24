@@ -1,5 +1,6 @@
 package com.baseball.service.game.impl;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +10,7 @@ import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
+import com.baseball.service.domain.Player;
 import com.baseball.service.game.GameCrawlingDao;
 import com.baseball.service.game.GameDao;
 import com.baseball.service.game.GameService;
@@ -17,7 +19,7 @@ import com.baseball.service.game.GameService;
 public class GameServiceImpl implements GameService {
 
 	public GameServiceImpl() {
-		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
 	}
 	
 	@Autowired
@@ -87,9 +89,22 @@ public class GameServiceImpl implements GameService {
 		return gameCrawlingDao.getGameCrawlingRecord(game);
 	}
 	
-	public GamePreview getGamePreview() {
+	public GamePreview getGamePreview(Game game) throws Exception{
 		
-		return null;
+		return gameCrawlingDao.getGameCrawlingPreview(game);
+	}
+	
+	public void updateTodayGameSchedule() throws Exception{
+		List<Game> gameList = gameCrawlingDao.getTodayGameSchedule();
+		for(Game game : gameList) {
+			gameDao.updateGameState(game);
+			System.out.println(game);
+		}
+	}
+	
+	public Map<String, List<Player>> getGameCrawlingLineup(Game game) throws Exception{
+		
+		return gameCrawlingDao.getGameCrawlingLineup(game);
 	}
 
 }

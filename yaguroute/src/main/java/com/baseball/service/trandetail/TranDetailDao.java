@@ -14,16 +14,12 @@ public interface TranDetailDao {
 	public void addTranDetail(TranDetail tranDetail) throws Exception;
 	
 	public void updateProdStock(TranDetail tranDetail) throws Exception;
-			
+	
 	public TranDetail getTranDetail(int tranDetailNo) throws Exception;
 	
 	public void updateTranStatusCode(TranDetail tranDetail) throws Exception;			  //TranCode
-
-	//public void updateTranCodeByProd(TranDetail tranDetail) throws Exception;			  //TranCode By Prod
 	
 	public void updateRefundStatusCode(TranDetail tranDetail) throws Exception;			  //RefundCode
-
-	//public void updateRefundCodeByProd(TranDetail tranDetail) throws Exception;			  //RefundCode By Prod
 	
 	public List<TranDetail>getDeliveryList(Search search, int tranNo) throws Exception; 	 //배송현황조회 (admin)
 	
