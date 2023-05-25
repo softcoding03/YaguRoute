@@ -13,7 +13,7 @@
 		<result property="prodPrice" 		column="prod_price"			jdbcType="NUMERIC"/>
 		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
 		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
-		<result property="prodCategory"		column="prod_category"		jdbcType="VARCHAR"/>
+		<result property="prodCategory"		column="prod_category"		jdbcType="NUMERIC"/>
 		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
 		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
 		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>

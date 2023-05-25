@@ -11,7 +11,7 @@ public class Product {
 	private int prodPrice;
 	private Date prodRegDate;
 	private int prodStock;
-	private String prodCategory;
+	private int prodCategory;
 	private String prodImage;
 	private String prodTranCode;
 	private String prodRefundCode;
@@ -74,15 +74,13 @@ public class Product {
 	}
 
 
-	public String getProdCategory() {
+	public int getProdCategory() {
 		return prodCategory;
 	}
 
-
-	public void setProdCategory(String prodCategory) {
+	public void setProdCategory(int prodCategory) {
 		this.prodCategory = prodCategory;
 	}
-
 
 	public String getProdImage() {
 		return prodImage;

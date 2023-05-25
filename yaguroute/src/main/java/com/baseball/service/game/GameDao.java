@@ -14,6 +14,8 @@ public interface GameDao {
 	
 	public Team getTeamInfo(String teamCode);
 	
+	public List<Team> getAllTeam();
+	
 	public Game getGameInfo(String gameCode);
 	
 	public List<Game> getGameListByDate(String date);
