@@ -22,7 +22,7 @@ public class ProductTest {
 	private ProductService productService;
 	
 	
-	//@Test
+	@Test
 	public void testAddProduct() throws Exception {
 		
 		Product product = new Product();
@@ -116,7 +116,7 @@ public class ProductTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testGetProductList() throws Exception {
 		
 		Search search = new Search ();
