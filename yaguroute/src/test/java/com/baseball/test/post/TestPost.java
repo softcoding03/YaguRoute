@@ -40,16 +40,17 @@ public class TestPost{
 			System.out.println(post);
 		}
 	}
-	/*
-	//특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get
-	public void getPostList() throws Exception{
+	
+	//특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get(추천수가 동일하면 조회수로 우선순위)
+	//@Test
+	public void getPostBestList() throws Exception{
 		String teamCode ="OB";
-		List<Post> list = postService.getPostList(teamCode);
+		List<Post> list = postService.getPostBestList(teamCode);
 		for(Post post:list) {
 			System.out.println(post);
 		}
 	}
-	*/
+	
 	//@Test
 	public void testAddPost() throws Exception {
 		System.out.println("insert 시작");

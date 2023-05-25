@@ -70,5 +70,10 @@ public class PostServiceImpl implements PostService {
 	public List<Post> getPostList(String teamCode) throws Exception {
 		return postDao.getPostList(teamCode);
 	}
+
+	@Override
+	public List<Post> getPostBestList(String teamCode) throws Exception {
+		return postDao.getPostBestList(teamCode);
+	}
 	
 }

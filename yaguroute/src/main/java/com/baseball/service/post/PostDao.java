@@ -10,6 +10,7 @@ import com.baseball.service.domain.Post;
 public interface PostDao {
 	public Post getPost(int postNo) throws Exception;
 	public List<Post> getPostList(String teamCode) throws Exception;
+	public List<Post> getPostBestList(String teamCode) throws Exception;
 	public void addPost(Post post) throws Exception;
 	public void deletePost(int postNo) throws Exception;
 	public void updatePost(Post post) throws Exception;
