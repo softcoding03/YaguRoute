@@ -24,26 +24,40 @@
 		<result property="postDislikes" 		column="post_dislikes" 		jdbcType="INTEGER"/>
 	</resultMap>
 	
-	<!--게시물 상세조회-->
-	<select id="getPost" parameterType="int" resultMap="postSelectMap">
-		SELECT * FROM post
-		WHERE post_no = #{value}
-	</select>
-	
-	<!--해당 클럽의 전체 게시글 조회(좋아요,싫어요 수 포함 출력) -->
-	<select id="getPostList" parameterType="string" resultMap="postSelectMap">
-		SELECT
+	<sql id="postList">
+	 	SELECT
 		    p.*,
 		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
 		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
 		FROM
 		    post p
 		WHERE
-		    p.team_code = #{value}
+		    p.team_code = #{teamCode}
+		    <if test="search.searchCondition != null">
+		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+		    		AND post_title LIKE '%${search.searchKeyword}%'
+		    	</if>
+		    	<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+		    		AND user_id LIKE '%${search.searchKeyword}%'
+		    	</if>
+		    </if>
 		ORDER BY
-		    p.post_no DESC;
+		    p.post_no DESC
+	</sql>
+	
+	<!--해당 클럽의 전체 게시글 조회(좋아요,싫어요 수 포함 출력) -->
+	<select id="getPostList" parameterType="hashMap"	resultMap="postSelectMap">
+			<include refid="postList"/>
+			Limit #{search.startRowNum}, #{search.pageSize}
 	</select>
 	
+	
+	<!--게시물 상세조회-->
+	<select id="getPost" parameterType="int" resultMap="postSelectMap">
+		SELECT * FROM post
+		WHERE post_no = #{value}
+	</select>
+
 	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, COUNT(e.like) AS post_likes
@@ -51,7 +65,7 @@
 		WHERE p.post_no = e.post_no AND e.like = 1 AND p.team_code = #{value}
 		GROUP BY p.post_no
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 5;
+		LIMIT 5
 	</select>
 	
 	<!--게시물 작성-->
@@ -103,6 +117,12 @@
 	<update id="addViews" parameterType="int">
 		UPDATE post SET post_views=post.post_views+1 WHERE post_no=#{value};
 	</update>
+	
+	<!-- getPostList의 전체 레코드 수 -->
+	<select id="getTotalCount" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*)
+		FROM (<include refid="postList"/>) countTable
+	</select>
 	
 </mapper>
 	 

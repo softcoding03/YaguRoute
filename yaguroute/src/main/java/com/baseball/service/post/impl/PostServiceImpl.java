@@ -1,12 +1,14 @@
 package com.baseball.service.post.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Post;
 import com.baseball.service.post.PostDao;
 import com.baseball.service.post.PostService;
@@ -67,8 +69,14 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> getPostList(String teamCode) throws Exception {
-		return postDao.getPostList(teamCode);
+	public Map<String,Object> getPostList(Map<String,Object> map) throws Exception {
+		List<Post> list = postDao.getPostList(map);
+		int totalCount = postDao.getTotalCount(map);
+		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("postList", list);
+		resultMap.put("totalCount", new Integer(totalCount));
+		return resultMap;
 	}
 
 	@Override

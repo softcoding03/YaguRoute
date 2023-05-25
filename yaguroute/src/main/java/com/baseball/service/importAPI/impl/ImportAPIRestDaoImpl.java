@@ -67,7 +67,7 @@ public class ImportAPIRestDaoImpl implements ImportAPIRestDao {
 		bodyJson.put("type","SMS");
 		bodyJson.put("contentType","COMM");
 		bodyJson.put("from","01097833446");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
-		bodyJson.put("content","안보내지는버그걸림");							// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
+		bodyJson.put("content","이거안보내지는버그걸림");							// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 		toJson.put("content",contents);						// Optional, messages.content	개별 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 		toJson.put("to", userPhone);						// Mandatory(필수), messages.to	수신번호, -를 제외한 숫자만 입력 가능
 		toArr.add(toJson);
