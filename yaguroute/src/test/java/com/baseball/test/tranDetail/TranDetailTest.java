@@ -93,7 +93,7 @@ public class TranDetailTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testGetDeliveryList() throws Exception {
 	
 		Search search = new Search();

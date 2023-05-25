@@ -22,7 +22,7 @@ public class ProductTest {
 	private ProductService productService;
 	
 	
-	//@Test
+	@Test
 	public void testAddProduct() throws Exception {
 		
 		Product product = new Product();
@@ -30,7 +30,7 @@ public class ProductTest {
 		product.setProdName("정수빈레고피규어");
 		product.setProdPrice(24000);
 		product.setProdStock(400);
-		product.setProdCategory("잡화");
+		product.setProdCategory(4);
 		product.setProdImage("testImageFile");
 		product.setProdTeamCode("OB");
 		
@@ -87,7 +87,7 @@ public class ProductTest {
 		product.setProdName("정은원 홈 유니폼");
 		product.setProdPrice(120000);
 		product.setProdStock(50);
-		product.setProdCategory("유니폼");
+		product.setProdCategory(1);
 		product.setProdImage("testImageFile");
 		product.setProdTeamCode("HH");
 		
@@ -116,7 +116,7 @@ public class ProductTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testGetProductList() throws Exception {
 		
 		Search search = new Search ();

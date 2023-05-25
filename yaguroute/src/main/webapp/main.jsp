@@ -28,7 +28,6 @@
 </head>
 
 <body>
-   	
 	<div class="container">
 		<!--  row Start /////////////////////////////////////-->
 		<div class="row">
