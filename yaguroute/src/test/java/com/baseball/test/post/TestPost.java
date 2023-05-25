@@ -40,6 +40,7 @@ public class TestPost{
 			System.out.println(post);
 		}
 	}
+	/*
 	//특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get
 	public void getPostList() throws Exception{
 		String teamCode ="OB";
@@ -48,7 +49,7 @@ public class TestPost{
 			System.out.println(post);
 		}
 	}
-	
+	*/
 	//@Test
 	public void testAddPost() throws Exception {
 		System.out.println("insert 시작");
