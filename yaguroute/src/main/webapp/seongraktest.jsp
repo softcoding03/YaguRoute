@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/game/gameList">gameList</a>
+	<a href="/game/getGameList">gameList</a>
 </body>
 </html>

@@ -12,13 +12,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
     function fncGetGameList(){
-    	year = $("select.year").val();
-    	month = $("select.month").val();
-    	teamCode = $("ul.nav li.active input").val()
-    	console.log(year);
-    	console.log(month);
-    	console.log(teamCode);
-    	$("#searchGameList").attr("method","GET").attr("action","/game/gameList?teamCode="+teamCode+"&year="+year+"&month="+month).submit();
+    	$("input[name='year']").val($("select.year").val());
+    	$("input[name='month']").val($("select.month").val());
+    	$("input[name='teamCode']").val($("ul.nav li.active input").val());
+    	$("#searchGameList").attr("method","GET").attr("action","/game/getGameList").submit();
     }
     
     $(function(){
@@ -38,14 +35,16 @@
 </head>
 <body>
 <form id="searchGameList">
-<input>
+<input type="hidden" name="year" value="">
+<input type="hidden" name="month" value="">
+<input type="hidden" name="teamCode" value="">
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="item">
 				<label>
 				<select class="year" id="yearSelect">
-				<c:forEach begin="2008" end="${nowYear}" var="year" >
+				<c:forEach begin="2008" end="2023" var="year" >
 					<option value="${year}" ${year eq nowYear ? 'selected' : ''}>${year}</option>
 				</c:forEach>
 					
@@ -90,12 +89,15 @@
 <div class="col-md-12 col-sm-12 col-xs-12"><h6>matches</h6></div>
 	<div class="col-md-12 col-sm-12 col-xs-12">
 	
+	<c:set var="tmpDate" value="1111"/>
 		
  	<c:forEach var="game" items="${gameList}" varStatus="gameState" >
  	<div class="main-lates-matches">
  		<a href="#" class="item" aria-disabled="true">
- 		<c:if test="${gameState.index%5 eq 0}">
+ 		
+ 		<c:if test="${game.gameDate ne tmpDate}">
  			<div id="${gameState.index}" class="col-md-12 col-sm-12 col-xs-12"><h6>${game.gameDate}</h6></div>
+ 			<c:set var="tmpDate" value="${game.gameDate}"/>
  		</c:if>
 		        <span class="championship">${game.gameTime}</span>
 		        <span class="teams-wrap">
@@ -116,16 +118,16 @@
 		        <span class="game-result">${game.homeTeam.hometown}</span>
 		        <span class="score">
 		             <c:if test="${game.gameStatusCode eq 0}">
-						<button class="btn small">전력 분석</button>
+						<a class="btn small" href="#">전력 분석</a>
 					</c:if>
 					<c:if test="${game.gameStatusCode eq 1}">
-						<button class="btn small">실시간 중계</button>
+						<a class="btn small" href="#">실시간 중계</a>
 					</c:if>
 					<c:if test="${game.gameStatusCode eq 2}">
-						<button class="btn small">경기 기록</button>
+						<a class="btn small" href="/game/getGameRecord?gameCode=${game.gameCode}">경기 기록</a>
 					</c:if>
 					<c:if test="${game.gameStatusCode eq 3}">
-						<button class="btn small">경기 취소</button>
+						<a class="btn small" href="#">경기 취소</a>
 					</c:if>
 		        </span>
 		        
