@@ -17,6 +17,8 @@
 		<result property="thumbNail" column="thumbnail" jdbcType="VARCHAR"/>
 		<result property="homeClick" column="home_click" jdbcType="INTEGER"/>
 		<result property="awayClick" column="away_click" jdbcType="INTEGER"/>
+		<result property="streamKey" column="stream_key" jdbcType="VARCHAR"/>
+		<result property="streamURL" column="stream_url" jdbcType="VARCHAR"/>
 		<association property="gameInfo" column="game_code" javaType="game" select="selectGame"/>
 	</resultMap>
 	
@@ -68,8 +70,8 @@
 	<!--SQL : Insert  -->
 	<insert id="addChannel" parameterType="channel">
 		INSERT 
-		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click)
-		values (#{channelID:VARCHAR}, #{gameInfo.gameCode}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{uploadPath:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
+		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click, stream_key, stream_url)
+		values (#{channelID:VARCHAR}, #{gameInfo.gameCode}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{uploadPath:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER}, #{streamKey}, #{streamURL});
 	</insert>
 	
 	<!-- SQL : select -->

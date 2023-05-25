@@ -66,7 +66,7 @@ public class ChannelTest {
 	//Select List Test => success
 	@Test
 	public void testSelectChannelList() throws Exception{
-		List<Object> channelList = channelSerivce.getChannelList();
+		List<Channel> channelList = channelSerivce.getChannelList();
 		System.out.println(channelList.size());
 		for(Object list : channelList) {
 			System.out.println(list.toString());
