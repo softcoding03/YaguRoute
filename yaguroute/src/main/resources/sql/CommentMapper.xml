@@ -36,13 +36,31 @@
 	    	#{userId},#{userImage},sysdate(),#{commentContents},#{commentImage},#{grade}
 	  	)
 	</insert>
-
-	<select id="getCommentList" parameterType="comment" resultMap="commentSelectMap">
+	
+	<select id="getComment" parameterType="int" resultMap="commentSelectMap">
+		SELECT * FROM comment
+		WHERE comment_no = #{value}
+	</select>
+	
+	<!-- 1레이어 댓글 리스트 -->
+	<select id="getCommentList1" parameterType="comment" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
 		<if test="gameCode != null">WHERE game_code = #{gameCode}</if>
 		<if test="prodNo != 0">WHERE prod_no = #{prodNo}</if>
+		AND second_comment_no IS NULL
 	</select>
+	
+	<!-- 2레이어 댓글 리스트 -->
+	<select id="getCommentList2" parameterType="comment" resultMap="commentSelectMap">
+		SELECT * FROM comment
+		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
+		<if test="gameCode != null">WHERE game_code = #{gameCode}</if>
+		<if test="prodNo != 0">WHERE prod_no = #{prodNo}</if>
+		AND second_comment_no IS NOT NULL
+	</select>
+	
+	
 		
 	<delete id="deleteComment" parameterType="int">
 		DELETE FROM comment

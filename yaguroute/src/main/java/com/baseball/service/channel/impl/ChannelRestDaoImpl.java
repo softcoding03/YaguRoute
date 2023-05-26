@@ -2,6 +2,7 @@ package com.baseball.service.channel.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,6 +12,7 @@ import java.net.URI;
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +36,18 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.CanonicalGrantee;
+import com.amazonaws.services.s3.model.Permission;
 import com.amazonaws.services.s3.model.Region;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.baseball.service.channel.ChannelRestDao;
 import com.baseball.service.domain.Channel;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 @Repository("channelRestDaoImpl")
@@ -90,7 +96,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			record.put("format", "MP4");
 			record.put("type", "AUTO_UPLOAD");
 			record.put("bucketName", channel.getBucketName());
-			record.put("filePath", channel.getUploadPath());
+			record.put("filePath", "/"+channel.getUploadPath());
 			record.put("accessControl", "PUBLIC_READ");
 			
 			//Request Body 설정
@@ -152,8 +158,9 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		JSONObject data = (JSONObject) parser.parse(response.toString());
 
 		//JSON Data를 channel VO에 저장
+		System.out.println((String)(((JSONObject)data.get("content")).get("channelId")));
 		channel.setChannelID((String)(((JSONObject)data.get("content")).get("channelId")));
-		System.out.println(returnData.toString());
+		System.out.println("channel : "+returnData.toString());
 		return channel;
 	}
 
@@ -214,7 +221,72 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		return serviceURL;
 	}
+	
+	@Override
+	public Map<String, Object> getChannel(String channelID) throws Exception{
+		
+		
+		String jsonData = "";
+		StringBuffer response = new StringBuffer();
+		String channelHost = "https://livestation.apigw.ntruss.com";
+		String requestURL = "/api/v2/channels/"+channelID;
+		String apiURL = channelHost+requestURL;
+		System.out.println(apiURL);
+		String method = "GET";
+		String timestamp = getTimestamp();
+		
+		//URL
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod(method);
+		con.setRequestProperty("Content-Type", "application/json");
+		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
+		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
+		con.setRequestProperty("x-ncp-region_code", "KR");
+		
+		//response 확인
+		int responseCode = con.getResponseCode();
+		BufferedReader br = null;
+		
+		//response data 확인
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			System.out.println("채널 조회 완료");
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			System.out.println(br.toString());
+			
+		} else {
+			System.out.println("Http Error Code : "+responseCode);
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			System.out.println(br.toString());
+		}
+		
+		while((jsonData = br.readLine()) != null) {
+			response.append(jsonData);
+		}
+		br.close();
+		con.disconnect();
+		
+		//JSON으로 변환
+		JSONParser parser = new JSONParser();
+		JSONObject data = (JSONObject) parser.parse(response.toString());
 
+		//JSON Data를 Map에 저장
+		System.out.println((String)(((JSONObject)data.get("content")).get("publishUrl")));
+		System.out.println((String)(((JSONObject)data.get("content")).get("streamKey")));
+		
+		String streamKey = (String)(((JSONObject)data.get("content")).get("streamKey"));
+		String publishURL = (String)(((JSONObject)data.get("content")).get("publishUrl"));
+		
+		Map<String, Object> map = new HashMap();
+		map.put("streamKey", streamKey);
+		map.put("streamURL", publishURL);
+		
+		
+		
+		return map;
+	}
+	
 	@Override
 	public void updateChannel(Channel channel) throws Exception {
 		System.out.println("Update Channel 시작");
@@ -315,7 +387,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	}
 
 	@Override
-	public Map<String, Object> StopChannel(String channleID) throws Exception {
+	public String StopChannel(String channleID) throws Exception {
 		System.out.println("Stop Record");
 		
 		String jsonData = "";
@@ -357,42 +429,34 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		Map mapObj = objectMapper.readValue(json, Map.class);
 		
 		System.out.println(mapObj.get("content"));
-
-		return mapObj;
+		
+		//record Type이 mp4인 파일의 이름
+		Map content = (Map)mapObj.get("content");
+		Map recordList = (Map)content.get("recordList");
+		
+		
+		List<String> recordKey = new ArrayList<>(recordList.keySet());
+		System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
+		String videoName="";
+		
+		for(int i=0 ; i < recordKey.size(); i++) {
+			if(((String)((Map)recordList.get(recordKey.get(i))).get("recordType")).equals("MP4")){
+				videoName = (String)((Map)recordList.get(recordKey.get(i))).get("fileName");
+				System.out.println("video의 fileName : "+videoName);
+			}
+		}
+		
+		//System.out.println("video의 FileName : "+videoName);
+		
+		return videoName;
 	}
 
 	@Override
 	public String geteVideo(Channel channel, String videoName) throws Exception {
-		System.out.println("getVideo start");
 		
-		final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-			    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, regionName))
-			    .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-			    .build();
-		
-		String bucketName = channel.getBucketName();
-		try {
-		    S3Object s3Object = s3.getObject(bucketName, videoName);
-		    S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
+		String videoLink = endPoint+"/"+channel.getBucketName()+"/"+channel.getUploadPath()+"/"+videoName;
 
-		    OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(""));
-		    byte[] bytesArray = new byte[4096];
-		    int bytesRead = -1;
-		    while ((bytesRead = s3ObjectInputStream.read(bytesArray)) != -1) {
-		        outputStream.write(bytesArray, 0, bytesRead);
-		    }
-
-		    outputStream.close();
-		    s3ObjectInputStream.close();
-		    System.out.format("Object %s has been downloaded.\n", videoName);
-		} catch (AmazonS3Exception e) {
-		    e.printStackTrace();
-		} catch(SdkClientException e) {
-		    e.printStackTrace();
-		}
-		
-		
-		return null;
+		return videoLink;
 	}
 	
 	

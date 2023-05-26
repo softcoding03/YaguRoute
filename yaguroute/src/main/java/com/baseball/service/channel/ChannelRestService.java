@@ -12,7 +12,7 @@ public interface ChannelRestService {
 	
 	public void deleteChannel(String ChannelID) throws Exception;
 	
-	public Map<String, Object> stopChannel(String ChannelID) throws Exception;
+	public String stopChannel(String ChannelID) throws Exception;
 	
 	public String getVideo(Channel channel, String videoName) throws Exception;
 }

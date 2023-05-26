@@ -17,6 +17,8 @@
 		<result property="thumbNail" column="thumbnail" jdbcType="VARCHAR"/>
 		<result property="homeClick" column="home_click" jdbcType="INTEGER"/>
 		<result property="awayClick" column="away_click" jdbcType="INTEGER"/>
+		<result property="streamKey" column="stream_key" jdbcType="VARCHAR"/>
+		<result property="streamURL" column="stream_url" jdbcType="VARCHAR"/>
 		<association property="gameInfo" column="game_code" javaType="game" select="selectGame"/>
 	</resultMap>
 	
@@ -31,8 +33,8 @@
 		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
 		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
 		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
-		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfoByTeamName"/>
-		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfo"/>
+		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team" select="getTeamInfo"/>
 		<association property="winningTeamCode" column="WINNING_TEAM_CODE" javaType="team"/>
 	</resultMap>
 	
@@ -56,20 +58,20 @@
 		SELECT * FROM game Where game_code = #{value}
 	</select>
 	
-	<select id="getTeamInfoByTeamName" parameterType="string" resultMap="teamSelectMap">
+	<select id="getTeamInfo" parameterType="string" resultMap="teamSelectMap">
 		select 
 		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
 		from team
 		<where>
-			team_nickname=#{value}
+			team_code=#{value}
 		</where>
 	</select>
 
 	<!--SQL : Insert  -->
 	<insert id="addChannel" parameterType="channel">
 		INSERT 
-		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click)
-		values (#{channelID:VARCHAR}, #{gameInfo.gameCode}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{uploadPath:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER});
+		INTO channel (channel_id, game_code, channel_name, bucket_name, channel_cdn, env_type, thumbnail, upload_path, home_click, away_click, stream_key, stream_url)
+		values (#{channelID:VARCHAR}, #{gameInfo.gameCode}, #{channelName:VARCHAR}, #{bucketName:VARCHAR}, #{channelCDN:VARCHAR}, #{envType:VARCHAR}, #{thumbNail:VARCHAR}, #{uploadPath:VARCHAR}, #{homeClick:INTEGER}, #{awayClick:INTEGER}, #{streamKey}, #{streamURL});
 	</insert>
 	
 	<!-- SQL : select -->

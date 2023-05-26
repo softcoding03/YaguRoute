@@ -14,13 +14,14 @@ public interface ChannelRestDao {
 	
 	public String getChannelServiceURL(String channelID) throws Exception;
 	
+	public Map<String, Object> getChannel(String channelID) throws Exception;
+	
 	public void updateChannel(Channel channel) throws Exception;
 	
 	public void deleteChannel(String ChannelID) throws Exception;
 	
-	public Map<String, Object> StopChannel(String channleID) throws Exception;
+	public String StopChannel(String channleID) throws Exception;
 	
 	public String geteVideo(Channel channel, String videoName) throws Exception;
-	
 	
 }

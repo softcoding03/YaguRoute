@@ -1,11 +1,15 @@
 package com.baseball.test.post;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
 import com.baseball.service.post.PostDao;
@@ -28,6 +32,38 @@ public class TestPost{
 		System.out.println("get 시작");
 		System.out.println("  쿼리 결과 값?"+postService.getPost(9));
 		System.out.println("get 끝");
+	}
+	
+	//특정 팀의 모든 게시글 조회
+	@Test
+	public void getPostList() throws Exception{
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		search.setSearchCondition("0");
+		search.setSearchKeyword("love");
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("teamCode", "OB");
+		map.put("search", search);
+		map = postService.getPostList(map);
+		
+		List<Post> list = (List<Post>)map.get("postList");
+		for(Post post:list) {
+			System.out.println(post);
+		}
+		Integer totalCount = (Integer)map.get("totalCount");	
+		System.out.println("총 레코드 수? "+totalCount);
+	}
+	
+	//특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list get(추천수가 동일하면 조회수로 우선순위)
+	//@Test
+	public void getPostBestList() throws Exception{
+		String teamCode ="OB";
+		List<Post> list = postService.getPostBestList(teamCode);
+		for(Post post:list) {
+			System.out.println(post);
+		}
 	}
 	
 	//@Test

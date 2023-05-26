@@ -82,7 +82,6 @@
 	
 	
 	<select		id="getTransaction"	parameterType="int" resultMap="transactionSelectMap">
-	
 		SELECT
 		 *
 		FROM transaction

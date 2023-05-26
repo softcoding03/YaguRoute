@@ -11,20 +11,37 @@
 		<result property="ticketStatus" 		column="ticket_status"	 	jdbcType="VARCHAR"/>
 		<result property="seatCode" 			column="seat_code" 			jdbcType="VARCHAR"/>
 		<result property="seatPrice" 			column="seat_price" 		jdbcType="INTEGER"/>
-		<result property="ticketRefund" 		column="ticket_refund" 		jdbcType="INTEGER"/>
 	</resultMap>
-	
+	<!--해당경기의 모든 티켓정보 출력(좌석선택위함) -->
 	<select id="getTickets" parameterType="string" resultMap="ticketSelectMap">
 		SELECT * FROM ticket
 		WHERE game_code = #{value}
 	</select>
 	
-	<insert id="addTicketPurchase" parameterType="java.util.List">
-		
-	</insert>
+	<!--티켓결제등록(addtransaction 후, tranNo가져와서 ticket정보에 업데이트)-->
+	<update id="addTicketPurchase" parameterType="map">
+		UPDATE ticket 
+		SET	tran_no = #{tranNo}, ticket_status=2
+		WHERE ticket_no IN 
+		<foreach collection="list" item="ticketNo" separator="," open="(" close=")">
+			#{ticketNo}
+		</foreach>
+	</update>
+	
+	<!--결제번호를 기반으로 해당 tranNo의 게임정보 가져오기 위함(결제내역리스트출력에 경기정보 출력)-->
+	<select id="getGameCode" parameterType="int" resultType="string">
+		SELECT DISTINCT game_code
+		FROM ticket WHERE tran_no = #{value}
+	</select>
+	
+	<!--특정 결제내역에 해당하는 티켓내역리스트 출력 -->
+	<select id="getTicketPurchaseList" parameterType="int" resultMap="ticketSelectMap">
+		SELECT * FROM ticket
+		WHERE tran_no = #{value}
+	</select>
 	
 	
-	
+	<!-- 티켓판매유무상태 변경 -->
 	<update id="updateTicketStatus" parameterType="ticket">
 		UPDATE ticket
 		<set>
@@ -33,17 +50,28 @@
 		WHERE ticket_no = #{ticketNo}
 	</update>
 	
+	<!-- transaction환불유무상태 변경 -->
 	<update id="updateTicketRefund" parameterType="ticket">
-		UPDATE ticket
+		UPDATE transaction
 		<set>
-			ticket_refund = #{ticketRefund}
+			refund_status = 1
 		</set>
-		WHERE ticket_no = #{ticketNo}
+		WHERE tran_no = #{value}
 	</update>
 	
+	<!-- 해당 경기의 판매완료된 티켓 수 출력 -->
 	<select id="getSalesTicket" parameterType="string" resultType="int">
 		SELECT COUNT(*) FROM ticket
 		WHERE game_code = #{gameCode} AND ticket_status = 2
 	</select>
+	
+	<!--환불 시 user가 사용한 point 다시 복구해주는 쿼리-->
+	<update id="updateRefundStatus" parameterType="user">
+		update user
+		<set>
+			user_point=user_point+#{userPoint}
+		</set>
+		WHERE user_id=#{userId}
+	</update>
 	
 </mapper>

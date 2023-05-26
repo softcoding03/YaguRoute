@@ -1,6 +1,7 @@
 package com.baseball.service.comment.impl;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,9 +32,15 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> getCommentList(Comment comment) throws Exception {
-		return commentDao.getCommentList(comment);
+	public Map<String,Object> getCommentList(Comment comment) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list1", commentDao.getCommentList1(comment));
+		map.put("list2", commentDao.getCommentList2(comment));
+		return map;
 	}
-	
-	
+
+	@Override
+	public Comment getComment(int commentNo) throws Exception {
+		return commentDao.getComment(commentNo);
+	}
 }
