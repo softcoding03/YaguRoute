@@ -3,7 +3,7 @@ package com.baseball.service.domain;
 public class Player {
 	
 	//field
-    private int playerId;
+    private String playerId;
     private String playerPosition;
     private String playerName;
     private int playerNumber;
@@ -25,10 +25,10 @@ public class Player {
 	public String getPlayerPosition() {
 		return playerPosition;
 	}
-	public int getPlayerId() {
+	public String getPlayerId() {
 		return playerId;
 	}
-	public void setPlayerId(int playerId) {
+	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
 	}
 	public void setPlayerPosition(String playerPosition) {

@@ -16,19 +16,20 @@ import com.baseball.service.player.PlayerDao;
 import com.baseball.service.player.PlayerService;
 
 @Service("playerServiceImpl")
-public class playerServiceImpl implements PlayerService{
+public class PlayerServiceImpl implements PlayerService{
 
 	//Field
 	@Autowired
 	@Qualifier("playerDao")
 	private PlayerDao playerDao;
 	private SqlSession sqlSession;
+	
 	public void setPlayerDao(PlayerDao playerDao) {
 		this.playerDao = playerDao;
 	}
 	
 	//Constructor
-	public playerServiceImpl() {
+	public PlayerServiceImpl() {
 		System.out.println(this.getClass());
 	}
 	
@@ -69,7 +70,7 @@ public class playerServiceImpl implements PlayerService{
 		List<Player> list = playerDao.getPlayerList(search); 
 		int totalCount = playerDao.getTotalCount(search); // totalCount는 따로 service, serviceImpl에 메소드 형태로 만들지 않는다. 
 		
-//		System.out.println("totalCount : " +totalCount); // totalCount : User리스트의 User 갯수 : 4개
+		System.out.println("totalCount : " +totalCount); // totalCount : User리스트의 User 갯수 : 4개
 		Map<String, Object> map = new HashMap<String, Object>(); // Map<String,Object> 객체 생성
 		
 		map.put("list", list); // "list" 문자 내부에 정렬되어 list=[User [userId = beatles123.. 라고 저장된다.]]
