@@ -77,5 +77,11 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 		String returnData = channelRestDao.geteVideo(channel, videoName);
 		return returnData;
 	}
+	
+	@Override
+	public String getChannelStatus(String ChannelID) throws Exception{
+		String channelStatus = channelRestDao.getChannelStatus(ChannelID);
+		return channelStatus;
+	}
 
 }
