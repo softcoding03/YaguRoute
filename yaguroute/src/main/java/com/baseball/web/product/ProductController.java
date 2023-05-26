@@ -124,10 +124,13 @@ public class ProductController {
 		}
 		
 		search.setPageSize(pageSize);
+		System.out.println("경고다"+search);
+		
 		
 		//Map B/L 수행
 		Map<String, Object> map = productService.getProductList(search);
 		
+		System.out.println();
 	
 		//System.out.println("for문으로 map 안에 있는 list 안에 ProdNo가 있는지 확인.");
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
