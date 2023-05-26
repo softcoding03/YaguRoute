@@ -140,7 +140,7 @@
                                 <div class="item">
                                     <label>
                                         <span>상품카테고리 <i>*</i></span>
-                                        <select class="basic" name="prodCategory">  <!-- 나중에 에러나니까 제거 -->
+                                        <select  name="prodCategory">  <!-- 나중에 에러나니까 제거 -->
                                      	    <option value="0" ${ prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
                                             <option value="1" ${ prodCategory ==1 ? "selected" : ""}>유니폼</option>
                                             <option value="2" ${ prodCategory ==2 ? "selected" : ""}>모자</option>
