@@ -19,11 +19,17 @@ public interface UserDao {
 	
 	public int getTotalCount(Search search) throws Exception;
 	
-//	public List<String> getUserAutoComplete() throws Exception;
+	public List<String> getUserAutoComplete() throws Exception;
 	
 	public void updateUser(User user) throws Exception;
 	
 	public void withDraw(User user) throws Exception;
 	
 	public void updatePoint(User user) throws Exception;
+	
+	public int userIdCheck(String userId) throws Exception;
+	
+	public int userNickNameCheck(String userNickName) throws Exception;
+	
+	public boolean phoneCheck(String userPhone) throws Exception;
 }
