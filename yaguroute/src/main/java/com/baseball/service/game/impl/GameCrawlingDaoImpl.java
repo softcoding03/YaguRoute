@@ -495,7 +495,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
@@ -620,7 +620,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		}
 		
 		gamePreview.setGameInfo(game);
-		
+		driver.quit();
 		return gamePreview;
 	}
 	
@@ -658,6 +658,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 				team.setLastTenMatch(splitDetailInfo[9]);
 			}
 		}
+		driver.quit();
 		return team;
 	}
 	
@@ -706,7 +707,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		Map<String, List<Player>> map = new HashMap<>();
 		map.put("homePlayerList", homePlayer);
 		map.put("awayPlayerList", awayPlayer);
-		
+		driver.quit();
 		return map;
 	}
 

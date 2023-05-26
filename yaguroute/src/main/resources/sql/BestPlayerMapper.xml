@@ -4,6 +4,15 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
       
-<mapper namespace="com.baseball.service.domain.BestPlayer">
+<mapper namespace="com.baseball.service.bestplayer.BestPlayerDao">
 	
+	<resultMap id="bestPlayerSelectMap" type="bestplayer">
+		<result property="playerId" column="PLAYER_ID" jdbcType="VARCHAR"/>
+		<result property="bestDate" column="BEST_DATE" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+		<insert id="addBestPlayer" parameterType="bestplayer">
+			INSERT INTO BEST_PLAYER (PLAYER_ID, BEST_DATE)
+  			VALUES (#{playerId}, #{bestDate})
+		</insert>
 </mapper>

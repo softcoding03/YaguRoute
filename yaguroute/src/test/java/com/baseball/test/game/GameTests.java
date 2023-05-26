@@ -57,7 +57,7 @@ public class GameTests {
 		System.out.println(game);
 	}
 	
-	@Test
+	//@Test
 	public void getGameScheduleList() throws Exception{
 		
 		String date = "2023-06";
@@ -103,7 +103,7 @@ public class GameTests {
 		gameService.addGame(game);
 	}
 	
-	//@Test
+	@Test
 	public void getGameRecord() throws Exception{
 		Game game = gameService.getGameInfo("20230524NCLT02023");
 		GameRecord gameRecord = gameService.getGameRecord(game);

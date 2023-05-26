@@ -79,7 +79,7 @@ public class UserTest {
 		userService.updateUser(user);
 	}
 	
-	@Test
+	//@Test
 	public void testgetUserList() throws Exception{
 		// searchCondition은 상품명(0)으로 조회할껀지 상품번호(1)로 조회할 것인지... 그 때 사용함.
 		

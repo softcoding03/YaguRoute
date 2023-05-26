@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.baseball.common.domain.Team;
 import com.baseball.service.comment.CommentService;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
 import com.baseball.service.domain.Pitcher;
 import com.baseball.service.game.GameService;
@@ -64,14 +65,41 @@ public class GameController {
 	public String getGameRecord(@RequestParam("gameCode") String gameCode,HttpServletRequest request) throws Exception{
 		Game game = gameService.getGameInfo(gameCode);
 		GameRecord gameRecord = gameService.getGameRecord(game);
-		for(Pitcher pitcher : gameRecord.getTitlePitcher()) {
-			System.out.println(pitcher.getPitcherName()+" => "+pitcher.getTitle()+" => "+pitcher.getPitcherImage());
-		}
 		
 		
 		request.setAttribute("gameRecord", gameRecord);
 		
 		return "/game/getGameRecord.jsp";
+	}
+	
+	@GetMapping("getGamePreview")
+	public String getGamePreview(@RequestParam("gameCode") String gameCode,HttpServletRequest request) throws Exception{
+		
+		Game game = gameService.getGameInfo(gameCode);
+		GamePreview gamePreview = gameService.getGamePreview(game);
+		
+		
+		request.setAttribute("gamePreview", gamePreview);
+		
+		return "/game/getGamePreview.jsp";
+	}
+	
+	@GetMapping("getTeam")
+	public String getGameTeam(@RequestParam("teamCode") String teamCode,HttpServletRequest request) throws Exception{
+		
+		List<Team> allTeam = gameService.getAllTeam();
+		Team teamInfo = gameService.getTeamInfo(teamCode);
+		
+		for(Team team : allTeam) {
+			System.out.println(team);
+		}
+		System.out.println(teamCode);
+		
+		request.setAttribute("teamInfo", teamInfo);
+		request.setAttribute("allTeam", allTeam);
+		request.setAttribute("teamCode", teamCode);
+		
+		return "/game/getTeam.jsp";
 	}
 
 }

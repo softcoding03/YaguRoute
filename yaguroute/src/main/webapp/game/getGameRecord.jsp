@@ -31,7 +31,7 @@
 	    <div class="tab-pane active" id="all">
 	        <div class="amateurs-main-match">
 	            <div class="title">${gameRecord.gameInfo.homeTeam.stadiumName}</div>	
-	            <a href="matches.html" class="team">
+	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.awayTeam.teamCode}" class="team">
 	                <span class="image"><img src="${gameRecord.gameInfo.awayTeam.teamEmblem}" alt="main-match"></span>
 	                <span class="info">
 	                    <span class="name">${gameRecord.gameInfo.awayTeam.teamFullName}</span>
@@ -40,7 +40,7 @@
 	            <div class="score">
 	                <span>${gameRecord.gameInfo.gameScore}</span>	
 	            </div>
-	            <a href="matches.html" class="team guest">
+	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.homeTeam.teamCode}" class="team guest">
 	                <span class="info">
 	                    <span class="name">${gameRecord.gameInfo.homeTeam.teamFullName}</span>
 	                </span>	
@@ -307,6 +307,5 @@ ${gameRecord.gameInfo.awayTeam.teamNickName}
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-</body>
 
 </html>
