@@ -28,7 +28,7 @@
 						sources : [
 							{src:"${channel.channelCDN}", type:"application/x-mpegURL"}
 						],
-						poster: '../images/player/BHlbAAAAvetFNwAA.jpg',
+						poster: '${channel.gameInfo.homeTeam.teamEmblem}',
 						controls: true,
 						platsinline : true,
 	 					muted : true,
@@ -56,10 +56,18 @@
 				<h2>채팅할 자리</h2>
 				<div class="col-xs-3 col-md-2">
 					<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
+					<button class="btn btn-primary" type="button">
+						응원
+						<span class="badge">${channel.homeClick}</span>
+					</button>
 				</div>
 				
 				<div class="col-xs-3 col-md-2">
 					<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+					<button class="btn btn-primary" type="button">
+						응원
+						<span class="badge">${channel.awayClick}</span>
+					</button>
 				</div>
 			</div>
   		 </div>
