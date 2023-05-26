@@ -118,7 +118,7 @@
 		        <span class="game-result">${game.homeTeam.hometown}</span>
 		        <span class="score">
 		             <c:if test="${game.gameStatusCode eq 0}">
-						<a class="btn small" href="#">전력 분석</a>
+						<a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}">전력 분석</a>
 					</c:if>
 					<c:if test="${game.gameStatusCode eq 1}">
 						<a class="btn small" href="#">실시간 중계</a>
@@ -143,6 +143,7 @@
 		</div>
 	</div>
 </section>
+</body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
@@ -203,6 +204,5 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-</body>
 
 </html>
