@@ -1,7 +1,8 @@
 package com.baseball.service.player;
 
-import java.util.List;
+import java.util.Map;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Player;
 
 public interface PlayerService {
@@ -10,9 +11,7 @@ public interface PlayerService {
 	
 	public Player getPlayer(String playerId) throws Exception;
 	
-//	public List<Player> getPlayerList(Search search) throws Exception;
-	
-//	public int getTotalCount(Search search) throws Exception;
+	public Map<String, Object> getPlayerList(Search search) throws Exception;
 	
 	public void deletePlayer();
 	

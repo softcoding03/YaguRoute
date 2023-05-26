@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Player;
+import com.baseball.service.domain.User;
 import com.baseball.service.player.PlayerService;
 
 import junit.framework.Assert;
@@ -30,9 +33,6 @@ import junit.framework.Assert;
 
 @SpringBootTest
 public class PlayerTests {
-
-//	public static String WEB_DRIVER_ID = "webdriver.chrome.driver"; // selenium driver 아이디
-//	public static String WEB_DRIVER_PATH = "C:\\chromeDriver\\chromedriver.exe"; // 경로
 	
 	@Autowired
 	@Qualifier("playerServiceImpl")
@@ -47,7 +47,7 @@ public class PlayerTests {
 		player.setHomeRun(8);
 		player.setPlayerBirth("19990845");
 		player.setPlayerHeight(180);
-		player.setPlayerId(12345);
+		player.setPlayerId("12345");
 		player.setPlayerImage("C://windows/images/player.png");
 		player.setPlayerName("영의지");
 		player.setPlayerNumber(7);
@@ -86,7 +86,7 @@ public class PlayerTests {
 		ChromeOptions ops = new ChromeOptions();
 		ops.setCapability("ignoreProtectedModeSettings", true);
 		ops.addArguments("--remote-allow-origins=*");
-//		ops.addArguments("headless");
+		ops.addArguments("headless");
 		ops.addArguments("--no-sandbox");
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
@@ -136,7 +136,7 @@ public class PlayerTests {
 			for(int i = 1; i <= playerList; i++) { // 선수 몇 명인지 나타냄.
 
 			/* 5. 선수 선택 */		
-			System.out.println("선수를 클릭합니다.[Futures]");
+			System.out.println("선수를 클릭합니다.");
 			WebElement playerSc = driver.findElement(By.xpath("//*[@id=\"cphContents_cphContents_cphContents_udpRecord\"]/div[2]/table/tbody/tr["+i+"]/td[2]/a"));
 			actions.keyDown(Keys.CONTROL).click(playerSc).keyUp(Keys.CONTROL).perform();
 			Thread.sleep(2000); 
@@ -186,7 +186,7 @@ public class PlayerTests {
 							player.setTeamCode(teamCoding);
 							
 							/// 1. 선수 아이디
-							int playerId = Integer.parseInt(playerIdSearch); // playerId를 String에서 int로 변환
+							String playerId = playerIdSearch; // playerId를 String에서 int로 변환
 							System.out.println("1. 선수 아이디 : "+playerId);
 							player.setPlayerId(playerId);
 							/// 2. 선수 이름
@@ -221,10 +221,30 @@ public class PlayerTests {
 			    			System.out.println("5. 선수 생년월일 : "+date);
 			    			player.setPlayerBirth(date);
 			    			/// 6. 선수 연봉
+			    			int playerSalaring = 0;
 			    			WebElement playerSalary = driver.findElement(By.id("cphContents_cphContents_cphContents_ucPlayerProfile_lblSalary"));
-			    			int playerSalaring = Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""));
-			    			System.out.println("6. 선수 연봉 : "+playerSalaring);
-			    			player.setPlayerSalary(playerSalaring);
+			   
+			    			if(playerSalary.getText().contains("-") || playerSalary.getText().contains(" ") || playerSalary.getText().isEmpty()) {
+								playerSalaring = 0; 
+								System.out.println("선수가 돈이 없습니다.");
+								System.out.println("6. 선수 연봉 : "+playerSalaring);
+								player.setPlayerSalary(playerSalaring);
+							}
+			    			
+							else if(playerSalary.getText().contains("달러")){
+								System.out.println("달러 니거..");
+								playerSalaring = ((Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""))*1323)/1000);
+								System.out.println("6. 선수 연봉 : "+playerSalaring);
+			    				player.setPlayerSalary(playerSalaring);
+							}
+			    			
+							else {
+								System.out.println("간코쿠진 데스");
+								playerSalaring = Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""));
+			    				System.out.println("6. 선수 연봉 : "+playerSalaring);
+				    			player.setPlayerSalary(playerSalaring);
+							}
+			    			
 			    			/// 7. 선수 신장
 			    			WebElement playerHeight = driver.findElement(By.id("cphContents_cphContents_cphContents_ucPlayerProfile_lblHeightWeight"));
 			    			int playerHeighting = Integer.parseInt(playerHeight.getText().split("cm/")[0].trim());
@@ -327,7 +347,7 @@ public class PlayerTests {
 				    				/// ---THREEOUT(삼진아웃)---
 				    				/// 모두 0값 입력!!!
 				    				
-//				    				playerService.addPlayer(player);
+				    				playerService.addPlayer(player);
 				    				
 				    			}
 				    			
@@ -335,10 +355,17 @@ public class PlayerTests {
 				    				
 				    				System.out.println("타자의 데이터가 존재한다.");
 				    				/// 1. 타율(BAVF)
+				    				float battingAvg = 0;
 				    				WebElement bavf = driver.findElement(By.xpath("//*[@id=\"contents\"]/div/div[2]/div[2]/table/tbody/tr/td[2]"));
 				    				System.out.println("11. 타율 : "+bavf.getText());
-				    				float battingAvg = Float.parseFloat(bavf.getText());
-				    				player.setBattingAvg(battingAvg);
+				    				if(bavf.getText().contains("-")) {
+				    					battingAvg = 0;
+				    					player.setBattingAvg(battingAvg);
+				    				}
+				    				else {
+				    					battingAvg = Float.parseFloat(bavf.getText());
+					    				player.setBattingAvg(battingAvg);
+				    				}
 				    				/// 2. 안타(H)
 				    				WebElement hit = driver.findElement(By.xpath("//*[@id=\"contents\"]/div/div[2]/div[2]/table/tbody/tr/td[6]"));
 				    				System.out.println("12. 안타 : "+hit.getText());
@@ -367,7 +394,7 @@ public class PlayerTests {
 				    				/// ---THREEOUT(삼진아웃)---
 				    				/// 데이터 입력하기 
 				    				
-//				    				playerService.addPlayer(player);
+				    				playerService.addPlayer(player);
 				    				
 				    			}// end of else[기록이 있는지 없는지 구별]
 				    			
@@ -395,7 +422,7 @@ public class PlayerTests {
 			    					/// ---THREEOUT(삼진아웃)---
 			    					/// ---ERA(평균자책점)---
 			    					// 위 데이터 모두 0 입력하기
-//			    					playerService.addPlayer(player);
+			    					playerService.addPlayer(player);
 			    					
 			    				}
 			    				else { // 데이터가 존재할 때...
@@ -420,6 +447,7 @@ public class PlayerTests {
 			    					player.setEra(eraa);
 			    					
 			    					}
+			    					
 			    					playerService.addPlayer(player);
 			    					
 			    					/// ---THREEOUT(삼진아웃)---
@@ -450,7 +478,7 @@ public class PlayerTests {
 								System.out.println("0. 구단코드 : " + teamCoding);
 								
 								/// 1. 선수 아이디
-								int playerId = Integer.parseInt(playerIdSearch); // playerId를 String에서 int로 변환
+								String playerId = playerIdSearch; // playerId를 String에서 int로 변환
 								System.out.println("1. 선수 아이디 : "+playerId);
 								player.setPlayerId(playerId);
 								/// 2. 선수 이름
@@ -486,10 +514,24 @@ public class PlayerTests {
 				    			System.out.println("5. 선수 생년월일 : "+date);
 				    			player.setPlayerBirth(date);
 								/// 6. 선수 연봉
+				    			int playerSalaring = 0;
 								WebElement playerSalary = driver.findElement(By.xpath("//*[@id=\"cphContents_cphContents_cphContents_playerProfile_lblSalary\"]"));
-								int playerSalaring = Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""));
-				    			System.out.println("6. 선수 연봉 : "+playerSalaring);
-				    			player.setPlayerSalary(playerSalaring);
+								
+								if(playerSalary.getText().contains("-") || playerSalary.getText().contains(" ") || playerSalary.getText().isEmpty()) {
+									playerSalaring = 0; 
+									System.out.println("6. 선수 연봉 : "+playerSalaring);
+									player.setPlayerSalary(playerSalaring);
+								}
+								else if(playerSalary.getText().contains("달러")){
+									playerSalaring = ((Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""))*1323)/1000);
+									System.out.println("6. 선수 연봉 : "+playerSalaring);
+				    				player.setPlayerSalary(playerSalaring);
+								}
+								else {
+									playerSalaring = Integer.parseInt(playerSalary.getText().replaceAll("[^\\d-]+", ""));
+				    				System.out.println("6. 선수 연봉 : "+playerSalaring);
+					    			player.setPlayerSalary(playerSalaring);
+								}
 								/// 7. 선수 신장
 								WebElement playerHeight = driver.findElement(By.xpath("//*[@id=\"cphContents_cphContents_cphContents_playerProfile_lblHeightWeight\"]"));
 								int playerHeighting = Integer.parseInt(playerHeight.getText().split("cm/")[0].trim());
@@ -593,16 +635,23 @@ public class PlayerTests {
 						    				/// ---THREEOUT(삼진아웃)---
 						    				/// 모두 0값 입력!!!
 						    				
-//						    				playerService.addPlayer(player);
+						    				playerService.addPlayer(player);
 						    				
 						    			}
 						    			else {
 						    				
 						    				/// 1. 타율(BAVF)
+						    				float battingAvg = 0;
 						    				WebElement bavf = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[2]/table/tbody/tr/td[2]"));
 						    				System.out.println("11. 타율 : "+bavf.getText());
-						    				float battingAvg = Float.parseFloat(bavf.getText());
-						    				player.setBattingAvg(battingAvg);
+						    				if(bavf.getText().contains("-")) {
+						    					battingAvg = 0;
+						    					player.setBattingAvg(battingAvg);
+						    				}
+						    				else {
+						    					battingAvg = Float.parseFloat(bavf.getText());
+						    					player.setBattingAvg(battingAvg);
+						    				}
 						    				/// 2. 안타(H)
 						    				WebElement hitter = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[2]/table/tbody/tr/td[7]"));
 						    				System.out.println("12. 안타 : "+hitter.getText());
@@ -660,11 +709,10 @@ public class PlayerTests {
 					    					/// ---ERA(평균자책점)---
 					    					// 위 데이터 모두 0 입력하기
 					    					
-//					    					playerService.addPlayer(player);
+					    					playerService.addPlayer(player);
 					    				}// end of if
 					    				
 					    				else {
-					    					
 					    					
 					    					/// 1. 삼진아웃(THREEOUT)
 					    					WebElement threeout = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[2]/div[3]/table/tbody/tr/td[5]"));
@@ -684,13 +732,11 @@ public class PlayerTests {
 					    						player.setEra(eraa);
 					    					}
 					    					
-					    					playerService.addPlayer(player);
-					    					
 					    					/// ---THREEOUT(삼진아웃)---
 					    					/// ---ERA(평균자책점)---
 					    					/// 데이터 입력하기 
-					    					
-//					    					playerService.addPlayer(player);
+
+					    					playerService.addPlayer(player);
 					    					
 					    				}// end of else [투수의 기록이 존재 할 때...]
 									}// end of else
@@ -706,6 +752,31 @@ public class PlayerTests {
 		}// end of for
 		
 	}
-	
-	
+	//@Test
+	public void testgetPlayerList() throws Exception{
+		// searchCondition은 상품명(0)으로 조회할껀지 상품번호(1)로 조회할 것인지... 그 때 사용함.
+		
+		Search search = new Search(); // search 객체 생성
+		
+		search.setCurrentPage(1); // 현재 페이지를 1로 세팅
+		search.setPageSize(21); // 한 페이지당 보이는 게시물을 3개로 세팅
+		Map<String, Object> map = playerService.getPlayerList(search); // K,V형태 저장, search내부는 위 설정한 CurrentPage, pageSize 값만 설정해줌을 확인
+		System.out.println("search : "+search);// search에 설정한 현재 페이지와 페이지 사이즈의 값만 설정 확인가능
+		System.out.println("getUserList : "+playerService.getPlayerList(search)); // map형태로 데이터가 들어가 있는 것을 확인한다.
+		// list = [User....]라고 작성되어있다. 이유는 list는 serviceImpl에서 작성한 put.("list", list) 형태로 들어가 list라는 것에 존재하기 때문,
+		// User[]는 User객체안에 데이터가 명시되어있기 때문이다.
+		int totalCount = (Integer)map.get("totalCount");
+		search.setCurrentPage(1); // 현재 페이지를 1로 set
+		search.setPageSize(10); // 현재 페이지의 출력되는 갯수를 10으로 설정, 이보다 더 적든, 많든 설정에 문제가 없다. 
+		search.setTeamCondition("0"); // 아직 Condition은 구현을 하지 않아서 임의로 0을 입력한다.
+		
+		List<Player> playerlist = (List<Player>)map.get("list"); // 문자열이 "호날두"에 해당하는 리스트 안에 존재하는 값들을 가지고 온다.
+//		Assert.assertEquals(4, playerlist.size()); // User가 총 4명이므로... 4를 출력한다. 4와 일치하므로.. 오류 X
+		System.out.println("playerList : "+playerlist); // 이제 문자열 "호날두"내부에 있는 리스트를 가져와 출력한다. 
+		for(Player player:playerlist) {
+			System.out.println(player); // 1~4까지 존재하는 UserList를 출력한다.
+		}
+		System.out.println("playerList[totalCount] : "+totalCount); // totalCount는 전체 회원 수를 출력한다.
+		
+	}
 }	

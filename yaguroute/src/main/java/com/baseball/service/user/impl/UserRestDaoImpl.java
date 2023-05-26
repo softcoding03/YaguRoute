@@ -20,11 +20,11 @@ public class UserRestDaoImpl implements UserRestDao{
 	// userRestDaoImpl 생성 이유 : 외부(네이버, 카카오)에서 데이터를 가져오기 때문에
 	
 	public UserRestDaoImpl() {
-		System.out.println("UserRestDaoImpl success");
+		System.out.println(this.getClass());
 	}
 	
 	@Override
-	public String getAccessToken(String authorizationCode) throws Exception {
+	public String getAccessTokenNaver(String authorizationCode) throws Exception {
 		// TODO Auto-generated method stub
 		String access_Token = "";
 		String refresh_Token = "";
@@ -76,7 +76,7 @@ public class UserRestDaoImpl implements UserRestDao{
 	}
 
 	@Override
-	public Map<String, Object> getUserInfo(String accessToken) throws Exception {
+	public Map<String, Object> getNaverUserInfo(String accessToken) throws Exception {
 		// TODO Auto-generated method stub
 		
 		Map<String, Object> userInfo = new HashMap<>();
@@ -96,6 +96,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		while ((line = br.readLine()) != null) {
 			result += line;
 		}
+		
 		System.out.println("responseBody : "+ result);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -129,6 +130,118 @@ public class UserRestDaoImpl implements UserRestDao{
 		
 		return userInfo;
 	}
-	
-	
+
+	@Override
+	public String getAccessTokenKakao(String authorizationCode) throws Exception {
+		// TODO Auto-generated method stub
+		String access_Token = "";
+		String refresh_Token = "";
+		String url = "https://kauth.kakao.com/oauth/token";
+		
+		URL obj;
+		obj = new URL(url);
+		
+		
+		// HTTP 연결 생성
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// HTTP 요청 메소드 설정
+		con.setRequestMethod("POST");
+		con.setDoOutput(true);
+		
+		// HTTP 요청 헤더 설정
+		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		// HTTP 요청에 필요한 파라미터 설정
+		String postParams = "grant_type=authorization_code" +
+			"&client_id=" + "492090239797ebad0d3181db65216b78" +
+			"&redirect_uri=" + "http://192.168.0.116:8080/user/kakaoLogin" +
+			"&code=" + authorizationCode;
+		
+		
+		// HTTP 요청 본문에 파라미터 추가
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(postParams);
+		wr.flush();
+		
+		// 결과 코드가 200이라면 성공
+		int responseCode = con.getResponseCode();
+		System.out.println("responseCode : " + responseCode);
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String line = "";
+		String result = "";
+		
+		while((line = br.readLine())!= null) {
+			result += line;
+		}
+		System.out.println("responseBody : "+result);
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> map = objectMapper.readValue(result, Map.class);
+		System.out.println("가져온 정보 : "+map);
+		
+		access_Token = map.get("access_token").toString();
+		refresh_Token = map.get("refresh_token").toString();
+		
+		System.out.println("accessToken : "+access_Token);
+		System.out.println("refreshToken : "+refresh_Token);
+		
+		return access_Token;
+	}
+
+	@Override
+	public Map<String, Object> getKakaoUserInfo(String accessToken) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> userInfo = new HashMap<>();
+		String postUrl = "https://kapi.kakao.com/v2/user/me";
+		
+		URL obj = new URL(postUrl);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Authorization", "Bearer " + accessToken);
+		
+		int responseCode = con.getResponseCode();
+		System.out.println("결과 : "+responseCode);
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		
+		String line = "";
+		String result = "";
+		
+		while((line = br.readLine()) != null) {
+			result += line;
+		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.readValue(result, Map.class);
+        
+        System.out.println("5678"+map+"5678");
+        
+        Map<String, Object> properties = (Map<String, Object>) map.get("properties");
+        Map<String, Object> kakaoAccount = (Map<String, Object>) map.get("kakao_account");
+        
+        String userId = map.get("id").toString();
+        String userName = properties.get("nickname").toString();
+        String userImage = properties.get("profile_image").toString();
+        String userEmail = kakaoAccount.get("email").toString();
+        
+        System.out.println("properties : "+properties);
+        System.out.println("kakaoAccount : "+kakaoAccount);
+        System.out.println("userId : "+userId);
+        System.out.println("userName : "+userName);
+        System.out.println("userImage : "+userImage);
+        System.out.println("userEmail : "+userEmail);
+        
+        userInfo.put("userId", userId);
+        userInfo.put("userName", userName);
+        userInfo.put("userImage", userImage);
+        userInfo.put("userEmail", userEmail);
+        
+		return userInfo;
+	}
 }

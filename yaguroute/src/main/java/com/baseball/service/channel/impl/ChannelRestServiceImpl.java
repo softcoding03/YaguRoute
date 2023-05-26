@@ -37,6 +37,15 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 		
 		Channel returnData = channelRestDao.addChannel(channel);
 		
+		Map<String, Object> map = channelRestDao.getChannel(returnData.getChannelID());
+		
+		String streamKey = map.get("streamKey").toString();
+		String streamURL = map.get("streamURL").toString();
+		returnData.setStreamKey(streamKey);
+		returnData.setStreamURL(streamURL);
+		
+		System.out.println("returnData Info : "+returnData.toString());
+		
 		Thread.sleep(300000);
 		String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());	
 		returnData.setChannelCDN(data);
@@ -67,6 +76,12 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 	public String getVideo(Channel channel, String videoName) throws Exception {
 		String returnData = channelRestDao.geteVideo(channel, videoName);
 		return returnData;
+	}
+	
+	@Override
+	public String getChannelStatus(String ChannelID) throws Exception{
+		String channelStatus = channelRestDao.getChannelStatus(ChannelID);
+		return channelStatus;
 	}
 
 }

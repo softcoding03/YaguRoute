@@ -44,8 +44,8 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Object> getChannelList() throws Exception {
-		List<Object> channelList = channelDao.getChannelList();
+	public List<Channel> getChannelList() throws Exception {
+		List<Channel> channelList = channelDao.getChannelList();
 		return channelList;
 	}
 

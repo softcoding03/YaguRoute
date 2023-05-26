@@ -14,7 +14,7 @@ public class NaverLoginServiceImpl implements NaverLoginService{
 
 	//Constructor
 	public NaverLoginServiceImpl() {
-	System.out.println("NaverLoginServiceImpl success");
+	System.out.println(this.getClass());
 			// TODO Auto-generated constructor stub
 	}
 		
@@ -26,13 +26,13 @@ public class NaverLoginServiceImpl implements NaverLoginService{
 	public String getAccessToken(String code) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("111111111111"+code);
-		return userRestDao.getAccessToken(code);
+		return userRestDao.getAccessTokenNaver(code);
 	}
 
 	@Override
 	public Map<String, Object> getUserInfo(String accessToken) throws Exception {
 		// TODO Auto-generated method stub
-		return userRestDao.getUserInfo(accessToken);
+		return userRestDao.getNaverUserInfo(accessToken);
 	}
 
 }

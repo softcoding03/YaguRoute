@@ -10,6 +10,8 @@ public class Channel {
 	private String envType;
 	private String uploadPath;
 	private String thumbNail;
+	private String streamKey;
+	private String streamURL;
 	private int homeClick;
 	private int awayClick;
 	
@@ -57,6 +59,14 @@ public class Channel {
 	public int getAwayClick() {
 		return awayClick;
 	}
+	
+	public String getStreamKey() {
+		return streamKey;
+	}
+
+	public String getStreamURL() {
+		return streamURL;
+	}
 
 	public void setChannelID(String channelID) {
 		this.channelID = channelID;
@@ -98,11 +108,19 @@ public class Channel {
 		this.awayClick = awayClick;
 	}
 	
+	public void setStreamKey(String streamKey) {
+		this.streamKey = streamKey;
+	}
+
+	public void setStreamURL(String streamURL) {
+		this.streamURL = streamURL;
+	}
+	
 	@Override
 	public String toString() {
 		return "Channel [channelID =" + channelID + ", gameInfo=" + gameInfo + ", channelName=" + channelName + ", bucketName="
 				+ bucketName + ", channelCDN=" + channelCDN + ", envType=" + envType + ", uploadPath=" + uploadPath
-				+ ", thumbnail=" + thumbNail + ", homeClick=" + homeClick + ", awayClick="
+				+ ", thumbnail=" + thumbNail +", streamKey="+ streamKey +", streamURL = "+streamURL+", homeClick=" + homeClick + ", awayClick="
 				+ awayClick+ "]";
 	}
 	

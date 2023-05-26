@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baseball.service.kakaologin.KakaoLoginService;
 import com.baseball.service.naverlogin.NaverLoginService;
 import com.baseball.service.user.UserService;
 
@@ -30,6 +31,10 @@ public class UserRestController {
 	@Qualifier("naverLoginServiceImpl")
 	private NaverLoginService naverLoginService;
 	
+	@Autowired
+	@Qualifier("kakaoLoginServiceImpl")
+	private KakaoLoginService kakaoLoginService;
+	
 	public UserRestController() {
 		System.out.println(this.getClass());
 	}
@@ -42,13 +47,29 @@ public class UserRestController {
 		// 네이버에서 토큰 발급 요청
 		String access_Token = naverLoginService.getAccessToken(code);
 		
-		System.out.println("Controller [accessToken] : "+access_Token);
+		System.out.println("전달 받은 Access Token : "+access_Token);
 
 		// 토큰으로 userInfo 요청
 		Map<String, Object> userInfo = naverLoginService.getUserInfo(access_Token);
-		System.out.println("userInfo : " + userInfo);
+		System.out.println("네이버 userInfo : " + userInfo);
 	
 		
 		return code;
+	}
+	
+	@RequestMapping( value="kakaoLogin", method=RequestMethod.GET)
+	public String kakaoLogin(@RequestParam(value= "code", required = false) String code, HttpSession session, HttpServletRequest request) throws Exception{
+		
+		System.out.println("Authorization Code : "+code);
+		
+		// 카카오에서 토큰 발급 요청
+		String access_Token = kakaoLoginService.getAccessToken(code);
+		System.out.println("전달 받은 Access Token : "+access_Token);
+		
+		// 토큰으로 userInfo 요청
+		Map<String, Object> userInfo = kakaoLoginService.getUserInfo(access_Token);
+		System.out.println("카카오 userInfo : "+userInfo);
+		
+		return "redirect:/user/kakaologin.jsp";
 	}
 }

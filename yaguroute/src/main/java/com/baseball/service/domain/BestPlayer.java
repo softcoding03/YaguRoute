@@ -5,34 +5,29 @@ import java.util.Date;
 public class BestPlayer {
 
 	//Field
-	private int id;
-	private Player playerId;
-	private Date bestDate;
+	private String playerId;
+	private String bestDate;
 	
 	//Method
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public Player getPlayerId() {
+	public String getPlayerId() {
+		System.out.println("playerId : "+playerId);
 		return playerId;
 	}
-	public void setPlayerId(Player playerId) {
+	public void setPlayerId(String playerId) {
+		System.out.println("set playerId : "+playerId);
 		this.playerId = playerId;
 	}
-	public Date getBestDate() {
+	public String getBestDate() {
+		System.out.println("bestDate : "+bestDate);
 		return bestDate;
 	}
-	public void setBestDate(Date bestDate) {
+	public void setBestDate(String bestDate) {
+		System.out.println("bestDate : "+bestDate);
 		this.bestDate = bestDate;
 	}
-	
 	@Override
 	public String toString() {
-		return "BestPlayer [id=" + id + ", playerId=" + playerId + ", bestDate=" + bestDate + "]";
+		return "BestPlayer [playerId=" + playerId + ", bestDate=" + bestDate + "]";
 	}
-	
 	
 }

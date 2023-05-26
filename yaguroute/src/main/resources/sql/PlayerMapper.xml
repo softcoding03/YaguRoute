@@ -57,18 +57,22 @@
 		DELETE 
 		FROM player
 	</delete>
-	
-	<!-- 선수 데이터를 리스트 형태로 출력하기 위한 SQL -->
-	<!-- <select id="getPlayerList" parameterType="Search" resultMap="playerSelectMap">
-		SELECT * 
-		FROM ()
-	</select> -->
 		
 	<!-- 선수 테이블의 getPlayer... -->
-	<select id="getPlayer" parameterType="String" resultMap="playerSelectMap">
-		SELECT * 
-		FROM player
-		WHERE player_id = #{playerId}
+	<select id="getPlayerList" parameterType="Search" resultMap="playerSelectMap">
+	  	<include refid="playerList"/>
+	  	Limit #{startRowNum}, #{pageSize}
+	</select>
+	
+	<sql id="playerList">
+	SELECT *
+	FROM player
+	ORDER BY player_name
+	</sql>
+	
+	<select id="getTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*)
+		FROM (<include refid="playerList"/>) countTable
 	</select>
 	
 	

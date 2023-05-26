@@ -15,7 +15,7 @@ public interface UserService {
 	
 	public Map<String, Object>getUserList(Search search) throws Exception;
 	
-//	public List<String> getUserAutoComplete(Search search) throws Exception;
+	public List<String> getUserAutoComplete(Search search) throws Exception;
 	
 	public void updateUser(User user) throws Exception;
 	
@@ -25,5 +25,6 @@ public interface UserService {
 
 	public boolean checkDuplication(String userId) throws Exception;
 	
+	public boolean phoneCheck(String userPhone) throws Exception;
 	
 }
