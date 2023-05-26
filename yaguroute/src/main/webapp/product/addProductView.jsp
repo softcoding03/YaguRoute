@@ -20,8 +20,8 @@
     	    var name = $("input[name='prodName']").val();
     	    var price = $("input[name='prodPrice']").val();
     	    var stock = $("input[name='prodStock']").val();
-    	    var category = $("input[name='prodCategory']").val();
-    	    var teamcode = $("input[name='prodTeamCode']").val();
+    	    var category = $("select[name='prodCategory']").val();
+    	    var teamcode = $("select[name='prodTeamCode']").val();
     	    
     	    if(name == null || name.length<1){
     	      alert("상품명은 반드시 입력하여야 합니다.");
@@ -51,6 +51,12 @@
     		    fncAddProduct();
     		  });
     		});
+    
+    
+    function FileUpload () {
+    	
+    	$("form").attr("enctype", "multipart/form-data").submit();
+    } 
 
     </script>	
 </head>
@@ -121,7 +127,7 @@
                                 <div class="item">
                                     <label>
                                         <span>상품 이미지 <i>*</i></span>
-                                        <input  type="file" name="prodImage" multiple="multiple">
+                                        <input  type="file" name="prodImages" multiple="multiple">
                                     </label>
                                 </div>
                             </div>
@@ -140,32 +146,33 @@
                                 <div class="item">
                                     <label>
                                         <span>상품카테고리 <i>*</i></span>
-                                        <select  name="prodCategory">  <!-- 나중에 에러나니까 제거 -->
-                                     	    <option value="0" ${ prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
-                                            <option value="1" ${ prodCategory ==1 ? "selected" : ""}>유니폼</option>
-                                            <option value="2" ${ prodCategory ==2 ? "selected" : ""}>모자</option>
-                                            <option value="3" ${ prodCategory ==3 ? "selected" : ""}>야구용품</option>
-                                            <option value="4" ${ prodCategory ==4 ? "selected" : ""}>잡화</option>
-                                        </select>
+                                          <select class="basic"  name="prodCategory">  <!-- 나중에 에러나니까 제거 -->
+                                     	    <option value="0" ${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
+                                            <option value="1" ${ product.prodCategory ==1 ? "selected" : ""}>유니폼</option>
+                                            <option value="2" ${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
+                                            <option value="3" ${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
+                                            <option value="4" ${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
+                                        </select>		
                                     </label>
                                 </div>
                             </div>
+                            
                             <div class="col-md-6">
                                 <div class="item">
                                     <label>
                                         <span>구단<i>*</i></span>
                                         <select class="basic" name="prodTeamCode">
-                                       	 <option value="">구단을 선택하세요</option>
-                                            <option value="OB">두산베어스</option>
-                                            <option value="LT">롯데자이언츠</option>
-                                            <option value="LG">LG트윈스</option>
-                                            <option value="KT">KT위즈</option>
-                                            <option value="HT">기아타이거즈</option>
-                                            <option value="SK">SSG랜더스</option>
-                                            <option value="NC">NC다이노스</option>
-                                            <option value="WO">키움히어로즈</option>
-                                            <option value="SS">삼성라이온즈</option>
-                                            <option value="HH">한화이글스</option>
+                                       	 <option value="NN" ${ product.prodTeamCode ==NN ? "selected" : ""}>구단을 선택하세요</option>
+                                            <option value="OB" ${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
+                                            <option value="LT" ${ product.prodTeamCode ==LT ? "selected" : ""}>롯데자이언츠</option>
+                                            <option value="LG" ${ product.prodTeamCode ==LG ? "selected" : ""}>LG트윈스</option>
+                                            <option value="KT" ${ product.prodTeamCode ==KT ? "selected" : ""}>KT위즈</option>
+                                            <option value="HT" ${ product.prodTeamCode ==HT ? "selected" : ""}>기아타이거즈</option>
+                                            <option value="SK" ${ product.prodTeamCode ==SK ? "selected" : ""}>SSG랜더스</option>
+                                            <option value="NC" ${ product.prodTeamCode ==NC ? "selected" : ""}>NC다이노스</option>
+                                            <option value="WO" ${ product.prodTeamCode ==WO ? "selected" : ""}>키움히어로즈</option>
+                                            <option value="SS" ${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
+                                            <option value="HH" ${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
                                             
                                         </select>
                                     </label>

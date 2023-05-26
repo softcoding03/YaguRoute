@@ -51,7 +51,7 @@ public class ProductController {
 	
 	@PostMapping(value="addProduct")   
 	public String addProduct(@ModelAttribute("product") Product product,
-								@RequestParam("files") List<MultipartFile> multipartFile, Model model) throws Exception {
+								@RequestParam("prodImages") List<MultipartFile> multipartFile, Model model) throws Exception {
 																
 		System.out.println("MultipartFile 	::"+product);
 		System.out.println("MultipartFile22 ::"+multipartFile);
