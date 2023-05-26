@@ -221,7 +221,72 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		return serviceURL;
 	}
+	
+	@Override
+	public Map<String, Object> getChannel(String channelID) throws Exception{
+		
+		
+		String jsonData = "";
+		StringBuffer response = new StringBuffer();
+		String channelHost = "https://livestation.apigw.ntruss.com";
+		String requestURL = "/api/v2/channels/"+channelID;
+		String apiURL = channelHost+requestURL;
+		System.out.println(apiURL);
+		String method = "GET";
+		String timestamp = getTimestamp();
+		
+		//URL
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod(method);
+		con.setRequestProperty("Content-Type", "application/json");
+		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
+		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
+		con.setRequestProperty("x-ncp-region_code", "KR");
+		
+		//response 확인
+		int responseCode = con.getResponseCode();
+		BufferedReader br = null;
+		
+		//response data 확인
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			System.out.println("채널 조회 완료");
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			System.out.println(br.toString());
+			
+		} else {
+			System.out.println("Http Error Code : "+responseCode);
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			System.out.println(br.toString());
+		}
+		
+		while((jsonData = br.readLine()) != null) {
+			response.append(jsonData);
+		}
+		br.close();
+		con.disconnect();
+		
+		//JSON으로 변환
+		JSONParser parser = new JSONParser();
+		JSONObject data = (JSONObject) parser.parse(response.toString());
 
+		//JSON Data를 Map에 저장
+		System.out.println((String)(((JSONObject)data.get("content")).get("publishUrl")));
+		System.out.println((String)(((JSONObject)data.get("content")).get("streamKey")));
+		
+		String streamKey = (String)(((JSONObject)data.get("content")).get("streamKey"));
+		String publishURL = (String)(((JSONObject)data.get("content")).get("publishUrl"));
+		
+		Map<String, Object> map = new HashMap();
+		map.put("streamKey", streamKey);
+		map.put("streamURL", publishURL);
+		
+		
+		
+		return map;
+	}
+	
 	@Override
 	public void updateChannel(Channel channel) throws Exception {
 		System.out.println("Update Channel 시작");
