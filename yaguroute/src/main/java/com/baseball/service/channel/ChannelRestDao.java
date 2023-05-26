@@ -22,5 +22,4 @@ public interface ChannelRestDao {
 	
 	public String geteVideo(Channel channel, String videoName) throws Exception;
 	
-	
 }

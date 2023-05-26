@@ -41,7 +41,8 @@
 		SELECT * FROM comment
 		WHERE comment_no = #{value}
 	</select>
-
+	
+	<!-- 1레이어 댓글 리스트 -->
 	<select id="getCommentList1" parameterType="comment" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
@@ -50,6 +51,7 @@
 		AND second_comment_no IS NULL
 	</select>
 	
+	<!-- 2레이어 댓글 리스트 -->
 	<select id="getCommentList2" parameterType="comment" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
