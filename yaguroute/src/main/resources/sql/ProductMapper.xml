@@ -108,10 +108,9 @@
 
 	<select id="autoComplete" resultType="string">
 	
-		SELECT prod_name
+		SELECT
+		prod_name
 		FROM product
-		WHERE prod_name LIKE CONCAT('%', #{searchKeyword}, '%')
-  		LIMIT 5;
 	
 	</select>
 

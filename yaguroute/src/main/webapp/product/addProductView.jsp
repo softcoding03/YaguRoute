@@ -50,6 +50,9 @@
     	  $(".comment-submit:contains('등록')").on('click', function(){
     		    fncAddProduct();
     		  });
+    	  $(".comment-submit:contains('취소')").on('click', function(){
+    			self.location = "../algudgodmain.jsp";
+  		  });
     		});
     
     
@@ -174,7 +177,7 @@
                                             <option value="SS" ${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
                                             <option value="HH" ${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
                                             
-                                        </select>
+                                        </select>                                   
                                     </label>
                                 </div>
                             </div>
@@ -210,6 +213,8 @@
   							
 	<div class="col-md-8 text-center" >
 	<button class="comment-submit">등록</button>
+	<td></td>
+	<button class="comment-submit">취소</button>
 	</div>
 
 

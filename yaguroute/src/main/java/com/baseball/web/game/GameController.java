@@ -51,7 +51,7 @@ public class GameController {
 		List<Team> allTeam = gameService.getAllTeam();
 		List<Game> gameList= gameService.getGameListByMonthly(date, teamCode);
 		
-		requset.setAttribute("nowYear", nowYear);
+		requset.setAttribute("nowYear", year);
 		requset.setAttribute("nowMonth", month);
 		requset.setAttribute("teamCode", teamCode);
 		requset.setAttribute("gameList", gameList);
