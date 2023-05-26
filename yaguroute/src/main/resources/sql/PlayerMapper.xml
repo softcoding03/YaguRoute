@@ -65,10 +65,27 @@
 	</select> -->
 		
 	<!-- 선수 테이블의 getPlayer... -->
-	<select id="getPlayer" parameterType="String" resultMap="playerSelectMap">
-		SELECT * 
-		FROM player
-		WHERE player_id = #{playerId}
+	<select id="getPlayerList" parameterType="Search" resultMap="playerSelectMap">
+	  	<include refid="playerList"/>
+	  	Limit #{startRowNum}, #{pageSize}
+	</select>
+	
+	<sql id="playerList">
+	SELECT *
+	FROM player
+	ORDER BY player_name
+	<where>
+		<if test="searchCondition != null">
+		  <if test="searchCondition == 0 and searchKeyword != ''">
+		  	AND player_name LIKE CONCAT('%', #{searchKeyword}, '%')
+		  </if>
+		</if>
+	</where>
+	</sql>
+	
+	<select id="getTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*)
+		FROM (<include refid="playerList"/>) countTable
 	</select>
 	
 	

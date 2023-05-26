@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
 	
 	// Constructor
 	public UserServiceImpl() {
-		System.out.println("userServiceImpl Success...");
+		System.out.println(this.getClass());
 	}
 	
 	// Method
@@ -90,5 +90,17 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 
-	
+	@Override
+	public List<String> getUserAutoComplete(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		/* AutoComplete 구현하기*/
+		return null;
+	}
+
+	@Override
+	public boolean phoneCheck(String userPhone) throws Exception {
+		// TODO Auto-generated method stub
+		/* 휴대폰 인증 구현하기 */
+		return false;
+	}
 }

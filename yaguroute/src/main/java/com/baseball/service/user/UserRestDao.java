@@ -4,7 +4,12 @@ import java.util.Map;
 
 public interface UserRestDao {
 
-	public String getAccessToken (String authorizationCode) throws Exception;
+	public String getAccessTokenNaver (String authorizationCode) throws Exception;
 	
-	public Map<String, Object> getUserInfo(String accessToken) throws Exception;
+	public Map<String, Object> getNaverUserInfo (String accessToken) throws Exception;
+	
+	public String getAccessTokenKakao (String authorizationCode) throws Exception;
+	
+	public Map<String, Object> getKakaoUserInfo (String accessToken)throws Exception;
+	
 }
