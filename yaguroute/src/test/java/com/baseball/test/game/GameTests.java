@@ -1,6 +1,7 @@
 package com.baseball.test.game;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class GameTests {
 		System.out.println(game);
 	}
 	
-	//@Test
+	@Test
 	public void getGameScheduleList() throws Exception{
 		
 		String date = "2023-06";
@@ -121,7 +122,7 @@ public class GameTests {
 		gameService.updateTodayGameSchedule();
 	}
 	
-	@Test
+	//@Test
 	public void getLineup() throws Exception{
 		Game game = gameService.getGameInfo("20230524NCLT02023");
 		Map<String, List<Player>> map = gameService.getGameCrawlingLineup(game);
@@ -130,6 +131,13 @@ public class GameTests {
 		for(int i=0;i<awayPlayerList.size();i++) {
 			System.out.println("home : "+homePlayerList.get(i));
 		}
+	}
+	
+	//@Test
+	public void gameControllerTmpTest() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(2023, 6, 1);//월설정은 부터 시작
+		System.out.println(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 	}
 
 }

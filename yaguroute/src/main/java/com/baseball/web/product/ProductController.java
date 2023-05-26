@@ -2,6 +2,7 @@ package com.baseball.web.product;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,15 +49,19 @@ public class ProductController {
 	
 	
 	
-	@PostMapping(value="addProduct")    // <input type="file" name="file" class="ct_input_g" multiple="multiple" ... >
+	@PostMapping(value="addProduct")   
 	public String addProduct(@ModelAttribute("product") Product product,
-								@RequestParam("file") List<MultipartFile> multipartFile) throws Exception {
+								@RequestParam("files") List<MultipartFile> multipartFile, Model model) throws Exception {
 																
 		System.out.println("MultipartFile 	::"+product);
 		System.out.println("MultipartFile22 ::"+multipartFile);
 		System.out.println("/product/addProduct 작동 시작.");
 		
 		String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
+		
+		//업로드로 인한 추가
+//		List<String> prodImages = new ArrayList<>();
+
 		
 	    String prodTemp = "";
 	    long listSize = multipartFile.size();
@@ -72,7 +77,10 @@ public class ProductController {
 	        String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
 	        prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
 	        temp++;	        
+//	        prodImages.add(uniqueFileName);
 	        
+	        
+
 	        try {
 	            mf.transferTo(new File(path + "\\" + uniqueFileName));
 	        } catch (Exception e) {
@@ -81,9 +89,13 @@ public class ProductController {
 	    }
 
 	    product.setProdImage(prodTemp);
+//	    product.setProdImage(prodImages);
 	    System.out.println(product);
 
 	    productService.addProduct(product);
+	    
+	    String[] fileNames = prodTemp.split(",");
+	    model.addAttribute("fileNames", fileNames);
 
 	    return "forward:/product/addProduct.jsp";
 	}

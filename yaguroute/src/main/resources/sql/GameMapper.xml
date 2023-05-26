@@ -54,6 +54,11 @@
 		</where>
 	</select>
 	
+	<select id="getAllTeam" resultMap="teamSelectMap">
+		select *
+		from team
+	</select>
+	
 	<select id="getGameInfo" parameterType="string" resultMap="gameSelectMap">
 		select * 
 		from game 
@@ -70,11 +75,11 @@
 		</where>
 	</select>
 	
-	<select id="getGameListByMonthly" parameterType="String" resultMap="gameSelectMap">
+	<select id="getGameListByMonthly" parameterType="string" resultMap="gameSelectMap">
 		select *
 		from game
 		WHERE GAME_DATE LIKE '${date}%'
-		<if test="teamCode != null">
+		<if test="teamCode != 'NN'">
 			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
 		</if>
 	</select>

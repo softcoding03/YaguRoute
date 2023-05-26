@@ -50,7 +50,7 @@ public class Game {
 		this.gameDate = gameDate;
 	}
 	public String getGameTime() {
-		return gameTime;
+		return this.gameTime.substring(0,5);
 	}
 	public void setGameTime(String gameTime) {
 		this.gameTime = gameTime;

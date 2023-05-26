@@ -41,6 +41,10 @@ public class GameServiceImpl implements GameService {
 		return gameCrawlingDao.getTeamCrawlingInfo(team);
 	}
 	
+	public List<Team> getAllTeam(){
+		return gameDao.getAllTeam();
+	}
+	
 	//gameCode로 한경기 정보 검색
 	public Game getGameInfo(String gameCode) {
 		return gameDao.getGameInfo(gameCode);
