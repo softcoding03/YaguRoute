@@ -100,5 +100,15 @@ public class ChannelController {
 		return modelAndView;
 	}
 	
+	@GetMapping("updateChannel")
+	public String updateChannelView(@RequestParam(value="channelID") String channelID) throws Exception{
+		return null;
+	}
+	
+	@PostMapping("updateChannel")
+	public ModelAndView updateChannel(@ModelAttribute("channel") Channel channel) throws Exception{
+		return null;
+	}
+	
 
 }
