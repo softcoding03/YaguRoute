@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -9,7 +9,7 @@
 <html>
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 
 <!-- <title>jQuery UI Autocomplete - Default functionality</title>  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,9 +26,9 @@
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    	 
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -49,8 +49,8 @@
  		
 <script type="text/javascript">
 
-	//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
-	// °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ Form Àü¼ÛÀ» À§ÇØ JavaScrpt ÀÌ¿ë  
+	//=====ê¸°ì¡´Code ì£¼ì„ ì²˜ë¦¬ í›„  jQuery ë³€ê²½ ======//
+	// ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘ Form ì „ì†¡ì„ ìœ„í•´ JavaScrpt ì´ìš©  
 	function fncGetProductList(currentPage) {
 		//document.getElementById("currentPage").value = currentPage;
 		$("#currentPage").val(currentPage)
@@ -60,22 +60,22 @@
 	
 	
 	//===========================================//
-	//==> Ãß°¡µÈºÎºĞ : "°Ë»ö" ,  userId link  Event ¿¬°á ¹× Ã³¸®
+	//==> ì¶”ê°€ëœë¶€ë¶„ : "ê²€ìƒ‰" ,  userId link  Event ì—°ê²° ë° ì²˜ë¦¬
 	 $(function() {
 		 
-		//==> °Ë»ö Event ¿¬°áÃ³¸®ºÎºĞ
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		//==> 1 °ú 3 ¹æ¹ı Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ. 
-		 $( "td.ct_btn01:contains('°Ë»ö')" ).on("click" , function() {
+		//==> ê²€ìƒ‰ Event ì—°ê²°ì²˜ë¦¬ë¶€ë¶„
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> 1 ê³¼ 3 ë°©ë²• ì¡°í•© : $("tagName.className:filterí•¨ìˆ˜") ì‚¬ìš©í•¨. 
+		 $( "td.ct_btn01:contains('ê²€ìƒ‰')" ).on("click" , function() {
 			//Debug..
-			//alert(  $( "td.ct_btn01:contains('°Ë»ö')" ).html() );
+			//alert(  $( "td.ct_btn01:contains('ê²€ìƒ‰')" ).html() );
 			fncGetProductList(1);
 		});
 		
 		
-		//==> userId LINK Event ¿¬°áÃ³¸®
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		//==> 3 °ú 1 ¹æ¹ı Á¶ÇÕ : $(".className tagName:filterÇÔ¼ö") »ç¿ëÇÔ.
+		//==> userId LINK Event ì—°ê²°ì²˜ë¦¬
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> 3 ê³¼ 1 ë°©ë²• ì¡°í•© : $(".className tagName:filterí•¨ìˆ˜") ì‚¬ìš©í•¨.
 // 		$(  ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
 // 				//Debug..
 // 				//alert(  $( this ).text().trim() );
@@ -105,13 +105,13 @@
 	 	
 	 	
 	 	
-		//==> UI ¼öÁ¤ Ãß°¡ºÎºĞ  :  userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
+		//==> UI ìˆ˜ì • ì¶”ê°€ë¶€ë¶„  :  userId LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
 		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 		$("h7").css("color" , "red");
 		
 		
 
-		//==> ¾Æ·¡ÀÇ ÁÖ¼®À» ÇÏ³ª¾¿ Ç®¾î °¡¸ç ÀÌÇØÇÏ¼¼¿ä.					
+		//==> ì•„ë˜ì˜ ì£¼ì„ì„ í•˜ë‚˜ì”© í’€ì–´ ê°€ë©° ì´í•´í•˜ì„¸ìš”.					
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		//console.log ( $(".ct_list_pop:nth-child(1)" ).html() );
 		//console.log ( $(".ct_list_pop:nth-child(2)" ).html() );
@@ -162,7 +162,7 @@
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	<div class="page-header text-info">
 	<div class="row">
@@ -190,11 +190,11 @@
 					<c:choose>
 					
 						<c:when test="${menu eq 'manage'}">
-						»óÇ° °ü¸®
+						ìƒí’ˆ ê´€ë¦¬
 						</c:when>
 						
 						<c:otherwise>
-						»óÇ°¸ñ·ÏÁ¶È¸
+						ìƒí’ˆëª©ë¡ì¡°íšŒ
 						</c:otherwise>
 						
 					</c:choose>		
@@ -221,7 +221,7 @@
 		<td align="right">
 		
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>»óÇ°¸í</option>		
+				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ìƒí’ˆëª…</option>		
 			</select>
 			
 			<input type="text" name="searchKeyword" id="autoComplete"
@@ -234,13 +234,13 @@
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="17" height="23"> 
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+						<img src="/images/ct_btnbg01.gif" width="20" height="23"/>
 					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						°Ë»ö	
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:5px;">
+						ê²€ìƒ‰	
 					</td>
 					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="20" height="23">
 					</td>
 				</tr>
 			</table>
@@ -254,11 +254,28 @@
 	<tr>
 	  <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-			ÀüÃ¼  ${resultPage.totalCount } °Ç, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+			ì „ì²´  ${resultPage.totalCount } ê±´, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		</td>
 		
-	</tr>
+	<c:set var="i" value="0" />
 
+	<tr>
+	<th align="center">ë²ˆí˜¸</th>
+
+    <th align="left">ì´ë¯¸ì§€</th>
+ <th></th>
+    <th align="center">ì œí’ˆëª…</th>
+       <th></th>
+    <th align="center">ê°€ê²©</th>
+       <th></th>
+    <th align="center">ë“±ë¡ì¼</th>
+       <th></th>
+    <th align="center">ì¬ê³ </th>
+       <th></th>
+    <th align="center">ì¹´í…Œê³ ë¦¬</th>
+       <th></th>
+    <th align="center">íŒ€ ì½”ë“œ</th>
+	</tr>
 	
 	<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
@@ -277,26 +294,47 @@
 					<input type="hidden" id="menu" name="search" value="${product.prodNo}"/> 	
 				</c:otherwise>
 			</c:choose>
-			
-				${product.prodName} </td> 
+		</td>
 		
 
-			<td></td>
-			<td align="left">${product.prodPrice}</td>
-			<td></td>
-			<td align="left">${product.prodRegDate}</td>
-			<td></td>
-			<td align="left">${product.prodStock}</td>
-			<td></td>
-			<td align="left">${product.prodCategory}</td>
-			<td></td>
-			<td align="left">${product.prodImage}</td>
-			<td></td>
-			<td align="left">${product.prodTeamCode}</td>
-			
-								
-		</tr>
-		<tr>
+    <tr>
+        <td></td>
+		
+				<td align="left">
+		    		<img src="/images/product/${product.prodImage}" alt="ì´ë¯¸ì§€ ì•ˆë‚˜ì˜¤ë„¤">
+				</td>
+
+				<td></td>
+				<td align="left">
+				    ${product.prodName}
+				</td>
+				
+				<td></td>
+				<td align="left">
+				    ${product.prodPrice}
+				</td>
+				
+				<td></td>
+				<td align="left">
+				    ${product.prodRegDate}
+				</td>
+				
+				<td></td>
+				<td align="left">
+				    ${product.prodStock}
+				</td>
+				
+				<td></td>
+				<td align="left">
+				    ${product.prodCategory}
+				</td>
+				
+				<td></td>
+				<td align="left">
+				    ${product.prodTeamCode}
+            </td>
+        </tr>
+
 	<!-- 	<td colspan="11" bgcolor="D6D7D6" height="1"></td> -->
 		<td id="${product.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 		</tr>
@@ -312,11 +350,13 @@
 		   <input type="hidden" id="currentPage" name="currentPage" value=""/>			
 			<c:set var="pageType" value="product" scope="request"/>
 			<jsp:include page="../common/pageNavigator.jsp"/>	
-			
+			<!--  í˜ì´ì§€ Navigator ë -->
     	</td>
 	</tr>
 </table>
 
+
+<!-- 
 	<div class="row">
  	 <span class="col-md-3">
  	 
@@ -326,7 +366,7 @@
 		<c:set var="i" value="${ i+1 }" />
 
     	<div class="thumbnail">
-     	 <img src="/images/product/${product.prodImage }"/>
+     	 <img src="/images/product/${product.prodImage}"/>
     	  <div class="caption">
       	  <h3>${product.prodName}</h3>
       	  <p>${product.prodPrice}</p>
@@ -336,8 +376,8 @@
  
   </c:forEach>
    </span>
-</div>
-<!--  ÆäÀÌÁö Navigator ³¡ -->
+</div>  -->
+
 
 </form>
 </div>
