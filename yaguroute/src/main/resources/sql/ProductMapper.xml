@@ -24,7 +24,7 @@
 	<sql id="prodList">
 	  SELECT prod_no,prod_name, prod_price, prod_regdate, prod_stock, prod_category, prod_image, team_code
 	  FROM product
-	    ORDER BY prod_no
+	  
 	  <where>
 	    <if test="searchCondition != null">
 	      <if test="searchCondition == 0 and searchKeyword != ''">
@@ -33,7 +33,7 @@
 	    </if>
 
 	  </where>
-	
+	ORDER BY prod_no
 	</sql>
 
 	<!--  INSERT SQL -->

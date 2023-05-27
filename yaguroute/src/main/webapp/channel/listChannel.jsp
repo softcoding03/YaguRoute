@@ -40,11 +40,19 @@
 		
 		<script type="text/javascript">
 			$(function(){
+				
 				$("button:contains('중계보기')").on("click", function(){
 					console.log("중계보기 클릭했다");
 					var text = $(this).children("input[name='channelID']").val();
 					console.log("조회 클릭 시 channelID : "+text);
 					self.location="/channel/getChannel?channelID="+text;
+				});
+				
+				$("button:contains('수정하기')").on("click", function(){
+					console.log("수정하기");
+					var text = $(this).children("input[name='channelID']").val();
+					console.log("수정하기 클릭 시 ChanndlID : "+text);
+					self.location="/channel/updateChannel?channelID="+text;
 				})
 			});
 		</script>
@@ -83,12 +91,16 @@
 					  	</button>
 					  </td>
 					  <td align="left" height="150">
-					  	<input type="button" value="삭제하기"/>
-					  	<input type="hidden" value="${channel.channelID}"/>
+					  	<button type="button" class="btn btn-info">
+					  		삭제하기
+					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+					  	</button>
 					  </td>
 					  <td align="left" height="150">
-					  	<input type="button" value="수정하기"/>
-					  	<input type="hidden" value="${channel.channelID}"/>
+					  	<button type="button" class="btn btn-info">
+					  		수정하기
+					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+					  	</button>
 					  </td>
 					</tr>
 		          </c:forEach>
