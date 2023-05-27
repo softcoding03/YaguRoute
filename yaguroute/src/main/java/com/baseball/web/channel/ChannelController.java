@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.baseball.service.channel.ChannelRestService;
 import com.baseball.service.channel.ChannelService;
 import com.baseball.service.domain.Channel;
+import com.baseball.service.domain.Game;
+import com.baseball.service.game.GameService;
 
 @Controller
 @RequestMapping("/channel/*")
@@ -31,6 +33,9 @@ public class ChannelController {
 	@Qualifier("channelRestServiceImpl")
 	private ChannelRestService channelRestService;
 	
+	@Autowired
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
 	//Constructor
 	public ChannelController() {
 		System.out.println(this.getClass());
@@ -101,12 +106,31 @@ public class ChannelController {
 	}
 	
 	@GetMapping("updateChannel")
-	public String updateChannelView(@RequestParam(value="channelID") String channelID) throws Exception{
-		return null;
+	public ModelAndView updateChannelView(@RequestParam(value="channelID") String channelID) throws Exception{
+		System.out.println("updateChannelView");
+		System.out.println("channelID : "+channelID);
+		Channel channel = channelService.getChannel(channelID);
+		List<Game> gameList = gameService.getGameListByDate(channelID);
+		
+		//Model, View Setting
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("channel", channel);
+		modelAndView.addObject("gamelist", gameList);
+		modelAndView.setViewName("forward:/channel/updateChannelView.jsp");
+		return modelAndView;
 	}
 	
 	@PostMapping("updateChannel")
 	public ModelAndView updateChannel(@ModelAttribute("channel") Channel channel) throws Exception{
+		System.out.println("updatacChannel 실행~~~");
+		System.out.println("channel Info : "+channel);
+		
+		return null;
+	}
+	
+	@GetMapping("deleteChannel")
+	public String deleteChannel(@RequestParam(value="channelID") String channelID) throws Exception{
+		
 		return null;
 	}
 	
