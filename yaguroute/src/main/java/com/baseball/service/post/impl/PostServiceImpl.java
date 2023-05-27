@@ -23,6 +23,10 @@ public class PostServiceImpl implements PostService {
 	@Qualifier("postDao")
 	PostDao postDao;
 	
+	public PostServiceImpl() {
+		System.out.println(this.getClass());
+	}
+	
 	@Override
 	public Post getPost(int postNo) throws Exception {
 		return postDao.getPost(postNo);
@@ -82,6 +86,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> getPostBestList(String teamCode) throws Exception {
 		return postDao.getPostBestList(teamCode);
+	}
+
+	@Override
+	public int getLastPostNo() throws Exception {
+		return postDao.getLastPostNo();
 	}
 	
 }

@@ -13,18 +13,33 @@
 		<result property="gameCode" 		column="game_code" 			jdbcType="VARCHAR"/>
 		<result property="prodNo" 			column="prod_no" 			jdbcType="INTEGER"/>
 		<result property="secondCommentNo" 	column="second_comment_no" 	jdbcType="INTEGER"/>
-		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
-		<result property="userImage" 		column="user_image" 		jdbcType="VARCHAR"/>
 		<result property="commentDate" 		column="comment_date" 		jdbcType="TIMESTAMP"/>
 		<result property="commentContents" 	column="comment_contents" 	jdbcType="VARCHAR"/>
 		<result property="commentImage" 	column="comment_image" 		jdbcType="VARCHAR"/>
 		<result property="grade" 			column="grade" 				jdbcType="VARCHAR"/>
 		<result property="changed" 			column="changed" 			jdbcType="INTEGER"/>
+		<association property="user" column="user_id" javaType="user" select="getUser"/>
+	</resultMap>
+	
+	<resultMap id="userSelectMap" type="user">
+		<result property="userId" 	column="user_id"	jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="userNickName" column="user_nickname" jdbcType="VARCHAR"/>
+		<result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+		<result property="userAddr" column="user_addr" jdbcType="VARCHAR"/>
+		<result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+		<result property="userBirth" column="user_birth" jdbcType="VARCHAR"/>
+		<result property="userImage" column="user_image" jdbcType="VARCHAR"/>
+		<result property="userPoint" column="user_point" jdbcType="INTEGER"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="gender" column="gender" jdbcType="CHAR"/>
+		<result property="role" column="role" jdbcType="VARCHAR"/>
+		<result property="withDraw" column="withdraw" jdbcType="INTEGER"/>
+		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 
-
 	<insert id="addComment" parameterType="comment">
-		INSERT INTO comment (post_no, game_code, prod_no, second_comment_no, user_id, user_image, comment_date, comment_contents, comment_Image, grade)
+		INSERT INTO comment (post_no, game_code, prod_no, second_comment_no, user_id, comment_date, comment_contents, comment_Image, grade)
 	  	VALUES (
 	    	<if test="postNo != 0">#{postNo}</if>
 	    	<if test="postNo == 0">NULL</if>,
@@ -33,9 +48,14 @@
 	    	<if test="prodNo == 0">NULL</if>,
 	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
 	    	<if test="secondCommentNo == 0">NULL</if>,
-	    	#{userId},#{userImage},sysdate(),#{commentContents},#{commentImage},#{grade}
+	    	#{userId},sysdate(),#{commentContents},#{commentImage},#{grade}
 	  	)
 	</insert>
+	
+	<select id="getUser" parameterType="string" resultMap="userSelectMap">
+		select * from user
+		where user_id = #{value}
+	</select>
 	
 	<select id="getComment" parameterType="int" resultMap="commentSelectMap">
 		SELECT * FROM comment
@@ -70,22 +90,12 @@
 	<update id="updateComment" parameterType="comment">
 		UPDATE comment
 		<set>
-			comment_no=#{commentNo},
-			<if test="postNo != 0">#{postNo}</if>
-	    	<if test="postNo == 0">NULL</if>,
-	    	#{gameCode},
-	    	<if test="prodNo != 0">#{prodNo}</if>
-	    	<if test="prodNo == 0">NULL</if>,
-	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
-	    	<if test="secondCommentNo == 0">NULL</if>,
-	    	user_id=#{userId},
-	    	user_name=#{userName},
-	    	comment_date=#{commentDate},
+			comment_contents=#{commentContents},
 	    	comment_image=#{commentImage},
 	    	grade=#{grade},
 	    	changed=1
 		</set>
-		WHERE comment_no=#{postNo}
+		WHERE comment_no=#{commentNo}
 	</update>
 
 </mapper>

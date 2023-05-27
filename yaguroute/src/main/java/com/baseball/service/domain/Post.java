@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 public class Post {
 	
 	private int postNo;
-	private User user;  //userId, userNickName, userImage 
+	private User user;  //userId, userNickName, userImage 담아줘야함.
 	private String teamCode;
 	private String postTitle;
 	private String postContents;
 	private Timestamp postDate;
 	private int postViews;
-	private String postType; //0:잡담 1:응원 2:중고판매 3:중고구매
+	private int postType; //0:잡담 1:응원 2:중고판매 3:중고구매
 	private int notice;  //0 or 1
 	private int postLikes;
 	private int postDislikes;
@@ -68,10 +68,10 @@ public class Post {
         this.postViews = postViews;
     }
 
-    public String getPostType() {
+    public int getPostType() {
         return postType;
     }
-    public void setPostType(String postType) {
+    public void setPostType(int postType) {
         this.postType = postType;
     }
 
@@ -89,10 +89,10 @@ public class Post {
         this.postLikes = postLikes;
     }
     
-    public int getPostDisLikes() {
+    public int getPostDislikes() {
         return postDislikes;
     }
-    public void setPostDisLikes(int postDislikes) {
+    public void setPostDislikes(int postDislikes) {
         this.postDislikes = postDislikes;
     }
 	

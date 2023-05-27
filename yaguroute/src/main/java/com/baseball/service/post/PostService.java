@@ -18,5 +18,6 @@ public interface PostService {
 	public void addLike(Post post) throws Exception; //좋아요 버튼 클릭
 	public void addDislike(Post post) throws Exception; //싫어요 버튼 클릭
 	public void addViews(int postNo) throws Exception; //조회수 추가
+	public int getLastPostNo() throws Exception;
 	
 }
