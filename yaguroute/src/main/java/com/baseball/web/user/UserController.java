@@ -12,7 +12,7 @@ import com.baseball.service.user.UserDao;
 @Controller
 @RequestMapping("/users/*")
 public class UserController {
-
+// test용
 	@Autowired 
 	@Qualifier("userDao")
 	private UserDao userDao;
