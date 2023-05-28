@@ -18,10 +18,29 @@
 		<result property="postTitle" 			column="post_title" 		jdbcType="VARCHAR"/>
 		<result property="postContents" 		column="post_contents" 		jdbcType="LONGVARCHAR"/>
 		<result property="postDate" 			column="post_date" 			jdbcType="TIMESTAMP"/>
+		<result property="postType" 			column="post_type" 			jdbcType="INTEGER"/>
 		<result property="postViews" 			column="post_views" 		jdbcType="INTEGER"/>
 		<result property="notice" 				column="notice" 			jdbcType="INTEGER"/>
 		<result property="postLikes" 			column="post_likes" 		jdbcType="INTEGER"/>
 		<result property="postDislikes" 		column="post_dislikes" 		jdbcType="INTEGER"/>
+		<association property="user" column="user_id" javaType="user" select="getUser"/>
+	</resultMap>
+	
+	<resultMap id="userSelectMap" type="user">
+		<result property="userId" 	column="user_id"	jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="userNickName" column="user_nickname" jdbcType="VARCHAR"/>
+		<result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+		<result property="userAddr" column="user_addr" jdbcType="VARCHAR"/>
+		<result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+		<result property="userBirth" column="user_birth" jdbcType="VARCHAR"/>
+		<result property="userImage" column="user_image" jdbcType="VARCHAR"/>
+		<result property="userPoint" column="user_point" jdbcType="INTEGER"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="gender" column="gender" jdbcType="CHAR"/>
+		<result property="role" column="role" jdbcType="VARCHAR"/>
+		<result property="withDraw" column="withdraw" jdbcType="INTEGER"/>
+		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<sql id="postList">
@@ -45,6 +64,11 @@
 		    p.post_no DESC
 	</sql>
 	
+	<select id="getUser" parameterType="string" resultMap="userSelectMap">
+		select * from user
+		where user_id = #{value}
+	</select>
+	
 	<!--해당 클럽의 전체 게시글 조회(좋아요,싫어요 수 포함 출력) -->
 	<select id="getPostList" parameterType="hashMap"	resultMap="postSelectMap">
 			<include refid="postList"/>
@@ -57,7 +81,12 @@
 		SELECT * FROM post
 		WHERE post_no = #{value}
 	</select>
-
+	
+	<!-- 방금 insert된 auto_increment 값 get하기 -->
+	<select id="getLastPostNo" resultType="int">
+			select last_insert_id()
+	</select>
+	
 	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, COUNT(e.like) AS post_likes
@@ -71,8 +100,8 @@
 	<!--게시물 작성-->
 	<insert id="addPost" parameterType="post">
 	 	INSERT 
-		INTO post(user_id, team_code, post_title, post_contents, post_date) 
-		VALUES (#{user.userId},#{teamCode},#{postTitle},#{postContents},sysdate())
+		INTO post(user_id, team_code, post_title, post_contents, post_date,post_type,notice) 
+		VALUES (#{user.userId},#{teamCode},#{postTitle},#{postContents},sysdate(),#{postType},#{notice})
 	</insert>
 	
 	<!--게시물 삭제-->

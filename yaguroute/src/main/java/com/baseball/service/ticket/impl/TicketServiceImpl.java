@@ -26,6 +26,9 @@ public class TicketServiceImpl implements TicketService {
 	@Qualifier("ticketDao")
 	TicketDao ticketDao;
 	
+	public TicketServiceImpl() {
+		System.out.println(this.getClass());
+	}
 
 	@Override
 	public int getSalesTicket(String gameCode) throws Exception {

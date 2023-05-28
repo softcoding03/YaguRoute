@@ -32,7 +32,7 @@ public class TestComment{
 		System.out.println("addComment() 시작");
 		Comment comment = new Comment();
 		comment.setPostNo(4);
-		comment.setUserId("john123");
+		//comment.setUserId("john123");
 		comment.setCommentContents("댓글 내용2");
 		System.out.println("세팅 comment?"+comment);
 			commentService.addComment(comment);
@@ -40,10 +40,10 @@ public class TestComment{
 	}
 	
 	//댓글 1개 정보 get
-	//@Test
+	@Test
 	public void getComment() throws Exception{
 		System.out.println("getComment() 시작");
-			commentService.getComment(23);
+			System.out.println(commentService.getComment(23));
 		System.out.println("getComment() 끝");
 	}
 	

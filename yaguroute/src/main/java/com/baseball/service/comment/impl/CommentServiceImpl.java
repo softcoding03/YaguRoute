@@ -21,6 +21,10 @@ public class CommentServiceImpl implements CommentService {
 	@Qualifier("commentDao")
 	CommentDao commentDao;
 			
+	public CommentServiceImpl() {
+		System.out.println(this.getClass());
+	}
+	
 	@Override
 	public void addComment(Comment comment) throws Exception {
 		commentDao.addComment(comment);

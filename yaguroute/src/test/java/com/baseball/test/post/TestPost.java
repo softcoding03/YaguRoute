@@ -27,7 +27,7 @@ public class TestPost{
 	@Qualifier("postDao")
 	private PostDao postDao;
 	
-	//@Test
+	@Test
 	public void testGetPost() throws Exception {
 		System.out.println("get 시작");
 		System.out.println("  쿼리 결과 값?"+postService.getPost(9));
@@ -35,7 +35,7 @@ public class TestPost{
 	}
 	
 	//특정 팀의 모든 게시글 조회
-	@Test
+	//@Test
 	public void getPostList() throws Exception{
 		Search search = new Search();
 		search.setCurrentPage(1);
@@ -94,7 +94,7 @@ public class TestPost{
 		post.setPostNo(10);
 		post.setPostTitle("제목이 변경되었습니다.");
 		post.setPostContents("내용이 변경되었습니다.");
-		post.setPostType("3");
+		post.setPostType(3);
 		post.setNotice(1);
 			postService.updatePost(post);
 		System.out.println("update 끝");

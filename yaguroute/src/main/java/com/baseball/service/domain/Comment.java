@@ -9,8 +9,7 @@ public class Comment {
 	private String gameCode;
 	private int prodNo;
 	private int secondCommentNo;
-	private String userId;
-	private String userImage;
+	private User user;
 	private Date commentDate;
 	private String commentContents;
 	private String commentImage;
@@ -55,18 +54,11 @@ public class Comment {
         this.secondCommentNo = secondCommentNo;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserImage() {
-        return userImage;
-    }
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getCommentDate() {
@@ -107,8 +99,8 @@ public class Comment {
 	// Override
 	public String toString() {
 		return "CommnetVO : [commentNo]" + commentNo
-		+ "[postNo]" + postNo+ "[gameCode]" + gameCode + "[prodNo]" + prodNo + "[secondCommentNo]" + secondCommentNo+ "[userId]" + userId
-		+ "[userImage]" + userImage+ "[commentDate]" + commentDate+ "[commentContents]" 
+		+ "[postNo]" + postNo+ "[gameCode]" + gameCode + "[prodNo]" + prodNo + "[secondCommentNo]" + secondCommentNo+ "[user]" + user
+		+ "[commentDate]" + commentDate+ "[commentContents]" 
 		+ commentContents+ "[commentImage]" + commentImage+ "[grade]" + grade+ "[changed]" + changed;
 	}	
 }
