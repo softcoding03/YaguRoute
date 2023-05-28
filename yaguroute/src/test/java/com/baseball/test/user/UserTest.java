@@ -24,7 +24,7 @@ public class UserTest {
 	UserService userService;
 	UserDao userDao;
 	
-	//@Test
+	@Test
 	public void testAddUser() throws Exception{
 		
 		User user = new User();

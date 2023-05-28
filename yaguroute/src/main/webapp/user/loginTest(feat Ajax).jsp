@@ -29,19 +29,31 @@
                 method: "POST",
                 dataType: "json",
                 data: { userId: userId, password: password }, // 수정: userId로 변경
+                // userId앞에는 클라이언트단, 뒤에는 서버단이다.
                 success: function(response) {
-                	console.log("");
-                    window.location.href = '/main.jsp';
+                	var form = $('<form method="POST" action="/main.jsp"></form>');
+                    $(document.body).append(form);
+                    form.submit();
                 },
                 error: function() {
                     // 로그인 실패 시...
                     alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+                    var form = $('<form method="POST" action="contacts.jsp"></form>');
+                    $(document.body).append(form);
+                    form.submit();
+                    return;
                 }
     		});
     	});
     });
+    
     </script>
     
+    <script type="text/javascript">
+    window.onpopstate = function(event) {
+        window.history.pushState(null, null, window.location.href);
+     };
+    </script>
 </head>
 
 <body>

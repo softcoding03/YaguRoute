@@ -35,26 +35,6 @@
 			<div class="col-md-6">
 					<img src="/images/logo-spring.png" class="img-rounded" width="100%" />
 			</div>
-	   	 	
-	 	 	<div class="col-md-6">
-	 	 	
-		 	 	<br/><br/>
-				
-				<div class="jumbotron">	 	 	
-			        <form class="form-horizontal">					  
-					  <div class="form-group">
-					    <div class="col-sm-6">
-						  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/user/naverLogin&state=Naver" class="Naver-login-btn">
-						  <img id="naverIdLogin" src="/images/btnG_완성형.png" width="184" alt="네이버 로그인 버튼" />
-						  </a>
-					    </div>
-					  </div>
-			
-					</form>
-			   	 </div>
-			
-			</div>
-			
   	 	</div>
   	 	<!--  row Start /////////////////////////////////////-->
   	 	

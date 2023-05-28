@@ -5,10 +5,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.asynchttpclient.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,27 +43,6 @@ public class UserRestController {
 	
 	public UserRestController() {
 		System.out.println(this.getClass());
-	}
-	
-	@RequestMapping(value="login", method=RequestMethod.POST)
-	public User login(@RequestParam("userId") String userId, @RequestParam("password") String password, HttpSession session) throws Exception{
-		
-		User user = userService.getUser(userId);
-		System.out.println("rockseong4444");
-		System.out.println(user.getPassword()+"패스워드");
-		System.out.println(user.getUserId()+"아이디");
-		System.out.println("받은 아이디 : "+userId);
-		System.out.println("받은 비밀번호 : "+password);
-		// 아이디가 없다면...
-		if(user.getPassword().equals(password)){
-			session.setAttribute("user", user);
-			return user;
-		}
-		else {
-			ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-			System.out.println("비밀번호가 일치하지 않음.");
-			return user;
-		}
 	}
 	
 	@RequestMapping( value="naverLogin", method=RequestMethod.GET)
