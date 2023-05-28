@@ -1,8 +1,5 @@
 package com.baseball.test.player;
 
-import static org.mockito.ArgumentMatchers.floatThat;
-import static org.mockito.ArgumentMatchers.intThat;
-
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;

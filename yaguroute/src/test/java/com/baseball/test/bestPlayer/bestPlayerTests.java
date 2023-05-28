@@ -36,7 +36,7 @@ public class bestPlayerTests {
 	
 	
 	
-	//@Test
+	@Test
 	public void testAddBestPlayer() throws Exception{
 		
 		Search search = new Search();
@@ -46,6 +46,7 @@ public class bestPlayerTests {
 		Map<String, Object> map = playerService.getPlayerList(search);
 		System.out.println(search+"\n"+map); // totalCount가 출력된다.
 		
+		/* 1. 타자 베스트 */
 		List<Player> playerList = (List<Player>) map.get("list");
 		System.out.println(playerList);
 		playerList = playerList.stream().filter(player -> 
@@ -53,29 +54,48 @@ public class bestPlayerTests {
 		.sorted(Comparator.comparingDouble(Player::getBattingAvg).reversed())
         .limit(8)
         .collect(Collectors.toList());
-		System.out.println(playerList);
 		
-		BestPlayer bestplayer = new BestPlayer();
+		/* 2. 투수 베스트 */
+		List<Player> playerToosoo = (List<Player>) map.get("list");
+		playerToosoo = playerToosoo.stream().filter(player ->player.getPlayerPosition().equals("투수"))
+		.sorted(Comparator.comparingDouble(Player::getEra).reversed())
+		.limit(1)
+		.collect(Collectors.toList());
+		
+		BestPlayer bestplayer = new BestPlayer(); // BestPlayer 인스턴스 생성
 		
 		for(Player player : playerList) {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String dateString = formatter.format(new Date());
-			Date date = formatter.parse(dateString);
 			
 			System.out.println("playerId : "+player.getPlayerId());
 			bestplayer.setPlayerId(player.getPlayerId());
 			bestplayer.setBestDate(dateString);
-			bestPlayerService.addBestPlayer(bestplayer);
 			System.out.println("bestPlayer : "+bestplayer);
+			bestPlayerService.addBestPlayer(bestplayer);
 		}
+		
+		for(Player player : playerToosoo) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String dateString = formatter.format(new Date());
+			
+			System.out.println("playerId : "+player.getPlayerId());
+			bestplayer.setPlayerId(player.getPlayerId());
+			bestplayer.setBestDate(dateString);
+		}
+		
+		bestPlayerService.addBestPlayer(bestplayer);
+		
+		System.out.println(bestPlayerService.getBestPlayerList(search));
+		
 	}
+	
 	//@Test
 	public void justTest() throws ParseException {
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = formatter.format(new Date());
-		Date date = formatter.parse(dateString);
 		System.out.println(dateString);
 	}
 }

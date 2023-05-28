@@ -1,13 +1,11 @@
 package com.baseball.service.domain;
 
-import java.util.Date;
-
 public class BestPlayer {
 
 	//Field
 	private String playerId;
 	private String bestDate;
-	
+
 	//Method
 	public String getPlayerId() {
 		System.out.println("playerId : "+playerId);
@@ -29,5 +27,4 @@ public class BestPlayer {
 	public String toString() {
 		return "BestPlayer [playerId=" + playerId + ", bestDate=" + bestDate + "]";
 	}
-	
 }

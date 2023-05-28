@@ -16,7 +16,7 @@ public class UserController {
 	@Autowired 
 	@Qualifier("userDao")
 	private UserDao userDao;
-
+	
 	// 아이디 중복체크
 	@RequestMapping("/userIdCheck")
 	public @ResponseBody int mbidCheck(String userId) throws Exception {
@@ -35,4 +35,6 @@ public class UserController {
 		System.out.println("result : "+result);
 		return result;
 	}
+	
+	
 }
