@@ -54,10 +54,10 @@
 		    p.team_code = #{teamCode}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-		    		AND post_title LIKE '%${search.searchKeyword}%'
+		    		AND user_id LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    	<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-		    		AND user_id LIKE '%${search.searchKeyword}%'
+		    		AND post_title LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    </if>
 		ORDER BY

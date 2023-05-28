@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
@@ -38,6 +40,12 @@ public class PostController {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 
+	@Value("${commonProperties.pageUnit}")
+	int pageUnit;
+	
+	@Value("${commonProperties.pageSize}")
+	int pageSize;
+	
 	public PostController(){
 		System.out.println(this.getClass());
 	}
@@ -57,25 +65,29 @@ public class PostController {
 	}
 	
 	@GetMapping("getPostList")
-	public String getPostList(@RequestParam("teamCode") String teamCode, Model model) throws Exception {
+	public String getPostList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
 			System.out.println("/post/getPostList : GET");
-			System.out.println("@@ 넘어온 데이터 ? "+teamCode);	
-			Search search = new Search();
-			search.setCurrentPage(1);
-			search.setPageSize(5);
-			//search.setSearchCondition("0");
-			//search.setSearchKeyword("love");
+			System.out.println("@@ 넘어온 데이터 ? "+teamCode+"//"+currentPage+"//"+search);	
+			currentPage = (currentPage == null) ? 1 : currentPage;
+			search.setCurrentPage(currentPage);
+			search.setPageSize(pageSize);
+			
 			Map<String, Object> map = new HashMap<String,Object>();
 			map.put("teamCode", teamCode);
 			map.put("search", search);
 			map = postService.getPostList(map);
+			
 			List<Post> list = (List<Post>)map.get("postList");
 			for(Post post:list) {
 				System.out.println(post);
 			}
-			Integer totalCount = (Integer)map.get("totalCount");	
+			
+			Integer totalCount = ((Integer)map.get("totalCount")).intValue();
+			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
 			System.out.println("총 레코드 수? "+totalCount);
+			
 			model.addAttribute("list", list);
+			model.addAttribute("resultPage", resultPage);
 			return "forward:/post/listPost.jsp";
 	}
 	
