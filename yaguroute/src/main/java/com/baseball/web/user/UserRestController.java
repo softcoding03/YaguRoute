@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baseball.service.domain.User;
 import com.baseball.service.kakaologin.KakaoLoginService;
 import com.baseball.service.naverlogin.NaverLoginService;
+import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
 
 //==> 회원관리 RestController
@@ -29,6 +31,10 @@ import com.baseball.service.user.UserService;
 public class UserRestController {
 	
 	//Field
+	@Autowired 
+	@Qualifier("userDao")
+	private UserDao userDao;
+	
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
@@ -58,9 +64,11 @@ public class UserRestController {
 		// 토큰으로 userInfo 요청
 		Map<String, Object> userInfo = naverLoginService.getUserInfo(access_Token);
 		System.out.println("네이버 userInfo : " + userInfo);
-	
 		
-		return code;
+		// userService.addUser(userInfo)를 하는데... 추가 정보 입력 필요!
+		
+		
+		return "redirect:/main.jsp";
 	}
 	
 	@RequestMapping( value="kakaoLogin", method=RequestMethod.GET)
@@ -76,6 +84,27 @@ public class UserRestController {
 		Map<String, Object> userInfo = kakaoLoginService.getUserInfo(access_Token);
 		System.out.println("카카오 userInfo : "+userInfo);
 		
-		return "redirect:/user/kakaologin.jsp";
+		return "redirect:/main.jsp";
 	}
+	
+	// 아이디 중복체크
+	@RequestMapping("/userIdCheck")
+	public @ResponseBody int mbidCheck(String userId) throws Exception {
+		
+		System.out.println(userId);
+		int result = userDao.userIdCheck(userId);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
+	// 닉네임 중복체크	
+	@RequestMapping("/userNickNameCheck")
+	public @ResponseBody int userNickNameCheck(String userNickName) throws Exception {
+		
+		System.out.println(userNickName);
+		int result = userDao.userNickNameCheck(userNickName);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
 }

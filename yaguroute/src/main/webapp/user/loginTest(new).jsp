@@ -42,9 +42,7 @@
 		$("#login").on("click" , function() {
 			var id=$('#userId').val();
 			var password=$('#password').val();
-			alert("아니...");
-			alert(id);
-			alert(password);
+			
 			
 			if(id == null || id.length <1) {
 				$("#userId").focus();
@@ -55,20 +53,20 @@
 				$("#password").focus();
 				window.location.href = "/user/loginTest(new).jsp";
 			}
-
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
 		});
 	});	
+    </script>
     
-    $(function(){
+    <script type="text/javascript">
+     $(function(){
     	
-    	$(".signup").on("click", function(){
-    		alert("회원가입 클릭...");
+    	$("#signup").on("click", function(){
+    		
     		window.location.href = "/user/signup.jsp";
     	});
     });
  	
- 
     </script>
 </head>
 
@@ -131,30 +129,26 @@
                             <div class="col-md-12">
                                 <div class="item">
                                 <button id="login" class="comment-submit">로 그 인</button>&nbsp;
-								</div>
-                                <div>
-                                <button id="signup" class="signup">회 원 가 입</button>
                                 </div>
                             </div>
                             </div>
                         </div>
+                        
                 </div>
             </div>
         </div>
-    </div>
 </section>
-<br>
-<br>
-<ul>
-<li>
-<h5>힌트</h5>
-아이디 - admin<br>
-비밀번호 - 1234
-</li>
-</ul>
 </form>
-<!--CONTACT WRAP END-->
 
+<div class="container">
+	<button id="signup" class="signup">회 원 가 입</button><br><br>
+<ul>
+<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
+</ul>
+</div>
+
+
+<!--CONTACT WRAP END-->
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
