@@ -20,29 +20,40 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
-    <script type="text/javascript">
+    <style> 
+    .password {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    </style>
     
+    <script type="text/javascript">
+ 
     $( function() {
 		
 		$("#userId").focus();
 		
-		$("button").on("click" , function() {
+		$("#login").on("click" , function() {
 			var id=$('#userId').val();
 			var password=$('#password').val();
-			
+			alert("아니...");
 			alert(id);
 			alert(password);
 			
 			if(id == null || id.length <1) {
-				alert('ID를 입력해 주세요.');
 				$("#userId").focus();
-				return;
+				window.location.href = "/user/loginTest(new).jsp";
 			}
 			
 			else if(password == null || password.length <1) {
-				alert('패스워드를 입력해 주세요.');
 				$("#password").focus();
-				return;
+				window.location.href = "/user/loginTest(new).jsp";
 			}
 
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
@@ -51,36 +62,13 @@
     
     $(function(){
     	
-    	$.ajax({
-			url : "/users/login/",
-			method : "POST",
-			dataType : "json", 
-			error : function(xhr, status, error){
-				if(xhr.status == 400){
-				alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-			}
-		}
-	})		
- })
-    
-    </script>
-    
-    <script type="text/javascript">
-    	$(function(){
-	    	$('#password').keyup(function(){
-
-	    		var password = $('#password').val();
-	    		console.log(password)
-	    		var maskedPassword = "";
-	
-	    	    for (var i = 0; i < password.length; i++) {
-	    	        maskedPassword += "*";
-	    	    }
-	    	    password = maskedPassword;
-	    	    
-	    	    $('#password').text(maskedPassword);
-	    	})
-    	})
+    	$(".signup").on("click", function(){
+    		alert("회원가입 클릭...");
+    		window.location.href = "/user/signup.jsp";
+    	});
+    });
+ 	
+ 
     </script>
 </head>
 
@@ -135,15 +123,19 @@
                             <div class="col-md-6">
                                 <div class="item">
                                     <label>
-                                        <span>비밀번호 <i>*</i></span>
-                                        <input type="password" id="password" name="password" placeholder="패스워드">
+                                        <span>비밀번호 <i>*</i></span> 
+                                        <input type="password" id="password" name="password" class="password" placeholder="패스워드">                     
                                     </label>
                                 </div>	
                             </div>
                             <div class="col-md-12">
                                 <div class="item">
-                                <button id="login" class="comment-submit">로 그 인</button>
+                                <button id="login" class="comment-submit">로 그 인</button>&nbsp;
+								</div>
+                                <div>
+                                <button id="signup" class="signup">회 원 가 입</button>
                                 </div>
+                            </div>
                             </div>
                         </div>
                 </div>
