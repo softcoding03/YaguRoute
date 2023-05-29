@@ -51,7 +51,6 @@
 		  <c:forEach var="post" items="${list}">
 			<c:set var="i" value="${i+1}" />
 			<tr>
-				<input type="hidden" id="teamCode" name="teamCode" value="${post.teamCode}"/>
 			  <td align="center">${post.postNo}</td>
 			  <td align="left">
 			  	<c:choose>
@@ -99,7 +98,7 @@
 	    	</div>
 </div>
  	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp">
+	<jsp:include page="../common/pageNavigator_all.jsp">
 		<jsp:param name="id" value="post" />
 	</jsp:include>
 	<!-- PageNavigation End... -->

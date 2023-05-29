@@ -123,12 +123,12 @@
 	</update>
 	
 	<!-- 좋아요버튼클릭(like_procedure 호출) -->
-	<insert id="like" parameterType="post" statementType="CALLABLE">
+	<insert id="addLike" parameterType="post" statementType="CALLABLE">
 	    {CALL like_procedure(#{user.userId}, #{postNo})}
 	</insert>
 	
 	<!-- 싫어요버튼클릭(dislike_procedure 호출) -->
-	<insert id="dislike" parameterType="post" statementType="CALLABLE">
+	<insert id="addDislike" parameterType="post" statementType="CALLABLE">
 	    {CALL dislike_procedure(#{user.userId}, #{postNo})}
 	</insert>
 	

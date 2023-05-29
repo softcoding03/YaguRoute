@@ -62,7 +62,7 @@ public class TestComment{
 	}
 	
 	//1레이어 댓글 & 2레이어 댓글 리스트를 get
-	//@Test
+	@Test
 	public void getCommentList() throws Exception{
 		System.out.println("getCommentList() 시작");
 		
