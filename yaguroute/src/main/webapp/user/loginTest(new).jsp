@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
  <c:if test="${ ! empty user }">
- 	<jsp:forward page="/main.jsp"/>
+ 	<c:redirect url="/main.jsp"/>
  </c:if>
  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -66,9 +66,21 @@
     </script>
     
     <script type="text/javascript">
-    window.onpopstate = function(event) {
-        window.history.pushState(null, null, window.location.href);
-     };
+    	$(function(){
+	    	$('#password').keyup(function(){
+
+	    		var password = $('#password').val();
+	    		console.log(password)
+	    		var maskedPassword = "";
+	
+	    	    for (var i = 0; i < password.length; i++) {
+	    	        maskedPassword += "*";
+	    	    }
+	    	    password = maskedPassword;
+	    	    
+	    	    $('#password').text(maskedPassword);
+	    	})
+    	})
     </script>
 </head>
 
@@ -116,7 +128,7 @@
                                 <div class="item">
                                     <label>
                                         <span>ID <i>*</i></span>
-                                        <input type="text" id="userId" name="userId">
+                                        <input type="text" id="userId" name="userId" placeholder="아이디">
                                     </label>
                                 </div>	
                             </div>
@@ -124,7 +136,7 @@
                                 <div class="item">
                                     <label>
                                         <span>비밀번호 <i>*</i></span>
-                                        <input type="text" id="password" name="password">
+                                        <input type="password" id="password" name="password" placeholder="패스워드">
                                     </label>
                                 </div>	
                             </div>
@@ -139,6 +151,15 @@
         </div>
     </div>
 </section>
+<br>
+<br>
+<ul>
+<li>
+<h5>힌트</h5>
+아이디 - admin<br>
+비밀번호 - 1234
+</li>
+</ul>
 </form>
 <!--CONTACT WRAP END-->
 

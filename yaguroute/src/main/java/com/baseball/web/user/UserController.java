@@ -17,6 +17,8 @@ import com.baseball.service.domain.User;
 import com.baseball.service.user.UserDao;
 import com.baseball.service.user.UserService;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+
 //==> 회원관리 Controller
 @Controller
 @RequestMapping("/users/*")
@@ -37,8 +39,6 @@ public class UserController {
 	@PostMapping(value="login")
 	public String login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request) throws Exception {
 		
-		
-		
 		System.out.println(user);
 		
 		if(userService.getUser(user.getUserId()) != null)
@@ -52,17 +52,18 @@ public class UserController {
 				
 				System.out.println("user : "+session.getAttribute("user"));
 				
-				session.setMaxInactiveInterval(5);
+				session.setMaxInactiveInterval(3000);
+				
 				return "redirect:/user/index.jsp";
 			}
 			else {
 				System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
-				return "redirect:/user/loginTest(new).jsp";
+				return "redirect:/user/index.jsp";
 			}
 		}
 		else {
 			System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
-			return "redirect:/user/loginTest(new).jsp";
+			return "redirect:/user/index.jsp";
 		}
 		
 	}
@@ -71,8 +72,7 @@ public class UserController {
 	public String logout(HttpSession session ) throws Exception{
 		
 		session.invalidate();
-		
-		return "redirect:/index.jsp";
+		return "redirect:/user/loginTest(new).jsp";
 	}
 	
 	// 아이디 중복체크
