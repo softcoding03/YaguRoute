@@ -1,11 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
- <c:if test="${ ! empty user }">
- 	<c:redirect url="/main.jsp"/>
- </c:if>
- <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,12 +9,72 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Team HTML</title>
+    <title>야구Route 회원가입</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <script type="text/javascript">
+	
+	$(function(){
+		
+		$('#nicknameCheck').keyup(function(){
+			
+			var nickname = $('#nicknameCheck').val();
+			console.log(nickname);
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : nickname},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
+						$("#nickname_use").attr('color', '#dc3545');
+					
+					}else{
+						$('#nickname_use').html('사용 가능한 닉네임입니다.');
+						$('#nickname_use').attr('color', '#2fb380');
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			})
+		})
+	});
+	
+	$(function(){
+		$('#idCheck').keyup(function(){
+			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
+			console.log(id); // 현재 가져오는 id를 log로 출력해봄.
+				//alert("여기까지 옴!");
+			 $.ajax({
+				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
+				type : "POST", // POST방식으로 전달
+				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
+				dataType : 'json', // json데이터형식으로 보낸다.
+				success : function(result){ // 서버에서 response(result값)가 전송된다.
+					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
+						$("#id_use").html('이미 사용중인 아이디입니다.');
+						$("#id_use").attr('color','#dc3545');
+					} else{
+						$("#id_use").html('사용할 수 있는 아이디입니다.');
+						$("#id_use").attr('color','#2fb380');
+					} 
+				},
+				error : function(){
+					alert("서버요청실패");
+				}
+			})
+		})
+	})
+		
+	</script>
+
+	
+	
 </head>
 
 <body>
@@ -39,12 +94,7 @@
             <div class="col-md-6">
                 <div class="info">
                     <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <!--<li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>-->
-                        </ul>
-                        <h1>네이버 추가정보 입력</h1>
-                        네이버 SNS 연동 계정입니다. 추가정보를 입력해 주세요.
+                        <h1>회원가입</h1>
                     </div>
                 </div>
             </div>	
@@ -54,18 +104,92 @@
 <!--BREADCRUMBS END-->
 
     <!--CONTACT WRAP BEGIN-->
-<form>
-	<div class="container">
-		<div class="row">
-		<div class="col-md-8">
-			주소<br><input type="text" id="userAddr" readonly>
-			<button id="addrButton">우편번호 검색</button>
-			<br> <input type="text" id="userAddrPlus" placeholder="추가정보 입력">
-		</div>
-		<div class="col-md-8">
-			닉네임<br><input type="text" id="userNickName">
-		</div>
-		<div class="col-md-8">
+<section class="contacts-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h4>회원가입</h4>	
+                <div class="leave-comment-wrap">
+                    <form>								
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>아이디 <i>*</i></span>
+                                        <input type="text" name="name" id="idCheck" placeholder="사용할 아이디를 입력하세요.">
+                                        <font id="id_use" size="2"></font>
+                                    </label>
+                                </div>	
+                            </div>
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>패스워드 <i>*</i></span>
+                                        <input type="password" name="password" placeholder="사용할 패스워드를 입력하세요.">
+                                    </label>
+                                </div>	
+                            </div>
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>패스워드 확인<i>*</i></span>
+                                        <input type="text" name="passwordCheck">
+                                    </label>
+                                </div>	
+                            </div>
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>이름<i>*</i></span>
+                                        <input type="text" name="userName" id="name">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>생년월일<i>*</i></span>
+                                        <input type="text" name="userBirth">
+                                        <button type="button" name="date">달력클릭...</button>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>성별<i>*</i></span>
+                                        <input type="radio" name="sungbyul" value="M" checked="checked">남
+                                        <input type="radio" name="sungbyul" value="W">여
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>휴대폰 번호</span>
+		    						<input type="text" name="userPhone" id="userPhone" class="form-control" readonly/>
+		    						<button type="button" id="phone">인증&nbsp;하기</button>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>이메일</span>
+		    						<input type="text" name="userEmail" id="email" class="form-control"/>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>사용자 닉네임</span>
+		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control"/>
+		    						<font id="nickname_use" size="2"></font>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
                             	<div class="item">
                             		<label>
                             		<span>선호 구단</span>
@@ -83,8 +207,7 @@
 		    						</label>
                             	</div>
                             </div>
-		
-		<div class="col-md-8">
+                            <div class="col-md-8">
                             	<div class="item">
                             		<label>
                             		<span>프로필 사진</span>
@@ -92,15 +215,22 @@
 		    						</label>
                             	</div>
                             </div>
-		<br><br> 
-		</div>
-		<div class="col-md-8">
-			<button id="searchId">수정</button>
-			<button id="back">취소</button>
-		</div>
-	</div>
-</form>
+                            <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                <button class="sign" class="form">가입</button>&emsp;
+                                <button class="back" class="form">취소</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contacts-map">
+        <img class="img-responsive" src="/images/baseball/contacts-map.jpg" alt="contacts-map">
+    </div>
+</section>
 <!--CONTACT WRAP END-->
+
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
@@ -143,11 +273,9 @@
 <script type="text/javascript" src="/js/horizontal-bar.js"></script>
 <script type="text/javascript" src="/js/gauge-chart.js"></script>
 <script type="text/javascript" src="/js/stacked-bar.js"></script>
-
 <script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
 <script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
 <script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
-
 <script type="text/javascript" src="/js/treshold.js"></script>
 <script type="text/javascript" src="/js/visible.js"></script>
 <script type="text/javascript" src="/js/anchor.js"></script>

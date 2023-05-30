@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>야구Route 회원가입</title>
+    <title>회원 정보 수정</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -47,13 +47,13 @@
 	
 	$(function(){
 		$('#idCheck').keyup(function(){
-			let mb_id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
-			console.log(mb_id); // 현재 가져오는 id를 log로 출력해봄.
+			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
+			console.log(id); // 현재 가져오는 id를 log로 출력해봄.
 				//alert("여기까지 옴!");
 			 $.ajax({
 				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
 				type : "POST", // POST방식으로 전달
-				data : {userId : mb_id}, // data는 Key[userId], value[mb_id](위의 value)...
+				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
 				dataType : 'json', // json데이터형식으로 보낸다.
 				success : function(result){ // 서버에서 response(result값)가 전송된다.
 					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
@@ -66,10 +66,10 @@
 				},
 				error : function(){
 					alert("서버요청실패");
-					}
-				})
+				}
 			})
 		})
+	})
 		
 	</script>
 
@@ -116,8 +116,7 @@
                                 <div class="item">
                                     <label>
                                         <span>아이디 <i>*</i></span>
-                                        <input type="text" name="name" id="idCheck" placeholder="사용할 아이디를 입력하세요.">
-                                        <font id="id_use" size="2"></font>
+                                        <input type="text" name="name" id="idCheck" readonly>
                                     </label>
                                 </div>	
                             </div>
@@ -149,7 +148,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        <input type="text" name="userBirth">
+                                        <input type="text" name="userBirth" readonly>
                                         <button type="button" name="date">달력클릭...</button>
                                     </label>
                                 </div>
@@ -158,7 +157,8 @@
                                 <div class="item">
                                     <label>
                                         <span>성별<i>*</i></span>
-                                        <input type="radio" name="sungbyul" value="M" checked="checked">남
+                                        <!-- 사용자가 선택했던 성별을 표시해야함... -->
+                                        <input type="radio" name="sungbyul" value="M">남
                                         <input type="radio" name="sungbyul" value="W">여
                                     </label>
                                 </div>
@@ -216,7 +216,7 @@
                             	</div>
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button class="sign" class="form">가입</button>&emsp;
+                                <button class="sign" class="form">수정</button>&emsp;
                                 <button class="back" class="form">취소</button>
                             </div>
                         </div>
