@@ -54,6 +54,13 @@
 					console.log("수정하기 클릭 시 ChanndlID : "+text);
 					self.location="/channel/updateChannel?channelID="+text;
 				})
+				
+				$("button:contains('삭제하기')").on("click", function(){
+					console.log("삭제하기");
+					var text = $(this).children("input[name='channelID']").val();
+					console.log("삭제하기 클릭 시 ChanndlID : "+text);
+					self.location="/channel/deleteChannel?channelID="+text;
+				})
 			});
 		</script>
 	    
