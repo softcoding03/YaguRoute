@@ -8,7 +8,7 @@
 	
 	<resultMap id="bestPlayerSelectMap" type="bestplayer">
 		<result property="playerId" column="PLAYER_ID" jdbcType="VARCHAR"/>
-		<result property="bestDate" column="BEST_DATE" jdbcType="VARCHAR"/>
+		<result property="bestDate" column="BEST_DATE" jdbcType="DATE"/>
 	</resultMap>
 	
 		<insert id="addBestPlayer" parameterType="bestplayer">

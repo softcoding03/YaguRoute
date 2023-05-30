@@ -1,7 +1,5 @@
 ﻿package com.baseball.service.domain;
 
-import com.baseball.common.domain.Team;
-
 //==>회원정보를 모델링(추상화/캡슐화)한 Bean
 
 public class User {
@@ -122,12 +120,15 @@ public class User {
 	public void setTeamCode(String teamCode) {
 		this.teamCode = teamCode;
 	}
+	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userBirth=" + userBirth + ", userPoint="
-				+ userPoint + ", userEmail=" + userEmail + ", userAddr=" + userAddr + ", password=" + password
-				+ ", passwordCheck=" + passwordCheck + ", userPhone=" + userPhone + ", phoneCheck=" + phoneCheck + ", role="
-				+ role + "]";
+		return "User [userId=" + userId + ", userName=" + userName + ", userNickName=" + userNickName + ", userBirth="
+				+ userBirth + ", userPoint=" + userPoint + ", userEmail=" + userEmail + ", userAddr=" + userAddr
+				+ ", password=" + password + ", passwordCheck=" + passwordCheck + ", userPhone=" + userPhone
+				+ ", phoneCheck=" + phoneCheck + ", role=" + role + ", userImage=" + userImage + ", gender=" + gender
+				+ ", withDraw=" + withDraw + ", teamCode=" + teamCode + "]";
 	}
+	
 
 }
