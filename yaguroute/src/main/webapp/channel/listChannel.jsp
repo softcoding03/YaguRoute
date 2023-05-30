@@ -97,19 +97,23 @@
 					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
 					  	</button>
 					  </td>
-					  <td align="left" height="150">
-					  	<button type="button" class="btn btn-info">
-					  		삭제하기
-					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-					  	</button>
-					  </td>
-					  <td align="left" height="150">
-					  	<button type="button" class="btn btn-info">
-					  		수정하기
-					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-					  	</button>
-					  </td>
-					</tr>
+					  
+					  <c:if test="${sessionScope.user.role eq 'admin' }">
+						  <td align="left" height="150">
+						  	<button type="button" class="btn btn-info">
+						  		수정하기
+						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+						  	</button>
+						  </td>
+						  
+						  <td align="left" height="150">
+						  	<button type="button" class="btn btn-info">
+						  		삭제하기
+						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+						  	</button>
+						  </td>
+						</tr>
+					</c:if>
 		          </c:forEach>
 		        
 		        </tbody>

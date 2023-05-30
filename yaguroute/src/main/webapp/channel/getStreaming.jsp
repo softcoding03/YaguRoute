@@ -32,15 +32,16 @@
 					 },
 					 path: '/socket.io',
 					 query: {
-						 gameCode: '${channel.gameInfo.gameCode}'
+						 gameCode: '${channel.gameInfo.gameCode}',
+						 userID: '${sessionScope.user.userId}'
 					 }
 				});
 				
 				$(window).on("load", function(){
 					console.log("1. 채널 상태 확인");
-					
-					socket.emit('join', '${channel.gameInfo.gameCode}');
-					
+					socket.emit('join');
+					socket.emit('getMessageData');
+										
 					$.ajax({
 						url:"/channel/rest/status?channelID=${channel.channelID}",
 						method:"GET",
@@ -57,20 +58,17 @@
 										poster: '${channel.gameInfo.homeTeam.teamEmblem}',
 										controls: true,
 										platsinline : true,
-					 					muted : true,
-					 					preload : "auto",
-					 					width : "854",
-					 					height : "480"
-									
+						 				muted : true,
+						 				preload : "auto",
+						 				width : "854",
+						 				height : "480"										
 									});
 								} else {
 									console.log("방송 시작 전");
 									$('video').attr("poster", "${channel.gameInfo.homeTeam.teamEmblem}");
 									//var html = "<img src='${channel.gameInfo.homeTeam.teamEmblem}' width='854' heigth='480'/>"
-									
 								}
-								
-								
+										
 							}		
 						}
 					});
@@ -80,12 +78,12 @@
 				
 				//homeClick
 				$("#homeClick").on('click', function(){
-					socket.emit('homeClick');
+					socket.emit('homeClick', 1);
 				});
 				
 				//awayClick
 				$("#awayClick").on('click', function(){
-					socket.emit('awayClick');
+					socket.emit('awayClick', 1);
 				});
 				
 				//click 받기
@@ -97,16 +95,52 @@
 					$('#awayClick').text("${channel.gameInfo.awayTeam.teamNickName} : "+data);
 				})
 				
-				socket.on('msg', (data) => {
-					console.log(data);
-				})
 				
+				//채팅 송수신
+				$('#chat-form').submit(function(e) {
+				    e.preventDefault();
+				    var message = $('#message-input').val().trim();
+				    if (message) {
+				      socket.emit('sendMessage', message);
+				      $('#message-input').val('');
+				    }
+				  });
+				
+				socket.on("responseMessage", (data) => {
+					console.log(data);
+					$('#chat-messages').append($('<div>').text(data));
+					$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+				});
+				
+				socket.on("getChattingData", (data) => {
+					console.log(data);
+					console.log(data[0].user_id);
+					for(i in data){
+						console.log(data[i].user_id+" : "+data[i].message);
+						$('#chat-messages').append($('<div>').text(data[i].user_id+" : "+data[i].message));
+					}
+				});
 				
 			});
 		
 		</script>
 		
+		<style>
+		  
+		  .chat-container {
+	      max-width: 500px;
+	      margin: 50px auto;
+	      }
+	      
+	      .chat-messages {
+	      height: 300px;
+	      overflow-y: scroll;
+	      border: 1px solid #ccc;
+	      padding: 10px;
+	      }
+		</style>
 	</head>
+	
 	<body>
 		<h1>${channel.channelName}</h1>
 		
@@ -136,5 +170,22 @@
 				</div>
 			</div>
   		 </div>
+  		 
+  		 <div class="container chat-container">
+		 	<div class="chat-messages" id="chat-messages">
+		    	<!-- 채팅 메시지를 표시할 영역 -->
+		    </div>
+
+		    <form id="chat-form">
+		     	<div class="input-group">
+		        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요">
+			        <div class="input-group-append">
+			        	<button type="button" class="btn btn-primary">전송</button>
+			        </div>
+		    	</div>
+		    </form>
+  		</div>
+  		 
+  		 
 	</body>
 </html>
