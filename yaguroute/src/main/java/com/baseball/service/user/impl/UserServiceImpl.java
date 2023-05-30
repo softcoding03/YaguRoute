@@ -76,16 +76,20 @@ public class UserServiceImpl implements UserService{
 	public Map<String, Object> getUserList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		/*현재 데이터가 4개임을 알 수 있는 이유는 mapper로 이동해서 include한 userList의 개수를 가져왔기 때문이다.*/
+		
+		search.setCurrentPage(1); // 현재 페이지를 1로 세팅
+		search.setPageSize(5); // 한 페이지당 보이는 게시물을 10개로 세팅
+		
 		List<User> list = userDao.getUserList(search); 
 		int totalCount = userDao.getTotalCount(search); // totalCount는 따로 service, serviceImpl에 메소드 형태로 만들지 않는다. 
 		
-		System.out.println("totalCount : " +totalCount); // totalCount : User리스트의 User 갯수 : 4개
+		System.out.println("search : "+search);
 		Map<String, Object> map = new HashMap<String, Object>(); // Map<String,Object> 객체 생성
 		
-		map.put("호날두", list); // "list" 문자 내부에 정렬되어 list=[User [userId = beatles123.. 라고 저장된다.]]
-		map.put("totalCount", new Integer(totalCount));
+		map.put("list", list); // "list" 문자 내부에 정렬되어 list=[User [userId = beatles123.. 라고 저장된다.]]
+		map.put("totalCount", totalCount);
 		
-		System.out.println("userServiceImpl에서의 list... : "+map);
+//		System.out.println("userServiceImpl에서의 list... : "+map);
 		
 		return map;
 	}
