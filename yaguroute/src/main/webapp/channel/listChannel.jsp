@@ -54,6 +54,13 @@
 					console.log("수정하기 클릭 시 ChanndlID : "+text);
 					self.location="/channel/updateChannel?channelID="+text;
 				})
+				
+				$("button:contains('삭제하기')").on("click", function(){
+					console.log("삭제하기");
+					var text = $(this).children("input[name='channelID']").val();
+					console.log("삭제하기 클릭 시 ChanndlID : "+text);
+					self.location="/channel/deleteChannel?channelID="+text;
+				})
 			});
 		</script>
 	    
@@ -90,19 +97,23 @@
 					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
 					  	</button>
 					  </td>
-					  <td align="left" height="150">
-					  	<button type="button" class="btn btn-info">
-					  		삭제하기
-					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-					  	</button>
-					  </td>
-					  <td align="left" height="150">
-					  	<button type="button" class="btn btn-info">
-					  		수정하기
-					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-					  	</button>
-					  </td>
-					</tr>
+					  
+					  <c:if test="${sessionScope.user.role eq 'admin' }">
+						  <td align="left" height="150">
+						  	<button type="button" class="btn btn-info">
+						  		수정하기
+						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+						  	</button>
+						  </td>
+						  
+						  <td align="left" height="150">
+						  	<button type="button" class="btn btn-info">
+						  		삭제하기
+						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
+						  	</button>
+						  </td>
+						</tr>
+					</c:if>
 		          </c:forEach>
 		        
 		        </tbody>

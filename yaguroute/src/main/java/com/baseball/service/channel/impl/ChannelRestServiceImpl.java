@@ -55,14 +55,14 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 
 
 	@Override
-	public void updateChannel(Channel channel) throws Exception {
-		channelRestDao.updateChannel(channel);
+	public int updateChannel(Channel channel) throws Exception {
+		return channelRestDao.updateChannel(channel);
 
 	}
 
 	@Override
-	public void deleteChannel(String ChannelID) throws Exception {
-		channelRestDao.deleteChannel(ChannelID);
+	public int deleteChannel(String ChannelID) throws Exception {
+		return channelRestDao.deleteChannel(ChannelID);
 
 	}
 

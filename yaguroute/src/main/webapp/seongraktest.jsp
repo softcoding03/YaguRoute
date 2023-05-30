@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/game/getGameList">gameList</a>
+	<a href="/game/getGameList">gameList</a><br>
+	<a href="/basket/getBasketList">basketList</a><br>
+	<a href="/predict/getUserPredict">getUserPredict</a><br>
 </body>
 </html>

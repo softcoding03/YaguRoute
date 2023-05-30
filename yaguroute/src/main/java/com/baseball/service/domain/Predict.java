@@ -1,32 +1,43 @@
 package com.baseball.service.domain;
 
+import java.util.List;
+
 public class Predict {
 	//Field
 	private int predNo;
-	private Game predGame;
-	private User predUser;
+	private String predGameCode;
+	private String predUserId;
 	private String predWinningTeamCode;
 	private int predPoint;
 	private int afterGamePredPoint;
 	private String predSuccess;
+	private List<Predict> addPred;
 	
+	
+	public List<Predict> getAddPred() {
+		return addPred;
+	}
+	public void setAddPred(List<Predict> addPred) {
+		this.addPred = addPred;
+	}
 	public int getPredNo() {
 		return predNo;
 	}
 	public void setPredNo(int predNo) {
 		this.predNo = predNo;
 	}
-	public Game getPredGame() {
-		return predGame;
+	
+	public String getPredGameCode() {
+		return predGameCode;
 	}
-	public void setPredGame(Game game) {
-		this.predGame = game;
+	public void setPredGameCode(String predGameCode) {
+		this.predGameCode = predGameCode;
 	}
-	public User getPredUser() {
-		return predUser;
+	public String getPredUserId() {
+		return predUserId;
 	}
-	public void setPredUser(User predUser) {
-		this.predUser = predUser;
+	public void setPredUserId(String predUserId) {
+		this.predUserId = predUserId;
 	}
 	public String getPredWinningTeamCode() {
 		return predWinningTeamCode;
@@ -52,12 +63,11 @@ public class Predict {
 	public void setPredSuccess(String predSuccess) {
 		this.predSuccess = predSuccess;
 	}
-	
 	@Override
 	public String toString() {
-		return "Predict [predNo=" + predNo + ", predGame=" + predGame + ", predUser=" + predUser + ", predWinningTeamCode="
-				+ predWinningTeamCode + ", predPoint=" + predPoint + ", afterGamePredPoint=" + afterGamePredPoint
-				+ ", predSuccess=" + predSuccess + "]";
+		return "Predict [predNo=" + predNo + ", predGameCode=" + predGameCode + ", predUserId=" + predUserId
+				+ ", predWinningTeamCode=" + predWinningTeamCode + ", predPoint=" + predPoint + ", afterGamePredPoint="
+				+ afterGamePredPoint + ", predSuccess=" + predSuccess + "]";
 	}
 	
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,10 @@ public class UserController {
 	}
 	
 	// page 설정
-	int pageUnit = 0;
-	int pageSize = 0;
+	@Value("${commonProperties.pageUnit}")
+    private int pageUnit;
+    @Value("${commonProperties.pageSize}")
+    private int pageSize;
 	
 	@PostMapping(value="getUser") 
 	public String getUser(@ModelAttribute("user") User user, HttpSession session) throws Exception{
@@ -112,17 +115,23 @@ public class UserController {
 	@RequestMapping(value="listUser") // 관리자 전용 
 	public String listUser(@ModelAttribute("search") Search search, Model model) throws Exception{
 		
+		System.out.println("search : ");
+		
+		System.out.println("user/listUser");
+		
 		if(search.getCurrentPage() == 0 ) {
 			search.setCurrentPage(1);
 		} 
 		search.setPageSize(pageSize);
 		
-		
+		// B/L 수행
 		Map<String, Object> map = userService.getUserList(search);
 		
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
-		
+		System.out.println("CurrentPage : "+search.getCurrentPage());
+		System.out.println("totalCount : "+map.get("totalCount"));
+		System.out.println(pageUnit);
+		System.out.println(pageSize);
+		Page resultPage = new Page(search.getCurrentPage(), (int) map.get("totalCount"), pageUnit, pageSize);
 		// Model 과 View 연결
 				model.addAttribute("list", map.get("list"));
 				model.addAttribute("resultPage", resultPage);
