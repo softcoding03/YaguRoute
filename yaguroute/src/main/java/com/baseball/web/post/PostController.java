@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.service.domain.Emote;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
 import com.baseball.service.post.PostService;
@@ -50,22 +52,31 @@ public class PostController {
 	}
 	
 	@GetMapping("getPost")
-	public String getPost(@RequestParam("postNo") int postNo, Model model) throws Exception {
-			System.out.println("/post/getPost : GET");
+	public String getPost(@RequestParam("postNo") int postNo, Model model,HttpSession session) throws Exception {
+			System.out.println("/post/getPost : GET START");
 			System.out.println("-- 넘어온 데이터 ? "+postNo);	
 			//post 정보+좋아요,싫어요 세팅
 			Post post = postService.getPost(postNo);
 			post.setPostLikes(postService.getLikes(postNo));
 			post.setPostDislikes(postService.getDislikes(postNo));
 			postService.addViews(postNo); //조회수 추가
+			
+			//해당 게시물에 emote 유무 판단 위한 Emote get 로직
+			String userId = ((User)session.getAttribute("user")).getUserId();
+			Emote emote = new Emote();
+			emote.setPostNo(postNo);
+			emote.setUserId(userId);
+			emote = postService.getEmote(emote);
+			System.out.println("emote 결과값?"+emote);
 			System.out.println("-- 세팅된 post? "+post);
+			model.addAttribute("emote", emote);
 			model.addAttribute("post", post);
 			return "forward:/post/getPost.jsp";
 	}
 	
 	@GetMapping("getPostList")
 	public String getPostList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
-			System.out.println("/post/getPostList : GET");
+			System.out.println("/post/getPostList : GET START");
 			System.out.println("-- 넘어온 데이터 ? "+teamCode+"//"+currentPage+"//"+search);	
 			currentPage = (currentPage == null) ? 1 : currentPage;
 			search.setCurrentPage(currentPage);
@@ -85,18 +96,32 @@ public class PostController {
 			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
 			System.out.println("총 레코드 수? "+totalCount);
 			
+			//Best 3 게시물 조회
+			List<Post> bestList = postService.getPostBestList(teamCode);
+			for(Post post:bestList) {
+				System.out.println("bestPost ?"+post);
+			}
+			
+			//공지사항 조회
+			List<Post> noticeList = postService.getNoticeList(teamCode);
+			for(Post post:noticeList) {
+				System.out.println("bestPost ?"+post);
+			}
+			
+			model.addAttribute("bestList",bestList);
+			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("list", list);
 			model.addAttribute("resultPage", resultPage);
+			
 			return "forward:/post/listPost.jsp";
 	}
 	
 	
 	@GetMapping("addPost")
-	public String addPostView(@RequestParam("teamCode") String teamCode,HttpServletRequest session, Model model) throws Exception {
-			System.out.println("/post/addPost : GET");
+	public String addPostView(@RequestParam("teamCode") String teamCode,HttpSession session, Model model) throws Exception {
+			System.out.println("/post/addPost : GET START");
 			//userNickName, userImage 출력 위함
-			//User user = (User)session.getAttribute("user");
-			User user = userService.getUser("rockseong3");
+			User user = (User)session.getAttribute("user");
 			System.out.println("-- 세팅된 user? "+user);
 			model.addAttribute("user", user);
 			model.addAttribute("teamCode", teamCode);
@@ -106,7 +131,7 @@ public class PostController {
 	
 	@PostMapping("addPost")
 	public String addPost(@ModelAttribute("post") Post post, Model model) throws Exception {
-			System.out.println("/post/addPost : POST");	
+			System.out.println("/post/addPost : POST START");	
 			System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
 			post.setUser(userService.getUser(post.getUser().getUserId()));//post에 user정보 모두 저장해주기위함
 			postService.addPost(post); //insert 완료
@@ -121,11 +146,10 @@ public class PostController {
 	}
 	
 	@GetMapping("updatePost")
-	public String updatePostView(@RequestParam("postNo") int postNo, Model model) throws Exception {
-			System.out.println("/post/updatePost : GET");
-			postNo = 53;
+	public String updatePostView(@RequestParam("postNo") int postNo, Model model,HttpSession session) throws Exception {
+			System.out.println("/post/updatePost : GET START");
 			Post post = postService.getPost(postNo);
-			User user = userService.getUser(post.getUser().getUserId());
+			User user = (User)session.getAttribute("user");
 			post.setUser(user);
 			System.out.println("-- 세팅된 post? "+post);
 			model.addAttribute("post", post);
@@ -134,11 +158,11 @@ public class PostController {
 	
 	@PostMapping("updatePost")
 	public String updatePost(@ModelAttribute("post") Post post, Model model) throws Exception {
-			System.out.println("/post/updatePost : POST");	
+			System.out.println("/post/updatePost : POST START");	
 			System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
 			postService.updatePost(post); //update 완료
 			System.out.println("update 완료");
-			Post post2 = postService.getPost(53);
+			Post post2 = postService.getPost(post.getPostNo());
 			System.out.println("수정된 post"+post2);
 			model.addAttribute("post", post2);
 			return "forward:/post/getPost.jsp";
@@ -146,8 +170,7 @@ public class PostController {
 	
 	@GetMapping("deletePost")
 	public String deletePostView(@RequestParam("postNo") int postNo, HttpServletRequest request) throws Exception {
-			System.out.println("/post/deletePost : GET");
-			postNo = 24;
+			System.out.println("/post/deletePost : GET START");
 			String teamCode = postService.getPost(postNo).getTeamCode(); 
 			postService.deletePost(postNo);
 			System.out.println("--post삭제 완료");
@@ -158,7 +181,7 @@ public class PostController {
 	//작성중
 	@GetMapping("getCommentList")
 	public String getCommentList(@RequestParam("postNo") int postNo, Model model) throws Exception {
-			System.out.println("/post/getCommentList : GET");
+			System.out.println("/post/getCommentList : GET START");
 			System.out.println("-- 넘어온 데이터 ? "+postNo);	
 			
 			Map<String, Object> map = new HashMap<String,Object>();

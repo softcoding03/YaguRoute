@@ -14,7 +14,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
  
     <script type="text/javascript">
-    $(document).ready(function() {
+    	$(document).ready(function() {
     		$('#summernote').summernote({
             placeholder: '내용을 작성해주세요.',
             tabsize: 2,
@@ -49,6 +49,9 @@
 		  <option value="1">[응원]</option>
 		  <option value="2">[중고구매]</option>
 		  <option value="3">[중고판매]</option>
+		  <c:if test="${user.role eq 'admin'}">
+		  	<option value="4">[! 공지사항 !]</option>
+		  </c:if>
 		</select>
         
    		<table border=1 width=80%>

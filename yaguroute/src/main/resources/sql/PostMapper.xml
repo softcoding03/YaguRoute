@@ -43,6 +43,14 @@
 		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
 	
+	<resultMap id="emoteSelectMap" type="emote">
+		<result property="emoteNo" 				column="emote_no" 			jdbcType="INTEGER"/>
+		<result property="postNo" 				column="post_no" 			jdbcType="INTEGER"/>
+		<result property="userId"				column="user_id" 			jdbcType="VARCHAR"/>
+		<result property="like" 				column="like"	 			jdbcType="INTEGER"/>
+		<result property="disLike" 				column="dislike"	 		jdbcType="INTEGER"/>
+	</resultMap>
+	
 	<sql id="postList">
 	 	SELECT
 		    p.*,
@@ -60,6 +68,7 @@
 		    		AND post_title LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    </if>
+		    AND post_type not in (4)
 		ORDER BY
 		    p.post_no DESC
 	</sql>
@@ -87,14 +96,24 @@
 			select last_insert_id()
 	</select>
 	
-	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 3개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, COUNT(e.like) AS post_likes
 		FROM post p, emote e
 		WHERE p.post_no = e.post_no AND e.like = 1 AND p.team_code = #{value}
 		GROUP BY p.post_no
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 5
+		LIMIT 3
+	</select>
+	
+	<!-- 공지사항 list -->
+	<select id="getNoticeList" parameterType="string" resultMap="postSelectMap">
+		SELECT p.*,
+		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
+		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
+		FROM post p
+		WHERE p.team_Code = #{value} AND post_type = 4
+		ORDER by post_no DESC
 	</select>
 	
 	<!--게시물 작성-->
@@ -151,6 +170,12 @@
 	<select id="getTotalCount" parameterType="hashMap" resultType="int">
 		SELECT COUNT(*)
 		FROM (<include refid="postList"/>) countTable
+	</select>
+	<!-- 해당 게시물에 좋아요 했는지 안했는지 확인 위함 -->
+	<select id="getEmote" parameterType="emote" resultMap="emoteSelectMap">
+		SELECT *
+		FROM emote
+		WHERE post_no = #{postNo} AND user_id = #{userId}
 	</select>
 	
 </mapper>

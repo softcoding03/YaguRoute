@@ -20,12 +20,14 @@
 	}
     
     $(function(){
-    	$( "td:nth-child(2)" ).on("click" , function() {
+    	$( "td:nth-child(3)" ).on("click" , function() {
     		 self.location ="/post/getPost?postNo="+$(this).siblings("td:nth-child(1)").text();
     	});
-    	
     	$( "button.btn.btn-default" ).on("click" , function() {
 			fncGetPostList(1);
+		});
+    	$('.addPost').on("click" , function() {
+			self.location = "/post/addPost?teamCode="+String($('#teamCode').val())
 		});
     })
    
@@ -38,6 +40,7 @@
         <thead>
           <tr>
             <th align="center">게시물번호</th>
+            <th align="left">게시물 종류</th>
             <th align="left">게시물 제목</th>
             <th align="left">글쓴이</th>
             <th align="left">작성일</th>
@@ -47,30 +50,60 @@
         </thead>
        
 		<tbody>
-		  <c:set var="i" value="0" />
-		  <c:forEach var="post" items="${list}">
-			<c:set var="i" value="${i+1}" />
+		<c:forEach var="noticePost" items="${noticeList}">
+			<tr>
+			  <td align="center">${noticePost.postNo}</td>
+			  <td align="left">[[[공지사항]]]</td>
+			  <td align="left">${noticePost.postTitle}</td>
+			  <td align="left">${noticePost.user.userNickName}</td>
+			  <td align="left">${noticePost.postDate}</td>
+			  <td align="left">${noticePost.postViews}</td>
+			  <td align="left">${noticePost.postLikes}</td>
+			</tr>
+        </c:forEach>
+		<c:forEach var="bestPost" items="${bestList}">
+			<tr>
+			  <td align="center">${bestPost.postNo}</td>
+			  <td align="left"> 
+			  	<c:choose>
+					<c:when test="${bestPost.postType == '0'}">[잡담]</c:when>
+					<c:when test="${bestPost.postType == '1'}">[응원]</c:when>
+					<c:when test="${bestPost.postType == '2'}">[중고구매]</c:when>
+					<c:when test="${bestPost.postType == '3'}">[중고판매]</c:when>
+				</c:choose> -베스트 게시물^^*-
+			  </td>
+			  <td align="left">${bestPost.postTitle}</td>
+			  <td align="left">${bestPost.user.userNickName}</td>
+			  <td align="left">${bestPost.postDate}</td>
+			  <td align="left">${bestPost.postViews}</td>
+			  <td align="left">${bestPost.postLikes}</td>
+			</tr>
+        </c:forEach>
+		<c:forEach var="post" items="${list}">
 			<tr>
 			  <td align="center">${post.postNo}</td>
-			  <td align="left">
+			  <td align="left"> 
 			  	<c:choose>
 					<c:when test="${post.postType == '0'}">[잡담]</c:when>
 					<c:when test="${post.postType == '1'}">[응원]</c:when>
 					<c:when test="${post.postType == '2'}">[중고구매]</c:when>
 					<c:when test="${post.postType == '3'}">[중고판매]</c:when>
 				</c:choose>
-				${post.postTitle}	
 			  </td>
+			  <td align="left">${post.postTitle}</td>
 			  <td align="left">${post.user.userNickName}</td>
 			  <td align="left">${post.postDate}</td>
 			  <td align="left">${post.postViews}</td>
 			  <td align="left">${post.postLikes}</td>
 			</tr>
-          </c:forEach>
+        </c:forEach>
         
         </tbody>
       
       </table>
+      <c:if test="${user.teamCode eq list[0].teamCode || user.role eq 'admin'}">
+      	<button type="button" class="addPost">게시물 작성</button>
+      </c:if>
       		<!-- Search시작 -->
       		<div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
@@ -92,8 +125,6 @@
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}"/>
-				  
-				  
 				</form>
 	    	</div>
 </div>
