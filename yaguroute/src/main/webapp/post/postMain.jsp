@@ -14,6 +14,12 @@
 			$('#addPostView').on("click" , function() {
 					self.location = "/post/addPost?teamCode=OB"
 			});
+			$('#updatePostView').on("click" , function() {
+				self.location = "/post/updatePost?postNo=53"
+			});
+			$('#deletePost').on("click" , function() {
+				self.location = "/post/deletePost?postNo=48"
+			});
 			$("button:nth-child(n+1)").on("click" , function() {
 				self.location = "/post/getPostList?teamCode="+$(this).val().trim();
 				console.log($(this).val().trim())
@@ -23,7 +29,9 @@
 	
 </head>
 <body>
-    <button type="button" id="addPostView" class="btn btn-primary">게시물 작성</button>
+    <input type="button" id="addPostView">게시물 작성</input>
+    <input type="button" id="updatePostView">게시물 수정</input>
+    <input type="button" id="deletePost">게시물 삭제</input>
     <table>
     <tr>
     <td>
