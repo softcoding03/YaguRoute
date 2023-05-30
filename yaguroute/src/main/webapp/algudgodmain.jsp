@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -7,7 +7,7 @@
 	
 <head>
 	
-	
+	<link href="/css/left.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -19,6 +19,8 @@
 	<button class="btn btn-primary" onclick="self.location='../product/updateProductView.jsp';">상품 수정</button>
 	
 	<button class="btn btn-primary" onclick="self.location='/product/listProduct';">상품 목록 조회</button>
+	
+
 		
 </body>
 
