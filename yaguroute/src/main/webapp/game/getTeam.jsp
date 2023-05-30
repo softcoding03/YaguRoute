@@ -96,22 +96,27 @@
 	$(function(){
 		initMap();
 	})
-	
 	function initMap(){
+		
+		$("a[href='teamCodeHref']").on('click',function(){
+			self.location = "/game/getTeam?teamCode="+$(this).find(".info input").val();
+	    })
+		
 		let map = new naver.maps.Map('map',{
 			center : new naver.maps.LatLng(${teamInfo.stadiumLat},${teamInfo.stadiumLng})
 		})
 		
-		var marker = new naver.maps.Marker({
+		let marker = new naver.maps.Marker({
 			map: map,
-			title : ${teamInfo.stadiumName},
+			title : "${teamInfo.stadiumName}",
 			position: new naver.maps.LatLng(${teamInfo.stadiumLat},${teamInfo.stadiumLng})
 		})
 		
-		var infoWindow = new naver.maps.InfoWindow({
+		let infoWindow = new naver.maps.InfoWindow({
 			content:'<div><div>${teamInfo.teamFullName} 홈구장</div>'+'<div><a href="${teamInfo.teamHomepage}">바로가기</a></div></div>'
 		})
 		
+		infoWindow.open(map,marker);
 	}
 </script>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

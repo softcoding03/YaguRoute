@@ -11,7 +11,7 @@ public interface BasketDao {
 	
 	public void addBasketProd(Basket basket);
 	
-	public List<Basket> getBasketList(String userId);
+	public List<Basket> getBasketList(Basket basket);
 	
 	public void deleteBasket(Basket basket);
 	

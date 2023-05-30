@@ -47,7 +47,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
@@ -144,7 +144,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
@@ -278,7 +278,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		gameRecord.setGameInfo(game);
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
@@ -628,7 +628,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 	public Team getTeamCrawlingInfo(Team team) {
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
@@ -669,7 +669,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		List<Player> homePlayer = new ArrayList<>();
 		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		

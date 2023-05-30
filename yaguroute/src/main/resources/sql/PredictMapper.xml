@@ -8,24 +8,24 @@
 
 	<resultMap id="predSelectMap" type="predict">
 		<result property="predNo" column="pred_no" jdbcType="INTEGER"/>
-		<result property="predGame.gameCode" column="GAME_CODE" jdbcType="VARCHAR"/>
-		<result property="predUser.userId" column="USER_ID" jdbcType="VARCHAR"/>
+		<result property="predGameCode" column="GAME_CODE" jdbcType="VARCHAR"/>
+		<result property="predUserId" column="USER_ID" jdbcType="VARCHAR"/>
 		<result property="predWinningTeamCode" column="PRED_WINNING_TEAM_CODE" jdbcType="VARCHAR"/>
 		<result property="predPoint" column="PRED_POINT" jdbcType="INTEGER"/>
-		<result property="afterGamePredPoint" column="STADIUM_IMAGE_FILE" jdbcType="INTEGER"/>
-		<result property="predSuccess" column="HOMETOWN" jdbcType="CHAR"/>
+		<result property="afterGamePredPoint" column="AFTER_GAME_PRED_POINT" jdbcType="INTEGER"/>
+		<result property="predSuccess" column="HOPRED_SUCCESSMETOWN" jdbcType="CHAR"/>
 	</resultMap>
 
 	<insert id="addUserPred" parameterType="predict">
 		insert into predict
 		values(
 			null,
-			#{predGame.gameCode},
-			#{predUser.userId},
+			#{predGameCode},
+			#{predUserId},
 			#{predWinningTeamCode},
 			#{predPoint},
-			#{afterGamePredPoint},
-			#{predSuccess}
+			#{predPoint},
+			null
 		)
 	</insert>
 	

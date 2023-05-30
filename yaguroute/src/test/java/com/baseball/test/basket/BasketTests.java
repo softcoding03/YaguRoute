@@ -29,16 +29,17 @@ public class BasketTests {
 	//@Test
 	public void addBasketProd() throws Exception{
 		Basket basket = new Basket();
-		basket.setProdQuantity(20);
-		basket.setProduct(prodDao.getProduct(2));
+		basket.setProdQuantity(2);
+		basket.setProduct(prodDao.getProduct(3));
 		basket.setUserId("rockseong3");
 		basketDao.addBasketProd(basket);
 	}
 	
 	//@Test
 	public void getBasketList() {
-		
-		List<Basket> basket = basketDao.getBasketList("rockseong3");
+		Basket bas = new Basket();
+		bas.setUserId("rockseong3");
+		List<Basket> basket = basketDao.getBasketList(bas);
 		for(Basket tmp : basket) {
 			System.out.println(tmp);
 		}
@@ -48,7 +49,6 @@ public class BasketTests {
 	public void deleteBasket() throws Exception{
 		Basket basket = new Basket();
 		basket.setUserId("rockseong3");
-		basket.setProduct(prodDao.getProduct(4));
 		basketDao.deleteBasket(basket);
 	}
 	
