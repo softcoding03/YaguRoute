@@ -74,16 +74,16 @@ public class ProductRestController {
 		return product;
 	}
 	
-	@GetMapping(value="json/autoComplete")
-	public List<String> autoComplete() throws Exception {
-
-		
-		List<String> list = productService.autoComplete();
-				
-		
-		return list;
-	
-	}
+//	@GetMapping(value="json/autoComplete")
+//	public List<String> autoComplete() throws Exception {
+//
+//		
+//		List<String> list = productService.autoComplete();
+//				
+//		
+//		return list;
+//	
+//	}
 }
 
 

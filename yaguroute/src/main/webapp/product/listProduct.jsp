@@ -37,52 +37,24 @@
 
 <script type="text/javascript">
 
+
 	//=====기존Code 주석 처리 후  jQuery 변경 ======//
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
+	
 	function fncGetProductList(currentPage) {
-		//document.getElementById("currentPage").value = currentPage;
-		$("#currentPage").val(currentPage)
-	   	//document.detailForm.submit();
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct").submit();
+		$("#currentPage").val(currentPage);
+		$("form").attr("method", "GET").attr("action", "/product/listProduct").submit();
 	}
 	
-	 $(function() {
-		 
-			//==> 검색 Event 연결처리부분
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함. 
-			 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
-				//Debug..
-				//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
-				fncGetProductList(1);
-			});
+	$(function() {
+		$("button.btn-success").on("click", function() {
+			fncGetProductList(1);
+		});
 	
-	 
-	 $( function() {
-	 
-		 $.ajax(
-	 				{
-	 					url: "/product/json/autocomplete",
-	 					method: "GET",
-	 					dataType: "json",
-	 					headers: {
-	 						"Accept" : "application/json",
-							"Content-Type" : "application/json"						
-	 					},
-	 					success: function(JSONData, status) {
-	
-	 						
-	 					console.log(JSONData);
-	 					
-	 				    $( "#autoComplete" ).autocomplete({
-	 					      source: JSONData
-	 					    });
-	 				
-	 					}
-	 					
-	 				});
-			 });
-	 });		
+		$("td.ct_btn01:contains('검색')").on("click", function() {
+			fncGetProductList(1);
+		});
+	});
 		
 </script>
 
@@ -104,7 +76,7 @@
 
 
 
-<form name="detailForm" action="/product/listProduct" method="post">
+<form name="detailForm" >
 
 
 
@@ -121,6 +93,7 @@
 					</td>
 				</tr>
 			</table>
+
 		</td>
 		<td width="12" height="37">
 			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
@@ -128,11 +101,37 @@
 	</tr>
 </table>
 
+	<p></p>
+	 <table>
+		    <tr>
+		    <td>	    
+	 	<button type="button" class="btn btn-success" value="NN">전체</button>
+	 	<button type="button" class="btn btn-success" value="NC">NC</button>
+	    <button type="button" class="btn btn-success" value="OB">두산</button>
+	    <button type="button" class="btn btn-success" value="HH">한화</button>
+	    <button type="button" class="btn btn-success" value="HT">KIA</button>
+	    <button type="button" class="btn btn-success" value="KT">KT</button>
+	    <button type="button" class="btn btn-success" value="LG">LG</button>
+	    <button type="button" class="btn btn-success" value="LT">롯데</button>
+	    <button type="button" class="btn btn-success" value="SK">SSG</button>
+	    <button type="button" class="btn btn-success" value="SS">삼성</button>
+	    <button type="button" class="btn btn-success" value="WO">키움</button>
+	   
+    </td>
+	</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-	
+	<!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+
+
 		<td align="right">
+	
+		<p></p>
+		<button type="button" class="btn btn-link">판매순</button>
+		<button type="button" class="btn btn-link">재고적은순</button>
+		<button type="button" class="btn btn-link">재고많은순</button>
+			
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
 			
 				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품명</option>
@@ -174,8 +173,6 @@
 
 	<tr>
 	<th align="center">번호</th>
-
-    <th align="center">이미지</th>
        <th></th>
     <th align="center">제품명</th>
        <th></th>
@@ -191,7 +188,7 @@
     
 	</tr>
 
-
+	<p></p>
 	<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
@@ -202,15 +199,11 @@
 
 	 	<td align="left">
 		
-		<input type="hidden" id="menu" name="search" value="${product.prodNo}"/> 	
-		
+		<input type="hidden" value="${product.prodNo}"/>
+	
 
     <tr>
         <td></td>
-		
-				<td align="left">
-		    		<img src="/images/product/${product.prodImage}" alt="이미지 안나오네">
-				</td>
 
 				<td></td>
 				<td align="left">
@@ -254,6 +247,8 @@
 
 		  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 
+				  
+
 </form>
 </div>
 
@@ -265,6 +260,7 @@
 
 
 </body>
+
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
