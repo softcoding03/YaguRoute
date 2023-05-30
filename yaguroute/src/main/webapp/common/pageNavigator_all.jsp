@@ -28,6 +28,13 @@
 			        <span aria-hidden="true">&laquo;</span>
 			      </a>
 				</c:if>
+				
+				<c:if test="${param.id == 'product'}">
+				  <a href="javascript:fncGetProductList('${ resultPage.currentPage-1}')" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+				</c:if>
+		    
 		    
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
@@ -41,6 +48,11 @@
 				    	<c:if test="${param.id == 'post'}">
 				    		<a href="javascript:fncGetPostList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
 				    	</c:if>
+				    	
+						<c:if test="${param.id == 'product'}">
+				    		<a href="javascript:fncGetProductList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+				    	</c:if>
+				    	
 				    </li>
 				</c:if>	
 				
@@ -52,6 +64,10 @@
 						<c:if test="${param.id == 'post'}">
 							<a href="javascript:fncGetPostList('${ i }');">${ i }</a>
 						</c:if>
+						<c:if test="${param.id == 'product'}">
+							<a href="javascript:fncGetProductList('${ i }');">${ i }</a>
+						</c:if>
+						
 					</li>
 				</c:if>
 			</c:forEach>
@@ -70,6 +86,10 @@
 		      <c:if test="${param.id == 'post'}">
 		        <a href="javascript:fncGetPostList('${resultPage.endUnitPage+1}')" aria-label="Next">
 		      </c:if>
+		      <c:if test="${param.id == 'product'}">
+		        <a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')" aria-label="Next">
+		      </c:if>
+		      
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>
@@ -79,6 +99,8 @@
 </div>
  
 
+
+<!-- 
 
 <div class="container">
 		<nav>
@@ -94,8 +116,9 @@
 		<nav>
 		  <ul class="pager">
 		    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-		    <!-- <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>  -->
+		    <!-- <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li> 
 		    <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
 		  </ul>
 		</nav>
-</div>
+</div> 
+-->
