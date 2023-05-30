@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
-	<title>getProductList</title>
+
 <!-- <title>jQuery UI Autocomplete - Default functionality</title>  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
@@ -29,7 +32,20 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+	  body {
+            padding-top : 50px;
+        }
+        
+        .thumbnail {
+        
+        width:360px;
+        height:360px;
 
+        }
+    </style>
+    
+  
  		
 <script type="text/javascript">
 
@@ -38,10 +54,8 @@
 	function fncGetProductList(currentPage) {
 		//document.getElementById("currentPage").value = currentPage;
 		$("#currentPage").val(currentPage)
-		var teamCode = String($('#teamCode').val());
-		alert(teamCode);
 	   	//document.detailForm.submit();
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?teamCode="+teamCode).submit();
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct").submit();
 	}
 	
 	
@@ -54,7 +68,7 @@
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함. 
 		 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
 			//Debug..
-			alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+			//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
 			fncGetProductList(1);
 		});
 		
