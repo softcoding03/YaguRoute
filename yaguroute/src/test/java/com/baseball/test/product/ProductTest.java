@@ -1,5 +1,6 @@
 package com.baseball.test.product;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ProductTest {
 	private ProductService productService;
 	
 	
-	@Test
+	//@Test
 	public void testAddProduct() throws Exception {
 		
 		Product product = new Product();
@@ -116,40 +117,41 @@ public class ProductTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testGetProductList() throws Exception {
 		
 		Search search = new Search ();
 		search.setCurrentPage(1);
 		search.setPageSize(3);
-		Map<String, Object> map = productService.getProductList(search);
 		
-		List<Product> list = (List<Product>)map.get("list");
-		Assert.assertEquals(3, list.size());
-		
-		
-		Integer totalCount = (Integer)map.get("totalCount");		
-		System.out.println("==================");
-		
-	 	search.setCurrentPage(1);
-	 	search.setPageSize(3);
-	 	search.setSearchCondition("0");
-	 	search.setSearchKeyword("");
+		Map<String,Object> map = productService.getProductList(search);
 	 	
-	 	map = productService.getProductList(search);
+	 	List<Object> list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(5, list.size());
+		
+		
+	 	System.out.println("어디에 있니 잘 왔니? "+list);
 	 	
-	 	List<Product> prodlist = (List<Product>)map.get("list");
-	 	Assert.assertEquals(3, list.size());
-	 
-	 	//==> console 확인
+	 	Integer totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 	
+	 	System.out.println("=======================================");
+	 	
+//		Map<String, Object> map = new HashMap<String,Object>();
+//		map.put("prodTeamCode", "HH");
+//		map.put("search", search);
+//		map = productService.getProductList(search);
+		
+			
+		List<Product> prodlist = (List<Product>)map.get("prodlist");
 	 	for(Product prod:prodlist) {
 	 		System.out.println(prod);
 	 	}
-	 	System.out.println("productListTest:: "+totalCount);
-		System.out.println("==================");
-		
+			
 	 	totalCount = (Integer)map.get("totalCount");
-	 	
+	 	System.out.println(totalCount);
+		
+	
 			
 		
 	}

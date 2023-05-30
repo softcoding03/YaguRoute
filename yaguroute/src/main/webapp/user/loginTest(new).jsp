@@ -35,6 +35,7 @@
     
     <script type="text/javascript">
  
+    // 아이디 비밀번호 일치하는지 확인
     $( function() {
 		
 		$("#userId").focus();
@@ -56,17 +57,39 @@
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
 		});
 	});	
-    </script>
     
-    <script type="text/javascript">
-     $(function(){
+    // 회원가입 페이지 이동
+    $(function(){
     	
     	$("#signup").on("click", function(){
     		
     		window.location.href = "/user/signup.jsp";
     	});
     });
- 	
+    
+    // 아이디 찾기 페이지로 이동
+    $(function(){
+    	
+    	$("#findUserId").on("click", function(){
+    		
+    		window.location.href="/user/findUserId.jsp";
+    	});
+    });
+    
+	$(function(){
+    	
+    	$("#findPassword").on("click", function(){
+    		
+    		window.location.href="/user/findPassword.jsp";
+    	});
+    });
+	
+	$(function(){
+		$("#거정말거").on("click", function(){
+			
+			window.location.href="/users/listUser";
+		});
+	});
     </script>
 </head>
 
@@ -129,6 +152,15 @@
                             <div class="col-md-12">
                                 <div class="item">
                                 <button id="login" class="comment-submit">로 그 인</button>&nbsp;
+                                
+                                <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/user/naverLogin&state=Naver" class="Naver-login-btn">
+                                <img id="naverLogin" class="naver-submit" width="183" height="45" src="/images/user/naverLogin.png" alt="네이버 로그인 버튼">
+                                </a>
+                                
+                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/user/kakaoLogin">
+                                <img id="kakaoLogin" class="kakao-submit" width="183" height="45" src="/images/user/kakaoLogin.png" alt="카카오 로그인 버튼">
+                                </a>
+                                
                                 </div>
                             </div>
                             </div>
@@ -141,10 +173,14 @@
 </form>
 
 <div class="container">
-	<button id="signup" class="signup">회 원 가 입</button><br><br>
+	<button id="signup" class="signup">회 원 가 입</button><br>
+	<button id="findUserId" class="find">아이디 찾기</button>
+	<button id="findPassword" class="find">비밀번호 찾기</button>
+	<button id="거정말거" class="거정말고">listUser</button>
 <ul>
-<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
+	<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
 </ul>
+
 </div>
 
 

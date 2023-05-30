@@ -12,10 +12,21 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
     
+    function fncGetPostList(currentPage){
+		$("#currentPage").val(currentPage);
+		var teamCode = String($('#teamCode').val());
+		alert(teamCode);
+		$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
+	}
+    
     $(function(){
     	$( "td:nth-child(2)" ).on("click" , function() {
     		 self.location ="/post/getPost?postNo="+$(this).siblings("td:nth-child(1)").text();
-    	});	 	
+    	});
+    	
+    	$( "button.btn.btn-default" ).on("click" , function() {
+			fncGetPostList(1);
+		});
     })
    
     </script>
@@ -60,8 +71,37 @@
         </tbody>
       
       </table>
+      		<!-- Search시작 -->
+      		<div class="col-md-6 text-right">
+			    <form class="form-inline" name="detailForm">
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>사용자닉네임</option>
+				        <option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>게시물제목</option>
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">검색</button>
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}"/>
+				  
+				  
+				</form>
+	    	</div>
 </div>
-
+ 	<!-- PageNavigation Start... -->
+	<jsp:include page="../common/pageNavigator_all.jsp">
+		<jsp:param name="id" value="post" />
+	</jsp:include>
+	<!-- PageNavigation End... -->
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

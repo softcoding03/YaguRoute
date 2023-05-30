@@ -31,7 +31,6 @@
     	});
     </script>
     
-    
     <script type="text/javascript">
     // 잘못된 접근(세션 끝났는데 뒤로가기로 메인페이지 접근할 때...)
     window.addEventListener('pageshow', function(event) {
@@ -126,16 +125,16 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="staff.html"><span>Team</span></a>
+                        <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                         <ul>
                             <li><a href="player.html"><span>player first page</span></a></li>
                             <li><a href="player-second-page.html"><span>player second page</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="news.html"><span>News</span></a></li>
-                    <li><a href="news-single.html"><span>News Single</span></a></li>
-                    <li><a href="store.html"><span>Store</span></a></li>
-                    <li><a href="contacts.html"><span>Contact</span></a></li>
+                    <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
+                    <li><a href="/post/postMain.jsp"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/algudgodmain.jsp"><span>Store</span></a></li>
+                    <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     <li>
                         <a href="#other"><span>other</span></a>
                         <ul>
@@ -150,7 +149,7 @@
                         </ul>
                     </li>
                     <li class="cart full">
-                        <a href="#cart">
+                        <a href="/basket/getBasketList">
                             <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
                         </a>
                         <div class="cart-drop">

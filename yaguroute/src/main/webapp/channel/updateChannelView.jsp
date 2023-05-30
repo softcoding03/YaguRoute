@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -38,6 +39,29 @@
 			
 			<div class="form-group">
 				<div class="col-xs-4 col-md-2">
+					<strong>게임 코드</strong>
+				</div>
+				<div class="col-xs-8 col-md-4">
+					<input type="text" name="lastgameCode" value="${channel.gameInfo.gameCode}" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20" readonly/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-xs-4 col-md-2">
+					<strong>오늘의 게임 리스트</strong>
+				</div>
+				
+				<div class="col-xs-8 col-md-4">
+					<c:set var="i" value="0"/>
+					<c:forEach var="game" items="${gamelist}">
+						<input type="radio" name="gameCode" class="ct_input_g" value="${game.gameCode}">${game.gameCode}</input>
+					</c:forEach>
+				</div>
+				
+			</div>
+			
+			<div class="form-group">
+				<div class="col-xs-4 col-md-2">
 					<strong>채널 이름</strong>
 				</div>
 				<div class="col-xs-8 col-md-4">
@@ -51,8 +75,7 @@
 				</div>
 				<div class="col-xs-8 col-md-4">
 					<!-- ${channel.bucketName} -->
-					<input type="text" name="channelName" value="${channel.bucketName}" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20" readonly/>
-					<input type="hidden" name="bucketName" value="${channel.bucketName}">
+					<input type="text" name="bucketName" value="${channel.bucketName}" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20" readonly/>
 				</div>
 			</div>
 			
@@ -71,7 +94,7 @@
 				</div>
 				<div class="col-xs-8 col-md-4">
 					${channel.envType}
-					<input type="hidden" name="bucketName" value="${channel.bucketName}">
+					<input type="hidden" name="envType" value="${channel.envType}">
 				</div>
 			</div>
 			
@@ -94,6 +117,10 @@
 					</button>
 				</div>
 			</div>
+			
+			<input type="hidden" name="channelCDN" value="${channel.channelCDN}"/>
+			<input type="hidden" name="streamKey" value="${channel.streamKey}"/>
+			<input type="hidden" name="streamKey" value="${channel.streamURL}"/>
 		</form>
 		
 		<button  type="button" class="btn btn-primary btn-xs">
