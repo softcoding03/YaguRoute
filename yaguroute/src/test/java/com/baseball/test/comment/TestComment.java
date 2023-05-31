@@ -73,11 +73,11 @@ public class TestComment{
 		List<Comment> list2 = (List<Comment>)map.get("list2"); //2레이어 댓글
 		
 		for(Comment a:list1) {
-			System.out.println("select 결과 값"+a);	
+			System.out.println("1레이어 댓글"+a);	
 		}
 		System.out.println("----------------------");
 		for(Comment b:list2) {
-			System.out.println("select 결과 값"+b);	
+			System.out.println("2레이어 댓글"+b);	
 		}
 		
 		System.out.println("getCommentList() 끝");

@@ -15,11 +15,19 @@
 				self.location = "/post/getPostList?teamCode="+$(this).val().trim();
 				console.log($(this).val().trim())
 			});
+			$( ".getMyPostList" ).on("click" , function() {
+				self.location = "/post/getMyPostList"
+			});
+			$( ".addComment" ).on("click" , function() {
+				self.location = "/comment/listComment.jsp"
+			});
 		 });
 	</script>
 	
 </head>
 <body>
+<button type="button" class="getMyPostList">내가 작성한 게시물 보기</button>
+<button type="button" class="addComment">댓글 등록(임시)</button>
     <table>
     <tr>
     <td>

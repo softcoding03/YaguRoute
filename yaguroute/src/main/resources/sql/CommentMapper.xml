@@ -48,7 +48,7 @@
 	    	<if test="prodNo == 0">NULL</if>,
 	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
 	    	<if test="secondCommentNo == 0">NULL</if>,
-	    	#{userId},sysdate(),#{commentContents},#{commentImage},#{grade}
+	    	#{user.userId},sysdate(),#{commentContents},#{commentImage},#{grade}
 	  	)
 	</insert>
 	

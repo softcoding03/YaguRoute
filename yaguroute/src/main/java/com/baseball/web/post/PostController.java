@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.service.comment.CommentService;
+import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Emote;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
@@ -40,6 +42,10 @@ public class PostController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("commentServiceImpl")
+	private CommentService commentService;
 
 	@Value("${commonProperties.pageUnit}")
 	int pageUnit;
@@ -69,6 +75,23 @@ public class PostController {
 			emote = postService.getEmote(emote);
 			System.out.println("emote 결과값?"+emote);
 			System.out.println("-- 세팅된 post? "+post);
+			
+			//commentList 가져오기
+			Comment comment = new Comment();
+			comment.setPostNo(postNo);
+			Map<String, Object> map = commentService.getCommentList(comment);
+			List<Comment> list1 = (List<Comment>)map.get("list1"); //1레이어 댓글
+			List<Comment> list2 = (List<Comment>)map.get("list2"); //2레이어 댓글
+			for(Comment a:list1) {
+				System.out.println("1레이어 댓글"+a);	
+			}
+			System.out.println("----------------------");
+			for(Comment b:list2) {
+				System.out.println("2레이어 댓글"+b);	
+			}
+			
+			model.addAttribute("commentList1", list1);
+			model.addAttribute("commentList2", list2);
 			model.addAttribute("emote", emote);
 			model.addAttribute("post", post);
 			return "forward:/post/getPost.jsp";
@@ -114,6 +137,39 @@ public class PostController {
 			model.addAttribute("resultPage", resultPage);
 			
 			return "forward:/post/listPost.jsp";
+	}
+	
+	@GetMapping("getMyPostList")
+	public String getMyPostList(Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search,HttpSession session) throws Exception {
+			System.out.println("/post/getMyPostList : GET START");
+			User user = (User)session.getAttribute("user");
+			String userId = user.getUserId();
+			String teamCode = user.getTeamCode();
+			
+			System.out.println("-- 세팅 데이터? "+teamCode+"//"+currentPage+"//"+search);	
+			currentPage = (currentPage == null) ? 1 : currentPage;
+			search.setCurrentPage(currentPage);
+			search.setPageSize(pageSize);
+			
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("userId", userId);
+			map.put("teamCode", teamCode);
+			map.put("search", search);
+			map = postService.getMyPostList(map);
+			
+			List<Post> list = (List<Post>)map.get("postList");
+			for(Post post:list) {
+				System.out.println(post);
+			}
+			
+			Integer totalCount = ((Integer)map.get("totalCount")).intValue();
+			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
+			System.out.println("총 레코드 수? "+totalCount);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("resultPage", resultPage);
+			
+			return "forward:/post/listMyPost.jsp";
 	}
 	
 	

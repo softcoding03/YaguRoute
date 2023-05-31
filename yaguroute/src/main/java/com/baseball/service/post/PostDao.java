@@ -12,6 +12,7 @@ import com.baseball.service.domain.Post;
 public interface PostDao {
 	public Post getPost(int postNo) throws Exception;
 	public List<Post> getPostList(Map<String,Object> map) throws Exception;
+	public List<Post> getMyPostList(Map<String,Object> map) throws Exception;
 	public List<Post> getPostBestList(String teamCode) throws Exception;
 	public List<Post> getNoticeList(String teamCode) throws Exception;
 	public Emote getEmote(Emote emote) throws Exception;

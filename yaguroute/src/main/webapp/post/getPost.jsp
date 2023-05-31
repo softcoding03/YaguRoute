@@ -186,5 +186,8 @@ $(document).ready(function() {
 			</c:if>
 			<button type="button" class="getPostList">목록보기</button>
 		</div>
+		<!-- Comment Start... -->
+		<jsp:include page="../comment/listComment.jsp"/>
+		<!-- Comment End... -->
 </body>
 </html>

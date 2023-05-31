@@ -73,6 +73,27 @@
 		    p.post_no DESC
 	</sql>
 	
+	<sql id="myPostList">
+	 	SELECT
+		    p.*,
+		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
+		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
+		FROM
+		    post p
+		WHERE
+		    p.team_code IN (#{teamCode},'NN') AND user_id = #{userId}
+		    <if test="search.searchCondition != null">
+		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+		    		AND user_id LIKE '%${search.searchKeyword}%'
+		    	</if>
+		    	<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+		    		AND post_title LIKE '%${search.searchKeyword}%'
+		    	</if>
+		    </if>
+		ORDER BY
+		    p.post_no DESC
+	</sql>
+	
 	<select id="getUser" parameterType="string" resultMap="userSelectMap">
 		select * from user
 		where user_id = #{value}
@@ -81,6 +102,12 @@
 	<!--해당 클럽의 전체 게시글 조회(좋아요,싫어요 수 포함 출력) -->
 	<select id="getPostList" parameterType="hashMap"	resultMap="postSelectMap">
 			<include refid="postList"/>
+			Limit #{search.startRowNum}, #{search.pageSize}
+	</select>
+	
+	<!--본인 게시물 list(좋아요,싫어요 수 포함 출력) -->
+	<select id="getMyPostList" parameterType="hashMap"	resultMap="postSelectMap">
+			<include refid="myPostList"/>
 			Limit #{search.startRowNum}, #{search.pageSize}
 	</select>
 	

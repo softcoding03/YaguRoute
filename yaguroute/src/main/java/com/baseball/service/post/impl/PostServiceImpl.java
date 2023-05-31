@@ -83,6 +83,17 @@ public class PostServiceImpl implements PostService {
 		resultMap.put("totalCount", new Integer(totalCount));
 		return resultMap;
 	}
+	
+	@Override
+	public Map<String,Object> getMyPostList(Map<String,Object> map) throws Exception {
+		List<Post> list = postDao.getMyPostList(map);
+		int totalCount = postDao.getTotalCount(map);
+		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("postList", list);
+		resultMap.put("totalCount", new Integer(totalCount));
+		return resultMap;
+	}
 
 	@Override
 	public List<Post> getPostBestList(String teamCode) throws Exception {

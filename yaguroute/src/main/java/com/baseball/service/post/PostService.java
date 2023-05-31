@@ -10,6 +10,7 @@ public interface PostService {
 	
 	public Post getPost(int postNo) throws Exception;
 	public Map<String,Object> getPostList(Map<String,Object> map) throws Exception; //해당 팀의 전체 게시글 조회
+	public Map<String,Object> getMyPostList(Map<String,Object> map) throws Exception; //본인의 전체 게시글 조회
 	public List<Post> getPostBestList(String teamCode) throws Exception; //해당 팀의 전체 게시글 중 좋아요 순위로 1~5위까지 get list
 	public List<Post> getNoticeList(String teamCode) throws Exception; //공지사항 list get
 	public Emote getEmote(Emote emote) throws Exception;
