@@ -90,11 +90,11 @@
 		RIGHT JOIN predict p ON p.game_code = g.game_code 
 		LEFT JOIN user u ON p.user_id = u.user_id
 		<set>
-			p.after_game_pred_point = IF(p.pred_success = 1,ROUND( 3 * p.after_game_pred_point),0)
+			p.after_game_pred_point = IF(p.pred_success = 1,ROUND( g.WINNING_TEAM_ALLOCATION * p.after_game_pred_point),IF(g.GAME_STATUS_CODE = 3 OR g.GAME_STATUS_CODE = 4,p.after_game_pred_point,0))
 			, u.user_point = u.user_point+p.AFTER_GAME_PRED_POINT
 		</set>
 		<where>
-			AND p.game_code = #{gameCode}
+			p.game_code = #{gameCode}
 		</where>
 	</update>
 
