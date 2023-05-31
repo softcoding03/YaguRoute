@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +31,27 @@
 	    })
     })
     </script>
+    <style type="text/css">
+    	aside {
+		    position: sticky;
+		    top: 100px;
+		    right: 300px;
+		}
+    </style>
 </head>
 <body>
+<aside>
+        <ul>
+        <c:forEach var="gameTmp" items="${gameList}" varStatus="gameState" >
+        	<c:if test="${gameTmp.gameDate ne tmpSchedule}">
+	 			<li><a href="#${gameTmp.gameDate}">${fn:split(gameTmp.gameDate,'-')[2]}일</a></li>
+	 			<c:set var="tmpSchedule" value="${gameTmp.gameDate}"/>
+	 		</c:if>
+        	
+        </c:forEach>
+        </ul>
+</aside>
+<c:set var="tmpSchedule" value="1111"/>
 <form id="searchGameList">
 <input type="hidden" name="year" value="">
 <input type="hidden" name="month" value="">
@@ -81,6 +101,7 @@
         </div>
 </div>
 </form>
+
 <section class="main-match-shedule amateurs-match-shedule">
         <div class="container">
             <div class="row">
@@ -94,7 +115,7 @@
  		<a href="#" class="item" aria-disabled="true">
  		
  		<c:if test="${game.gameDate ne tmpDate}">
- 			<div id="${gameState.index}" class="col-md-12 col-sm-12 col-xs-12"><h6>${game.gameDate}</h6></div>
+ 			<div id="${game.gameDate}" class="col-md-12 col-sm-12 col-xs-12"><h6>${game.gameDate}</h6></div>
  			<c:set var="tmpDate" value="${game.gameDate}"/>
  		</c:if>
 		        <span class="championship">${game.gameTime}</span>
@@ -141,6 +162,7 @@
 		</div>
 	</div>
 </section>
+
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

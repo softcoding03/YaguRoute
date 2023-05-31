@@ -26,11 +26,11 @@ public class BasketTests {
 	@Qualifier("productDao")
 	private ProductDao prodDao;
 	
-	//@Test
+	@Test
 	public void addBasketProd() throws Exception{
 		Basket basket = new Basket();
 		basket.setProdQuantity(2);
-		basket.setProduct(prodDao.getProduct(3));
+		basket.setProduct(prodDao.getProduct(6));
 		basket.setUserId("rockseong3");
 		basketDao.addBasketProd(basket);
 	}
