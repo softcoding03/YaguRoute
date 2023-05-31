@@ -17,8 +17,7 @@ import com.baseball.service.product.ProductService;
 @Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService {
 
-	
-	//Field
+
 	@Autowired
 	@Qualifier("productDao")
 	private ProductDao productDao;
@@ -53,22 +52,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, Object> getProductList(Search search) throws Exception {
-		List<Product> list= productDao.getProductList(search);
-		int totalCount = productDao.getTotalCount(search);
+	public Map<String, Object> getProductList(Map<String,Object> map) throws Exception {
+		List<Product> list= productDao.getProductList(map);
+		int totalCount = productDao.getTotalCount(map);
 		
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("totalCount", new Integer(totalCount));
+		Map<String, Object> prodMap = new HashMap<String, Object>();
+		prodMap.put("prodList", list );
+		prodMap.put("totalCount", new Integer(totalCount));
 		
-		return map;
+		return prodMap;
 		
 	}
 
-	@Override
-	public List<String> autoComplete() throws Exception {
-		return productDao.autoComplete();
-	}
+//	@Override
+//	public List<String> autoComplete() throws Exception {
+//		return productDao.autoComplete();
+//	}
 
 
 

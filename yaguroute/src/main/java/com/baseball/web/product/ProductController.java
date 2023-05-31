@@ -3,6 +3,7 @@ package com.baseball.web.product;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,34 +115,42 @@ public class ProductController {
 		return "forward:/product/getProduct.jsp";
 	}
 	
-	@RequestMapping(value="listProduct")
-	public String listProduct(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
+	@GetMapping("listProduct")
+	public String listProduct(@ModelAttribute("search") Search search, Model model,
+								@RequestParam(value="prodTeamCode", required = false) String prodTeamCode) throws Exception {
 		
-		System.out.println(search);
+		System.out.println("search"+search);
+		System.out.println("prodTeamCode"+prodTeamCode);
 		System.out.println("/product/listProduct 작동 시작");
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-		}
-		
+		}		
 		search.setPageSize(pageSize);
-		System.out.println("경고다"+search);
+		System.out.println("데이터가 들어간"+search);
 		
 		
 		//Map B/L 수행
-		Map<String, Object> map = productService.getProductList(search);
+//		Map<String , Object> map = productService.getProductList(map);
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("prodTeamCode", prodTeamCode);
+		map.put("search", search);
+		map = productService.getProductList(map);
 		
-		System.out.println();
-	
-		//System.out.println("for문으로 map 안에 있는 list 안에 ProdNo가 있는지 확인.");
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
+		List<Product> list = (List<Product>)map.get("prodList");
+		for(Product prod:list) {
+			System.out.println(prod);
+		}
 				
-	
-		model.addAttribute("list", map.get("list"));
+		Page resultPage = 
+		   new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("prodList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-				
+		
 		return "forward:/product/listProduct.jsp";
 	}
 	

@@ -8,10 +8,29 @@
 
 	<resultMap id="basketSelectMap" type="basket">
 		<result property="basketNo" 			column="BASKET_NO" 			jdbcType="INTEGER"/>
-		<result property="product.prodNo"	column="PROD_NO" 		jdbcType="INTEGER" />
 		<result property="userId" 	column="USER_ID" 		jdbcType="VARCHAR" />
 		<result property="prodQuantity" 	column="PROD_QUANTITY"  jdbcType="INTEGER" />
+		<association property="product" column="PROD_NO" javaType="product" select="getProduct"/>
 	</resultMap>
+	
+	<resultMap id="productSelectMap" type="product">
+		<result property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
+		<result property="prodName" 		column="prod_name" 			jdbcType="VARCHAR"/>
+		<result property="prodPrice" 		column="prod_price"			jdbcType="NUMERIC"/>
+		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
+		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
+		<result property="prodCategory"		column="prod_category"		jdbcType="NUMERIC"/>
+		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
+		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
+		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>
+		<result property="prodTeamCode"		column="team_code"			jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select		id="getProduct"	parameterType="int" resultMap="productSelectMap">
+		SELECT *
+		FROM product
+		WHERE prod_no = #{value}
+	</select>
 
 	<insert id="addBasketProd" parameterType="basket">
 		insert into basket
@@ -23,11 +42,14 @@
 		)
 	</insert>
 	
-	<select id="getBasketList" parameterType="String" resultMap="basketSelectMap">
+	<select id="getBasketList" parameterType="basket" resultMap="basketSelectMap">
 		select * 
 		from basket
 		<where>
 			user_Id = #{userId}
+			<if test="product != null">
+				AND prod_no = #{product.prodNo}
+			</if>
 		</where> 
 	</select>
 	

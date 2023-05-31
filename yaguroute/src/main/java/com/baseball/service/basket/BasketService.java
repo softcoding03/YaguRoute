@@ -8,7 +8,7 @@ public interface BasketService {
 	
 	public void addBasketProd(Basket basket);
 	
-	public List<Basket> getBasketList(String userId);
+	public List<Basket> getBasketList(Basket basket);
 	
 	public void deleteBasket(Basket basket);
 	

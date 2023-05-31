@@ -1,5 +1,6 @@
 package com.baseball.web.channel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,10 @@ import com.baseball.service.channel.ChannelRestService;
 import com.baseball.service.channel.ChannelService;
 import com.baseball.service.domain.Channel;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
+
+import io.netty.handler.codec.http.HttpRequest;
 
 @Controller
 @RequestMapping("/channel/*")
@@ -92,15 +96,23 @@ public class ChannelController {
 	
 	//getChannel
 	@GetMapping("getChannel")
-	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID) throws Exception{
+	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID,
+			HttpSession session) throws Exception{
 		System.out.println("getChannel Start...");
 		
+		User user = (User)session.getAttribute("user");
 		Channel channel = channelService.getChannel(channelID);
 		System.out.println("Channel Info : "+channel);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("channel", channel);
-		modelAndView.setViewName("forward:/channel/getChannel.jsp");
+		if(user.getRole().equals("user")) {
+			modelAndView.addObject("channel", channel);
+			modelAndView.setViewName("forward:/channel/getStreaming.jsp");
+		} else {
+			modelAndView.addObject("channel", channel);
+			modelAndView.setViewName("forward:/channel/getChannel.jsp");
+		}
+		
 		System.out.println("getChannel End...");
 		return modelAndView;
 	}
@@ -110,7 +122,15 @@ public class ChannelController {
 		System.out.println("updateChannelView");
 		System.out.println("channelID : "+channelID);
 		Channel channel = channelService.getChannel(channelID);
-		List<Game> gameList = gameService.getGameListByDate(channelID);
+		
+		//현재 날짜 game Code 구하기
+		LocalDate now = LocalDate.now();
+		List<Game> gameList = gameService.getGameListByDate(now.toString());
+		
+		for(Game game : gameList) {
+			System.out.println(game);
+		}
+		
 		
 		//Model, View Setting
 		ModelAndView modelAndView = new ModelAndView();
@@ -121,17 +141,46 @@ public class ChannelController {
 	}
 	
 	@PostMapping("updateChannel")
-	public ModelAndView updateChannel(@ModelAttribute("channel") Channel channel) throws Exception{
+	public ModelAndView updateChannel(@ModelAttribute("channel") Channel channel, 
+			@RequestParam("gameCode") String gameCode) throws Exception{
+		
 		System.out.println("updatacChannel 실행~~~");
 		System.out.println("channel Info : "+channel);
+		System.out.println("game Code : "+gameCode);
 		
-		return null;
+		Game gameInfo = gameService.getGameInfo(gameCode);
+		channel.setGameInfo(gameInfo);
+		
+		int status = channelRestService.updateChannel(channel);
+		System.out.println("statuse code : "+status);
+		
+		if(status == 200) {
+			channelService.updateChannel(channel);
+		}
+		
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.setViewName("redirect:/channel/updateChannel.jsp");
+		
+		System.out.println("변경 후 channel : "+channel);
+		
+		return modelAndView;
 	}
 	
 	@GetMapping("deleteChannel")
 	public String deleteChannel(@RequestParam(value="channelID") String channelID) throws Exception{
+		System.out.println("deletcChannel 실행");
+		System.out.println("channel ID : "+channelID);
 		
-		return null;
+		int status = channelRestService.deleteChannel(channelID);
+		
+		if(status == 200 || status == 201) {
+			channelService.deleteChannel(channelID);
+		}
+		
+		System.out.println("deletcChannel 종료");
+		return "redirect:/channel/listChannel";
 	}
 	
 

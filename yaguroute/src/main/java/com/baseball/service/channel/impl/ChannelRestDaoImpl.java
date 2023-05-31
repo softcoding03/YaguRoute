@@ -288,7 +288,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	}
 	
 	@Override
-	public void updateChannel(Channel channel) throws Exception {
+	public int updateChannel(Channel channel) throws Exception {
 		System.out.println("Update Channel 시작");
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+channel.getChannelID();
@@ -302,7 +302,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		record.put("format", "MP4");
 		record.put("type", "AUTO_UPLOAD");
 		record.put("bucketName", channel.getBucketName());
-		record.put("filePath", channel.getUploadPath());
+		record.put("filePath", "/"+channel.getUploadPath());
 		record.put("accessControl", "PUBLIC_READ");
 		
 		//Request Body 설정
@@ -354,10 +354,12 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			
 		}
 		
+		return responseCode;
+		
 	}
 
 	@Override
-	public void deleteChannel(String ChannelID) throws Exception {
+	public int deleteChannel(String ChannelID) throws Exception {
 		System.out.println("deleteChannel 시작");
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+ChannelID;
@@ -383,6 +385,8 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		} else {
 			System.out.println("Http Error Code : "+responseCode);
 		}
+		
+		return responseCode;
 
 	}
 

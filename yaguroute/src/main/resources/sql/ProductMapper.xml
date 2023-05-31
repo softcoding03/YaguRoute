@@ -84,11 +84,11 @@
 	</delete>
 	
 
-	<select id="getProductList"	parameterType="search"	resultMap="productSelectMap">
+	<select id="getProductList"	parameterType="java.util.Map"	resultMap="productSelectMap">
 
 		
 			<include refid="prodList"/>
-			Limit #{startRowNum}, #{pageSize}
+			Limit #{search.startRowNum}, #{search.pageSize}
 
 	<!-- 	SELECT *
 			FROM ( SELECT inner_table.*, ROWNUM AS row_seq
@@ -98,7 +98,7 @@
 
 	</select>
 
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
 		
 		SELECT COUNT(*)
 		FROM (<include refid="prodList"/>) countTable

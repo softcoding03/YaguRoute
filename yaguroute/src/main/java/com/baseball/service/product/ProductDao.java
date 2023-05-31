@@ -1,6 +1,7 @@
 package com.baseball.service.product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,22 +14,20 @@ import com.baseball.service.domain.Product;
 public interface ProductDao {
 
 	
-	//Add
+
 	public void addProduct(Product product) throws Exception;
-	//Select One
+
 	public Product getProduct(int prodNo) throws Exception;
-	//Update
+
 	public void updateProduct(Product product) throws Exception;
-	//Delete
+	
 	public int deleteProduct(int prodNo) throws Exception;
 	
+	public List<Product> getProductList(Map<String, Object> map) throws Exception;
 	
-	//getList
-	public List<Product> getProductList (Search search) throws Exception;
-	
-	public int getTotalCount(Search search) throws Exception;
+	public int getTotalCount(Map<String, Object> map) throws Exception;
 
-	//autoComplete
-	public List autoComplete() throws Exception;
-	//public List<Product> autoComplete(String searchKeyword) throws Exception;
+	//public List autoComplete() throws Exception;
+	
+	
 }

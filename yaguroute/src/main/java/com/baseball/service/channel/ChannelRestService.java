@@ -8,9 +8,9 @@ public interface ChannelRestService {
 	
 	public Channel addChannel(Channel channel) throws Exception;
 	
-	public void updateChannel(Channel channel) throws Exception;
+	public int updateChannel(Channel channel) throws Exception;
 	
-	public void deleteChannel(String ChannelID) throws Exception;
+	public int deleteChannel(String ChannelID) throws Exception;
 	
 	public String stopChannel(String ChannelID) throws Exception;
 	
