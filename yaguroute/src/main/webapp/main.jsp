@@ -29,9 +29,16 @@
     			window.location.href="/users/logout";
     		})
     	});
+    	
+    	/* $(function(){
+    		$('#userlist').on("click", function(){
+    			alert("회원 목록 조회로 떠납니다.");
+    			window.location.href="/users"
+    		});
+    	}); */
     </script>
     
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
     // 잘못된 접근(세션 끝났는데 뒤로가기로 메인페이지 접근할 때...)
     window.addEventListener('pageshow', function(event) {
         var historyTraversal = event.persisted || 
@@ -44,7 +51,7 @@
         }
     });
     
-</script>
+</script> -->
 
 </head>
 
@@ -99,7 +106,8 @@
                     <li class="active">
                         <a href="index.html"><span>Home</span></a>
                         <ul>
-                            <li><a href="amateurs.html"><span>Amateures Home</span></a></li>
+                            <li><a href="users/listUser"><span>회원 목록 조회</span></a></li>
+                            <li><a href="users/getUser"><span>로그인 회원 조회</span></a></li>
                         </ul>
                     </li>
                     <li>
