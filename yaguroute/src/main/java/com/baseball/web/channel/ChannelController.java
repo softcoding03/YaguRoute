@@ -58,10 +58,13 @@ public class ChannelController {
 	//addChannel:POST (데이터 수정 후 화면)
 	@PostMapping("addChannel")
 	public ModelAndView addChannel(@ModelAttribute("channel") Channel channel,
+											@RequestParam("gameCode") String gameCode,
 											HttpSession session) throws Exception{
 		
 		System.out.println("addChannel:POST 시작");
 		System.out.println("channel NAME : "+channel.getChannelName());
+		Game gameInfo = gameService.getGameInfo(gameCode);
+		channel.setGameInfo(gameInfo);
 		
 		// 1.channel REST로 Naver Cloud에 생성
 		Channel returnData = channelRestService.addChannel(channel);
@@ -69,7 +72,12 @@ public class ChannelController {
 		// 2.channel 로컬 DB에 저장
 		channelService.addChannel(returnData);
 		
+		//현재 날짜 game Code 구하기
+		LocalDate now = LocalDate.now();
+		List<Game> gameList = gameService.getGameListByDate(now.toString());
+		
 		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("gamelist", gameList);
 		modelView.addObject("channel",returnData);
 		modelView.setViewName("forward:/channel/addChannel.jsp");
 		
@@ -154,14 +162,15 @@ public class ChannelController {
 		int status = channelRestService.updateChannel(channel);
 		System.out.println("statuse code : "+status);
 		
-		if(status == 200) {
+		if(status == 200 || status == 201) {
+			System.out.println("수정한다.");
 			channelService.updateChannel(channel);
 		}
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		
-		modelAndView.setViewName("redirect:/channel/updateChannel.jsp");
+		modelAndView.setViewName("forward:/channel/updateChannel.jsp");
 		
 		System.out.println("변경 후 channel : "+channel);
 		

@@ -125,28 +125,33 @@ public class ProductController {
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-		}		
+		}	
+		
+
 		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간"+search);
 		
 		
 		//Map B/L 수행
-//		Map<String , Object> map = productService.getProductList(map);
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
 		map = productService.getProductList(map);
 		
+		// Product list 출력
 		List<Product> list = (List<Product>)map.get("prodList");
 		for(Product prod:list) {
 			System.out.println(prod);
 		}
-				
+		
+		//페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
 		Page resultPage = 
 		   new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		
 		// Model 과 View 연결
+		model.addAttribute("prodTeamCode", prodTeamCode);
 		model.addAttribute("list", map.get("prodList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
@@ -181,6 +186,7 @@ public class ProductController {
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 		
 	}
+	
 
 }
 
