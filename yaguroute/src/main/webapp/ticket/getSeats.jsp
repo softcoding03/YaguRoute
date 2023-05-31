@@ -13,18 +13,6 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-    
-	$(function() {
-		$(".teamButton:nth-child(n+1)").on("click" , function() {
-			var teamCode = $(this).val().trim();
-			self.location = "/ticket/getGameList2w?teamCode="+teamCode;
-		});
-		$(".getStadium").on("click" , function() {
-			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
-			alert(gameCode)
-			self.location = "/ticket/getStadium?gameCode="+gameCode;
-		});
-	});
 		
     </script>
 </head>
@@ -40,87 +28,80 @@
 <div class="motion-line yellow-small2"></div>
 </div>
 
+		 <c:forEach var="list" items="${ticketList}">
+		 </c:forEach>
+		 
+    <!--CLUB STAFF TOP BEGIN-->
 
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
+<div class="club-staff-top">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>Game Tickets</h1>
-                    </div>
-                </div>
-            </div>	
+            <div class="col-md-12">
+                <h4>Tickets</h4>
+            </div>
+				<div class="staff-box">            
+				    <div class="col-md-4  col-sm-6 col-xs-12">
+				        <a href="player-second-page.html" class="item">
+				            <span class="info">
+				                <span class="name">Keevian Treapap</span>
+				                <span class="position">Goalkeeper</span>
+				                <span class="number">1</span>
+				            </span>
+				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
+				        </a>
+				    </div>                                         
+				    <div class="col-md-4  col-sm-6 col-xs-12">
+				        <a href="player.html" class="item">
+				            <span class="info">
+				                <span class="name">Pieeraluigi Goellaini</span>
+				                <span class="position">Goalkeeper</span>
+				                <span class="number">1</span>
+				            </span>
+				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
+				        </a>
+				    </div>
+				    <div class="col-md-4  col-sm-6 col-xs-12">
+				        <a href="player-second-page.html" class="item">
+				            <span class="info">
+				                <span class="name">Reemiaro</span>
+				                <span class="position">Goalkeeper</span>
+				                <span class="number">29</span>
+				            </span>
+				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
+				        </a>
+				    </div>   
+				
+				
+				    <div class="col-md-4  col-sm-6 col-xs-12">
+				        <a href="player.html" class="item">
+				            <span class="info">
+				                <span class="name">Woejcaiech Szeczaesny</span>
+				                <span class="position">Goalkeeper</span>
+				                <span class="number">1</span>
+				            </span>
+				            <img src="images/baseball/staff-item-img.jpg" alt="player">
+				        </a>
+				    </div>     
+				    <div class="col-md-4  col-sm-6 col-xs-12">
+				        <a href="player-second-page.html" class="item">
+				            <span class="info">
+				                <span class="name">Ireaiazoz</span>
+				                <span class="position">Goalkeeper</span>
+				                <span class="number">1</span>
+				            </span>
+				            <img src="images/baseball/staff-item-img.jpg" alt="player">
+				        </a>
+				    </div>       
+				</div>
+            <div class="col-md-12">
+                <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch. </p>
+            </div>
         </div>
     </div>
-</section>
-<!--BREADCRUMBS END-->
-<table>
-   <tr>
-   <td>
-    <button type="button" class="btn btn-warning teamButton" value="HH">한화</button>
-    <button type="button" class="btn btn-warning teamButton" value="HT">KIA</button>
-    <button type="button" class="btn btn-warning teamButton" value="KT">KT</button>
-    <button type="button" class="btn btn-warning teamButton" value="LG">LG</button>
-    <button type="button" class="btn btn-warning teamButton" value="LT">롯데</button>
-    <button type="button" class="btn btn-warning teamButton" value="NC">NC</button>
-    <button type="button" class="btn btn-warning teamButton" value="OB">두산</button>
-    <button type="button" class="btn btn-warning teamButton" value="SK">SSG</button>
-    <button type="button" class="btn btn-warning teamButton" value="SS">삼성</button>
-    <button type="button" class="btn btn-warning teamButton" value="WO">키움</button>
-   </td>
-</table>
-    <!--BROADCAST WRAP BEGIN-->
-
-<div class="broadcast-wrap">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-             <h4>Upcoming matches</h4>
-             <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>                
-         </div>
-         <div class="col-md-12">
-         <!-- List 시작 -->
-         <c:forEach var="list" items="${gameList}">
-         <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
-			    <div class="broadcast-item">
-			        <div class="item-header" id="headingOne">
-			            <div class="row">
-			                <div class="col-md-7 col-sm-10">
-			                    <div class="item-head-body">
-			                        <a><img src="${list.homeTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
-			                        <span class="vs">vs</span>
-			                        <a><img src="${list.awayTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
-			                        <span class="info">
-			                            <span class="what">KBO 정규시즌</span>
-			                            <span class="then">${list.gameDate} / ${list.gameTime}</span>
-			                        </span>
-			                        <span class="marker">live</span>
-			                    </div>
-			                </div>
-			                <div class="col-md-4 col-sm-12">
-			                    <div class="channel">
-			                        <span class="info">
-			                        <button type="button" class="getStadium">경기 예매</button>
-			                        <input type="hidden" name="gameCode" value="${list.gameCode}">
-			                        </span>
-			                    </div>
-			                </div>
-			            </div>	
-			        </div>
-			    </div>
-			</div><!-- List 끝 -->
-			</c:forEach>
-        </div>
-     </div>
-  </div>
 </div>
 
+    <!--CLUB STAFF TOP END-->
+      
 
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

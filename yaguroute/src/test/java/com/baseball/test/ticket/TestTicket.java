@@ -53,8 +53,8 @@ public class TestTicket{
 	//@Test
 	public void getGameListTwoweeks() throws Exception{
 		System.out.println("getGameListTwoweeks START");
-		List<Game> list = gameService.getGameListTwoWeeks(); //현재시간부터 14일이내 경기 리스트 가져옴.
-		System.out.println(list);
+		//List<Game> list = gameService.getGameListTwoWeeks(); //현재시간부터 14일이내 경기 리스트 가져옴.
+		//System.out.println(list);
 		System.out.println("getGameListTwoweeks END");
 	}
 	

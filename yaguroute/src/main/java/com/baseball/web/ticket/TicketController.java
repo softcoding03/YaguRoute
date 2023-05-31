@@ -69,27 +69,26 @@ public class TicketController {
 	public String getStadium(@RequestParam("gameCode") String gameCode,Model model) throws Exception{
 		System.out.println("/ticket/getStadium : GET START");
 		System.out.println("넘어온 데이터?"+gameCode);
-		Game game = gameService.getGameInfo(gameCode); //game에 대한 정보
-		int salesTicket = ticketService.getSalesTicket(gameCode); // 현재 판매된 티켓 수
-		String stadium = game.getHomeTeam().getStadiumImageFile(); //stadium 이미지 정보
+		Game game = gameService.getGameInfo(gameCode); //game에 대한 정보 (stadium 이미지 및 해당 경기 정보출력위함)
+		int salesTicket = 60 - ticketService.getSalesTicket(gameCode); // 현재 판매된 티켓 수
 		
+		System.out.println("넘겨주는 데이터?"+game+"//"+salesTicket);
 		model.addAttribute("salesTicket", salesTicket);
-		model.addAttribute("stadium", stadium);
 		model.addAttribute("game", game);
 		return "forward:/ticket/getStadium.jsp";
 	}
 	
 	//해당 game의 티켓 정보 모두 get (60개) -> 좌석선택위함
-	@GetMapping("getTickets")
-	public String getTickets(@RequestParam("gameCode") String gameCode,Model model) throws Exception{
-		System.out.println("/ticket/getTickets : GET START");
+	@GetMapping("getSeats")
+	public String getSeats(@RequestParam("gameCode") String gameCode,Model model) throws Exception{
+		System.out.println("/ticket/getSeats : GET START");
 		System.out.println("넘어온 데이터?"+gameCode);
-		List<Ticket> list = ticketService.getTickets(gameCode);
+		List<Ticket> list = ticketService.getTickets(gameCode); //60장 정보
 		for(Ticket ticket:list) {
 			System.out.println("tickets ? "+ticket);
 		}
 		model.addAttribute("ticketList", list);
-		return "forward:/ticket/getTickets.jsp";
+		return "forward:/ticket/getSeats.jsp";
 	}
 	
 	//티켓 결제 후 해당 정보(transaction add + ticket update)
@@ -147,5 +146,14 @@ public class TicketController {
 		return "forward:/ticket/getTickets.jsp";
 	}
 	
+	//결제번호에 해당하는 ticket List get
+	@GetMapping("getTicketPurchaseList")
+	public String getTicketPurchaseList() throws Exception{
+		int tranNo = 30; //화면에서 보내줄 예정
+		Game game=gameService.getGameInfo(ticketService.getGameCode(tranNo)); //게임정보세팅
+		List<Ticket> list = ticketService.getTicketPurchaseList(tranNo); //tranNo에 해당하는 티켓 정보들 get
+		System.out.println("tranNO에 해당하는 티켓 list ?? "+list);
+		return "forward:/ticket/getTickets.jsp";
+	}
 	
 }

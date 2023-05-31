@@ -19,8 +19,9 @@
 				self.location = "/post/getMyPostList"
 			});
 			$( ".getGameListTwoWeeks" ).on("click" , function() {
-				self.location = "/ticket/getGameList2w"
+				self.location = "/ticket/getGameList2w?teamCode=HH"
 			});
+			
 		 });
 	</script>
 	

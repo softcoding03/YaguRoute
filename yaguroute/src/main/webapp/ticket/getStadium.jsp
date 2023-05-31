@@ -13,16 +13,10 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-    
-	$(function() {
-		$(".teamButton:nth-child(n+1)").on("click" , function() {
-			var teamCode = $(this).val().trim();
-			self.location = "/ticket/getGameList2w?teamCode="+teamCode;
-		});
-		$(".getStadium").on("click" , function() {
-			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
-			alert(gameCode)
-			self.location = "/ticket/getStadium?gameCode="+gameCode;
+  	$(function() {
+		$(".getSeats").on("click" , function() {
+			var gameCode = $(this).closest(".container").find("input[name='gameCode']").val();
+			self.location = "/ticket/getSeats?gameCode="+gameCode;
 		});
 	});
 		
@@ -40,87 +34,38 @@
 <div class="motion-line yellow-small2"></div>
 </div>
 
-
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>Game Tickets</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
-<!--BREADCRUMBS END-->
-<table>
-   <tr>
-   <td>
-    <button type="button" class="btn btn-warning teamButton" value="HH">한화</button>
-    <button type="button" class="btn btn-warning teamButton" value="HT">KIA</button>
-    <button type="button" class="btn btn-warning teamButton" value="KT">KT</button>
-    <button type="button" class="btn btn-warning teamButton" value="LG">LG</button>
-    <button type="button" class="btn btn-warning teamButton" value="LT">롯데</button>
-    <button type="button" class="btn btn-warning teamButton" value="NC">NC</button>
-    <button type="button" class="btn btn-warning teamButton" value="OB">두산</button>
-    <button type="button" class="btn btn-warning teamButton" value="SK">SSG</button>
-    <button type="button" class="btn btn-warning teamButton" value="SS">삼성</button>
-    <button type="button" class="btn btn-warning teamButton" value="WO">키움</button>
-   </td>
-</table>
-    <!--BROADCAST WRAP BEGIN-->
-
-<div class="broadcast-wrap">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-             <h4>Upcoming matches</h4>
-             <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>                
-         </div>
-         <div class="col-md-12">
-         <!-- List 시작 -->
-         <c:forEach var="list" items="${gameList}">
-         <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
-			    <div class="broadcast-item">
-			        <div class="item-header" id="headingOne">
-			            <div class="row">
-			                <div class="col-md-7 col-sm-10">
-			                    <div class="item-head-body">
-			                        <a><img src="${list.homeTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
-			                        <span class="vs">vs</span>
-			                        <a><img src="${list.awayTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
-			                        <span class="info">
-			                            <span class="what">KBO 정규시즌</span>
-			                            <span class="then">${list.gameDate} / ${list.gameTime}</span>
-			                        </span>
-			                        <span class="marker">live</span>
-			                    </div>
-			                </div>
-			                <div class="col-md-4 col-sm-12">
-			                    <div class="channel">
-			                        <span class="info">
-			                        <button type="button" class="getStadium">경기 예매</button>
-			                        <input type="hidden" name="gameCode" value="${list.gameCode}">
-			                        </span>
-			                    </div>
-			                </div>
-			            </div>	
-			        </div>
-			    </div>
-			</div><!-- List 끝 -->
-			</c:forEach>
-        </div>
-     </div>
-  </div>
-</div>
-
+		<div class="container">
+          <div class="col-md-6">
+              <div class="info">
+                  <div class="wrap">
+                      <h1>Home Stadium</h1>
+                      <a><img src="${game.homeTeam.stadiumImageFile}" width="500" height="500" alt="team-logo1"></a>
+                      <h3>${game.homeTeam.stadiumName}</h3>
+                  </div>
+              </div>
+          </div>	
+	      <div class="col-md-6">
+		      <div class="row">
+			  		<div class="col-xs-4 col-md-6"><strong>현재 남은 좌석 수</strong></div>
+					<div class="col-xs-8 col-md-6">${salesTicket}</div>
+				</div>
+				<div class="row">
+			  		<div class="col-xs-4 col-md-6"><strong>총 좌석 수</strong></div>
+					<div class="col-xs-8 col-md-6">60</div>
+				</div>
+				<div class="row">
+			  		<div class="col-xs-4 col-md-6"><strong>매치업</strong></div>
+					<div class="col-xs-8 col-md-6">${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</div>
+				</div>
+				<div class="row">
+			  		<div class="col-xs-4 col-md-6"><strong>관람일시</strong></div>
+					<div class="col-xs-8 col-md-6">${game.gameDate} / ${game.gameTime}</div>
+				</div>
+			</div>
+			<button type="button" class="getSeats">경기 예매</button>
+			<input type="hidden" name="gameCode" value="${game.gameCode}"/>
+      </div>
+      
 
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

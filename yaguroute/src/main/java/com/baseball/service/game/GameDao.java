@@ -26,7 +26,7 @@ public interface GameDao {
 	
 	public void addGame(Game game);
 	
-	public List<Game> getGameListTwoWeeks();
+	public List<Game> getGameListTwoWeeks(String teamCode);
 	
 	public void updateGamePredAllocation(Game game);
 	
