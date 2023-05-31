@@ -29,6 +29,7 @@
 	$(function() {
 		 
 		 $( "button.btn.btn-default" ).on("click" , function() {
+			 alert("관심법");
 			fncGetUserList(1);
 		});
 	 });
@@ -223,14 +224,21 @@
         	
             <h3>회원 리스트</h3>
             <form>
+            <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
+					</select>
+			</div>
             <div class="col-md-6">
             <label class="sr-only" for="searchKeyword">검색어</label>
             <input type="text" id="searchKeyword" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-            <button type="button" id="searching">
-       		<img src="/images/user/search.jpg" alt="검색_돋보기" width="50" height="50">
-       		</button>
-       		<input type="hidden" id="currentPage" name="currentPage" value=""/>
        		</div>
+       		
+       		<button type="button" id="searching" class="btn btn-default">
+			<img src="/images/user/search.jpg" alt="검색_돋보기" width="50" height="50"></button>
+       		
+       		<input type="hidden" id="currentPage" name="currentPage" value=""/>
        		</form>
        		
        		<p class="text-primary">
