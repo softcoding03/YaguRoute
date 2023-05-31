@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,18 +24,27 @@ import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
 import com.baseball.service.domain.Pitcher;
 import com.baseball.service.game.GameService;
+import com.baseball.service.predict.GamePredictService;
 
 @Controller
 @RequestMapping("/game/*")
 public class GameController {
 
-	public GameController() {
+	@Autowired
+	public GameController(TaskScheduler taskScheduler) {
+		this.taskScheduler = taskScheduler;
 		System.out.println(this.getClass());
 	}
+	
+	private final TaskScheduler taskScheduler;
 	
 	@Autowired
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
+	
+	@Autowired
+	@Qualifier("gamePredictServiceImpl")
+	private GamePredictService gamePredictService;
 	
 	@GetMapping("getGameList")
 	public String getGameList(@RequestParam(value = "year", required = false) String year,@RequestParam(value = "month", required = false) String month
@@ -78,6 +89,8 @@ public class GameController {
 		Game game = gameService.getGameInfo(gameCode);
 		GamePreview gamePreview = gameService.getGamePreview(game);
 		
+		System.out.println("getGamePreview");
+		System.out.println(gameCode);
 		
 		request.setAttribute("gamePreview", gamePreview);
 		
@@ -101,5 +114,25 @@ public class GameController {
 		
 		return "/game/getTeam.jsp";
 	}
+	
+	@Scheduled(cron = "0 */5 * * * ?")
+	public void updateGameState() throws Exception {
+		gameService.updateTodayGameSchedule();
+		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		List<Game> gameList = gameService.getGameListByDate(nowDate);
+		boolean state = true;
+		for(Game game : gameList) {
+			if(game.getGameStatusCode().equals("1") || game.getGameStatusCode().equals("0") ){
+				state = false;
+			}
+		}
+		if(state) {
+			gamePredictService.updatePredAfterGame();
+		}
+	}
+//	
+//	public void addDynamicTask() {
+//		taskScheduler.scheduleTask("0/10 * * * * ?",);
+//    }
 
 }
