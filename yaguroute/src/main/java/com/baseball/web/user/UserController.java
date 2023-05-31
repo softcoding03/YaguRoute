@@ -46,11 +46,13 @@ public class UserController {
     @Value("${commonProperties.pageSize}")
     private int pageSize;
 	
-	@PostMapping(value="getUser") 
-	public String getUser(@ModelAttribute("user") User user, HttpSession session) throws Exception{
+	@GetMapping(value="getUser") 
+	public String getUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception{
 		
 		System.out.println("조회할 사용자 : " + session.getAttribute(user.getUserId()));
 		session.getAttribute(user.getUserId());
+		
+		model.addAttribute("user", user);
 		
 		return "redirect:/user/getUser.jsp";
 	}
@@ -115,24 +117,26 @@ public class UserController {
 	@RequestMapping(value="listUser") // 관리자 전용 
 	public String listUser(@ModelAttribute("search") Search search, Model model) throws Exception{
 		
-		System.out.println("search : ");
+		System.out.println("search : "+search);
 		
 		System.out.println("user/listUser");
 		
 		if(search.getCurrentPage() == 0 ) {
 			search.setCurrentPage(1);
 		} 
+		System.out.println(search);
 		search.setPageSize(pageSize);
-		
 		// B/L 수행
 		Map<String, Object> map = userService.getUserList(search);
-		
+		System.out.println("search :::: "+search);
 		System.out.println("CurrentPage : "+search.getCurrentPage());
+		System.out.println("SearchKeyword : "+search.getSearchKeyword());
 		System.out.println("totalCount : "+map.get("totalCount"));
 		System.out.println(pageUnit);
 		System.out.println(pageSize);
 		Page resultPage = new Page(search.getCurrentPage(), (int) map.get("totalCount"), pageUnit, pageSize);
 		// Model 과 View 연결
+		System.out.println("1234 : "+search.getSearchKeyword());
 				model.addAttribute("list", map.get("list"));
 				model.addAttribute("resultPage", resultPage);
 				model.addAttribute("search", search);

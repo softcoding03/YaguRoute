@@ -61,12 +61,28 @@ public class GamePredictController {
 			System.out.println(gameTmp);
 		}
 		
-		request.setAttribute("c", pred.size());
-		request.setAttribute("date", date);
+		request.setAttribute("predSize", pred.size());
+		request.setAttribute("gameSize", game.size());
 		request.setAttribute("gameList", game);
 		request.setAttribute("predList", pred);
 		
-		return "/game/getUserPredict.jsp";
+		String view = "";
+		String otherDay="";
+		if(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).equals(date)) {
+			view = "/game/getUserPredict.jsp";
+			otherDay = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		}else {
+			view = "/game/getPrevUserPredict.jsp";
+			otherDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		}
+		
+		System.out.println(date);
+		System.out.println(otherDay);
+		System.out.println(view);
+		
+		request.setAttribute("date", date);
+		request.setAttribute("otherDay", otherDay);
+		return view;
 	}
 	
 	@GetMapping("addUserPredict")
