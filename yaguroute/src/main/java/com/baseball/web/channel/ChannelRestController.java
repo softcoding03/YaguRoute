@@ -68,25 +68,30 @@ public class ChannelRestController {
 			String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
 			Game game = test.getGameInfo();
 			
-			if(gameStatus.equals("2") || gameStatus.equals("4")) {
-				System.out.println("영상 녹화 종료");
-				System.out.println(test);
-				System.out.println(game);
-				
-				String videoName = channelRestService.stopChannel(test.getChannelID());
-				game.setVideoName(videoName);
-				
-				String videoLink = channelRestService.getVideo(test, videoName);
-				game.setVideoLink(videoLink);
-				
-				System.out.println("setting된 game : "+game);
-				gameService.updatevideoThumbNail(game);
-			} else {
-				System.out.println("안됐지롱~");
-				System.out.println(test);
-				System.out.println(game);
+			if(channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
+				if(gameStatus.equals("2") || gameStatus.equals("4")) {
+					System.out.println("영상 녹화 종료");
+					System.out.println(test);
+					System.out.println(game);
+					
+					String videoName = channelRestService.stopChannel(test.getChannelID());
+					game.setVideoName(videoName);
+					
+					String videoLink = channelRestService.getVideo(test, videoName);
+					game.setVideoLink(videoLink);
+					
+					game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/images/60d320a4-e816-4487-8e2d-8e1ccc1b83d6hani.jpg");
+					
+					System.out.println("setting된 game : "+game);
+					gameService.updatevideoThumbNail(game);
+				} else {
+					System.out.println("안됐지롱~");
+					System.out.println(test);
+					System.out.println(game);
+				}
 			}
 		}
+
 	}
 		
 		
