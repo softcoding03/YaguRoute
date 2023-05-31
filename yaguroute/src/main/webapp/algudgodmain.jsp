@@ -19,6 +19,7 @@
 	
 	<button class="btn btn-primary" onclick="self.location='/product/listProduct'">상품 목록 조회</button>
 	
+	
 </body>
 
 </html>

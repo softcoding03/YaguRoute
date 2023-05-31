@@ -3,30 +3,23 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-
 <!DOCTYPE html>
 <html>
 
 <head>
-<meta charset="UTF-8">
 
-
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
  
  <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   	 
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script> 	 
    <!-- jQuery UI toolTip 사용 CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
@@ -35,27 +28,75 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 
 
+<style>
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .btn {
+        display: inline-block;
+    }
+</style>
+
+
 <script type="text/javascript">
 
 
-	//=====기존Code 주석 처리 후  jQuery 변경 ======//
-	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	
 	function fncGetProductList(currentPage) {
 		$("#currentPage").val(currentPage);
-		$("form").attr("method", "GET").attr("action", "/product/listProduct").submit();
+		$("form")
+		.attr("method", "GET")
+		.attr("action", "/product/listProduct").submit();
 	}
+
 	
 	$(function() {
 		$("button.btn-success").on("click", function() {
+			$("#prodTeamCode").val($(this).val());
 			fncGetProductList(1);
 		});
 	
-		$("td.ct_btn01:contains('검색')").on("click", function() {
+
+		$( "button.btn.btn-default" ).on("click" , function() {
 			fncGetProductList(1);
 		});
-	});
 		
+    	$( ".ct_list_pop td:nth-child(2)" ).on("click" , function() {
+    		var prodNo = $(this).children('input:hidden').val();
+    		self.location = "/product/getProduct?prodNo="+prodNo;
+  	 	});
+
+	});
+	
+
+	 $( function() {
+		 
+		 $.ajax(
+	 				{
+	 					url: "/product/json/autoComplete",
+	 					method: "GET",
+	 					dataType: "json",
+	 					headers: {
+	 						"Accept" : "application/json",
+							"Content-Type" : "application/json"						
+	 					},
+	 					success: function(JSONData, status) {
+	
+	 						
+	 					console.log(JSONData);
+	 					
+	 				    $( "#autoComplete" ).autoComplete({
+	 					      source: JSONData
+	 					    });
+	 				
+	 					}
+	 					
+	 				});
+			 });
+					
+	
+	
 </script>
 
 </head>
@@ -78,8 +119,8 @@
 
 <form name="detailForm" >
 
-
-
+	<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}"/>
+	<input type="hidden" id="currentPage" name="currentPage" value=""/>
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -101,153 +142,91 @@
 	</tr>
 </table>
 
-	<p></p>
-	 <table>
-		    <tr>
-		    <td>	    
-	 	<button type="button" class="btn btn-success" value="NN">전체</button>
-	 	<button type="button" class="btn btn-success" value="NC">NC</button>
-	    <button type="button" class="btn btn-success" value="OB">두산</button>
-	    <button type="button" class="btn btn-success" value="HH">한화</button>
-	    <button type="button" class="btn btn-success" value="HT">KIA</button>
-	    <button type="button" class="btn btn-success" value="KT">KT</button>
-	    <button type="button" class="btn btn-success" value="LG">LG</button>
-	    <button type="button" class="btn btn-success" value="LT">롯데</button>
-	    <button type="button" class="btn btn-success" value="SK">SSG</button>
-	    <button type="button" class="btn btn-success" value="SS">삼성</button>
-	    <button type="button" class="btn btn-success" value="WO">키움</button>
-	   
-    </td>
+	 <table height="50">
+	   <tr>
+		  <td>	    
+		 	<button type="button" class="btn btn-success" value="NN">전체</button>
+		 	<button type="button" class="btn btn-success" value="NC">NC</button>
+		    <button type="button" class="btn btn-success" value="OB">두산</button>
+		    <button type="button" class="btn btn-success" value="HH">한화</button>
+		    <button type="button" class="btn btn-success" value="HT">KIA</button>
+		    <button type="button" class="btn btn-success" value="KT">KT</button>
+		    <button type="button" class="btn btn-success" value="LG">LG</button>
+		    <button type="button" class="btn btn-success" value="LT">롯데</button>
+		    <button type="button" class="btn btn-success" value="SK">SSG</button>
+		    <button type="button" class="btn btn-success" value="SS">삼성</button>
+		    <button type="button" class="btn btn-success" value="WO">키움</button>	   
+    	</td>
+      </tr>
 	</table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-	<!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
 
-
-		<td align="right">
 	
-		<p></p>
-		<button type="button" class="btn btn-link">판매순</button>
-		<button type="button" class="btn btn-link">재고적은순</button>
-		<button type="button" class="btn btn-link">재고많은순</button>
-			
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
-			
-				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품명</option>
-	
-			</select>
-
-				<input type="text" name="searchKeyword" id="autoComplete"
-						value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
-						class="ct_input_g" style="width:200px; height:20px" > 
-		</td>			
-		<td align="right" width="70">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23"> 
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						검색	
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-	  <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-			전체  ${resultPage.totalCount } 건, 현재 ${resultPage.currentPage}  페이지
-		</p> 
-	</div>
-
-	<c:set var="i" value="0" />
-
-	<tr>
-	<th align="center">번호</th>
-       <th></th>
-    <th align="center">제품명</th>
-       <th></th>
-    <th align="center">가격</th>
-       <th></th>
-    <th align="center">등록일</th>
-       <th></th>
-    <th align="center">재고</th>
-       <th></th>
-    <th align="center">카테고리</th>
-       <th></th>
-    <th align="center">팀 코드</th>
-    
-	</tr>
-
-	<p></p>
-	<c:set var="i" value="0" />
-	<c:forEach var="product" items="${list}">
-		<c:set var="i" value="${ i+1 }" />
-		<tr class="ct_list_pop">
-			<td align="center">${ i }</td>
-			
-			<td></td>
-
-	 	<td align="left">
+		<div class="form-group" style="width: 100px; text-align: right; ">
+		    <select class="form-control" name="searchCondition" >
+		        <option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+		    </select>
+		</div>
 		
-		<input type="hidden" value="${product.prodNo}"/>
+		<div class="form-group" style="width: 230px; text-align: right;">
+		    <label class="sr-only" for="searchKeyword">검색어</label>
+		    <input type="text" class="form-control" id="autoComplete" name="searchKeyword" placeholder="상품명으로 검색하세요"
+		        value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
+		</div>
 	
+	<button type="button" class="btn btn-default">검색</button>
 
-    <tr>
-        <td></td>
 
-				<td></td>
-				<td align="left">
-				    ${product.prodName}
-				</td>
-				
-				<td></td>
-				<td align="left">
-				    ${product.prodPrice}
-				</td>
-				
-				<td></td>
-				<td align="left">
-				    ${product.prodRegDate}
-				</td>
-				
-				<td></td>
-				<td align="left">
-				    ${product.prodStock}
-				</td>
-				
-				<td></td>
-				<td align="left">
-				    ${product.prodCategory}
-				</td>
-				
-				<td></td>
-				<td align="left">
-				    ${product.prodTeamCode}
-            </td>
+
+<p class="text-primary"> 전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지 </p>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 20px;">
+   
+    <thead>
+        <tr>
+            <th align="center">번호</th>
+            <th align="center">제품명</th>
+            <th align="center">가격</th>
+            <th align="center">등록일</th>
+            <th align="center">재고</th>
+            <th align="center">카테고리</th>
+            <th align="center">팀 코드</th>
         </tr>
-        
-        
-		<tr>
-	<!-- 	<td colspan="11" bgcolor="D6D7D6" height="1"></td> -->
-		<td id="${product.prodNo}" colspan="15" bgcolor="D6D7D6" height="1"></td>
-		</tr>
-	</c:forEach>
+    </thead>
+   
+    <tbody>
+	    <c:set var="i" value="0" />
+		<c:forEach var="product" items="${list}">
+    	<c:set var="i" value="${ i+1 }" />    
+            <tr class="ct_list_pop">
+              	<td align="center">${ i }</td>
+                <td align="left">
+  	 <input type="hidden"  value="${product.prodNo}" />
+                    ${product.prodName}
+                </td>
+                <td align="left">
+                    ${product.prodPrice}
+                </td>
+                <td align="left">
+                    ${product.prodRegDate}
+                </td>
+                <td align="left">
+                    ${product.prodStock}
+                </td>
+                <td align="left">
+                    ${product.prodCategory}
+                </td>
+                <td align="left">
+                    ${product.prodTeamCode}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="15" bgcolor="D6D7D6" height="1"></td>
+            </tr>
+        </c:forEach>
+    </tbody>
 </table>
 
-
-		  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-
-				  
 
 </form>
 </div>

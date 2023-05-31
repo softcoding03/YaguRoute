@@ -1,18 +1,18 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
-		
+
+	<% System.out.println("pageNavigator "+ request.getAttribute("pageType")); %>
 
 
-
-	<% System.out.println(":: Á¦¹ß ÂïÇô ÁÖ°Ú´Ï "+ request.getAttribute("pageType")); %>
 	
 	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
-			¢¸ ÀÌÀü
+			â—€ ì´ì „
 	</c:if>
 	<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
-			<a href="
+		<a href="
 			
 			<c:choose>
 			
@@ -24,7 +24,7 @@
 				</c:otherwise>
 			</c:choose>
 						
-					('${ resultPage.currentPage-1}')">¢¸ ÀÌÀü</a>
+					('${ resultPage.currentPage-1}')">â—€ ì´ì „</a>
 	</c:if>
 	
 	<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
@@ -44,7 +44,7 @@
 	</c:forEach>
 	
 	<c:if test="${ resultPage.endUnitPage >= resultPage.maxPage }">
-			ÀÌÈÄ ¢º
+			ì´í›„ â–¶
 	</c:if>
 	<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 			<a href="
@@ -59,21 +59,8 @@
 				</c:otherwise>
 			</c:choose>
 			
-			('${resultPage.endUnitPage+1}')">ÀÌÈÄ ¢º</a>
+			('${resultPage.endUnitPage+1}')">ì´í›„ â–¶</a>
 	</c:if>
 	
-	
-	
-	
-		
 
-	
-
-	
-	
-	
-	
-	
-	
-	
 	
