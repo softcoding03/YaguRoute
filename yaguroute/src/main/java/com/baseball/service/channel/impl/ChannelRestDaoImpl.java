@@ -68,7 +68,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	
 	//Constructor
 	public ChannelRestDaoImpl() {
-		System.out.println("ChannelRestDaoImpl Start...");
+		System.out.println(this.getClass());
 	}
 
 	@Override

@@ -77,6 +77,19 @@
 			
 			<div class="form-group">
 				<div class="col-xs-4 col-md-2">
+					<strong>오늘의 게임 리스트</strong>
+				</div>
+				
+				<div class="col-xs-8 col-md-4">
+					<c:set var="i" value="0"/>
+					<c:forEach var="game" items="${gamelist}">
+						<input type="radio" name="gameCode" class="ct_input_g" value="${game.gameCode}">${game.gameCode}</input>
+					</c:forEach>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-xs-4 col-md-2">
 					<strong>채널 썸네일</strong>
 				</div>
 				<div class="col-xs-8 col-md-4">
