@@ -21,7 +21,7 @@ public class ChannelServiceImpl implements ChannelService {
 	
 	//default Constructor
 	public ChannelServiceImpl() {
-		System.out.println("channelServiceImpl Start");
+		System.out.println(this.getClass());
 	}
 	
 	//for Setter Injection

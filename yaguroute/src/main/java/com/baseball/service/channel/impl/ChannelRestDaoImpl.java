@@ -68,7 +68,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	
 	//Constructor
 	public ChannelRestDaoImpl() {
-		System.out.println("ChannelRestDaoImpl Start...");
+		System.out.println(this.getClass());
 	}
 
 	@Override
@@ -426,6 +426,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		while((jsonData = br.readLine()) != null) {
 			response.append(jsonData);
+			System.out.println(response);
 		}
 		
 		String json = response.toString();

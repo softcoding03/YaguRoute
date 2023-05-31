@@ -9,19 +9,7 @@
 		 <nav>
 		  <!-- Å©±âÁ¶Àý :  pagination-lg pagination-sm-->
 		  <ul class="pagination" >
-		    
-		    <!--  <<== ÁÂÃø nav -->
-		  	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
-			</c:if>
-			<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
-				<li>
-			</c:if>
-		      <a href="javascript:fncGetUserList('${ resultPage.currentPage-1}')" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    
+
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
 				
@@ -38,18 +26,6 @@
 					</li>
 				</c:if>
 			</c:forEach>
-		    
-		     <!--  ¿ìÃø nav==>> -->
-		     <c:if test="${ resultPage.endUnitPage >= resultPage.maxPage }">
-		  		<li class="disabled">
-			</c:if>
-			<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
-				<li>
-			</c:if>
-		      <a href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
 		  </ul>
 		</nav>
 		

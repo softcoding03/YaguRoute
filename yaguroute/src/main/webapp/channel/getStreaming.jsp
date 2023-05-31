@@ -73,8 +73,7 @@
 						}
 					});
 				});
-				
-				
+							
 				
 				//homeClick
 				$("#homeClick").on('click', function(){
@@ -116,11 +115,46 @@
 					console.log(data);
 					console.log(data[0].user_id);
 					for(i in data){
+						if(data[i].message == null){
+							$('#chat-messages').append($('<div>').text(data[i].user_id+" : "));
+							$('#chat-messages').append($('<div>').append($('<img>').attr('src', data[i].chat_image).attr('width', 200).attr('heigth', 200)));
+						} else {
+							$('#chat-messages').append($('<div>').text(data[i].user_id+" : "+data[i].message));	
+						}
 						console.log(data[i].user_id+" : "+data[i].message);
-						$('#chat-messages').append($('<div>').text(data[i].user_id+" : "+data[i].message));
+						
 					}
 				});
 				
+				//이미지 파일 받기
+				socket.on("responseImage", (data)=>{
+					console.log(data);
+					$('#chat-messages').append($('<div>').text(data.userID+" : "));
+					$('#chat-messages').append($('<div>').append($('<img>').attr('src', data.Image).attr('width',200).attr('heigth', 200)));
+				})
+				
+				//이미지 업로드 하기
+				$('#uploadForm').submit(function(e){
+					e.preventDefault();
+					
+					var formData = new FormData();
+					var fileInput = $('#fileInput')[0].files[0];
+					formData.append('image', fileInput);
+					
+					$.ajax({
+						url: "http://192.168.0.36:3001/image/upload",
+						type: "POST",
+						processData: false,
+				        contentType: false,
+						data: formData,
+						dataType: "json",
+						success: function(data, status){
+							console.log(data);
+							socket.emit("image", data.image_path);
+						}
+						
+					})
+				});
 			});
 		
 		</script>
@@ -184,8 +218,14 @@
 			        </div>
 		    	</div>
 		    </form>
+		    
+		    <form id="uploadForm" enctype="multipart/form-data">
+			    <input type="file" name="file" id="fileInput">
+			    <button type="submit">+</button>
+		  	</form>
   		</div>
-  		 
+  		
+  		
   		 
 	</body>
 </html>

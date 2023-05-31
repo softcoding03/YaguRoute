@@ -27,8 +27,10 @@
 		<typeAlias alias="channel" type="com.baseball.service.domain.Channel"/>
 		<typeAlias alias="transaction" type="com.baseball.service.domain.Transaction"/>
 		<typeAlias alias="trandetail" type="com.baseball.service.domain.TranDetail"/>
+		<typeAlias alias="emote" type="com.baseball.service.domain.Emote"/>
 		<typeAlias alias="team" type="com.baseball.common.domain.Team"/>
 		<typeAlias alias="search" type="com.baseball.common.domain.Search"/>
+		
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->

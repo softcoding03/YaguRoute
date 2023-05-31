@@ -22,7 +22,7 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 	
 	//Constructor
 	public ChannelRestServiceImpl() {
-		System.out.println("ChannelRestService strart...");
+		System.out.println(this.getClass());
 	}
 	
 	//method

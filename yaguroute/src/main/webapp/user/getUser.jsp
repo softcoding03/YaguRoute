@@ -16,65 +16,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
     <script type="text/javascript">
-	
-	$(function(){
-		
-		$('#nicknameCheck').keyup(function(){
-			
-			var nickname = $('#nicknameCheck').val();
-			console.log(nickname);
-			$.ajax({
-				url : "/user/userNickNameCheck",
-				method : "POST",
-				data : {userNickName : nickname},
-				dataType : 'json',
-				success : function(result){
-					if(result == 1){
-						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
-						$("#nickname_use").attr('color', '#dc3545');
-					
-					}else{
-						$('#nickname_use').html('사용 가능한 닉네임입니다.');
-						$('#nickname_use').attr('color', '#2fb380');
-					}
-				},
-				error : function(){
-					alert("서버 요청 실패");
-				}
-			})
-		})
+		$(function(){
+			$('#updateUser').on("click", function(){
+				alert("우연히~~~");
+				window.location.href="/users/updateUser";
+			});
+		});	
+
+		$(function(){
+		$('.custom-btn').on('click', function() {
+		    // 개별 이벤트 처리
+		    alert("ㅎㅇ");
+		});
 	});
-	
-	$(function(){
-		$('#idCheck').keyup(function(){
-			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
-			console.log(id); // 현재 가져오는 id를 log로 출력해봄.
-				//alert("여기까지 옴!");
-			 $.ajax({
-				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
-				type : "POST", // POST방식으로 전달
-				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
-				dataType : 'json', // json데이터형식으로 보낸다.
-				success : function(result){ // 서버에서 response(result값)가 전송된다.
-					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
-						$("#id_use").html('이미 사용중인 아이디입니다.');
-						$("#id_use").attr('color','#dc3545');
-					} else{
-						$("#id_use").html('사용할 수 있는 아이디입니다.');
-						$("#id_use").attr('color','#2fb380');
-					} 
-				},
-				error : function(){
-					alert("서버요청실패");
-				}
-			})
-		})
-	})
 		
 	</script>
 
-	
-	
 </head>
 
 <body>
@@ -116,8 +73,7 @@
                                 <div class="item">
                                     <label>
                                         <span>아이디 <i>*</i></span>
-                                        rockseong4
-                                        <font id="id_use" size="2"></font>
+                                        ${user.userId}
                                     </label>
                                 </div>	
                             </div>
@@ -125,7 +81,7 @@
                                 <div class="item">
                                     <label>
                                         <span>이름<i>*</i></span>
-                                        락성두
+                                        ${user.userName}
                                     </label>
                                 </div>
                             </div>
@@ -133,7 +89,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        1998-07-07
+                                        ${user.userBirth}
                                     </label>
                                 </div>
                             </div>
@@ -141,7 +97,7 @@
                                 <div class="item">
                                     <label>
                                         <span>성별</span>
-                                        남자
+                                        ${user.gender}
                                     </label>
                                 </div>
                             </div>
@@ -149,7 +105,7 @@
                             	<div class="item">
                             		<label>
                             		<span>휴대폰 번호</span>
-                            		010-3633-1908 
+                            		${user.userPhone} 
 		    						</label>
                             	</div>
                             </div>
@@ -157,7 +113,7 @@
                             	<div class="item">
                             		<label>
                             		<span>이메일</span>
-                            		rockseong44444@hotmail.com
+                            		${user.userEmail} 
 		    						</label>
                             	</div>
                             </div>
@@ -165,7 +121,7 @@
                             	<div class="item">
                             		<label>
                             		<span>닉네임</span>
-                            		니거123
+                            		${user.userNickName} 
 		    						</label>
                             	</div>
                             </div>
@@ -173,7 +129,7 @@
                             	<div class="item">
                             		<label>
                             		<span>선호 구단</span>
-                                    	SS 
+                                    ${user.teamCode} 
 		    						</label>
                             	</div>
                             </div>
@@ -182,23 +138,18 @@
                             		<label>
                             		<span>프로필 사진</span>
 		    						<img id="profile">이미지
+		    						${user.userImage} 
 		    						</label>
                             	</div>
                             </div>
+                            <button class="custom-btn" data-action="custom-event">개별 이벤트</button>
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
                             		<span>포인트</span>
-                                    	500,000 P 
+                                    ${user.userPoint}
 		    						</label>
                             	</div>
-                            </div>
-                            <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button class="update" id="updateUser">정보 수정</button>&emsp;
-                                <button class="back" id="back">뒤로</button>
-                            </div>
-                            <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-								<button class="bye" id="withDraw">탈퇴</button>
                             </div>
                         </div>
                     </form>
@@ -206,6 +157,14 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                <button class="update" id="updateUser">정보 수정</button>&emsp;
+                                <button class="back" id="back">뒤로</button>
+                            </div>
+                            <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+								<button class="bye" id="withDraw">탈퇴</button>
+                            </div>
     <div class="contacts-map">
         <img class="img-responsive" src="/images/baseball/contacts-map.jpg" alt="contacts-map">
     </div>

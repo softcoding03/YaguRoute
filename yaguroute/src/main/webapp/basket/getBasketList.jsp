@@ -125,7 +125,8 @@
 		})
 		
 		$("tr.cart_iem td.delete").on("click",function(){
-			let newTotalPrice = $(this).parent().find(".total input").val()
+			var newTotalPrice = $(this).parent().find(".total input").val()
+			var basketNo = $(this).parent().attr("id");
 			$.ajax({
 				url : "/basket/json/deletebasket/"+$(this).parent().find("#prodNo").val(),
 				method : "POST",
@@ -137,10 +138,8 @@
 					"Content-Type" : "application/json"
 				},
 				success : function(JSONData, status){
-					//var newTotalPrice = $("#basketTotalPrice").val() - 
-					$("#"+basketNo).remove();
-					
 					var newTotal = $("#totalPrice").val() - newTotalPrice
+					$("#"+basketNo).remove();
 					$("#totalPrice").val(newTotal)
 					
 					var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})

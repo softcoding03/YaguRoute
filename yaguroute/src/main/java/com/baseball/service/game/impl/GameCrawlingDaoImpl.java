@@ -12,11 +12,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.baseball.common.config.ChromeDriverConfig.ChromeDriverPool;
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.GamePreview;
@@ -31,6 +33,9 @@ import com.baseball.service.game.GameDao;
 public class GameCrawlingDaoImpl implements GameCrawlingDao {
 	
 	@Autowired
+	private ChromeDriverPool chromeDriverPool;
+	
+	@Autowired
 	@Qualifier("gameDao")
 	private GameDao gameDao;
 
@@ -39,14 +44,14 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 	}
 	
 	//오늘의 경기 정보
-	public List<Game> getTodayGameSchedule() throws Exception{
+	public List<Game> getTodayGameSchedule(){
 		
 		List<Game> thisDateGameList = new ArrayList<>();
 		
 		SimpleDateFormat dateFromat = new SimpleDateFormat("yyyy.MM.dd");
 		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
 		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
+		/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -59,78 +64,88 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
 		
-		WebDriver driver = new ChromeDriver(ops);
-		
-		driver.get("https://sports.news.naver.com/kbaseball/schedule/index");
-		
-		WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
-		
-		String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
-
-		int state = 0;
-		
-		String nowYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
-		
-		for(WebElement oneGame : todayGame.findElements(By.cssSelector("tr"))) {
+		WebDriverdriver = new ChromeDriver(ops);*/
+		WebDriver driver = null;
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
 			
-			Game game = new Game();
+			driver.get("https://sports.news.naver.com/kbaseball/schedule/index");
 			
-			game.setGameDate(nowYear+"."+date);
+			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
 			
-			if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
-					|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
-					|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
-					|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
-				state = 3;
-			}else {
-				if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
-					state = 2;
-				}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
-					state = 0;
+			String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
+	
+			int state = 0;
+			
+			String nowYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
+			
+			for(WebElement oneGame : todayGame.findElements(By.cssSelector("tr"))) {
+				
+				Game game = new Game();
+				
+				game.setGameDate(nowYear+"."+date);
+				
+				if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
+						|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
+						|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
+						|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
+					state = 3;
 				}else {
-					state = 1;
+					if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
+						state = 2;
+					}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
+						state = 0;
+					}else {
+						state = 1;
+					}
 				}
+				game.setGameStatusCode(String.valueOf(state));
+				
+				String teamName="";
+				if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+					continue;
+				}else {
+					teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
+				}
+				game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
+				
+				if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+					continue;
+				}else {
+					teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
+				}
+				game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
+				
+				game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
+				if(game.getGameStatusCode().equals("2")) {
+					String[] scoreTmp = game.getGameScore().split("[:]");
+					if(scoreTmp[0]==scoreTmp[1])
+						game.setGameStatusCode("4");
+					System.out.println(scoreTmp[0]+""+scoreTmp[1]);
+					game.setWinningTeamCode((Integer.parseInt(scoreTmp[0]) < Integer.parseInt(scoreTmp[1])?game.getHomeTeam().getTeamCode():(Integer.parseInt(scoreTmp[0]) > Integer.parseInt(scoreTmp[1])?game.getAwayTeam().getTeamCode():null)));
+				}
+				String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
+				
+				game.setGameCode(gameTmp);
+				
+				thisDateGameList.add(game);
 			}
-			game.setGameStatusCode(String.valueOf(state));
-			
-			String teamName="";
-			if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-				continue;
-			}else {
-				teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
 			}
-			game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
-			
-			if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-					|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-				continue;
-			}else {
-				teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
-			}
-			game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
-			
-			game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
-			if(game.getGameStatusCode().equals("2")) {
-				String[] scoreTmp = game.getGameScore().split("[:]");
-				if(scoreTmp[0]==scoreTmp[1])
-					game.setGameStatusCode("4");
-				System.out.println(scoreTmp[0]+""+scoreTmp[1]);
-				game.setWinningTeamCode((Integer.parseInt(scoreTmp[0]) < Integer.parseInt(scoreTmp[1])?game.getHomeTeam().getTeamCode():(Integer.parseInt(scoreTmp[0]) > Integer.parseInt(scoreTmp[1])?game.getAwayTeam().getTeamCode():null)));
-			}
-			String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
-			
-			game.setGameCode(gameTmp);
-			
-			thisDateGameList.add(game);
 		}
 		return thisDateGameList;
 	}
@@ -142,124 +157,122 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		
 		SimpleDateFormat dateFromat = new SimpleDateFormat("yyyy.MM.dd");
 		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
-		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
-		
-		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-		
-		ChromeOptions ops = new ChromeOptions();
-		ops.setCapability("ignoreProtectedModeSettings", true);
-		ops.addArguments("--remote-allow-origins=*");
-		ops.addArguments("headless");
-		ops.addArguments("--no-sandbox");
-		ops.addArguments("--disable-dev-shm-usage");
-		ops.addArguments("ignore-certificate-errors");
-		
-		WebDriver orderDriver = new ChromeDriver(ops);
-		WebDriver driver = new ChromeDriver(ops);
-		
-		orderDriver.get("https://sports.news.naver.com/kbaseball/schedule/index");
-		
-		orderDriver.findElement(By.xpath("//*[@id=\"_currentYearButton\"]")).click();
-		List<WebElement> yearList = orderDriver.findElements(By.cssSelector("#_yearList > li"));
-		
-		orderDriver.findElement(By.xpath("//*[@id=\"_currentMonthButton\"]")).click();
-		List<WebElement> monthList = orderDriver.findElements(By.cssSelector("#_monthList > li"));
-		
-		for(WebElement year : yearList) {
-			for(WebElement mon : monthList) {
-				System.out.println(mon.getText()+year.getText()+"");
-				
-				String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230520&month="+mon.getText()+"&year="+year.getText()+"&teamCode=";
-				
-				driver.get(url);
-				
-				List<WebElement> monthDayCount = driver.findElements(By.cssSelector("#calendarWrap > div:not(.nogame,.nogame2)"));
-				String nowYear = year.getText();
-				
-				for(WebElement dayGame : monthDayCount) {
+		WebDriver driver = null;
+		WebDriver orderDriver = null;
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
+			orderDriver = chromeDriverPool.acquireWebDriver();
+			/*WebDriver driver = new ChromeDriver(ops);*/
+			
+			orderDriver.get("https://sports.news.naver.com/kbaseball/schedule/index");
+			
+			orderDriver.findElement(By.xpath("//*[@id=\"_currentYearButton\"]")).click();
+			List<WebElement> yearList = orderDriver.findElements(By.cssSelector("#_yearList > li"));
+			
+			orderDriver.findElement(By.xpath("//*[@id=\"_currentMonthButton\"]")).click();
+			List<WebElement> monthList = orderDriver.findElements(By.cssSelector("#_monthList > li"));
+			
+			for(WebElement year : yearList) {
+				for(WebElement mon : monthList) {
+					System.out.println(mon.getText()+year.getText()+"");
 					
-					String date = dayGame.findElement(By.cssSelector(".td_date strong")).getText();
-
-					int state = 0;
+					String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230520&month="+mon.getText()+"&year="+year.getText()+"&teamCode=";
 					
-					for(WebElement oneGame : dayGame.findElements(By.cssSelector("tr"))) {
+					driver.get(url);
+					
+					List<WebElement> monthDayCount = driver.findElements(By.cssSelector("#calendarWrap > div:not(.nogame,.nogame2)"));
+					String nowYear = year.getText();
+					
+					for(WebElement dayGame : monthDayCount) {
 						
-						Game game = new Game();
+						String date = dayGame.findElement(By.cssSelector(".td_date strong")).getText();
+	
+						int state = 0;
 						
-						game.setGameDate(nowYear+"."+date);
-						
-						if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
-								|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
-								|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
-								|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
-							state = 3;
-						}else {
-							if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
-								state = 2;
-							}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
-								state = 0;
+						for(WebElement oneGame : dayGame.findElements(By.cssSelector("tr"))) {
+							
+							Game game = new Game();
+							
+							game.setGameDate(nowYear+"."+date);
+							
+							if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
+									|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
+									|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
+									|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
+								state = 3;
 							}else {
-								state = 1;
+								if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
+									state = 2;
+								}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
+									state = 0;
+								}else {
+									state = 1;
+								}
 							}
+							game.setGameStatusCode(String.valueOf(state));
+							
+							game.setGameTime(oneGame.findElement(By.cssSelector(".td_hour")).getText());
+							
+							String teamName="";
+							if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("넥센")){
+								teamName = "키움";
+							}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("SK")){
+								teamName = "SSG";
+							}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+								continue;
+							}else {
+								teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
+							}
+							game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
+							
+							if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센")){
+								teamName = "키움";
+							}else if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK")){
+								teamName = "SSG";
+							}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+									|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+								continue;
+							}else {
+								teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
+							}
+							game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
+							game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
+							String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
+							if(gameDao.getGameInfo(gameTmp) != null) {
+								continue;
+							}else {
+								game.setGameCode(gameTmp);
+								thisYearGameList.add(game);
+							}
+							System.out.println(game);
+							
 						}
-						game.setGameStatusCode(String.valueOf(state));
-						
-						game.setGameTime(oneGame.findElement(By.cssSelector(".td_hour")).getText());
-						
-						String teamName="";
-						if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("넥센")){
-							teamName = "키움";
-						}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("SK")){
-							teamName = "SSG";
-						}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-							continue;
-						}else {
-							teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
-						}
-						game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
-						
-						if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("넥센")){
-							teamName = "키움";
-						}else if(oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK") || oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim().equals("SK")){
-							teamName = "SSG";
-						}else if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-								|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-							continue;
-						}else {
-							teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
-						}
-						game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
-						game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
-						String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
-						if(gameDao.getGameInfo(gameTmp) != null) {
-							continue;
-						}else {
-							game.setGameCode(gameTmp);
-							thisYearGameList.add(game);
-						}
-						System.out.println(game);
-						
 					}
 				}
 			}
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
+			}
+			if(orderDriver != null) {
+				chromeDriverPool.releaseWebDriver(orderDriver);
+			}
 		}
-		driver.close();
-		orderDriver.close();
-		
 		return thisYearGameList;
 		
 	}
+	
 	//GameRecord
 	public GameRecord getGameCrawlingRecord(Game game) throws Exception{
 		
@@ -276,215 +289,225 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		List<Hitter> awayHitterList = new ArrayList<>();
 		
 		gameRecord.setGameInfo(game);
-		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
-		
-		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-		
-		ChromeOptions ops = new ChromeOptions();
-		ops.setCapability("ignoreProtectedModeSettings", true);
-		ops.addArguments("--remote-allow-origins=*");
-		ops.addArguments("headless");
-		ops.addArguments("--no-sandbox");
-		ops.addArguments("--disable-dev-shm-usage");
-		ops.addArguments("ignore-certificate-errors");
-		
-		String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/record";
-		WebDriver driver = new ChromeDriver(ops);
-		driver.get(base_url);
-		Thread.sleep(500);
-		
-		if(driver.findElements(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).size()!=0) {
-			driver.findElement(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).click();
-		}
-		
-		//경기 이닝
-		WebElement gameScoreInfo = driver.findElement(By.className("ScoreBox_round__1sOLq"));//스코어보드
-		List<WebElement> scoreInnings = gameScoreInfo.findElements(By.cssSelector("thead th"));
-		for(int i =1; i<scoreInnings.size();i++) {
-			innings.add(scoreInnings.get(i).getText());
-		}
-		gameRecord.setInnings(innings);
-		
-		//실시간 경기 스코어
-		game.setGameScore(driver.findElement(By.cssSelector(".MatchBox_home__MPL6D .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
-		+driver.findElement(By.cssSelector(".MatchBox_away__1rDsC .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
-
-		
-		// 경기 스코어
-		List<WebElement> homeAwayScore = gameScoreInfo.findElements(By.cssSelector("tbody td"));
-		
-		for(int i=0; i<homeAwayScore.size()/2;i++) {
-			awayScoreList.add(homeAwayScore.get(i).getText());
-		}
-		for(int i=homeAwayScore.size()/2; i<homeAwayScore.size();i++) {
-			homeScoreList.add(homeAwayScore.get(i).getText());
-		}
-		System.out.println(innings+"\n"+awayScoreList+"\n"+homeScoreList);
-		gameRecord.setAwayScoreList(awayScoreList);
-		gameRecord.setHomeScoreList(homeScoreList);
-		
-		//팀 경기 기록 조회
-		WebElement gameScoreResultInfo = driver.findElement(By.className("ScoreBox_result__3atD0"));
-		
-		List<WebElement> homeAwayResultScore = gameScoreResultInfo.findElements(By.cssSelector("tbody td"));
-		
-		for(int i=0; i<homeAwayResultScore.size()/2;i++) {
-			awayRecord.add(homeAwayResultScore.get(i).getText());
-		}
-		for(int i=homeAwayResultScore.size()/2; i<homeAwayResultScore.size();i++) {
-			homeRecord.add(homeAwayResultScore.get(i).getText());
-		}
-		System.out.println(awayRecord+"\n"+homeRecord);
-		gameRecord.setAwayRecord(awayRecord);
-		gameRecord.setHomeRecord(homeRecord);
-		
-		if(game.getGameStatusCode().equals("2")) {
-			//승리, 세이브 등 타이틀을 가지는 투수
-			List<WebElement> indexLi = driver.findElements(By.cssSelector("div.PitcherList_comp_pitcher_list__3XCW2 li.PitcherList_pitcher_area__2By9l"));
-			for(WebElement titleIndex :indexLi) {
-				Pitcher titlePitcher = new Pitcher();
-				titlePitcher.setPitcherImage(titleIndex.findElement(By.tagName("img")).getAttribute("src").split("[?]")[0]);
-				String[] titleSplit = titleIndex.getText().split("[\n]");
-				titlePitcher.setTitle(titleSplit[0]);
-				titlePitcher.setPitcherName(titleSplit[1]);
-				titlePitcher.setInnings(titleSplit[2].split("[닝]")[1]);
-				titlePitcher.setGetHit(titleSplit[3].split("[타자]")[1]);
-				titlePitcher.setMyLostScore(titleSplit[3].split("[책]")[1]);
-				titlePitcherList.add(titlePitcher);
+		WebDriver driver = null;
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
+			/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
+			String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
+			
+			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+			
+			ChromeOptions ops = new ChromeOptions();
+			ops.setCapability("ignoreProtectedModeSettings", true);
+			ops.addArguments("--remote-allow-origins=*");
+			ops.addArguments("headless");
+			ops.addArguments("--no-sandbox");
+			ops.addArguments("--disable-dev-shm-usage");
+			ops.addArguments("ignore-certificate-errors");
+			
+			
+			WebDriver driver = new ChromeDriver(ops);*/
+			
+			String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/record";
+			driver.get(base_url);
+			Thread.sleep(1000);
+			if(driver.findElement(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).getAttribute("aria-pressed").equals("true")) {
+				driver.findElement(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).click();
 			}
-			gameRecord.setTitlePitcher(titlePitcherList);
-		}
-		
-		List<WebElement> teamRecord = driver.findElements(By.cssSelector("table.TeamVS_power_info_table__2I4zy tbody tr"));
-		game.getAwayTeam().setHit(teamRecord.get(0).findElements(By.cssSelector("td")).get(0).getText());
-		game.getAwayTeam().setHomerun(teamRecord.get(1).findElements(By.cssSelector("td")).get(0).getText());
-		game.getAwayTeam().setSteal(teamRecord.get(2).findElements(By.cssSelector("td")).get(0).getText());
-		game.getAwayTeam().setStrikeOut(teamRecord.get(3).findElements(By.cssSelector("td")).get(0).getText());
-		game.getAwayTeam().setDoubleLife(teamRecord.get(4).findElements(By.cssSelector("td")).get(0).getText());
-		game.getAwayTeam().setError(teamRecord.get(5).findElements(By.cssSelector("td")).get(0).getText());
-		
-		game.getHomeTeam().setHit(teamRecord.get(0).findElements(By.cssSelector("td")).get(1).getText());
-		game.getHomeTeam().setHomerun(teamRecord.get(1).findElements(By.cssSelector("td")).get(1).getText());
-		game.getHomeTeam().setSteal(teamRecord.get(2).findElements(By.cssSelector("td")).get(1).getText());
-		game.getHomeTeam().setStrikeOut(teamRecord.get(3).findElements(By.cssSelector("td")).get(1).getText());
-		game.getHomeTeam().setDoubleLife(teamRecord.get(4).findElements(By.cssSelector("td")).get(1).getText());
-		game.getHomeTeam().setError(teamRecord.get(5).findElements(By.cssSelector("td")).get(1).getText());
-		
-		//선수기록
-		List<WebElement> homeHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
-		List<WebElement> homeHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
-		
-		for(int i=0;i<homeHitterRecord.size();i++) {
-			if(homeHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
-				break;
+			
+			
+			//경기 이닝
+			WebElement gameScoreInfo = driver.findElement(By.className("ScoreBox_round__1sOLq"));//스코어보드
+			List<WebElement> scoreInnings = gameScoreInfo.findElements(By.cssSelector("thead th"));
+			for(int i =1; i<scoreInnings.size();i++) {
+				innings.add(scoreInnings.get(i).getText());
 			}
-			Hitter hitter = new Hitter();
+			gameRecord.setInnings(innings);
 			
-			String[] hitterRecord = homeHitterRecord.get(i).getText().split("[ ]");
-
-			hitter.setHitterName(homeHitterName.get(i).getText());
-			hitter.setAtBat(hitterRecord[0]);
-			hitter.setGetScore(hitterRecord[1]);
-			hitter.setHits(hitterRecord[2]);
-			hitter.setRBI(hitterRecord[3]);
-			hitter.setHomeRun(hitterRecord[4]);
-			hitter.setWalk(hitterRecord[5]);
-			hitter.setStrikeOut(hitterRecord[6]);
-			hitter.setBattingAvg(hitterRecord[7]);
+			//실시간 경기 스코어
+			game.setGameScore(driver.findElement(By.cssSelector(".MatchBox_home__MPL6D .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
+			+driver.findElement(By.cssSelector(".MatchBox_away__1rDsC .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
+	
 			
-			homeHitterList.add(hitter);
+			// 경기 스코어
+			List<WebElement> homeAwayScore = gameScoreInfo.findElements(By.cssSelector("tbody td"));
 			
-		}
-		gameRecord.setHomeHitterList(homeHitterList);
-		
-		List<WebElement> homePitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
-		List<WebElement> homePitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
-		
-		for(int i=0;i<homePitcherRecord.size();i++) {
-			if(homePitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
-				break;
+			for(int i=0; i<homeAwayScore.size()/2;i++) {
+				awayScoreList.add(homeAwayScore.get(i).getText());
 			}
-			Pitcher pitcher = new Pitcher();
-			
-			String[] pitcherRecord = homePitcherRecord.get(i).getText().split("[ ]");
-			int tmp=0;
-			if(pitcherRecord.length == 16)
-				tmp=1;
-			pitcher.setPitcherName(homePitcherName.get(i).getText());
-			pitcher.setInnings(pitcherRecord[0]+((pitcherRecord.length == 16)?pitcherRecord[1]:""));
-			pitcher.setGetHit(pitcherRecord[1+tmp]); 
-			pitcher.setTotalLostScore(pitcherRecord[2+tmp]); 
-			pitcher.setMyLostScore(pitcherRecord[3+tmp]);; 
-			pitcher.setWalk(pitcherRecord[4+tmp]); 
-			pitcher.setStrikeOut(pitcherRecord[5+tmp]);
-			pitcher.setGetHomerun(pitcherRecord[6+tmp]);
-			pitcher.setAgainstHitter(pitcherRecord[7+tmp]); 
-			pitcher.setAtBat(pitcherRecord[8+tmp]); 
-			pitcher.setPitchingCount(pitcherRecord[9+tmp]); 
-			
-			homePitcherList.add(pitcher);
-		}
-		gameRecord.setHomePitcherList(homePitcherList);
-		
-		driver.findElement(By.cssSelector(".PlayerRecord_tab__3DKLH[aria-selected=\"false\"]")).click();
-		
-		List<WebElement> awayHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
-		List<WebElement> awayHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
-		
-		for(int i=0;i<awayHitterRecord.size();i++) {
-			if(awayHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
-				break;
+			for(int i=homeAwayScore.size()/2; i<homeAwayScore.size();i++) {
+				homeScoreList.add(homeAwayScore.get(i).getText());
 			}
-			Hitter hitter = new Hitter();
+			System.out.println(innings+"\n"+awayScoreList+"\n"+homeScoreList);
+			gameRecord.setAwayScoreList(awayScoreList);
+			gameRecord.setHomeScoreList(homeScoreList);
 			
-			String[] hitterRecord = awayHitterRecord.get(i).getText().split("[ ]");
-
-			hitter.setHitterName(awayHitterName.get(i).getText());
-			hitter.setAtBat(hitterRecord[0]);
-			hitter.setGetScore(hitterRecord[1]);
-			hitter.setHits(hitterRecord[2]);
-			hitter.setRBI(hitterRecord[3]);
-			hitter.setHomeRun(hitterRecord[4]);
-			hitter.setWalk(hitterRecord[5]);
-			hitter.setStrikeOut(hitterRecord[6]);
-			hitter.setBattingAvg(hitterRecord[7]);
+			//팀 경기 기록 조회
+			WebElement gameScoreResultInfo = driver.findElement(By.className("ScoreBox_result__3atD0"));
 			
-			awayHitterList.add(hitter);
+			List<WebElement> homeAwayResultScore = gameScoreResultInfo.findElements(By.cssSelector("tbody td"));
 			
-		}
-		gameRecord.setAwayHitterList(awayHitterList);
-		
-		List<WebElement> awayPitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
-		List<WebElement> awayPitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
-		
-		for(int i=0;i<awayPitcherRecord.size();i++) {
-			if(awayPitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
-				break;
+			for(int i=0; i<homeAwayResultScore.size()/2;i++) {
+				awayRecord.add(homeAwayResultScore.get(i).getText());
 			}
-			Pitcher pitcher = new Pitcher();
+			for(int i=homeAwayResultScore.size()/2; i<homeAwayResultScore.size();i++) {
+				homeRecord.add(homeAwayResultScore.get(i).getText());
+			}
+			System.out.println(awayRecord+"\n"+homeRecord);
+			gameRecord.setAwayRecord(awayRecord);
+			gameRecord.setHomeRecord(homeRecord);
 			
-			String[] pitcherRecord = awayPitcherRecord.get(i).getText().split("[ ]");
-			int tmp=0;
-			if(pitcherRecord.length == 16)
-				tmp=1;
-			pitcher.setPitcherName(awayPitcherName.get(i).getText());
-			pitcher.setInnings(pitcherRecord[0]+((pitcherRecord.length == 16)?pitcherRecord[1]:""));
-			pitcher.setGetHit(pitcherRecord[1+tmp]); 
-			pitcher.setTotalLostScore(pitcherRecord[2+tmp]); 
-			pitcher.setMyLostScore(pitcherRecord[3+tmp]);; 
-			pitcher.setWalk(pitcherRecord[4+tmp]); 
-			pitcher.setStrikeOut(pitcherRecord[5+tmp]);
-			pitcher.setGetHomerun(pitcherRecord[6+tmp]);
-			pitcher.setAgainstHitter(pitcherRecord[7+tmp]); 
-			pitcher.setAtBat(pitcherRecord[8+tmp]); 
-			pitcher.setPitchingCount(pitcherRecord[9+tmp]); 
+			if(game.getGameStatusCode().equals("2")) {
+				//승리, 세이브 등 타이틀을 가지는 투수
+				List<WebElement> indexLi = driver.findElements(By.cssSelector("div.PitcherList_comp_pitcher_list__3XCW2 li.PitcherList_pitcher_area__2By9l"));
+				for(WebElement titleIndex :indexLi) {
+					Pitcher titlePitcher = new Pitcher();
+					titlePitcher.setPitcherImage(titleIndex.findElement(By.tagName("img")).getAttribute("src").split("[?]")[0]);
+					String[] titleSplit = titleIndex.getText().split("[\n]");
+					titlePitcher.setTitle(titleSplit[0]);
+					titlePitcher.setPitcherName(titleSplit[1]);
+					titlePitcher.setInnings(titleSplit[2].split("[닝]")[1]);
+					titlePitcher.setGetHit(titleSplit[3].split("[타자]")[1]);
+					titlePitcher.setMyLostScore(titleSplit[3].split("[책]")[1]);
+					titlePitcherList.add(titlePitcher);
+				}
+				gameRecord.setTitlePitcher(titlePitcherList);
+			}
 			
-			awayPitcherList.add(pitcher);
+			List<WebElement> teamRecord = driver.findElements(By.cssSelector("table.TeamVS_power_info_table__2I4zy tbody tr"));
+			game.getAwayTeam().setHit(teamRecord.get(0).findElements(By.cssSelector("td")).get(0).getText());
+			game.getAwayTeam().setHomerun(teamRecord.get(1).findElements(By.cssSelector("td")).get(0).getText());
+			game.getAwayTeam().setSteal(teamRecord.get(2).findElements(By.cssSelector("td")).get(0).getText());
+			game.getAwayTeam().setStrikeOut(teamRecord.get(3).findElements(By.cssSelector("td")).get(0).getText());
+			game.getAwayTeam().setDoubleLife(teamRecord.get(4).findElements(By.cssSelector("td")).get(0).getText());
+			game.getAwayTeam().setError(teamRecord.get(5).findElements(By.cssSelector("td")).get(0).getText());
+			
+			game.getHomeTeam().setHit(teamRecord.get(0).findElements(By.cssSelector("td")).get(1).getText());
+			game.getHomeTeam().setHomerun(teamRecord.get(1).findElements(By.cssSelector("td")).get(1).getText());
+			game.getHomeTeam().setSteal(teamRecord.get(2).findElements(By.cssSelector("td")).get(1).getText());
+			game.getHomeTeam().setStrikeOut(teamRecord.get(3).findElements(By.cssSelector("td")).get(1).getText());
+			game.getHomeTeam().setDoubleLife(teamRecord.get(4).findElements(By.cssSelector("td")).get(1).getText());
+			game.getHomeTeam().setError(teamRecord.get(5).findElements(By.cssSelector("td")).get(1).getText());
+			
+			//선수기록
+			List<WebElement> homeHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
+			List<WebElement> homeHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
+			
+			for(int i=0;i<homeHitterRecord.size();i++) {
+				if(homeHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
+					break;
+				}
+				Hitter hitter = new Hitter();
+				
+				String[] hitterRecord = homeHitterRecord.get(i).getText().split("[ ]");
+	
+				hitter.setHitterName(homeHitterName.get(i).getText());
+				hitter.setAtBat(hitterRecord[0]);
+				hitter.setGetScore(hitterRecord[1]);
+				hitter.setHits(hitterRecord[2]);
+				hitter.setRBI(hitterRecord[3]);
+				hitter.setHomeRun(hitterRecord[4]);
+				hitter.setWalk(hitterRecord[5]);
+				hitter.setStrikeOut(hitterRecord[6]);
+				hitter.setBattingAvg(hitterRecord[7]);
+				
+				homeHitterList.add(hitter);
+				
+			}
+			gameRecord.setHomeHitterList(homeHitterList);
+			
+			List<WebElement> homePitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
+			List<WebElement> homePitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
+			
+			for(int i=0;i<homePitcherRecord.size();i++) {
+				if(homePitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
+					break;
+				}
+				Pitcher pitcher = new Pitcher();
+				
+				String[] pitcherRecord = homePitcherRecord.get(i).getText().split("[ ]");
+				int tmp=0;
+				if(pitcherRecord.length == 16)
+					tmp=1;
+				pitcher.setPitcherName(homePitcherName.get(i).getText());
+				pitcher.setInnings(pitcherRecord[0]+((pitcherRecord.length == 16)?pitcherRecord[1]:""));
+				pitcher.setGetHit(pitcherRecord[1+tmp]); 
+				pitcher.setTotalLostScore(pitcherRecord[2+tmp]); 
+				pitcher.setMyLostScore(pitcherRecord[3+tmp]);; 
+				pitcher.setWalk(pitcherRecord[4+tmp]); 
+				pitcher.setStrikeOut(pitcherRecord[5+tmp]);
+				pitcher.setGetHomerun(pitcherRecord[6+tmp]);
+				pitcher.setAgainstHitter(pitcherRecord[7+tmp]); 
+				pitcher.setAtBat(pitcherRecord[8+tmp]); 
+				pitcher.setPitchingCount(pitcherRecord[9+tmp]); 
+				
+				homePitcherList.add(pitcher);
+			}
+			gameRecord.setHomePitcherList(homePitcherList);
+			
+			driver.findElement(By.cssSelector(".PlayerRecord_tab__3DKLH[aria-selected=\"false\"]")).click();
+			
+			List<WebElement> awayHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
+			List<WebElement> awayHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
+			
+			for(int i=0;i<awayHitterRecord.size();i++) {
+				if(awayHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
+					break;
+				}
+				Hitter hitter = new Hitter();
+				
+				String[] hitterRecord = awayHitterRecord.get(i).getText().split("[ ]");
+	
+				hitter.setHitterName(awayHitterName.get(i).getText());
+				hitter.setAtBat(hitterRecord[0]);
+				hitter.setGetScore(hitterRecord[1]);
+				hitter.setHits(hitterRecord[2]);
+				hitter.setRBI(hitterRecord[3]);
+				hitter.setHomeRun(hitterRecord[4]);
+				hitter.setWalk(hitterRecord[5]);
+				hitter.setStrikeOut(hitterRecord[6]);
+				hitter.setBattingAvg(hitterRecord[7]);
+				
+				awayHitterList.add(hitter);
+				
+			}
+			gameRecord.setAwayHitterList(awayHitterList);
+			
+			List<WebElement> awayPitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
+			List<WebElement> awayPitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
+			
+			for(int i=0;i<awayPitcherRecord.size();i++) {
+				if(awayPitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
+					break;
+				}
+				Pitcher pitcher = new Pitcher();
+				
+				String[] pitcherRecord = awayPitcherRecord.get(i).getText().split("[ ]");
+				int tmp=0;
+				if(pitcherRecord.length == 16)
+					tmp=1;
+				pitcher.setPitcherName(awayPitcherName.get(i).getText());
+				pitcher.setInnings(pitcherRecord[0]+((pitcherRecord.length == 16)?pitcherRecord[1]:""));
+				pitcher.setGetHit(pitcherRecord[1+tmp]); 
+				pitcher.setTotalLostScore(pitcherRecord[2+tmp]); 
+				pitcher.setMyLostScore(pitcherRecord[3+tmp]);; 
+				pitcher.setWalk(pitcherRecord[4+tmp]); 
+				pitcher.setStrikeOut(pitcherRecord[5+tmp]);
+				pitcher.setGetHomerun(pitcherRecord[6+tmp]);
+				pitcher.setAgainstHitter(pitcherRecord[7+tmp]); 
+				pitcher.setAtBat(pitcherRecord[8+tmp]); 
+				pitcher.setPitchingCount(pitcherRecord[9+tmp]); 
+				
+				awayPitcherList.add(pitcher);
+			}
+			gameRecord.setAwayPitcherList(awayPitcherList);
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
+			}
 		}
-		gameRecord.setAwayPitcherList(awayPitcherList);
-		
 		return gameRecord;
 	}
 	
@@ -494,7 +517,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		GamePreview gamePreview = new GamePreview();
 		
 		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
+		/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -507,10 +530,13 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
 		
+		WebDriver driver = new ChromeDriver(ops);*/
+		WebDriver driver = null;
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
 		String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/preview";
-		WebDriver driver = new ChromeDriver(ops);
 		driver.get(base_url);
-		Thread.sleep(500);
+		Thread.sleep(300);
 		//양팀정보
 		WebElement teamPower = driver.findElement(By.className("TeamPower_comp_team_power___LgWg"));
 		
@@ -620,14 +646,20 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		}
 		
 		gamePreview.setGameInfo(game);
-		driver.quit();
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
+			}
+		}
 		return gamePreview;
 	}
 	
 	//TeamRecord
 	public Team getTeamCrawlingInfo(Team team) {
 		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
+		/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -640,8 +672,10 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
 		
-		WebDriver driver = new ChromeDriver(ops);
-		
+		WebDriver driver = new ChromeDriver(ops);*/
+		WebDriver driver = null;
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
 		driver.get("https://sports.news.naver.com/kbaseball/record/index?category=kbo");
 		
 		WebElement teamRanking = driver.findElement(By.xpath("//*[@id=\"regularTeamRecordList_table\"]"));
@@ -658,7 +692,13 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 				team.setLastTenMatch(splitDetailInfo[9]);
 			}
 		}
-		driver.quit();
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
+			}
+		}
 		return team;
 	}
 	
@@ -668,7 +708,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		List<Player> awayPlayer = new ArrayList<>();
 		List<Player> homePlayer = new ArrayList<>();
 		
-		String WEB_DRIVER_ID = "webdriver.chrome.driver";
+		/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
 		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -681,10 +721,14 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
 		
+		WebDriver driver = new ChromeDriver(ops);*/
+		WebDriver driver = null;
+		Map<String, List<Player>> map = new HashMap<>();
+		try{
+			driver = chromeDriverPool.acquireWebDriver();
 		String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/lineup";
-		WebDriver driver = new ChromeDriver(ops);
 		driver.get(base_url);
-		Thread.sleep(500);
+		Thread.sleep(300);
 		
 		WebElement awayPlayerUl = driver.findElements(By.cssSelector(".Lineup_lineup_area__2aNOv")).get(0);
 		for(WebElement awayPlayerLi : awayPlayerUl.findElements(By.cssSelector(".Lineup_lineup_item__32s4M"))) {
@@ -704,10 +748,16 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			homePlayer.add(playerTmp);
 		}
 		
-		Map<String, List<Player>> map = new HashMap<>();
+		
 		map.put("homePlayerList", homePlayer);
 		map.put("awayPlayerList", awayPlayer);
-		driver.quit();
+		}catch(Exception e) {
+			System.out.println(e);
+		} finally {
+			if(driver != null) {
+				chromeDriverPool.releaseWebDriver(driver);
+			}
+		}
 		return map;
 	}
 

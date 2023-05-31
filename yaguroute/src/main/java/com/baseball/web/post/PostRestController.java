@@ -40,11 +40,8 @@ public class PostRestController {
 			System.out.println("/post/rest/addLike GET 시작");
 			System.out.println("-- Param넘어온 것은??"+postNo+"//"+type);
 			Map<String, Object> map = new HashMap<String, Object>();
-			//User user = (User)session.getAttribute("user");
+			User user = (User)session.getAttribute("user");
 			Post post = new Post();
-			//post.setUser(user);
-			User user = new User();
-			user.setUserId("john123");
 			post.setUser(user);
 			post.setPostNo(postNo);
 			
