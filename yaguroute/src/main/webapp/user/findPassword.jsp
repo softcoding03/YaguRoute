@@ -19,7 +19,6 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    
 </head>
 
 <body>
@@ -77,23 +76,7 @@
 		</div>
 	</div>
 	
-<div id="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">비밀번호</h4>
-        <button type="button" class="close" id="close-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p>모달 내용... 여기에는 비밀번호(ex.1123244142)</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-modal">닫기</button>
-        <button type="button" class="btn btn-primary">비밀번호 복사</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 </form>
 <!--CONTACT WRAP END-->
 
@@ -111,7 +94,6 @@
 <script type="text/javascript" src="/js/library/fancySelect.js"></script>
 <script type="text/javascript" src="/js/library/isotope.pkgd.js"></script>
 <script type="text/javascript" src="/js/library/imagesloaded.pkgd.js"></script>
-
 <script type="text/javascript" src="/js/jquery.team-coundown.js"></script>
 <script type="text/javascript" src="/js/matches-slider.js"></script>
 <script type="text/javascript" src="/js/header.js"></script>

@@ -63,7 +63,7 @@
     	
     	$("#signup").on("click", function(){
     		
-    		window.location.href = "/user/signup.jsp";
+    		window.location.href = "/user/addUser.jsp";
     	});
     });
     

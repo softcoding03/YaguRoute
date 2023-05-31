@@ -56,7 +56,6 @@
 </head>
 
 <body>
-
 	<div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
@@ -101,6 +100,7 @@
             <span class="icon-bar"></span>
         </button>
         <nav class="navbar">
+        	<img alt="야구로토" src="/images/baseball/yaguRoute.png" width="40" height="40">
             <div class="collapse navbar-collapse" id="team-menu">
                 <ul class="main-menu nav">
                     <li class="active">

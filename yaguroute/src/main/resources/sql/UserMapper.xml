@@ -27,8 +27,8 @@
 		(user_id, user_name, user_nickname, user_email, user_addr, user_phone, user_birth, user_image, 
 		 user_point, password, gender, role, withdraw, team_code)
 		VALUES 
-		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, #{userPoint},
-		#{password}, #{gender}, #{role}, #{withDraw}, #{teamCode} )
+		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, 0,
+		#{password}, 'M', 'user', 0, 'HH' )
 	</insert>
 	
 	<select id="getUser" parameterType="String" resultMap="userSelectMap">
@@ -38,11 +38,25 @@
 	</select>
 	
 	<update id="updateUser" parameterType="user">
-		UPDATE user
-		SET user_name = #{userName}, user_nickname = #{userNickName}, user_email = #{userEmail}, user_phone = #{userPhone}, user_birth = #{userBirth}, user_image = #{userImage},
-			password = #{password}, gender = #{gender}, team_code = #{teamCode}		
-		WHERE user_id = #{userId}
-	</update>
+	  	UPDATE user
+	  	SET 
+	  	  user_id	= #{userId},
+	  	  user_name = #{userName},
+	      user_nickname = #{userNickName},
+	      user_email = #{userEmail},
+	      user_addr = #{userAddr},
+	      user_phone = #{userPhone},
+	      user_birth = #{userBirth},
+	      user_image = #{userImage},
+	      user_point = #{userPoint},
+	      gender = #{gender},
+	      password = #{password},
+	      gender = #{gender},
+	      role = 'user',
+	      withdraw = 0,
+	      team_code = #{teamCode}
+	  	WHERE user_id = #{userId}
+</update>
 	
 	<update id="withDraw" parameterType="user">
 		UPDATE user
@@ -76,6 +90,9 @@
 			<if test="searchCondition == 1 and searchKeyword !='' ">
  				user_name = #{searchKeyword}
 			</if>
+			<if test="searchCondition == 2 and searchKeyword !='' ">
+				user_nickname = #{searchKeyword}
+			</if>
 		</where>
 		</if>
 		ORDER BY user_name
@@ -101,5 +118,10 @@
 		WHERE user_nickname = #{userNickName}
 	</select>
 	
+	<select id="findUserId" parameterType="String" resultMap="userSelectMap">
+		SELECT * 
+		FROM user
+		WHERE user_phone = #{userPhone}
+	</select>
 	
 </mapper>
