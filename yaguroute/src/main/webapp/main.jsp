@@ -111,7 +111,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="matches.html"><span>Matches</span></a>
+                        <a href="/ticket/getGameList2w?teamCode=HH"><span>경기 예매</span></a>
                         <ul>
                             <li>
                                 <a href="standing-cup.html"><span>Standings<i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>

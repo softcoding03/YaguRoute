@@ -55,6 +55,9 @@ public class TicketController {
 	public String getGameList2w(@RequestParam("teamCode") String teamCode,Model model) throws Exception{
 		System.out.println("/ticket/getGameList2w : GET START");
 		System.out.println("넘어온 데이터?"+teamCode);
+		if(teamCode == null) {
+			teamCode ="HH";
+		}
 		List<Game> list = gameService.getGameListTwoWeeks(teamCode); //현재시간부터 14일이내 경기 리스트 가져옴.
 		for(Game game:list) {
 			System.out.println(game);
