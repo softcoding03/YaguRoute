@@ -40,8 +40,8 @@ public class PredictTests {
 	//@Test
 	public void addUserPredTest() throws Exception{
 		Predict pred = new Predict();
-		pred.setPredGame(gameService.getGameInfo("20230523HTHH02023"));
-		pred.setPredUser(userDao.getUser("rockseong4"));
+		pred.setPredGameCode("20230523HTHH02023");
+		pred.setPredUserId("rockseong4");
 		pred.setPredWinningTeamCode("HH");
 		pred.setPredPoint(300);
 		pred.setAfterGamePredPoint(300);
@@ -58,7 +58,7 @@ public class PredictTests {
 		Predict pred = new Predict();
 		List<Game> tmpGame = gameService.getGameListByDate("2008-03-29");
 		for(Game game : tmpGame) {
-			pred.setPredGame(game);
+			pred.setPredGameCode(game.getGameCode());
 			gamePredictDao.updatePredSuccess(game);
 		}
 	}

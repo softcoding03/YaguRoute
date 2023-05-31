@@ -11,27 +11,23 @@
    
     <script type="text/javascript">
 		 $(function() {
-			$('#addPostView').on("click" , function() {
-					self.location = "/post/addPost?teamCode=OB"
-			});
-			$('#updatePostView').on("click" , function() {
-				self.location = "/post/updatePost?postNo=53"
-			});
-			$('#deletePost').on("click" , function() {
-				self.location = "/post/deletePost?postNo=48"
-			});
 			$("button:nth-child(n+1)").on("click" , function() {
 				self.location = "/post/getPostList?teamCode="+$(this).val().trim();
 				console.log($(this).val().trim())
+			});
+			$( ".getMyPostList" ).on("click" , function() {
+				self.location = "/post/getMyPostList"
+			});
+			$( ".addComment" ).on("click" , function() {
+				self.location = "/comment/listComment.jsp"
 			});
 		 });
 	</script>
 	
 </head>
 <body>
-    <input type="button" id="addPostView">게시물 작성</input>
-    <input type="button" id="updatePostView">게시물 수정</input>
-    <input type="button" id="deletePost">게시물 삭제</input>
+<button type="button" class="getMyPostList">내가 작성한 게시물 보기</button>
+<button type="button" class="addComment">댓글 등록(임시)</button>
     <table>
     <tr>
     <td>

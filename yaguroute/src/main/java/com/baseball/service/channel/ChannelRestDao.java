@@ -16,9 +16,9 @@ public interface ChannelRestDao {
 	
 	public Map<String, Object> getChannel(String channelID) throws Exception;
 	
-	public void updateChannel(Channel channel) throws Exception;
+	public int updateChannel(Channel channel) throws Exception;
 	
-	public void deleteChannel(String ChannelID) throws Exception;
+	public int deleteChannel(String ChannelID) throws Exception;
 	
 	public String StopChannel(String channleID) throws Exception;
 	

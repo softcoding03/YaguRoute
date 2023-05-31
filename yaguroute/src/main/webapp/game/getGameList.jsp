@@ -23,11 +23,9 @@
 	    	setTimeout(() => fncGetGameList(), 100);
 	    })
 	    $("#yearSelect").change(function(){
-	    	console.log($(this).val());
 	    	setTimeout(() => fncGetGameList(), 100);
 	    })
 	     $("#monthSelect").on('change',function(){
-	    	 console.log($(this).val());
 	    	setTimeout(() => fncGetGameList(), 100);
 	    })
     })

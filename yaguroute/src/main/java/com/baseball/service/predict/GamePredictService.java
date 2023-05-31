@@ -1,13 +1,14 @@
 package com.baseball.service.predict;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Predict;
 
 public interface GamePredictService {
 	
-	public List<Predict> getUserPred(String userId, String date);
+	public Map<String, Object> getUserPred(String userId, String date) throws Exception;
 	
 	public void addUserPred(List<Predict> pred) throws Exception ;
 	

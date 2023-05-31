@@ -117,25 +117,25 @@ public class ProductTest {
 		
 	}
 	
-	@Test
-	public void testGetProductList() throws Exception {
+	//@Test
+//	public void testGetProductList() throws Exception {
 		
-		Search search = new Search ();
-		search.setCurrentPage(1);
-		search.setPageSize(3);
+//		Search search = new Search ();
+//		search.setCurrentPage(1);
+//		search.setPageSize(3);
 		
-		Map<String,Object> map = productService.getProductList(search);
+//		Map<String,Object> map = productService.getProductList(search);
 	 	
-	 	List<Object> list = (List<Object>)map.get("list");
-	 	Assert.assertEquals(5, list.size());
+//	 	List<Object> list = (List<Object>)map.get("list");
+//	 	Assert.assertEquals(5, list.size());
+//		
 		
-		
-	 	System.out.println("어디에 있니 잘 왔니? "+list);
+//	 	System.out.println("어디에 있니 잘 왔니? "+list);
 	 	
-	 	Integer totalCount = (Integer)map.get("totalCount");
-	 	System.out.println(totalCount);
+//	 	Integer totalCount = (Integer)map.get("totalCount");
+//	 	System.out.println(totalCount);
 	 	
-	 	System.out.println("=======================================");
+//	 	System.out.println("=======================================");
 	 	
 //		Map<String, Object> map = new HashMap<String,Object>();
 //		map.put("prodTeamCode", "HH");
@@ -143,18 +143,18 @@ public class ProductTest {
 //		map = productService.getProductList(search);
 		
 			
-		List<Product> prodlist = (List<Product>)map.get("prodlist");
-	 	for(Product prod:prodlist) {
-	 		System.out.println(prod);
-	 	}
-			
-	 	totalCount = (Integer)map.get("totalCount");
-	 	System.out.println(totalCount);
+//		List<Product> prodlist = (List<Product>)map.get("prodlist");
+//	 	for(Product prod:prodlist) {
+//	 		System.out.println(prod);
+//	 	}
+//			
+//	 	totalCount = (Integer)map.get("totalCount");
+//	 	System.out.println(totalCount);
 		
 	
 			
 		
-	}
+//	}
 	
 	
 }

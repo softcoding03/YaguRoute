@@ -2,7 +2,10 @@ package com.baseball.service.predict.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,13 +39,19 @@ public class GamePredictServiceImpl implements GamePredictService {
 	private UserDao userDao;
 	
 	//원하는 날짜의 유저의 예측정보를 조회
-	public List<Predict> getUserPred(String userId, String date){
-		return gamePredictDao.getUserPred(userId, date);
+	public Map<String, Object> getUserPred(String userId, String date) throws Exception{
+		List<Predict> paramPred = gamePredictDao.getUserPred(userId, date);
+		List<Game> paramGame = gameDao.getGameListByDate(date);
+		Map<String, Object> map = new HashMap<>();
+		map.put("gameList", paramGame);
+		map.put("predList", paramPred);
+		
+		return map;
 	}
 	
 	//사용자의 예측정보 추가
 	public void addUserPred(List<Predict> pred) throws Exception {
-		User user = userDao.getUser(pred.get(0).getPredUser().getUserId());
+		User user = userDao.getUser(pred.get(0).getPredUserId());
 		int totalUserPredPoint = 0;
 		for(Predict predTmp : pred) {
 			totalUserPredPoint += predTmp.getPredPoint();
