@@ -80,12 +80,13 @@
 		AND second_comment_no IS NOT NULL
 	</select>
 	
-	
-		
-	<delete id="deleteComment" parameterType="int">
-		DELETE FROM comment
+	<update id="deleteComment" parameterType="int">
+		UPDATE comment
+		<set>
+			changed=2
+		</set>
 		WHERE comment_no = #{value}
-	</delete>
+	</update>
 
 	<update id="updateComment" parameterType="comment">
 		UPDATE comment
