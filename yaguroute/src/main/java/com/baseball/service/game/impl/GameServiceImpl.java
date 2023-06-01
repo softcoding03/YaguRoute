@@ -101,7 +101,6 @@ public class GameServiceImpl implements GameService {
 		List<Game> gameList = gameCrawlingDao.getTodayGameSchedule();
 		for(Game game : gameList) {
 			gameDao.updateGameState(game);
-			System.out.println(game);
 		}
 	}
 	

@@ -1,9 +1,13 @@
 package com.baseball.web.game;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Team;
 import com.baseball.service.comment.CommentService;
+import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
@@ -43,6 +48,10 @@ public class GameController {
 	private GameService gameService;
 	
 	@Autowired
+	@Qualifier("commentServiceImpl")
+	private CommentService commentService;
+	
+	@Autowired
 	@Qualifier("gamePredictServiceImpl")
 	private GamePredictService gamePredictService;
 	
@@ -60,9 +69,35 @@ public class GameController {
 		
 		date = year+"-"+(month.length()==2?month:"0"+month);
 		
+		LocalDate monthDay = LocalDate.parse(date+"-01");
+		System.out.println(monthDay);
+		// 해당 월의 첫 번째 날짜 가져오기
+        LocalDate firstDayOfMonth = monthDay.with(TemporalAdjusters.firstDayOfMonth());
+        
+        // 해당 월의 마지막 날짜 가져오기
+        LocalDate lastDayOfMonth = monthDay.with(TemporalAdjusters.lastDayOfMonth());
+        
+        int daysInMonth = lastDayOfMonth.getDayOfMonth();
+        
+        List<Integer> dayOfWeekList = new ArrayList<>();
+        List<String> currentDateList = new ArrayList<>();
+        // 각 날짜의 요일 출력
+        for (LocalDate currentDate = firstDayOfMonth; !currentDate.isAfter(lastDayOfMonth); currentDate = currentDate.plusDays(1)) {
+        	DayOfWeek dayOfWeek = currentDate.getDayOfWeek();//오늘 날짜의 요일
+            int dayOfWeekString = dayOfWeek.getValue();//요일 String으로
+            String currentDateString = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            dayOfWeekList.add(dayOfWeekString);
+            currentDateList.add(currentDateString);
+        }
+        
+        System.out.println(dayOfWeekList);
+		
 		List<Team> allTeam = gameService.getAllTeam();
 		List<Game> gameList= gameService.getGameListByMonthly(date, teamCode);
 		
+		requset.setAttribute("daysInMonth", daysInMonth);
+		requset.setAttribute("dayOfWeekList", dayOfWeekList);
+		requset.setAttribute("currentDateList", currentDateList);
 		requset.setAttribute("nowYear", year);
 		requset.setAttribute("nowMonth", month);
 		requset.setAttribute("teamCode", teamCode);
@@ -77,7 +112,14 @@ public class GameController {
 		Game game = gameService.getGameInfo(gameCode);
 		GameRecord gameRecord = gameService.getGameRecord(game);
 		
+		Comment comment = new Comment();
+		comment.setGameCode(gameCode);
+		Map<String, Object> map = commentService.getCommentList(comment);
+		List<Comment> list1 = (List<Comment>)map.get("list1"); //1레이어 댓글
+		List<Comment> list2 = (List<Comment>)map.get("list2"); //2레이어 댓글
 		
+		request.setAttribute("commentList1", list1);
+		request.setAttribute("commentList2", list2);
 		request.setAttribute("gameRecord", gameRecord);
 		
 		return "/game/getGameRecord.jsp";
@@ -115,7 +157,7 @@ public class GameController {
 		return "/game/getTeam.jsp";
 	}
 	
-	@Scheduled(cron = "0 */5 * * * ?")
+	@Scheduled(cron = "0 0 23 * * ?")
 	public void updateGameState() throws Exception {
 		gameService.updateTodayGameSchedule();
 		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

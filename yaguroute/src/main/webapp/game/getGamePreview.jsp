@@ -13,6 +13,8 @@
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 <div class="container">
 	<div class="row">
 <div class="col-md-12 col-sm-12 col-xs-12">

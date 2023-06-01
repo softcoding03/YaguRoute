@@ -24,6 +24,8 @@
 </style>
 
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 <div class="container">
 	<div class="row">
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -90,6 +92,7 @@
 <section class="player-single-wrap">
 <div class="container">
             <div class="row">
+            	<h3>투수 타이틀</h3>
 <div class="player-info">
 	<div class="background-section">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -109,7 +112,33 @@
 </div>
 </div>
 </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>경기 다시보기</h3>
+                
+<div class="mathc-live-broadcasts">
+    <div class="background">
+        <div class="tab-content">
+        	<c:if test="${gameRecord.gameInfo.videoLink eq null}">
+        		경기영상을 준비중입니다.
+        	</c:if>
+        	<c:if test="${gameRecord.gameInfo.videoLink ne null}">
+            <div class="tab-pane fade in active" role="tabpanel" id="title1">
+	                <iframe class="video" src="${gameRecord.gameInfo.videoLink}" allowfullscreen><p>지원하지 않는 브라우져 입니다.</p></iframe>
+	            </div>
+	            <jsp:include page="/comment/listComment.jsp"/>
+            </c:if>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+
 <div>
+<h3>선수 기록</h3>
 ${gameRecord.gameInfo.homeTeam.teamNickName}
 <img src="${gameRecord.gameInfo.homeTeam.teamEmblem}" width="50" height="50"/>
 </div>
