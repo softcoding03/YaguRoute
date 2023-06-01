@@ -58,7 +58,7 @@ public class ChannelRestController {
 		return map;
 	}
 	
-	@Scheduled(cron = "0 */5 * * * ?")
+	@Scheduled(cron = "0 */7 * * * ?")
 	public void stopRecord() throws Exception{
 		System.out.println("실행");
 		List<Channel> channelList = channelService.getChannelList();
@@ -66,9 +66,12 @@ public class ChannelRestController {
 		for(Channel test : channelList) {
 			
 			String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
+			String recordStatus = channelRestService.getChannelRecordStatus(test.getChannelID());
 			Game game = test.getGameInfo();
 			
-			if(channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
+			
+			if(recordStatus.equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
+				
 				if(gameStatus.equals("2") || gameStatus.equals("4")) {
 					System.out.println("영상 녹화 종료");
 					System.out.println(test);
@@ -89,6 +92,9 @@ public class ChannelRestController {
 					System.out.println(test);
 					System.out.println(game);
 				}
+				
+			} else {
+				System.out.println("채널 송출 전 입니다.");
 			}
 		}
 

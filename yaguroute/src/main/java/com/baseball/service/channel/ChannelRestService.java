@@ -17,4 +17,6 @@ public interface ChannelRestService {
 	public String getVideo(Channel channel, String videoName) throws Exception;
 	
 	public String getChannelStatus(String ChannelID) throws Exception;
+	
+	public String getChannelRecordStatus(String channelID) throws Exception;
 }

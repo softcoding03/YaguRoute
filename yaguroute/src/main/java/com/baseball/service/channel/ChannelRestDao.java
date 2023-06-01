@@ -26,4 +26,6 @@ public interface ChannelRestDao {
 	
 	public String getChannelStatus(String channelID) throws Exception;
 	
+	public String getChannelRecordStatus(String channelID) throws Exception;
+	
 }

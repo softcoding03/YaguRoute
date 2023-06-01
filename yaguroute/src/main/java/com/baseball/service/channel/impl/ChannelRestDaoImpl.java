@@ -274,13 +274,18 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		//JSON Data를 Map에 저장
 		System.out.println((String)(((JSONObject)data.get("content")).get("publishUrl")));
 		System.out.println((String)(((JSONObject)data.get("content")).get("streamKey")));
-		
+		JSONObject contentData = ((JSONObject)data.get("content"));
+		JSONObject recordData = (JSONObject)contentData.get("record");
 		String streamKey = (String)(((JSONObject)data.get("content")).get("streamKey"));
 		String publishURL = (String)(((JSONObject)data.get("content")).get("publishUrl"));
+		String recordAceess = (String)(recordData.get("accessControl"));
 		
+		System.out.println("채널 녹화 접근권한 : "+recordAceess);
 		Map<String, Object> map = new HashMap();
 		map.put("streamKey", streamKey);
 		map.put("streamURL", publishURL);
+		map.put("recordAccess", recordAceess);
+		
 		
 		
 		
@@ -513,6 +518,69 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		String channelStatus = (String)(((JSONObject)data.get("content")).get("channelStatus"));
 		return channelStatus;
+	}
+	
+	@Override
+	public String getChannelRecordStatus(String channelID) throws Exception{
+		
+		String jsonData = "";
+		StringBuffer response = new StringBuffer();
+		String channelHost = "https://livestation.apigw.ntruss.com";
+		String requestURL = "/api/v2/channels/"+channelID+"/records";
+		String apiURL = channelHost+requestURL;
+		System.out.println("apiURL : "+apiURL);
+		String method = "GET";
+		String timestamp = getTimestamp();
+		
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod(method);
+		con.setRequestProperty("Content-Type", "application/json");
+		con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
+		con.setRequestProperty("x-ncp-iam-access-key", accessKey);
+		con.setRequestProperty("x-ncp-apigw-signature-v2", getSignature(requestURL, timestamp, method, accessKey, secretKey));
+		con.setRequestProperty("x-ncp-region_code", "KR");
+		
+		int responseCode = con.getResponseCode();
+		BufferedReader br = null;
+		//response data 확인
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			System.out.println("녹화 중단 완료");
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+					
+		} else {
+			System.out.println("Http Error Code : "+responseCode);
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		
+		while((jsonData = br.readLine()) != null) {
+			response.append(jsonData);
+			System.out.println(response);
+		}
+		
+		String json = response.toString();
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map mapObj = objectMapper.readValue(json, Map.class);
+		
+		System.out.println(mapObj.get("content"));
+		
+		//record Type이 mp4인 파일의 이름
+		Map content = (Map)mapObj.get("content");
+		Map recordList = (Map)content.get("recordList");
+		
+		
+		List<String> recordKey = new ArrayList<>(recordList.keySet());
+		System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
+		String recordStatus="";
+		
+		for(int i=0 ; i < recordKey.size(); i++) {
+			if(((String)((Map)recordList.get(recordKey.get(i))).get("recordType")).equals("MP4")){
+				recordStatus = (String)((Map)recordList.get(recordKey.get(i))).get("status");
+				System.out.println("record Status : "+recordStatus);
+			}
+		}
+		
+		return recordStatus;
 	}
 	
 	
