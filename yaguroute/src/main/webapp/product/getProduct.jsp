@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>상품상세조회</title>
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=s5i3dw6edg"></script>
 <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -79,14 +78,16 @@
 				
 			<span>
 				<div class="col-md-8" >
+					<input id="prodNo" type="hidden" value="${product.prodNo}">
+					<input id="userId" type="hidden" value="${user.userId}">
 					<p></p>
 					<div>상품명: ${product.prodTeamCode}${product.prodName}</div>
 					<div>상품평균평점: ★★★★☆(4.3) 상품평수: 20개</div>
 					<div>가격 : ${product.prodPrice}</div>
-					<div>상품 수량</div>			
+					<div>상품 수량 : <input type="number" value="1"></div>			
 					<div></div>
 					
-					<button type="button" class="btn btn-info">장바구니 담기</button>
+					<button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
 					<button type="button" class="btn btn-warning">바로구매</button>
 					
 				</div>
@@ -110,6 +111,33 @@
 
 
 </body>
+<script type="text/javascript">
+	$(function(){
+		
+		$("#addBasket").on("click",function(){
+			let productNo = $("#prodNo").val();
+			let userId = $("#userId").val();
+			$.ajax({
+				url : "/basket/json/addBasket/"+productNo,
+				method : "POST",
+				dataType : "text",
+				data : JSON.stringify({
+					userId : userId,
+					prodQuantity : $("input[type='number']").val()
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(data, status){
+					alert(data)
+				}
+			})
+			
+		})
+		
+	})
+</script>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
