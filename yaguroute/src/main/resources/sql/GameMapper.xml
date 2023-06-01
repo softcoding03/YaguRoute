@@ -84,10 +84,11 @@
 		</if>
 	</select>
 	
-	<select id="getGameListTwoWeeks" resultMap="gameSelectMap">
+	<select id="getGameListTwoWeeks" parameterType="string" resultMap="gameSelectMap">
       SELECT * FROM GAME
       WHERE game_date BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 14 DAY)
-    </select>
+      AND home_team_code = #{value}
+   </select>
 	
 	<update id="updateGameState" parameterType="game">
 		update game

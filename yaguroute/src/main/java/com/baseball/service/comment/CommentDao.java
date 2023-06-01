@@ -10,6 +10,7 @@ import com.baseball.service.domain.Comment;
 public interface CommentDao {
 	
 	public void addComment(Comment comment) throws Exception;
+	public void updateComment(Comment comment) throws Exception;
 	public Comment getComment(int commentNo) throws Exception;
 	public void deleteComment(int commentNo) throws Exception;
 	public List<Comment> getCommentList1(Comment comment) throws Exception;

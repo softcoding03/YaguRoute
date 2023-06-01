@@ -75,9 +75,8 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	//티켓예매를 위한 다음날부터 2주동안의 경기 결과 출력
-	//game_date BETWEEN now() AND DATE_ADD(NOW(), INTERVAL 14 DAY)
-	public List<Game> getGameListTwoWeeks(){
-		return gameDao.getGameListTwoWeeks();
+	public List<Game> getGameListTwoWeeks(String teamCode){
+		return gameDao.getGameListTwoWeeks(teamCode);
 	}
 	
 	//끝난 경기의 배당정보 업데이트(gameCode, winningTeamAllocation 필수)

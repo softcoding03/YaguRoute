@@ -13,7 +13,6 @@ import com.baseball.service.domain.Product;
 @Mapper
 public interface ProductDao {
 
-	
 
 	public void addProduct(Product product) throws Exception;
 
@@ -27,7 +26,8 @@ public interface ProductDao {
 	
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 
-	//public List autoComplete() throws Exception;
+	public List autoComplete() throws Exception;
 	
+	//public int sortProductList(int prodStock) throws Exception;
 	
 }

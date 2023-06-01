@@ -28,7 +28,7 @@ public interface GameService {
 	
 	public void addGame(Game game);
 	
-	public List<Game> getGameListTwoWeeks();
+	public List<Game> getGameListTwoWeeks(String teamCode);
 	
 	public void updateTodayGameSchedule() throws Exception;
 	

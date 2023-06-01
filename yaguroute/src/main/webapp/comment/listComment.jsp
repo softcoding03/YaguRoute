@@ -14,39 +14,86 @@
 	<script type="text/javascript">
 	 
 	$(function() {
-		$( ".addComment" ).on("click" , function() {
+		//댓글 작성
+		$(document).on("click", ".addComment" , function() {
 			var form = $(this).closest('form');
 			form.attr("method" ,"POST").attr("action" , "/comment/addComment").submit();
 		});
-		$( ".reply" ).on("click" , function() {
+		//대댓글 작성
+		$(document).on("click", ".reply", function() {
 			var insertPosition = $(this).closest('.comment-item');
 			var commentNo = insertPosition.find("input[name='commentNo']").val();
 			var secondComment =   "<div class=\"comment-item answer\">"
-								  +	"<form>"								
-						          + "<div class=\"row\">"
-						          +  "<div class=\"col-md-12\">"
-						          +      "<div class=\"item\">"
-						          +          "<label>"
-						          +              "<span>Your comment</span>"
-						          +              "<textarea name=\"commentContents\"></textarea>"
-						          +          "</label>"
-						          +      "</div>"
-						          +  "</div>"
-						          +  "<div class=\"col-md-12\">"
-						          +      "<button class=\"addComment\">post a comment</button>"
-						          +  "</div>"
-							      +  "</div>"
-							      +  "<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
-							      +  "<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
-							   	  + "</form>"
-							   	  +"</div>";
+									  	 +	"<form>"								
+							          + "<div class=\"row\">"
+							          +  "<div class=\"col-md-12\">"
+							          +      "<div class=\"item\">"
+							          +          "<label>"
+							          +              "<span>Your comment</span>"
+							          +              "<textarea name=\"commentContents\"></textarea>"
+							          +          "</label>"
+							          +      "</div>"
+							          +  "</div>"
+							          +  "<div class=\"col-md-12\">"
+							          +      "<button class=\"addComment\">post a comment</button>"
+							          +  "</div>"
+								       +  "</div>"
+								       +  "<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
+								       +  "<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
+								   	 + "</form>"
+							   	 	 +"</div>";
 			if(insertPosition.find(".comment-item.answer").length === 0){
 				insertPosition.append(secondComment);
 			} else {
 				insertPosition.find(".comment-item.answer").remove();
 			}
 		});
+		//댓글 수정
+		$(document).on("click", ".quote.update", function() {
+			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
+			var postNo = $("#postNo").val();
+			var replacePosition = $(this).closest(".info");
+			var commentContents = $(this).closest(".info").find(".contents").text();
+			var commentBody = "<form>"
+									+"<div class=\"col-md-12\">"
+									+ "<div class=\"col-md-10\">"
+						         +   "<div class=\"item\">"
+						         +       "<textarea name=\"commentContents\">"+commentContents+"</textarea>"
+							      +   "</div>"
+								   + "</div>"
+									+	"<div class=\"col-md-9\" style=\"text-align:right;\">"
+						         +   	"<button class=\"updateComment\">수정 하기</button>"
+						         +	"</div>"
+						         +	"<div class=\"col-md-1\" style=\"text-align:right;\">"
+						         +   	"<button class=\"cancelUpdate\">취소</button>"
+						         +	"</div>"
+						         +"</div>"
+						         +"<input type=\"hidden\" name=\"commentNo\" value="+commentNo+">"
+						         +"<input type=\"hidden\" name=\"postNo\" value="+postNo+">"
+						         +"</form>";
+			replacePosition.html(commentBody);
+		});
+		//수정완료요청
+		$(document).on("click", ".updateComment", function() {
+			alert("수정클릭")
+			var form = $(this).closest('form');
+			form.attr("method" ,"POST").attr("action" , "/comment/updateComment").submit();
+		});
+		//수정취소요청
+		$(document).on("click", ".cancelUpdate", function() {
+		
+		});
+		//댓글 삭제
+		$(document).on("click", ".quote.delete", function() {
+			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
+			var postNo = $('#postNo').val();
+			var confirmation = confirm("정말로 삭제하시겠습니까?");
+	 		if(confirmation){
+	 			self.location = "/comment/deleteComment?commentNo="+commentNo+"&postNo="+postNo;
+	 		}
+		});
 	});
+	
 	</script>
 
 </head>
@@ -60,56 +107,73 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 	</div>
-
     
        	<div class="comments-wrap">
            <h4>Comments</h4>
-           <c:forEach var="list" items="${commentList1}">
-	           <div class="comment-item">
-	                <div class="avatar"><img src="/images/common/${list.user.userImage}" alt="author-avatar"></div>
-	                <div class="info">
-	                    <div class="date">
-	                        <a>${list.commentDate}</a> by <a>${list.user.userNickName}</a>
-	                    </div>
-	                    <p>${list.commentContents}</p>
-	                    <a href="javascript:;" class="reply">reply</a>
-	                </div>
-	                <input type="hidden" name="commentNo" value="${list.commentNo}">
-	           </div>
-           </c:forEach>
-           <c:forEach var="list" items="${commentList2}">
-	           <div class="comment-item answer">
-	                <div class="avatar"><img src="/images/common/${list.user.userImage}" alt="author-avatar"></div>
-	                <div class="info">
-	                    <div class="date">
-	                        <a>${list.commentDate}</a> by <a>${list.user.userNickName}</a>
-	                    </div>
-	                    <p>${list.commentContents}</p>
-	                </div>
-	           </div>
-           </c:forEach>
-           
-           <div class="comment-item">
-               <div class="avatar"><img src="images/common/author-avatar.jpg" alt="author-avatar"></div>
-               <div class="info">
-                   <div class="date">
-                       <a href="#">25 Sep 2016</a> by <a href="#">Ian Finch</a>
-                       <a href="#" class="quote">#</a>
-                   </div>
-                   <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>
-                   <a href="javascript:;" class="reply">reply</a>
-               </div>
-           </div>
-           <div class="comment-item answer">
-               <div class="avatar"><img src="images/common/author-avatar.jpg" alt="author-avatar"></div>
-               <div class="info">
-                   <div class="date">
-                       <a href="#">25 Sep 2016</a> by <a href="#">Ian Finch</a>
-                       <a href="javascript:;" class="quote">#</a>
-                   </div>
-                   <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>
-               </div>
-           </div>
+           <!-- 1번레이어 for문 시작 -->
+           <c:forEach var="list1" items="${commentList1}">
+	            <c:if test="${list1.changed ==2}">
+	           		<div class="comment-item">
+			             <div class="avatar"><img src="/images/common/${list1.user.userImage}" alt="author-avatar"></div>
+			                <div class="info">
+			                    <div class="date">
+			                        <a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
+			                    </div>
+			                    ---삭제된 댓글입니다---
+			             </div>
+			         </div>
+	            </c:if>
+	            <c:if test="${list1.changed !=2}">
+           		<div class="comment-item">
+		             <div class="avatar"><img src="/images/common/${list1.user.userImage}" alt="author-avatar"></div>
+		                <div class="info">
+		                    <div class="date">
+		                        <a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
+		                        <c:if test="${user.userId eq list1.user.userId}">
+			                        <a href="javascript:;" class="quote update">수정</a><br>
+			                        <a href="javascript:;" class="quote delete">삭제</a>
+		                        </c:if>
+		                        <c:if test="${list1.changed == 1}"><a>(수정됨)</a></c:if>
+		                    </div>
+		                    <p class="contents">${list1.commentContents}</p>
+		                    <a href="javascript:reply;" class="reply">reply</a>
+		             </div>
+		             <input type="hidden" name="commentNo" value="${list1.commentNo}">
+		         </div>
+		         </c:if>
+		         <!-- 2번레이어 for문 시작 -->
+           		<c:forEach var="list2" items="${commentList2}">
+	           		<c:if test="${list2.secondCommentNo == list1.commentNo && list2.changed == 2}">
+		           		<div class="comment-item answer">
+				             <div class="avatar"><img src="/images/common/${list2.user.userImage}" alt="author-avatar"></div>
+				                <div class="info">
+				                    <div class="date">
+				                        <a>${list2.commentDate}</a> by <a>${list2.user.userNickName}</a>
+				                    </div>
+				                    ---삭제된 댓글입니다---
+				             	</div>
+				         </div>
+		            </c:if>
+		            
+	           		<c:if test="${list2.secondCommentNo == list1.commentNo && list2.changed != 2}">
+		           		<div class="comment-item answer">
+			                <div class="avatar"><img src="/images/common/${list2.user.userImage}" alt="author-avatar"></div>
+			                <div class="info">
+			                    <div class="date">
+			                        <a>${list2.commentDate}</a> by <a>${list2.user.userNickName}</a>
+			                        <c:if test="${user.userId eq list2.user.userId}">
+				                        <a href="javascript:;" class="quote update">수정</a><br>
+				                        <a href="javascript:;" class="quote delete">삭제</a>
+			                        </c:if>
+			                        <c:if test="${list2.changed == 1}"><a>(수정됨)</a></c:if>
+			                    </div>
+			                    <p class="contents">${list2.commentContents}</p>
+			                </div>
+			                <input type="hidden" name="commentNo" value="${list2.commentNo}">
+			            </div>
+	           		</c:if>
+	           </c:forEach><!-- 2번레이어 for문 끝 -->
+           </c:forEach><!-- 1번레이어 for문 끝 -->
            
            <div class="leave-comment-wrap">
                <h4>Leave a comment</h4>	
@@ -127,8 +191,9 @@
                            <button class="addComment">post a comment</button>
                        </div>
                    </div>
-                   <input type="hidden" name="postNo" value="${post.postNo}">
+                   <input type="hidden" name="postNo" id="postNo" value="${post.postNo}">
                </form>
+               <a href="#up" class="quote">위로 이동</a>
            </div>
        </div>
 
