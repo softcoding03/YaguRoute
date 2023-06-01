@@ -13,6 +13,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 	<div class="background">
 		<div class="broadcast-tabs-wrapper">
 	            <ul class="nav nav-tabs" role="tablist">
