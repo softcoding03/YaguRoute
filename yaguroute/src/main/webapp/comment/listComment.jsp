@@ -107,7 +107,6 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 	</div>
-    
        	<div class="comments-wrap">
            <h4>Comments</h4>
            <!-- 1번레이어 for문 시작 -->

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -21,8 +21,6 @@
 
 
 <style>
-
-
 </style>
 
 
@@ -40,7 +38,8 @@
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
 <script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
 <script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
-<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
+<script type="text/javascript"
+	src="/js/library/jcarousel.connected-carousels.js"></script>
 <script type="text/javascript" src="/js/library/owl.carousel.js"></script>
 <script type="text/javascript" src="/js/library/progressbar.js"></script>
 <script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>
@@ -77,9 +76,12 @@
 <script type="text/javascript" src="/js/gauge-chart.js"></script>
 <script type="text/javascript" src="/js/stacked-bar.js"></script>
 
-<script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
-<script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
-<script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
+<script type="text/javascript"
+	src="/js/library/chartist-plugin-legend.js"></script>
+<script type="text/javascript"
+	src="/js/library/chartist-plugin-threshold.js"></script>
+<script type="text/javascript"
+	src="/js/library/chartist-plugin-pointlabels.js"></script>
 
 <script type="text/javascript" src="/js/treshold.js"></script>
 <script type="text/javascript" src="/js/visible.js"></script>

@@ -6,14 +6,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>shopping Cart</title>
 </head>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<style>
+	input:invalid {
+	  border: 3px solid red;
+	}
+</style>
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 <input type="hidden" id="sessionUserId" value="${user.userId}">
 <section class="cart-wrap">
     <div class="container">
@@ -35,7 +42,7 @@
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
 	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImage}" alt="cart-product">${basket.product.prodName}</td>
 	                        <td class="cost"><fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/></td>
-	                        <td class="quantity"><input type="number" value="${basket.prodQuantity}"></td>
+	                        <td class="quantity"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"></td>
 	                        <td class="total"><input type="hidden" value="${basket.product.prodPrice*basket.prodQuantity}">
 	                        <fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/>x ${basket.prodQuantity} = <h3><fmt:formatNumber value="${basket.product.prodPrice*basket.prodQuantity}" pattern="###,###"/>원</h3>
 	                        </td>
@@ -68,9 +75,25 @@
 </body>
 <script type="text/javascript">
 
+	function checkInputData(){
+		var check = true;
+		$("input[type='number']").each(function(){
+			var value = $(this).val();
+			if(value<=0 || value === ''){
+				alert("상품은 1개 이상 구매 가능합니다.")
+				check = false;
+			}else if($("#confirmQuan").length){
+				alert("구매 수량을 확정해 주세요.")
+				check = false;
+			}
+		})
+		
+		return check;
+	}
+
 	function quantityChange(elem){
 			elem.one("input",function(){
-				$(this).parent().append('<button>수량확정</button>')
+				$(this).parent().append('<button id="confirmQuan">수량확정</button>')
 				$(this).parent().find("button").on("click",function(){
 					var newQuantity = $(this).parent().find("input").val()
 					var prodNo = $(this).parent().parent().find("#prodNo").val()

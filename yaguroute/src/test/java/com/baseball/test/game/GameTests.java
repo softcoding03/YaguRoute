@@ -1,6 +1,11 @@
 package com.baseball.test.game;
 
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +46,38 @@ public class GameTests {
 		Team testTeam = gameService.getTeamInfoByTeamName(teamName);
 		
 		System.out.println(testTeam);
+	}
+	
+	@Test
+	public void getDate() throws Exception{
+		LocalDate date = LocalDate.now();
+        
+        // 해당 월의 첫 번째 날짜 가져오기
+        LocalDate firstDayOfMonth = date.with(TemporalAdjusters.firstDayOfMonth());
+        
+        // 해당 월의 마지막 날짜 가져오기
+        LocalDate lastDayOfMonth = date.with(TemporalAdjusters.lastDayOfMonth());
+        
+        // 한달의 일수 출력
+        int daysInMonth = lastDayOfMonth.getDayOfMonth();
+        System.out.println("한달의 일수: " + daysInMonth);
+        
+        List<String> dayOfWeekList = new ArrayList<String>();
+        List<String> currentDateList = new ArrayList<>();
+        // 각 날짜의 요일 출력
+        for (LocalDate currentDate = firstDayOfMonth; !currentDate.isAfter(lastDayOfMonth); currentDate = currentDate.plusDays(1)) {
+        	DayOfWeek dayOfWeek = currentDate.getDayOfWeek();//오늘 날짜의 요일
+            String dayOfWeekString = dayOfWeek.toString();//요일 String으로
+            String currentDateString = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            dayOfWeekList.add(dayOfWeekString);
+            currentDateList.add(currentDateString);
+        }
+        for(String tmp : dayOfWeekList) {
+        	System.out.println(tmp);
+        }
+        for(String tmp : currentDateList) {
+        	System.out.println(tmp);
+        }
 	}
 	
 
@@ -103,7 +140,7 @@ public class GameTests {
 		gameService.addGame(game);
 	}
 	
-	@Test
+	//@Test
 	public void getGameRecord() throws Exception{
 		Game game = gameService.getGameInfo("20230524NCLT02023");
 		GameRecord gameRecord = gameService.getGameRecord(game);

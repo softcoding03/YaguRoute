@@ -22,8 +22,10 @@
 	}
 </style>
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 <div class="container">
-	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint}</h4></div>
+	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
 		<div class="main-award-slider">
    			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
 			<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev">
@@ -67,13 +69,14 @@
 <c:if test="${predSize ne 0}">
 	<c:set var="pred" value="${predList[gameStatus.index]}"/>
 </c:if>
-<hr>
+
 <input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode">
 <input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId">
 <div class="match-page-top">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                	<hr>
                     <div class="upcoming-match-info">
                     
                         <div class="team col-md-4">
@@ -177,7 +180,7 @@
 		
 		$('input[type="number"]').on('input', function() {
 			  var value = $(this).val();
-			  var regex = /^[0-9]*$/;
+			  var regex = /^[1-9]\d*$/;
 			  
 			  if (!regex.test(value)) {
 				  alert('숫자만 입력해 주세요.')
@@ -195,6 +198,17 @@
 				return false;
 			}
 		})
+		
+		var sum = 0;
+		$("input[type='number']").each(function(){
+			var value = $(this).val();
+			sum = sum + parseInt(value);
+		})
+		
+		if(sum > parseInt(${user.userPoint})){
+			alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
+			check = false;
+		}
 		
 		$("input[type='radio']").each(function(){
 			if($(this).is(':checked')){

@@ -1,6 +1,7 @@
 package com.baseball.service.transaction;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,6 +21,7 @@ public interface TransactionDao {
 	public int deleteTransaction(int tranNo) throws Exception;
 
 	public List<Transaction> getTransactionList(Search search, String userId ,String tranType) throws Exception;   //구매현황조회 (user)
+	//public List<Transaction> getTransactionList(Map<String, Object> map) throws Exception;
 	
 	public int getTotalCount(String userId, String tranType) throws Exception;
 	

@@ -1,15 +1,12 @@
 package com.baseball.web.product;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,161 +30,145 @@ import com.baseball.service.product.ProductService;
 @RequestMapping("/product/*")
 public class ProductController {
 
-	//Field
+	// Field
 	@Autowired
-	@Qualifier("productServiceImpl") 
+	@Qualifier("productServiceImpl")
 	private ProductService productService;
-		
+
 	public ProductController() {
 		System.out.println(this.getClass());
-	
+
 	}
-	
+
 	@Value("${commonProperties.pageUnit}")
 	int pageUnit;
-	
+
 	@Value("${commonProperties.pageSize}")
 	int pageSize;
-	
-	
-	
-	@PostMapping(value="addProduct")   
+
+	@PostMapping(value = "addProduct")
 	public String addProduct(@ModelAttribute("product") Product product,
-								@RequestParam("prodImages") List<MultipartFile> multipartFile, Model model) throws Exception {
-																
-		System.out.println("MultipartFile 	::"+product);
-		System.out.println("MultipartFile22 ::"+multipartFile);
+			@RequestParam("prodImages") List<MultipartFile> multipartFile, Model model) throws Exception {
+
+		System.out.println("MultipartFile 	::" + product);
+		System.out.println("MultipartFile22 ::" + multipartFile);
 		System.out.println("/product/addProduct 작동 시작.");
-		
+
 		String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
-		
-		//업로드로 인한 추가
+
+		// 업로드로 인한 추가
 //		List<String> prodImages = new ArrayList<>();
 
-		
-	    String prodTemp = "";
-	    long listSize = multipartFile.size();
-	    int temp = 1;
-		
-	    for (MultipartFile mf : multipartFile) {
-	        String originalFileName = mf.getOriginalFilename();
-	        long size = mf.getSize();
-	        
-	        System.out.println("originalFileName: " + originalFileName);
-	        System.out.println("fileSize: " + size);
+		String prodTemp = "";
+		long listSize = multipartFile.size();
+		int temp = 1;
 
-	        String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-	        prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
-	        temp++;	        
+		for (MultipartFile mf : multipartFile) {
+			String originalFileName = mf.getOriginalFilename();
+			long size = mf.getSize();
+
+			System.out.println("originalFileName: " + originalFileName);
+			System.out.println("fileSize: " + size);
+
+			String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+			prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
+			temp++;
 //	        prodImages.add(uniqueFileName);
-	        
-	        
 
-	        try {
-	            mf.transferTo(new File(path + "\\" + uniqueFileName));
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+			try {
+				mf.transferTo(new File(path + "\\" + uniqueFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
-	    product.setProdImage(prodTemp);
+		product.setProdImage(prodTemp);
 //	    product.setProdImage(prodImages);
-	    System.out.println(product);
+		System.out.println(product);
 
-	    productService.addProduct(product);
-	    
-	    String[] fileNames = prodTemp.split(",");
-	    model.addAttribute("fileNames", fileNames);
+		productService.addProduct(product);
 
-	    return "forward:/product/addProduct.jsp";
+		String[] fileNames = prodTemp.split(",");
+		model.addAttribute("fileNames", fileNames);
+
+		return "forward:/product/addProduct.jsp";
 	}
-	
-	
-	@RequestMapping(value="getProduct", method=RequestMethod.GET)
-	public String getProduct( @RequestParam("prodNo") int prodNo, Model model) throws Exception {
-		
+
+	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
+	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+
 		System.out.println("/product/getProduct 작동 시작");
 		Product product = productService.getProduct(prodNo);
-		
-		//model and view 연결
-		model.addAttribute("product",product);
-		
+
+		// model and view 연결
+		model.addAttribute("product", product);
+
 		return "forward:/product/getProduct.jsp";
 	}
-	
+
 	@GetMapping("listProduct")
 	public String listProduct(@ModelAttribute("search") Search search, Model model,
-								@RequestParam(value="prodTeamCode", required = false) String prodTeamCode) throws Exception {
-		
-		System.out.println("search"+search);
-		System.out.println("prodTeamCode"+prodTeamCode);
+			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode) throws Exception {
+
+		System.out.println("search" + search);
+		System.out.println("prodTeamCode" + prodTeamCode);
 		System.out.println("/product/listProduct 작동 시작");
-		
-		if(search.getCurrentPage() == 0) {
+
+		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
-		}	
-		
+		}
 
 		search.setPageSize(pageSize);
-		System.out.println("데이터가 들어간"+search);
-		
-		
-		//Map B/L 수행
-		Map<String, Object> map = new HashMap<String,Object>();
+		System.out.println("데이터가 들어간" + search);
+
+		// Map B/L 수행
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
 		map = productService.getProductList(map);
-		
+
 		// Product list 출력
-		List<Product> list = (List<Product>)map.get("prodList");
-		for(Product prod:list) {
+		List<Product> list = (List<Product>) map.get("prodList");
+		for (Product prod : list) {
 			System.out.println(prod);
 		}
-		
-		//페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = 
-		   new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+
+		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
 		System.out.println(resultPage);
-		
-		
+
 		// Model 과 View 연결
 		model.addAttribute("prodTeamCode", prodTeamCode);
 		model.addAttribute("list", map.get("prodList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		
+
 		return "forward:/product/listProduct.jsp";
 	}
-	
-	
-	@RequestMapping(value="updateProduct", method=RequestMethod.GET)
-	public String updateProduct( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
+
+	@RequestMapping(value = "updateProduct", method = RequestMethod.GET)
+	public String updateProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 
 		System.out.println("/product/updateProductView 작동 시작");
-		//Business Logic
+		// Business Logic
 		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
-			
+
 		return "forward:/product/updateProductView.jsp";
 	}
-	
-	
-	@RequestMapping(value="updateProduct", method=RequestMethod.POST)
-	public String updateProduct( @ModelAttribute("product") Product product) throws Exception {
-		
-		
+
+	@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
+	public String updateProduct(@ModelAttribute("product") Product product) throws Exception {
+
 		System.out.println(product);
-		System.out.println("/product/updateProduct 작동 시작");	
-		
+		System.out.println("/product/updateProduct 작동 시작");
+
 		productService.updateProduct(product);
 
+		return "redirect:/product/getProduct?prodNo=" + product.getProdNo();
 
-		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
-		
 	}
-	
 
 }
-
-
