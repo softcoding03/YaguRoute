@@ -59,7 +59,4 @@ public class PostRestController {
 			return map;
 		}
 		
-		public int addDislike() throws Exception{
-			return 0;
-		}
 }

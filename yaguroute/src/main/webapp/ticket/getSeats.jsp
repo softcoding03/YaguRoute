@@ -14,7 +14,51 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
 		
+    $(function() {
+    	
+    	var tdCount=0; //선택 좌석 수
+    	var priceTag=0; //총 가격
+    	
+	    	$(document).on("click", "label:nth-child(n+1)", function(event) {
+		    		var seatPrice = Number($(this).siblings("input[name='seatPrice']").val());
+					var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
+					var seatCode = $(this).siblings("input[name='seatCode']").val();
+					var value = seatCode+"//"+price;
+					console.log("클릭"+price+"//"+seatCode);
+					var insertPosition = $('#insertPosition')
+		    		var insertBody = 	"<div id="+seatCode+">"
+											+	"<tr>"
+										   +  "<td>"
+										   +  "<input type=\"text\" value="+value+"></input>"
+									    	+	"</td>"
+									    	+"</div>";
+									    	
+		    		if(insertPosition.find("div#"+seatCode).length>0) {//해당 div가 존재한다면
+							insertPosition.find("div#"+seatCode).remove();
+			  				tdCount--;
+			  				priceTag -= seatPrice;
+		    		} else if(tdCount > 3){ 
+			    			alert("좌석은 최대 4개까지 선택가능합니다.");
+			    			event.preventDefault(); //클릭 이벤트 취소
+		    		} else {
+							insertPosition.append(insertBody);
+							tdCount++;
+							priceTag += seatPrice;
+					}//end of if
+		    		
+		    		$("#priceTag").text(priceTag); //총 가격
+					console.log(tdCount)
+			});
+	 });
+    
     </script>
+    <style>
+	   .col-md-2 {
+		  width: 10%; /* 가로줄에 10개를 띄우기 위해 10%로 설정 */
+		  float: left; /* 가로 정렬을 위해 float 속성 사용 */
+		  transform: scale(2.0); /* 크기 조정 */
+		}
+    </style>
 </head>
 
 <body>
@@ -27,80 +71,58 @@
 <div class="motion-line yellow-small1"></div>
 <div class="motion-line yellow-small2"></div>
 </div>
-
-		 <c:forEach var="list" items="${ticketList}">
-		 </c:forEach>
 		 
     <!--CLUB STAFF TOP BEGIN-->
 
-<div class="club-staff-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Tickets</h4>
-            </div>
-				<div class="staff-box">            
-				    <div class="col-md-4  col-sm-6 col-xs-12">
-				        <a href="player-second-page.html" class="item">
-				            <span class="info">
-				                <span class="name">Keevian Treapap</span>
-				                <span class="position">Goalkeeper</span>
-				                <span class="number">1</span>
-				            </span>
-				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
-				        </a>
-				    </div>                                         
-				    <div class="col-md-4  col-sm-6 col-xs-12">
-				        <a href="player.html" class="item">
-				            <span class="info">
-				                <span class="name">Pieeraluigi Goellaini</span>
-				                <span class="position">Goalkeeper</span>
-				                <span class="number">1</span>
-				            </span>
-				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
-				        </a>
-				    </div>
-				    <div class="col-md-4  col-sm-6 col-xs-12">
-				        <a href="player-second-page.html" class="item">
-				            <span class="info">
-				                <span class="name">Reemiaro</span>
-				                <span class="position">Goalkeeper</span>
-				                <span class="number">29</span>
-				            </span>
-				            <img src="/images/baseball/staff-item-img.jpg" alt="player">
-				        </a>
-				    </div>   
-				
-				
-				    <div class="col-md-4  col-sm-6 col-xs-12">
-				        <a href="player.html" class="item">
-				            <span class="info">
-				                <span class="name">Woejcaiech Szeczaesny</span>
-				                <span class="position">Goalkeeper</span>
-				                <span class="number">1</span>
-				            </span>
-				            <img src="images/baseball/staff-item-img.jpg" alt="player">
-				        </a>
-				    </div>     
-				    <div class="col-md-4  col-sm-6 col-xs-12">
-				        <a href="player-second-page.html" class="item">
-				            <span class="info">
-				                <span class="name">Ireaiazoz</span>
-				                <span class="position">Goalkeeper</span>
-				                <span class="number">1</span>
-				            </span>
-				            <img src="images/baseball/staff-item-img.jpg" alt="player">
-				        </a>
-				    </div>       
+	<div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h4>Tickets</h4>
+					<hr>
 				</div>
-            <div class="col-md-12">
-                <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch. </p>
-            </div>
-        </div>
-    </div>
-</div>
+				<div class="col-md-8">
+					<c:forEach var="ticket" items="${ticketList}" varStatus="status">
+						<div class="col-md-2">
+							<a href="javascript:seat;" class="item">
+								<c:choose>
+									<c:when test="${ticket.ticketStatus eq 0}">
+										<input type="hidden" name="seatPrice" value="${ticket.seatPrice}">
+										<input type="hidden" name="seatCode" value="${ticket.seatCode}">
+										<input type="checkbox" name="checkbox" class="filter-check" id="test${status.count}" value="${status.count}">
+										<label for="test${status.count}" />
+										<hr>
+									</c:when>
+									<c:when test="${ticket.ticketStatus eq 1}">
+										<input checked type="checkbox" name="checkedbox" class="filter-check checked" id="test${status.count}">
+										<label for="test${status.count}" />
+									</c:when>
+								</c:choose>
+							</a>
+						</div>
+					</c:forEach>
+				</div>
+				<div class="col-md-4">
+					<table id="insertPosition">
+						<div>
+							<tr>
+							<td>좌석 번호 // 가격</td>
+						</div>
+						
+					</table>
+				</div>
+				<div>
+					총가격 :
+					<a id="priceTag"></a>
+				</div>
+				<div class="col-md-12">
+					<p>1인 최대 4매까지 구매 가능합니다.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!--CLUB STAFF TOP END-->
+	<!--CLUB STAFF TOP END-->
       
 
 </body>
