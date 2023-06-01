@@ -21,7 +21,6 @@
 		});
 		$(".getStadium").on("click" , function() {
 			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
-			alert(gameCode)
 			self.location = "/ticket/getStadium?gameCode="+gameCode;
 		});
 	});
