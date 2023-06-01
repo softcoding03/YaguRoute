@@ -3,117 +3,160 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.baseball.service.product.ProductDao">
-
 	<resultMap id="productSelectMap" type="product">
-	
-		<result property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
-		<result property="prodName" 		column="prod_name" 			jdbcType="VARCHAR"/>
-		<result property="prodPrice" 		column="prod_price"			jdbcType="NUMERIC"/>
-		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
-		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
-		<result property="prodCategory"		column="prod_category"		jdbcType="NUMERIC"/>
-		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
-		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
-		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>
-		<result property="prodTeamCode"		column="team_code"			jdbcType="VARCHAR"/>
-	
+
+		<result property="prodNo" column="prod_no" jdbcType="NUMERIC" />
+		<result property="prodName" column="prod_name"
+			jdbcType="VARCHAR" />
+		<result property="prodPrice" column="prod_price"
+			jdbcType="NUMERIC" />
+		<result property="prodRegDate" column="prod_regdate"
+			jdbcType="DATE" />
+		<result property="prodStock" column="prod_stock"
+			jdbcType="NUMERIC" />
+		<result property="prodCategory" column="prod_category"
+			jdbcType="NUMERIC" />
+		<result property="prodImage" column="prod_image"
+			jdbcType="VARCHAR" />
+		<result property="prodTranCode" column="prod_tran_code"
+			jdbcType="VARCHAR" />
+		<result property="prodRefundCode" column="prod_refund_code"
+			jdbcType="VARCHAR" />
+		<result property="prodTeamCode" column="team_code"
+			jdbcType="VARCHAR" />
+
 	</resultMap>
 
-	<sql id="prodList">
-	  SELECT prod_no,prod_name, prod_price, prod_regdate, prod_stock, prod_category, prod_image, team_code
-	  FROM product
-	  
-	  <where>
-	    <if test="searchCondition != null">
-	      <if test="searchCondition == 0 and searchKeyword != ''">
-	        AND prod_name LIKE '%${searchKeyword}%'
-	      </if>
-	    </if>
 
-	  </where>
-	ORDER BY prod_no
+	<sql id="prodList">
+		SELECT prod_no, prod_name, prod_price, prod_regdate, prod_stock,
+		prod_category, prod_image, team_code
+		FROM product
+		<where>
+			<if test="prodTeamCode != null">
+				team_code = #{prodTeamCode}
+			</if>
+			<if test="searchCondition != null">
+				<if test="searchCondition == 0 and searchKeyword != ''">
+					AND prod_name LIKE '%${searchKeyword}%'
+				</if>
+				<if
+					test="searchCondition == 0 and searchKeyword != '' and prodTeamCode == null">
+					prod_name LIKE '%${searchKeyword}%'
+				</if>
+			</if>
+			<if test="prodTeamCode == 'NN'">
+				OR team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS',
+				'WO')
+			</if>
+		</where>
+		ORDER BY prod_no
 	</sql>
 
-	<!--  INSERT SQL -->
-	<insert		id="addProduct"		parameterType="product">
-	
+
+
+	<!-- INSERT SQL -->
+	<insert id="addProduct" parameterType="product">
+
 		INSERT INTO product
-		(prod_no, prod_name, prod_price, prod_stock, prod_category, prod_image, team_code, prod_regdate)
-		VALUES (null, #{prodName}, #{prodPrice}, #{prodStock}, #{prodCategory},#{prodImage},#{prodTeamCode}, SYSDATE())
-	
+		(prod_no, prod_name, prod_price, prod_stock,
+		prod_category, prod_image, team_code, prod_regdate)
+		VALUES (null,
+		#{prodName}, #{prodPrice}, #{prodStock},
+		#{prodCategory},#{prodImage},#{prodTeamCode}, SYSDATE())
+
 	</insert>
-	
-	
-	<!-- SELECT SQL -->	
-	<select		id="getProduct"		parameterType="int" resultMap="productSelectMap">
-	
+
+	<!-- SELECT SQL -->
+	<select id="getProduct" parameterType="int"
+		resultMap="productSelectMap">
+
 		SELECT
-		 *
+		*
 		FROM product
 		WHERE prod_no = #{value}
-	
+
 	</select>
-	
-	
+
+
 	<!-- UPDATE SQL -->
-	<update		id="updateProduct"	parameterType="product">
-	
+	<update id="updateProduct" parameterType="product">
+
 		UPDATE product
 		<set>
-		prod_name  = 		#{prodName},
-		prod_price =		#{prodPrice},
-		prod_stock =		#{prodStock},
-		prod_category = 	#{prodCategory},
-		prod_image =		#{prodImage},
-		team_code  =		#{prodTeamCode}
-		
+			prod_name = #{prodName},
+			prod_price = #{prodPrice},
+			prod_stock = #{prodStock},
+			prod_category = #{prodCategory},
+			prod_image = #{prodImage},
+			team_code = #{prodTeamCode}
+
 		</set>
 		WHERE prod_no = #{prodNo}
-	
+
 	</update>
-	
-	
+
+
 	<!-- DELETE SQL -->
 	<delete id="deleteProduct" parameterType="int">
 
 		DELETE FROM product
 		WHERE prod_no = #{prodNo};
-		
+
 	</delete>
-	
 
-	<select id="getProductList"	parameterType="java.util.Map"	resultMap="productSelectMap">
 
-		
-			<include refid="prodList"/>
-			Limit #{search.startRowNum}, #{search.pageSize}
+	<select id="getProductList" parameterType="java.util.Map"
+		resultMap="productSelectMap">
 
-	<!-- 	SELECT *
-			FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-			   FROM ( <include refid="prodList"/> ) inner_table 		
-			   WHERE ROWNUM &lt;= #{endRowNum} )
-			WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}  -->
+
+		<include refid="prodList" />
+		Limit #{search.startRowNum}, #{search.pageSize}
+
+		<!-- SELECT * FROM ( SELECT inner_table.*, ROWNUM AS row_seq FROM ( <include 
+			refid="prodList"/> ) inner_table WHERE ROWNUM &lt;= #{endRowNum} ) WHERE 
+			row_seq BETWEEN #{startRowNum} AND #{endRowNum} -->
 
 	</select>
 
-	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
-		
+	<select id="getTotalCount" parameterType="java.util.Map"
+		resultType="int">
+
 		SELECT COUNT(*)
-		FROM (<include refid="prodList"/>) countTable
-	
-	
+		FROM (
+		<include refid="prodList" />
+		) countTable
+
+
 	</select>
 
 	<select id="autoComplete" resultType="string">
-	
-		SELECT
-		prod_name
+
+		SELECT prod_name
 		FROM product
-	
+		<where>
+			<if test="prodTeamCode != null">
+				team_code = #{prodTeamCode}
+			</if>
+			<if test="searchCondition != null">
+				<if test="searchCondition == 0 and searchKeyword != ''">
+					AND prod_name LIKE '%${searchKeyword}%'
+				</if>
+				<if
+					test="searchCondition == 0 and searchKeyword != '' and prodTeamCode == null">
+					prod_name LIKE '%${searchKeyword}%'
+				</if>
+			</if>
+			<if test="prodTeamCode == 'NN'">
+				OR team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS',
+				'WO')
+			</if>
+		</where>
+		ORDER BY prod_no
+
 	</select>
 
 
-	
+
 </mapper>

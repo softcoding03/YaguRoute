@@ -1,36 +1,112 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
-
-
-
-
-
 <head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품상세조회</title>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=s5i3dw6edg"></script>
+<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 
-
-
-
+     <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script> 	 
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip 사용 JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
 </head>
-
-
-
-
-
-
-<style>
-
-
-</style>
-
-
-
-
-
 <body bgcolor="#ffffff" text="#000000">
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
 
+	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+	<div class="page-header text-info">
+	<div class="row">
+
+<div style="width:98%; margin-left:10px;">
+
+
+<form name="detailForm" >
+	
+	
+	<p class="bg-danger">상품상세조회</p>
+	
+	
+
+	<div class="background">
+		<div class="broadcast-tabs-wrapper">
+	            <ul class="nav nav-tabs" role="tablist">
+	            <c:forEach var="team" items="${allTeam}">
+		                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+		                <a href="teamCodeHref" role="tab" data-toggle="tab">
+			                <img src="/images/product/baseball.png" alt="안나오는군요">
+			                <span class="info">
+			                	<span class="title">${team.teamNickName}</span>
+			                	<input type="hidden" value="${team.teamCode}"/>
+			                </span> 
+		                </a>
+		                </li>
+	            </c:forEach>
+	            </ul>
+	        </div>
+	</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<span>
+				<div class="col-md-4">
+					<div><img src="${teamInfo.teamEmblem}" width="300" height="300"></div>
+					<div>${teamInfo.teamFullName}</div>
+				</div>
+			</span>
+				
+			<span>
+				<div class="col-md-8" >
+					<p></p>
+					<div>상품명: ${product.prodTeamCode}${product.prodName}</div>
+					<div>상품평균평점: ★★★★☆(4.3) 상품평수: 20개</div>
+					<div>가격 : ${product.prodPrice}</div>
+					<div>상품 수량</div>			
+					<div></div>
+					
+					<button type="button" class="btn btn-info">장바구니 담기</button>
+					<button type="button" class="btn btn-warning">바로구매</button>
+					
+				</div>
+			</span>
+		</div>
+	</div>
+</div>
+<p class="bg-danger">아래가 진짜 상세조회다</p>
+
+		<td width="15" height="37" align="center">
+			<img src="" width="400" height="370">
+		</td>
+		
+<p class="bg-danger">구매후기 include</p>
+
+<%--
+<jsp:include page="../common/commet.jsp">  --%>
+
+</form>
+</div>
 
 
 </body>

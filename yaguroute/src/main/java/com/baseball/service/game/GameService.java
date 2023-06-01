@@ -28,13 +28,13 @@ public interface GameService {
 	
 	public void addGame(Game game);
 	
-	public List<Game> getGameListTwoWeeks();
+	public List<Game> getGameListTwoWeeks(String teamCode);
 	
 	public void updateTodayGameSchedule() throws Exception;
 	
 	public void updateGamePredAllocation(Game game);
 	
-	public void updatevideoThumbNail(Game game);
+	public void updateGameVideo(Game game);
 	
 	public GameRecord getGameRecord(Game game) throws Exception;
 	

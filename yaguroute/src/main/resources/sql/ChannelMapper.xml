@@ -92,7 +92,8 @@
 			bucket_name = #{bucketName},
 			channel_CDN = #{channelCDN},
 			env_type = #{envType},
-			thumbnail = #{thumbNail}
+			thumbnail = #{thumbNail},
+			game_code = #{gameInfo.gameCode}
 		</set>
 		WHERE channel_id = #{channelID}
 	</update>

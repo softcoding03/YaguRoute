@@ -48,7 +48,7 @@ $(document).ready(function() {
 		            	$('#disLikes').html(JSONData.disLikes);
 		            	if(likes < JSONData.likes){
 		            		$('.check1').html("<span class=\"glyphicon glyphicon-heart\""
-		            							+"aria-hidden=\"true\" style=\"color: red; font-size: 40px;\"/>");
+		            							+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
 		            		$('.check2').html("<span class=\"glyphicon glyphicon-thumbs-down\""
 		            							+"aria-hidden=\"true\"></span>");
 		            	} else {
@@ -60,7 +60,7 @@ $(document).ready(function() {
 		            	$('#disLikes').html(JSONData.disLikes);
 		                if(disLikes < JSONData.disLikes){
 		                	$('.check2').html("<span class=\"glyphicon glyphicon-heart\"" 
-		                						+"aria-hidden=\"true\" style=\"color: red; font-size: 40px;\"/>");
+		                						+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
 		            		$('.check1').html("<span class=\"glyphicon glyphicon-thumbs-up\""
 		            							+"aria-hidden=\"true\"></span>");
 		                } else {
@@ -95,6 +95,7 @@ $(document).ready(function() {
 <body>
 <input type="hidden" id="teamCode" value="${post.teamCode}"/>
 <input type="hidden" id="postNo" value="${post.postNo}"/>
+		<a name="up"></a>
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>작성자 닉네임</strong></div>
 			<div class="col-xs-8 col-md-4">${post.user.userNickName}</div>
@@ -150,7 +151,7 @@ $(document).ready(function() {
 		  		<div class="col-xs-4 col-md-1 check1">
 						<c:choose>
 					        <c:when test="${emote.like == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 40px;"></span>
+					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
 					        </c:when>
 					        <c:otherwise>
 					            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -168,7 +169,7 @@ $(document).ready(function() {
 			  	<div class="col-xs-4 col-md-1 check2">
 						<c:choose>
 					        <c:when test="${emote.disLike == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 40px;"></span>
+					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
 					        </c:when>
 					        <c:otherwise>
 					            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>

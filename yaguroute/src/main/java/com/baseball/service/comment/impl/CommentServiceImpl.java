@@ -29,6 +29,11 @@ public class CommentServiceImpl implements CommentService {
 	public void addComment(Comment comment) throws Exception {
 		commentDao.addComment(comment);
 	}
+	
+	@Override
+	public void updateComment(Comment comment) throws Exception {
+		commentDao.updateComment(comment);
+	}
 
 	@Override
 	public void deleteComment(int commentNo) throws Exception {
@@ -47,4 +52,6 @@ public class CommentServiceImpl implements CommentService {
 	public Comment getComment(int commentNo) throws Exception {
 		return commentDao.getComment(commentNo);
 	}
+
+	
 }

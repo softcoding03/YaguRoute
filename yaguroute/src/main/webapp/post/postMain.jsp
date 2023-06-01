@@ -18,16 +18,17 @@
 			$( ".getMyPostList" ).on("click" , function() {
 				self.location = "/post/getMyPostList"
 			});
-			$( ".addComment" ).on("click" , function() {
-				self.location = "/comment/listComment.jsp"
+			$( ".getGameListTwoWeeks" ).on("click" , function() {
+				self.location = "/ticket/getGameList2w?teamCode=HH"
 			});
+			
 		 });
 	</script>
 	
 </head>
 <body>
 <button type="button" class="getMyPostList">내가 작성한 게시물 보기</button>
-<button type="button" class="addComment">댓글 등록(임시)</button>
+<button type="button" class="getGameListTwoWeeks">2주 경기일정 보기</button>
     <table>
     <tr>
     <td>
