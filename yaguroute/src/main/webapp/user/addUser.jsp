@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -20,7 +20,7 @@
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#signup" ).on("click" , function() {
-			alert("ㅎㅇㅎㅇㅇ");
+			//alert("ㅎㅇㅎㅇㅇ");
 			fncAddUser();
 		});
 	});	
@@ -56,7 +56,7 @@
 	$(function(){
 		$('#idCheck').keyup(function(){
 			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
-			console.log(id); // 현재 가져오는 id를 log로 출력해봄.
+			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
 				//alert("여기까지 옴!");
 			 $.ajax({
 				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
@@ -111,7 +111,15 @@
 			
 			$("form").attr("method" , "POST").attr("action" , "/users/addUser").submit();
 		}
-	
+		
+	$(function(){
+		
+		$("#backback").on("click", function(){
+			
+			//alert("가입 취소");
+			window.location.href="/user/loginTest(new).jsp";
+		});
+	});
 		
 	</script>
 
@@ -210,7 +218,6 @@
                             		<label>
                             		<span>이메일</span>
 		    						<input type="text" name="userEmail" id="userEmail" class="form-control"/>
-		    						<button type="button">인증&nbsp;하기</button>
 		    						</label>
                             	</div>
                             </div>
@@ -268,7 +275,7 @@
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                 <button type="button" class="sign" id="signup">가입</button>&emsp;
-                                <button type="button" class="back" id="backtoback">취소</button>
+                                <button type="button" class="back" id="backback">취소</button>
                             </div>
                         </div>
                     </form>

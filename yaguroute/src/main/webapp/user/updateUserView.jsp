@@ -82,6 +82,14 @@
 			$('form').attr("method", "POST").attr("action", "/users/updateUser").submit();
 		});
 	});
+	
+	$(function(){
+		$("#backback").on("click", function(){
+			
+			alert("뒤로...");
+			window.location.href = "/users/getUser";
+		});
+	});
 	</script>
 
 	
@@ -236,7 +244,7 @@
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                 <button type="button" class="sign" class="form">수정</button>&emsp;
-                                <button type="button" class="back" class="form">취소</button>
+                                <button type="button" class="backback" id="backback"class="form">취소</button>
                             </div>
                         </div>
                     </form>

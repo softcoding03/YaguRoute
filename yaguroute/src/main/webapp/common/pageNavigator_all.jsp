@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,7 +34,12 @@
 			        <span aria-hidden="true">&laquo;</span>
 			      </a>
 				</c:if>
-		    
+		    	
+		    	<c:if test="${param.id == 'player'}">
+				  <a href="javascript:fncGetPlayerList('${ resultPage.currentPage-1}')" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+				</c:if>
 		    
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
@@ -53,6 +58,10 @@
 				    		<a href="javascript:fncGetProductList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
 				    	</c:if>
 				    	
+				    	<c:if test="${param.id == 'player'}">
+				    		<a href="javascript:fncGetPlayerList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+				    	</c:if>
+				    	
 				    </li>
 				</c:if>	
 				
@@ -67,7 +76,9 @@
 						<c:if test="${param.id == 'product'}">
 							<a href="javascript:fncGetProductList('${ i }');">${ i }</a>
 						</c:if>
-						
+						<c:if test="${param.id == 'player'}">
+							<a href="javascript:fncGetPlayerList('${ i }');">${ i }</a>
+						</c:if>
 					</li>
 				</c:if>
 			</c:forEach>
@@ -89,7 +100,9 @@
 		      <c:if test="${param.id == 'product'}">
 		        <a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')" aria-label="Next">
 		      </c:if>
-		      
+		      <c:if test="${param.id == 'player'}">
+		        <a href="javascript:fncGetPlayerList('${resultPage.endUnitPage+1}')" aria-label="Next">
+		      </c:if>
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>

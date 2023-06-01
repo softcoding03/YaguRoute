@@ -17,19 +17,17 @@
     
     <script type="text/javascript">
     
-   
-    		
-	function fncGetUserList(currentPage) {
+	function fncGetPlayerList(currentPage) {
 		
 		$("#currentPage").val(currentPage);
 		alert(currentPage);
-		$("form").attr("method" , "POST").attr("action" , "/users/listUser").submit();
+		$("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
 		}
 	
 	$(function() {
 		 
 		 $( "button.btn.btn-default" ).on("click" , function() {
-			fncGetUserList(1);
+			fncGetPlayerList(1);
 		});
 	 });
 	
@@ -41,6 +39,15 @@
 			
 			
 		});
+	});
+	
+	$(function(){
+		
+		$("td:nth-child(1)").on("click", function(){
+			self.location.href="/player/getPlayer?playerId="+$(this).text().trim();
+		});
+		
+		$( "td:nth-child(1)" ).css("color" , "green");
 	});
 	
     </script>
@@ -234,8 +241,7 @@
             <form>
             <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>선수이름</option>
 					</select>
 			</div>
             <div class="col-md-6">
@@ -253,43 +259,49 @@
        		
        		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
        		
-       		<button type="button" id="withDrawsun">탈퇴 유무 순</button>
-       		<button type="button" id="pointsun">포인트 많은 순</button>
+       		<button type="button" id="teamCodeSun">구단 순</button>
+       		<button type="button" id="salarySun">부자 순</button>
        		</p>
             <br>
             <br>
             <table>
                 <tr>
-                	<th>번호</th>
-                    <th>아이디</th>
+                	<th>선수 번호</th>
                     <th>이름</th>
-                    <th>휴대폰 번호</th>
-                    <th>주소</th>
-                    <th>탈퇴 유무</th>
-                    <th>포인트</th>
+                    <th>포지션</th>
+                    <th>등번호</th>
+                    <th>BirthDay</th>
+                    <th>연봉</th>
+                    <th>"키"성용</th>
+                    <th>몸무게</th>
+                    <th>구단</th>
                 </tr>
                 <tr>
                     <c:set var="i" value="0" />
-		  				<c:forEach var="user" items="${list}">
+		  				<c:forEach var="player" items="${list}">
 						<c:set var="i" value="${ i+1 }" />
 						<tr>
-						  <td align="center">${ i }</td>
-						  <td align="left">${user.userId}</td>
-						  <td align="left">${user.userName}</td>
-						  <td align="left">${user.userPhone}</td>
-						  <td align="left">${user.userAddr}</td>
-						  <td align="left">${user.withDraw}</td>
-						  <td align="left">${user.userPoint}</td>
+						  <td align="left">${player.playerId}</td>
+						  <td align="left">${player.playerName}</td>
+						  <td align="left">${player.playerPosition}</td>
+						  <td align="left">No.${player.playerNumber}</td>
+						  <td align="left">${player.playerBirth}</td>
+						  <td align="left">${player.playerSalary}만원</td>
+						  <td align="left">${player.playerHeight}cm</td>
+						  <td align="left">${player.playerWeight}kg</td>
+						  <td align="left">${player.teamCode}</td>
 					    </tr>
           			</c:forEach>
+          			
                 </tr>
-            </table>
-        </div>
-	    <!-- PageNavigation Start... -->
-		<jsp:include page="/common/pageNavigator_new.jsp"/>
-		<!-- PageNavigation End... -->
+				<!-- PageNavigation End... -->
+            	</table>
+        		</div>
+	    		<!-- PageNavigation Start... -->
     </div>
 </div>
+<jsp:include page="/common/pageNavigator_all.jsp">
+				<jsp:param name="id" value="player"/></jsp:include>
 <!--LAST MATCHES END-->
 </section>
 <!--PLAYER SINGLE WRAP END-->

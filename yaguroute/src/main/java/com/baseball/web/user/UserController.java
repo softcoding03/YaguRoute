@@ -24,8 +24,15 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,12 +41,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.amazonaws.Request;
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.User;
+import com.baseball.service.kakaologin.KakaoLoginService;
+import com.baseball.service.naverlogin.NaverLoginService;
 import com.baseball.service.user.UserDao;
+import com.baseball.service.user.UserRestDao;
 import com.baseball.service.user.UserService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -56,9 +67,20 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
+	@Qualifier("naverLoginServiceImpl")
+	private NaverLoginService naverLoginService;
+	
+	@Autowired
+	@Qualifier("kakaoLoginServiceImpl")
+	private KakaoLoginService kakaoLoginService;
+	
+	@Autowired
 	@Qualifier("userDao")
 	private UserDao userDao;
 	
+	@Autowired
+	@Qualifier("userRestDaoImpl")
+	private UserRestDao userRestDao;
 	
 	public UserController() {
 		System.out.println(this.getClass());
@@ -122,6 +144,7 @@ public class UserController {
 	public String addUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
 
 		System.out.println("회원가입 대상 : " + user.getUserId());
+		
 		userService.addUser(user);
 
 		session.setAttribute("user", user);
@@ -222,6 +245,27 @@ public class UserController {
 
 		return "forward:/user/findPassword.jsp";
 	}
+	
+	@PostMapping(value="findPassword") 
+	public @ResponseBody List<String> findPassword(@RequestParam("userPhone")String userPhone, @RequestParam("userId") String userId, Search search) throws Exception{
+		
+		System.out.println("입력받은 휴대폰 번호 : "+userPhone);
+		System.out.println("입력받은 아이디 : "+userId);
+		
+		List<User> listUser = (List<User>) userDao.findUserId(userPhone); // findUserId와 겹쳐 일단 이 sql 사용...
+		List<String> password123 = new ArrayList<>();
+		
+		for (User user : listUser) {
+			if(user.getUserPhone().equals(userPhone) && user.getUserId().equals(userId)) {
+				System.out.println(user.getPassword());
+				password123.add(user.getPassword());
+			}
+		}
+		
+		System.out.println("listPassword: "+password123);
+		
+		return password123;
+	} 
 
 	@RequestMapping(value = "withDrawView", method = RequestMethod.GET) // GET
 	public String withDrawView() throws Exception {
@@ -372,5 +416,155 @@ public class UserController {
 		System.out.println("encode Base 64 String : " + encodeBase64String);
 		System.out.println("message(String) : " + message);
 		return encodeBase64String;
+	}
+	
+	@PostMapping(value="addNaverUser")
+	public String addNaverUser(@ModelAttribute("user") User user, HttpSession session) throws Exception{
+		
+		System.out.println("가져온 User 정보 : "+user);
+		
+		userService.addUser(user);
+		
+		// session 등록
+		session.setAttribute("user", user);
+		return "redirect:/main.jsp";
+	}
+	
+	@GetMapping( value="naverLogin")
+	public String naverLogin(@RequestParam(value = "code", required = false) String code, User user, Model model, HttpSession session, HttpServletRequest request) throws Exception{
+		
+		System.out.println("Authorization Code : "+code);
+		
+		// 네이버에서 토큰 발급 요청
+		String access_Token = naverLoginService.getAccessToken(code);
+		
+		System.out.println("전달 받은 Access Token : "+access_Token);
+
+		// 토큰으로 userInfo 요청
+		Map<String, Object> userInfo = naverLoginService.getUserInfo(access_Token);
+		System.out.println("네이버 userInfo : " + userInfo);
+		
+		user.setUserId((String) userInfo.get("userId"));
+		user.setUserName((String) userInfo.get("userName"));
+		user.setUserNickName((String) userInfo.get("userNickName"));
+		user.setUserBirth((String) userInfo.get("userBirth"));
+		user.setUserEmail((String) userInfo.get("userEmail"));
+		user.setUserAddr((String) userInfo.get("userAddr"));
+		user.setPassword((String) userInfo.get("password"));
+		user.setUserPhone((String) userInfo.get("userPhone"));
+		user.setGender((String) userInfo.get("gender"));
+		user.setTeamCode((String) userInfo.get("teamCode"));
+		user.setUserImage((String) userInfo.get("userImage"));
+		
+		if (userService.getUser(user.getUserId()) != null) {
+			
+			User dbUser = userService.getUser(user.getUserId());
+			System.out.println(dbUser);
+			if (dbUser.getUserId().equals(user.getUserId())) {
+
+				System.out.println("이미 존재하는 아이디입니다.");
+				//System.out.println("첫 가입 유저... userPoint 올려드림.");
+				session.setAttribute("user", dbUser);
+				return "redirect:/main.jsp";
+				
+			}
+		}
+		else {
+			System.out.println("추가 정보 입력");
+			return "redirect:/user/addNaverUser.jsp";
+			}
+		System.out.println("아무 값이 입력되지 않은 관계로 처음 로그인 화면 돌아갑니다.");
+		return "redirect:/user/loginTest(new).jsp";
+	}
+	@GetMapping( value="kakaoLogin")
+	public String kakaoLogin(@RequestParam(value= "code", required = false) String code,User user, HttpSession session, HttpServletRequest request, Model model) throws Exception{
+		
+		System.out.println("Authorization Code : "+code);
+		
+		// 카카오에서 토큰 발급 요청
+		String access_Token = kakaoLoginService.getAccessToken(code);
+		System.out.println("전달 받은 Access Token : "+access_Token);
+		
+		// 토큰으로 userInfo 요청
+		Map<String, Object> userInfo = kakaoLoginService.getUserInfo(access_Token);
+		System.out.println("카카오 userInfo : "+userInfo);
+		
+		user.setUserId((String) userInfo.get("userId"));
+		user.setUserName((String) userInfo.get("userName"));
+		user.setUserNickName((String) userInfo.get("userNickName"));
+		user.setUserBirth((String) userInfo.get("userBirth"));
+		user.setUserEmail((String) userInfo.get("userEmail"));
+		user.setUserAddr((String) userInfo.get("userAddr"));
+		user.setPassword((String) userInfo.get("password"));
+		user.setUserPhone((String) userInfo.get("userPhone"));
+		user.setGender((String) userInfo.get("gender"));
+		user.setTeamCode((String) userInfo.get("teamCode"));
+		user.setUserImage((String) userInfo.get("userImage"));
+		
+//		/*카카오 연결끊기 */
+//		String accessToken = "RrsBCAMVZxK8_olj8oXo6JxlDGGrrUIbIc3732Q-CisNHgAAAYh13k_G";
+//
+//		// HttpHeaders 설정
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//		headers.set("Authorization", "Bearer " + accessToken);
+//
+//		// 요청 파라미터 설정
+//		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//		params.add("target_id_type", "user_id"); // 연결을 끊을 대상 ID의 타입 (user_id 또는 app_user_id)
+//		params.add("target_id", "2751306335"); // 연결을 끊을 대상 ID
+//
+//		// HttpEntity 설정
+//		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
+//
+//		// RestTemplate을 사용하여 API 호출
+//		RestTemplate restTemplate = new RestTemplate();
+//		ResponseEntity<String> response = restTemplate.exchange(
+//		    "https://kapi.kakao.com/v1/user/unlink",
+//		    HttpMethod.POST,
+//		    requestEntity,
+//		    String.class
+//		);
+//
+//		// 응답 처리
+//		if (response.getStatusCode().is2xxSuccessful()) {
+//		    System.out.println("카카오 아이디 연결이 성공적으로 끊어졌습니다.");
+//		} else {
+//		    System.out.println("카카오 아이디 연결 끊기 실패");
+//		}
+//		
+//		/*카카오 연결 끊기*/
+		
+		if (userService.getUser(user.getUserId()) != null) {
+			
+			User dbUser = userService.getUser(user.getUserId());
+			System.out.println(dbUser);
+			if (dbUser.getUserId().equals(user.getUserId())) {
+
+				System.out.println("이미 존재하는 아이디입니다.");
+				//System.out.println("첫 가입 유저... userPoint 올려드림.");
+				session.setAttribute("user", dbUser);
+				return "redirect:/main.jsp";
+				
+			}
+		}
+		else {
+			System.out.println("추가정보 기기??");
+			return "forward:/user/addKakaoUser.jsp";
+	}
+		System.out.println("아무 값이 입력되지 않은 관계로 처음 로그인 화면 돌아갑니다.");
+		return "redirect:/user/loginTest(new).jsp";
+	}
+	
+	@PostMapping(value="addKakaoUser")
+	public String addKakaoUser(@ModelAttribute("user") User user, HttpSession session) throws Exception{
+		
+		System.out.println("가져온 User 정보 : "+user);
+		
+		userService.addUser(user);
+		
+		// session 등록
+		session.setAttribute("user", user);
+		return "redirect:/main.jsp";
 	}
 }

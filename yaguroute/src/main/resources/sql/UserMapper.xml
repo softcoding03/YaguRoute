@@ -123,5 +123,4 @@
 		FROM user
 		WHERE user_phone = #{userPhone}
 	</select>
-	
 </mapper>

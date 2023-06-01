@@ -18,7 +18,7 @@
     <script type="text/javascript">
 		$(function(){
 			$('#updateUser').on("click", function(){
-				alert("우연히~~~");
+				//alert("우연히~~~");
 				window.location.href="/users/updateUser";
 			});
 		});	
@@ -26,17 +26,25 @@
 		$(function(){
 			$('.custom-btn').on('click', function() {
 		    	// 개별 이벤트 처리
-		    	alert("ㅎㅇ");
+		    	//alert("ㅎㅇ");
 			});
 		});
 		
 		$(function(){
 			$('#withDraw').on("click", function(){
 				
-				alert("탈퇴");
+				//alert("탈퇴");
 				
 				window.location.href = "/users/withDrawView";
 			});	
+		});
+		$(function(){
+			$("#backback").on("click", function(){
+				
+				//alert("뒤로...");
+				
+				window.location.href = "/main.jsp";
+			});
 		});
 	</script>
 
@@ -167,7 +175,7 @@
     
     <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                 <button type="button" class="update" id="updateUser">정보 수정</button>&emsp;
-                                <button type="button" class="back" id="back">뒤로</button>
+                                <button type="button" class="back" id="backback">뒤로</button>
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 								<button type="button" class="bye" id="withDraw">탈퇴</button>
