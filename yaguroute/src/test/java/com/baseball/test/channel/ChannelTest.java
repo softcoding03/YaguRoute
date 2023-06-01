@@ -1,5 +1,6 @@
 package com.baseball.test.channel;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ChannelTest {
 	}
 	
 	//Select List Test => success
-	@Test
+	//@Test
 	public void testSelectChannelList() throws Exception{
 		List<Channel> channelList = channelSerivce.getChannelList();
 		System.out.println(channelList.size());
@@ -91,9 +92,26 @@ public class ChannelTest {
 	}
 	
 	//DELETE Channel Test =>
-	@Test
+	//@Test
 	public void testDeleteChannel() throws Exception{
 		channelSerivce.deleteChannel("ls-20230509114330-test");
+	}
+	
+	@Test
+	public void testUpdateGameCode() throws Exception{
+		System.out.println("게임코드 업데이트 시작");
+		List<Channel> channelList = channelSerivce.getChannelList();
+		List<Game> gameList = gameService.getGameListByDate(LocalDate.now().toString());
+		
+		//일자에 맞게 게임코드 업데이트
+		for (int i = 0; i < channelList.size(); i++) {
+		    Channel channel = channelList.get(i);
+		    int gameIndex = i % gameList.size();
+		    Game game = gameList.get(gameIndex);
+		    channel.setGameInfo(game);
+		    channelSerivce.updateChannelGameCode(channel);
+		    System.out.println("채널 ID: " + channel.getChannelID() + ", 게임 정보: " + game);
+		}
 	}
 
 }

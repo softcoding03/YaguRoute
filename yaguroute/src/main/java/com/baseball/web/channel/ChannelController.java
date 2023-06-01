@@ -7,7 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,24 +49,32 @@ public class ChannelController {
 	
 	
 	//method
-	
 	//addChannel : GET (추가 화면)
 	@GetMapping("addChannel")
-	public String addChannelView() throws Exception{
+	public ModelAndView addChannelView(ModelAndView model) throws Exception{
 		System.out.println("/addProductView");
-		return "redirect:/channel/addChannelView.jsp";
+		//현재 날짜 game Code 구하기
+		LocalDate now = LocalDate.now();
+		List<Game> gameList = gameService.getGameListByDate(now.toString());
+		model.addObject("gamelist", gameList);
+		model.setViewName("forward:/channel/addChannelView.jsp");
+		return model;
 	}
 	
-	//addChannel:POST (데이터 수정 후 화면)
+	//addChannel:POST (addChannelView.jsp 화면)
 	@PostMapping("addChannel")
 	public ModelAndView addChannel(@ModelAttribute("channel") Channel channel,
-											@RequestParam("gameCode") String gameCode,
+											@RequestParam(value="gameCode", required=false) String gameCode,
 											HttpSession session) throws Exception{
 		
 		System.out.println("addChannel:POST 시작");
 		System.out.println("channel NAME : "+channel.getChannelName());
-		Game gameInfo = gameService.getGameInfo(gameCode);
-		channel.setGameInfo(gameInfo);
+		
+		if(gameCode != null) {
+			Game gameInfo = gameService.getGameInfo(gameCode);
+			channel.setGameInfo(gameInfo);
+		}
+		
 		
 		// 1.channel REST로 Naver Cloud에 생성
 		Channel returnData = channelRestService.addChannel(channel);
@@ -72,15 +82,11 @@ public class ChannelController {
 		// 2.channel 로컬 DB에 저장
 		channelService.addChannel(returnData);
 		
-		//현재 날짜 game Code 구하기
-		LocalDate now = LocalDate.now();
-		List<Game> gameList = gameService.getGameListByDate(now.toString());
+		
 		
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("gamelist", gameList);
 		modelView.addObject("channel",returnData);
 		modelView.setViewName("forward:/channel/addChannel.jsp");
-		
 		return modelView;
 	}
 	
@@ -97,12 +103,12 @@ public class ChannelController {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		modelAndView.addObject("list", list);
-		modelAndView.setViewName("forward:/channel/listChannel.jsp");
+		modelAndView.setViewName("forward:/channel/listStreamingTest.jsp");
 		
 		return modelAndView;
 	}
 	
-	//getChannel
+	//getChannel => 스트리밍 리스트에서 들어올 때
 	@GetMapping("getChannel")
 	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID,
 			HttpSession session) throws Exception{
@@ -122,6 +128,23 @@ public class ChannelController {
 		}
 		
 		System.out.println("getChannel End...");
+		return modelAndView;
+	}
+	
+	//게임 스케줄에서 들어올 때
+	@GetMapping("getStreaming")
+	public ModelAndView getStreaming(@RequestParam(value="gameCode") String gameCode) throws Exception{
+		System.out.println("getStraming start");
+		
+		Channel channel = channelService.getChannelGameCode(gameCode);
+		System.out.println(channel);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("channel", channel);
+		modelAndView.setViewName("forward:/channel/getStreaming.jsp");
+		
+		System.out.println("getStreaming End...");
+		
 		return modelAndView;
 	}
 	
@@ -192,5 +215,21 @@ public class ChannelController {
 		return "redirect:/channel/listChannel";
 	}
 	
+	@Scheduled(cron = "0 10 0 * * *")
+	public void updateChannelGameCode () throws Exception{
+		System.out.println("게임코드 업데이트 시작");
+		List<Channel> channelList = channelService.getChannelList();
+		List<Game> gameList = gameService.getGameListByDate(LocalDate.now().toString());
+		
+		//일자에 맞게 게임코드 업데이트
+		for (int i = 0; i < channelList.size(); i++) {
+		    Channel channel = channelList.get(i);
+		    int gameIndex = i % gameList.size();
+		    Game game = gameList.get(gameIndex);
+		    channel.setGameInfo(game);
+		    channelService.updateChannelGameCode(channel);
+		    System.out.println("채널 ID: " + channel.getChannelID() + ", 게임 정보: " + game);
+		}
+	}
 
 }

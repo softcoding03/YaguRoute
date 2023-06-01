@@ -15,4 +15,8 @@ public interface ChannelService {
 	public void updateChannel(Channel channel) throws Exception;
 	
 	public void deleteChannel(String channelID) throws Exception;
+	
+	public void updateChannelGameCode(Channel channel) throws Exception;
+	
+	public Channel getChannelGameCode(String gameCode) throws Exception;
 }

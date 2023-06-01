@@ -18,8 +18,10 @@
 	}
 </style>
 <body>
+<jsp:include page="/common/changePageEvent.jsp"/>
+<jsp:include page="/common/topBar.jsp"/>
 <div class="container">
-	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint}</h4></div>
+	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
 		<div class="main-award-slider">
    			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
 			<div class="text-center">
@@ -45,18 +47,27 @@
 			<h1>예측한 경기가 없습니다.</h1>
 		</div>
 	</c:if>
-<%-- <c:if test="${predSize ne 0}">--%>
+<c:if test="${predSize ne 0}">
+<div class="container">
+	<div class="text-center">
+		<h2>경기 예측 결과</h2>
+		<div>
+			<div class="text">예측 포인트 총 결과</div>
+			<div class="text" id ="result"></div>
+		</div>
+	</div>
+</div>
 <form>
 <input type="hidden" value="${date}" name="date">
 <c:forEach items="${gameList}" var="game" varStatus="gameStatus">
 <c:set var="pred" value="${predList[gameStatus.index]}"/>
-<hr>
 <input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode">
 <input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId">
 <div class="match-page-top">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+					<hr>
                     <div class="upcoming-match-info">
                     
                         <div class="team col-md-4">
@@ -91,10 +102,16 @@
                                     <div>승리팀 배당 : ${game.winningTeamAllocation}</div>
                                 </li>
                                 <li>
-                                    <div>예측 포인트 : ${pred.predPoint}</div>
+                                    <div>
+                                    예측 포인트 : ${pred.predPoint}
+                                    <input type="hidden" value="${pred.predPoint}" class="predPoint">
+                                    </div>
                                 </li>
                                 <li>
-                                    <div>배당 적용 예측 포인트 : ${pred.afterGamePredPoint}</div>
+                                    <div>
+                                    배당 적용 예측 포인트 : ${pred.afterGamePredPoint}
+                                    <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
+                                    </div>
                                 </li>
                             </c:if>
                             </ul>
@@ -128,7 +145,7 @@
 </c:forEach>
 </form>
 </c:if>
-<%--</c:if> --%>
+</c:if>
 </body>
 <script type="text/javascript">
 	$(function(){
@@ -137,6 +154,13 @@
 			self.location = "/predict/getUserPredict?date=${otherDay}";
 		})
 		
+		var sum = 0;
+		$("ul").each(function(){
+			sum = sum + parseInt($(this).find(".afterPredPoint").val()) - parseInt($(this).find(".predPoint").val());
+			console.log(sum)
+		})
+		
+		$("#result").text(sum+" Point")
 		
 	})
 	

@@ -87,11 +87,15 @@ public class ChannelRestTest {
 	public void stopRecordChannel() throws Exception {
 		
 		System.out.println("채널 녹화 종료");
-		String channelID = "ls-20230524170238-iwkOL";
+		String channelID = "ls-20230601114514-UxrS3";
+		String channelId = "ls-20230601120056-fDJkt";
 		Channel channel = channelService.getChannel(channelID);
 		
 		String videoName = channelRestService.stopChannel(channelID);
+		String videoName2 = channelRestService.stopChannel(channelId);
 		
+		System.out.println("videoName : "+videoName);
+		System.out.println("videoName2 : "+videoName2);
 		String videoLink = channelRestService.getVideo(channel, videoName);
 		System.out.println("videoLink : "+videoLink);
 		
@@ -101,7 +105,7 @@ public class ChannelRestTest {
 	public void getvideo() throws Exception {
 		
 		System.out.println("getVideo start");
-		String channelID = "ls-20230522185940-acP14";
+		String channelID = "ls-20230601114514-UxrS3";
 		String fileName = "171689-723338-202305231549.mp4";
 		
 		Channel channel = channelService.getChannel(channelID);
@@ -116,7 +120,7 @@ public class ChannelRestTest {
 	public void getChannel() throws Exception{
 		System.out.println("getChannel() 실행");
 		
-		String ChannelID = "ls-20230524170238-iwkOL";
+		String ChannelID = "ls-20230601120056-fDJkt";
 		Map<String, Object> map = channelRestDao.getChannel(ChannelID);
 		String streamKey = map.get("streamKey").toString();
 		String streamURL = map.get("streamURL").toString();

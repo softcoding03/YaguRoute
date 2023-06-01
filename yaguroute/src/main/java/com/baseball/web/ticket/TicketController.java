@@ -96,24 +96,33 @@ public class TicketController {
 	
 	//티켓 결제 후 해당 정보(transaction add + ticket update)
 	@PostMapping("addTicketPurchase")
-	public String addTicketPurchase(@ModelAttribute("transaction") Transaction transaction, Model model,HttpSession session) throws Exception{
+	public String addTicketPurchase(@ModelAttribute("transaction") Transaction transaction,
+									@ModelAttribute("ticket") Ticket ticket,
+									Model model,HttpSession session) throws Exception{
 		System.out.println("/ticket/addTicketPurchase : POST START");
-		System.out.println("넘어온 데이터?"+transaction);
+		System.out.println("넘어온 데이터?"+transaction+"//"+ticket);
+		
 		User user = (User)session.getAttribute("user");
+		transaction.setBuyer(user);
+		transaction.setTranType("T");
 		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
 		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
 		
+		String tickets = ticket.getTicketNo(); //ticketNo가 하나의 객체안에 No만 여러개로 담겨옴
+		String[] split = tickets.split(",");
+		for(String splitTicket:split) {
+			System.out.println("split해준 ticket?"+splitTicket);
+		}
+		List<String> list = new ArrayList<>(); //ticketNo가 최대 4개 올 수 있음.
+		for(String splitTicket:split) {
+			list.add(splitTicket);
+		}
 		Map<String, Object> map = new HashMap<>(); // Mapper에 map 객체 보내주기 위함
 		map.put("tranNo", tranNo);
-		List<String> list = new ArrayList<>(); //ticketNo가 최대 4개 올 수 있음.
-		list.add("20230313HTHH02023-A17");
-		list.add("20230313HTHH02023-A18");
-		list.add("20230313HTHH02023-A19");
-		list.add("20230313HTHH02023-A20");
 		map.put("list", list);
 		
 		System.out.println(":: map 저장된 것은? ? "+map);
-		ticketService.addTicketPurchase(map);
+		ticketService.addTicketPurchase(map); //ticket에 tranNo 업데이트해줌
 		
 		return "forward:/ticket/getTickets.jsp";
 	}

@@ -18,4 +18,8 @@ public interface ChannelDao {
 	public void updateChannel (Channel channel) throws Exception;
 	
 	public void deleteChannel (String ChannelId) throws Exception;
+	
+	public void updateChannelGameCode (Channel channel) throws Exception;
+	
+	public Channel getChannelGameCode(String gameCode) throws Exception;
 }

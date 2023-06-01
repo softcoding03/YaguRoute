@@ -310,10 +310,13 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			
 			String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/record";
 			driver.get(base_url);
-			Thread.sleep(1000);
-			if(driver.findElement(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).getAttribute("aria-pressed").equals("true")) {
-				driver.findElement(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).click();
+			Thread.sleep(600);
+			if(driver.findElements(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).size()!=0) {
+				if(driver.findElement(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).getAttribute("aria-pressed").equals("true")) {
+					driver.findElement(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).click();
+				}
 			}
+			
 			
 			
 			//경기 이닝
