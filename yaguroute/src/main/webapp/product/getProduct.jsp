@@ -102,9 +102,9 @@
 		
 <p class="bg-danger">구매후기 include</p>
 
-<%--
-<jsp:include page="../common/commet.jsp">  --%>
-
+<jsp:include page="../comment/listComment.jsp"/>
+	
+		
 </form>
 </div>
 

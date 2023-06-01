@@ -37,6 +37,10 @@
     .btn {
         display: inline-block;
     }
+    
+
+
+
 </style>
 
 
@@ -127,7 +131,7 @@
 		<td width="15" height="37">
 			<img src="/images/product/baseball.png" width="40" height="37"/>
 		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
+		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:20px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="93%" class="ct_ttl01"> 판매상품관리(관리자)				
@@ -162,14 +166,14 @@
 
 
 	
-		<div class="form-group" style="width: 100px; text-align: right; ">
+		<div class="form-group" style="width: 100px; ">
 		    <select class="form-control" name="searchCondition" >
 		        <option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
 		    </select>
 		</div>
 		
-		<div class="form-group" style="width: 230px; text-align: right;">
-		    <label class="sr-only" for="searchKeyword">검색어</label>
+		<div class="form-group" style="width: 230px; ">
+		   
 		    <input type="text" class="form-control" id="autoComplete" name="searchKeyword" placeholder="상품명으로 검색하세요"
 		        value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
 		</div>
@@ -200,11 +204,11 @@
     	<c:set var="i" value="${ i+1 }" />    
             <tr class="ct_list_pop">
               	<td align="center">${ i }</td>
-                <td align="left">
+                <td align="left" height="30" >
   	 <input type="hidden"  value="${product.prodNo}" />
                     ${product.prodName}
                 </td>
-                <td align="left">
+                <td align="left" >
                     ${product.prodPrice}
                 </td>
                 <td align="left">
