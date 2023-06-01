@@ -84,8 +84,8 @@ public class GameServiceImpl implements GameService {
 		gameDao.updateGamePredAllocation(game);
 	}
 	
-	public void updatevideoThumbNail(Game game) {
-		gameDao.updatevideoThumbNail(game);
+	public void updateGameVideo(Game game) {
+		gameDao.updateGameVideo(game);
 	}
 	
 	public GameRecord getGameRecord(Game game) throws Exception{

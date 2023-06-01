@@ -83,7 +83,7 @@ public class ChannelRestController {
 					game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/images/60d320a4-e816-4487-8e2d-8e1ccc1b83d6hani.jpg");
 					
 					System.out.println("setting된 game : "+game);
-					gameService.updatevideoThumbNail(game);
+					gameService.updateGameVideo(game);
 				} else {
 					System.out.println("안됐지롱~");
 					System.out.println(test);
