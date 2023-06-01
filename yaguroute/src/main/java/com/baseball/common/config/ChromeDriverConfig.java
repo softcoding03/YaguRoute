@@ -51,7 +51,7 @@ public class ChromeDriverConfig {
 			ChromeOptions ops = new ChromeOptions();
 			ops.setCapability("ignoreProtectedModeSettings", true);
 			ops.addArguments("--remote-allow-origins=*");
-//			ops.addArguments("headless");
+			ops.addArguments("headless");
 			ops.addArguments("--no-sandbox");
 			ops.addArguments("--disable-dev-shm-usage");
 			ops.addArguments("ignore-certificate-errors");

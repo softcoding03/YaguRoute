@@ -104,6 +104,7 @@
 								console.log(num)
 								sum = sum + parseInt(num);
 							})
+							$("#totalPrice").attr("value",sum)
 							$(".info .name").text(formatter.format(sum));
 						}
 						

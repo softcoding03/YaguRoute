@@ -30,6 +30,6 @@ public interface GameDao {
 	
 	public void updateGamePredAllocation(Game game);
 	
-	public void updatevideoThumbNail(Game game);
+	public void updateGameVideo(Game game);
 
 }
