@@ -157,20 +157,9 @@ public class GameController {
 		return "/game/getTeam.jsp";
 	}
 	
-	@Scheduled(cron = "0 0 23 * * ?")
+	@Scheduled(cron = "0 */5 * * * ?")
 	public void updateGameState() throws Exception {
 		gameService.updateTodayGameSchedule();
-		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		List<Game> gameList = gameService.getGameListByDate(nowDate);
-		boolean state = true;
-		for(Game game : gameList) {
-			if(game.getGameStatusCode().equals("1") || game.getGameStatusCode().equals("0") ){
-				state = false;
-			}
-		}
-		if(state) {
-			gamePredictService.updatePredAfterGame();
-		}
 	}
 //	
 //	public void addDynamicTask() {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Predict;
 import com.baseball.service.domain.User;
+import com.baseball.service.game.GameService;
 import com.baseball.service.predict.GamePredictService;
 
 @Controller
@@ -34,6 +36,10 @@ public class GamePredictController {
 	@Autowired
 	@Qualifier("gamePredictServiceImpl")
 	private GamePredictService gamePredictService;
+	
+	@Autowired
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
 	
 	@GetMapping("getUserPredict")
 	public String getUserPredict(HttpSession session, @RequestParam(value = "date", required = false) String date,
@@ -106,6 +112,21 @@ public class GamePredictController {
 		
 		
 		return "/predict/getUserPredict";
+	}
+	
+	@Scheduled(cron = "0 55 23 * * ?")
+	public void updatePredState() throws Exception {
+		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		List<Game> gameList = gameService.getGameListByDate(nowDate);
+		boolean state = true;
+		for(Game game : gameList) {
+			if(game.getGameStatusCode().equals("1") || game.getGameStatusCode().equals("0") ){
+				state = false;
+			}
+		}
+		if(state) {
+			gamePredictService.updatePredAfterGame();
+		}
 	}
 
 }
