@@ -208,7 +208,7 @@
 				                            </c:if>
 				                            
 				                            <c:if test="${channel.gameInfo.gameStatusCode eq 3 }">
-				                            	<button class="custom-button">cancle</button>
+				                            	<button class="custom-button">cancel</button>
 				                            </c:if>
 				                            	
 				                            </div>
