@@ -52,7 +52,7 @@
 	<div class="text-center">
 		<h2>경기 예측 결과</h2>
 		<div>
-			<div class="text">예측 포인트 총 결과</div>
+			<div class="text">획득 포인트 결과</div>
 			<div class="text" id ="result"></div>
 		</div>
 	</div>
@@ -90,7 +90,7 @@
                         <div>
                             <ul>
                             <c:if test="${game.gameStatusCode eq 3}">
-                            	<li><h2>취소된 경기입니다.</h2></li>
+                            	<li><h5>취소된 경기입니다.</h5></li>
                             </c:if>
                             <c:if test="${game.gameStatusCode eq 4  or game.gameStatusCode eq 2}">
                                 <li>
@@ -155,10 +155,18 @@
 		})
 		
 		var sum = 0;
-		$("ul").each(function(){
-			sum = sum + parseInt($(this).find(".afterPredPoint").val()) - parseInt($(this).find(".predPoint").val());
-			console.log(sum)
+		var afterSum = 0;
+		var predSum = 0;
+		$(".afterPredPoint").each(function(){
+			afterSum = afterSum + $(this).val();
 		})
+		
+		$(".predPoint").each(function(){
+			predSum = predSum + $(this).val();
+		})
+		
+		
+		sum = afterSum - predSum;
 		
 		$("#result").text(sum+" Point")
 		
