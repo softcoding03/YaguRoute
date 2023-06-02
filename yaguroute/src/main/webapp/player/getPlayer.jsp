@@ -221,6 +221,7 @@
 				<div class="player-photo">
 				    <div class="number">${player.playerNumber}</div>
 				    <img class="img-responsive" src="/images/baseball/single-player-photo.png" alt="player">
+				    <img class="sunsoo" src="${player.playerImage}" alt="playerImage">
 				</div>
                 </div>
                 <div class="col-md-6">

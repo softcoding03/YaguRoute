@@ -113,7 +113,9 @@ public class UserController {
 		if (userService.getUser(user.getUserId()) != null) {
 			User dbUser = userService.getUser(user.getUserId());
 
-			if (dbUser.getPassword().equals(user.getPassword())) {
+			//&& dbUser.getWithDraw() == 0
+			
+			if (dbUser.getPassword().equals(user.getPassword()) ) {
 
 				System.out.println("일치합니다.");
 				session.setAttribute("user", dbUser);
@@ -293,6 +295,8 @@ public class UserController {
 			withDrawCheck = 1;
 			userService.withDraw(dbUser);
 
+			session.invalidate();
+			System.out.println("탈퇴 완료");
 			return withDrawCheck;
 		} else {
 			System.out.println("비밀번호 불일치");

@@ -88,6 +88,6 @@ public class PlayerController {
 		
 		model.addAttribute("player", player);
 		
-		return "forward:/user/getUser.jsp";
+		return "forward:/player/getPlayer.jsp";
 	}
 }

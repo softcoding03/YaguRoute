@@ -238,7 +238,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 			    				url = new URL(playerImage);
 			    				in = url.openStream();
 			    			
-				    			playerPath = "C:/images/"+playerId+".png";	
+				    			playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\"+playerId+".png";	
 				    			out = new FileOutputStream(playerPath);
 				    			
 			    			while (true) {
@@ -260,7 +260,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 			    			}catch (Exception e) {
 								// TODO: handle exception
 			    				e.printStackTrace();
-			    				playerPath = "‪C:/images/NA.png";
+			    				playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\NA.png";
 							}finally {
 					            // 만일 에러가 발생해서 클로즈가 안됐을 가능성이 있기에
 					            // NULL값을 체크후 클로즈 처리를 합니다.
@@ -525,7 +525,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 				    				url = new URL(playerImage);
 				    				in = url.openStream();
 				    			
-					    			playerPath = "C:/images/"+playerId+".png";	
+					    			playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\"+playerId+".png";	
 					    			out = new FileOutputStream(playerPath);
 					    			
 				    			while (true) {
@@ -547,8 +547,9 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 				    			}catch (Exception e) {
 									// TODO: handle exception
 				    				e.printStackTrace();
-				    				playerPath = "C:/images/NA.png";
+				    				playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\NA.png";
 				    				out = new FileOutputStream(playerPath);
+				    				
 								}finally {
 						            // 만일 에러가 발생해서 클로즈가 안됐을 가능성이 있기에
 						            // NULL값을 체크후 클로즈 처리를 합니다.
