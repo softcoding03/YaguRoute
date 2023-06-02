@@ -29,11 +29,19 @@
 	$(function() {
 		 
 		 $( "button.btn.btn-default" ).on("click" , function() {
-			 alert("관심법");
 			fncGetUserList(1);
 		});
 	 });
 	
+	$(function(){
+		
+		$("#withDrawsun").on("click", function(){
+			
+			alert("탈퇴 유무 순 클릭");
+			
+			
+		});
+	});
 	
     </script>
 </head>
@@ -244,6 +252,9 @@
        		<p class="text-primary">
        		
        		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+       		
+       		<button type="button" id="withDrawsun">탈퇴 유무 순</button>
+       		<button type="button" id="pointsun">포인트 많은 순</button>
        		</p>
             <br>
             <br>

@@ -60,5 +60,14 @@ public class ChannelServiceImpl implements ChannelService {
 		channelDao.deleteChannel(channelID);
 
 	}
+	
+	@Override
+	public void updateChannelGameCode(Channel channel) throws Exception{
+		channelDao.updateChannelGameCode(channel);
+	};
+	
+	public Channel getChannelGameCode(String gameCode) throws Exception{
+		return channelDao.getChannelGameCode(gameCode);
+	}
 
 }

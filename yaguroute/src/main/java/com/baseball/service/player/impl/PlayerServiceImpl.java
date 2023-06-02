@@ -22,7 +22,6 @@ public class PlayerServiceImpl implements PlayerService{
 	@Autowired
 	@Qualifier("playerDao")
 	private PlayerDao playerDao;
-	private SqlSession sqlSession;
 	
 	public void setPlayerDao(PlayerDao playerDao) {
 		this.playerDao = playerDao;

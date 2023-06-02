@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void updateUser(User user) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println(user);
 		userDao.updateUser(user);
 	}
 

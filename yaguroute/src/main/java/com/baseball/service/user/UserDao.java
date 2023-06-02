@@ -32,4 +32,6 @@ public interface UserDao {
 	public int userNickNameCheck(String userNickName) throws Exception;
 	
 	public boolean phoneCheck(String userPhone) throws Exception;
+	
+	public List<User> findUserId(String userPhone) throws Exception;
 }

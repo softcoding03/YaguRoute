@@ -56,7 +56,6 @@
 </head>
 
 <body>
-
 	<div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
@@ -88,9 +87,8 @@
             </div>
         </div>
     </div>
-</div>
-<jsp:include page="/common/topBar.jsp"/>
 
+<jsp:include page="/common/topBar.jsp"/>
     <div class="main-slider-section">
     <div class="main-slider">
         <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000">

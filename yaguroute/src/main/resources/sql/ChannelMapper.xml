@@ -79,6 +79,11 @@
 		SELECT * FROM channel WHERE channel_id = #{value}
 	</select>
 	
+	<!-- SQL : select -->
+	<select id="getChannelGameCode" parameterType="string" resultMap="channelSelectMap">
+		SELECT * FROM channel WHERE game_code = #{value}
+	</select>
+	
 	<!--  SQL : Select List -->
 	<select id="getChannelList"	resultMap="channelSelectMap">
 		SELECT * FROM channel
@@ -94,6 +99,16 @@
 			env_type = #{envType},
 			thumbnail = #{thumbNail},
 			game_code = #{gameInfo.gameCode}
+		</set>
+		WHERE channel_id = #{channelID}
+	</update>
+	
+	<update id="updateChannelGameCode" parameterType="channel">
+		UPDATE channel
+		<set>
+			game_code = #{gameInfo.gameCode},
+			home_click= 0,
+			away_click= 0
 		</set>
 		WHERE channel_id = #{channelID}
 	</update>

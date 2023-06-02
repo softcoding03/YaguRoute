@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -18,18 +18,34 @@
     <script type="text/javascript">
 		$(function(){
 			$('#updateUser').on("click", function(){
-				alert("우연히~~~");
+				//alert("우연히~~~");
 				window.location.href="/users/updateUser";
 			});
 		});	
 
 		$(function(){
-		$('.custom-btn').on('click', function() {
-		    // 개별 이벤트 처리
-		    alert("ㅎㅇ");
+			$('.custom-btn').on('click', function() {
+		    	// 개별 이벤트 처리
+		    	//alert("ㅎㅇ");
+			});
 		});
-	});
 		
+		$(function(){
+			$('#withDraw').on("click", function(){
+				
+				//alert("탈퇴");
+				
+				window.location.href = "/users/withDrawView";
+			});	
+		});
+		$(function(){
+			$("#backback").on("click", function(){
+				
+				//alert("뒤로...");
+				
+				window.location.href = "/main.jsp";
+			});
+		});
 	</script>
 
 </head>
@@ -142,7 +158,6 @@
 		    						</label>
                             	</div>
                             </div>
-                            <button class="custom-btn" data-action="custom-event">개별 이벤트</button>
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
@@ -159,11 +174,11 @@
     </div>
     
     <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button class="update" id="updateUser">정보 수정</button>&emsp;
-                                <button class="back" id="back">뒤로</button>
+                                <button type="button" class="update" id="updateUser">정보 수정</button>&emsp;
+                                <button type="button" class="back" id="backback">뒤로</button>
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-								<button class="bye" id="withDraw">탈퇴</button>
+								<button type="button" class="bye" id="withDraw">탈퇴</button>
                             </div>
     <div class="contacts-map">
         <img class="img-responsive" src="/images/baseball/contacts-map.jpg" alt="contacts-map">

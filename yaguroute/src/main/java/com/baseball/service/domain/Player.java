@@ -3,8 +3,8 @@ package com.baseball.service.domain;
 public class Player {
 	
 	//field
+	private String playerPosition;
     private String playerId;
-    private String playerPosition;
     private String playerName;
     private int playerNumber;
     private int playerWeight;

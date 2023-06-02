@@ -11,7 +11,40 @@
 		<result property="ticketStatus" 		column="ticket_status"	 	jdbcType="VARCHAR"/>
 		<result property="seatCode" 			column="seat_code" 			jdbcType="VARCHAR"/>
 		<result property="seatPrice" 			column="seat_price" 		jdbcType="INTEGER"/>
+		<association property="game" column="game_code" javaType="game" select="getGameInfo"/>
 	</resultMap>
+	
+	<resultMap id="gameSelectMap" type="game">
+		<result property="gameCode" column="GAME_CODE" jdbcType="VARCHAR"/>
+		<result property="gameDate" column="GAME_DATE" jdbcType="DATE"/>
+		<result property="gameTime" column="GAME_TIME" jdbcType="TIME"/>
+		<result property="gameStatusCode" column="GAME_STATUS_CODE" jdbcType="CHAR"/>
+		<result property="gameScore" column="GAME_SCORE" jdbcType="VARCHAR"/>
+		<result property="winningTeamCode" column="WINNING_TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="winningTeamAllocation" column="WINNING_TEAM_ALLOCATION" jdbcType="DOUBLE"/>
+		<result property="videoName" column="VIDEO_NAME" jdbcType="VARCHAR"/>
+		<result property="videoLink" column="VIDOE_LINK" jdbcType="VARCHAR"/>
+		<result property="videoThumbNail" column="VIDEO_THUMBNAIL" jdbcType="VARCHAR"/>
+		<association property="homeTeam" column="HOME_TEAM_CODE" javaType="team" select="getTeamInfo"/>
+		<association property="awayTeam" column="AWAY_TEAM_CODE" javaType="team" select="getTeamInfo"/>
+	</resultMap>
+	
+	<resultMap id="teamSelectMap" type="team">
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="teamNickName" column="TEAM_NICKNAME" jdbcType="VARCHAR"/>
+		<result property="teamEmblem" column="TEAM_EMBLEM" jdbcType="VARCHAR"/>
+		<result property="stadiumName" column="STADIUM_NAME" jdbcType="VARCHAR"/>
+		<result property="stadiumImageFile" column="STADIUM_IMAGE_FILE" jdbcType="VARCHAR"/>
+		<result property="hometown" column="HOMETOWN" jdbcType="VARCHAR"/>
+		<result property="stadiumLat" column="STADIUM_LAT_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumLng" column="STADIUM_LNG_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumAddress" column="STADIUM_ADDRESS" jdbcType="VARCHAR"/>
+		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
+		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
+		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
 	<!--해당경기의 모든 티켓정보 출력(좌석선택위함) -->
 	<select id="getTickets" parameterType="string" resultMap="ticketSelectMap">
 		SELECT * FROM ticket
@@ -21,7 +54,7 @@
 	<!--티켓결제등록(addtransaction 후, tranNo가져와서 ticket정보에 업데이트)-->
 	<update id="addTicketPurchase" parameterType="map">
 		UPDATE ticket 
-		SET	tran_no = #{tranNo}, ticket_status=2
+		SET	tran_no = #{tranNo}, ticket_status=1
 		WHERE ticket_no IN 
 		<foreach collection="list" item="ticketNo" separator="," open="(" close=")">
 			#{ticketNo}
@@ -39,7 +72,6 @@
 		SELECT * FROM ticket
 		WHERE tran_no = #{value}
 	</select>
-	
 	
 	<!-- 티켓판매유무상태 변경 -->
 	<update id="updateTicketStatus" parameterType="ticket">
@@ -74,4 +106,21 @@
 		WHERE user_id=#{userId}
 	</update>
 	
+	<!-- Ticket에 game 정보 세팅 위함 시작-->
+	<select id="getTeamInfo" parameterType="string" resultMap="teamSelectMap">
+		select 
+		*, cast(stadium_lat AS char(20)) STADIUM_LAT_TOCHAR, cast(stadium_lng AS char(20)) STADIUM_LNG_TOCHAR
+		from team
+		<where>
+			team_code=#{value}
+		</where>
+	</select>
+	<select id="getGameInfo" parameterType="string" resultMap="gameSelectMap">
+		select * 
+		from game 
+		<where>
+			game_code = #{value}
+		</where>
+	</select>
+	<!-- Ticket에 game 정보 세팅 위함 끝-->
 </mapper>
