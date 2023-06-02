@@ -24,10 +24,10 @@
     	$( "button.btn.btn-default" ).on("click" , function() {
 			fncGetPostList(1);
 		});
-    	$('.addPost').on("click" , function() {
+    	$('#addPost').on("click" , function() {
 			self.location = "/post/addPost?teamCode="+String($('#teamCode').val())
 		});
-    	$("button:nth-child(n+1)").on("click" , function() {
+    	$("button[name='teamCode']:nth-child(n+1)").on("click" , function() {
 			self.location = "/post/getPostList?teamCode="+$(this).val().trim();
 			console.log($(this).val().trim())
 		});
@@ -43,17 +43,17 @@
     <table>
     <tr>
     <td>
-	    <button type="button" class="btn btn-warning" value="HH">한화</button>
-	    <button type="button" class="btn btn-warning" value="HT">KIA</button>
-	    <button type="button" class="btn btn-warning" value="KT">KT</button>
-	    <button type="button" class="btn btn-warning" value="LG">LG</button>
-	    <button type="button" class="btn btn-warning" value="LT">롯데</button>
-	    <button type="button" class="btn btn-warning" value="NC">NC</button>
-	    <button type="button" class="btn btn-warning" value="OB">두산</button>
-	    <button type="button" class="btn btn-warning" value="SK">SSG</button>
-	    <button type="button" class="btn btn-warning" value="SS">삼성</button>
-	    <button type="button" class="btn btn-warning" value="WO">키움</button>
-	    <button type="button" class="btn btn-warning" value="NN">통합게시판</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="HH">한화</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="HT">KIA</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="KT">KT</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="LG">LG</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="LT">롯데</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="NC">NC</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="OB">두산</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="SK">SSG</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="SS">삼성</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="WO">키움</button>
+	    <button type="button" name="teamCode" class="btn btn-warning" value="NN">통합게시판</button>
     </td>
 	</table>
 <div>
@@ -123,7 +123,7 @@
       
       </table>
       <c:if test="${user.teamCode eq list[0].teamCode || user.role eq 'admin'}">
-      	<button type="button" class="addPost">게시물 작성</button>
+      	<button type="button" id="addPost" class="addPost">게시물 작성</button>
       </c:if>
       		<!-- Search시작 -->
       		<div class="col-md-6 text-right">
