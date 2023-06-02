@@ -98,13 +98,12 @@ public class TransactionController {
 		tranDetail.setTranStatusCode("1"); //구매완료
 		transaction.setTranType("P");
 		
+		System.out.println("transaction에 뭐가 담겨 있지...?"+transaction);
 		transactionService.addTransaction(transaction);
-		
-		
+				
 		return "forward:/transaction/addTransaction.jsp";
 		
 	}
 								  
-	
-	
+
 }
