@@ -13,45 +13,23 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
     <script type="text/javascript">
-    
-	function fncGetPlayerList(currentPage) {
+    		
+    //  <a class="bestPlayerList" href="#" onclick="playerGroup()">링크
+    	 /* function playerGroup(index) {
+    		// playerDate를 가져오는 코드...	
+    		var bestDate = $(".bestDate").eq(index - 1).text();
+    		alert(bestDate);
+    		
+    		self.location.href="/player/bestListPlayerGroup?bestDate="+bestDate;
+		};	 */
 		
-		$("#currentPage").val(currentPage);
-		alert(currentPage);
-		$("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
-		}
-	
-	$(function() {
-		 
-		 $( "button.btn.btn-default" ).on("click" , function() {
-			fncGetPlayerList(1);
-		});
-	 });
-	
-	$(function(){
-		
-		$("#withDrawsun").on("click", function(){
-			
-			alert("탈퇴 유무 순 클릭");
-		});
-	});
-	
-	$(function(){
-		
-		$("td:nth-child(1)").on("click", function(){
-			self.location.href="/player/getPlayer?playerId="+$(this).text().trim();
-		});
-		
-		$( "td:nth-child(1)" ).css("color" , "green");
-	});
-	
     </script>
 </head>
 
 <body>
+
 	<div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
@@ -60,6 +38,10 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 </div>
+
+    
+
+    
 <div class="top-bar">
     <div class="container">
         <div class="row">
@@ -97,7 +79,14 @@
                         </li>
                     </ul>
                 </div>
-				<div class="clear"></div>
+                    <div class="top-search">
+                            <form>
+                                    <input type="text" name="text">
+                                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </form>
+                    </div>
+
+                    <div class="clear"></div>
             </div>
         </div>
     </div>
@@ -178,20 +167,20 @@
                                     <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
                                     <td class="info">
                                         <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
+                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
                                     <td class="info">
                                         <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
+                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
                                     </td>
                                 </tr>
                             </table>
                             <div class="wrap">
                                 <div class="total-text">Subtotal: </div>
-                                <div class="total-digit">£ 120</div>
+                                <div class="total-digit">Â£ 120</div>
                             </div>
                             <div class="wrap btn-wrap">
                                 <a href="cart.html" class="btn view">View cart</a>
@@ -215,10 +204,9 @@
                 <div class="info">
                     <div class="wrap">
                         <ul class="breadcrumbs">
-                            <!-- <li><a href="index.html">Main</a>/</li> -->
-                            <!-- <li>Category</li> -->
+                            <li>BestPlayer</li>
                         </ul>
-                        <h1> 회원 목록 조회</h1>
+                        <h1>BESTPLAYER</h1>
                     </div>
                 </div>
             </div>	
@@ -227,171 +215,37 @@
 </section>
 <!--BREADCRUMBS END-->
 
-    <!--PLAYER SINGLE WRAP BEGIN-->
-    
-    <section class="player-single-wrap">
-        <!--LAST MATCHES BEGIN-->
-<div class="container last-hockey-macthes">
-    <div class="row">
-        <div class="col-md-12 overflow-scroll">
-        	
-            <h3>회원 리스트</h3>
-            <form>
-            <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>선수이름</option>
-					</select>
-			</div>
-            <div class="col-md-6">
-            <label class="sr-only" for="searchKeyword">검색어</label>
-            <input type="text" id="searchKeyword" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-       		</div>
-       		
-       		<button type="button" id="searching" class="btn btn-default">
-			<img src="/images/user/search.jpg" alt="검색_돋보기" width="50" height="50"></button>
-       		
-       		<input type="hidden" id="currentPage" name="currentPage" value=""/>
-       		</form>
-       		
-       		<p class="text-primary">
-       		
-       		전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-       		
-       		<button type="button" id="teamCodeSun">구단 순</button>
-       		<button type="button" id="salarySun">부자 순</button>
-       		</p>
-            <br>
-            <br>
-            <table>
-                <tr>
-                	<th>선수 번호</th>
-                    <th>이름</th>
-                    <th>포지션</th>
-                    <th>등번호</th>
-                    <th>BirthDay</th>
-                    <th>연봉</th>
-                    <th>"키"성용</th>
-                    <th>몸무게</th>
-                    <th>구단</th>
-                </tr>
-                <tr>
-                    <c:set var="i" value="0" />
-		  				<c:forEach var="player" items="${list}">
-						<c:set var="i" value="${ i+1 }" />
-						<tr>
-						  <td align="left">${player.playerId}</td>
-						  <td align="left">${player.playerName}</td>
-						  <td align="left">${player.playerPosition}</td>
-						  <td align="left">No.${player.playerNumber}</td>
-						  <td align="left">${player.playerBirth}</td>
-						  <td align="left">${player.playerSalary}만원</td>
-						  <td align="left">${player.playerHeight}cm</td>
-						  <td align="left">${player.playerWeight}kg</td>
-						  <td align="left">${player.teamCode}</td>
-					    </tr>
-          			</c:forEach>
-          			
-                </tr>
-				<!-- PageNavigation End... -->
-            	</table>
-        		</div>
-	    		<!-- PageNavigation Start... -->
+    <!--STORE WRAP BEGIN-->
+
+    <div class="store-wrap">
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-left">
+            <div class="col-xs-12 col-sm-12 col-md-9">
+                <h6>이주의 선수</h6>
+                <c:set var="i" value="0"/>
+                <c:forEach var="bestplayer" items="${list}">
+                    <c:set var="i" value="${i+1}"/>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="store-list-item">
+                            <div>
+                                <a class="bestPlayerList" href="#" onclick="playerGroup(${i})">링크
+                                    <table>
+                                        <tr>
+                                            <td align="left" class="bestDate">${bestplayer.playerId}</td>
+                                        </tr>
+                                    </table>
+                                    <img src="/images/common/store-item-img.jpg" id="bestPlayerGroup${i}" alt="bestPlayerGroup_DATE" width="50" height="200">
+                                </a>
+                                <div class="info"></div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
     </div>
 </div>
-<jsp:include page="/common/pageNavigator_all.jsp">
-				<jsp:param name="id" value="player"/></jsp:include>
-<!--LAST MATCHES END-->
-</section>
-<!--PLAYER SINGLE WRAP END-->
-
-    <!--FOOTER BEGIN-->
-<footer class="footer">
-    <div class="wrapper-overfllow">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="footer-left">
-                        <div class="wrap">
-                            <a href="index.html" class="foot-logo"><img src="/images/baseball/footer-logo.png" alt="footer-logo"></a>
-                            <p>Activated charcoal trust fund ugh prism af, beard marfa air plant stumptown gastropub farm-to-table jianbing.</p>
-                            <ul class="foot-left-menu">
-                                <li><a href="staff.html">First team</a></li>
-                                <li><a href="staff.html">Second team</a></li>
-                                <li><a href="amateurs.html">Amateurs</a></li>
-                                <li><a href="donations.html">Donation</a></li>
-                                <li><a href="trophies.html">trophies</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-lg-offset-1">
-                    <div class="foot-news">
-                        <h4>Recent news</h4>
-                        <div class="item">
-                            <a href="news.html" class="image"><img class="img-responsive" src="/images/baseball/foot-news-img.jpg" alt="news-image"></a>
-                            <a href="news.html" class="name">When somersaulting Sanchez shouldered Mexicoâs hopes</a>
-                            <a href="news.html" class="date">25 Sep 2016</a>
-                            <span class="separator">in</span>
-                            <a href="news.html" class="category">Highlights</a>
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-lg-3 col-md-4 col-sm-12">
-                    <div class="foot-contact">
-                        <h4>Contact us</h4>
-                        <ul class="contact-list">
-                            <li><i class="fa fa-flag" aria-hidden="true"></i><span>276 Upper Parliament Street, Liverpool L8, Great Britain</span></li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:team@email.com">team@email.com</a></li>
-                            <li class="phone"><i class="fa fa-phone" aria-hidden="true"></i><span>+61 3 8376 6284</span></li>
-                        </ul>
-                        <ul class="socials">
-                            <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-menu-wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="footer-menu">
-                        <li class="active"><a href="index.html"><span>Home</span></a></li>
-                        <li><a href="matches.html"><span>Matches</span></a></li>
-                        <li><a href="staff.html"><span>Team</span></a></li>
-                        <li><a href="news.html"><span>News</span></a></li>
-                        <li><a href="store.html"><span>Store</span></a></li>
-                        <li><a href="contacts.html"><span>Contact</span></a></li>
-                    </ul>	
-                    <a href="#top" class="foot-up"><span>up <i class="fa fa-caret-up" aria-hidden="true"></i></span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="copyrights">
-                        Â© 2017 Team - Sport club psd template
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="created">
-                        <a href="#">Created by <img src="/images/common/created-icon.png" alt="create-by-image"> torbara</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!--FOOTER END-->
-
+        
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
@@ -452,7 +306,6 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-
 
 	
 </body>

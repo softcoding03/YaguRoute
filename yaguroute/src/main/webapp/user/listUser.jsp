@@ -43,6 +43,17 @@
 		});
 	});
 	
+	$(function(){
+		
+		$("td:nth-child(2)").on("click", function(){
+			
+			var recent = $(this).text().trim();
+			alert(recent);
+			
+			window.location.href="/users/getUsers?userId="+recent;
+			
+		});
+	});
     </script>
 </head>
 
@@ -163,37 +174,6 @@
                             <li><a href="checkout.html"><span>checkout</span></a></li>
                         </ul>
                     </li>
-                    <li class="cart full">
-                        <a href="#cart">
-                            <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                        </a>
-                        <div class="cart-drop">
-                            <table class="ct">
-                                <tr>
-                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
-                                    <td class="info">
-                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
-                                    <td class="info">
-                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x £ 60</em></em>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="wrap">
-                                <div class="total-text">Subtotal: </div>
-                                <div class="total-digit">£ 120</div>
-                            </div>
-                            <div class="wrap btn-wrap">
-                                <a href="cart.html" class="btn view">View cart</a>
-                                <a href="checkout.html" class="btn check">checkout cart</a>
-                            </div>
-                        </div>
-                    </li>	
                 </ul>
             </div>       
         </nav>
@@ -202,7 +182,7 @@
 <!--MAIN MENU WRAP END-->
 
 
-    <!--BREADCRUMBS BEGIN-->
+<!--BREADCRUMBS BEGIN-->
 <section class="image-header">
     <div class="container">
         <div class="row">
@@ -274,12 +254,15 @@
 						<c:set var="i" value="${ i+1 }" />
 						<tr>
 						  <td align="center">${ i }</td>
-						  <td align="left">${user.userId}</td>
+						  <td align="left" name="userId">${user.userId}</td>
 						  <td align="left">${user.userName}</td>
 						  <td align="left">${user.userPhone}</td>
 						  <td align="left">${user.userAddr}</td>
 						  <td align="left">${user.withDraw}</td>
 						  <td align="left">${user.userPoint}</td>
+						  <td align="left">
+						  <%-- <i class="glyphicon glyphicon-ok" id= "${user.userId}"></i> --%>
+						  </td>
 					    </tr>
           			</c:forEach>
                 </tr>

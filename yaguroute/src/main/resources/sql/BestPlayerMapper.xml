@@ -15,4 +15,28 @@
 			INSERT INTO BEST_PLAYER (PLAYER_ID, BEST_DATE)
   			VALUES (#{playerId}, #{bestDate})
 		</insert>
+		
+		<select id="getBestPlayerList" parameterType="search" resultMap="bestPlayerSelectMap">
+	  	<include refid="bestplayerList"/>
+	  		Limit #{startRowNum}, #{pageSize}
+		</select>
+		
+		<sql id="bestplayerList">
+			SELECT *
+			FROM best_player
+			ORDER BY best_date
+		</sql>
+	
+		<select id="getTotalCount" parameterType="search" resultType="int">
+			SELECT COUNT(*)
+			FROM (<include refid="bestplayerList"/>) countTable
+		</select>
+		
+		<select id="getBestPlayerByDate" resultMap="bestPlayerSelectMap">
+		    SELECT best_date, GROUP_CONCAT(player_id) AS players
+		    FROM best_player
+		    GROUP BY best_date
+		    ORDER BY best_date DESC
+		</select>
+		
 </mapper>

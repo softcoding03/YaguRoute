@@ -92,18 +92,32 @@ public class UserController {
 	@Value("${commonProperties.pageSize}")
 	private int pageSize;
 
-	@GetMapping(value = "getUser")
-	public String getUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	@GetMapping(value = "getUsers")
+	public String getUsers(@RequestParam("userId") String userId, Model model, HttpSession session) throws Exception {
 
-		user = (User) session.getAttribute("user");
-
-		System.out.println("조회할 사용자 : " + user);
-
+		System.out.println(userId);
+		
+		User user = userService.getUser(userId);
+		
 		model.addAttribute("user", user);
+		
+		return "forward:/user/getUser.jsp";
+	}
+	
+	@GetMapping(value = "getUser")
+	public String getUser(String userId, Model model, HttpSession session) throws Exception {
 
+		session.getAttribute(userId);
+		
+		User user = (User) session.getAttribute(userId);
+		
+		System.out.println(user);
+		
+		model.addAttribute("user", user);
+		
 		return "redirect:/user/getUser.jsp";
 	}
-
+	
 	@PostMapping(value = "login")
 	public String login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request)
 			throws Exception {
@@ -115,7 +129,7 @@ public class UserController {
 
 			//&& dbUser.getWithDraw() == 0
 			
-			if (dbUser.getPassword().equals(user.getPassword()) ) {
+			if (dbUser.getPassword().equals(user.getPassword()) && dbUser.getWithDraw() == 0) {
 
 				System.out.println("일치합니다.");
 				session.setAttribute("user", dbUser);
