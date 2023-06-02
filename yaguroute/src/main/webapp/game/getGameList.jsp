@@ -261,7 +261,7 @@
 		})
 		
 		$(".score span.stream").on("click",function(){
-			self.location = "/game/getGamePreview?gameCode="+$(this).parent().find("#gameCode").val();
+			self.location = "/channel/getStreaming?gameCode="+$(this).parent().find("#gameCode").val();
 		})
 		
 		$(".score span.atag").on("click",function(){

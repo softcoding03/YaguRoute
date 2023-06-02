@@ -41,12 +41,20 @@ public class BestPlayerServiceImpl implements BestPlayerService{
 	public Map<String, Object> getBestPlayerList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		List<BestPlayer> list = bestPlayerDao.getBestPlayerList(search);
+		int totalCount = bestPlayerDao.getTotalCount(search);
 		System.out.println("bestPlayer : "+list);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getBestPlayerByDate() throws Exception {
+		// TODO Auto-generated method stub
+		return (Map<String, Object>) bestPlayerDao.getBestPlayerByDate();
 	}
 	
 	
