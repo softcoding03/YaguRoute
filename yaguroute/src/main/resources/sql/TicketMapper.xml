@@ -67,7 +67,7 @@
 		FROM ticket WHERE tran_no = #{value}
 	</select>
 	
-	<!--특정 결제내역에 해당하는 티켓내역리스트 출력 -->
+	<!--특정 결제내역에 해당하는 티켓정보 출력 -->
 	<select id="getTicketPurchaseList" parameterType="int" resultMap="ticketSelectMap">
 		SELECT * FROM ticket
 		WHERE tran_no = #{value}

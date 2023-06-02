@@ -45,7 +45,24 @@ public class TicketRestController {
 		String userPhone = user.getUserPhone(); //수신자 번호
 		String contents; //메세지 내용
 		contents = user.getUserName()+"님 "+
-				game.getGameDate()+" "+game.getGameTime()+
+				game.getGameDate()+" "+game.getGameTime()+" "+
+				game.getAwayTeam().getTeamNickName()+" vs "+
+				game.getHomeTeam().getTeamNickName()+" 경기가 예매되었습니다.";
+		
+		String result = importAPIRestService.sendSMS(contents, userPhone); //번호와 내용을 변수로 보내줄 것
+		System.out.println("SMS전송 요청 결과는?"+result);
+		return result;
+	}
+	
+	@RequestMapping( value="refund/{tranNo}", method=RequestMethod.GET )
+	public String refund(@PathVariable String gameCode, HttpSession session) throws Exception{
+		System.out.println("넘어온 gameCode?"+gameCode);
+		User user = (User)session.getAttribute("user");
+		Game game = gameService.getGameInfo(gameCode); // 게임 정보
+		String userPhone = user.getUserPhone(); //수신자 번호
+		String contents; //메세지 내용
+		contents = user.getUserName()+"님 "+
+				game.getGameDate()+" "+game.getGameTime()+" "+
 				game.getAwayTeam().getTeamNickName()+" vs "+
 				game.getHomeTeam().getTeamNickName()+" 경기가 예매되었습니다.";
 		
