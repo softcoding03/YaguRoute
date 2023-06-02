@@ -27,10 +27,14 @@
 	    <title>Team HTML</title>
 	    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
 	    <link rel="icon" href="favicon.ico" type="image/x-icon">
-	    <link href="css/style.min.css" rel="stylesheet" type="text/css" />
+	    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 	    
 		<!-- socket.io CDN -->
 		<script src="https://cdn.socket.io/3.1.3/socket.io.min.js"></script>
+		
+		<style>
+		    
+		</style>
 		
 		<script type="text/javascript">
 			$(function(){
@@ -85,16 +89,47 @@
 					});
 				});
 							
+				$(document).ready(function(){
+					//homeClick
+					$("#homeClick").on('click', function(e){
+						socket.emit('homeClick', 1);
+						
+						var fireworkHome = $('<div class="fireworkHome"></div>');
+						
+						fireworkHome.css({
+					    	top: e.pageY - 10, // 마우스 클릭 시 커서 위치로 설정
+					        left: e.pageX - 10
+					    });
+						
+						$('body').append(fireworkHome);
+						
+						setTimeout(function() {
+							fireworkHome.remove(); // 일정 시간 후에 폭죽 요소 제거
+					    }, 1000);
+
+					});
+					
+					//awayClick
+					$("#awayClick").on('click', function(e){
+						socket.emit('awayClick', 1);
+						
+						var fireworkAway = $('<div class="fireworkAway"></div>');
+						
+						fireworkAway.css({
+					    	top: e.pageY - 10, // 마우스 클릭 시 커서 위치로 설정
+					        left: e.pageX - 10
+					    });
+						
+						$('body').append(fireworkAway);
+						
+						setTimeout(function() {
+							fireworkAway.remove(); // 일정 시간 후에 폭죽 요소 제거
+					    }, 1000);
+					});
 				
-				//homeClick
-				$("#homeClick").on('click', function(){
-					socket.emit('homeClick', 1);
 				});
 				
-				//awayClick
-				$("#awayClick").on('click', function(){
-					socket.emit('awayClick', 1);
-				});
+				
 				
 				//click 받기
 				socket.on('homeCount', (data) => {
@@ -186,6 +221,22 @@
 	      border: 1px solid #ccc;
 	      padding: 10px;
 	      }
+	      
+	      .fireworkAway {
+		      position: absolute;
+		      width: 30px;
+		      height: 30px;
+		      background-image: url('${channel.gameInfo.awayTeam.teamEmblem}'); /* 이미지 경로를 적절히 수정하세요 */
+      		  background-size: cover;
+		    }
+		    
+		    .fireworkHome {
+		      position: absolute;
+		      width: 30px;
+		      height: 30px;
+		      background-image: url('${channel.gameInfo.homeTeam.teamEmblem}'); /* 이미지 경로를 적절히 수정하세요 */
+      		  background-size: cover;
+		    }
 		</style>
 	</head>
 	
