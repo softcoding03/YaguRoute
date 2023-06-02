@@ -110,57 +110,75 @@ public class TicketController {
 		
 		String tickets = ticket.getTicketNo(); //ticketNo가 하나의 객체안에 No만 여러개로 담겨옴
 		String[] split = tickets.split(",");
-		for(String splitTicket:split) {
-			System.out.println("split해준 ticket?"+splitTicket);
-		}
-		List<String> list = new ArrayList<>(); //ticketNo가 최대 4개 올 수 있음.
+		List<String> list = new ArrayList<>(); //각 ticketNo를 list에 넣어주기
 		for(String splitTicket:split) {
 			list.add(splitTicket);
 		}
 		Map<String, Object> map = new HashMap<>(); // Mapper에 map 객체 보내주기 위함
 		map.put("tranNo", tranNo);
 		map.put("list", list);
+		ticketService.addTicketPurchase(map); //각 ticket에 tranNo 업데이트해줌
 		
-		System.out.println(":: map 저장된 것은? ? "+map);
-		ticketService.addTicketPurchase(map); //ticket에 tranNo 업데이트해줌
+		Transaction transaction2 = transactionService.getTransaction(tranNo);//결제번호로 해당 결제정보 가져옴
+		List<Ticket> listTicket = ticketService.getTicketPurchaseList(tranNo); //결제번호로 해당 티켓 정보들 가져옴+티켓에 game 정보도 있음
+		System.out.println("보내주는 listTicket?"+listTicket);
+		System.out.println("보내주는 transaction2"+transaction2);
+		model.addAttribute("ticketList", listTicket);//티켓정보+게임정보
+		model.addAttribute("transaction", transaction2); //결제정보+유저정보
+		return "forward:/ticket/getTicket.jsp";
+	}
+	
+	//tranNo로 티켓 결제 내역 출력
+	@GetMapping("getTicketPurchaseDetail")
+	public String getTicketPurchaseDetail(@RequestParam("tranNo") int tranNo,
+											Model model,HttpSession session) throws Exception{
+		System.out.println("/ticket/getTicketPurchaseDetail : GET START");
+		System.out.println("넘어온 데이터?"+tranNo);
 		
-		return "forward:/ticket/getTickets.jsp";
+		Transaction transaction2 = transactionService.getTransaction(tranNo);//결제번호로 해당 결제정보 가져옴
+		List<Ticket> listTicket = ticketService.getTicketPurchaseList(tranNo); //결제번호로 해당 티켓 정보들 가져옴+티켓에 game 정보도 있음
+		System.out.println("보내주는 listTicket?"+listTicket);
+		System.out.println("보내주는 transaction2"+transaction2);
+		model.addAttribute("ticketList", listTicket);//티켓정보+게임정보
+		model.addAttribute("transaction", transaction2); //결제정보+유저정보
+		return "forward:/ticket/getTicket.jsp";
 	}
 	
 	//userId로 ticket 결제내역 List get
-	@GetMapping("getPurchaseList")
-	public String getPurchaseList() throws Exception{
+	@GetMapping("getTicketPurchaseList")
+	public String getTicketPurchaseList(@RequestParam("userId") String userId,Model model,HttpSession session) throws Exception{
+		System.out.println("/ticket/getTicketPurchaseList : GET START");
 		Search search = new Search();
 		search.setCurrentPage(1);
-		search.setPageSize(5);
-		
-		String userId = "john123";
+		search.setPageSize(10);
 		String tranType = "t";
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
-		 
 	 	for(Transaction tran:list) {
 	 		System.out.println(tran);
 	 	}
-		
+		/*
 		Integer totalCount = (Integer)map.get("totalCount");
 		System.out.println("Transaction TotalCount:: "+totalCount);
 		totalCount = (Integer)map.get("totalCount");
+		*/
 		////////결제내역list 정보///////
 		
-		////////game 정보(화면에 어느 경기를 예매한건지 출력해주기 위함/////
+		////////game 정보(화면에 어느 경기를 예매한건지 경기정보 출력해주기 위함/////
 		List<Game> gamelist = new ArrayList<>();
 		for(Transaction tran:list) { //결제내역List에서 tranNo뽑아내서 게임정보불러온 다음 다시 list화
 	 	Game game=gameService.getGameInfo(ticketService.getGameCode(tran.getTranNo()));
 	 	gamelist.add(game);
 		}
 		System.out.println("game정보 불러온 것 :: " +gamelist);
-		return "forward:/ticket/getTickets.jsp";
+		model.addAttribute("transaction", list);//transaction 결제내역 리스트 (gamelist와 1:1)
+		model.addAttribute("game", gamelist); //결제내역에 해당하는 게임 정보 리스트
+		return "forward:/ticket/listTicketPurchase.jsp";
 	}
 	
 	//결제번호에 해당하는 ticket List get
-	@GetMapping("getTicketPurchaseList")
-	public String getTicketPurchaseList() throws Exception{
+	@GetMapping("getTickets")
+	public String getTickets() throws Exception{
 		int tranNo = 30; //화면에서 보내줄 예정
 		Game game=gameService.getGameInfo(ticketService.getGameCode(tranNo)); //게임정보세팅
 		List<Ticket> list = ticketService.getTicketPurchaseList(tranNo); //tranNo에 해당하는 티켓 정보들 get

@@ -16,6 +16,7 @@ import com.baseball.service.domain.Basket;
 import com.baseball.service.domain.Product;
 import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.Transaction;
+import com.baseball.service.domain.User;
 import com.baseball.service.product.ProductService;
 import com.baseball.service.trandetail.TranDetailService;
 import com.baseball.service.transaction.TransactionService;
@@ -78,4 +79,32 @@ public class TransactionController {
 		return modelAndView;
 	}
 
+	@PostMapping(value="addTransaction")
+	public String addTransaction(@ModelAttribute("transaction") Transaction transaction,
+									@RequestParam("prodNo") int prodNo,
+									@RequestParam("userId") String userId) throws Exception {
+		
+		System.out.println("---/transaction/addTransaction 작동 시작---");
+		System.out.println("Transaction Data:: "+transaction);
+		System.out.println("prodNo:: "+prodNo);
+		System.out.println("userId:: "+userId);
+		
+		Product product = productService.getProduct(prodNo);
+		User user = userService.getUser(userId);
+		
+		transaction.setBuyer(user);
+		TranDetail tranDetail = new TranDetail();
+		tranDetail.setTranDetailProd(product);
+		tranDetail.setTranStatusCode("1"); //구매완료
+		transaction.setTranType("P");
+		
+		transactionService.addTransaction(transaction);
+		
+		
+		return "forward:/transaction/addTransaction.jsp";
+		
+	}
+								  
+	
+	
 }
