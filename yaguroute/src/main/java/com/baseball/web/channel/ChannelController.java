@@ -93,11 +93,11 @@ public class ChannelController {
 	//getChannelList
 	@GetMapping("listChannel")
 	public ModelAndView getChannelList() throws Exception{
-		System.out.println("getChannelList 시작");
+		//System.out.println("getChannelList 시작");
 		List<Channel> list = channelService.getChannelList();
 		
 		for(Channel channel : list) {
-			System.out.println(channel);
+			//System.out.println(channel);
 		}
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -121,7 +121,7 @@ public class ChannelController {
 		ModelAndView modelAndView = new ModelAndView();
 		if(user.getRole().equals("user")) {
 			modelAndView.addObject("channel", channel);
-			modelAndView.setViewName("forward:/channel/getStreaming.jsp");
+			modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
 		} else {
 			modelAndView.addObject("channel", channel);
 			modelAndView.setViewName("forward:/channel/getChannel.jsp");
