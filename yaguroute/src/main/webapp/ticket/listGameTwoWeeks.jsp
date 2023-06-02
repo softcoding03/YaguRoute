@@ -23,6 +23,9 @@
 			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
 			self.location = "/ticket/getStadium?gameCode="+gameCode;
 		});
+		$(".getTicketPurchaseList").on("click" , function() {
+			self.location = "/ticket/getTicketPurchaseList?userId=${user.userId}";
+		});
 	});
 		
     </script>
@@ -74,7 +77,7 @@
     <button type="button" class="btn btn-warning teamButton" value="WO">키움</button>
    </td>
 </table>
-    <!--BROADCAST WRAP BEGIN-->
+<button type="button" class="getTicketPurchaseList">예매내역보기</button>
 
 <div class="broadcast-wrap">
    <div class="container">
