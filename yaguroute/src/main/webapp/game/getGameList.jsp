@@ -67,8 +67,20 @@
     </style>
 </head>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+<section class="image-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info">
+                    <div class="wrap">
+                        <h1>경기 일정</h1>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
+</section>
 
 
 <c:set var="tmpSchedule" value="1111"/>
@@ -261,7 +273,7 @@
 		})
 		
 		$(".score span.stream").on("click",function(){
-			self.location = "/game/getGamePreview?gameCode="+$(this).parent().find("#gameCode").val();
+			self.location = "/channel/getStreaming?gameCode="+$(this).parent().find("#gameCode").val();
 		})
 		
 		$(".score span.atag").on("click",function(){
