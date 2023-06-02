@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
@@ -46,13 +46,13 @@
 			
 			
 			if(id == null || id.length <1) {
-				$("#userId").focus();
-				window.location.href = "/user/loginTest(new).jsp";
+				alert("id를 입력해 주세요.");
+				return;
 			}
 			
 			else if(password == null || password.length <1) {
-				$("#password").focus();
-				window.location.href = "/user/loginTest(new).jsp";
+				alert("password를 입력해 주세요.");
+				return;
 			}
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
 		});
@@ -63,7 +63,7 @@
     	
     	$("#signup").on("click", function(){
     		
-    		window.location.href = "/user/signup.jsp";
+    		window.location.href = "/user/addUser.jsp";
     	});
     });
     
@@ -84,10 +84,31 @@
     	});
     });
 	
+	// 
 	$(function(){
 		$("#거정말거").on("click", function(){
 			
 			window.location.href="/users/listUser";
+		});
+	});
+	
+	$(function(){
+		
+		$("#addPlayer").on("click", function(){
+			
+			alert("선수 더하기 클릭");
+			
+			window.location.href = "/player/addPlayer";
+		});
+	});
+	
+	// 선수 리스트
+	$(function(){
+		
+		$("#listPlayer").on("click", function(){
+			alert("선수 리스트 클릭");
+			
+			window.location.href = "/player/listPlayer";
 		});
 	});
     </script>
@@ -130,7 +151,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                <h4>로그인</h4>	
+                <h4>로그인</h4>
                 <div class="leave-comment-wrap">						
                         <div class="row">
                             <div class="col-md-6">
@@ -151,38 +172,33 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="item">
-                                <button id="login" class="comment-submit">로 그 인</button>&nbsp;
+                                <button type="button" id="login" class="comment-submit">로 그 인</button>&nbsp;
                                 
-                                <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/user/naverLogin&state=Naver" class="Naver-login-btn">
+                                <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/users/naverLogin" class="Naver-login-btn">
                                 <img id="naverLogin" class="naver-submit" width="183" height="45" src="/images/user/naverLogin.png" alt="네이버 로그인 버튼">
                                 </a>
                                 
-                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/user/kakaoLogin">
+                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin">
                                 <img id="kakaoLogin" class="kakao-submit" width="183" height="45" src="/images/user/kakaoLogin.png" alt="카카오 로그인 버튼">
                                 </a>
-                                
-                                </div>
+                                <div class="route"><br><br><br><br>
+								<button type="button" id="signup" class="signup">회 원 가 입</button><br>
+								<button type="button" id="findUserId" class="find">아이디 찾기</button>
+								<button type="button" id="findPassword" class="find">비밀번호 찾기</button>
+								
+								<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
+ 								</div>
+ 								<button type="button" id="addPlayer" class="plusPlayer">선수 더하기</button>
+ 								<button type="button" id="listPlayer" class="listPlayer">선수 리스트</button>
                             </div>
-                            </div>
-                        </div>
-                        
+                       </div>
+					 </div>
+                   </div>
                 </div>
             </div>
         </div>
 </section>
 </form>
-
-<div class="container">
-	<button id="signup" class="signup">회 원 가 입</button><br>
-	<button id="findUserId" class="find">아이디 찾기</button>
-	<button id="findPassword" class="find">비밀번호 찾기</button>
-	<button id="거정말거" class="거정말고">listUser</button>
-<ul>
-	<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
-</ul>
-
-</div>
-
 
 <!--CONTACT WRAP END-->
 

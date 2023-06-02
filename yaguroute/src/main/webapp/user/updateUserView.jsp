@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -67,10 +67,29 @@
 				error : function(){
 					alert("서버요청실패");
 				}
-			})
-		})
-	})
+			});
+		});
+	});
 		
+	$(function(){
+		
+		$('.sign').on("click", function(){
+			
+			var userName = $('#userName').val();
+			alert(userName);
+			
+			alert("수정 버튼 클릭.");
+			$('form').attr("method", "POST").attr("action", "/users/updateUser").submit();
+		});
+	});
+	
+	$(function(){
+		$("#backback").on("click", function(){
+			
+			alert("뒤로...");
+			window.location.href = "/users/getUser";
+		});
+	});
 	</script>
 
 	
@@ -116,7 +135,7 @@
                                 <div class="item">
                                     <label>
                                         <span>아이디 <i>*</i></span>
-                                        <input type="text" name="name" id="idCheck" readonly>
+                                        <input type="text" name="userId" id="idCheck" value="${user.userId}"readonly>
                                     </label>
                                 </div>	
                             </div>
@@ -124,7 +143,7 @@
                                 <div class="item">
                                     <label>
                                         <span>패스워드 <i>*</i></span>
-                                        <input type="password" name="password" placeholder="사용할 비밀번호를 입력하세요.">
+                                        <input type="password" name="password" value="${user.password}" placeholder="사용할 비밀번호를 입력하세요.">
                                     </label>
                                 </div>	
                             </div>
@@ -140,7 +159,7 @@
                                 <div class="item">
                                     <label>
                                         <span>이름<i>*</i></span>
-                                        <input type="text" name="userName" id="name">
+                                        <input type="text" name="userName" id="userName" value="${user.userName}">
                                     </label>
                                 </div>
                             </div>
@@ -148,7 +167,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        <input type="text" name="userBirth" readonly>
+                                        <input type="text" name="userBirth" value="${user.userBirth}" readonly>
                                         <button type="button" name="date">달력클릭...</button>
                                     </label>
                                 </div>
@@ -158,8 +177,8 @@
                                     <label>
                                         <span>성별<i>*</i></span>
                                         <!-- 사용자가 선택했던 성별을 표시해야함... -->
-                                        <input type="radio" name="sungbyul" value="M">남
-                                        <input type="radio" name="sungbyul" value="W">여
+                                        <input type="radio" name="gender" value="M" ${user.gender == 'M' ? 'checked' : ''}>남
+                                        <input type="radio" name="gender" value="W" ${user.gender == 'W' ? 'checked' : ''}>여
                                     </label>
                                 </div>
                             </div>
@@ -167,7 +186,7 @@
                             	<div class="item">
                             		<label>
                             		<span>휴대폰 번호</span>
-		    						<input type="text" name="userPhone" id="userPhone" class="form-control" readonly/>
+		    						<input type="text" name="userPhone" id="userPhone" class="form-control" value="${user.userPhone}" readonly/>
 		    						<button type="button" id="phone">인증&nbsp;하기</button>
 		    						</label>
                             	</div>
@@ -175,8 +194,16 @@
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
+                            		<span>사용자 주소</span>
+		    						<input type="text" name="userAddr" id="userAddr" class="form-control" value="${user.userAddr}"/>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
                             		<span>이메일</span>
-		    						<input type="text" name="userEmail" id="email" class="form-control"/>
+		    						<input type="text" name="userEmail" id="email" value="${user.userEmail}" class="form-control"/>
 		    						</label>
                             	</div>
                             </div>
@@ -184,7 +211,7 @@
                             	<div class="item">
                             		<label>
                             		<span>사용자 닉네임</span>
-		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control"/>
+		    						<input type="text" name="userNickName" id="nicknameCheck" value="${user.userNickName}" class="form-control"/>
 		    						<font id="nickname_use" size="2"></font>
 		    						</label>
                             	</div>
@@ -193,17 +220,17 @@
                             	<div class="item">
                             		<label>
                             		<span>선호 구단</span>
-                            			<input type="radio" name="teamCode" value="NN">선택하지 않음 
-                            			<input type="radio" name="teamCode" value="LG">LG 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="LT">LT 
-                                    	<input type="radio" name="teamCode" value="OB">OB 
-                                    	<input type="radio" name="teamCode" value="NC">NC 
-                                    	<input type="radio" name="teamCode" value="HT">HT 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="WO">WO 
-                                    	<input type="radio" name="teamCode" value="HH">HH 
-                                    	<input type="radio" name="teamCode" value="KT">KT 
+                            			<input type="radio" name="teamCode" value="NN" ${user.teamCode == 'NN' ? 'checked' : ''}>선택하지 않음 
+                            			<input type="radio" name="teamCode" value="LG" ${user.teamCode == 'LG' ? 'checked' : ''}>LG 
+                                    	<input type="radio" name="teamCode" value="SS" ${user.teamCode == 'SS' ? 'checked' : ''}>SS 
+                                    	<input type="radio" name="teamCode" value="LT" ${user.teamCode == 'LT' ? 'checked' : ''}>LT 
+                                    	<input type="radio" name="teamCode" value="OB" ${user.teamCode == 'OB' ? 'checked' : ''}>OB 
+                                    	<input type="radio" name="teamCode" value="NC" ${user.teamCode == 'NC' ? 'checked' : ''}>NC 
+                                    	<input type="radio" name="teamCode" value="HT" ${user.teamCode == 'HT' ? 'checked' : ''}>HT 
+                                    	<input type="radio" name="teamCode" value="SS" ${user.teamCode == 'SS' ? 'checked' : ''}>SS 
+                                    	<input type="radio" name="teamCode" value="WO" ${user.teamCode == 'WO' ? 'checked' : ''}>WO 
+                                    	<input type="radio" name="teamCode" value="HH" ${user.teamCode == 'HH' ? 'checked' : ''}>HH 
+                                    	<input type="radio" name="teamCode" value="KT" ${user.teamCode == 'KT' ? 'checked' : ''}>KT 
 		    						</label>
                             	</div>
                             </div>
@@ -211,13 +238,13 @@
                             	<div class="item">
                             		<label>
                             		<span>프로필 사진</span>
-		    						<input type="file" name="userImage" id="profile"/>
+		    						<input type="file" name="userImage" id="profile" value="${user.userImage}"/>
 		    						</label>
                             	</div>
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button class="sign" class="form">수정</button>&emsp;
-                                <button class="back" class="form">취소</button>
+                                <button type="button" class="sign" class="form">수정</button>&emsp;
+                                <button type="button" class="backback" id="backback"class="form">취소</button>
                             </div>
                         </div>
                     </form>

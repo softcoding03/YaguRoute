@@ -1,11 +1,6 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
- <c:if test="${ ! empty user }">
- 	<c:redirect url="/main.jsp"/>
- </c:if>
- <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,6 +14,52 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+    	
+    $(function() {
+    	
+        $("#withDraw").on("click", function() {
+        	
+        	var password1 = $("#password").val();
+        	alert("password : "+password1);
+        	
+        	$.ajax({
+                url: "/users/withDraw",
+                type: "POST",
+                data: { password : password1 },
+                dataType: 'json',
+                success: function(result) {
+                	console.log(result);
+                    // 서버로부터의 응답 처리
+                    if (result == password1) {
+                        alert("탈퇴 처리되었습니다.");
+                        window.location.href="/user/loginTest(new).jsp";
+                    } 
+                    else {
+                        alert("비밀번호가 일치하지 않습니다.");
+                        return;
+                    }
+                },
+                error: function() {
+                    alert("서버 요청 실패");
+                    alert(password1);
+                }
+            });
+        })
+    })
+    
+    	// 탈퇴 취소 버튼
+    	/* $(function(){
+    		
+    		$("#cancelWithDraw").on("click", function(){
+    			
+    			alert("getUser화면으로 이동");
+    			
+    			window.location.href="/users/getUser";
+    		});
+    	}); */
+    </script>
     
 </head>
 
@@ -72,8 +113,8 @@
 		</div>
 		<br><br> 
 		<div class="col-md-8">
-			<button class="withDraw" id="cancelWithDraw">탈퇴 취소</button>
-			<button class="withDraw" id="withDraw">탈퇴</button>
+			<button type="button" class="withDraw" id="cancelWithDraw">탈퇴 취소</button>
+			<button type="button" class="withDraw" id="withDraw">탈퇴</button>
 		</div>
 	</div>
 </section>

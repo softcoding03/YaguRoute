@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -17,6 +17,14 @@
     
     <script type="text/javascript">
 	
+    $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$( "#signup" ).on("click" , function() {
+			//alert("ㅎㅇㅎㅇㅇ");
+			fncAddUser();
+		});
+	});	
+    
 	$(function(){
 		
 		$('#nicknameCheck').keyup(function(){
@@ -48,7 +56,7 @@
 	$(function(){
 		$('#idCheck').keyup(function(){
 			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
-			console.log(id); // 현재 가져오는 id를 log로 출력해봄.
+			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
 				//alert("여기까지 옴!");
 			 $.ajax({
 				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
@@ -70,6 +78,48 @@
 			})
 		})
 	})
+	
+	function fncAddUser() {
+			
+			var userId=$("input[name='userId']").val();
+			var password=$("#password").val();
+			var userName=$("#userName").val();
+			var userPhone=$("#userPhone").val();
+			var userBirth=$("#userBirth").val();
+			var userAddr=$("#userAddr").val();
+			var gender=$("#gender").val();
+			var userEmail=$("#userEmail").val();
+			var userNickName=$("input[name='userNickName']").val();
+			var teamCode=$("#teamCode").val();
+			var userImage=$("#userImage").val();
+			
+			if(userId == null || userId.length <1){
+				alert("아이디는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(password == null || password.length <1){
+				alert("패스워드는  반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(userName == null || userName.length <1){
+				alert("이름은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(userPhone == null || userPhone < 1){
+				alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
+			}
+			
+			$("form").attr("method" , "POST").attr("action" , "/users/addUser").submit();
+		}
+		
+	$(function(){
+		
+		$("#backback").on("click", function(){
+			
+			//alert("가입 취소");
+			window.location.href="/user/loginTest(new).jsp";
+		});
+	});
 		
 	</script>
 
@@ -116,7 +166,7 @@
                                 <div class="item">
                                     <label>
                                         <span>아이디 <i>*</i></span>
-                                        <input type="text" name="name" id="idCheck" placeholder="사용할 아이디를 입력하세요.">
+                                        <input type="text" name="userId" id="idCheck" placeholder="사용할 아이디를 입력하세요.">
                                         <font id="id_use" size="2"></font>
                                     </label>
                                 </div>	
@@ -125,7 +175,7 @@
                                 <div class="item">
                                     <label>
                                         <span>패스워드 <i>*</i></span>
-                                        <input type="password" name="password" placeholder="사용할 패스워드를 입력하세요.">
+                                        <input type="password" name="password" id="password" placeholder="사용할 패스워드를 입력하세요.">
                                     </label>
                                 </div>	
                             </div>
@@ -141,7 +191,7 @@
                                 <div class="item">
                                     <label>
                                         <span>이름<i>*</i></span>
-                                        <input type="text" name="userName" id="name">
+                                        <input type="text" name="userName" id="userName">
                                     </label>
                                 </div>
                             </div>
@@ -149,7 +199,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        <input type="text" name="userBirth">
+                                        <input type="text" name="userBirth" id="userBirth">
                                         <button type="button" name="date">달력클릭...</button>
                                     </label>
                                 </div>
@@ -158,25 +208,33 @@
                                 <div class="item">
                                     <label>
                                         <span>성별<i>*</i></span>
-                                        <input type="radio" name="sungbyul" value="M" checked="checked">남
-                                        <input type="radio" name="sungbyul" value="W">여
+                                        <input type="radio" name="gender" value="M" checked="checked">남
+                                        <input type="radio" name="gender" value="W">여
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
-                            		<span>휴대폰 번호</span>
-		    						<input type="text" name="userPhone" id="userPhone" class="form-control" readonly/>
-		    						<button type="button" id="phone">인증&nbsp;하기</button>
+                            		<span>이메일</span>
+		    						<input type="text" name="userEmail" id="userEmail" class="form-control"/>
 		    						</label>
                             	</div>
                             </div>
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
-                            		<span>이메일</span>
-		    						<input type="text" name="userEmail" id="email" class="form-control"/>
+                            		<span>휴대폰 번호</span>
+		    						<input type="text" name="userPhone" id="userPhone" class="form-control"/>
+		    						<button type="button" id="phoneCheck">인증&nbsp;하기</button>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>주소</span>
+		    						<input type="text" name="userAddr" id="userAddr" class="form-control"/>
 		    						</label>
                             	</div>
                             </div>
@@ -211,13 +269,13 @@
                             	<div class="item">
                             		<label>
                             		<span>프로필 사진</span>
-		    						<input type="file" name="userImage" id="profile"/>
+		    						<input type="file" name="userImage" id="userImage"/>
 		    						</label>
                             	</div>
                             </div>
                             <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button class="sign" class="form">가입</button>&emsp;
-                                <button class="back" class="form">취소</button>
+                                <button type="button" class="sign" id="signup">가입</button>&emsp;
+                                <button type="button" class="back" id="backback">취소</button>
                             </div>
                         </div>
                     </form>

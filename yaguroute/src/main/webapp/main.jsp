@@ -56,7 +56,6 @@
 </head>
 
 <body>
-
 	<div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
@@ -89,7 +88,115 @@
         </div>
     </div>
 </div>
+
+    <!--MAIN MENU WRAP BEGIN-->
+<div class="main-menu-wrap sticky-menu">
+    <div class="container">
+        <a href="index.html" class="custom-logo-link"><img src="/images/baseball/logo.png" alt="logo" class="custom-logo"></a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#team-menu" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <nav class="navbar">
+        	<img alt="야구로토" src="/images/baseball/yaguRoute.png" width="40" height="40">
+            <div class="collapse navbar-collapse" id="team-menu">
+                <ul class="main-menu nav">
+                    <li class="active">
+                        <a href="index.html"><span>Home</span></a>
+                        <ul>
+                            <li><a href="users/listUser"><span>회원 목록 조회</span></a></li>
+                            <li><a href="users/getUser"><span>로그인 회원 조회</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/ticket/getGameList2w?teamCode=HH"><span>경기 예매</span></a>
+                        <ul>
+                            <li>
+                                <a href="standing-cup.html"><span>Standings<i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
+                                <ul>
+                                    <li><a href="standings.html"><span>championship</span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="club-stats.html"><span>club stats</span></a></li>
+                            <li><a href="match-live.html"><span>match live</span></a></li>
+                            <li><a href="broadcasts.html"><span>broadcasts</span></a></li>
+                            <li><a href="upcoming-match.html"><span>upcoming match</span></a></li>
+                            <li>
+                                <a href="championships-archive.html"><span>championships archive<i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
+                                <ul>
+                                    <li><a href="championship.html"><span>championship information</span></a></li>
+                                </ul>	
+                            </li>
+                            <li><a href="live-text-stream.html"><span>Text stream</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/predict/getUserPredict"><span>게임 예측</span></a>
+                        <ul>
+                            <li><a href="player.html"><span>player first page</span></a></li>
+                            <li><a href="player-second-page.html"><span>player second page</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
+                    <li><a href="/post/postMain.jsp"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/algudgodmain.jsp"><span>Store</span></a></li>
+                    <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
+                    <li>
+                        <a href="#other"><span>other</span></a>
+                        <ul>
+                            <li><a href="404.html"><span>404</span></a></li>
+                            <li><a href="offline.html"><span>offline</span></a></li>
+                            <li><a href="coming-soon.html"><span>comming soon</span></a></li>
+                            <li><a href="search.html"><span>search</span></a></li>
+                            <li><a href="donations.html"><span>donations</span></a></li>
+                            <li><a href="trophies.html"><span>trophies</span></a></li>
+                            <li><a href="about-club.html"><span>about club</span></a></li>
+                            <li><a href="checkout.html"><span>checkout</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="cart full">
+                        <a href="/basket/getBasketList">
+                            <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                        </a>
+                        <div class="cart-drop">
+                            <table class="ct">
+                                <tr>
+                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
+                                    <td class="info">
+                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
+                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
+                                    <td class="info">
+                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
+                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="wrap">
+                                <div class="total-text">Subtotal: </div>
+                                <div class="total-digit">Â£ 120</div>
+                            </div>
+                            <div class="wrap btn-wrap">
+                                <a href="cart.html" class="btn view">View cart</a>
+                                <a href="checkout.html" class="btn check">checkout cart</a>
+                            </div>
+                        </div>
+                    </li>	
+                </ul>
+            </div>       
+        </nav>
+    </div>
+</div>
+<!--MAIN MENU WRAP END-->
+
+=======
 <jsp:include page="/common/topBar.jsp"/>
+>>>>>>> refs/remotes/origin/master
 
     <div class="main-slider-section">
     <div class="main-slider">

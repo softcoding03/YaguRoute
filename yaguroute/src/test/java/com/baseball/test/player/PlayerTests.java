@@ -68,9 +68,9 @@ public class PlayerTests {
 	@Test
 	public void addPlayer_with_crawling() throws Exception{
 		
-		playerService.dropForeignKey();
-		playerService.deletePlayer();
-		playerService.addForeignKey();
+//		playerService.dropForeignKey();
+//		playerService.deletePlayer();
+//		playerService.addForeignKey();
 		
 		Player player = new Player(); // 선수 인스턴스 생성
 		
