@@ -18,7 +18,11 @@
 <script type="text/javascript">
 
 
- //var totalPrice=0; // 전역 변수 선언하고 초기값으로 0 설정.
+
+function fncAddTransaction() { 
+	$("form").attr("method" ,"POST").attr("action" , "/transaction/addTransaction").submit();
+}
+
 // 사용할 포인트 - 총가격  하여 결제 가격 지정하는 코드
   $(document).ready(function() {
     $('#applyPointButton').click(function() {
@@ -27,7 +31,7 @@
       
       var totalPrice = ${totalPrice};
       totalPrice -= tranUsePoint;    	 
-      alert("2번쨰"+totalPrice)
+      alert("2번쨰알림 "+totalPrice)
       $("#totalPrice").val(totalPrice);
       
     });
@@ -35,7 +39,8 @@
 
   // 아임포트 구매 시작 
 	    $(function() {
-  	  $("td.ct_btn01:contains('구매')").on("click" , function() {
+	    $("#productTransaction").on("click" , function() {
+  	  //$("td.ct_btn01:contains('구매')").on("click" , function() {
   	    alert("결제를 시작한다.");
   	    requestPay(totalPrice);
   	  });
@@ -68,7 +73,7 @@
 			    buyer_addr: payAddr //직접 입력한 받는사람 배송주소
 			},	//결제완료
 				function (rsp) { // 결제 완료시 response !  
-				/*
+				/*  
 				콜백함수에서 전달할 수 있는 정보: 
 				 1.rsp.success: 결제 성공여부 불리언값
 				 2.rsp.merchant_uid: 결제 요청 시 전달한 'merchant_uid'의 값
@@ -84,10 +89,20 @@
 				 		    	 $('#impNo').val(rsp.imp_uid);		 // 아임포트에서 부여한 고유 결제 거래 ID
 				 		    	 $('#merchantNo').val(rsp.merchant_uid); // 결제 요청시 만들어 전달한 merchant_uid 값
 				 		    	 $('#payOption').val(rsp.pay_method); // 결제방법, 수단 (tranPayOption)
-		  	
+
+				 		    	 console.log($("#prodNo").val());
+				 		    	 console.log($("#userId").val());
+				 		    	 console.log($("#impNo").val());
+				 		    	 console.log($("#merchantNo").val());
+				 		    	 console.log($("#payOption").val());
+				 		    	 console.log($("#tranUsePoint").val());
+
+				 		    	 					
+
+				 		    	 
 				 		    	 if (rsp.paid_amount == payAmount) { 
 				 		            alert("결제가 완료되었습니다. 결제 승인: "+rsp.paid_at);
-				 		            fncAddTransaction();
+				 		            	fncAddTransaction();
 				 		          } else {
 				 		        	  alert("결제에 실패하였습니다. : 가격이 검증되지 않았습니다...!");
 				 		          }	    	 
@@ -98,9 +113,7 @@
 			 }; 
 	});	 //아임포트 End
 		 		  
-	function fncAddTransaction() { 
-		$("form").attr("method" ,"POST").attr("action" , "/transaction/addTransaction").submit();
-	}
+
 
 
 </script>
@@ -109,13 +122,13 @@
 <body>
 
 <button id="applyPointButton">적용</button>
-
+<button id="productTransaction">구매</button>
+<input type="hidden" name="userPoint" value="${user.userPoint} " /> 
 		<form name="detailForm">
 
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-					<input type="hidden" name="userPoint" value="${user.userPoint} " /> 
-					<input type="hidden" id="prodNo" name="prodNo" value="" /> 
-					
+					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
+					<input type="hidden" id="userId" name="userId" value="${user.userId} " /> 
 					<input type="hidden" id="impNo" name="impNo" value="" /> 
 					<input type="hidden" id="merchantNo" name="merchantNo" value="" /> 
 					<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
@@ -260,7 +273,7 @@
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">
 					<div>
-						<input type="text" name="tranUsePoint" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"
+						<input type="text" id="tranUsePoint" name="tranUsePoint" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"
 							value="${transaction.tranUsePoint}" /> <span>${user.userPoint}</span>
 						포인트
 						

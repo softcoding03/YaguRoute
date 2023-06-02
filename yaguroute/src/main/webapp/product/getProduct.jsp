@@ -148,9 +148,7 @@
 					var prodQuantity = $("input[type='number']").val();
 					var prodNo = "${product.prodNo}";
 					var prodPrice = "${product.prodPrice}";
-						alert("나다")
-					var addTranUrl = "/transaction/addTransaction?prodNo="
-							+ prodNo + "&prodQuantity=" + prodQuantity
+					var addTranUrl = "/transaction/addTransaction?prodNo="+ prodNo + "&prodQuantity=" + prodQuantity
 							+ "&prodPrice=" + prodPrice;
 					self.location = addTranUrl;
 				});
