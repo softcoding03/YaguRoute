@@ -32,7 +32,7 @@
                 success: function(result) {
                 	console.log(result);
                     // 서버로부터의 응답 처리
-                    if (result == password1) {
+                    if (result == 1) {
                         alert("탈퇴 처리되었습니다.");
                         window.location.href="/user/loginTest(new).jsp";
                     } 
