@@ -1,10 +1,8 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
- <c:if test="${ ! empty user }">
- 	<c:redirect url="/main.jsp"/>
- </c:if>
+
  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!DOCTYPE html>
@@ -20,8 +18,69 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <script type="text/javascript">
+	$(function(){
+			
+			$('#nicknameCheck').keyup(function(){
+				
+				var nickname = $('#nicknameCheck').val();
+				console.log(nickname);
+				$.ajax({
+					url : "/user/userNickNameCheck",
+					method : "POST",
+					data : {userNickName : nickname},
+					dataType : 'json',
+					success : function(result){
+						if(result == 1){
+							$("#nickname_use").html('이미 사용중인 닉네임입니다.');
+							$("#nickname_use").attr('color', '#dc3545');
+						
+						}else{
+							$('#nickname_use').html('사용 가능한 닉네임입니다.');
+							$('#nickname_use').attr('color', '#2fb380');
+						}
+					},
+					error : function(){
+						alert("서버 요청 실패");
+					}
+				})
+			})
+		});
+	
+	$(function(){
+		
+		$("#signup").on("click", function(){
+			
+			var userId = "${user.userId}";
+			var userName = "${user.userName}";
+			var userBirth = "${user.userBirth}";
+			var userEmail = "${user.userEmail}";
+			var userPassword = "${user.password}";
+			var userPhone = "${user.userPhone}";
+			var gender = "${user.gender}";
+			var userImage = "${user.userImage}"
+			var teamCode = "${user.teamCode}";
+			var userAddr = $("#userAddr").val();
+			var userNickName = $("input[name='userNickName']").val();
+			var teamCode = $("input[name='teamCode']").val();
+			
+			
+			$("form").attr("method", "POST").attr("action", "/users/addNaverUser").submit();
+			
+		});
+	});
+	
+	$(function(){
+		
+		$("#backback").on("click", function(){
+			
+			alert("가입 취소");
+			window.location.href = "/user/loginTest(new).jsp";
+		});
+	});
+    </script>
+    
 </head>
-
 <body>
 	<div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
@@ -58,46 +117,51 @@
 	<div class="container">
 		<div class="row">
 		<div class="col-md-8">
-			주소<br><input type="text" id="userAddr" readonly>
-			<button id="addrButton">우편번호 검색</button>
-			<br> <input type="text" id="userAddrPlus" placeholder="추가정보 입력">
+			주소<br><input type="text" id="userAddr" name="userAddr">
+			<!-- <button type="button" id="addrButton">우편번호 검색</button> -->
+			<!-- <br> <input type="text" id="userAddrPlus" placeholder="추가정보 입력"> -->
+		</div>
+		<input name="userId" value="${user.userId}" />
+		<input name="userName" value="${user.userName}" />
+		<input name="userBirth" value="${user.userBirth}" />
+		<input name="userEmail" value="${user.userEmail}" />
+		<input name="password" value="${user.password}" />
+		<input name="userPhone" value="${user.userPhone}" />
+		<input name="gender" value="${user.gender}" />
+		<input name="userImage" value="${user.userImage}"/>
+		<input name="teamCode" value="${user.teamCode}" />
+		<div> 
+		<div class="col-md-8">
+			닉네임<br>
+			<input type="text" id="nicknameCheck" name="userNickName">
+			<font id="nickname_use" size="2"></font>
 		</div>
 		<div class="col-md-8">
-			닉네임<br><input type="text" id="userNickName">
+                      <div class="item">
+                      		<label>
+                      		<span>선호 구단</span>
+                      			<input type="radio" name="teamCode" value="NN" checked="checked">선택하지 않음 
+                      			<input type="radio" name="teamCode" value="LG">LG 
+                              	<input type="radio" name="teamCode" value="SS">SS 
+                              	<input type="radio" name="teamCode" value="LT">LT 
+                              	<input type="radio" name="teamCode" value="OB">OB 
+                              	<input type="radio" name="teamCode" value="NC">NC 
+                              	<input type="radio" name="teamCode" value="HT">HT 
+                              	<input type="radio" name="teamCode" value="SS">SS 
+                              	<input type="radio" name="teamCode" value="WO">WO 
+                              	<input type="radio" name="teamCode" value="HH">HH 
+                              	<input type="radio" name="teamCode" value="KT">KT 
+						</label>
+                      </div>
 		</div>
-		<div class="col-md-8">
-                            	<div class="item">
-                            		<label>
-                            		<span>선호 구단</span>
-                            			<input type="radio" name="teamCode" value="NN">선택하지 않음 
-                            			<input type="radio" name="teamCode" value="LG" checked="checked">LG 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="LT">LT 
-                                    	<input type="radio" name="teamCode" value="OB">OB 
-                                    	<input type="radio" name="teamCode" value="NC">NC 
-                                    	<input type="radio" name="teamCode" value="HT">HT 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="WO">WO 
-                                    	<input type="radio" name="teamCode" value="HH">HH 
-                                    	<input type="radio" name="teamCode" value="KT">KT 
-		    						</label>
-                            	</div>
-                            </div>
-		
-		<div class="col-md-8">
-                            	<div class="item">
-                            		<label>
-                            		<span>프로필 사진</span>
-		    						<input type="file" name="userImage" id="profile"/>
-		    						</label>
-                            	</div>
-                            </div>
 		<br><br> 
 		</div>
+		
 		<div class="col-md-8">
-			<button id="searchId">수정</button>
-			<button id="back">취소</button>
+			<button type="button" id="signup">가입</button>
+			<button type="button" id="backback">취소</button>
 		</div>
+	</div>
 	</div>
 </form>
 <!--CONTACT WRAP END-->

@@ -39,6 +39,9 @@ public class User {
 		return userBirth;
 	}
 	public void setUserBirth(String userBirth) {
+		if(userBirth != null) {
+		userBirth = userBirth.replace("-", "");
+		}
 		this.userBirth = userBirth;
 	}
 	public String getUserEmail() {
@@ -75,6 +78,9 @@ public class User {
 		return userPhone;
 	}
 	public void setUserPhone(String userPhone) {
+		if(userPhone != null) {
+		userPhone = userPhone.replace("-", "");
+		}
 		this.userPhone = userPhone;
 	}
 	public int getPhoneCheck() {
@@ -104,8 +110,16 @@ public class User {
 	public String getGender() {
 		return gender;
 	}
-	public void setGender(String string) {
-		this.gender = string;
+	public void setGender(String gender) {
+		if(gender == "male") {
+			gender = "M";
+			this.gender = gender;
+		}
+		else {
+			gender = "W";
+			this.gender = gender;
+		}
+		this.gender = gender;
 	}
 	public int getWithDraw() {
 		return withDraw;

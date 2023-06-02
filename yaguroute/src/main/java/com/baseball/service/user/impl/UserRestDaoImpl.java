@@ -123,7 +123,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		userInfo.put("userEmail", userEmail);
 		userInfo.put("userImage", userImage);
 		userInfo.put("userPhone", userPhone);
-		userInfo.put("userBirth", userBirth1+userBirth2);
+		userInfo.put("userBirth", userBirth2+userBirth1);
 		userInfo.put("gender", gender);
 		
 		System.out.println("userId : "+userId + " userNickName : "+userNickName+" userName : "+userName+" userEmail : "+userEmail+" userImage : "+userImage+" userPhone : "+userPhone+" userBirth : "+userBirth1+userBirth2+" gender : "+gender);
@@ -155,7 +155,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		// HTTP 요청에 필요한 파라미터 설정
 		String postParams = "grant_type=authorization_code" +
 			"&client_id=" + "492090239797ebad0d3181db65216b78" +
-			"&redirect_uri=" + "http://192.168.0.116:8080/user/kakaoLogin" +
+			"&redirect_uri=" + "http://192.168.0.116:8080/users/kakaoLogin" +
 			"&code=" + authorizationCode;
 		
 		
@@ -229,18 +229,19 @@ public class UserRestDaoImpl implements UserRestDao{
         String userName = properties.get("nickname").toString();
         String userImage = properties.get("profile_image").toString();
         String userEmail = kakaoAccount.get("email").toString();
+        String gender = kakaoAccount.get("gender").toString();
         
-        System.out.println("properties : "+properties);
-        System.out.println("kakaoAccount : "+kakaoAccount);
         System.out.println("userId : "+userId);
         System.out.println("userName : "+userName);
         System.out.println("userImage : "+userImage);
         System.out.println("userEmail : "+userEmail);
+        System.out.println("gender : "+gender);
         
         userInfo.put("userId", userId);
         userInfo.put("userName", userName);
         userInfo.put("userImage", userImage);
         userInfo.put("userEmail", userEmail);
+        userInfo.put("gender", gender);
         
 		return userInfo;
 	}

@@ -11,6 +11,7 @@
             <span class="icon-bar"></span>
         </button>
         <nav class="navbar">
+        <img alt="야구로토" src="/images/baseball/yaguRoute.png" width="40" height="40">
             <div class="collapse navbar-collapse" id="team-menu">
                 <ul class="main-menu nav">
                     <li class="active">
@@ -27,7 +28,7 @@
                         <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                     </li>
                     <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
-                    <li><a href="/post/postMain.jsp"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
                     <li><a href="/algudgodmain.jsp"><span>Store</span></a></li>
                     <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     <li>
