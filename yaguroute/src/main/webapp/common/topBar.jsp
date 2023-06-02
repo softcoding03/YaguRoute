@@ -3,7 +3,7 @@
 <!--MAIN MENU WRAP BEGIN-->
 <div class="main-menu-wrap">
     <div class="container">
-        <a href="/main.jsp" class="custom-logo-link"><img src="/images/baseball/yaguRoute.png" alt="logo" class="custom-logo" width="120" height="100"></a>
+        <a href="/main.jsp" class="custom-logo-link"><img src="/images/baseball/yaguRoute.png" alt="logo" class="custom-logo" width="140" height="103"></a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#team-menu" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -13,8 +13,8 @@
         <nav class="navbar">
             <div class="collapse navbar-collapse" id="team-menu">
                 <ul class="main-menu nav">
-                    <li class="active">
-                        <a href="/index.html"><span>홈</span></a>
+                    <li>
+                        <a href="/main.jsp"><span>홈</span></a>
                         <ul>
                             <li><a href="users/listUser"><span>회원 목록 조회</span></a></li>
                             <li><a href="users/getUser"><span>로그인 회원 조회</span></a></li>
