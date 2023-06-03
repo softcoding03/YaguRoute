@@ -61,16 +61,7 @@
 		INSERT INTO transaction
 		(tran_no, user_id, imp_no, merchant_no, receiver_name, receiver_phone, receiver_addr, tran_total_price, tran_payment_option
 		, dlvy_request, tran_date, tran_type, tran_use_point, tran_add_point)
-		VALUES (null, #{buyer.userId}, #{impNo}, #{merchantNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr}, 
-		<choose>
-       	 <when test="tranUsePoint > 0">
-            #{tranTotalPrice} - #{tranUsePoint},
-        </when>
-        <otherwise>
-            #{tranTotalPrice},
-        </otherwise>
-  	  </choose>
-    
+		VALUES (null, #{buyer.userId}, #{impNo}, #{merchantNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr}, #{tranTotalPrice},
 		#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint})
 	
 	</insert>

@@ -70,12 +70,11 @@
 	</select>
 
 
-	<insert		id="addTranDetail"	parameterType="tranDetail">
+	<insert id="addTranDetail"	parameterType="tranDetail">
 	
 	INSERT INTO tranDetail
 	(tran_detail_no, prod_no, tran_no, tran_status_code, tran_quantity, refund_status_code)
-	VALUES (null, #{tranDetailProd.prodNo}, #{tranDetailTran.tranNo}, #{tranStatusCode},
-	#{tranQuantity}, #{refundStatusCode})
+	VALUES (null, #{tranDetailProd.prodNo}, #{tranDetailTran.tranNo}, #{tranStatusCode}, #{tranQuantity}, #{refundStatusCode})
 	
 	</insert>
 	
