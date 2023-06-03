@@ -25,6 +25,6 @@ public interface TicketDao {
 	
 	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception;
 	
-	public void updatePoint(User user) throws Exception;
+	public void updateRefundPoint(User user) throws Exception;
 	
 }

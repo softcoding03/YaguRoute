@@ -1,6 +1,9 @@
 package com.baseball.web.ticket;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +108,21 @@ public class TicketController {
 		User user = (User)session.getAttribute("user");
 		transaction.setBuyer(user);
 		transaction.setTranType("T");
+		
+		String dateString = ticket.getGame().getGameDate(); // 기존 날짜 및 시간
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = dateFormat.parse(dateString); // 문자열을 날짜로 변환
+		
+		Calendar calendar = Calendar.getInstance(); // Calendar 인스턴스 생성
+		calendar.setTime(date); // Calendar에 기존 날짜 및 시간 설정
+		calendar.add(Calendar.DAY_OF_MONTH, -1); // -1일 계산
+		calendar.set(Calendar.HOUR_OF_DAY, 0); // 24:00으로 설정
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Date refundDate = calendar.getTime(); // 계산된 날짜 및 시간을 가져옴
+
+		transaction.setRefundableDate(refundDate);
+		
 		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
 		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
 		

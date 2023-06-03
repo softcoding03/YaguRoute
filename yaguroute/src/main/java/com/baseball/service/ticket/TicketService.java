@@ -31,5 +31,5 @@ public interface TicketService {
 	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception;
 	
 	//환불완료 시 user가 구매 시 사용한 point 복구
-	public void updatePoint(User user) throws Exception; 
+	public void updateRefundPoint(User user) throws Exception; 
 }

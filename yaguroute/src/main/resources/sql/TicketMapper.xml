@@ -83,10 +83,10 @@
 	</update>
 	
 	<!-- transaction환불유무상태 변경 -->
-	<update id="updateTicketRefund" parameterType="ticket">
+	<update id="updateRefundStatus" parameterType="int">
 		UPDATE transaction
 		<set>
-			refund_status = 1
+			refund_status = 1, tran_date = SYSDATE()
 		</set>
 		WHERE tran_no = #{value}
 	</update>
@@ -98,7 +98,7 @@
 	</select>
 	
 	<!--환불 시 user가 사용한 point 다시 복구해주는 쿼리-->
-	<update id="updateRefundStatus" parameterType="user">
+	<update id="updateRefundPoint" parameterType="user">
 		update user
 		<set>
 			user_point=user_point+#{userPoint}
