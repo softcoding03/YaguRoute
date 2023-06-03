@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Team HTML</title>
+    <title>이주의 선수 리스트</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -216,7 +216,6 @@
 <!--BREADCRUMBS END-->
 
     <!--STORE WRAP BEGIN-->
-
     <div class="store-wrap">
     <div class="container">
         <div class="row row-offcanvas row-offcanvas-left">

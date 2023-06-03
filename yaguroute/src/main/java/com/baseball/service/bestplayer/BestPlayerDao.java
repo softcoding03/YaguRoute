@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.BestPlayer;
+import com.baseball.service.domain.Player;
 
 public interface BestPlayerDao {
 	
@@ -14,4 +15,7 @@ public interface BestPlayerDao {
 	public int getTotalCount(Search search) throws Exception;
 	
 	public List<BestPlayer> getBestPlayerByDate() throws Exception;
+	
+//	public List<Player> getPlayerByBestPlayer(Search search) throws Exception;
+	
 }
