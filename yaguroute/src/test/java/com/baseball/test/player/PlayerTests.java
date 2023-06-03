@@ -69,7 +69,7 @@ public class PlayerTests {
 	public void addPlayer_with_crawling() throws Exception{
 		
 //		playerService.dropForeignKey();
-//		playerService.deletePlayer();
+		playerService.deletePlayer();
 //		playerService.addForeignKey();
 		
 		Player player = new Player(); // 선수 인스턴스 생성
@@ -676,6 +676,8 @@ public class PlayerTests {
 						    				/// ---SB(도루)---
 						    				/// ---THREEOUT(삼진아웃)---
 						    				/// 데이터 입력하기 
+						    				
+						    				playerService.addPlayer(player);
 						    				
 						    			}// end of else [Record에서 기록이 존재할 때...]
 						    			
