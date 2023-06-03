@@ -11,6 +11,25 @@
 		<result property="bestDate" column="BEST_DATE" jdbcType="DATE"/>
 	</resultMap>
 	
+	<resultMap id="playerSelectMap" type="player">
+		<result property="playerId" column="PLAYER_ID" jdbcType="VARCHAR"/>
+		<result property="playerPosition" column="PLAYER_POSITION" jdbcType="VARCHAR"/>
+		<result property="playerName" column="PLAYER_NAME" jdbcType="VARCHAR"/>
+		<result property="playerNumber" column="PLAYER_NUMBER" jdbcType="INTEGER"/>
+		<result property="playerHeight" column="PLAYER_HEIGHT" jdbcType="INTEGER"/>
+		<result property="playerWeight" column="PLAYER_WEIGHT" jdbcType="INTEGER"/>
+		<result property="playerImage" column="PLAYER_IMAGE" jdbcType="VARCHAR"/>
+		<result property="playerBirth" column="PLAYER_BIRTH" jdbcType="VARCHAR"/>
+		<result property="playerSalary" column="PLAYER_SALARY" jdbcType="INTEGER"/>
+		<result property="era" column="ERA" jdbcType="FLOAT"/>
+		<result property="threeOut" column="THREEOUT" jdbcType="INTEGER"/>
+		<result property="battingAvg" column="BAVF" jdbcType="FLOAT"/>
+		<result property="hitter" column="H" jdbcType="INTEGER"/>
+		<result property="homeRun" column="HR" jdbcType="INTEGER"/>
+		<result property="stolenBase" column="SB" jdbcType="INTEGER"/>
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+	</resultMap>
+	
 		<insert id="addBestPlayer" parameterType="bestplayer">
 			INSERT INTO BEST_PLAYER (PLAYER_ID, BEST_DATE)
   			VALUES (#{playerId}, #{bestDate})
@@ -38,5 +57,11 @@
 		    GROUP BY best_date
 		    ORDER BY best_date DESC
 		</select>
+		
+<!-- 		<select id="getPlayerByBestPlayer" parameterType="player" resultMap="playerSelectMap">
+			SELECT *
+			FROM player
+			WHERE player_id IN (<include refid="bestplayerList">)
+		</select> -->
 		
 </mapper>

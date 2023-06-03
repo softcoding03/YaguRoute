@@ -1,5 +1,8 @@
 package com.baseball.web.player;
 
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,8 @@ import com.baseball.service.player.PlayerCrawlingDao;
 import com.baseball.service.player.PlayerDao;
 import com.baseball.service.player.PlayerService;
 import com.baseball.service.user.UserService;
+
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 @RequestMapping("/player/*")
@@ -52,7 +58,7 @@ public class PlayerController {
 	@Qualifier("bestPlayerDao")
 	private BestPlayerDao bestPlayerDao;
 	
-	@GetMapping("addPlayer")
+	@Scheduled(cron = "0 0 5 ? * MON")
 	public void addPlayer() throws Exception{
 		
 		System.out.println("addPlayer ㅎㅇ");
@@ -145,33 +151,114 @@ public class PlayerController {
 		return "forward:/player/listBestPlayer.jsp";
 	} 
 	
+	// 해당 날짜에 해당하는 선수의 playerId로 Player객체를 가져와 리스트에 담기
 	@GetMapping("bestListPlayerGroup")
 	public String bestListPlayerGroup(@RequestParam("bestDate")String bestDate, Model model, Search search) throws Exception{
 		
-		System.out.println("bestDate : "+bestDate);
+		//System.out.println("bestDate : "+bestDate);
 		System.out.println("BestPlayer의 날짜별 그룹");
 		
 		if (search.getCurrentPage() == 0) {
 		search.setCurrentPage(1);
 		}
-		search.setPageSize(100);
+		search.setPageSize(bestPlayerDao.getTotalCount(search));
 		
 		Map<String, Object> bestPlayerMap = bestPlayerService.getBestPlayerList(search);
 		Page resultPage = new Page(search.getCurrentPage(), (int) bestPlayerMap.get("totalCount"), pageUnit, pageSize);
 		
+		// 1. 금주의 선수 Map -> List로 변환함.
 		List<BestPlayer> bestPlayerList = (List<BestPlayer>) bestPlayerMap.get("list");
+		System.out.println("bestPlayerList 2 : "+bestPlayerList); // 원래는 model.attribute()로 정보를 넘겼지만...
 		
-		System.out.println(bestPlayerList);
+		// 2. 전체 선수 Map
+		search.setPageSize(playerDao.getTotalCount(search));
+		Map<String, Object> playerMap = playerService.getPlayerList(search);
+		System.out.println("search in player :: "+playerDao.getTotalCount(search));
 		
+		// 3. 전체 선수 Map -> List로 변환함.
+		List<Player> totalPlayerList = (List<Player>) playerMap.get("list");
+		//System.out.println("totalPlayerList : "+totalPlayerList);
+
 		bestPlayerList = bestPlayerList.stream().filter(bestplayer -> bestplayer.getBestDate().equals(bestDate))
-		.collect(Collectors.toList());
+				.collect(Collectors.toList());
+
+		List<Player> nigro = null;
 		
-		System.out.println("bestPlayerList : "+bestPlayerList);
+		for (BestPlayer bestPlayers : bestPlayerList) {
+			
+			//System.out.println("bestPlayers : "+bestPlayers.getPlayerId());
+			Player nigger = playerService.getPlayer(bestPlayers.getPlayerId());
+			
+			System.out.println("nigger : "+nigger);
+			nigro.add(nigger);
+		}
 		
-		model.addAttribute("list", bestPlayerList);
+//		player가 있잖아. bestPlayer의 아이디와 일치하는 player를 가져오려고하는건데? 그치? 
+		
+		
+//		model.addAttribute("player", );
+		model.addAttribute("player",nigro);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/player/getBestPlayer.jsp";
-	};
+		return "forward:/player/listBestPlayerGroup.jsp";
+	}
+	
+//	@Scheduled(fixedRate = 30000)
+	@Scheduled(cron = "0 0 3 ? * MON")
+	public void addBestPlayer() throws Exception {
+		System.out.println("addBestPlayer");
+		
+		Search search = new Search();
+		
+		search.setCurrentPage(1);
+		search.setPageSize(900); // 전체 선수 출력 위해...
+		Map<String, Object> map = playerService.getPlayerList(search);
+		System.out.println(search+"\n"+map); // totalCount가 출력된다.
+		
+		/* 1. 타자 베스트 */
+		List<Player> playerList = (List<Player>) map.get("list");
+		System.out.println(playerList);
+		playerList = playerList.stream().filter(player -> 
+		player.getPlayerPosition().equals("내야수") || player.getPlayerPosition().equals("외야수") || player.getPlayerPosition().equals("포수"))
+		.sorted(Comparator.comparingDouble(Player::getBattingAvg).reversed())
+        .limit(8)
+        .collect(Collectors.toList());
+		
+		/* 2. 투수 베스트 */
+		List<Player> playerToosoo = (List<Player>) map.get("list");
+		playerToosoo = playerToosoo.stream().filter(player ->player.getPlayerPosition().equals("투수"))
+		.sorted(Comparator.comparingDouble(Player::getEra).reversed())
+		.limit(1)
+		.collect(Collectors.toList());
+		
+		BestPlayer bestplayer = new BestPlayer(); // BestPlayer 인스턴스 생성
+		
+		for(Player player : playerList) {
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String dateString = formatter.format(new Date());
+			
+			System.out.println("playerId : "+player.getPlayerId());
+			bestplayer.setPlayerId(player.getPlayerId());
+			bestplayer.setBestDate(dateString);
+			System.out.println("bestPlayer : "+bestplayer);
+			bestPlayerService.addBestPlayer(bestplayer);
+		}
+		
+		for(Player player : playerToosoo) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String dateString = formatter.format(new Date());
+			
+			System.out.println("playerId : "+player.getPlayerId());
+			bestplayer.setPlayerId(player.getPlayerId());
+			bestplayer.setBestDate(dateString);
+		}
+		System.out.println("Search : "+search);
+		bestPlayerService.addBestPlayer(bestplayer);
+		
+		System.out.println(bestPlayerService.getBestPlayerList(search));
+		
+		System.out.println("호날두");
+	}
 }

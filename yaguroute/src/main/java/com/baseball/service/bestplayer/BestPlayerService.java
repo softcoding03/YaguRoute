@@ -12,4 +12,6 @@ public interface BestPlayerService {
 	public void addBestPlayer(BestPlayer bestPlayer) throws Exception;
 	
 	public Map<String, Object> getBestPlayerByDate() throws Exception;
+	
+//	public Map<String, Object> getPlayerByBestPlayer(Search search) throws Exception;
 }
