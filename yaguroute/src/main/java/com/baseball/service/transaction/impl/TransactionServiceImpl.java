@@ -9,8 +9,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.baseball.common.domain.Search;
+import com.baseball.service.basket.BasketDao;
+import com.baseball.service.domain.Basket;
+import com.baseball.service.domain.Product;
+import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.User;
+import com.baseball.service.product.ProductDao;
+import com.baseball.service.trandetail.TranDetailDao;
 import com.baseball.service.transaction.TransactionDao;
 import com.baseball.service.transaction.TransactionService;
 import com.baseball.service.user.UserDao;
@@ -22,6 +28,18 @@ public class TransactionServiceImpl implements TransactionService {
 	@Qualifier("userDao")
 	private UserDao userDao;
 
+	@Autowired
+	@Qualifier("productDao")
+	private ProductDao productDao;
+
+	@Autowired
+	@Qualifier("basketDao")
+	private BasketDao basketDao;	
+	
+	@Autowired
+	@Qualifier("tranDetailDao")
+	private TranDetailDao tranDetailDao;	
+	
 	@Autowired
 	@Qualifier("transactionDao")
 	private TransactionDao transactionDao;
@@ -35,15 +53,17 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	@Override
 	public int addTransaction(Transaction transaction) throws Exception {
-		User user = userDao.getUser("rockseong3");
-		//int userPoint = user.getUserPoint();
+		
+		// 포인트 업데이트
+		User user = userDao.getUser("algudgod");
+		
 		int tranUsePoint = transaction.getTranUsePoint();
 		int tranAddPoint = (transaction.getTranTotalPrice()/1000) *10 ; 
 		
 		user.setUserPoint(user.getUserPoint()-tranUsePoint+tranAddPoint);
-						
-		transactionDao.addTransaction(transaction);
+		transaction.setTranAddPoint(tranAddPoint);
 		
+		transactionDao.addTransaction(transaction);			
 		userDao.updatePoint(user);
 		
 		return transactionDao.getLastTranNo();
