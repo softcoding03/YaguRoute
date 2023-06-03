@@ -29,20 +29,20 @@ function fncAddTransaction() {
       var tranUsePoint = $('input[name="tranUsePoint"]').val();      
       alert(tranUsePoint);
       
-      var totalPrice = ${totalPrice};
-      totalPrice -= tranUsePoint;    	 
-      alert("2번쨰알림 "+totalPrice)
-      $("#totalPrice").val(totalPrice);
+      var tranTotalPrice = ${tranTotalPrice};
+      tranTotalPrice -= tranUsePoint;    	 
+      alert("2번쨰알림 "+tranTotalPrice)
+      $("#tranTotalPrice").val(tranTotalPrice);
       
     });
   });
 
   // 아임포트 구매 시작 
 	    $(function() {
-	    $("#productTransaction").on("click" , function() {
-  	  //$("td.ct_btn01:contains('구매')").on("click" , function() {
+	    //$("#productTransaction").on("click" , function() {
+  	  $("td.ct_btn01:contains('구매')").on("click" , function() {
   	    alert("결제를 시작한다.");
-  	    requestPay(totalPrice);
+  	    requestPay(tranTotalPrice);
   	  });
 		 
 	//아임포트 변수 선언
@@ -52,14 +52,15 @@ function fncAddTransaction() {
 	IMP.init("imp13567041");  // 아임포트에서 할당된 가맹점식별코드
 	
 	// 변수를 선언 완료했고, function 시작, 
-	function requestPay(totalPrice) { //아임포트로 전달할 결제정보 설정
+	function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 설정
 		console.log("아임포트 Pay가 시작되었습니다.")	
-		console.log($("#totalPrice").val());
+		console.log($("#tranTotalPrice").val());
 		//Pay를 시작할 때 함께 가야할 정보 선언??
 		var payName = $("#receiverName").val();
 		var payPhone = $("#receiverPhone").val();
+		var payEmail = $("#receiverEmail").val();
 		var payAddr = $("#receiverAddr").val();
-		var payAmount = $("#totalPrice").val(); // 변경된 totalPrice 값 사용
+		var payAmount = $("#tranTotalPrice").val(); // 변경된 tranTotalPrice 값 사용
 			alert(payName + "&" + payPhone + "&" + payAddr + "&" + payAmount);
 		
 			IMP.request_pay( //아임포트로 결제 요청 보내기 (아임포트에서 요구하는 값)
@@ -70,6 +71,7 @@ function fncAddTransaction() {
 			    amount: payAmount,	//구매할 총 가격
 			    buyer_name: payName, //직접 입력한 받는사람 이름
 			    buyer_tel:  payPhone, //직접 입력한 받는사람 휴대폰번호
+			    buyer_email: payEmail, //직접 입력한 받는사람 이메일주소
 			    buyer_addr: payAddr //직접 입력한 받는사람 배송주소
 			},	//결제완료
 				function (rsp) { // 결제 완료시 response !  
@@ -113,7 +115,6 @@ function fncAddTransaction() {
 			 }; 
 	});	 //아임포트 End
 		 		  
-
 
 
 </script>
@@ -200,7 +201,7 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">받는사람 이름</td>
 				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" id="receiverName" name="receiverName" class="ct_input_g" style="width: 100px; height: 19px" 
+				<td class="ct_write01"><input type="text" id="receiverName" name="receiverName" class="ct_input_g" style="width: 150px; height: 19px" 
 				maxLength="20" value="${user.userName}" /></td>
 			</tr>
 			<tr>
@@ -209,8 +210,17 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">받는사람 휴대폰번호</td>
 				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" id="receiverPhone" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
+				<td class="ct_write01"><input type="text" id="receiverPhone" name="receiverPhone" class="ct_input_g" style="width: 150px; height: 19px" 
 				maxLength="20"  value="${user.userPhone}" /></td>
+			</tr>
+						<tr>
+				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">받는사람 이메일</td>
+				<td bgcolor="D6D6D6" width="1"></td>
+				<td class="ct_write01"><input type="text" id="receiverEmail" name="receiverEmail" class="ct_input_g" style="width: 150px; height: 19px" 
+				maxLength="20"  value="${user.userEmail}" /></td>
 			</tr>
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -218,7 +228,7 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">받는사람 배송주소</td>
 				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" id="receiverAddr" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
+				<td class="ct_write01"><input type="text" id="receiverAddr" name="receiverAddr" class="ct_input_g" style="width: 150px; height: 19px" 
 					maxLength="20" value="${user.userAddr}" />
 					<button type="button" onclick="validateAddress()">주소찾기</button></td>
 			</tr>
@@ -228,7 +238,7 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">구매요청사항</td>
 				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" name="dlvyRequest"	class="ct_input_g" style="width: 250px; height: 19px" maxLength="20" /></td>
+				<td class="ct_write01"><input type="text" name="dlvyRequest"	class="ct_input_g" style="width: 235px; height: 19px" maxLength="20" /></td>
 			</tr>
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -256,6 +266,22 @@ function fncAddTransaction() {
 				<td width="104" class="ct_write">상품명 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">${tranDetail.tranDetailProd.prodName}</td>
+			</tr>
+						<tr>
+				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">상품수량 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
+				<td bgcolor="D6D6D6" width="1"></td>
+				<td class="ct_write01">${prodQuantity}</td>
+			</tr>
+									<tr>
+				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+			</tr>
+						<tr>
+				<td width="104" class="ct_write">상품가격 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
+				<td bgcolor="D6D6D6" width="1"></td>
+				<td class="ct_write01">${prodPrice}</td>
 			</tr>
 
 
@@ -288,7 +314,7 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">상품 총 가격(가격*구매수량) <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
 				<td bgcolor="D6D6D6" width="1" ></td>
-				<td class="ct_write01"><input type="" id="totalPrice" name="totalPrice" value="${totalPrice}" /></td>
+				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${tranTotalPrice}" /></td>
 			</tr>
 
 			<tr>

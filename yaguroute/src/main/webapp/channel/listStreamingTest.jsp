@@ -117,6 +117,10 @@
 </head>
 <body>
 
+<!-- topBar start -->
+<jsp:include page="/common/topBar.jsp"/>
+<!-- topBar End -->
+
 <div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
