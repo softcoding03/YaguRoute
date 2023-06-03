@@ -16,6 +16,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <style type="text/css">
+    	body{
+    		margin-bottom: 300px
+    	}
+    	
     	.activeCal a{
     		transition: background-color 0.5s ease ;
     	}
@@ -33,7 +37,7 @@
 		  display: flex;
 		  justify-content: center;
 		  align-items: center;
-		  margin-top: 100px;
+		  margin-top: 50px;
 		}
 		.score {
 		  text-align: center;
@@ -64,11 +68,30 @@
 			background-color: #f03a3a !important;
 			transition: background-color 0.5s ease;
 		}
+		.addShadow{
+			 box-shadow: 5px 5px 5px 2px gray;
+			 
+		}
+		.padding{
+			padding: 0px 25px 5px 25px;
+		}
     </style>
 </head>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+<section class="image-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info">
+                    <div class="wrap">
+                        <h1>경기 일정</h1>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
+</section>
 
 
 <c:set var="tmpSchedule" value="1111"/>
@@ -77,22 +100,22 @@
 <input type="hidden" name="month" value="">
 <input type="hidden" name="teamCode" value="">
 
-<div class="background">
-	<div class="broadcast-tabs-wrapper">
-            <ul class="nav nav-tabs" role="tablist">
-            <c:forEach var="team" items="${allTeam}">
-	                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
-	                <a href="teamCodeHref" role="tab" data-toggle="tab">
-		                <img alt="img" src="${team.teamEmblem}">
-		                <span class="info">
-		                	<span class="title">${team.teamNickName}</span>
-		                	<input type="hidden" value="${team.teamCode}"/>
-		                </span> 
-	                </a>
-	                </li>
-            </c:forEach>
-            </ul>
-        </div>
+<div class="mathc-live-broadcasts background">
+		<div class="broadcast-tabs-wrapper">
+	            <ul class="nav nav-tabs" role="tablist">
+	            <c:forEach var="team" items="${allTeam}">
+		                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+		                <a href="teamCodeHref" role="tab" data-toggle="tab">
+			                <img alt="img" src="${team.teamEmblem}">
+			                <span class="info">
+			                	<span class="title">${team.teamNickName}</span>
+			                	<input type="hidden" value="${team.teamCode}"/>
+			                </span> 
+		                </a>
+		                </li>
+	            </c:forEach>
+	            </ul>
+	        </div>
 </div>
 </form>
 <c:set var="bool" value="0"/>
@@ -105,13 +128,14 @@
       <div class="container">
             <div class="row row-offcanvas row-offcanvas-left">
 <section class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
-	<div class="sidebar-calendar">
-	
+		<div class="sidebar-calendar addShadow">
+			<div class="padding">
                         <h6>Games Calendar</h6>
                         <div class="widget widget_calendar">
                         	<div class="item" style="margin-top:20px;justify-content: center;display: flex">
 								<label style="margin-right: 20px;">
-								<select class="year" id="yearSelect">
+								<span class="background" style="margin-top: 20px !important;">연도</span>
+								<select class="year basic" id="yearSelect">
 								<c:forEach begin="2009" end="2023" var="year" >
 									<option value="${year}" ${year eq nowYear ? 'selected' : ''}>${year}</option>
 								</c:forEach>
@@ -119,7 +143,8 @@
 								</select>
 								</label>
 								<label>
-								<select class="month" id="monthSelect">
+								<span class="background" style="margin-top: 20px !important;">월</span>
+								<select class="month basic" id="monthSelect">
 								<c:forEach begin="1" end="12" var="month" >
 									<option value="${month}" ${month eq nowMonth ? 'selected' : ''} >${month}</option>
 								</c:forEach>
@@ -132,13 +157,13 @@
                                     <caption>${nowYear}-${nowMonth}</caption>
                                     <thead>
                                         <tr>
-                                            <th scope="col" title="Monday">M</th>
-                                            <th scope="col" title="Tuesday">T</th>
-                                            <th scope="col" title="Wednesday">W</th>
-                                            <th scope="col" title="Thursday">T</th>
-                                            <th scope="col" title="Friday">F</th>
-                                            <th scope="col" title="Saturday">S</th>
-                                            <th scope="col" title="Sunday">S</th>
+                                            <th scope="col" title="Monday">월</th>
+                                            <th scope="col" title="Tuesday">화</th>
+                                            <th scope="col" title="Wednesday">수</th>
+                                            <th scope="col" title="Thursday">목</th>
+                                            <th scope="col" title="Friday">금</th>
+                                            <th scope="col" title="Saturday">토</th>
+                                            <th scope="col" title="Sunday">일</th>
                                         </tr>
                                     </thead>
 
@@ -186,10 +211,17 @@
                             </div>
                         </div>
                     </div>
+	</div>
 </section>            
    
 <section class="news-single col-xs-12 col-sm-12 col-md-9" id="main">
 <div class="col-md-12 col-sm-12 col-xs-12"><h6>matches</h6></div>
+<c:if test="${gameSize eq 0}">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<h3>조회된 경기가 없습니다.</h3>
+	</div>
+</c:if>
+<c:if test="${gameSize ne 0}">
 	<div class="col-md-12 col-sm-12 col-xs-12">
 	
 	<c:set var="tmpDate" value="1111"/>
@@ -250,9 +282,11 @@
 	
 			
 	</div>
+</c:if>
 </section>
 		</div>
 	</div>
+	</body>
 <script type="text/javascript">
 	$(function(){
 		
@@ -267,23 +301,6 @@
 		$(".score span.atag").on("click",function(){
 			self.location = "/game/getGameRecord?gameCode="+$(this).parent().find("#gameCode").val();
 		})
-		
-		function fncGetGameList(){
-	    	$("input[name='year']").val($("select.year").val());
-	    	$("input[name='month']").val($("select.month").val());
-	    	$("input[name='teamCode']").val($("ul.nav li.active input").val());
-	    	$("#searchGameList").attr("method","GET").attr("action","/game/getGameList").submit();
-	    }
-	    
-		    $("a[href='teamCodeHref']").on('click',function(){
-		    	setTimeout(() => fncGetGameList(), 100);
-		    })
-		    $("#yearSelect").change(function(){
-		    	setTimeout(() => fncGetGameList(), 100);
-		    })
-		     $("#monthSelect").on('change',function(){
-		    	setTimeout(() => fncGetGameList(), 100);
-		    })
 		    
 		    window.addEventListener('load', function() {
 		    	  var section1 = document.getElementById('sidebar');
@@ -354,6 +371,29 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-</body>
+<script type="text/javascript">
+	$(function(){
+		
+		function fncGetGameList(){
+	    	$("input[name='year']").val($("select.year").val());
+	    	$("input[name='month']").val($("select.month").val());
+	    	$("input[name='teamCode']").val($("ul.nav li.active input").val());
+	    	$("#searchGameList").attr("method","GET").attr("action","/game/getGameList").submit();
+	    }
+	    
+		    $("a[href='teamCodeHref']").on('click',function(){
+		    	setTimeout(() => fncGetGameList(), 100);
+		    })
+		    
+		    console.log($(".trigger").text())
+		    
+		    
+		    
+		    $("ul.options li").on("click",function(){
+		    	setTimeout(() => fncGetGameList(), 100);
+		    })
+		
+	})
+</script>
 
 </html>

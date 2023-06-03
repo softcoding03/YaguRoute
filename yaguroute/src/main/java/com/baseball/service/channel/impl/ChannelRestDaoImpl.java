@@ -73,7 +73,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 
 	@Override
 	public Channel addChannel(Channel channel) throws Exception {
-		System.out.println("ChannelRestDaoImpl의 addChannel 실행");
+		//System.out.println("ChannelRestDaoImpl의 addChannel 실행");
 		
 		String jsonData = "";
 		StringBuffer response = new StringBuffer();
@@ -81,7 +81,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels";
 		String apiURL = channelHost+requestURL;
-		System.out.println(apiURL);
+		//System.out.println(apiURL);
 		String method = "POST";
 		String timestamp = getTimestamp();
 		
@@ -100,7 +100,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			record.put("accessControl", "PUBLIC_READ");
 			
 			//Request Body 설정
-			System.out.println("RequestBody 설정");
+			//System.out.println("RequestBody 설정");
 			JSONObject body = new JSONObject();
 			body.put("cdn", cdn);
 			body.put("channelName", channel.getChannelName());
@@ -133,14 +133,14 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			int responseCode = con.getResponseCode();
 			
 			if(responseCode == HttpURLConnection.HTTP_OK) {
-				System.out.println("채널 생성 완료");
+				//System.out.println("채널 생성 완료");
 				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-				System.out.println(br.toString());
+				//System.out.println(br.toString());
 				
 			} else {
-				System.out.println("Http Error Code : "+responseCode);
+				//System.out.println("Http Error Code : "+responseCode);
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-				System.out.println(br.toString());
+				//System.out.println(br.toString());
 			}
 			
 			while((jsonData = br.readLine()) != null) {
@@ -158,23 +158,23 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		JSONObject data = (JSONObject) parser.parse(response.toString());
 
 		//JSON Data를 channel VO에 저장
-		System.out.println((String)(((JSONObject)data.get("content")).get("channelId")));
+		//System.out.println((String)(((JSONObject)data.get("content")).get("channelId")));
 		channel.setChannelID((String)(((JSONObject)data.get("content")).get("channelId")));
-		System.out.println("channel : "+returnData.toString());
+		//System.out.println("channel : "+returnData.toString());
 		return channel;
 	}
 
 	@Override
 	public String getChannelServiceURL(String channelID) throws Exception {
-		System.out.println("LiveStationService의 getChannelServiceURL() 시작");
-		System.out.println("채널 아이디 : "+channelID);
+		//System.out.println("LiveStationService의 getChannelServiceURL() 시작");
+		//System.out.println("채널 아이디 : "+channelID);
 		
 		String jsonData = "";
 		StringBuffer response = new StringBuffer();
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+channelID+"/serviceUrls?serviceUrlType=GENERAL";
 		String apiURL = channelHost+requestURL;
-		System.out.println(apiURL);
+		//System.out.println(apiURL);
 		String method = "GET";
 		String timestamp = getTimestamp();
 		
@@ -404,7 +404,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+channleID+"/stopRecord";
 		String apiURL = channelHost+requestURL;
-		System.out.println("apiURL : "+apiURL);
+		//System.out.println("apiURL : "+apiURL);
 		String method = "PUT";
 		String timestamp = getTimestamp();
 		
@@ -421,24 +421,24 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		BufferedReader br = null;
 		//response data 확인
 		if(responseCode == HttpURLConnection.HTTP_OK) {
-			System.out.println("녹화 중단 완료");
+			//System.out.println("녹화 중단 완료");
 			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 					
 		} else {
-			System.out.println("Http Error Code : "+responseCode);
+			//System.out.println("Http Error Code : "+responseCode);
 			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 		}
 		
 		while((jsonData = br.readLine()) != null) {
 			response.append(jsonData);
-			System.out.println(response);
+			//System.out.println(response);
 		}
 		
 		String json = response.toString();
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map mapObj = objectMapper.readValue(json, Map.class);
 		
-		System.out.println(mapObj.get("content"));
+		//System.out.println(mapObj.get("content"));
 		
 		//record Type이 mp4인 파일의 이름
 		Map content = (Map)mapObj.get("content");
@@ -446,13 +446,13 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		
 		List<String> recordKey = new ArrayList<>(recordList.keySet());
-		System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
+		//System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
 		String videoName="";
 		
 		for(int i=0 ; i < recordKey.size(); i++) {
 			if(((String)((Map)recordList.get(recordKey.get(i))).get("recordType")).equals("MP4")){
 				videoName = (String)((Map)recordList.get(recordKey.get(i))).get("fileName");
-				System.out.println("video의 fileName : "+videoName);
+				//System.out.println("video의 fileName : "+videoName);
 			}
 		}
 		
@@ -477,7 +477,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+channelID;
 		String apiURL = channelHost+requestURL;
-		System.out.println("apiURL : "+apiURL);
+		//System.out.println("apiURL : "+apiURL);
 		String method = "GET";
 		String timestamp = getTimestamp();
 		
@@ -494,11 +494,11 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		BufferedReader br = null;
 		//response data 확인
 		if(responseCode == HttpURLConnection.HTTP_OK) {
-			System.out.println("채널 정보 조회 완료");
+			//System.out.println("채널 정보 조회 완료");
 			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 					
 		} else {
-			System.out.println("Http Error Code : "+responseCode);
+			//System.out.println("Http Error Code : "+responseCode);
 			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 		}
 		
@@ -514,7 +514,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		JSONObject data = (JSONObject) parser.parse(response.toString());
 
 		//JSON Data를 Map에 저장
-		System.out.println((String)(((JSONObject)data.get("content")).get("channelStatus")));
+		//System.out.println((String)(((JSONObject)data.get("content")).get("channelStatus")));
 		
 		String channelStatus = (String)(((JSONObject)data.get("content")).get("channelStatus"));
 		return channelStatus;
@@ -528,7 +528,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		String channelHost = "https://livestation.apigw.ntruss.com";
 		String requestURL = "/api/v2/channels/"+channelID+"/records";
 		String apiURL = channelHost+requestURL;
-		System.out.println("apiURL : "+apiURL);
+		//System.out.println("apiURL : "+apiURL);
 		String method = "GET";
 		String timestamp = getTimestamp();
 		
@@ -545,24 +545,24 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		BufferedReader br = null;
 		//response data 확인
 		if(responseCode == HttpURLConnection.HTTP_OK) {
-			System.out.println("녹화 중단 완료");
+			//System.out.println("녹화 중단 완료");
 			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 					
 		} else {
-			System.out.println("Http Error Code : "+responseCode);
+			//System.out.println("Http Error Code : "+responseCode);
 			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 		}
 		
 		while((jsonData = br.readLine()) != null) {
 			response.append(jsonData);
-			System.out.println(response);
+			//System.out.println(response);
 		}
 		
 		String json = response.toString();
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map mapObj = objectMapper.readValue(json, Map.class);
 		
-		System.out.println(mapObj.get("content"));
+		//System.out.println(mapObj.get("content"));
 		
 		//record Type이 mp4인 파일의 이름
 		Map content = (Map)mapObj.get("content");
@@ -570,13 +570,13 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		
 		List<String> recordKey = new ArrayList<>(recordList.keySet());
-		System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
+		//System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
 		String recordStatus="";
 		
 		for(int i=0 ; i < recordKey.size(); i++) {
 			if(((String)((Map)recordList.get(recordKey.get(i))).get("recordType")).equals("MP4")){
 				recordStatus = (String)((Map)recordList.get(recordKey.get(i))).get("status");
-				System.out.println("record Status : "+recordStatus);
+				//System.out.println("record Status : "+recordStatus);
 			}
 		}
 		
@@ -587,7 +587,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	//timeStamp 생성method
 	public String getTimestamp () {
 		String timestamp = String.valueOf(System.currentTimeMillis());
-		System.out.println(timestamp);	
+		//System.out.println(timestamp);	
 		return timestamp;
 	}
 	
@@ -600,7 +600,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		// x-amz-date 형식으로 변환
 		String xAmzDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'"));
 		
-		System.out.println("xAmzDate  : "+xAmzDate);
+		//System.out.println("xAmzDate  : "+xAmzDate);
 		return xAmzDate;
 	}
 	
@@ -624,7 +624,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 			
 		byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
 		String encodeBase64String = Base64.getEncoder().encodeToString(rawHmac);
-		System.out.println("암호화 된 V2 key : "+encodeBase64String);
+		//System.out.println("암호화 된 V2 key : "+encodeBase64String);
 		return encodeBase64String;
 	}
 

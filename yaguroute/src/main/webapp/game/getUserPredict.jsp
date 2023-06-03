@@ -17,16 +17,46 @@
 		border-top: 3px solid black;
 	}
 	
-	* {
-	  user-select: none;
+	.imgSize{
+		width:100px !important;
+		height:100px !important;
 	}
 </style>
+<script type="text/javascript">
+function preventEvent(){
+	
+	$(document).on('mousedown',function(event){
+		event.preventDefault();
+	})
+	
+	$(document).on('click',function(event){
+		event.preventDefault();
+	})
+	
+	$(document).on('contextmenu',function(event){
+		event.preventDefault();
+	})
+	
+}
+</script>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+<section class="image-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info">
+                    <div class="wrap">
+                        <h1>경기 예측</h1>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
+</section>
 <div class="container">
 	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
-		<div class="main-award-slider">
+		<div class="main-award-slider" style="height: 100px !important">
    			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
 			<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev">
 	            <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -40,28 +70,61 @@
 </div>
 <c:set var="State" value="0"/>
 <c:forEach items="${gameList}" var="gameStatusCode">
-	<c:if test="${gameStatusCode.gameStatusCode ne 0}">
+	<c:if test="${gameStatusCode.gameStatusCode ne 0 and gameStatusCode.gameStatusCode ne 3}">
 		<c:set var="State" value="1"/>
 		<script type="text/javascript">
 			preventEvent();
 		</script>
 	</c:if>
 </c:forEach>
+
 <c:if test="${gameSize eq 0}">
 	<div class="text-center">
-		<h2>경기가 없습니다.</h2>
+		<h4>경기가 없습니다.</h4>
 	</div>
 </c:if>
 <c:if test="${gameSize ne 0}">
+<div class="match-page-top" style="height: 150px !important">
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="upcoming-match-info">
+				<div class="team">
+                    <div class="avatar"></div>
+                	<div class="text"></div> 
+                </div>
+				<div class="counter">
+		            <ul>
+		                <li>
+		               		<div class="digit hours">00</div>
+		                </li>
+		                <li>
+		                  	<div class="digit minutes">00</div>
+		                </li>
+						<li>
+		             			<div class="digit seconds">00</div>
+		            	</li>
+		             </ul>
+				</div>
+				<div class="team right">
+                	<div class="text"></div> 
+                	<div class="avatar"></div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
 	<c:if test="${predSize ne 0}">
 		<div class="text-center">
-			<h2>경기 예측 완료</h2>
-			<h4>결과는 자정 이후 업데이트 됩니다.</h4>
+			<h4>경기 예측 완료</h4>
+			<h6>결과는 자정 이후 업데이트 됩니다.</h6>
 		</div>
 	</c:if>
-	<c:if test="${State eq 1}">
-			<h2>경기 예측 시간이 지났습니다.</h2>
-			<h4>자정 이후 다시 예측이 가능합니다.</h4>
+	<c:if test="${predSize eq 0}">
+	<div class="text-center">
+		<h4 class="time-title"></h4>
+	</div>
 	</c:if>
 <form>
 <input type="hidden" value="${date}" name="date">
@@ -81,7 +144,7 @@
                     
                         <div class="team col-md-4">
                         	<div>[home]</div>
-                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img"></div>
+                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
                             <div class="text">
                                 ${game.homeTeam.teamNickName} <span>${game.homeTeam.hometown}</span>
                                 <div class="latest">
@@ -108,10 +171,10 @@
                                 ${game.awayTeam.teamNickName}<span>${game.awayTeam.hometown}</span>
                                 <div class="latest">
                                     <div class="latest-title">${game.awayTeam.teamFullName} 승리</div>
-                                    <input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" ${predSize ne 0 ? 'disabled' : ''} ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'checked' : ''}>
+                                    <button><input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" ${predSize ne 0 ? 'disabled' : ''} ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'checked' : ''}></button>
                                 </div>
                             </div>
-                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img"></div>
+                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
 					</div>
 					
 				</div>
@@ -142,7 +205,103 @@
 </c:if>
 </body>
 <script type="text/javascript">
+
+function remaindTime() {
+    var now = new Date();
+    var end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),${minTimeString[0]},${minTimeString[1]},${minTimeString[2]});
+    var open = new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
+  
+    var nt = now.getTime();
+    var ot = open.getTime();
+    var et = end.getTime();
+  
+   if(nt<ot){
+     $("h4.time-title").html("경기 예측 결과 확인까지 남은 시간");
+     sec = parseInt(ot - nt) / 1000;
+     day = parseInt(sec/60/60/24);
+     sec = (sec - (day * 60 * 60 * 24));
+     hour = parseInt(sec/60/60);
+     sec = (sec - (hour*60*60));
+     min = parseInt(sec/60);
+     sec = parseInt(sec-(min*60));
+     if(hour<10){hour="0"+hour;}
+     if(min<10){min="0"+min;}
+     if(sec<10){sec="0"+sec;}
+      $(".hours").html(hour);
+      $(".minutes").html(min);
+      $(".seconds").html(sec);
+   }else {
+     $("h4.time-title").html("경기 예측 마감까지 남은 시간");
+     sec =parseInt(et - nt) / 1000;
+     day  = parseInt(sec/60/60/24);
+     sec = (sec - (day * 60 * 60 * 24));
+     hour = parseInt(sec/60/60);
+     sec = (sec - (hour*60*60));
+     min = parseInt(sec/60);
+     sec = parseInt(sec-(min*60));
+     if(hour<10){hour="0"+hour;}
+     if(min<10){min="0"+min;}
+     if(sec<10){sec="0"+sec;}
+      $(".hours").html(hour);
+      $(".minutes").html(min);
+      $(".seconds").html(sec);
+   }
+ }
+ 
+
+function validation(){
+	var radioCount = 0;
+	var check = true;
+	
+	$('input[type="number"]').on('input', function() {
+		  var value = $(this).val();
+		  var regex = /^[1-9]\d*$/;
+		  
+		  if (!regex.test(value)) {
+			  alert('숫자만 입력해 주세요.')
+			  $(this).val("")
+			  check = false;
+			  return false;
+		  }
+	});
+	
+	$("input[type='number']").each(function(){
+		var value = $(this).val();
+		if(value.trim() === ''){
+			alert('비어있는 포인트가 있습니다.')
+			check = false;
+			return false;
+		}
+	})
+	
+	var sum = 0;
+	$("input[type='number']").each(function(){
+		var value = $(this).val();
+		sum = sum + parseInt(value);
+	})
+	
+	if(sum > parseInt(${user.userPoint})){
+		alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
+		check = false;
+	}
+	
+	$("input[type='radio']").each(function(){
+		if($(this).is(':checked')){
+			radioCount = radioCount+1;
+		}
+	})
+	
+	if(radioCount != 5){
+		alert('라디오 버튼을 선택해주세요')
+		check = false;
+	}
+	
+	return check;
+}
+
 	$(function(){
+		
+		remaindTime()
 		
 		$("#addPred").on("click",function(){
 			if(validation()){
@@ -158,71 +317,9 @@
 			self.location = "/predict/getUserPredict?date=${otherDay}";
 		})
 		
+		setInterval(remaindTime,1000);
+		
 	})
-	
-	function preventEvent(){
-		$(document).on('mousedown',function(event){
-			event.preventDefault();
-		})
-		
-		$(document).on('click',function(event){
-			event.preventDefault();
-		})
-		
-		$(document).on('contextmenu',function(event){
-			event.preventDefault();
-		})
-	}
-	
-	function validation(){
-		var radioCount = 0;
-		var check = true;
-		
-		$('input[type="number"]').on('input', function() {
-			  var value = $(this).val();
-			  var regex = /^[1-9]\d*$/;
-			  
-			  if (!regex.test(value)) {
-				  alert('숫자만 입력해 주세요.')
-				  $(this).val("")
-				  check = false;
-				  return false;
-			  }
-		});
-		
-		$("input[type='number']").each(function(){
-			var value = $(this).val();
-			if(value.trim() === ''){
-				alert('비어있는 포인트가 있습니다.')
-				check = false;
-				return false;
-			}
-		})
-		
-		var sum = 0;
-		$("input[type='number']").each(function(){
-			var value = $(this).val();
-			sum = sum + parseInt(value);
-		})
-		
-		if(sum > parseInt(${user.userPoint})){
-			alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
-			check = false;
-		}
-		
-		$("input[type='radio']").each(function(){
-			if($(this).is(':checked')){
-				radioCount = radioCount+1;
-			}
-		})
-		
-		if(radioCount != 5){
-			alert('라디오 버튼을 선택해주세요')
-			check = false;
-		}
-		
-		return check;
-	}
 	
 </script>
 

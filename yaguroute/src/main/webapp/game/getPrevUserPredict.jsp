@@ -14,15 +14,42 @@
 <style>
 	hr{
 		border:none;
-		border-top: 3px solid black;
+		border-top: 2px solid #a3cca3;
+		padding-bottom: 40px;
+	}
+	.imgSize{
+		width:100px !important;
+		height:100px !important;
+	}
+	h6{
+		height: 30px;
+		margin: 1px 1px 1px 1px;
+	}
+	.center{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
 	}
 </style>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+<section class="image-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info">
+                    <div class="wrap">
+                        <h1>경기 예측</h1>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
+</section>
 <div class="container">
 	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
-		<div class="main-award-slider">
+		<div class="main-award-slider" style="padding-bottom: 10px;">
    			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
 			<div class="text-center">
 				<h1 id="nowDate">${date}</h1>
@@ -63,22 +90,31 @@
 <c:set var="pred" value="${predList[gameStatus.index]}"/>
 <input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode">
 <input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId">
-<div class="match-page-top">
+
+<div class="match-page-top" style="padding: 30px;">
+	
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-					<hr>
-                    <div class="upcoming-match-info">
+                	<hr>
+                    <div class="upcoming-match-info center">
                     
                         <div class="team col-md-4">
-                        	<div>[home]</div>
                         	<c:if test="${game.gameStatusCode eq 2}">
-                        		<div class="text">${game.homeTeam.teamCode eq game.winningTeamCode ? '승리' : '패배' }</div>
+                        		<div class="text">
+                        			<div class="latest">
+                        				<span class="${game.homeTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.homeTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
+                        			</div>
+                        		</div>
                             </c:if>
                             <c:if test="${game.gameStatusCode eq 4}">
-                            	<div class="text">무승부</div>
+                            	<div class="text">
+                        			<div class="latest">
+                        				<span class="drawn">무</span>
+                        			</div>
+                        		</div>
                             </c:if>
-                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img"></div>
+                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
                             <div class="text">
                                 ${game.homeTeam.teamNickName} <span>${game.homeTeam.hometown}</span>
                                 <div class="latest">
@@ -87,35 +123,32 @@
                                 </div>
                             </div> 
                         </div>
-                        <div>
-                            <ul>
+                        <div class="col-md-4">
                             <c:if test="${game.gameStatusCode eq 3}">
-                            	<li><h5>취소된 경기입니다.</h5></li>
-                            </c:if>
-                            <c:if test="${game.gameStatusCode eq 4  or game.gameStatusCode eq 2}">
-                                <li>
-                                    <div><a class="btn small" href="/game/getGameRecord?gameCode=${game.gameCode}">경기기록</a></div>
-                                </li>
+                            	<h5>취소된 경기입니다.</h5>
                             </c:if>
                             <c:if test="${game.gameStatusCode eq 2}">
-                                <li>
-                                    <div>승리팀 배당 : ${game.winningTeamAllocation}</div>
-                                </li>
-                                <li>
-                                    <div>
-                                    예측 포인트 : ${pred.predPoint}
+                               
+                               		<div>
+                                    <h6>승리팀 배당 : ${game.winningTeamAllocation}배</h6>
+                                
+                                    <h6>예측 포인트 : ${pred.predPoint} P</h6>
                                     <input type="hidden" value="${pred.predPoint}" class="predPoint">
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                    배당 적용 예측 포인트 : ${pred.afterGamePredPoint}
+                                    
+                                    <h6>획득 포인트 : ${pred.afterGamePredPoint} P</h6>
                                     <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
                                     </div>
-                                </li>
+                               
                             </c:if>
-                            </ul>
+                            <c:if test="${game.gameStatusCode eq 4  or game.gameStatusCode eq 2}">
+	                            <div class="info">
+	                                    <div class="btn-wrap">
+	                                    	<a class="btn small" href="/game/getGameRecord?gameCode=${game.gameCode}" style="margin-top:20px;font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">경기기록</a>
+	                                    </div>
+	                            </div>
+                            </c:if>
                         </div>
+                        
                         <div class="team right col-md-4">
                             <div class="text">
                                 ${game.awayTeam.teamNickName}<span>${game.awayTeam.hometown}</span>
@@ -124,23 +157,30 @@
                                     <input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" disabled="disabled" ${pred.predWinningTeamCode eq game.awayTeam.teamCode ? 'checked' : ''}>
                                 </div>
                             </div>
-                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img"></div>
+                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
                             <c:if test="${game.gameStatusCode eq 2}">
-                        		 <div class="text">${game.awayTeam.teamCode eq game.winningTeamCode ? '승리' : '패배' }</div>
+                        		 <div class="text">
+                        			<div class="latest">
+                        				<span class="${game.awayTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.awayTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
+                        			</div>
+                        		</div>
                             </c:if>
                             <c:if test="${game.gameStatusCode eq 4}">
-                            	<div class="text">무승부</div>
+                            	<div class="text">
+                        			<div class="latest">
+                        				<span class="drawn">무</span>
+                        			</div>
+                        		</div>
                             </c:if>
                            
 					</div>
 					
 				</div>
 			</div>
-			
 		</div>
+		<c:if test="${gameStatus.last eq true}"><hr></c:if>
 	</div>
 </div>
-<c:if test="${gameStatus.last eq true}"><hr></c:if>
 
 </c:forEach>
 </form>
@@ -167,7 +207,9 @@
 		
 		
 		sum = afterSum - predSum;
-		
+		if(afterSum - predSum>=0){
+			sum = "+"+sum
+		}
 		$("#result").text(sum+" Point")
 		
 	})

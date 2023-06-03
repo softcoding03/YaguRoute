@@ -365,7 +365,11 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 				List<WebElement> indexLi = driver.findElements(By.cssSelector("div.PitcherList_comp_pitcher_list__3XCW2 li.PitcherList_pitcher_area__2By9l"));
 				for(WebElement titleIndex :indexLi) {
 					Pitcher titlePitcher = new Pitcher();
-					titlePitcher.setPitcherImage(titleIndex.findElement(By.tagName("img")).getAttribute("src").split("[?]")[0]);
+					if(titleIndex.findElements(By.tagName("img")).size() != 0) {
+						titlePitcher.setPitcherImage(titleIndex.findElement(By.tagName("img")).getAttribute("src").split("[?]")[0]);
+					}else {
+						titlePitcher.setPitcherImage("emptyPlayerImage.png");
+					}
 					String[] titleSplit = titleIndex.getText().split("[\n]");
 					titlePitcher.setTitle(titleSplit[0]);
 					titlePitcher.setPitcherName(titleSplit[1]);
