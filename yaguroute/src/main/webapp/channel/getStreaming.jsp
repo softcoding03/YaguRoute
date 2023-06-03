@@ -75,8 +75,8 @@
 										platsinline : true,
 						 				muted : true,
 						 				preload : "auto",
-						 				width : "854",
-						 				height : "480"										
+						 				width : 1050,
+						 				height : 480										
 									});
 								} else {
 									console.log("방송 시작 전");
@@ -226,7 +226,7 @@
 		      position: absolute;
 		      width: 30px;
 		      height: 30px;
-		      background-image: url('${channel.gameInfo.awayTeam.teamEmblem}'); /* 이미지 경로를 적절히 수정하세요 */
+		      background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png'); /* 이미지 경로를 적절히 수정하세요 */
       		  background-size: cover;
 		    }
 		    
@@ -234,20 +234,19 @@
 		      position: absolute;
 		      width: 30px;
 		      height: 30px;
-		      background-image: url('${channel.gameInfo.homeTeam.teamEmblem}'); /* 이미지 경로를 적절히 수정하세요 */
+		      background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png'); /* 이미지 경로를 적절히 수정하세요 */
       		  background-size: cover;
 		    }
 		</style>
 	</head>
 	
 	<body>
-		<h1>${channel.channelName}</h1>
-		
-		
-		
+		<!-- topBar start -->
+		<jsp:include page="/common/topBar.jsp"/>
+		<!-- topBar End -->
+				
 		<div class='row'>
 			<div class="col-xs-12 col-md-8">
-				<h2>videoJS Test</h2>
 		  		<video id="streaming" class="video-js vjs-big-play-button vjs-big-play-centered">
 				</video>
 			</div>
@@ -295,7 +294,7 @@
   		
 
 	</body>
-	<link href="css/style.min.css" rel="/stylesheet" type="text/css" />
+<link href="css/style.min.css" rel="/stylesheet" type="text/css" />
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

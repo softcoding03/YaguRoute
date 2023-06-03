@@ -38,7 +38,7 @@ public class ChannelServiceImpl implements ChannelService {
 
 	@Override
 	public Channel getChannel(String channelID) throws Exception {
-		System.out.println(channelID);
+		//System.out.println(channelID);
 		Channel channel = channelDao.getChannel(channelID);
 		return channel;
 	}
