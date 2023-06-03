@@ -1,8 +1,10 @@
 package com.baseball.web.predict;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,11 +64,19 @@ public class GamePredictController {
 		for(Predict predTmp : pred) {
 			System.out.println(predTmp);
 		}
-		
+		Date minTimeDate = new Date(9999, 0, 0); 
 		for(Game gameTmp : game) {
-			System.out.println(gameTmp);
+			String timeString = date+" "+gameTmp.getGameTime()+":00";
+			Date time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timeString);
+			if(minTimeDate.compareTo(time)>=0) {
+				minTimeDate = time;
+			}
 		}
 		
+		String minTimeString = new SimpleDateFormat("HH:mm:ss").format(minTimeDate);
+		System.out.println(minTimeString);
+		
+		request.setAttribute("minTimeString", minTimeString.split("[:]"));
 		request.setAttribute("predSize", pred.size());
 		request.setAttribute("gameSize", game.size());
 		request.setAttribute("gameList", game);
@@ -81,10 +91,6 @@ public class GamePredictController {
 			view = "/game/getPrevUserPredict.jsp";
 			otherDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
-		
-		System.out.println(date);
-		System.out.println(otherDay);
-		System.out.println(view);
 		
 		request.setAttribute("date", date);
 		request.setAttribute("otherDay", otherDay);

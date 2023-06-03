@@ -84,10 +84,12 @@ public class bestPlayerTests {
 			bestplayer.setPlayerId(player.getPlayerId());
 			bestplayer.setBestDate(dateString);
 		}
-		
+		System.out.println("Search : "+search);
 		bestPlayerService.addBestPlayer(bestplayer);
 		
 		System.out.println(bestPlayerService.getBestPlayerList(search));
+		
+		System.out.println("호날두");
 		
 	}
 	

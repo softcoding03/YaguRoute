@@ -111,6 +111,15 @@
 			window.location.href = "/player/listPlayer";
 		});
 	});
+	
+	// 이주의 선수 리스트
+	$(function(){
+		
+		$("#bestPlayerList").on("click", function(){
+			alert("최고의 선수 리스트");
+			window.location.href="/player/listBestPlayer";
+		});
+	});
     </script>
 </head>
 
@@ -188,8 +197,9 @@
 								
 								<h5>힌트</h5>아이디 - admin<br>비밀번호 - 1234
  								</div>
- 								<button type="button" id="addPlayer" class="plusPlayer">선수 더하기</button>
+ 								<button type="button" id="addPlayer" class="plusPlayer">선수 추가</button>
  								<button type="button" id="listPlayer" class="listPlayer">선수 리스트</button>
+ 								<button type="button" id="bestPlayerList" class="bestPlayer">이주의 선수 리스트</button>
                             </div>
                        </div>
 					 </div>

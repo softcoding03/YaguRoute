@@ -102,6 +102,7 @@ public class GameController {
 		requset.setAttribute("nowMonth", month);
 		requset.setAttribute("teamCode", teamCode);
 		requset.setAttribute("gameList", gameList);
+		requset.setAttribute("gameSize", gameList.size());
 		requset.setAttribute("allTeam", allTeam);
 		
 		return "/game/getGameList.jsp";

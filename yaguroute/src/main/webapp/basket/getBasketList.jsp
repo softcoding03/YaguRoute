@@ -185,7 +185,7 @@
 				},
 				success : function(JSONData, status){
 					$("tr.cart_iem").remove();
-					$("#totalPrice").val(0)
+					$("#totalPrice").val(0);
 					$(".info .name").text(0);
 				}
 				

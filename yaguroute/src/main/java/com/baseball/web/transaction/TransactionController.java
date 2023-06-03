@@ -16,6 +16,7 @@ import com.baseball.service.domain.Basket;
 import com.baseball.service.domain.Product;
 import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.Transaction;
+import com.baseball.service.domain.User;
 import com.baseball.service.product.ProductService;
 import com.baseball.service.trandetail.TranDetailService;
 import com.baseball.service.transaction.TransactionService;
@@ -72,10 +73,49 @@ public class TransactionController {
 		modelAndView.addObject("prodPrice", prodPrice);
 		modelAndView.addObject("totalPrice", prodQuantity * prodPrice);
 		modelAndView.setViewName("forward:/transaction/addTransactionView.jsp");
-
+		System.out.println(tranDetail);
 		System.out.println("---/transaction/addTransactionView 작동 완료---");
 
 		return modelAndView;
 	}
 
+    @PostMapping(value="addTransaction")
+    public String addTransaction(@ModelAttribute("transaction") Transaction transaction,
+                                 @RequestParam("prodNo") String prodNo,
+                                 @RequestParam("userId") String userId,
+                                 @RequestParam("impNo") String impNo,
+                                 @RequestParam("merchantNo") String merchantNo,
+                                 Model model) throws Exception {
+
+        System.out.println("---/transaction/addTransaction 작동 시작---");
+        System.out.println("Transaction Data:: " + transaction);
+        System.out.println("prodNo:: " + prodNo);
+        System.out.println("userId:: " + userId);
+        System.out.println("impNo:: " + impNo);
+        System.out.println("merchantNo:: " + merchantNo);
+
+        // 상품과 사용자 정보 가져오기
+        Product product = productService.getProduct(Integer.parseInt(prodNo));
+        User user = userService.getUser(userId);
+
+        // Transaction 객체 설정
+        transaction.setBuyer(user);
+        transaction.setTranType("P");
+        
+        transaction.setImpNo(impNo);
+        transaction.setMerchantNo(merchantNo);
+
+        // TranDetail 객체 설정
+        TranDetail tranDetail = new TranDetail();
+        tranDetail.setTranDetailProd(product);
+        tranDetail.setTranStatusCode("1"); // 구매완료
+
+        // Transaction 저장
+        transactionService.addTransaction(transaction);
+
+        model.addAttribute("tranDetail", tranDetail);
+        model.addAttribute("transaction", transaction);
+
+        return "forward:/transaction/addTransaction.jsp";
+    }
 }
