@@ -11,6 +11,8 @@ import com.baseball.service.domain.User;
 @Mapper
 public interface TicketDao {
 	
+	public Ticket getTicketInfo(String ticketNo) throws Exception;
+	
 	public int getSalesTicket(String gameCode) throws Exception;
 	
 	public void updateRefundStatus(int tranNo) throws Exception;

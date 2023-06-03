@@ -9,6 +9,9 @@ import com.baseball.service.domain.User;
 
 public interface TicketService {
 	
+	//해당 티켓 정보 get
+	public Ticket getTicketInfo(String ticketNo) throws Exception;
+	
 	//특정 경기의 판매된 총 티켓 갯수 get 
 	public int getSalesTicket(String gameCode) throws Exception;
 	

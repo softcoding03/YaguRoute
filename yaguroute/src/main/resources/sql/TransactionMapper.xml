@@ -21,6 +21,8 @@
 		<result property="tranType"				column="tran_type"				jdbcType="VARCHAR"/>
 		<result property="tranUsePoint"			column="tran_use_point"			jdbcType="NUMERIC"/>
 		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
+		<result property="refundStatus"			column="refund_status"			jdbcType="NUMERIC"/>
+		<result property="refundableDate"		column="refundable_date"		jdbcType="TIMESTAMP"/>
 			
 		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUser"/>		
 		
@@ -60,9 +62,9 @@
 	
 		INSERT INTO transaction
 		(tran_no, user_id, imp_no, merchant_no, receiver_name, receiver_phone, receiver_addr, tran_total_price, tran_payment_option
-		, dlvy_request, tran_date, tran_type, tran_use_point, tran_add_point)
+		, dlvy_request, tran_date, tran_type, tran_use_point, tran_add_point,refundable_date)
 		VALUES (null, #{buyer.userId}, #{impNo}, #{merchantNo}, #{receiverName}, #{receiverPhone}, #{receiverAddr}, #{tranTotalPrice},
-		#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint})
+		#{tranPaymentOption}, #{dlvyRequest}, SYSDATE(), #{tranType}, #{tranUsePoint}, #{tranAddPoint},#{refundableDate})
 	
 	</insert>
 	

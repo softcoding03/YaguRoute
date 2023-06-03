@@ -1,6 +1,7 @@
 ﻿package com.baseball.service.domain;
 
 import java.sql.Date;
+import java.time.*;
 
 public class Transaction {
 	
@@ -20,16 +21,20 @@ public class Transaction {
 	private int tranAddPoint;
 	private int tranUsePoint;
 	private int refundStatus;
-	
-	
-
+	private LocalDateTime refundableDate;
 
 
 	public Transaction() {
 		
 	}
 
-
+	public LocalDateTime getRefundableDate() {
+		return refundableDate;
+	}
+	public void setRefundableDate(LocalDateTime refundableDate) {
+		this.refundableDate = refundableDate;
+	}
+	
 	public int getTranNo() {
 		return tranNo;
 	}
@@ -175,8 +180,7 @@ public class Transaction {
 	public void setRefundStatus(int refundStatus) {
 		this.refundStatus = refundStatus;
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", merchantNo=" + merchantNo
@@ -184,9 +188,7 @@ public class Transaction {
 				+ receiverAddr + ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption
 				+ ", dlvyRequest=" + dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType
 				+ ", tranAddPoint=" + tranAddPoint + ", tranUsePoint=" + tranUsePoint + ", refundStatus=" + refundStatus
-				+ "]";
+				+ ", refundableDate=" + refundableDate + "]";
 	}
-
-
 		
 }

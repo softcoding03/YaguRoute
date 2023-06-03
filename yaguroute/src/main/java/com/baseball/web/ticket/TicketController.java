@@ -1,12 +1,15 @@
 package com.baseball.web.ticket;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -104,30 +107,24 @@ public class TicketController {
 									Model model,HttpSession session) throws Exception{
 		System.out.println("/ticket/addTicketPurchase : POST START");
 		System.out.println("넘어온 데이터?"+transaction+"//"+ticket);
-		
+		String tickets = ticket.getTicketNo(); //ticketNo가 하나의 객체안에 No만 여러개로 담겨옴
+		String[] split = tickets.split(",");
 		User user = (User)session.getAttribute("user");
 		transaction.setBuyer(user);
 		transaction.setTranType("T");
-		
-		String dateString = ticket.getGame().getGameDate(); // 기존 날짜 및 시간
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = dateFormat.parse(dateString); // 문자열을 날짜로 변환
-		
-		Calendar calendar = Calendar.getInstance(); // Calendar 인스턴스 생성
-		calendar.setTime(date); // Calendar에 기존 날짜 및 시간 설정
-		calendar.add(Calendar.DAY_OF_MONTH, -1); // -1일 계산
-		calendar.set(Calendar.HOUR_OF_DAY, 0); // 24:00으로 설정
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		Date refundDate = calendar.getTime(); // 계산된 날짜 및 시간을 가져옴
-
-		transaction.setRefundableDate(refundDate);
+		//refundableDate -> 전날 23시로 세팅
+		String dateString = ticketService.getTicketInfo(split[0]).getGame().getGameDate();//ticketNo로 해당 티켓 정보가져옴(gameDate get위함)// 기존 날짜 및 시간
+		System.out.println("dateString"+dateString);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.parse(dateString, formatter);
+		LocalDate refundDate = localDate.minusDays(1);
+		LocalDateTime refundDateTime = refundDate.atTime(23, 0, 0);
+		System.out.println("refundDateTime??"+refundDateTime); 
+		transaction.setRefundableDate(refundDateTime);
 		
 		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
 		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
 		
-		String tickets = ticket.getTicketNo(); //ticketNo가 하나의 객체안에 No만 여러개로 담겨옴
-		String[] split = tickets.split(",");
 		List<String> list = new ArrayList<>(); //각 ticketNo를 list에 넣어주기
 		for(String splitTicket:split) {
 			list.add(splitTicket);

@@ -44,6 +44,11 @@
 		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
 	</resultMap>
 	
+	<!-- ticket 1개의 정보 get -->
+	<select id="getTicketInfo" parameterType="string" resultMap="ticketSelectMap">
+		SELECT * FROM ticket
+		where ticket_no = #{value}
+	</select>
 	
 	<!--해당경기의 모든 티켓정보 출력(좌석선택위함) -->
 	<select id="getTickets" parameterType="string" resultMap="ticketSelectMap">

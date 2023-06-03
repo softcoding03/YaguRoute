@@ -11,9 +11,16 @@
 <script type="text/javascript">
 
 	$(function(){
+		var refundableDate = "${transaction.refundableDate}";
+		var formattedDateTime = refundableDate.replace("T", " ");
+		$("#refundableDate").text(formattedDateTime+" 이전까지");
+		
 	 	//환불
 	 	$('.refundTransaction').on("click" , function() {
-	 		if(취소 가능 시간 이내 면 아래 로직 수행){
+	 		var refundableDate = new Date("${transaction.refundableDate}");
+	 		var currentDate = new Date();
+	 		
+	 		if(currentDate < refundableDate){
 	 			var confirmation = confirm("정말로 구매를 취소하시겠습니까? 구매 취소 시 구매하신 모든 티켓이 취소됩니다.");
 	 			var tranNo = ${transaction.tranNo};
 	 			if(confirmation){
@@ -121,7 +128,7 @@
 			<hr/>
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>결제 취소가능기간</strong></div>
-				<div class="col-xs-8 col-md-4">${ticketList[0].game.gameDate} 전날 24:00까지</div>
+				<div class="col-xs-8 col-md-4" id="refundableDate"></div>
 			</div>
 			<hr>
 			<div>
@@ -134,7 +141,7 @@
 			<hr/><hr>
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>결제 취소 시각</strong></div>
-				<div class="col-xs-8 col-md-4">${transaction.Date}</div>
+				<div class="col-xs-8 col-md-4">${transaction.tranDate}</div>
 			</div>
 			<hr/>
 			<div class="row">
