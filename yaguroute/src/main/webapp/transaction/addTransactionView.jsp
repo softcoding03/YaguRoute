@@ -27,11 +27,11 @@ function fncAddTransaction() {
   $(document).ready(function() {
     $('#applyPointButton').click(function() {
       var tranUsePoint = $('input[name="tranUsePoint"]').val();      
-      alert(tranUsePoint);
+      //alert(tranUsePoint);
       
       var tranTotalPrice = ${tranTotalPrice};
       tranTotalPrice -= tranUsePoint;    	 
-      alert("2번쨰알림 "+tranTotalPrice)
+      //alert("2번쨰알림 "+tranTotalPrice)
       $("#tranTotalPrice").val(tranTotalPrice);
       
     });
@@ -67,7 +67,7 @@ function fncAddTransaction() {
 			{ //결제 정보 설정 (***아임포트에서 요구하는 변수명 사용해야한다)
 				pg: "html5_inicis", //결제 수단 설정 (관리자콘솔에서 추가한 pg만 가능)
 				merchant_uid: UID, //유니크하게 만들어 놓은 merchat_id값
-				goodsname: "${product.prodName}", //결제창에 보이는 구매할 상품의 이름
+				goodsname: "${tranDetail.tranDetailProd.prodNo}", //결제창에 보이는 구매할 상품의 이름
 			    amount: payAmount,	//구매할 총 가격
 			    buyer_name: payName, //직접 입력한 받는사람 이름
 			    buyer_tel:  payPhone, //직접 입력한 받는사람 휴대폰번호
@@ -133,6 +133,7 @@ function fncAddTransaction() {
 					<input type="hidden" id="impNo" name="impNo" value="" /> 
 					<input type="hidden" id="merchantNo" name="merchantNo" value="" /> 
 					<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
+					<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity}" />
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 
 

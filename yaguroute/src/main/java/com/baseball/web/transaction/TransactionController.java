@@ -118,17 +118,20 @@ public class TransactionController {
 			    //TranDetail 객체 설정하고 add 시작
 			    TranDetail tranDetail = new TranDetail();
 			    tranDetail.setTranDetailProd(product);
-			    tranDetail.setTranStatusCode("1"); // 구매완료
+			    tranDetail.setTranStatusCode("1"); // 1:구매완료 2:배송중 3:배송완료
 			    tranDetail.setTranDetailTran(transaction);  // 구매한 transaction 설정
-			    tranDetail.setTranQuantity(prodQuantity); // 상품 수량 설정
+			    tranDetail.setTranQuantity(prodQuantity); // 구매한 상품 수량 설정
 			    tranDetail.setRefundStatusCode("1"); // 환불 상태 코드 설정
 		
 			    //System.out.println("setting된 tranNo 정보:: "+transaction);
 			    			    
 			    tranDetailService.addTranDetail(tranDetail);
-		
-			    
-			    // 재고 업데이트 시작
+				    
+			    // 재고 업데이트 시작			
+			    int updateQuantity = product.getProdStock() - prodQuantity;
+			    product.setProdStock(updateQuantity);
+			    		    
+			    productService.updateProduct(product);
 			    
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
