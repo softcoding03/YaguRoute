@@ -66,8 +66,18 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public void updatePoint(User user) throws Exception {
-		ticketDao.updatePoint(user);
+	public void updateRefundPoint(User user) throws Exception {
+		ticketDao.updateRefundPoint(user);
+	}
+
+	@Override
+	public Ticket getTicketInfo(String ticketNo) throws Exception {
+		return ticketDao.getTicketInfo(ticketNo);
+	}
+
+	@Override
+	public List<Game> getGameListByMonth(int month) throws Exception {
+		return ticketDao.getGameListByMonth(month);
 	}
 			
 

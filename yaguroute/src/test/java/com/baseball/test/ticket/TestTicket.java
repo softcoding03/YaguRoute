@@ -1,5 +1,8 @@
 package com.baseball.test.ticket;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,7 +180,6 @@ public class TestTicket{
 		int point = transaction.getTranUsePoint(); //해당 결제에 사용했던 포인트 get
 		User user = transaction.getBuyer();
 		user.setUserPoint(point);
-		ticketService.updatePoint(user); //사용했던 포인트, userId를 매개변수로 update
 	}
 	
 	//해당 게임 총 판매 티켓 수
@@ -199,5 +201,15 @@ public class TestTicket{
 		ticketService.updateTicketStatus(ticket);
 		System.out.println("updateTicketStatus END");
 	}
-	
+	@Test
+	public void dateupdate() throws Exception{
+	//refundableDate -> 전날 23시로 세팅
+		String dateString = ticketService.getTicketInfo("20230604SSHH02023-A07").getGame().getGameDate();//ticketNo로 해당 티켓 정보가져옴(gameDate get위함)// 기존 날짜 및 시간
+		System.out.println("dateString ? "+dateString);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.parse(dateString, formatter);
+		LocalDate refundDate = localDate.minusDays(1);
+		LocalDateTime refundDateTime = refundDate.atTime(23, 0, 0);
+		System.out.println("refundDateTime??"+refundDateTime);
+	}
 }

@@ -25,6 +25,6 @@ public interface TransactionDao {
 
 	public int getLastTranNo() throws Exception;
 
-	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception;
+	public List<Transaction> getSalesList(String gameCode) throws Exception;
 
 }

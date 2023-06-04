@@ -99,8 +99,8 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Transaction> getPurchaseListByGameCode(String gameCode) throws Exception {
-		return transactionDao.getPurchaseListByGameCode(gameCode);
+	public List<Transaction> getSalesList(String gameCode) throws Exception {
+		return transactionDao.getSalesList(gameCode);
 	}
 
 }

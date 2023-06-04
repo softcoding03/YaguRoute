@@ -5,11 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.User;
 
 @Mapper
 public interface TicketDao {
+	
+	public Ticket getTicketInfo(String ticketNo) throws Exception;
 	
 	public int getSalesTicket(String gameCode) throws Exception;
 	
@@ -25,6 +28,8 @@ public interface TicketDao {
 	
 	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception;
 	
-	public void updatePoint(User user) throws Exception;
+	public List<Game> getGameListByMonth(int month) throws Exception;
+	
+	public void updateRefundPoint(User user) throws Exception;
 	
 }

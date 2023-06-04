@@ -1,6 +1,7 @@
 ﻿package com.baseball.service.domain;
 
 import java.sql.Date;
+import java.time.*;
 
 public class Transaction {
 	
@@ -15,21 +16,33 @@ public class Transaction {
 	private int tranTotalPrice;
 	private String tranPaymentOption;
 	private String dlvyRequest;
-	private Date tranDate;
+	private LocalDateTime tranDate;
 	private String tranType;
 	private int tranAddPoint;
 	private int tranUsePoint;
 	private int refundStatus;
-	
-	
+	private LocalDateTime refundableDate;
+	private int ticketCount;
 
-
+	
 
 	public Transaction() {
 		
 	}
+	public int getTicketCount() {
+		return ticketCount;
+	}
 
-
+	public void setTicketCount(int ticketCount) {
+		this.ticketCount = ticketCount;
+	}
+	public LocalDateTime getRefundableDate() {
+		return refundableDate;
+	}
+	public void setRefundableDate(LocalDateTime refundableDate) {
+		this.refundableDate = refundableDate;
+	}
+	
 	public int getTranNo() {
 		return tranNo;
 	}
@@ -110,12 +123,12 @@ public class Transaction {
 	}
 
 
-	public Date getTranDate() {
+	public LocalDateTime getTranDate() {
 		return tranDate;
 	}
 
 
-	public void setTranDate(Date tranDate) {
+	public void setTranDate(LocalDateTime tranDate) {
 		this.tranDate = tranDate;
 	}
 
@@ -175,8 +188,6 @@ public class Transaction {
 	public void setRefundStatus(int refundStatus) {
 		this.refundStatus = refundStatus;
 	}
-
-
 	@Override
 	public String toString() {
 		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", merchantNo=" + merchantNo
@@ -184,9 +195,8 @@ public class Transaction {
 				+ receiverAddr + ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption
 				+ ", dlvyRequest=" + dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType
 				+ ", tranAddPoint=" + tranAddPoint + ", tranUsePoint=" + tranUsePoint + ", refundStatus=" + refundStatus
-				+ "]";
+				+ ", refundableDate=" + refundableDate + ", ticketCount=" + ticketCount + "]";
 	}
-
-
+	
 		
 }
