@@ -3,6 +3,7 @@ package com.baseball.service.ticket;
 import java.util.List;
 import java.util.Map;
 
+import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.User;
 
@@ -32,6 +33,9 @@ public interface TicketService {
 	
 	//tranNo에 해당하는 티켓 list get
 	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception;
+	
+	//month에 해당하는 game list
+	public List<Game> getGameListByMonth(int month) throws Exception;
 	
 	//환불완료 시 user가 구매 시 사용한 point 복구
 	public void updateRefundPoint(User user) throws Exception; 

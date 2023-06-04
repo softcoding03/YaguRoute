@@ -22,12 +22,20 @@ public class Transaction {
 	private int tranUsePoint;
 	private int refundStatus;
 	private LocalDateTime refundableDate;
+	private int ticketCount;
 
+	
 
 	public Transaction() {
 		
 	}
+	public int getTicketCount() {
+		return ticketCount;
+	}
 
+	public void setTicketCount(int ticketCount) {
+		this.ticketCount = ticketCount;
+	}
 	public LocalDateTime getRefundableDate() {
 		return refundableDate;
 	}
@@ -180,7 +188,6 @@ public class Transaction {
 	public void setRefundStatus(int refundStatus) {
 		this.refundStatus = refundStatus;
 	}
-	
 	@Override
 	public String toString() {
 		return "Transaction [tranNo=" + tranNo + ", buyer=" + buyer + ", impNo=" + impNo + ", merchantNo=" + merchantNo
@@ -188,7 +195,8 @@ public class Transaction {
 				+ receiverAddr + ", tranTotalPrice=" + tranTotalPrice + ", tranPaymentOption=" + tranPaymentOption
 				+ ", dlvyRequest=" + dlvyRequest + ", tranDate=" + tranDate + ", tranType=" + tranType
 				+ ", tranAddPoint=" + tranAddPoint + ", tranUsePoint=" + tranUsePoint + ", refundStatus=" + refundStatus
-				+ ", refundableDate=" + refundableDate + "]";
+				+ ", refundableDate=" + refundableDate + ", ticketCount=" + ticketCount + "]";
 	}
+	
 		
 }

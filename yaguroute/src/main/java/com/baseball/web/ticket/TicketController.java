@@ -191,14 +191,23 @@ public class TicketController {
 		return "forward:/ticket/listTicketPurchase.jsp";
 	}
 	
-	//결제번호에 해당하는 ticket List get
-	@GetMapping("getTickets")
-	public String getTickets() throws Exception{
-		int tranNo = 30; //화면에서 보내줄 예정
-		Game game=gameService.getGameInfo(ticketService.getGameCode(tranNo)); //게임정보세팅
-		List<Ticket> list = ticketService.getTicketPurchaseList(tranNo); //tranNo에 해당하는 티켓 정보들 get
-		System.out.println("tranNO에 해당하는 티켓 list ?? "+list);
-		return "forward:/ticket/getTickets.jsp";
+	@GetMapping("getSalesList")
+	public String getSalesList(@RequestParam("month") int month,Model model) throws Exception {
+		System.out.println("/ticket/getSalesList : GET START");
+		System.out.println("넘어온 month ?"+month); 
+		Map<String, Object> map = new HashMap<>();
+		List<Game> list = ticketService.getGameListByMonth(month);
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		for(Game game:list) {
+			game.setSalesTicket(ticketService.getSalesTicket(game.getGameCode()));
+			transactionList = transactionService.getSalesList(game.getGameCode());
+			map.put(game.getGameCode(), transactionList);
+		}
+		model.addAttribute("gameList", list);
+		model.addAttribute("map", map); //map에 gameCode:list 1:다 관계
+		return "forward:/ticket/listSales.jsp";
 	}
+	
+
 	
 }

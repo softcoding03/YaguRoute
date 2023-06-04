@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.User;
 
@@ -26,6 +27,8 @@ public interface TicketDao {
 	public String getGameCode(int tranNo) throws Exception;
 	
 	public List<Ticket> getTicketPurchaseList(int tranNo) throws Exception;
+	
+	public List<Game> getGameListByMonth(int month) throws Exception;
 	
 	public void updateRefundPoint(User user) throws Exception;
 	

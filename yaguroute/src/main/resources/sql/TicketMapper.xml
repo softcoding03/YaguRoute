@@ -96,10 +96,17 @@
 		WHERE tran_no = #{value}
 	</update>
 	
+	<!-- 해당 월의 Game 정보 list 출력 -->
+	<select id="getGameListByMonth" parameterType="int" resultMap="gameSelectMap">
+		SELECT * FROM game
+		WHERE month(game_date)=#{value} AND year(game_date)=2023
+		ORDER BY home_team_code
+	</select>
+	
 	<!-- 해당 경기의 판매완료된 티켓 수 출력 -->
 	<select id="getSalesTicket" parameterType="string" resultType="int">
 		SELECT COUNT(*) FROM ticket
-		WHERE game_code = #{gameCode} AND ticket_status = 2
+		WHERE game_code = #{gameCode} AND ticket_status = 1
 	</select>
 	
 	<!--환불 시 user가 사용한 point 다시 복구해주는 쿼리-->

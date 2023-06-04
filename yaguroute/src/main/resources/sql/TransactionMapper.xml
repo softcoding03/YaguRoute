@@ -23,7 +23,7 @@
 		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
 		<result property="refundStatus"			column="refund_status"			jdbcType="NUMERIC"/>
 		<result property="refundableDate"		column="refundable_date"		jdbcType="TIMESTAMP"/>
-			
+		<result property="ticketCount"			column="ticket_count"			jdbcType="NUMERIC"/>
 		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUser"/>		
 		
 	
@@ -127,16 +127,16 @@
 	
 	</select>
 	
-	<select id="getPurchaseListByGameCode" parameterType="string" resultMap="transactionSelectMap">
-		SELECT *
-		FROM transaction t, (
-			SELECT DISTINCT tran_no
-			FROM ticket
-			WHERE game_code=#{value} AND tran_no IS NOT NULL
-		) a
-		WHERE t.tran_no = a.tran_no
-	</select>
-	
+	<select id="getSalesList" parameterType="string" resultMap="transactionSelectMap">
+		SELECT t.*, t2.ticket_count
+		FROM transaction t
+		INNER JOIN (
+		    SELECT tran_no, COUNT(*) AS ticket_count
+		    FROM ticket
+		    WHERE game_code = #{value} AND tran_no IS NOT NULL
+		    GROUP BY tran_no
+		) t2 ON t.tran_no = t2.tran_no;
+	</select> 
 
 
 </mapper>
