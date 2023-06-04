@@ -19,8 +19,8 @@ public interface ProductService {
 	public int deleteProduct(int prodNo) throws Exception;
 	
 	public Map<String, Object> getProductList(Map<String,Object> map) throws Exception;
+	public Map<String, Object> getSalesProductList(Map<String,Object>map) throws Exception;
 	
 	public List<String> autoComplete() throws Exception;
 	
-	//public int sortProductList(int prodStock) throws Exception;
 }

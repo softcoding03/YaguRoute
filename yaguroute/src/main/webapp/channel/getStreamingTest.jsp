@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<!-- <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/> -->
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 
 
@@ -22,30 +22,39 @@
 
 
 <style>
-		  
+	.match{
+		background-color:#3D3D3D;
+		font-family : Open Sans, sans-serif;
+	}
 	.chat-container {
 		max-width: 500px;
 		margin: 50px auto;
 	}
 	
+	#message-input{
+		width : 450px;
+		height : 20px;
+	}
+	
 	.button-container{
 		background-color: #f2f2f2;
 		max-width: 500px;
-		margin: 50px auto;
+		margin: 100px auto;
 	}
 	      
 	.chat-messages {
 		background-color: #f2f2f2;
-		padding: 10px;
+		padding: 30px;
 		border-radius: 5px;
 		max-height: 300px;
 		overflow-y: auto;
+		margin-bottom: 20px;
 	}
 	
 	.chat-message {
 		display: flex;
 		align-items: flex-start;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
     
     .message-bubble {
@@ -141,12 +150,18 @@
 								platsinline : true,
 				 				muted : true,
 				 				preload : "auto",
-				 				width : "854",
-				 				height : "480"										
+				 				width : "650px",
+				 				height : "480px"										
 							});
 						} else {
 							console.log("방송 시작 전");
+							$('video').css({
+								width: '650px',
+								height: '480px'
+								
+							});
 							$('video').attr("poster", "${channel.gameInfo.homeTeam.teamEmblem}");
+							
 							//var html = "<img src='${channel.gameInfo.homeTeam.teamEmblem}' width='854' heigth='480'/>"
 						}
 								
@@ -197,10 +212,18 @@
 			});
 			
 			//이미지 드래그&다운
-			 var dropZone = $('#drag-drop-container');
+			 var dropZone = $('#chat-messages');
 			 dropZone.on('dragover', handleDragOver);
 			 dropZone.on('dragleave', handleDragLeave);
 			 dropZone.on('drop', handleFileSelect);
+			 
+			 dropZone.on('dragenter', function(){
+				dropZone.show();
+			 });
+			 
+			 dropZone.on('dragleave', function() {
+			 	dragDropContainer.hide();
+			 });
 			 
 			 function handleDragOver(event) {
 				    event.stopPropagation();
@@ -307,30 +330,8 @@
 			console.log(data);
 			$('#chat-messages').append($('<div>').text(data.userID+" : "));
 			$('#chat-messages').append($('<div>').append($('<img>').attr('src', data.Image).attr('width',200).attr('heigth', 200)));
-		})
-		
-		//이미지 업로드 하기
-/* 		$('#uploadForm').submit(function(e){
-			e.preventDefault();
-			
-			var formData = new FormData();
-			var fileInput = $('#fileInput')[0].files[0];
-			formData.append('image', fileInput);
-			
-			$.ajax({
-				url: "http://192.168.0.36:3001/image/upload",
-				type: "POST",
-				processData: false,
-		        contentType: false,
-				data: formData,
-				dataType: "json",
-				success: function(data, status){
-					console.log(data);
-					socket.emit("image", data.image_path);
-				}
-				
-			})
-		}); */
+			$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+		});
 	});
 </script>
 
@@ -345,7 +346,7 @@
 <jsp:include page="/common/topBar.jsp"/>
 <!-- topBar End -->
 
-<div class="preloader-wrapper" id="preloader">
+<!-- <div class="preloader-wrapper" id="preloader">
     <div class="motion-line dark-big"></div>
     <div class="motion-line yellow-big"></div>
     <div class="motion-line dark-small"></div>
@@ -353,7 +354,7 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 </div>
-
+ -->
 <section class="image-header">
     <div class="container">
         <div class="row">
@@ -381,29 +382,29 @@
 </div>
 
 
-<div class="match-live-info-bg">
+<div class="match">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="match-live-info">
 					<div class="title"> ${channel.gameInfo.homeTeam.teamNickName} – ${channel.gameInfo.awayTeam.teamNickName} </div>
 					<div class="match-info">
-						<div class="team">
+						<div class="team wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
 							<div class="avatar">
 								<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt="team-logo">
 							</div>
 							<div class="text">
-								${channel.gameInfo.homeTeam.teamNickName}
+								<h4>${channel.gameInfo.homeTeam.teamNickName}</h4>
 							</div>
 						</div>
 						
 						<div class="score">
-            			${channel.gameInfo.gameScore}       
+            				${channel.gameInfo.gameScore}       
             			</div>
             			
             			<div class="team right  wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
             				<div class="text">
-            					${channel.gameInfo.awayTeam.teamNickName}
+            					<h4>${channel.gameInfo.awayTeam.teamNickName}</h4>
             				</div>
             				<div class="avatar">
             					<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt="team-logo">
@@ -431,7 +432,9 @@
 					<div class="tab-content">
 						<div class="tab-pane fade in active" role="tabpanel" id="title1">
 							<video id="streaming" class="video-js vjs-big-play-button vjs-big-play-centered">
-							</video>	
+							</video>
+							
+							<h3>경기 점수 출력</h3>
 						</div>
 					</div>
 				</div>
@@ -465,21 +468,17 @@
 				</div>
 			</div>
 			<div class="container chat-container">
-				<div class="chat-messages" id="chat-messages">
+				<div class="chat-messages" id="chat-messages" class="drop-area">
 			    	<!-- 채팅 메시지를 표시할 영역 -->
-			    	
-				    
 			    </div>
 			    
 			    <form id="chat-form">
 			     	<div class="input-group">
-			        	<input type="text" id="message-input" class="form-control form-control-lg rounded" placeholder="메시지를 입력하세요">
+			        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요">
 			    	</div>
 		    	</form>
 		    	
-		    	<div id="drag-drop-container" class="drop-area">
-					    <span class="drag-drop-text">이미지를 여기에 드래그 앤 드롭하세요.</span>
-				</div>
+
 		    	<!-- <form id="uploadForm" enctype="multipart/form-data">
 				    <input type="file" name="file" id="fileInput">
 				    <button type="submit">+</button>
@@ -491,7 +490,18 @@
 </div>
 
 <section class="live-match-stat">
-
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-6 position-relative">
+				<h1>경기 내용 출력1</h1>		
+			</div>
+			
+			<div class="col-md-6 position-relative">
+				<h1>경기 내용 출력2</h1>		
+			</div>
+		</div>
+	</div>
+	
 </section>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>

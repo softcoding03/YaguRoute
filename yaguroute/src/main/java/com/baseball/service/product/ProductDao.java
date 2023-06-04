@@ -23,6 +23,7 @@ public interface ProductDao {
 	public int deleteProduct(int prodNo) throws Exception;
 	
 	public List<Product> getProductList(Map<String, Object> map) throws Exception;
+	public List<Product> getSalesProductList(Map<String, Object> map) throws Exception;
 	
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 
