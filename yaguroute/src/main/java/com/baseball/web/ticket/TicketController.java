@@ -165,7 +165,7 @@ public class TicketController {
 		System.out.println("/ticket/getTicketPurchaseList : GET START");
 		Search search = new Search();
 		search.setCurrentPage(1);
-		search.setPageSize(10);
+		search.setPageSize(30);
 		String tranType = "t";
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");

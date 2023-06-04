@@ -81,6 +81,7 @@ public class TicketRestController {
 		String result = importAPIRestService.importRefund(merchantNo, 0); //환불 요청 rest
 		if(result.equals("success")) {
 			System.out.println("환불 성공");
+			ticketService.getTicketPurchaseList(tranNo);
 			ticketService.updateRefundStatus(tranNo); // transaction의 refund_status를 0->1 변경 & tranDate 취소시각으로 update
 			transaction = transactionService.getTransaction(tranNo); //update된 transaction
 			String gameCode = ticketService.getGameCode(tranNo); //tranNo로 gameCode하나 가져오기

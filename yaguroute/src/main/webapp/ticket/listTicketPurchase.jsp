@@ -40,7 +40,7 @@
 				  <td align="left">${transaction[i].tranNo}</td>
 				  <td align="left">${game[i].homeTeam.teamFullName} vs ${game[i].awayTeam.teamFullName}</td>
 				  <td align="left">${game[i].gameDate} ${game[i].gameTime}</td>
-				  <td align="left">${game[i].gameDate}의 전날 24:00까지</td>
+				  <td align="left">${transaction[i].refundableDate}이전까지</td>
 				  <td align="left">
 				  		<input type="hidden" name="tranNo" value="${transaction[i].tranNo}">
 				  		<button type="button" class="getTicketPurchaseDetail">상세보기</button>

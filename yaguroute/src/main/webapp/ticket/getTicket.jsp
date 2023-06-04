@@ -54,7 +54,7 @@
 		});
 	 	//구매목록보기
 	 	$('.getTicketPurchaseList').on("click" , function() {
-				self.location = "/ticket/getTicketPurchaseList";
+				self.location = "/ticket/getTicketPurchaseList?userId=${user.userId}";
 		});
 	});
 </script>

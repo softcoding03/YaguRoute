@@ -84,7 +84,7 @@
              <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>                
          </div>
          <div class="col-md-12">
-         <!-- List 시작 -->
+         <!-- 게임코드 반복문 시작 -->
          <c:set var="size" value="${gameList.size()}"/>
 			<c:forEach var="i" begin="0" end="${size -1}" step="1">
          <div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
@@ -143,6 +143,7 @@
 			                        <div class="title">구매자 정보</div>
 			                        <div class="lineup-list">
 			                        	<c:set var="gameCode" value="${gameList[i].gameCode}" />
+			                        	<!-- 구매자 정보 반복문 시작 -->
 			                            <c:forEach var="transaction" items="${map[gameCode]}">
 			                            <div class="item">
 			                                <div class="left">
@@ -159,6 +160,7 @@
 			                                </div>
 			                            </div>
 			                            </c:forEach>
+			                            <!-- 구매자 정보 반복문 끝 -->
 			                        </div>
 			                    </div>
 			                </div>
@@ -167,7 +169,7 @@
 			        
 			    </div>
 			</div>
-			</c:forEach><!-- List 끝 -->
+			</c:forEach><!-- 게임코드 반복문 끝 -->
         </div>
      </div>
   </div>
