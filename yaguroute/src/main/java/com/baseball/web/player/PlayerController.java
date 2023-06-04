@@ -1,6 +1,7 @@
 package com.baseball.web.player;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -182,22 +183,21 @@ public class PlayerController {
 		bestPlayerList = bestPlayerList.stream().filter(bestplayer -> bestplayer.getBestDate().equals(bestDate))
 				.collect(Collectors.toList());
 
-		List<Player> nigro = null;
+		List<Player> playList = new ArrayList<>();
 		
 		for (BestPlayer bestPlayers : bestPlayerList) {
 			
 			//System.out.println("bestPlayers : "+bestPlayers.getPlayerId());
-			Player nigger = playerService.getPlayer(bestPlayers.getPlayerId());
+			Player player = playerService.getPlayer(bestPlayers.getPlayerId());
 			
-			System.out.println("nigger : "+nigger);
-			nigro.add(nigger);
+			System.out.println("player : "+player);
+			
+			playList.add(player);
 		}
 		
 //		player가 있잖아. bestPlayer의 아이디와 일치하는 player를 가져오려고하는건데? 그치? 
 		
-		
-//		model.addAttribute("player", );
-		model.addAttribute("player",nigro);
+		model.addAttribute("list",playList);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		

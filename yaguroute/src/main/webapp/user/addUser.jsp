@@ -15,16 +15,79 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+     <style> 
+    .password {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    </style>
+    
     <script type="text/javascript">
 	
-    $(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#signup" ).on("click" , function() {
-			//alert("ㅎㅇㅎㅇㅇ");
-			fncAddUser();
-		});
-	});	
+    $(function(){
+		$('#userId').keyup(function(){
+			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
+			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
+				//alert("여기까지 옴!");
+			 $.ajax({
+				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
+				type : "POST", // POST방식으로 전달
+				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
+				dataType : 'json', // json데이터형식으로 보낸다.
+				success : function(result){ // 서버에서 response(result값)가 전송된다.
+					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
+						$("#id_use").html('이미 사용중인 아이디입니다.');
+						$("#id_use").attr('color','#dc3545');
+					} 
+					else if(result == 0 && id.length >= 5 && id.length <= 20){
+						$("#id_use").html('사용할 수 있는 아이디입니다.');
+						$("#id_use").attr('color','#2fb380');
+					} 
+					else if(id.length < 5){
+						$("#id_use").html('최소 아이디 길이는 5자 입니다.');
+						$("#id_use").attr('color','#dc3545');
+					}
+					else if(id.length > 20){
+						$("#id_use").html('아이디는 20자를 넘길 수 없습니다.');
+						$("#id_use").attr('color','#dc3545');
+					}
+				},
+				error : function(){
+					alert("서버요청실패");
+				}
+			})
+		})
+	})
     
+	// 패스워드 체크
+	$(function(){
+		
+		$("#password").keyup(function(){
+			
+			var password = $("#password").val();
+			console.log(password);
+			
+			if(password.length < 10){
+				$("#password_use").html('비밀번호는 10자 이상입니다.');
+				$("#password_use").attr('color','#dc3545');
+			} 
+			else if(password.length >= 10 && password.length <= 20){
+				$("#password_use").html('');
+			}
+			else if(password.length > 20){
+				$("#password_use").html('비밀번호는 20자 이하만 가능합니다.');
+				$("#password_use").attr('color','#dc3545');
+			}
+		});
+	});
+	
+    // 닉네임 체크
 	$(function(){
 		
 		$('#nicknameCheck').keyup(function(){
@@ -42,8 +105,10 @@
 						$("#nickname_use").attr('color', '#dc3545');
 					
 					}else{
+						
 						$('#nickname_use').html('사용 가능한 닉네임입니다.');
 						$('#nickname_use').attr('color', '#2fb380');
+						
 					}
 				},
 				error : function(){
@@ -53,34 +118,47 @@
 		})
 	});
 	
-	$(function(){
-		$('#idCheck').keyup(function(){
-			let id = $('#idCheck').val(); // 입력 중인 id의 val을 변수에 선언한다.
-			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
-				//alert("여기까지 옴!");
-			 $.ajax({
-				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
-				type : "POST", // POST방식으로 전달
-				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
-				dataType : 'json', // json데이터형식으로 보낸다.
-				success : function(result){ // 서버에서 response(result값)가 전송된다.
-					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
-						$("#id_use").html('이미 사용중인 아이디입니다.');
-						$("#id_use").attr('color','#dc3545');
-					} else{
-						$("#id_use").html('사용할 수 있는 아이디입니다.');
-						$("#id_use").attr('color','#2fb380');
-					} 
-				},
-				error : function(){
-					alert("서버요청실패");
-				}
-			})
-		})
-	})
-	
-	function fncAddUser() {
+    // 패스워드 더블체크
+	$(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		
+		$( "#passwordCheck" ).keyup(function() {
 			
+			var passwordCheck = $("#passwordCheck").val();
+			var password = $("#password").val();
+			console.log(passwordCheck);
+			
+			if(password == passwordCheck){
+				$('#passwordCheck_use').html('비밀번호가 같아용');
+				$('#passwordCheck_use').attr('color', '#2fb380');
+			}
+			else{
+				$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+		});
+	});	
+    
+	// 이름 체크
+	$(function(){
+		
+		$("#userName").keyup(function(){
+			
+			var userName = $("#userName").val();
+			
+			if(userName.length > 10){
+				$("#userName_use").html('사용자 이름은 10자 이하만 가능합니다.');
+				$("#userName_use").attr('color', '#dc3545');
+			}
+			else{
+				$("#userName_use").html('');
+			}
+		});
+	});	
+	
+	// form에 입력값 제출
+	function fncAddUser() {		
+		 	// 11개여야함.
 			var userId=$("input[name='userId']").val();
 			var password=$("#password").val();
 			var userName=$("#userName").val();
@@ -112,6 +190,15 @@
 			$("form").attr("method" , "POST").attr("action" , "/users/addUser").submit();
 		}
 		
+	 // 가입 버튼
+    $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		
+		$( "#signup" ).on("click" , function() {
+			fncAddUser();
+		});
+	});
+	 
 	$(function(){
 		
 		$("#backback").on("click", function(){
@@ -120,7 +207,7 @@
 			window.location.href="/user/loginTest(new).jsp";
 		});
 	});
-		
+	
 	</script>
 
 	
@@ -166,7 +253,7 @@
                                 <div class="item">
                                     <label>
                                         <span>아이디 <i>*</i></span>
-                                        <input type="text" name="userId" id="idCheck" placeholder="사용할 아이디를 입력하세요.">
+                                        <input type="text" name="userId" id="userId" placeholder="사용할 아이디를 입력하세요.">
                                         <font id="id_use" size="2"></font>
                                     </label>
                                 </div>	
@@ -175,7 +262,8 @@
                                 <div class="item">
                                     <label>
                                         <span>패스워드 <i>*</i></span>
-                                        <input type="password" name="password" id="password" placeholder="사용할 패스워드를 입력하세요.">
+                                        <input type="password" name="password" class="password" id="password" placeholder="사용할 패스워드를 입력하세요.">
+                                        <font id="password_use" size="2"></font>
                                     </label>
                                 </div>	
                             </div>
@@ -183,7 +271,8 @@
                                 <div class="item">
                                     <label>
                                         <span>패스워드 확인<i>*</i></span>
-                                        <input type="text" name="passwordCheck">
+                                        <input type="password" class="password" name="passwordCheck" id="passwordCheck" placeholder="입력한 패스워드와 같은 패스워드를 입력하세요.">
+                                        <font id="passwordCheck_use" size="2"></font>
                                     </label>
                                 </div>	
                             </div>
@@ -192,6 +281,7 @@
                                     <label>
                                         <span>이름<i>*</i></span>
                                         <input type="text" name="userName" id="userName">
+                                        <font id="userName_use" size="2"></font>
                                     </label>
                                 </div>
                             </div>
@@ -199,7 +289,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        <input type="text" name="userBirth" id="userBirth">
+                                        <input type="text" name="userBirth" id="userBirth" readonly>
                                         <button type="button" name="date">달력클릭...</button>
                                     </label>
                                 </div>
