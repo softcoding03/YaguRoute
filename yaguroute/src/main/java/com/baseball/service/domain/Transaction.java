@@ -16,7 +16,7 @@ public class Transaction {
 	private int tranTotalPrice;
 	private String tranPaymentOption;
 	private String dlvyRequest;
-	private Date tranDate;
+	private LocalDateTime tranDate;
 	private String tranType;
 	private int tranAddPoint;
 	private int tranUsePoint;
@@ -115,12 +115,12 @@ public class Transaction {
 	}
 
 
-	public Date getTranDate() {
+	public LocalDateTime getTranDate() {
 		return tranDate;
 	}
 
 
-	public void setTranDate(Date tranDate) {
+	public void setTranDate(LocalDateTime tranDate) {
 		this.tranDate = tranDate;
 	}
 

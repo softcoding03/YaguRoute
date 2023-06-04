@@ -12,8 +12,12 @@
 
 	$(function(){
 		var refundableDate = "${transaction.refundableDate}";
-		var formattedDateTime = refundableDate.replace("T", " ");
-		$("#refundableDate").text(formattedDateTime+" 이전까지");
+		var tranDate ="${transaction.tranDate}";
+		var formattedDateTime1 = refundableDate.replace("T", " ");
+		var formattedDateTime2 = tranDate.replace("T", " ");
+		$("#refundableDate").text(formattedDateTime1+" 이전까지");
+		$("#tranDate").text(formattedDateTime2);
+		
 		
 	 	//환불
 	 	$('.refundTransaction').on("click" , function() {
@@ -113,7 +117,7 @@
 			<hr/><hr>
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>결제 시각</strong></div>
-				<div class="col-xs-8 col-md-4">${transaction.tranDate}</div>
+				<div class="col-xs-8 col-md-4" id="tranDate"></div>
 			</div>
 			<hr/>
 			<div class="row">
@@ -141,7 +145,7 @@
 			<hr/><hr>
 			<div class="row">
 		  		<div class="col-xs-4 col-md-2"><strong>결제 취소 시각</strong></div>
-				<div class="col-xs-8 col-md-4">${transaction.tranDate}</div>
+				<div class="col-xs-8 col-md-4" id="tranDate"></div>
 			</div>
 			<hr/>
 			<div class="row">
