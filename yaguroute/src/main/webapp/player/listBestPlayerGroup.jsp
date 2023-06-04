@@ -230,10 +230,11 @@
                                 <a class="bestPlayerList" href="#" onclick="playerGroup(${i})">링크
                                     <table>
                                         <tr>
-                                            <td align="left" class="bestDate">${bestplayer.playerId}</td>
+                                            <td align="left" class="bestDate">${bestplayer.playerName}</td>
+                                            <td align="left" class="bestDate">${bestplayer.playerNumber}</td>
                                         </tr>
                                     </table>
-                                    <img src="/images/common/store-item-img.jpg" id="bestPlayerGroup${i}" alt="bestPlayerGroup_DATE" width="50" height="200">
+                                    <img src="${bestplayer.playerImage}" id="bestPlayerGroup${i}" alt="bestPlayerGroup_DATE" width="10" height="200">
                                 </a>
                                 <div class="info"></div>
                             </div>

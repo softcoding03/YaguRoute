@@ -238,7 +238,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 			    				url = new URL(playerImage);
 			    				in = url.openStream();
 			    			
-				    			playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\"+playerId+".png";	
+				    			playerPath = "C:/images/"+playerId+".png";	
 				    			out = new FileOutputStream(playerPath);
 				    			
 			    			while (true) {
@@ -260,7 +260,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 			    			}catch (Exception e) {
 								// TODO: handle exception
 			    				e.printStackTrace();
-			    				playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\NA.png";
+			    				playerImage = "‪/images/player/NA.png";
 							}finally {
 					            // 만일 에러가 발생해서 클로즈가 안됐을 가능성이 있기에
 					            // NULL값을 체크후 클로즈 처리를 합니다.
@@ -271,8 +271,8 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 					                out.close();
 					            }
 					        } // end of finally
-			    			player.setPlayerImage(playerPath);
-			    			System.out.println("9. 선수 이미지 경로 : "+playerPath);
+			    			player.setPlayerImage(playerImage);
+			    			System.out.println(playerImage);
 			    			
 			    			/// 111111. ---선수이름 집어넣을 데이터 삽입---
 			    			/// 222222. ---선수 등번호 집어넣을 데이터 삽입--- (등번호 없는 선수는... 데이터 가져와서 등번호에 0~9의 값이 존재하지 않으면 그냥 0으로 하기)
@@ -525,7 +525,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 				    				url = new URL(playerImage);
 				    				in = url.openStream();
 				    			
-					    			playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\"+playerId+".png";	
+					    			playerPath = "C:/images/"+playerId+".png";	
 					    			out = new FileOutputStream(playerPath);
 					    			
 				    			while (true) {
@@ -547,9 +547,7 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 				    			}catch (Exception e) {
 									// TODO: handle exception
 				    				e.printStackTrace();
-				    				playerPath = "C:\\mainPJT\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\player\\NA.png";
-				    				out = new FileOutputStream(playerPath);
-				    				
+				    				playerImage = "‪/images/player/NA.png";
 								}finally {
 						            // 만일 에러가 발생해서 클로즈가 안됐을 가능성이 있기에
 						            // NULL값을 체크후 클로즈 처리를 합니다.
@@ -560,8 +558,8 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 						                out.close();
 						            }
 						        } // end of finally
-				    			player.setPlayerImage(playerPath);
-				    			System.out.println("9. 선수 이미지 경로 : "+playerPath);
+				    			player.setPlayerImage(playerImage);
+				    			System.out.println(playerImage);
 				    			
 //								// 선수의 모든 정보 출력..
 //								WebElement playerInfo = driver.findElement(By.xpath("//*[@id=\"contents\"]/div[2]/div[1]/div[1]/ul"));
