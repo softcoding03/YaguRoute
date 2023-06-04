@@ -230,7 +230,7 @@
 		</div>
 		<div class="col-md-8">
 			휴대폰 번호<br><input type="text" name="userPhone" id="userPhone" placeholder="휴대폰 번호를 입력하시오.( ' - '제외 휴대폰 번호만)">
-			<button type="button" id="phoneButton">인증번호 전송</button>
+			<button type="button" id="phoneButton">인증번호 발송</button>
 		</div>
 		<div class="col-md-8">
 			휴대폰 인증번호<br><input type="text" id="phoneCheck" placeholder="인증번호를 입력하시오.">

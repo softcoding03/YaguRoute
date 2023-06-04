@@ -5,6 +5,7 @@ public class BestPlayer {
 	//Field
 	private String playerId;
 	private String bestDate;
+	private String role;
 
 	//Method
 	public String getPlayerId() {
@@ -23,6 +24,13 @@ public class BestPlayer {
 		System.out.println("bestDate : "+bestDate);
 		this.bestDate = bestDate;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 	@Override
 	public String toString() {
 		return "BestPlayer [playerId=" + playerId + ", bestDate=" + bestDate + "]";

@@ -103,7 +103,7 @@ public class PlayerController {
 	}
 	
 	@GetMapping("getPlayer")
-	public String getPlayer(@RequestParam("playerId") String playerId, Model model) throws Exception{
+	public String  getPlayer(@RequestParam("playerId") String playerId, Model model) throws Exception{
 		
 		System.out.println("getPlayer ㅎㅇ");
 		

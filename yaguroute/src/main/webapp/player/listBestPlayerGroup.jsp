@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script type="text/javascript">
     		
     //  <a class="bestPlayerList" href="#" onclick="playerGroup()">링크
@@ -24,6 +24,32 @@
     		
     		self.location.href="/player/bestListPlayerGroup?bestDate="+bestDate;
 		};	 */
+		
+		$(function(){
+			
+			$(".bestPlayerList").on("click", function(){
+				
+			
+				var playerId = $(this).find("td:first").text().trim();
+				
+				console.log(playerId);
+				
+				/* $.ajax({
+					
+					url : "/player/getPlayer?playerId="+playerId,
+					method : "GET",
+					dataType : 'json',
+					success : function(){
+						alert("전송 성공");
+					},
+					error : function(){
+						alert("서버 요청 실패");
+					}
+				}) */
+				
+				window.location.href = "/player/getPlayer?playerId="+playerId;
+			});
+		});
 		
     </script>
 </head>
@@ -227,11 +253,12 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="store-list-item">
                             <div>
-                                <a class="bestPlayerList" href="#" onclick="playerGroup(${i})">링크
+                                <a class="bestPlayerList" href="#" onclick="playerGroup(${i})">타자?
                                     <table>
                                         <tr>
-                                            <td align="left" class="bestDate">${bestplayer.playerName}</td>
-                                            <td align="left" class="bestDate">${bestplayer.playerNumber}</td>
+                                        	<td align="left" class="player" hidden="">${bestplayer.playerId}</td>
+                                            <td align="left" class="player">${bestplayer.playerName}</td>
+                                            <td align="left" class="player">${bestplayer.playerNumber}</td>
                                         </tr>
                                     </table>
                                     <img src="${bestplayer.playerImage}" id="bestPlayerGroup${i}" alt="bestPlayerGroup_DATE" width="10" height="200">

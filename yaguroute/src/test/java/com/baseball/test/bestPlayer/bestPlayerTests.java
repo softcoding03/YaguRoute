@@ -64,6 +64,8 @@ public class bestPlayerTests {
 		
 		BestPlayer bestplayer = new BestPlayer(); // BestPlayer 인스턴스 생성
 		
+		
+		// add BestPlayer with 타자
 		for(Player player : playerList) {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,18 +74,22 @@ public class bestPlayerTests {
 			System.out.println("playerId : "+player.getPlayerId());
 			bestplayer.setPlayerId(player.getPlayerId());
 			bestplayer.setBestDate(dateString);
+			bestplayer.setRole("타자");
 			System.out.println("bestPlayer : "+bestplayer);
 			bestPlayerService.addBestPlayer(bestplayer);
 		}
 		
+		// add BestPlayer with 투수
 		for(Player player : playerToosoo) {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String dateString = formatter.format(new Date());
 			
 			System.out.println("playerId : "+player.getPlayerId());
+			bestplayer.setRole("투수");
 			bestplayer.setPlayerId(player.getPlayerId());
 			bestplayer.setBestDate(dateString);
 		}
+		
 		System.out.println("Search : "+search);
 		bestPlayerService.addBestPlayer(bestplayer);
 		

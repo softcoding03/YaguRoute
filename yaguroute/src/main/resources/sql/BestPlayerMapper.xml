@@ -9,6 +9,7 @@
 	<resultMap id="bestPlayerSelectMap" type="bestplayer">
 		<result property="playerId" column="PLAYER_ID" jdbcType="VARCHAR"/>
 		<result property="bestDate" column="BEST_DATE" jdbcType="DATE"/>
+		<result property="role" column="ROLE" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<resultMap id="playerSelectMap" type="player">
@@ -31,8 +32,8 @@
 	</resultMap>
 	
 		<insert id="addBestPlayer" parameterType="bestplayer">
-			INSERT INTO BEST_PLAYER (PLAYER_ID, BEST_DATE)
-  			VALUES (#{playerId}, #{bestDate})
+			INSERT INTO BEST_PLAYER (PLAYER_ID, BEST_DATE, ROLE)
+  			VALUES (#{playerId}, #{bestDate}, #{role})
 		</insert>
 		
 		<select id="getBestPlayerList" parameterType="search" resultMap="bestPlayerSelectMap">

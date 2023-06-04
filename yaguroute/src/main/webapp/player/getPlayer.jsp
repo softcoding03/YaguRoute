@@ -26,10 +26,7 @@
     <div class="motion-line yellow-small2"></div>
 </div>
 
-    
-
-
-    
+  
 <div class="top-bar">
     <div class="container">
         <div class="row">
@@ -81,111 +78,7 @@
 </div>
 
 
-    <!--MAIN MENU WRAP BEGIN-->
-<div class="main-menu-wrap sticky-menu">
-    <div class="container">
-        <a href="index.html" class="custom-logo-link"><img src="/images/baseball/logo.png" alt="logo" class="custom-logo"></a>
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#team-menu" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <nav class="navbar">
-            <div class="collapse navbar-collapse" id="team-menu">
-                <ul class="main-menu nav">
-                    <li class="active">
-                        <a href="index.html"><span>Home</span></a>
-                        <ul>
-                            <li><a href="amateurs.html"><span>Amateures Home</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="matches.html"><span>Matches</span></a>
-                        <ul>
-                            <li>
-                                <a href="standing-cup.html"><span>Standings<i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
-                                <ul>
-                                    <li><a href="standings.html"><span>championship</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href="club-stats.html"><span>club stats</span></a></li>
-                            <li><a href="match-live.html"><span>match live</span></a></li>
-                            <li><a href="broadcasts.html"><span>broadcasts</span></a></li>
-                            <li><a href="upcoming-match.html"><span>upcoming match</span></a></li>
-                            <li>
-                                <a href="championships-archive.html"><span>championships archive<i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></a>
-                                <ul>
-                                    <li><a href="championship.html"><span>championship information</span></a></li>
-                                </ul>	
-                            </li>
-                            <li><a href="live-text-stream.html"><span>Text stream</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="staff.html"><span>Team</span></a>
-                        <ul>
-                            <li><a href="player.html"><span>player first page</span></a></li>
-                            <li><a href="player-second-page.html"><span>player second page</span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="news.html"><span>News</span></a></li>
-                    <li><a href="news-single.html"><span>News Single</span></a></li>
-                    <li><a href="store.html"><span>Store</span></a></li>
-                    <li><a href="contacts.html"><span>Contact</span></a></li>
-                    <li>
-                        <a href="#other"><span>other</span></a>
-                        <ul>
-                            <li><a href="404.html"><span>404</span></a></li>
-                            <li><a href="offline.html"><span>offline</span></a></li>
-                            <li><a href="coming-soon.html"><span>comming soon</span></a></li>
-                            <li><a href="search.html"><span>search</span></a></li>
-                            <li><a href="donations.html"><span>donations</span></a></li>
-                            <li><a href="trophies.html"><span>trophies</span></a></li>
-                            <li><a href="about-club.html"><span>about club</span></a></li>
-                            <li><a href="checkout.html"><span>checkout</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="cart full">
-                        <a href="#cart">
-                            <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                        </a>
-                        <div class="cart-drop">
-                            <table class="ct">
-                                <tr>
-                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
-                                    <td class="info">
-                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
-                                    <td class="info">
-                                        <img class="product-image" src="/images/common/cart-product.jpg" alt="product-image">
-                                        <em>Men's T-Shirt<br><em class="price">1 x Â£ 60</em></em>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="wrap">
-                                <div class="total-text">Subtotal: </div>
-                                <div class="total-digit">Â£ 120</div>
-                            </div>
-                            <div class="wrap btn-wrap">
-                                <a href="cart.html" class="btn view">View cart</a>
-                                <a href="checkout.html" class="btn check">checkout cart</a>
-                            </div>
-                        </div>
-                    </li>	
-                </ul>
-            </div>       
-        </nav>
-    </div>
-</div>
-<!--MAIN MENU WRAP END-->
-
-
-
+<jsp:include page="/common/topBar.jsp"/>  
     <!--BREADCRUMBS BEGIN-->
 <section class="image-header">
     <div class="container">
@@ -214,14 +107,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="captain-bage">선수입니다.</div>
                     <h4 class="player-name">${player.playerPosition}</h4>
                 </div>
                 <div class="col-md-6">
 				<div class="player-photo">
-				    <div class="number">${player.playerNumber}</div>
-				    <img class="img-responsive" src="/images/baseball/single-player-photo.png" alt="player">
-				    <img class="sunsoo" src="${player.playerImage}" alt="playerImage">
+				    <div class="number"><h4>No.${player.playerNumber}</h4></div>
+				    <div>
+				    <img class="img-responsive" src="${player.playerImage}" alt="player" height="60" width="400">
+				    </div>
 				</div>
                 </div>
                 <div class="col-md-6">
@@ -229,40 +122,46 @@
                         <h6 class="player-info-title">summary</h6>	
                         <div class="summary">
                             <div class="row">
+                            	<div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="item">선수 이름:</div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerName}</div>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <div class="item">선수 등번호:</div>
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9"><img src="/images/common/fr-flag.png" alt="flag">${player.playerNumber}번</div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerNumber}번</div>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <div class="item">포지션:</div>
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerPosition}입니다.</div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerPosition}</div>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <div class="item">생일</div>
+                                    <div class="item">생일:</div>
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerBirth}축하행</div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerBirth}</div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="item">연봉:</div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">${player.playerSalary}만원</div>
                             </div>
                         </div>
-                        <h6>club history</h6>
+                        <h6>실적</h6>
                         <div class="overflow-scroll">
                             <table>
                                 <tr>
-                                    <th>Season</th>
-                                    <th class="club">Club</th>
-                                    <th>Games</th>
-                                    <th>Goals</th>
+                                    <th>평균자책점(avg)</th>
+                                    <th>삼진 수</th>
+                                    <th>타율</th>
+                                    <th>타수</th>
+                                    <th>홈런 수</th>
+                                    <th>도루 수</th>
                                 </tr>
                                 <tr>
-                                    <td>2016/2017</td>
-                                    <td class="club"><img src="/images/baseball/team-logo1.png" width="30" height="30" alt="trophy"> Internacional</td>
-                                    <td>27</td>
-                                    <td><span>10</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2016/2017</td>
-                                    <td class="club"><img src="/images/baseball/team-logo2.png" width="30" height="30" alt="trophy"> Internacional</td>
-                                    <td>27</td>
-                                    <td><span>10</span></td>
+                                    <td>${player.era}</td>
+                                    <td>${player.threeOut}</td>
+                                    <td>${player.battingAvg}</td>
+                                    <td>${player.hitter}</td>
+                                    <td>${player.homeRun}</td>
+                                    <td>${player.stolenBase}</td>
                                 </tr>
                             </table>
                         </div>
@@ -271,328 +170,7 @@
             </div>
         </div>
     </section>
-
     <!--PLAYER SINGLE WRAP END-->
-
-    <!--MAIN CLUB STAFF BEGIN-->
-
-    <!--MAIN CLUB STAFF BEGIN-->
-<section class="main-club-stuff">              
-    <div class="tab-content">
-        <div class="tab-pane active" id="managers" role="tabpanel">
-            <div id="managers_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#managers_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#managers_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="academy" role="tabpanel">
-            <div id="academy_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Vito<br>Palet</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Melet</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marse</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsan</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luscas<br>Mars</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Mafo</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#academy_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#academy_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="firstteam" role="tabpanel">
-            <div id="firstteam_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Deshon<br>James</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsh</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luca<br>Mas</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucasoto<br>Marsh</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#firstteam_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#firstteam_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--MAIN CLUB STAFF END-->
-
-    <!--MAIN CLUB STAFF END-->
-
-    <!--STANDING CUP END-->
-
-
 
     <!--FOOTER BEGIN-->
 <footer class="footer">

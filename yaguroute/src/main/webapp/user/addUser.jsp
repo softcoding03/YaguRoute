@@ -9,13 +9,29 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>야구Route 회원가입</title>
+    <title>회원가입</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
-     <style> 
+    <style>
+    .birthday {
+    font-size: 16px;
+    font-family: Consolas, sans-serif;
+   	padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+      }
+    </style>
+    
+    <style> 
     .password {
     padding: 15px 10px;
     border: 1px solid transparent;
@@ -104,11 +120,16 @@
 						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
 						$("#nickname_use").attr('color', '#dc3545');
 					
-					}else{
+					}else if(nickname.length <= 20){
 						
 						$('#nickname_use').html('사용 가능한 닉네임입니다.');
 						$('#nickname_use').attr('color', '#2fb380');
 						
+					}
+					else if(nickname.length > 20){
+						$("#nickname_use").html('닉네임은 최대 20자 까지 가능합니다.');
+						$("#nickname_use").attr('color', '#dc3545');
+					
 					}
 				},
 				error : function(){
@@ -147,7 +168,7 @@
 			var userName = $("#userName").val();
 			
 			if(userName.length > 10){
-				$("#userName_use").html('사용자 이름은 10자 이하만 가능합니다.');
+				$("#userName_use").html('이름은 10자 이하만 가능합니다.');
 				$("#userName_use").attr('color', '#dc3545');
 			}
 			else{
@@ -155,6 +176,102 @@
 			}
 		});
 	});	
+	
+	// 달력버튼 클릭
+	$(function(){
+		
+		$("#userBirth").on("click", function(){
+			
+			var userBirth = $("#userBirth").val();
+			console.log(userBirth);
+			
+		});
+	});
+	
+	// 휴대폰 인증 클릭
+	$(function(){
+   		$('#phoneButton').on("click", function(){
+   		
+   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
+   		
+   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+   		// rnd에 대한 HTML 요소 생성
+
+   		var newDiv = document.createElement("div");
+
+		// hidden 속성 추가
+		var hiddenDiv = document.createElement('input');
+   		hiddenDiv.type = "hidden";
+		hiddenDiv.value = rnd;
+		hiddenDiv.id = 'rnd';
+		newDiv.appendChild(hiddenDiv);
+		document.body.appendChild(newDiv);
+		
+		if(userPhone.length == 11){
+			alert("인증번호를 발송하였습니다.");
+		}
+		else{
+			alert("휴대폰 번호를 다시 입력해주세요.");
+			return;
+		}
+		
+   		$.ajax({
+               url: "/users/phoneCheck/",
+               method: "POST",
+               dataType: "json",
+               data: {userPhone : userPhone,
+               		rnd : rnd}, // 수정: userId로 변경
+               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+               success: function(result) {
+               },
+               error: function() {
+               	alert("서버 오류 발생");
+                   return;
+           }
+   		});
+   	  });
+   	});
+	
+	// 인증번호 확인
+	$(function(){
+    	
+    	$("#phoneCheckButton").on("click", function(){
+    		
+    		alert("인증버튼 클릭");
+    		
+    		var verify = $("#phoneCheck").val();
+        	var rnd = $("#rnd").val();
+        	
+        	if(verify == rnd){
+        		alert("인증이 완료되었습니다.");
+        	}
+        	else{
+        		alert("인증에 실패하였습니다.");
+        		return;
+        	}
+    	});
+    });
+	
+	// 주소선택 버튼 클릭
+	function sample6_execDaumPostcode() {
+    	new daum.Postcode({
+        oncomplete: function(data) {
+        	
+            // 주소 변수
+            var addr = ''; 
+            // 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { 
+                addr = data.roadAddress;
+            } else { 
+                addr = data.jibunAddress;
+            }
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById("sample6_address").value = addr;
+            // 상세주소 필드로 커서 이동
+            document.getElementById("sample6_detailAddress").focus();
+        }
+    }).open();
+}
 	
 	// form에 입력값 제출
 	function fncAddUser() {		
@@ -164,7 +281,11 @@
 			var userName=$("#userName").val();
 			var userPhone=$("#userPhone").val();
 			var userBirth=$("#userBirth").val();
-			var userAddr=$("#userAddr").val();
+			// addr1 + addr2 (주소 + 상세주소)
+			var addr1 = $("input[name='addr1']").val();
+			var addr2 = $("input[name='addr2']").val();
+			var userAddr = addr1+addr2;
+			
 			var gender=$("#gender").val();
 			var userEmail=$("#userEmail").val();
 			var userNickName=$("input[name='userNickName']").val();
@@ -190,7 +311,7 @@
 			$("form").attr("method" , "POST").attr("action" , "/users/addUser").submit();
 		}
 		
-	 // 가입 버튼
+	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		
@@ -199,19 +320,18 @@
 		});
 	});
 	 
+	// 뒤로 가기 버튼
 	$(function(){
 		
 		$("#backback").on("click", function(){
 			
 			//alert("가입 취소");
 			window.location.href="/user/loginTest(new).jsp";
+			
 		});
 	});
 	
 	</script>
-
-	
-	
 </head>
 
 <body>
@@ -223,7 +343,7 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 </div>
-
+<jsp:include page="/common/topBar.jsp"/>  
     <!--BREADCRUMBS BEGIN-->
 <section class="image-header">
     <div class="container">
@@ -280,7 +400,7 @@
                                 <div class="item">
                                     <label>
                                         <span>이름<i>*</i></span>
-                                        <input type="text" name="userName" id="userName">
+                                        <input type="text" name="userName" id="userName" placeholder="성함을 입력해주세요.">
                                         <font id="userName_use" size="2"></font>
                                     </label>
                                 </div>
@@ -289,8 +409,7 @@
                                 <div class="item">
                                     <label>
                                         <span>생년월일<i>*</i></span>
-                                        <input type="text" name="userBirth" id="userBirth" readonly>
-                                        <button type="button" name="date">달력클릭...</button>
+                                        <input type="date" class="birthday" name="userBirth" id="userBirth">
                                     </label>
                                 </div>
                             </div>
@@ -305,18 +424,24 @@
                             </div>
                             <div class="col-md-8">
                             	<div class="item">
-                            		<label>
                             		<span>이메일</span>
-		    						<input type="text" name="userEmail" id="userEmail" class="form-control"/>
-		    						</label>
+		    						<input type="text" name="userEmail" id="userEmail" class="form-control" placeholder="id@example.com"/>
                             	</div>
                             </div>
                             <div class="col-md-8">
                             	<div class="item">
                             		<label>
                             		<span>휴대폰 번호</span>
-		    						<input type="text" name="userPhone" id="userPhone" class="form-control"/>
-		    						<button type="button" id="phoneCheck">인증&nbsp;하기</button>
+		    						<input type="text" name="userPhone" id="userPhone" class="form-control" placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
+		    						<button type="button" id="phoneButton" >인증번호 발송</button>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+		    						<input type="text" name="userPhoneCheck" id="phoneCheck" class="form-control" placeholder="인증번호를 입력해주세요."/>
+		    						<button type="button" id="phoneCheckButton" >인증번호 확인</button>
 		    						</label>
                             	</div>
                             </div>
@@ -324,7 +449,10 @@
                             	<div class="item">
                             		<label>
                             		<span>주소</span>
-		    						<input type="text" name="userAddr" id="userAddr" class="form-control"/>
+		    						<input readonly disabled class="form-control" type="text" id="sample6_address" placeholder="주소" name="addr1">
+		    						<button type="button" onclick="sample6_execDaumPostcode()">주소 선택</button>
+									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="addr2">
+									<input type ="hidden" name="userAddr" id="userAddr"> 
 		    						</label>
                             	</div>
                             </div>
@@ -332,7 +460,7 @@
                             	<div class="item">
                             		<label>
                             		<span>사용자 닉네임</span>
-		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control"/>
+		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control" placeholder="사용할 닉네임을 입력해주세요."/>
 		    						<font id="nickname_use" size="2"></font>
 		    						</label>
                             	</div>

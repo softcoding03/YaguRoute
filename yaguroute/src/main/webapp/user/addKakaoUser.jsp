@@ -15,35 +15,137 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <style>
+    .birthday {
+    font-size: 16px;
+    font-family: Consolas, sans-serif;
+   	padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+      }
+    </style>
+    
+    <style> 
+    .password {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    </style>
+    
     <script type="text/javascript">
+    // 닉네임 체크
 	$(function(){
+		
+		$('#nicknameCheck').keyup(function(){
 			
-			$('#nicknameCheck').keyup(function(){
-				
-				var nickname = $('#nicknameCheck').val();
-				console.log(nickname);
-				$.ajax({
-					url : "/user/userNickNameCheck",
-					method : "POST",
-					data : {userNickName : nickname},
-					dataType : 'json',
-					success : function(result){
-						if(result == 1){
-							$("#nickname_use").html('이미 사용중인 닉네임입니다.');
-							$("#nickname_use").attr('color', '#dc3545');
+			var nickname = $('#nicknameCheck').val();
+			console.log(nickname);
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : nickname},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
+						$("#nickname_use").attr('color', '#dc3545');
+					
+					}else if(nickname.length <= 20){
 						
-						}else{
-							$('#nickname_use').html('사용 가능한 닉네임입니다.');
-							$('#nickname_use').attr('color', '#2fb380');
-						}
-					},
-					error : function(){
-						alert("서버 요청 실패");
+						$('#nickname_use').html('사용 가능한 닉네임입니다.');
+						$('#nickname_use').attr('color', '#2fb380');
+						
 					}
-				})
+					else if(nickname.length > 20){
+						$("#nickname_use").html('닉네임은 최대 20자 까지 가능합니다.');
+						$("#nickname_use").attr('color', '#dc3545');
+					
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
 			})
-		});
+		})
+	});
+
+    // 휴대폰 버튼 클릭
+	$(function(){
+   		$('#phoneButton').on("click", function(){
+   		
+   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
+   		
+   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+   		// rnd에 대한 HTML 요소 생성
+
+   		var newDiv = document.createElement("div");
+
+		// hidden 속성 추가
+		var hiddenDiv = document.createElement('input');
+   		hiddenDiv.type = "hidden";
+		hiddenDiv.value = rnd;
+		hiddenDiv.id = 'rnd';
+		newDiv.appendChild(hiddenDiv);
+		document.body.appendChild(newDiv);
+		
+		if(userPhone.length == 11){
+			alert("인증번호를 발송하였습니다.");
+		}
+		else{
+			alert("휴대폰 번호를 다시 입력해주세요.");
+			return;
+		}
+		
+   		$.ajax({
+               url: "/users/phoneCheck/",
+               method: "POST",
+               dataType: "json",
+               data: {userPhone : userPhone,
+               		rnd : rnd}, // 수정: userId로 변경
+               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+               success: function(result) {
+               },
+               error: function() {
+               	alert("서버 오류 발생");
+                   return;
+           }
+   		});
+   	  });
+   	});
 	
+    // 인증번호 확인
+	$(function(){
+    	
+    	$("#phoneCheckButton").on("click", function(){
+    		
+    		alert("인증버튼 클릭");
+    		
+    		var verify = $("#phoneCheck").val();
+        	var rnd = $("#rnd").val();
+        	
+        	if(verify == rnd){
+        		alert("인증이 완료되었습니다.");
+        	}
+        	else{
+        		alert("인증에 실패하였습니다.");
+        		return;
+        	}
+    	});
+    });
+	
+	
+    // 가입 버튼 클릭
 	$(function(){
 		
 		$("#signup").on("click", function(){
@@ -59,79 +161,44 @@
 			var userAddr = $("#userAddr").val();
 			var userNickName = $("input[name='userNickName']").val();
 			var teamCode = $("input[name='teamCode']").val();
+			var phoneCheck = $("#phoneCheck").val();
 			
+			if(userId == null || userId.length <1){
+				alert("아이디는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(password == null || password.length <1){
+				alert("패스워드는  반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(userName == null || userName.length <1){
+				alert("이름은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(userPhone == null || userPhone < 1){
+				alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
+				return;
+			}
 			
 			$("form").attr("method", "POST").attr("action", "/users/addKakaoUser").submit();
 			
 		});
 	});
-	
-	$(function(){
-   		$('#phoneButton').on("click", function(){
-   		
-   		var userId = $("#userId").val();
-   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
-   		
-   		var rnd = Math.floor(Math.random() * 9000) + 1000; //랜덤 수
-   		alert(rnd);
-   		alert(userId);
-   		// rnd에 대한 HTML 요소 생성
-
-   		var newDiv = document.createElement("div");
-
-		// hidden 속성 추가
-		var hiddenDiv = document.createElement('input');
-   		hiddenDiv.type = "hidden";
-		hiddenDiv.value = rnd;
-		hiddenDiv.id = 'rnd';
-		newDiv.appendChild(hiddenDiv);
-		document.body.appendChild(newDiv);
+    
+	// 가입 버튼
+    $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		
-   		$.ajax({
-               url: "/users/phoneCheck/",
-               method: "POST",
-               dataType: "json",
-               data: {userPhone : userPhone,
-               		rnd : rnd}, // 수정: userId로 변경
-               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-               success: function(result) {
-               	alert("인증번호를 발송하였습니다.");
-               },
-               error: function() {
-               	alert("서버 오류 발생");
-                   return;
-           }
-   		});
-   	  });
-   	});
+		$( "#signup" ).on("click" , function() {
+			fncAddUser();
+		});
+	});
 	
-	$(function(){
-    	
-    	$("#phoneCheckButton").on("click", function(){
-    		
-    		alert("인증버튼 클릭");
-    		
-    		var verify = $("#phoneCheck").val();
-        	var rnd = $("#rnd").val();
-    		
-        	alert("verify:"+verify);
-        	alert("rnd"+rnd);
-        	
-        	if(verify == rnd){
-        		alert("인증이 완료되었습니다.");
-        		openModal();
-        	}
-        	else{
-        		alert("인증에 실패하였습니다.");
-        	}
-    	});
-    });
-	
+	 // 가입 취소 버튼 클릭
 	$(function(){
 		
 		$("#backback").on("click", function(){
 			
-			alert("가입 취소");
 			window.location.href = "/user/loginTest(new).jsp";
 		});
 	});
@@ -174,54 +241,79 @@
 <form>
 	<div class="container">
 		<div class="row">
+		                            <div class="col-md-8">
+                                <div class="item">
+                                    <label>
+                                        <span>생년월일<i>*</i></span>
+                                        <input type="date" class="birthday" name="userBirth" id="userBirth">
+                                    </label>
+                                </div>
+                            </div>
 		<div class="col-md-8">
-			휴대폰 번호<br><input type="text" id="userPhone" name="userPhone" placeholder="휴대폰 번호를 입력하시오.( ' - '제외 휴대폰 번호만)">
-			<button type="button" id="phoneButton">인증번호 전송</button>
-		</div>
-		<input name="userId" value="${user.userId}">
-	<input name="userName" value="${user.userName}" style="display: none;">
-	<input name="userEmail" value="${user.userEmail}" style="display: none;">
-	<input name="userImage" value="${user.userImage}" style="display: none;">
-	<input name="password" value="${user.password}" style="display: none;">
-	<input name="gender" value="${user.gender}" style="display: none;">
+                            	<div class="item">
+                            		<label>
+                            		<span>휴대폰 번호</span>
+		    						<input type="text" name="userPhone" id="userPhone" class="form-control" placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
+		    						<button type="button" id="phoneButton" >인증번호 발송</button>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+		    						<input type="text" name="userPhoneCheck" id="phoneCheck" class="form-control" placeholder="인증번호를 입력해주세요."/>
+		    						<button type="button" id="phoneCheckButton" >인증번호 확인</button>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>주소</span>
+		    						<input readonly disabled class="form-control" type="text" id="sample6_address" placeholder="주소" name="addr1">
+		    						<button type="button" onclick="sample6_execDaumPostcode()">주소 선택</button>
+									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="addr2">
+									<input type ="hidden" name="userAddr" id="userAddr"> 
+		    						</label>
+                            	</div>
+                            </div>
+                            
 		<div class="col-md-8">
-			휴대폰 인증번호<br><input type="text" id="phoneCheck" name="phoneCheck" placeholder="인증번호를 입력하시오.">
-			<button type="button" id="phoneCheckButton">인증번호 확인</button>
-		</div>
-		<div class="col-md-8">
-			생년월일<br><input type="text" name="userBirth" id="userBirth">
-			<button type="button" id="birthButton">달력 이미지</button>
-		</div>
-		<div class="col-md-8">
-			주소<br><input type="text" name="userAddr"id="userAddr">
-			<button type="button" id="addrButton">우편번호 검색</button>
-			<!-- <br> <input type="text" id="userAddrPlus" placeholder="주소 추가정보 입력"> -->
-		</div>
-		<div class="col-md-8">
-			닉네임<br>
-			<input type="text" id="nicknameCheck" name="userNickName">
-			<font id="nickname_use" size="2"></font>
-		</div>
-		<div class="col-md-8">
-        <div class="item">
-        		<label>
-        		<span>선호 구단</span>
-        			<input type="radio" name="teamCode" value="NN">선택하지 않음 
-        			<input type="radio" name="teamCode" value="LG" checked="checked">LG 
-                	<input type="radio" name="teamCode" value="SS">SS 
-                	<input type="radio" name="teamCode" value="LT">LT 
-                	<input type="radio" name="teamCode" value="OB">OB 
-                	<input type="radio" name="teamCode" value="NC">NC 
-                	<input type="radio" name="teamCode" value="HT">HT 
-                	<input type="radio" name="teamCode" value="SS">SS 
-                	<input type="radio" name="teamCode" value="WO">WO 
-                	<input type="radio" name="teamCode" value="HH">HH 
-                	<input type="radio" name="teamCode" value="KT">KT 
-				</label>
-        </div>
-        </div>
+                            	<div class="item">
+                            		<label>
+                            		<span>사용자 닉네임</span>
+		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control" placeholder="사용할 닉네임을 입력해주세요."/>
+		    						<font id="nickname_use" size="2"></font>
+		    						</label>
+                            	</div>
+                            </div>
+                            <div class="col-md-8">
+                            	<div class="item">
+                            		<label>
+                            		<span>선호 구단</span>
+                            			<input type="radio" name="teamCode" value="NN">선택하지 않음 
+                            			<input type="radio" name="teamCode" value="LG" checked="checked">LG 
+                                    	<input type="radio" name="teamCode" value="SS">SS 
+                                    	<input type="radio" name="teamCode" value="LT">LT 
+                                    	<input type="radio" name="teamCode" value="OB">OB 
+                                    	<input type="radio" name="teamCode" value="NC">NC 
+                                    	<input type="radio" name="teamCode" value="HT">HT 
+                                    	<input type="radio" name="teamCode" value="SS">SS 
+                                    	<input type="radio" name="teamCode" value="WO">WO 
+                                    	<input type="radio" name="teamCode" value="HH">HH 
+                                    	<input type="radio" name="teamCode" value="KT">KT 
+		    						</label>
+                            	</div>
+                            </div>
 		<br><br> 
 		</div>
+		
+		<input name="userName" value="${user.userName}" style="display: none;">
+		<input name="userEmail" value="${user.userEmail}" style="display: none;">
+		<input name="userImage" value="${user.userImage}" style="display: none;">
+		<input name="password" value="${user.password}" style="display: none;">
+		<input name="gender" value="${user.gender}" style="display: none;">
+		
 		<div class="col-md-8">
 			<button type="button" id="signup">가입</button>
 			<button type="button" id="backback">취소</button>
