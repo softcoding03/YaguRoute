@@ -38,6 +38,7 @@
 		  justify-content: center;
 		  align-items: center;
 		  margin-top: 50px;
+		  margin-bottom: 50px;
 		}
 		.score {
 		  text-align: center;
@@ -69,7 +70,7 @@
 			transition: background-color 0.5s ease;
 		}
 		.addShadow{
-			 box-shadow: 5px 5px 5px 2px gray;
+			 box-shadow: 5px 5px 5px 3px gray;
 			 
 		}
 		.padding{
