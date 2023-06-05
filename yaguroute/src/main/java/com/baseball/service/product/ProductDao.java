@@ -14,21 +14,20 @@ import com.baseball.service.domain.Product;
 public interface ProductDao {
 
 
-	public void addProduct(Product product) throws Exception;
+	public void addProduct(Product product) throws Exception; //상품등록
 
-	public Product getProduct(int prodNo) throws Exception;
+	public Product getProduct(int prodNo) throws Exception; //상품상세조회
 
-	public void updateProduct(Product product) throws Exception;
+	public void updateProduct(Product product) throws Exception; //상품수정
 	
-	public int deleteProduct(int prodNo) throws Exception;
+	public int deleteProduct(int prodNo) throws Exception; //상품삭제
 	
-	public List<Product> getProductList(Map<String, Object> map) throws Exception;
-	public List<Product> getSalesProductList(Map<String, Object> map) throws Exception;
+	public List<Product> getProductList(Map<String, Object> map) throws Exception; // 상품관리 (admin)
+	public List<Product> getSalesProdList(Map<String, Object>map) throws Exception; // 판매상품목록 (admin, user)
 	
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 
 	public List autoComplete() throws Exception;
 	
-	//public int sortProductList(int prodStock) throws Exception;
 	
 }

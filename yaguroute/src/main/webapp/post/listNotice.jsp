@@ -10,32 +10,18 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
-   <style type="text/css">
+    <style type="text/css">
     	.background {
 		  display: flex;
 		  justify-content: center;
 		  align-items: center;
 		  margin-top: 50px;
 		}
-	  .wrap {
-	    display: flex;
-	    align-items: center;
-	  }
-	  .wrap > * {
-	    margin-right: 10px;
-	  }		
-	  .wrap label {
-	    width: 70px; /* 원하는 크기로 지정 */
-	    height: 50px;
-	    margin-top: 5px;
-	    display: inline-block;
-	  }	  
 	 </style>
     
     <script type="text/javascript">
 	
     function fncGetPostList(currentPage){
-    		var teamCode = $("#teamCode");
 			$("#currentPage").val(currentPage);
 			$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
 	 }
@@ -48,7 +34,7 @@
 	    	$( "td:nth-child(3)" ).on("click" , function() {
 	    		 self.location ="/post/getPost?postNo="+$(this).siblings("td:nth-child(1)").text();
 	    	});
-	    	$( "i.fa.fa-search").on("click" , function() {
+	    	$( "button.btn.btn-default" ).on("click" , function() {
 				fncGetPostList(1);
 			});
 			
@@ -57,13 +43,9 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-		   /* 
 		   $("a.addPostView").on('click',function(){
 			   self.location = "/post/addPost?teamCode="+MyTeamCode;
 		   });
-		   */
-		  
-		   
 		   $("a.getMyPostList").on('click',function(){
 			   self.location = "/post/getMyPostList";
 		   });
@@ -75,46 +57,10 @@
 			   self.location = "/post/getNoticeList?teamCode="+teamCode;
 		   });
     })
-    
-    $(document).ready(function(){
-    		$("a.addPostView").on('click',function(){
-			   loadModalContent();
-			   $("#myModal").css("display", "block");
-		   });
-			
-    		// 모달 창 닫기
-			$(".close").on("click", function() {
-			   $("#myModal").css("display", "none");
-			});
-    		
-			function loadModalContent() {
-			    $.ajax({
-			      url: "/post/addPostView.jsp",
-			      method: "GET",
-			      success: function(response) {
-			        $("#modalContent").html(response);
-			      },
-			      error: function() {
-			        console.log("Failed to load modal content.");
-			      }
-			    });
-		   }
-    })
    
    </script>
-   <!-- include summernote css/js-->
-	
 </head>
 <body>
-<!-- 모달창 -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div id="modalContent"></div>
-  </div>
-</div>
-<!-- 모달창 -->
-
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
     <div class="container">
@@ -184,28 +130,15 @@
             </li>
         </ul>
     </div>
-	   <!-- Search -->
-		<div class="sidebar-search-wrap">
-		  <h6>Search</h6>
-		  <form>
-		    <div class="wrap">
-		      <label>
-		        <select class="year basic" name="searchCondition">
-		          <option value="0" ${!empty search.searchCondition && search.searchCondition==0 ? "selected" : ""}>ID</option>
-		          <option value="1" ${!empty search.searchCondition && search.searchCondition==1 ? "selected" : ""}>제목</option>
-		        </select>
-		      </label>
-		      <label class="sr-only" for="searchKeyword">검색어</label>
-		      <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="검색어" value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
-		    	<button><i class="fa fa-search" aria-hidden="true"></i></button>
-		    <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-		    <input type="hidden" id="currentPage" name="currentPage" value="" />
-		    <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}" />
-		    </div>
-		  </form>
-		</div>
-		<!-- Search -->
-    
+    <div class="sidebar-search-wrap">
+        <h6>Search</h6>
+        <form>
+            <div class="wrap">
+                <input type="text">
+                <button><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+        </form>
+    </div>
     <div class="sidebar-tags-wrap">
         <h6>Tags</h6>
         <div class="tags">
@@ -217,12 +150,13 @@
     </div>
 </section>	
 <!--SIEDBAR END-->
-<!--NEWS LIST BEGIN-->
+
+                <!--NEWS LIST BEGIN-->
 <div class="news-list col-xs-12 col-md-9">
     <p class="hidden-md hidden-lg">
         <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
     </p>
-    <c:forEach var="post" items="${list}">
+    <c:forEach var="post" items="${noticeList}">
 	    <div class="item">
 	        <div class="info">
 	            <a href="news-single.html" class="name">${post.postTitle}</a>	
@@ -239,12 +173,17 @@
 	    </div>
     </c:forEach>
     
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_all.jsp">
-	<jsp:param name="id" value="post" />
-	</jsp:include>
-	<!-- PageNavigation End... -->
-    
+    <div class="pagination-wrap">
+        <ul class="pagination">
+            <li><a href="#"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+            <li><a href="#">1</a></li>
+            <li class="active"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
 </div>
 <!--NEWS LIST END-->
         </div>
@@ -252,9 +191,45 @@
 </div>
 <!--CONTENT END-->
       
+<div>      
+      <c:if test="${user.teamCode eq list[0].teamCode || user.role eq 'admin'}">
+      </c:if>
+      		<!-- Search시작 -->
+      		<div class="col-md-6 text-right">
+			    <form class="form-inline" name="detailForm">
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>사용자닉네임</option>
+				        <option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>게시물제목</option>
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">검색</button>
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}"/>
+				</form>
+	    	</div>
+</div>
 
 
- 	
+
+
+
+
+
+ 	<!-- PageNavigation Start... -->
+	<jsp:include page="../common/pageNavigator_all.jsp">
+		<jsp:param name="id" value="post" />
+	</jsp:include>
+	<!-- PageNavigation End... -->
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
@@ -316,6 +291,5 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 </html>
