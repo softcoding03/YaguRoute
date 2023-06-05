@@ -146,35 +146,35 @@ public class ProductController {
 
 		return "forward:/product/listProduct.jsp";
 	}
+	
+	@GetMapping("salesProdList")
+	public String salesProdList(@ModelAttribute("search") Search search, Model model,
+			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode) throws Exception {
 
-	@GetMapping("salesListProduct")
-	public String salesListProduct (@ModelAttribute("search") Search search, Model model,
-									@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode) throws Exception {
-		
 		System.out.println("search" + search);
 		System.out.println("prodTeamCode" + prodTeamCode);
-		System.out.println("/product/salesListProduct 작동 시작");
-		
+		System.out.println("/product/salesProdList 작동 시작");
+
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 
 		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
-		
+
 		// Map B/L 수행
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
-		map = productService.getSalesProductList(map);
-		
-		
-		// Product salesList 출력
+		map = productService.getSalesProdList(map);
+
+		// Product list 출력
 		List<Product> list = (List<Product>) map.get("salesList");
-		for (Product sales : list) {
-			System.out.println(sales);
+		for (Product salesProd : list) {
+			System.out.println(salesProd);
 		}
-		
+
+		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		System.out.println(resultPage);
@@ -184,12 +184,10 @@ public class ProductController {
 		model.addAttribute("list", map.get("salesList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		
-		return "forward:/product/salesListProduct.jsp";
+
+		return "forward:/product/salesProdList.jsp";
 	}
-	
-	
-	
+
 	@RequestMapping(value = "updateProduct", method = RequestMethod.GET)
 	public String updateProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 

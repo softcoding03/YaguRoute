@@ -4,43 +4,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
  
-<div class="container text-center">
+<div class="pagination-wrap">
 		 
-		 <nav>
 		  <!-- 觼晦褻瞰 :  pagination-lg pagination-sm-->
 		  <ul class="pagination" >
 		    
 		    <!--  <<== 謝難 nav -->
 		  	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
+		 		<li><a href="#"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
 			</c:if>
 			<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
 				<li>
-			</c:if>
-			
-				<c:if test="${param.id == 'user'}">
-			      <a href="javascript:fncGetUserList('${ resultPage.currentPage-1}')" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-		      	</c:if>
-				<c:if test="${param.id == 'post'}">
-				  <a href="javascript:fncGetPostList('${ resultPage.currentPage-1}')" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-				</c:if>
-				
-				<c:if test="${param.id == 'product'}">
-				  <a href="javascript:fncGetProductList('${ resultPage.currentPage-1}')" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-				</c:if>
-		    	
-		    	<c:if test="${param.id == 'player'}">
-				  <a href="javascript:fncGetPlayerList('${ resultPage.currentPage-1}')" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-				</c:if>
-		    
+					<c:if test="${param.id == 'user'}">
+				      <a href="javascript:fncGetUserList('${ resultPage.currentPage-1}')">
+			      </c:if>
+					<c:if test="${param.id == 'post'}">
+					  <a href="javascript:fncGetPostList('${ resultPage.currentPage-1}')">
+					</c:if>
+					<c:if test="${param.id == 'product'}">
+					  <a href="javascript:fncGetProductList('${ resultPage.currentPage-1}')">
+					</c:if>
+			    	<c:if test="${param.id == 'player'}">
+					  <a href="javascript:fncGetPlayerList('${ resultPage.currentPage-1}')">
+					</c:if>
+					<i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+				</li>
+		   </c:if> 
 		    <!--  醞懈  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
 				
@@ -83,55 +72,27 @@
 				</c:if>
 			</c:forEach>
 		    
-		     <!--  辦難 nav==>> -->
-		     <c:if test="${ resultPage.endUnitPage >= resultPage.maxPage }">
-		  		<li class="disabled">
+	     <!--  辦難 nav==>> -->
+	     <c:if test="${ resultPage.endUnitPage >= resultPage.maxPage }">
+	  			<li><a href="#"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
 			</c:if>
 			<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 				<li>
-			</c:if>
-		      
-		      <c:if test="${param.id == 'user'}">
-		      	<a href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')" aria-label="Next">
-		      </c:if>  
-		      <c:if test="${param.id == 'post'}">
-		        <a href="javascript:fncGetPostList('${resultPage.endUnitPage+1}')" aria-label="Next">
-		      </c:if>
-		      <c:if test="${param.id == 'product'}">
-		        <a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')" aria-label="Next">
-		      </c:if>
-		      <c:if test="${param.id == 'player'}">
-		        <a href="javascript:fncGetPlayerList('${resultPage.endUnitPage+1}')" aria-label="Next">
-		      </c:if>
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
+			      <c:if test="${param.id == 'user'}">
+			      	<a href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')">
+			      </c:if>  
+			      <c:if test="${param.id == 'post'}">
+			        <a href="javascript:fncGetPostList('${resultPage.endUnitPage+1}')" >
+			      </c:if>
+			      <c:if test="${param.id == 'product'}">
+			        <a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')">
+			      </c:if>
+			      <c:if test="${param.id == 'player'}">
+			        <a href="javascript:fncGetPlayerList('${resultPage.endUnitPage+1}')">
+			      </c:if>
+			    <i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+				</li>
+		    </c:if>
 		  </ul>
-		</nav>
 		
 </div>
- 
-
-
-<!-- 
-
-<div class="container">
-		<nav>
-		  <ul class="pager">
-		    <li><a href="#">Previous</a></li>
-		    <li><a href="#">Next</a></li>
-		  </ul>
-		</nav>
-</div>
-
-
-<div class="container">
-		<nav>
-		  <ul class="pager">
-		    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-		    <!-- <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li> 
-		    <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
-		  </ul>
-		</nav>
-</div> 
--->
