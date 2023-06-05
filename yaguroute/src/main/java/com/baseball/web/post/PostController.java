@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.comment.CommentService;
 import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Emote;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
+import com.baseball.service.game.GameService;
 import com.baseball.service.post.PostService;
 import com.baseball.service.user.UserService;
 
@@ -42,6 +44,10 @@ public class PostController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
 	
 	@Autowired
 	@Qualifier("commentServiceImpl")
@@ -96,7 +102,7 @@ public class PostController {
 			model.addAttribute("post", post);
 			return "forward:/post/getPost.jsp";
 	}
-	
+	//전체글 리스트 조회
 	@GetMapping("getPostList")
 	public String getPostList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
 			System.out.println("/post/getPostList : GET START");
@@ -109,7 +115,6 @@ public class PostController {
 			map.put("teamCode", teamCode);
 			map.put("search", search);
 			map = postService.getPostList(map);
-			
 			List<Post> list = (List<Post>)map.get("postList");
 			for(Post post:list) {
 				System.out.println(post);
@@ -117,28 +122,56 @@ public class PostController {
 			
 			Integer totalCount = ((Integer)map.get("totalCount")).intValue();
 			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
-			System.out.println("총 레코드 수? "+totalCount);
+			System.out.println("resultPage ? "+resultPage);
+			
+			//모든Team 정보 조회
+			List<Team> allTeam = gameService.getAllTeam();
+			
+			model.addAttribute("list", list);
+			model.addAttribute("resultPage", resultPage);
+			model.addAttribute("allTeam", allTeam);
+			model.addAttribute("teamCode", teamCode);
+			return "forward:/post/listPost.jsp";
+	}
+	//Best 게시물 조회
+	@GetMapping("getBestList")
+	public String getBestList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
+			System.out.println("/post/getBestList : GET START");
+			System.out.println("-- 넘어온 데이터 ? "+teamCode);	
 			
 			//Best 3 게시물 조회
 			List<Post> bestList = postService.getPostBestList(teamCode);
 			for(Post post:bestList) {
 				System.out.println("bestPost ?"+post);
 			}
+			//모든Team 정보 조회
+			List<Team> allTeam = gameService.getAllTeam();
+			
+			model.addAttribute("bestList",bestList);
+			model.addAttribute("allTeam", allTeam);
+			model.addAttribute("teamCode", teamCode);
+			return "forward:/post/listBestPost.jsp";
+	}
+	//공지사항 조회
+	@GetMapping("getNoticeList")
+	public String getNoticeList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
+			System.out.println("/post/getNoticeList : GET START");
+			System.out.println("-- 넘어온 데이터 ? "+teamCode);	
 			
 			//공지사항 조회
 			List<Post> noticeList = postService.getNoticeList(teamCode);
 			for(Post post:noticeList) {
 				System.out.println("bestPost ?"+post);
 			}
+			//모든Team 정보 조회
+			List<Team> allTeam = gameService.getAllTeam();
 			
-			model.addAttribute("bestList",bestList);
-			model.addAttribute("noticeList", noticeList);
-			model.addAttribute("list", list);
-			model.addAttribute("resultPage", resultPage);
-			
-			return "forward:/post/listPost.jsp";
+			model.addAttribute("noticeList",noticeList);
+			model.addAttribute("allTeam", allTeam);
+			model.addAttribute("teamCode", teamCode);
+			return "forward:/post/listNotice.jsp";
 	}
-	
+	//본인작성게시물 조회
 	@GetMapping("getMyPostList")
 	public String getMyPostList(Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search,HttpSession session) throws Exception {
 			System.out.println("/post/getMyPostList : GET START");
@@ -168,10 +201,8 @@ public class PostController {
 			
 			model.addAttribute("list", list);
 			model.addAttribute("resultPage", resultPage);
-			
 			return "forward:/post/listMyPost.jsp";
 	}
-	
 	
 	@GetMapping("addPost")
 	public String addPostView(@RequestParam("teamCode") String teamCode,HttpSession session, Model model) throws Exception {

@@ -58,11 +58,13 @@
 		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
 		FROM
 		    post p
+		JOIN
+    		 user u ON p.user_id = u.user_id
 		WHERE
 		    p.team_code = #{teamCode}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
-		    		AND user_id LIKE '%${search.searchKeyword}%'
+		    		AND user_nickname LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    	<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
 		    		AND post_title LIKE '%${search.searchKeyword}%'
