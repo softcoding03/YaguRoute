@@ -25,7 +25,7 @@
 
 
 	<button class="btn btn-primary" onclick="self.location='/product/listProduct'">상품 목록 조회(관리자)</button>
-	<button class="btn btn-primary" onclick="self.location='/product/salesListProduct'">상품 목록 조회(전체)</button>	
+	<button class="btn btn-primary" onclick="self.location='/product/salesProdList'">상품 목록 조회(전체)</button>	
 		
 
 	<button class="btn btn-primary"

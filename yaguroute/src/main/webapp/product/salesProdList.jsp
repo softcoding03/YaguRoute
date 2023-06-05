@@ -42,24 +42,39 @@
 .btn {
 	display: inline-block;
 }
+
+	  body {
+            padding-top : 50px;
+        }
+        
+        .thumbnail {
+        
+        width:260px;
+        height:260px;
+
+        }
+
+
 </style>
 
 
+
+
 <script type="text/javascript">
-	function fncGetProductList(currentPage) {
+	function fncGetSalesProdList(currentPage) {
 		$("#currentPage").val(currentPage);
-		$("form").attr("method", "GET").attr("action", "/product/listProduct")
+		$("form").attr("method", "GET").attr("action", "/product/salesProdList")
 				.submit();
 	}
 
 	$(function() {
 		$("button.btn-success").on("click", function() {
 			$("#prodTeamCode").val($(this).val());
-			fncGetProductList(1);
+			fncGetSalesProdList(1);
 		});
 
 		$("button.btn.btn-default").on("click", function() {
-			fncGetProductList(1);
+			fncGetSalesProdList(1);
 		});
 
 		$(".ct_list_pop td:nth-child(2)").on("click", function() {
@@ -69,28 +84,7 @@
 
 	});
 
-	$(function() {
 
-		$.ajax({
-			url : "/product/json/autoComplete",
-			method : "GET",
-			dataType : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function(JSONData, status) {
-
-				console.log(JSONData);
-
-				$("#autoComplete").autoComplete({
-					source : JSONData
-				});
-
-			}
-
-		});
-	});
 </script>
 
 </head>
@@ -211,6 +205,23 @@
 
 					</form>
 				</div>
+				
+				
+<div class="row text-center">
+  <c:forEach var="product" items="${list}">
+    <div class="col-md-3">
+      <div class="thumbnail">
+        <img src="/images/uploadFiles/${product.prodImage }"/>
+        <div class="caption">
+          <h3>${product.prodName}</h3>
+          <p>${product.prodPrice}</p>
+        </div>
+      </div>
+    </div>
+  </c:forEach>
+</div>
+
+
 
 				<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">

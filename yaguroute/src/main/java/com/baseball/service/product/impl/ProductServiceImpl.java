@@ -65,23 +65,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, Object> getSalesProductList(Map<String, Object> map) throws Exception {
-		List<Product> list = productDao.getSalesProductList(map);
+	public Map<String, Object> getSalesProdList(Map<String, Object> map) throws Exception {
+		List<Product> List = productDao.getProductList(map);
 		int totalCount = productDao.getTotalCount(map);
 		
 		Map<String, Object> salesMap = new HashMap<String, Object>();
-		salesMap.put("salesList", list);
+		salesMap.put("salesList", List);
 		salesMap.put("totalCount", new Integer(totalCount));
 		
 		return salesMap;
 	}
 
+	
+	
 	@Override
 	public List<String> autoComplete() throws Exception {
 		return productDao.autoComplete();
 	}
-
-
-
 
 }
