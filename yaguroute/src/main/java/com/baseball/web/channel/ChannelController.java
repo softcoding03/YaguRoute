@@ -2,6 +2,7 @@ package com.baseball.web.channel;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +22,8 @@ import com.baseball.service.channel.ChannelRestService;
 import com.baseball.service.channel.ChannelService;
 import com.baseball.service.domain.Channel;
 import com.baseball.service.domain.Game;
+import com.baseball.service.domain.GameRecord;
+import com.baseball.service.domain.Player;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
 
@@ -116,11 +119,17 @@ public class ChannelController {
 		
 		User user = (User)session.getAttribute("user");
 		Channel channel = channelService.getChannel(channelID);
-		System.out.println("Channel Info : "+channel);
+		
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		if(user.getRole().equals("user")) {
+			Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
+			GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
+			
 			modelAndView.addObject("channel", channel);
+			modelAndView.addObject("lineUp", lineUp);
+			modelAndView.addObject("gameRecord", gameRecord);
 			modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
 		} else {
 			modelAndView.addObject("channel", channel);
@@ -138,8 +147,12 @@ public class ChannelController {
 		
 		Channel channel = channelService.getChannelGameCode(gameCode);
 		System.out.println(channel);
+		Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
+		System.out.println(lineUp);
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("lineUp", lineUp);
 		modelAndView.addObject("channel", channel);
 		modelAndView.setViewName("forward:/channel/getStreaming.jsp");
 		
