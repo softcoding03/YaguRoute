@@ -121,31 +121,6 @@
 
 	</select>
 
-	<select id="autoComplete" resultType="string">
-
-		SELECT prod_name
-		FROM product
-		<where>
-			<if test="prodTeamCode != null">
-				team_code = #{prodTeamCode}
-			</if>
-			<if test="searchCondition != null">
-				<if test="searchCondition == 0 and searchKeyword != ''">
-					AND prod_name LIKE '%${searchKeyword}%'
-				</if>
-				<if
-					test="searchCondition == 0 and searchKeyword != '' and prodTeamCode == null">
-					prod_name LIKE '%${searchKeyword}%'
-				</if>
-			</if>
-			<if test="prodTeamCode == 'NN'">
-				OR team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
-			</if>
-		</where>
-		ORDER BY prod_no
-
-	</select>
-
 
 
 </mapper>

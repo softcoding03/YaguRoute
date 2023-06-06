@@ -11,8 +11,7 @@
 
 <!-- include summernote css/js-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
- 
+
     <script type="text/javascript">
     	$(document).ready(function() {
     		var toolbar = [
@@ -78,24 +77,10 @@
 </head>
 <body>
 
-    <form method="post" action="/post/addPost" method="POST">
+  <form method="post" action="/post/addPost" method="POST">
     <input type="hidden" name="teamCode" value="${teamCode}"/>
     <input type="hidden" name="user.userId" value="${user.userId}"/>
-   	    <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">작성자 닉네임</label>
-		    <div>
-		     	${user.userNickName}
-		    </div>
-	    </div>
-	   <br>
-	   <tr>
-	    <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">작성자 프로필사진</label>
-		    <div>
-		      	<img src="/images/${user.userImage}" id="button" width="50">
-		    </div>
-	    </div>
-   	    <select class="form-control" name="postType">
+   	<select class="form-control" name="postType">
 		  <option value="0">[잡담]</option>
 		  <option value="1">[응원]</option>
 		  <option value="2">[중고구매]</option>

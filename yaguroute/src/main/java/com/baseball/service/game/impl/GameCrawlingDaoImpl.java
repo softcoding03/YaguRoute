@@ -72,73 +72,76 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			driver.get("https://sports.news.naver.com/kbaseball/schedule/index");
 			
 			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
-			
-			String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
-	
-			int state = 0;
-			
-			String nowYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
-			
-			for(WebElement oneGame : todayGame.findElements(By.cssSelector("tr"))) {
+			if(!todayGame.getAttribute("class").contains("nogame")) {
+				String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
+		
+				int state = 0;
 				
-				Game game = new Game();
+				String nowYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
 				
-				game.setGameDate(nowYear+"."+date);
-				
-				if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
-						|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
-						|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
-						|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
-					state = 3;
-				}else {
-					if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
-						state = 2;
-					}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
-						state = 0;
+				for(WebElement oneGame : todayGame.findElements(By.cssSelector("tr"))) {
+					
+					Game game = new Game();
+					
+					game.setGameDate(nowYear+"."+date);
+					
+					if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
+							|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
+							|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
+							|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
+						state = 3;
 					}else {
-						state = 1;
+						if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
+							state = 2;
+						}else if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("preview")){
+							state = 0;
+						}else {
+							state = 1;
+						}
 					}
-				}
-				game.setGameStatusCode(String.valueOf(state));
-				
-				String teamName="";
-				if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-					continue;
+					game.setGameStatusCode(String.valueOf(state));
+					
+					String teamName="";
+					if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+						continue;
+					}else {
+						teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
+					}
+					game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
+					
+					if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
+							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
+						continue;
+					}else {
+						teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
+					}
+					game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
+					
+					game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
+					if(game.getGameStatusCode().equals("2")) {
+						String[] scoreTmp = game.getGameScore().split("[:]");
+						if(scoreTmp[0]==scoreTmp[1])
+							game.setGameStatusCode("4");
+						System.out.println(scoreTmp[0]+""+scoreTmp[1]);
+						game.setWinningTeamCode((Integer.parseInt(scoreTmp[0]) < Integer.parseInt(scoreTmp[1])?game.getHomeTeam().getTeamCode():(Integer.parseInt(scoreTmp[0]) > Integer.parseInt(scoreTmp[1])?game.getAwayTeam().getTeamCode():null)));
+					}
+					String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
+					
+					game.setGameCode(gameTmp);
+					
+					thisDateGameList.add(game);
+					}
 				}else {
-					teamName = oneGame.findElement(By.cssSelector(".team_lft")).getText().trim();
-				}
-				game.setAwayTeam(gameDao.getTeamInfoByTeamName(teamName));
-				
-				if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("웨스턴")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("이스턴")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("서군")
-						|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("동군")){
-					continue;
-				}else {
-					teamName = oneGame.findElement(By.cssSelector(".team_rgt")).getText().trim();
-				}
-				game.setHomeTeam(gameDao.getTeamInfoByTeamName(teamName));
-				
-				game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
-				if(game.getGameStatusCode().equals("2")) {
-					String[] scoreTmp = game.getGameScore().split("[:]");
-					if(scoreTmp[0]==scoreTmp[1])
-						game.setGameStatusCode("4");
-					System.out.println(scoreTmp[0]+""+scoreTmp[1]);
-					game.setWinningTeamCode((Integer.parseInt(scoreTmp[0]) < Integer.parseInt(scoreTmp[1])?game.getHomeTeam().getTeamCode():(Integer.parseInt(scoreTmp[0]) > Integer.parseInt(scoreTmp[1])?game.getAwayTeam().getTeamCode():null)));
-				}
-				String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
-				
-				game.setGameCode(gameTmp);
-				
-				thisDateGameList.add(game);
+				return null;
 			}
 		}catch(Exception e) {
 			System.out.println(e);

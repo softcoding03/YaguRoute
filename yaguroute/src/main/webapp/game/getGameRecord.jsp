@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +22,57 @@
 		float:left;
 		margin-right:60px;
 	}
+	
+	table tr td:last-child{
+		font-weight:normal !important;
+	}
+	.player-trophey {
+	  display: flex;
+	  justify-content: center;
+	}
+	.border-wid{
+		border-width: 2px;
+		border-color: #5e8208;
+		border-radius: 10px;
+		border-style: solid;
+		margin-right: 20px;
+		padding-bottom: 2px;
+		padding-left: 2px
+	}
+	.left-border-wid{
+		border-radius: 10px;
+		margin-top: 20px;
+		background-color: #8cbf0f;
+		width: 60%;
+		padding-bottom: 5px;
+		padding-left: 5px;
+		box-shadow: 3px 3px 3px 1px gray;
+	}
+	.left-border-wid span{
+		color: white;
+		padding-right: 15px;
+	}
+	.player-single-wrap{
+	    padding-top: 20px !important;
+	    padding-bottom: 20px !important;
+	}
+	.sidebar-calendar{
+		position: sticky;
+	    top: 100px;
+	    right: 300px;
+	}
+	.sidebar{
+		width: 15% !important;
+		padding-left:80px !important; 
+	}
+	.side-font-size{
+		font-size: 14px;
+	}
+	div.text{
+		font-size: 12px; 
+		text-align: center;
+		font-weight: 600;
+	}
 </style>
 
 <body>
@@ -38,8 +90,63 @@
         </div>
     </div>
 </section>
+
+<section class="sidebar col-xs-3 col-sm-3 col-md-3 sidebar-offcanvas" id="sidebar">
+	<div class="sidebar-calendar addShadow">
+		<div class="padding">
+           	<h6 style="padding-left: 18px;">다른 경기</h6>
+           	<ul>
+           	<c:forEach var="toGame" items="${todayGame}">
+           		<li class="left-border-wid">
+	           		<c:if test="${toGame.gameStatusCode eq 2 or toGame.gameStatusCode eq 4}">
+	           			<div class="text">경기종료</div>
+	           			<a href="/game/getGameRecord?gameCode=${toGame.gameCode}">
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span><span style="float:right; font-size: 15px;">${fn:split(toGame.gameScore,':')[0]}</span>
+			           		</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span><span style="float:right; font-size: 15px;">${fn:split(toGame.gameScore,':')[1]}</span>
+			           		</div>
+	           			</a>
+	           		</c:if>
+	           		<c:if test="${toGame.gameStatusCode eq 3}">
+	           				<div class="text" style="font-size: 12px; text-align: center; color: #f03a3a">경기취소</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
+			           		</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+			           		</div>
+	           		</c:if>
+	           		<c:if test="${toGame.gameStatusCode eq 0}">
+	           				<div class="text" style="font-size: 12px; text-align: center;">${toGame.gameTime} 예정</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}" >${toGame.awayTeam.teamNickName}</span>
+			           		</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+			           		</div>
+	           		</c:if>
+	           		<c:if test="${toGame.gameStatusCode eq 1}">
+	           				<div class="text" style="font-size: 12px; text-align: center;">중계중</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
+			           		</div>
+			           		<div>
+			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+			           		</div>
+	           		</c:if>
+           		</li>
+           	</c:forEach>
+           	</ul>
+        </div>
+	</div>
+</section>
+<div class="container">
+<section id="gameInfo" class="col-xs-12 col-sm-12 col-md-9">
 <div class="container">
 	<div class="row">
+	<h3>경기 정보</h3>
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="tab-content">
 	    <div class="tab-pane active" id="all">
@@ -60,11 +167,15 @@
 	                </span>	
 	                <span class="image"><img src="${gameRecord.gameInfo.homeTeam.teamEmblem}" alt="main-match"></span>
 	            </a>
-	            <div class="title">${gameRecord.gameInfo.gameDate} / ${gameRecord.gameInfo.gameTime}</div>
+	            <div class="title">${gameRecord.gameInfo.gameDate}</div>
+	            <div class="title">${gameRecord.gameInfo.gameTime}</div>
 	        </div>
 	    </div>
 	</div>
 </div>
+<div class="container">
+	<div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12">
 <table class="table-standings">
                         <tr>
                         	<th>팀명</th>
@@ -100,22 +211,31 @@
                             </c:forEach>
                         </tr>
                     </table>
-                    
-<section class="player-single-wrap">
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</section>                
+<section id="titlePlayer" class="player-single-wrap col-xs-10 col-sm-10 col-md-10">
 <div class="container">
             <div class="row">
-            	<h3>투수 타이틀</h3>
 <div class="player-info">
-	<div class="background-section">
+	<div>
 		<div class="col-md-12 col-sm-12 col-xs-12">
                             <ul class="player-trophey">
                             <c:forEach var="pitcher" items="${gameRecord.titlePitcher}">
-                                <li>
-                                    <span><img src="${pitcher.pitcherImage}" width="100" height="150" alt="trophy"></span>
-                                    <div>${pitcher.title}</div>
-                                	<div>${pitcher.pitcherName}</div>
-                                 	<div>이닝 ${pitcher.innings}<br> 피안타 ${pitcher.getHit} | 자책 ${pitcher.myLostScore}</div>
-                                 </li>
+                            	<div class="border-wid">
+	                                <li>
+	                                   	<img src="${pitcher.pitcherImage}" width="85" height="110" alt="trophy">
+	                                    <div class="year" style="background-color: ${pitcher.title eq '패전' ? '#db5e5e' : '#203d81'};">${fn:substring(pitcher.title,0,1)}</div>
+	                                 </li>
+	                                 <li>
+	                                 	<br>
+		                             	<div style="font-size: 15px;font-weight: 600;">${pitcher.pitcherName}</div>
+		                             	<div style="font-size: 12px;">이닝 ${pitcher.innings}<br> 피안타 ${pitcher.getHit} | 자책 ${pitcher.myLostScore}</div>
+	                                 </li>
+                                 </div>
                             </c:forEach>
                             </ul>
   		</div>
@@ -124,9 +244,10 @@
 </div>
 </div>
 </section>
+<section id="rest" class="col-xs-10 col-sm-10 col-md-10">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>경기 다시보기</h3>
                 
 <div class="mathc-live-broadcasts">
@@ -144,15 +265,12 @@
         </div>
     </div>
 </div>
-            </div>
-        </div>
-    </div>
-
+            
 
 <div>
 <h3>선수 기록</h3>
-${gameRecord.gameInfo.homeTeam.teamNickName}
-<img src="${gameRecord.gameInfo.homeTeam.teamEmblem}" width="50" height="50"/>
+<h6>${gameRecord.gameInfo.homeTeam.teamNickName}<img src="${gameRecord.gameInfo.homeTeam.teamEmblem}" width="50" height="50"/></h6>
+타자
 </div>
 <table class="table-standings">
                         <tr>
@@ -183,6 +301,7 @@ ${gameRecord.gameInfo.homeTeam.teamNickName}
 	</c:forEach>
 </table>
 <br>
+투수
 <table class="table-standings">
                         <tr>
                         	<th>투수명</th>
@@ -216,8 +335,10 @@ ${gameRecord.gameInfo.homeTeam.teamNickName}
 			</c:forEach>
 </table>
 <br>
-${gameRecord.gameInfo.awayTeam.teamNickName}
-<img src="${gameRecord.gameInfo.awayTeam.teamEmblem}" width="50" height="50"/>
+<hr style="border-top: 2px solid #a3cca3;">
+<h6>${gameRecord.gameInfo.awayTeam.teamNickName}<img src="${gameRecord.gameInfo.awayTeam.teamEmblem}" width="50" height="50"/></h6>
+<br>
+타자
 <table class="table-standings">
                         <tr>
                         	<th>타자명</th>
@@ -247,6 +368,7 @@ ${gameRecord.gameInfo.awayTeam.teamNickName}
 			</c:forEach>
 </table>
 <br>
+투수
 <table class="table-standings">
                         <tr>
                         	<th>투수명</th>
@@ -283,11 +405,29 @@ ${gameRecord.gameInfo.awayTeam.teamNickName}
 
 </div>
 </div>
+</div>
+</section>
+</div>
 </body>
 <%-- 
 이닝 ${pitcher.innings}
 피안타 ${pitcher.getHit} | 자책 ${pitcher.myLostScore}
---%>                                
+--%>       
+<script type="text/javascript">
+$(function(){
+	 window.addEventListener('load', function() {
+   	  	var section1 = document.getElementById('sidebar');
+   		var section2 = document.getElementById('gameInfo');
+   		var section3 = document.getElementById('titlePlayer');
+   		var section4 = document.getElementById('rest');
+   	
+   	  	var section2Height = section2.offsetHeight;
+   		var section3Height = section3.offsetHeight;
+   		var section4Height = section4.offsetHeight;
+   	  section1.style.height = section2Height + section3Height + section4Height + 'px';
+   	});
+})
+</script>                        
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

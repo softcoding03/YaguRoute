@@ -269,7 +269,9 @@
             </table>
         </div>
 	    <!-- PageNavigation Start... -->
-		<jsp:include page="/common/pageNavigator_new.jsp"/>
+		<jsp:include page="../common/pageNavigator_all.jsp">
+		<jsp:param name="id" value="user"/>
+		</jsp:include>
 		<!-- PageNavigation End... -->
     </div>
 </div>
