@@ -1,124 +1,246 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Insert title here</title>
-		
-			<!-- ¬¸¡∂ : http://getbootstrap.com/css/   ¬¸¡∂ -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		
-		<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-		
-		
-		<!-- Bootstrap Dropdown Hover CSS -->
-	   <link href="/css/animate.min.css" rel="stylesheet">
-	   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-	    <!-- Bootstrap Dropdown Hover JS -->
-	   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	   
-	   
-	   <!-- jQuery UI toolTip ªÁøÎ CSS-->
-	    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	    <!-- jQuery UI toolTip ªÁøÎ JS-->
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		
-		<!--  ///////////////////////// CSS ////////////////////////// -->
-		<style>
-		  body {
-	            padding-top : 50px;
-	        }
-		</style>
-		
-		<script type="text/javascript">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team HTML</title>
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900"
+	rel="stylesheet" />
+<!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<!--  ///////////////////////// CSS ////////////////////////// -->
+<style>
+body {
+	padding-top: 50px;
+}
+
+#button{
+	background-color : #f2f2f2;
+	margin-top: 20%;
+}
+
+</style>
+
+<script type="text/javascript">
 			$(function(){
 				
-				$("button:contains('¡ﬂ∞Ë∫∏±‚')").on("click", function(){
-					console.log("¡ﬂ∞Ë∫∏±‚ ≈¨∏Ø«ﬂ¥Ÿ");
+				$("button:contains('Ï§ëÍ≥ÑÎ≥¥Í∏∞')").on("click", function(){
+					console.log("Ï§ëÍ≥ÑÎ≥¥Í∏∞ ÌÅ¥Î¶≠ÌñàÎã§");
 					var text = $(this).children("input[name='channelID']").val();
-					console.log("¡∂»∏ ≈¨∏Ø Ω√ channelID : "+text);
+					console.log("Ï°∞Ìöå ÌÅ¥Î¶≠ Ïãú channelID : "+text);
 					self.location="/channel/getChannel?channelID="+text;
 				});
 				
-				$("button:contains('ºˆ¡§«œ±‚')").on("click", function(){
-					console.log("ºˆ¡§«œ±‚");
+				$("button:contains('ÏàòÏ†ïÌïòÍ∏∞')").on("click", function(){
+					console.log("ÏàòÏ†ïÌïòÍ∏∞");
 					var text = $(this).children("input[name='channelID']").val();
-					console.log("ºˆ¡§«œ±‚ ≈¨∏Ø Ω√ ChanndlID : "+text);
+					console.log("ÏàòÏ†ïÌïòÍ∏∞ ÌÅ¥Î¶≠ Ïãú ChanndlID : "+text);
 					self.location="/channel/updateChannel?channelID="+text;
 				})
 				
-				$("button:contains('ªË¡¶«œ±‚')").on("click", function(){
-					console.log("ªË¡¶«œ±‚");
+				$("button:contains('ÏÇ≠Ï†úÌïòÍ∏∞')").on("click", function(){
+					console.log("ÏÇ≠Ï†úÌïòÍ∏∞");
 					var text = $(this).children("input[name='channelID']").val();
-					console.log("ªË¡¶«œ±‚ ≈¨∏Ø Ω√ ChanndlID : "+text);
+					console.log("ÏÇ≠Ï†úÌïòÍ∏∞ ÌÅ¥Î¶≠ Ïãú ChanndlID : "+text);
 					self.location="/channel/deleteChannel?channelID="+text;
 				})
 			});
 		</script>
-	    
-	   
-	</head>
-		
-	<body>
-		<h1>Channel List</h1>
-		
+
+
+</head>
+
+<body>
+	<!-- Toolbar start -->
+	<jsp:include page="/common/topBar.jsp" />
+	<!-- Toolbar End -->
+
+	<!-- Header start -->
+	<section class="image-header">
 		<div class="container">
-			<table class="table table-hover table-striped" >
-		      
-		        <thead>
-		          <tr>
-		            <th align="center">No</th>
-		            <th align="left" >√§≥Œ ID</th>
-		            <th align="left">√§≥Œ ¿Ã∏ß</th>
-		            <th align="left">√§≥Œ CDN</th>
-		          </tr>
-		        </thead>
-		       
-				<tbody>
-				  <c:set var="i" value="0" />
-				  <c:forEach var="channel" items="${list}">
-					<c:set var="i" value="${ i+1 }" />
-					<tr>
-					  <td align="center" height="150px">${ i }</td>
-					  <td align="left" height="150">${channel.channelID}</td>
-					  <td align="left" height="150">${channel.channelName}</td>
-					  <td align="left" height="150">${channel.channelCDN}</td>
-					  <td align="left" height="150">
-					  	<button type="button" class="btn btn-info">
-					  		¡ﬂ∞Ë∫∏±‚
-					  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-					  	</button>
-					  </td>
-					  
-					  <c:if test="${sessionScope.user.role eq 'admin' }">
-						  <td align="left" height="150">
-						  	<button type="button" class="btn btn-info">
-						  		ºˆ¡§«œ±‚
-						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-						  	</button>
-						  </td>
-						  
-						  <td align="left" height="150">
-						  	<button type="button" class="btn btn-info">
-						  		ªË¡¶«œ±‚
-						  		<input type="hidden" name="channelID" value="${channel.channelID}"/>	
-						  	</button>
-						  </td>
-						</tr>
-					</c:if>
-		          </c:forEach>
-		        
-		        </tbody>
-		      
-		      </table>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="info">
+						<div class="wrap">
+							<ul class="breadcrumbs">
+								<li><a href="index.html">Main</a>/</li>
+								<li>Streaming Match</li>
+							</ul>
+							<h1>Ï±ÑÎÑê Î™©Î°ù</h1>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</body>
+	</section>
+	<!-- header end -->
+
+	<div class="broadcast-wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+	            	<h4>Channel Management</h4>                
+	            </div>
+	            
+				<c:set var="i" value="0"/>
+				<c:forEach var="channel" items="${list}">
+					<c:set var="i" value="${i+1}"/>
+					<div class="col-md-12">
+						<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="broadcast-item">
+								<div class="item-header" id="headingOne">
+									<div class="row">
+										<div class="col-md-1 col-sm-1">
+				                    		<a data-toggle="collapse" data-parent="#accordion" href="#${channel.channelName}" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+				               			</div>
+				               			
+				               			<div class="col-md-7 col-sm-7">
+				               				<div class="item-head-body">
+				               					${channel.channelName}
+				               				</div>				       
+				               			</div>
+				               			
+				               			<div class="col-md-4 col-sm-4">
+					               			<div class="row">
+					               				<div class="col-md-6 col-sm-6">
+					               					<button type="button" class="btn btn-outline-dark" id=button>ÏàòÏ†ï</button>
+					               				</div>
+					               				
+					               				<div class="col-md-6 col-sm-6">
+					               					<button class="btn btn-outline-dark" id=button>ÏÇ≠Ï†ú</button>
+					               				</div>
+											</div>
+				               			</div>
+									</div>
+								</div>
+								
+								<!-- collaspe start-->
+								<div id="${channel.channelName}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+									<div class="img-wrap">
+									
+										<div class="item-body">
+											<div class="row">
+												<div class="col-md-12">
+													<h4>Channel details</h4>
+													<hr/>
+													
+													<div class="alert alert-success">
+														<div class="title">Channel Link</div>
+														${channel.channelCDN}
+													</div>
+													<hr/>
+													
+													<div class="alert alert-success">
+														<div class="title">Channel Stream Info</div>
+														<div><li>Stream URL : &nbsp; ${channel.streamURL}</li></div>
+														<div><li>Stream Key : &nbsp; ${channel.streamKey}</li></div>
+													</div>
+													<hr/>
+													
+													<div class="alert alert-success">
+														<div class="title">Video Upload Path</div>
+														<div><li>bucket Name : &nbsp; ${channel.bucketName}</li></div>
+														<div><li>uploadPath : &nbsp; /${channel.uploadPath}</li></div>
+													</div>
+													<hr/>
+													
+													<div class="alert alert-success">
+														<div class="title">Ï§ëÍ≥Ñ Í≤ΩÍ∏∞</div>
+														<div>${channel.gameInfo.homeTeam.teamNickName} VS ${channel.gameInfo.awayTeam.teamNickName}</div>
+													</div>
+													<hr/>
+													
+												</div>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+								<!-- collaspe End-->
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script type="text/javascript" src="/js/library/jquery.js"></script>
+	<script type="text/javascript" src="/js/library/jquery-ui.js"></script>
+	<script type="text/javascript" src="/js/library/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
+	<script type="text/javascript"
+		src="/js/library/jcarousel.connected-carousels.js"></script>
+	<script type="text/javascript" src="/js/library/owl.carousel.js"></script>
+	<script type="text/javascript" src="/js/library/progressbar.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>
+	<script type="text/javascript" src="/js/library/chartist.js"></script>
+	<script type="text/javascript" src="/js/library/Chart.js"></script>
+	<script type="text/javascript" src="/js/library/fancySelect.js"></script>
+	<script type="text/javascript" src="/js/library/isotope.pkgd.js"></script>
+	<script type="text/javascript" src="/js/library/imagesloaded.pkgd.js"></script>
+
+	<script type="text/javascript" src="/js/jquery.team-coundown.js"></script>
+	<script type="text/javascript" src="/js/matches-slider.js"></script>
+	<script type="text/javascript" src="/js/header.js"></script>
+	<script type="text/javascript" src="/js/matches_broadcast_listing.js"></script>
+	<script type="text/javascript" src="/js/news-line.js"></script>
+	<script type="text/javascript" src="/js/match_galery.js"></script>
+	<script type="text/javascript" src="/js/main-club-gallery.js"></script>
+	<script type="text/javascript" src="/js/product-slider.js"></script>
+	<script type="text/javascript" src="/js/circle-bar.js"></script>
+	<script type="text/javascript" src="/js/standings.js"></script>
+	<script type="text/javascript" src="/js/shop-price-filter.js"></script>
+	<script type="text/javascript" src="/js/timeseries.js"></script>
+	<script type="text/javascript" src="/js/radar.js"></script>
+	<script type="text/javascript" src="/js/slider.js"></script>
+	<script type="text/javascript" src="/js/preloader.js"></script>
+	<script type="text/javascript" src="/js/diagram.js"></script>
+	<script type="text/javascript" src="/js/bi-polar-diagram.js"></script>
+	<script type="text/javascript" src="/js/label-placement-diagram.js"></script>
+	<script type="text/javascript" src="/js/donut-chart.js"></script>
+	<script type="text/javascript" src="/js/animate-donut.js"></script>
+	<script type="text/javascript" src="/js/advanced-smil.js"></script>
+	<script type="text/javascript" src="/js/svg-path.js"></script>
+	<script type="text/javascript" src="/js/pick-circle.js"></script>
+	<script type="text/javascript" src="/js/horizontal-bar.js"></script>
+	<script type="text/javascript" src="/js/gauge-chart.js"></script>
+	<script type="text/javascript" src="/js/stacked-bar.js"></script>
+
+	<script type="text/javascript"
+		src="/js/library/chartist-plugin-legend.js"></script>
+	<script type="text/javascript"
+		src="/js/library/chartist-plugin-threshold.js"></script>
+	<script type="text/javascript"
+		src="/js/library/chartist-plugin-pointlabels.js"></script>
+
+	<script type="text/javascript" src="/js/treshold.js"></script>
+	<script type="text/javascript" src="/js/visible.js"></script>
+	<script type="text/javascript" src="/js/anchor.js"></script>
+	<script type="text/javascript" src="/js/landing_carousel.js"></script>
+	<script type="text/javascript" src="/js/landing_sport_standings.js"></script>
+	<script type="text/javascript" src="/js/twitterslider.js"></script>
+	<script type="text/javascript" src="/js/champions.js"></script>
+	<script type="text/javascript" src="/js/landing_mainnews_slider.js"></script>
+	<script type="text/javascript" src="/js/carousel.js"></script>
+	<script type="text/javascript" src="/js/video_slider.js"></script>
+	<script type="text/javascript" src="/js/footer_slides.js"></script>
+	<script type="text/javascript" src="/js/player_test.js"></script>
+
+	<script type="text/javascript" src="/js/main.js"></script>
+</body>
 </html>

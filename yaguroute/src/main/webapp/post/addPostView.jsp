@@ -1,19 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="eu">
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<html>
 <head>
+<title>게시물 작성</title>
     <meta charset="UTF-8">
-   
+    
    <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 
-<!-- include summernote css/js-->
+    
+   <!-- include summernote css/js-->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
-    <script type="text/javascript">
-    	$(document).ready(function() {
+   
+<style>
+    .form-horizontal {
+		  position: fixed;
+		  top: 30%;
+		  left: 30%;
+		  transform: translate(-30%, -30%);
+    }
+ </style>
+  <script type="text/javascript">
+    	$(function() {
+    		$( "button.btn.btn-default").on("click" , function() {
+				fncAddPost();
+			}); 		
+    		function fncAddPost(){
+    			$("form").attr("method" ,"POST").attr("action" , "/post/addPost").submit();
+    		}
     		var toolbar = [
     		    // 글꼴 설정
     		    ['fontname', ['fontname']],
@@ -36,7 +54,7 @@
     		  ];
     		
   			var setting = {
-              height : 300,
+              height : 400,
               minHeight : null,
               maxHeight : null,
               focus : true,
@@ -72,37 +90,53 @@
   			});
 		}
     </script>
-    
+     
    
 </head>
 <body>
-
-  <form method="post" action="/post/addPost" method="POST">
-    <input type="hidden" name="teamCode" value="${teamCode}"/>
-    <input type="hidden" name="user.userId" value="${user.userId}"/>
-   	<select class="form-control" name="postType">
-		  <option value="0">[잡담]</option>
-		  <option value="1">[응원]</option>
-		  <option value="2">[중고구매]</option>
-		  <option value="3">[중고판매]</option>
-		  <c:if test="${user.role eq 'admin'}">
-		  	<option value="4">[! 공지사항 !]</option>
-		  </c:if>
-		</select>
-        
-   		<table border=1 width=80%>
-   			<tr>
-   				<td>게시물 제목</td>
-   					<td><input type="text" name="postTitle" style="width:100%;" placeholder="제목을 입력해주세요."></td>
-   			</tr>
-   			<tr>
-   				<td colspan="2">
-   					<textarea id="summernote" name="postContents"></textarea>
-   				</td>
-   			</tr>
-   		</table>
-   		<input type="submit" value="전송">
-	</form>
-    
+	
+		<form class="form-horizontal" >
+			  <div class="form-group">
+			    <label for="inputEmail3" class="col-sm-2 control-label">게시물 종류</label>
+			    <div class="col-sm-10">
+			    	<select class="form-control" name="postType">
+					  <option value="0">[잡담]</option>
+					  <option value="1">[응원]</option>
+					  <option value="2">[중고구매]</option>
+					  <option value="3">[중고판매]</option>
+					  <c:if test="${user.role eq 'admin'}">
+					  <option value="4">[! 공지사항 !]</option>
+					  </c:if>
+					</select>
+			    </div>
+			  </div>		
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">게시물 제목</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" name="postTitle" placeholder="게시물 제목을 입력해주세요.">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">게시물 내용</label>
+			    <div class="col-sm-10">
+			    	<textarea id="summernote" name="postContents"></textarea>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      <div class="checkbox">
+			        <label>
+			          <input type="checkbox"> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.
+			        </label>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      <button type="submit" class="btn btn-default">작성하기</button>
+			    </div>
+			  </div>
+		</form>	
+		    
 </body>
 </html>

@@ -15,7 +15,17 @@
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+
+$(".ct_btn01:contains('수정')").on('click',function(){
 	
+	self.location = "/transaction/updateTransaction?tranNo=${Transaction.tranNo}";
+})
+
+$(".ct_btn01:contains('확인')").on('click',function(){
+	history.go(-1);
+})
+
+})
 </script>
 </head>
 
@@ -29,7 +39,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="stats">
-							<p class="number">상세조회다 완료하셨군요????????????</p>
+							<p class="number">결제를 완료하셨군요????????????</p>
 						</div>
 					</div>
 				</div>
@@ -46,6 +56,36 @@
 </div>
 <!--PLAYER INFO END-->
 
+<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
+	<tr>
+		<td width="53%"></td>
+		<td align="right">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
+						수정
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+					<td width="30"></td>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
+						확인
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
 
 
 

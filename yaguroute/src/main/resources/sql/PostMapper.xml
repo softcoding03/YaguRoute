@@ -149,7 +149,7 @@
 	<insert id="addPost" parameterType="post">
 	 	INSERT 
 		INTO post(user_id, team_code, post_title, post_contents, post_date,post_type,notice) 
-		VALUES (#{user.userId},#{teamCode},#{postTitle},#{postContents},sysdate(),#{postType},#{notice})
+		VALUES (#{user.userId},#{user.teamCode},#{postTitle},#{postContents},sysdate(),#{postType},#{notice})
 	</insert>
 	
 	<!--게시물 삭제-->
