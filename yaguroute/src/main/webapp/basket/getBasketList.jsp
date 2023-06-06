@@ -17,6 +17,32 @@
 	input:invalid {
 	  border: 3px solid red;
 	}
+	.proceed{
+		width: 12% !important;
+		font-size: 12px !important;
+		font-weight: 600;
+		font-family: Montserrat,sans-serif;
+	}
+	.to-right{
+		float: right;
+	}
+	.col-md-12{
+		width: 100%;
+	}
+	#confirmQuan{
+		margin-top: 15px;
+		height: 20px;
+	}
+	.btn{
+		padding: 8px 8px 8px 8px !important;
+		font-size: 12px !important;
+	}
+	.center-wrapper{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 </style>
 <body>
 <jsp:include page="/common/changePageEvent.jsp"/>
@@ -26,8 +52,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4>Your shopping Cart</h4>
-            </div>
+                <h4>장바구니</h4>
+            
                 <table class="cart-table">
                     <tr>
                         <th></th>
@@ -39,10 +65,11 @@
                     <c:forEach items="${basketList}" var="basket">
                    		<tr class="cart_iem" id="${basket.basketNo}">
                    			<input type="hidden" value="${basket.product.prodNo}" id="prodNo"/>
+                   			<input type="hidden" value="${basket.product.prodStock}" id="prodStock"/>
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
 	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImage}" alt="cart-product">${basket.product.prodName}</td>
 	                        <td class="cost"><fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/></td>
-	                        <td class="quantity"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"></td>
+	                        <td class="quantity center-wrapper"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"><div id="confirmQuan"><button style="display: none;" class="btn">수량확정</button></div></td>
 	                        <td class="total"><input type="hidden" value="${basket.product.prodPrice*basket.prodQuantity}">
 	                        <fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/>x ${basket.prodQuantity} = <h3><fmt:formatNumber value="${basket.product.prodPrice*basket.prodQuantity}" pattern="###,###"/>원</h3>
 	                        </td>
@@ -50,30 +77,46 @@
                    	 </c:forEach>
                 </table>
             </div>
-            <div class="col-md-4 col-sm-6">
-            	<button type="button" id="deleteAllBasket">장바구니 비우기</button>
+            <div class="col-md-12 ">
+            	<div class="cart-total">
+            		<button class="proceed" type="button" id="deleteAllBasket" style="margin-top:0; margin-bottom: 30px; width: 13% !important;">장바구니 비우기</button>
+            	</div>
             </div>
             <div class="col-md-12">
 	            <div class="item status">
-	            	<div class="info">
-			            <h3>총 가격 :<input type="hidden" value="${totalPrice}" id="totalPrice"><p class="name"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/></p> 원<h3>
-			            <div class="clear"></div>
-			        </div>
+	            	<div class="cart-total-info" style="height: 150px;">
+		            	<div class="title"><h3>총 가격 :<h3></div>
+		            	<div class="price"><input type="hidden" value="${totalPrice}" id="totalPrice"><h3 id="name"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</h3></div>
+				    </div>
 			    </div>
             </div>
-            <div class="col-md-4 col-sm-6">
-            	<button type="button" id="getProdList">쇼핑 계속하기</button>
-            </div>
-            <div class="col-md-8 col-sm-6">
-                <div class="update-wrap">
-                    <button class="update">구매하기</button>
-                </div>
+	            <div class="col-md-12 col-sm-12">
+	            	<div class="cart-total">
+	            		<button class="proceed" id="getProdList">쇼핑 계속하기</button>
+	                    <button class="proceed to-right">구매하기<i class="fa fa-check" aria-hidden="true"></i></button>
+	                </div>
+            	
+            	</div>
             </div>
         </div>
 </section>
 
 </body>
 <script type="text/javascript">
+
+	function checkProdStock(){
+		var check = true;
+		$("input[type='number']").each(function(){
+			var stock = $(this).parent().parent().find("#prodStock").val();
+			var prodQuan = $(this).val()
+			if(prodQuan>stock){
+				alert("선택하신 수량 만큼의 재고가 없습니다.");
+				check = false;
+				return false;
+			}
+		})
+		return check;
+	}
 
 	function checkInputData(){
 		var check = true;
@@ -82,61 +125,80 @@
 			if(value<=0 || value === ''){
 				alert("상품은 1개 이상 구매 가능합니다.")
 				check = false;
-			}else if($("#confirmQuan").length){
-				alert("구매 수량을 확정해 주세요.")
+				$(this).val(1);
+				return false;
+			}else if(!checkProdStock){
 				check = false;
+				$(this).val(1);
+				return false;
 			}
 		})
 		
 		return check;
 	}
+	
+	function checkConfrimData(){
+		var check = true;
+		if($("#confirmQuan").length){
+			alert("구매 수량을 확정해 주세요.")
+			check = false;
+			return false;
+		}else if(checkInputData()){
+			check = true;
+		}
+		return check;
+	}
 
 	function quantityChange(elem){
 			elem.one("input",function(){
-				$(this).parent().append('<button id="confirmQuan">수량확정</button>')
+				$(this).parent().find("#confirmQuan button").attr("style","display : block;")
 				$(this).parent().find("button").on("click",function(){
-					var newQuantity = $(this).parent().find("input").val()
-					var prodNo = $(this).parent().parent().find("#prodNo").val()
-					var basketNo = $(this).parent().parent().attr("id");
-					console.log(prodNo, newQuantity)
-					$.ajax({
-						url : "/basket/json/updateBasketProdQuantity/"+prodNo,
-						method : "POST",
-						data : JSON.stringify({
-							userId : $("#sessionUserId").val(),
-							basketNo : basketNo,
-							prodQuantity : newQuantity
-						}),
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData, status){
-							var updateTotalPrice = JSONData.product.prodPrice*JSONData.prodQuantity
+					var thisButton = $(this).parent().parent();
+					if(checkInputData()){
+						var newQuantity = $(thisButton).find("input").val()
+						var prodNo = $(thisButton).parent().find("#prodNo").val()
+						var basketNo = $(thisButton).parent().attr("id");
+						console.log(prodNo, newQuantity)
+						//<td class="quantity"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+">
+						//<div id="confirmQuan"><button style="display: none;">수량확정</button></div></td>
+						$.ajax({
+							url : "/basket/json/updateBasketProdQuantity/"+prodNo,
+							method : "POST",
+							data : JSON.stringify({
+								userId : $("#sessionUserId").val(),
+								basketNo : basketNo,
+								prodQuantity : newQuantity
+							}),
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData, status){
+								var updateTotalPrice = JSONData.product.prodPrice*JSONData.prodQuantity
+								
+								var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
+								console.log(JSONData.basketNo)
+								$("#"+JSONData.basketNo+" .total").html("");
+								$("#"+JSONData.basketNo+" .total").append('<input type="hidden" value='+updateTotalPrice+'>'
+										+formatter.format(JSONData.product.prodPrice)+' x '+ JSONData.prodQuantity+' = '
+										+'<h3>'+formatter.format(updateTotalPrice)+'</h3>')
+								
+								var sum = 0;
+								$(".total input").each(function(index,elem){
+									var num = $(elem).val();
+									console.log(num)
+									sum = sum + parseInt(num);
+								})
+								$("#totalPrice").attr("value",sum)
+								$("#name").text(formatter.format(sum));
+							}
 							
-							var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
-							console.log(JSONData.basketNo)
-							$("#"+JSONData.basketNo+" .total").html("");
-							$("#"+JSONData.basketNo+" .total").append('<input type="hidden" value='+updateTotalPrice+'>'
-									+formatter.format(JSONData.product.prodPrice)+' x '+ JSONData.prodQuantity+' = '
-									+'<h3>'+formatter.format(updateTotalPrice)+'</h3>')
-							
-							var sum = 0;
-							$(".total input").each(function(index,elem){
-								var num = $(elem).val();
-								console.log(num)
-								sum = sum + parseInt(num);
-							})
-							$("#totalPrice").attr("value",sum)
-							$(".info .name").text(formatter.format(sum));
-						}
+						})
 						
-					})
-					
-					quantityChange($(this).parent().find("input"))
-					$(this).remove();
+						quantityChange($(thisButton).find("input"))
+						$(thisButton).find("button").attr("style","display : none;");
+					}
 				})
-			
 		})
 	}
 
@@ -149,6 +211,9 @@
 		})
 		
 		$("tr.cart_iem td.delete").on("click",function(){
+			if(!confirm("선택한 상품을 삭제하시겠습니까?")){
+				return false
+			}
 			var newTotalPrice = $(this).parent().find(".total input").val()
 			var basketNo = $(this).parent().attr("id");
 			$.ajax({
@@ -167,12 +232,15 @@
 					$("#totalPrice").val(newTotal)
 					
 					var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
-					$(".info .name").text(formatter.format(newTotal));
+					$("#name").text(formatter.format(newTotal));
 				}
 			})
 		})
 		
 		$("#deleteAllBasket").on("click",function(){
+			if(!confirm("장바구니에 모든 상품을 삭제하시겠습니까?")){
+				return false
+			}
 			$.ajax({
 				url : "/basket/json/deleteAllBasket",
 				method : "POST",
@@ -186,7 +254,7 @@
 				success : function(JSONData, status){
 					$("tr.cart_iem").remove();
 					$("#totalPrice").val(0);
-					$(".info .name").text(0);
+					$("#name").text(0);
 				}
 				
 			})

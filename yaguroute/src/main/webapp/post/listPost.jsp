@@ -62,8 +62,10 @@
 			   self.location = "/post/addPost?teamCode="+MyTeamCode;
 		   });
 		   */
-		  
-		   
+		   $("a.getPost").on('click',function(){
+			   postNo = $(this).siblings("input[name='postNo']").val()
+			   self.location = "/post/getPost?postNo="+postNo;
+		   });
 		   $("a.getMyPostList").on('click',function(){
 			   self.location = "/post/getMyPostList";
 		   });
@@ -76,44 +78,20 @@
 		   });
     })
     
-    $(document).ready(function(){
+    $(function(){
     		$("a.addPostView").on('click',function(){
-			   loadModalContent();
-			   $("#myModal").css("display", "block");
+    			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
 		   });
-			
-    		// 모달 창 닫기
-			$(".close").on("click", function() {
-			   $("#myModal").css("display", "none");
-			});
-    		
-			function loadModalContent() {
-			    $.ajax({
-			      url: "/post/addPostView.jsp",
-			      method: "GET",
-			      success: function(response) {
-			        $("#modalContent").html(response);
-			      },
-			      error: function() {
-			        console.log("Failed to load modal content.");
-			      }
-			    });
-		   }
     })
+    
+    
    
    </script>
    <!-- include summernote css/js-->
 	
 </head>
 <body>
-<!-- 모달창 -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div id="modalContent"></div>
-  </div>
-</div>
-<!-- 모달창 -->
+
 
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
@@ -225,7 +203,10 @@
     <c:forEach var="post" items="${list}">
 	    <div class="item">
 	        <div class="info">
-	            <a href="news-single.html" class="name">${post.postTitle}</a>	
+	        		<h6>
+	        		<input type="hidden" name="postNo" value="${post.postNo}">
+	            <a href="javascript:;" class="getPost">${post.postTitle}</a>	
+	            </h6>
 	            <div class="wrap">
 	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
 	            </div>
@@ -316,6 +297,5 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 </html>

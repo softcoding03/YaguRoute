@@ -2,6 +2,9 @@
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.util.Map;
+import java.util.UUID;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -42,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.Request;
 import com.baseball.common.domain.Page;
@@ -92,6 +96,8 @@ public class UserController {
 	@Value("${commonProperties.pageSize}")
 	private int pageSize;
 
+	private String userImage;
+	
 	@GetMapping(value = "getUsers")
 	public String getUsers(@RequestParam("userId") String userId, Model model, HttpSession session) throws Exception {
 
@@ -157,15 +163,21 @@ public class UserController {
 	}
 
 	@PostMapping(value = "addUser")
-	public String addUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
+	public String addUser(@ModelAttribute("user") User user, @ModelAttribute("file") MultipartFile file, HttpSession session) throws Exception {
 
 		System.out.println("회원가입 대상 : " + user.getUserId());
+		
+		if(user.getUserImage() == null) {
+			user.setUserImage(userImage);
+		}
 		
 		userService.addUser(user);
 
 		session.setAttribute("user", user);
 
-		return "redirect:/main.jsp";
+		System.out.println("유저 세션 : "+session.getAttribute("user"));
+		
+		return "forward:/main.jsp";
 	}
 
 	@GetMapping(value = "updateUser")
@@ -585,4 +597,14 @@ public class UserController {
 		session.setAttribute("user", user);
 		return "redirect:/main.jsp";
 	}
+	
+	@PostMapping("userImage")
+	public String addUserImage(@ModelAttribute("file") MultipartFile file, User user) throws Exception {
+
+		System.out.println("userImage ㅎㅇ");
+		
+		userImage = userRestDao.getUserImage(file);
+		
+		return userImage;
+	}	
 }

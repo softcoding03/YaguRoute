@@ -59,13 +59,43 @@
 	});	
     
     // 회원가입 페이지 이동
-    $(function(){
+    /* $(function(){
     	
     	$("#signup").on("click", function(){
     		
     		window.location.href = "/user/addUser.jsp";
     	});
+    }); */
+    
+    // 회원가입 페이지로 이동 -팝업-
+    $(function() {
+    $("#signup").on("click", function() {
+        $.ajax({
+            url: "/user/addUser.jsp",
+            success: function(result) {
+            	
+                var popup = window.open("", "회원가입", "width=600,height=1300");
+
+                popup.document.write(result);
+                popup.document.close();
+
+                // 팝업 창이 로드된 후 자동 크기 조정 함수 호출
+                $(popup).on("load", function() {
+                    autoResizePopup(popup);
+                });
+            }
+        });
     });
+
+    // 팝업 창의 내용이 모두 표시되도록 자동 크기 조정
+    function autoResizePopup(popup) {
+        var contentWidth = $(popup.document).width();
+        var contentHeight = $(popup.document).height();
+		
+        // 팝업 창의 크기를 내용의 크기에 맞게 조정
+        popup.resizeTo(contentWidth, contentHeight);
+    }
+});
     
     // 아이디 찾기 페이지로 이동
     $(function(){
@@ -191,7 +221,7 @@
                                 <img id="kakaoLogin" class="kakao-submit" width="183" height="45" src="/images/user/kakaoLogin.png" alt="카카오 로그인 버튼">
                                 </a>
                                 <div class="route"><br><br><br><br>
-								<button type="button" id="signup" class="signup">회 원 가 입</button><br>
+								<button type="button" id="signup" class="signup" >회 원 가 입</button><br>
 								<button type="button" id="findUserId" class="find">아이디 찾기</button>
 								<button type="button" id="findPassword" class="find">비밀번호 찾기</button>
 								

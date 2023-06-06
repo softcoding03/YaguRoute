@@ -217,10 +217,11 @@ public class PostController {
 	
 	
 	@PostMapping("addPost")
-	public String addPost(@ModelAttribute("post") Post post, Model model) throws Exception {
+	public String addPost(@ModelAttribute("post") Post post, Model model, HttpSession session) throws Exception {
 			System.out.println("/post/addPost : POST START");	
 			System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
-			post.setUser(userService.getUser(post.getUser().getUserId()));//post에 user정보 모두 저장해주기위함
+			User user = (User)session.getAttribute("user");
+			post.setUser(user);//post에 user정보 모두 저장해주기위함
 			postService.addPost(post); //insert 완료
 			int postNo = postService.getLastPostNo();
 			Post post2 = postService.getPost(postNo);
@@ -243,17 +244,7 @@ public class PostController {
 			return "forward:/post/updatePostView.jsp";
 	}
 	
-	@PostMapping("updatePost")
-	public String updatePost(@ModelAttribute("post") Post post, Model model) throws Exception {
-			System.out.println("/post/updatePost : POST START");	
-			System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
-			postService.updatePost(post); //update 완료
-			System.out.println("update 완료");
-			Post post2 = postService.getPost(post.getPostNo());
-			System.out.println("수정된 post"+post2);
-			model.addAttribute("post", post2);
-			return "forward:/post/getPost.jsp";
-	}
+
 	
 	@GetMapping("deletePost")
 	public String deletePostView(@RequestParam("postNo") int postNo, HttpServletRequest request) throws Exception {

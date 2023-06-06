@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +50,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.ui.Model;
 import org.apache.commons.io.FileUtils; // 추가
 import com.google.gson.JsonObject; // 추가
 
@@ -130,4 +132,16 @@ public class PostRestController {
 			return a;
 		}
 		
+		
+		@PostMapping("updatePost")
+		public String updatePost(@ModelAttribute("post") Post post, Model model) throws Exception {
+				System.out.println("/post/rest/updatePost : POST START");	
+				System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
+				postService.updatePost(post); //update 완료
+				System.out.println("update 완료");
+				Post post2 = postService.getPost(post.getPostNo());
+				System.out.println("수정된 post"+post2);
+				model.addAttribute("post", post2);
+				return "success";
+		}
 }
