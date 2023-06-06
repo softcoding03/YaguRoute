@@ -149,6 +149,7 @@ var postNo;
 	 	$('.updatePost').on("click" , function() {
 	 		var url = "/post/updatePost?postNo="+postNo;
 	 		window.open(url,"게시물 작성",'width=1000,height=700');
+	 		
 		});
 	 	$('.deletePost').on("click" , function() {
 	 		var confirmation = confirm("정말로 삭제하시겠습니까?");

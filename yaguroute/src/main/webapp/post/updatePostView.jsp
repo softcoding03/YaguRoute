@@ -27,23 +27,25 @@
   <script type="text/javascript">
     	$(function() {
     		$( "button.btn.btn-default").on("click" , function() {
+    			event.preventDefault();
     			var post ={
     					teamCode: "${post.teamCode}",
     					postNo: "${post.postNo}",
     					//user.userId:"${post.user.userId}",
     					postType: $("select.form-control").val(),
     					postTitle: $("input[name='postTitle']").val(),
-    					postContents: $("#summernote").text()
+    					postContents: $("#summernote").val()
     			}
-    			console.log(post)
     			// Ajax를 사용하여 form을 비동기적으로 제출
   		      $.ajax({
 	  		        type: 'POST',
 	  		        url: '/post/rest/updatePost',
 	  		        data: post,
 	  		        success: function(response) {
-	  		         if(response == "success"){
+	  		        	alert(response);
+	  		         if(response === "success"){
 	  		        		window.close();
+	  		        		opener.location.reload();
 	  		         }
 	  		        }
   		      });
@@ -146,16 +148,8 @@
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
-			      <div class="checkbox">
-			        <label>
-			          <input type="checkbox"> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.
-			        </label>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-			      <button type="submit" class="btn btn-default">수정하기</button>
+			    	<a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
+			      <button class="btn btn-default">수정하기</button>
 			    </div>
 			  </div>
 		</form>	

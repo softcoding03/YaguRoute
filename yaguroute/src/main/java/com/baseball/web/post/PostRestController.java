@@ -135,7 +135,7 @@ public class PostRestController {
 		
 		@PostMapping("updatePost")
 		public String updatePost(@ModelAttribute("post") Post post, Model model) throws Exception {
-				System.out.println("/post/updatePost : POST START");	
+				System.out.println("/post/rest/updatePost : POST START");	
 				System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
 				postService.updatePost(post); //update 완료
 				System.out.println("update 완료");
