@@ -221,11 +221,9 @@
   </c:forEach>
 </div>
 
-
-
 				<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
-					<jsp:param name="id" value="product" />
+					<jsp:param name="id" value="salesProd" />
 				</jsp:include>
 				<!-- PageNavigation End... -->
 </body>

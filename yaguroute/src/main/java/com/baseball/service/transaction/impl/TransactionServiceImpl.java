@@ -103,4 +103,15 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionDao.getSalesList(gameCode);
 	}
 
+	@Override
+	public List<Transaction> getDlvyTranList(Search search, int tranNo, String tranType) throws Exception {
+		List<Transaction> dlvyList = transactionDao.getDlvyTranList(search, tranNo, tranType);
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dlvyList", dlvyList);
+		
+		return dlvyList;
+	}
+
 }
