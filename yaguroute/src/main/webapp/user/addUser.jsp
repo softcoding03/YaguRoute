@@ -15,6 +15,15 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
+	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <style>
+    .grid-container {
+ 	 display: grid;
+  	 grid-template-columns: repeat(2, 1fr);
+ 	 gap: 10px;
+	}
+    </style>
     
     <style>
     .birthday {
@@ -32,7 +41,7 @@
     </style>
     
     <style> 
-    .password {
+    #password {
     padding: 15px 10px;
     border: 1px solid transparent;
     width: 100%;
@@ -43,6 +52,96 @@
     outline: 0
     } 
     </style>
+    
+    <style> 
+    #passwordCheck {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    </style>
+    
+    <style> 
+    .dropdown {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    </style>
+    
+    <!-- 옆(좌,우)으로 이동시키기 위함. -->
+    <style>
+    .my-column {
+    width: 50%;
+    float: left;
+    /* 추가적인 스타일 설정 */
+	}
+    </style>
+    
+    <!-- input항목 중앙으로 출력 위해 설정 -->
+   	<style>
+  	.container_1 {
+    display: grid !important;
+    place-items: center !important;
+  	}
+	</style>
+    
+    <style>
+    .form-group {
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	}
+    </style>
+    
+    <style>
+    .btn-upload-file {
+    position: relative;
+    border: none;
+    min-width: 200px;
+    min-height: 50px;
+    background: linear-gradient(
+        90deg,
+        rgba(129, 230, 217, 1) 0%,
+        rgba(79, 209, 197, 1) 100%
+    );
+    border-radius: 1000px;
+    color: darkslategray;
+    cursor: pointer;
+    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+    font-weight: 700;
+    transition: 0.3s;
+	}
+	
+	.btn-upload-file:hover {
+	    transform: scale(1.2);
+	}
+	
+	.btn-upload-file:hover::after {
+	    content: "";
+	    width: 30px;
+	    height: 30px;
+	    border-radius: 100%;
+	    border: 6px solid #00ffcb;
+	    position: absolute;
+	    z-index: -1;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    animation: ring 1.5s infinite;
+	}
+    </style>
+    <!-- 구단코드 이미지 적용 -->
     
     <script type="text/javascript">
 	
@@ -209,6 +308,7 @@
 		
 		if(userPhone.length == 11){
 			alert("인증번호를 발송하였습니다.");
+			document.getElementById('phoneCheckId').style.display = 'block';
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
@@ -271,16 +371,62 @@
             document.getElementById("sample6_detailAddress").focus();
         }
     }).open();
-}
+	}
 	
-	// form에 입력값 제출
-	function fncAddUser() {		
+	
+	//fileDropzone dropzone 설정할 태그의 id로 지정
+    Dropzone.options.fileDropzone = {
+        url: '/users/userImage', //업로드할 url (ex)컨트롤러)
+        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+        clickable: true, // 클릭가능여부
+        thumbnailHeight: 90, // Upload icon size
+        thumbnailWidth: 90, // Upload icon size
+        maxFiles: 1, // 업로드 파일수
+        maxFilesize: 1, // 최대업로드용량 : 1MB
+        parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
+        addRemoveLinks: true, // 삭제버튼 표시 여부
+        dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
+        uploadMultiple: false, // 다중업로드 기능
+        dictDefaultMessage: "사진 업로드 (최대1MB)", // 메시지 변경
+        init: function() {
+            
+        	var myDropzone = this;
+			var maxFiles = this.options.maxFiles;
+            
+            // 파일 업로드 제한에 도달했을 때 알림 표시
+            this.on("maxfilesexceeded", function(file) {
+                // 알림을 표시하는 로직을 추가
+                
+                if(myDropzone.files.length > maxFiles){
+                    myDropzone.removeFile(file);
+                    alert("최대 1개의 파일만 업로드할 수 있습니다.");
+                }
+                
+            });
+
+            // 서버로 파일 업로드를 진행하는 함수
+            document.querySelector("#btn-upload-file").addEventListener("click", function() {
+                myDropzone.processQueue();
+            });
+        }
+        
+    };
+	
+	 // form에 입력값 제출
+	 
+ 	function fncAddUser() {		
 		 	// 11개여야함.
 			var userId=$("input[name='userId']").val();
 			var password=$("#password").val();
 			var userName=$("#userName").val();
 			var userPhone=$("#userPhone").val();
-			var userBirth=$("#userBirth").val();
+			var phoneCheck=$("#phoneCheck").val();
+			var userBirth=$("#birthday").val();
+			
+			// userBirth logic
+			var value = userBirth.replace(/-/g, "");
+			$("#userBirth").val(value);
+			
 			// addr1 + addr2 (주소 + 상세주소)
 			var addr1 = $("input[name='addr1']").val();
 			var addr2 = $("input[name='addr2']").val();
@@ -290,7 +436,8 @@
 			var userEmail=$("#userEmail").val();
 			var userNickName=$("input[name='userNickName']").val();
 			var teamCode=$("#teamCode").val();
-			var userImage=$("#userImage").val();
+			
+			alert($("#userBirth").val());
 			
 			if(userId == null || userId.length <1){
 				alert("아이디는 반드시 입력하셔야 합니다.");
@@ -306,21 +453,23 @@
 			}
 			if(userPhone == null || userPhone < 1){
 				alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-			}
+				return;
+			} 
 			
-			$("form").attr("method" , "POST").attr("action" , "/users/addUser").submit();
-		}
+			$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
+			alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
+			window.close();
+		} 
 		
 	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		
 		$( "#signup" ).on("click" , function() {
 			fncAddUser();
 		});
 	});
-	 
-	// 뒤로 가기 버튼
+	
+/* 	// 뒤로 가기 버튼
 	$(function(){
 		
 		$("#backback").on("click", function(){
@@ -329,182 +478,138 @@
 			window.location.href="/user/loginTest(new).jsp";
 			
 		});
-	});
+	}); */
 	
 	</script>
 </head>
 
 <body>
-	<div class="preloader-wrapper" id="preloader">
-    <div class="motion-line dark-big"></div>
-    <div class="motion-line yellow-big"></div>
-    <div class="motion-line dark-small"></div>
-    <div class="motion-line yellow-normal"></div>
-    <div class="motion-line yellow-small1"></div>
-    <div class="motion-line yellow-small2"></div>
-</div>
-<jsp:include page="/common/topBar.jsp"/>  
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
-    <div class="container">
+<div class="container_1">
         <div class="row">
             <div class="col-md-6">
                 <div class="info">
                     <div class="wrap">
-                        <h1>회원가입</h1>
+                        <h6>회원가입</h6>
                     </div>
                 </div>
             </div>	
         </div>
     </div>
-</section>
-<!--BREADCRUMBS END-->
-
-    <!--CONTACT WRAP BEGIN-->
-<section class="contacts-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h4>회원가입</h4>	
-                <div class="leave-comment-wrap">
-                    <form>								
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="item">
+<!--CONTACT WRAP BEGIN-->
+    	<div class="container_1">
+        	<div class="row">
+                    	<form>
+                                <div class="form-inline">
                                     <label>
-                                        <span>아이디 <i>*</i></span>
-                                        <input type="text" name="userId" id="userId" placeholder="사용할 아이디를 입력하세요.">
-                                        <font id="id_use" size="2"></font>
+                                    	<br>
+                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 35px; margin-bottom: 10px;"  placeholder="아이디">
+                                        <font id="id_use" size="1"></font>
                                     </label>
-                                </div>	
-                            </div>
-                            <div class="col-md-8">
-                                <div class="item">
+                                    </div>
+                                <div class="form-inline">
                                     <label>
-                                        <span>패스워드 <i>*</i></span>
-                                        <input type="password" name="password" class="password" id="password" placeholder="사용할 패스워드를 입력하세요.">
-                                        <font id="password_use" size="2"></font>
+                                        <input type="password" name="password" id="password" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="패스워드">
+                                        <font id="password_use" size="1"></font>
+                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="패스워드 확인">
+                                        <font id="passwordCheck_use" size="1"></font>
                                     </label>
-                                </div>	
-                            </div>
-                            <div class="col-md-8">
-                                <div class="item">
+                                </div>
+                            <div class="form-inline">
                                     <label>
-                                        <span>패스워드 확인<i>*</i></span>
-                                        <input type="password" class="password" name="passwordCheck" id="passwordCheck" placeholder="입력한 패스워드와 같은 패스워드를 입력하세요.">
-                                        <font id="passwordCheck_use" size="2"></font>
-                                    </label>
-                                </div>	
-                            </div>
-                            <div class="col-md-8">
-                                <div class="item">
-                                    <label>
-                                        <span>이름<i>*</i></span>
-                                        <input type="text" name="userName" id="userName" placeholder="성함을 입력해주세요.">
+                                        <input type="text" id="userName" name="userName" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="이름">
                                         <font id="userName_use" size="2"></font>
+                                        <input type="text" id="nicknameCheck" name="userNickName" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="닉네임"/>
+		    							<font id="nickname_use" size="2"></font>
                                     </label>
-                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="item">
+                                <div class="form-inline">
                                     <label>
-                                        <span>생년월일<i>*</i></span>
-                                        <input type="date" class="birthday" name="userBirth" id="userBirth">
+                                    	생년월일&nbsp;
+                                        <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px;" placeholder="생년월일">
+                                        <input type="hidden" name="userBirth" id="userBirth">
+                                        &nbsp;&nbsp;
+                                        <label class="byul">남성
+                                        <input type="radio" name="gender" value="M" checked="checked">
+                                        </label>
+                                        <label class="byul">여성
+                                        <input type="radio" name="gender" value="W">
+                                        </label>
                                     </label>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="item">
-                                    <label>
-                                        <span>성별<i>*</i></span>
-                                        <input type="radio" name="gender" value="M" checked="checked">남
-                                        <input type="radio" name="gender" value="W">여
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
-                            		<span>이메일</span>
-		    						<input type="text" name="userEmail" id="userEmail" class="form-control" placeholder="id@example.com"/>
-                            	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
+                                <div class="form-inline">
                             		<label>
-                            		<span>휴대폰 번호</span>
-		    						<input type="text" name="userPhone" id="userPhone" class="form-control" placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
+		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="휴대폰 번호"/>&nbsp;&nbsp;
 		    						<button type="button" id="phoneButton" >인증번호 발송</button>
 		    						</label>
                             	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
+                            	<div class="form-inline">
                             		<label>
-		    						<input type="text" name="userPhoneCheck" id="phoneCheck" class="form-control" placeholder="인증번호를 입력해주세요."/>
+                            		<a id="phoneCheckId" style="display: none;">
+		    						<input type="text" id="phoneCheck" name="userPhoneCheck" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="인증번호를 입력해주세요."/>&nbsp;&nbsp;
 		    						<button type="button" id="phoneCheckButton" >인증번호 확인</button>
+		    						</a>
 		    						</label>
                             	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
+                            	<div class="form-inline">
                             		<label>
-                            		<span>주소</span>
-		    						<input readonly disabled class="form-control" type="text" id="sample6_address" placeholder="주소" name="addr1">
-		    						<button type="button" onclick="sample6_execDaumPostcode()">주소 선택</button>
-									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" name="addr2">
-									<input type ="hidden" name="userAddr" id="userAddr"> 
+		    						<input type="text" name="userEmail" id="userEmail" style="width: 405px; height: 35px; margin-bottom: 10px;" placeholder="이메일"/>
 		    						</label>
-                            	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
+                            	</div> 
+                            	<div class="form-inline">
                             		<label>
-                            		<span>사용자 닉네임</span>
-		    						<input type="text" name="userNickName" id="nicknameCheck" class="form-control" placeholder="사용할 닉네임을 입력해주세요."/>
-		    						<font id="nickname_use" size="2"></font>
+		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px;"  placeholder="주소">&nbsp;&nbsp;
+		    						<button type="button" onclick="sample6_execDaumPostcode()">주소&nbsp;선택</button>
+									<input type ="hidden" id="userAddr" name="userAddr"> 
 		    						</label>
                             	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
+                            	<div class="form-inline">
                             		<label>
-                            		<span>선호 구단</span>
-                            			<input type="radio" name="teamCode" value="NN">선택하지 않음 
-                            			<input type="radio" name="teamCode" value="LG" checked="checked">LG 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="LT">LT 
-                                    	<input type="radio" name="teamCode" value="OB">OB 
-                                    	<input type="radio" name="teamCode" value="NC">NC 
-                                    	<input type="radio" name="teamCode" value="HT">HT 
-                                    	<input type="radio" name="teamCode" value="SS">SS 
-                                    	<input type="radio" name="teamCode" value="WO">WO 
-                                    	<input type="radio" name="teamCode" value="HH">HH 
-                                    	<input type="radio" name="teamCode" value="KT">KT 
+		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 405px; height: 35px;">
 		    						</label>
                             	</div>
-                            </div>
-                            <div class="col-md-8">
-                            	<div class="item">
-                            		<label>
-                            		<span>프로필 사진</span>
-		    						<input type="file" name="userImage" id="userImage"/>
-		    						</label>
-                            	</div>
-                            </div>
-                            <div class="col-md-12">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                                <button type="button" class="sign" id="signup">가입</button>&emsp;
-                                <button type="button" class="back" id="backback">취소</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                            	<b>선호구단</b>
+                            	<div class="form-inline">
+                            	<label>
+                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px;">
+                            			<option value="NN">선택하지 않음</option>
+      									<option value="LG">LG 트윈스</option>
+      									<option value="SS">삼성 라이온즈</option>
+      									<option value="LT">롯데 자이언츠</option> 
+                                    	<option value="OB">두산 베어스</option>
+                                    	<option value="NC">NC 다이노스</option>
+                                    	<option value="HT">KIA 타이거즈</option> 
+                                    	<option value="SK">SSG 랜더스</option> 
+                                    	<option value="WO">키움 히어로즈</option> 
+                                    	<option value="HH">한화 이글스</option> 
+                                    	<option value="KT">KT Wiz</option> 
+                                    </select>
+                                    </label>
+                                    </div>
+                                    
+                                    <b>프로필 사진</b>  
+                            	<div class="form-inline">
+     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px;"></div> 
+     								<!-- <button id="btn-upload-file">서버전송</button> -->
+ 								</div>
+                            	<div class="form-group">
+                            	<label>
+                                <button type="button" class="btn-upload-file" id="signup" >가입</button>
+                                </label>
+                                </div>
+                    			
+<!--             옆에 빈 곳 채우기 용도 사진
+            <div class="column">
+            <div class="col-md-6">
+            	<img src="https://cdn0.agoda.net/images/agodavip/signupcage.svg" width="361px" height="303px" alt="Agoda...">
             </div>
+            </div> -->
+            </form>
         </div>
     </div>
-    <div class="contacts-map">
+    
+<!--     <div class="contacts-map">
         <img class="img-responsive" src="/images/baseball/contacts-map.jpg" alt="contacts-map">
-    </div>
-</section>
+    </div> -->
 <!--CONTACT WRAP END-->
 
 

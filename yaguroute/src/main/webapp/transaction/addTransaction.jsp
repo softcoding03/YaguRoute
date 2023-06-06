@@ -21,16 +21,22 @@
 
 <body>
 
-
 <!--PLAYER INFO BEGIN-->
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="player-hockey-wrap text-center"> <!-- 가운데 정렬을 위해 text-center 클래스 추가 -->
+			<div class="player-hockey-wrap text-center">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="stats">
 							<p class="number">결제를 완료하셨군요????????????</p>
+						</div>
+					</div>
+				</div>
+                <div class="row">
+					<div class="col-md-12">
+						<div class="stats">
+							<a href="transaction/listTransaction.jsp" class="btn btn-primary">확인(목록으로이동)</a>
 						</div>
 					</div>
 				</div>

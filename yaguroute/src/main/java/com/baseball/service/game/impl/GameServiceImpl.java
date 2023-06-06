@@ -99,8 +99,10 @@ public class GameServiceImpl implements GameService {
 	
 	public void updateTodayGameSchedule() throws Exception{
 		List<Game> gameList = gameCrawlingDao.getTodayGameSchedule();
-		for(Game game : gameList) {
-			gameDao.updateGameState(game);
+		if(gameList != null) {
+			for(Game game : gameList) {
+				gameDao.updateGameState(game);
+			}
 		}
 	}
 	

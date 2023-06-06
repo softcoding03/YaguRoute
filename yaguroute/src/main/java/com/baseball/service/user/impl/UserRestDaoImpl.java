@@ -2,6 +2,7 @@
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -9,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baseball.service.domain.User;
 import com.baseball.service.user.UserRestDao;
@@ -245,4 +248,35 @@ public class UserRestDaoImpl implements UserRestDao{
         
 		return userInfo;
 	}
+
+	@Override
+	public String getUserImage(@ModelAttribute("file") MultipartFile file) throws Exception {
+		// TODO Auto-generated method stub
+		
+		String filePath = null;
+		
+		if (!file.isEmpty()) {
+      try {
+      	
+      	  String fileName = file.getOriginalFilename();
+          String fileDir = "C:\\images\\";
+          filePath = fileDir + File.separator + fileName;
+          
+          File save = new File(filePath);
+          file.transferTo(save);
+          
+          System.out.println("File uploaded successfully: " + fileName);
+      } catch (Exception e) {
+          // 업로드 실패 시 예외 처리
+          System.out.println("Failed to upload file: " + e.getMessage());
+      	}
+		} else {
+      // 업로드할 파일이 없는 경우 예외 처리
+      System.out.println("No file selected for upload");
+  	}
+		
+		return filePath;
+	}
+	
+	
 }

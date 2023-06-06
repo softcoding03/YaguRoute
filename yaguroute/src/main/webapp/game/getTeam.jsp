@@ -11,14 +11,42 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style type="text/css">
+    	.background {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  margin-top: 50px;
+		   margin-bottom: 50px;
+    	}
+    	.text-center{
+    		text-align: center !important;
+    		font-size: 15px !important;
+    		font-weight: 700;
+    	}
+    </style>
 </head>
 <body>
 <jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+<section class="image-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info">
+                    <div class="wrap">
+                        <h1>팀 정보</h1>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
+</section>
 	<div class="background">
 		<div class="broadcast-tabs-wrapper">
 	            <ul class="nav nav-tabs" role="tablist">
 	            <c:forEach var="team" items="${allTeam}">
+	            	<c:if test="${team.teamCode ne 'NN'}">
 		                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
 		                <a href="teamCodeHref" role="tab" data-toggle="tab">
 			                <img alt="img" src="${team.teamEmblem}">
@@ -28,66 +56,77 @@
 			                </span> 
 		                </a>
 		                </li>
+		        	</c:if>
 	            </c:forEach>
 	            </ul>
 	        </div>
 	</div>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<span>
+			<div class="text-center"><h1>${teamInfo.teamFullName}</h1></div>
 				<div class="col-md-4">
+					<div><h4>Emblem</h4></div>
 					<div><img src="${teamInfo.teamEmblem}" width="300" height="300"></div>
-					<div>${teamInfo.teamFullName}</div>
 				</div>
-			</span>
-				
-			<span>
 				<div class="col-md-8">
-					<div>경기장 : ${teamInfo.stadiumName}</div>
-					<div>연고지 : ${teamInfo.hometown}</div>
-					<div>팀 소개</div>
-					<div>${teamInfo.teamIntroduce}</div>
-					<div><a href="${teamInfo.teamHomepage}">${teamInfo.teamNickName} 홈페이지 바로가기</a></div>
+					<div><h4>Introduce</h4></div>
+					<div class="text"> ${teamInfo.teamIntroduce}</div>
 				</div>
-			</span>
+				<div class="col-md-8">
+					<div><h4>Homepage</h4></div>
+					<div><a href="${teamInfo.teamHomepage}">${teamInfo.teamNickName} 홈페이지 바로가기 : ${teamInfo.teamHomepage}</a></div>
+				</div>
+				<div class="col-md-8">
+					<div><h4>Hometown</h4>${teamInfo.hometown}</div>
+				</div>
+				<div class="col-md-12 col-sm-12">
+	            	<div class="cart-total">
+	                    <button class="proceed text-center">티켓 예매<i class="fa fa-check" aria-hidden="true"></i></button>
+	                </div>
+            	</div>
+				<div class="col-md-12" style="margin-top: 50px; ">
+					<h4 id="nowYear"></h4>
+					<table class="table-standings">
+		                        <tr>
+		                        	<th>현재순위</th>
+		                        	<th>경기</th>
+		                        	<th>승리</th>
+		                        	<th>무승부</th>
+		                        	<th>패배</th>
+		                        	<th>승률</th>
+		                        	<th>지난 10경기</th>
+		                        </tr>
+		                        <tr>
+		                        	<td>${teamInfo.teamRanking}위</td>
+		                        	<td>${teamInfo.endGameCount}</td>
+		                        	<td>${teamInfo.winCount}</td>
+		                        	<td>${teamInfo.tieCount}</td>
+		                        	<td>${teamInfo.loseCount}</td>
+		                        	<td>${teamInfo.winRate}</td>
+		                        	<td>${teamInfo.lastTenMatch}</td>
+		                        </tr>
+		                    </table>
+				
+				</div>
+				<div class="col-md-12">
+					<div><h4>Stadium</h4></div>
+					<div style="text-align: center;"><h5>${teamInfo.stadiumName}</h5></div>
+					<div><img width="100%" height="800px" src="${teamInfo.stadiumImageFile}" alt="stadium-img"></div>
+				</div>
 		</div>
 	</div>
 </div>
+
+
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<table class="table-standings">
-                        <tr>
-                        	<th>현재순위</th>
-                        	<th>경기</th>
-                        	<th>승리</th>
-                        	<th>무승부</th>
-                        	<th>패배</th>
-                        	<th>승률</th>
-                        	<th>지난 10경기</th>
-                        </tr>
-                        <tr>
-                        	<td>${teamInfo.teamRanking}위</td>
-                        	<td>${teamInfo.endGameCount}</td>
-                        	<td>${teamInfo.winCount}</td>
-                        	<td>${teamInfo.tieCount}</td>
-                        	<td>${teamInfo.loseCount}</td>
-                        	<td>${teamInfo.winRate}</td>
-                        	<td>${teamInfo.lastTenMatch}</td>
-                        </tr>
-                    </table>
-		
-		</div>
-	</div>
-</div>
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<div><h5 class="player-name">${teamInfo.stadiumName} 위치 정보</h5></div>
+		<div class="col-md-12" style="justify-content: center;">
+			<div style="text-align: center; padding-top: 50px;"><h5 class="player-name">${teamInfo.stadiumName} 위치 정보</h5></div>
 			<div><p class="text">주소 : ${teamInfo.stadiumAddress}</p></div>
-			<div id="wrap" class="section">
-				<div id="map" style="width: 70%; height: 700px;" class="buttons"></div>
+			<div id="wrap" class="section" style="padding-bottom: 200px;">
+				<div id="map" style="width: 100%; height: 500px;" class="buttons"></div>
 			</div>
 		</div>
 	</div>
@@ -97,6 +136,10 @@
 <script type="text/javascript">
 	$(function(){
 		initMap();
+		
+		var today = new Date();
+		var currentYear = today.getFullYear().toString();
+		$("#nowYear").html(currentYear + '시즌');
 	})
 	function initMap(){
 		

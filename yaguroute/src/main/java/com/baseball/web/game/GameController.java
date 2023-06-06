@@ -112,6 +112,9 @@ public class GameController {
 	public String getGameRecord(@RequestParam("gameCode") String gameCode,HttpServletRequest request) throws Exception{
 		Game game = gameService.getGameInfo(gameCode);
 		GameRecord gameRecord = gameService.getGameRecord(game);
+		List<Game> todayGame = gameService.getGameListByDate(game.getGameDate());
+		
+		System.out.println(todayGame);
 		
 		Comment comment = new Comment();
 		comment.setGameCode(gameCode);
@@ -122,6 +125,7 @@ public class GameController {
 		request.setAttribute("commentList1", list1);
 		request.setAttribute("commentList2", list2);
 		request.setAttribute("gameRecord", gameRecord);
+		request.setAttribute("todayGame", todayGame);
 		
 		return "/game/getGameRecord.jsp";
 	}
