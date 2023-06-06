@@ -30,6 +30,11 @@
 	    margin-top: 5px;
 	    display: inline-block;
 	  }	  
+		.sidebar{
+			position: sticky;
+		    top: 100px;
+		    right: 300px;
+		}	  
 	 </style>
     
     <script type="text/javascript">
@@ -57,20 +62,17 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-		   /* 
-		   $("a.addPostView").on('click',function(){
-			   self.location = "/post/addPost?teamCode="+MyTeamCode;
-		   });
-		   */
 		   $("a.getPost").on('click',function(){
 			   postNo = $(this).siblings("input[name='postNo']").val()
 			   self.location = "/post/getPost?postNo="+postNo;
+		   });
+		   $("a.getPostList").on('click',function(){
+			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
 		   $("a.getMyPostList").on('click',function(){
 			   self.location = "/post/getMyPostList";
 		   });
 		   $("a.getBestList").on('click',function(){
-			   alert(teamCode);
 			   self.location = "/post/getBestList?teamCode="+teamCode;
 		   });
 		   $("a.getNoticeList").on('click',function(){
@@ -141,6 +143,9 @@
             <li>
                 <a href="javascript:;" class="addPostView"><span class="count 1">1</span>게시물 작성하기</a>
             </li>
+            <li>
+                <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
+            </li>
             <!-- <li> 추후에 사용할지 ..?
                 <a href="#"><span class="count">22</span>Competitions & Reviews</a>
                 <ul>
@@ -152,13 +157,13 @@
                 </ul>
             </li> -->
             <li>
-                <a href="javascript:;" class="getMyPostList"><span class="count 2">2</span>내가 작성한 게시물 보기</a>
+                <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getBestList"><span class="count 3">3</span>Best5 게시물 보기</a>
+                <a href="javascript:;" class="getBestList"><span class="count 4">4</span>Best5 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getNoticeList"><span class="count 4">4</span>공지사항 보기</a>
+                <a href="javascript:;" class="getNoticeList"><span class="count 5">5</span>공지사항 보기</a>
             </li>
         </ul>
     </div>
@@ -205,10 +210,23 @@
 	        <div class="info">
 	        		<h6>
 	        		<input type="hidden" name="postNo" value="${post.postNo}">
-	            <a href="javascript:;" class="getPost">${post.postTitle}</a>	
+	            <a href="javascript:;" class="getPost">
+	            ${post.postTitle}
+	            </a>	
 	            </h6>
 	            <div class="wrap">
 	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	            </div>
+	            <div class="comment-quantity">
+	            	<div class="tags">
+	            		<c:choose>
+								<c:when test="${post.postType == '0'}"><a href="#">잡담</a></c:when>
+								<c:when test="${post.postType == '1'}"><a href="#">응원</a></c:when>
+								<c:when test="${post.postType == '2'}"><a href="#">중고구매</a></c:when>
+								<c:when test="${post.postType == '3'}"><a href="#">중고판매</a></c:when>
+								<c:when test="${post.postType == '4'}"><a href="#">공지사항</a></c:when>
+							</c:choose>
+	            	</div>
 	            </div>
 	            <div class="comment-quantity">3 comments</div>
 	            <div class="clear"></div>
@@ -219,13 +237,13 @@
 	        </div>
 	    </div>
     </c:forEach>
-    
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_all.jsp">
-	<jsp:param name="id" value="post" />
-	</jsp:include>
-	<!-- PageNavigation End... -->
-    
+    <c:if test="${not empty resultPage}">
+		<!-- PageNavigation Start... -->
+		<jsp:include page="../common/pageNavigator_all.jsp">
+		<jsp:param name="id" value="post" />
+		</jsp:include>
+		<!-- PageNavigation End... -->
+    </c:if>
 </div>
 <!--NEWS LIST END-->
         </div>

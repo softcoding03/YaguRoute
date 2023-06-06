@@ -72,9 +72,10 @@ public class PostController {
 			post.setPostLikes(postService.getLikes(postNo));
 			post.setPostDislikes(postService.getDislikes(postNo));
 			postService.addViews(postNo); //조회수 추가
-			
+			User user = (User)session.getAttribute("user");
+			String teamCode = user.getTeamCode();
 			//해당 게시물에 emote 유무 판단 위한 Emote get 로직
-			String userId = ((User)session.getAttribute("user")).getUserId();
+			String userId = user.getUserId();
 			Emote emote = new Emote();
 			emote.setPostNo(postNo);
 			emote.setUserId(userId);
@@ -100,6 +101,7 @@ public class PostController {
 			model.addAttribute("commentList2", list2);
 			model.addAttribute("emote", emote);
 			model.addAttribute("post", post);
+			model.addAttribute("teamCode", teamCode);
 			return "forward:/post/getPost.jsp";
 	}
 	//전체글 리스트 조회
@@ -147,10 +149,10 @@ public class PostController {
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
 			
-			model.addAttribute("bestList",bestList);
+			model.addAttribute("list",bestList);
 			model.addAttribute("allTeam", allTeam);
 			model.addAttribute("teamCode", teamCode);
-			return "forward:/post/listBestPost.jsp";
+			return "forward:/post/listPost.jsp";
 	}
 	//공지사항 조회
 	@GetMapping("getNoticeList")
@@ -166,10 +168,10 @@ public class PostController {
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
 			
-			model.addAttribute("noticeList",noticeList);
+			model.addAttribute("list",noticeList);
 			model.addAttribute("allTeam", allTeam);
 			model.addAttribute("teamCode", teamCode);
-			return "forward:/post/listNotice.jsp";
+			return "forward:/post/listPost.jsp";
 	}
 	//본인작성게시물 조회
 	@GetMapping("getMyPostList")
@@ -194,6 +196,8 @@ public class PostController {
 			for(Post post:list) {
 				System.out.println(post);
 			}
+			//모든Team 정보 조회
+			List<Team> allTeam = gameService.getAllTeam();
 			
 			Integer totalCount = ((Integer)map.get("totalCount")).intValue();
 			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
@@ -201,9 +205,10 @@ public class PostController {
 			
 			model.addAttribute("list", list);
 			model.addAttribute("resultPage", resultPage);
-			return "forward:/post/listMyPost.jsp";
+			model.addAttribute("allTeam", allTeam);
+			model.addAttribute("teamCode", teamCode);
+			return "forward:/post/listPost.jsp";
 	}
-	
 	@GetMapping("addPost")
 	public String addPostView(@RequestParam("teamCode") String teamCode,HttpSession session, Model model) throws Exception {
 			System.out.println("/post/addPost : GET START");
@@ -214,25 +219,6 @@ public class PostController {
 			model.addAttribute("teamCode", teamCode);
 			return "forward:/post/addPostView.jsp";
 	}
-	
-	
-	@PostMapping("addPost")
-	public String addPost(@ModelAttribute("post") Post post, Model model, HttpSession session) throws Exception {
-			System.out.println("/post/addPost : POST START");	
-			System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
-			User user = (User)session.getAttribute("user");
-			post.setUser(user);//post에 user정보 모두 저장해주기위함
-			postService.addPost(post); //insert 완료
-			int postNo = postService.getLastPostNo();
-			Post post2 = postService.getPost(postNo);
-			System.out.println("-- insert된 post는 ? "+post2);
-			//post2.setPostLikes(postService.getLikes(postNo));
-			//post2.setPostDislikes(postService.getDislikes(postNo));
-			System.out.println("-- 세팅 후 보내는 ? "+post2);
-			model.addAttribute("post", post2);
-			return "forward:/post/getPost.jsp";
-	}
-	
 	@GetMapping("updatePost")
 	public String updatePostView(@RequestParam("postNo") int postNo, Model model,HttpSession session) throws Exception {
 			System.out.println("/post/updatePost : GET START");
@@ -243,9 +229,6 @@ public class PostController {
 			model.addAttribute("post", post);
 			return "forward:/post/updatePostView.jsp";
 	}
-	
-
-	
 	@GetMapping("deletePost")
 	public String deletePostView(@RequestParam("postNo") int postNo, HttpServletRequest request) throws Exception {
 			System.out.println("/post/deletePost : GET START");
@@ -255,7 +238,6 @@ public class PostController {
 			System.out.println(teamCode); //곧장 getPostList 메소드 실행하기 위한 parameter
 			return "redirect:/post/getPostList?teamCode="+teamCode;
 	}
-	
 	//작성중
 	@GetMapping("getCommentList")
 	public String getCommentList(@RequestParam("postNo") int postNo, Model model) throws Exception {

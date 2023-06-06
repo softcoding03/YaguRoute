@@ -21,13 +21,13 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/ticket/getGameList2w?teamCode=HH"><span>경기 예매</span></a>
+                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>경기 예매</span></a>
                     </li>
                     <li>
                         <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                     </li>
                     <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
-                    <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span>커뮤니티 게시판</span></a></li>
                     <li><a href="/algudgodmain.jsp"><span>Store</span></a></li>
                     <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     <li class="cart full">
