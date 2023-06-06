@@ -163,7 +163,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "addUser")
-	public String addUser(@ModelAttribute("user") User user, @ModelAttribute("file") MultipartFile file, HttpSession session) throws Exception {
+	public ResponseEntity<String> addUser(@RequestBody User user, HttpSession session) throws Exception {
 
 		System.out.println("회원가입 대상 : " + user.getUserId());
 		
@@ -177,7 +177,7 @@ public class UserController {
 
 		System.out.println("유저 세션 : "+session.getAttribute("user"));
 		
-		return "forward:/main.jsp";
+		return ResponseEntity.ok("전송 성공");
 	}
 
 	@GetMapping(value = "updateUser")

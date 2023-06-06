@@ -102,6 +102,10 @@
   	justify-content: center;
   	align-items: center;
 	}
+	#id_use #password_use #passwordCheck_use{
+    display: block;
+    margin-top: 5px;
+	}
     </style>
     
     <style>
@@ -139,6 +143,12 @@
 	    left: 50%;
 	    transform: translate(-50%, -50%);
 	    animation: ring 1.5s infinite;
+	    
+	}
+	
+	#id_use, #password_use, #passwordCheck_use, #userName_use, #nickname_use{
+    display: block;
+    margin-top: 5px;
 	}
     </style>
     <!-- 구단코드 이미지 적용 -->
@@ -414,53 +424,100 @@
 	
 	 // form에 입력값 제출
 	 
- 	function fncAddUser() {		
-		 	// 11개여야함.
-			var userId=$("input[name='userId']").val();
-			var password=$("#password").val();
-			var userName=$("#userName").val();
-			var userPhone=$("#userPhone").val();
-			var phoneCheck=$("#phoneCheck").val();
-			var userBirth=$("#birthday").val();
+ 	// function fncAddUser() {		
+	// 	 	// 11개여야함.
+	// 		var userId=$("input[name='userId']").val();
+	// 		var password=$("#password").val();
+	// 		var userName=$("#userName").val();
+	// 		var userPhone=$("#userPhone").val();
+	// 		var phoneCheck=$("#phoneCheck").val();
+	// 		var userBirth=$("#birthday").val();
 			
-			// userBirth logic
+	// 		// userBirth logic
+	// 		var value = userBirth.replace(/-/g, "");
+	// 		$("#userBirth").val(value);
+			
+	// 		// addr1 + addr2 (주소 + 상세주소)
+	// 		var addr1 = $("input[name='addr1']").val();
+	// 		var addr2 = $("input[name='addr2']").val();
+	// 		var userAddr = addr1+addr2;
+			
+	// 		var gender=$("#gender").val();
+	// 		var userEmail=$("#userEmail").val();
+	// 		var userNickName=$("input[name='userNickName']").val();
+	// 		var teamCode=$("#teamCode").val();
+			
+	// 		alert($("#userBirth").val());
+			
+	// 		if(userId == null || userId.length <1){
+	// 			alert("아이디는 반드시 입력하셔야 합니다.");
+	// 			return;
+	// 		}
+	// 		if(password == null || password.length <1){
+	// 			alert("패스워드는  반드시 입력하셔야 합니다.");
+	// 			return;
+	// 		}
+	// 		if(userName == null || userName.length <1){
+	// 			alert("이름은  반드시 입력하셔야 합니다.");
+	// 			return;
+	// 		}
+	// 		if(userPhone == null || userPhone < 1){
+	// 			alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
+	// 			return;
+	// 		} 
+			
+	// 		$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
+	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
+	// 		window.close();
+	// 	} 
+
+		function fncAddUser() {
+
+			alert("ㅎㅇ");
+			
+			// userBirth logic...
+			var userBirth=$("#birthday").val();
 			var value = userBirth.replace(/-/g, "");
 			$("#userBirth").val(value);
-			
-			// addr1 + addr2 (주소 + 상세주소)
+
+			// userAddr logic...
 			var addr1 = $("input[name='addr1']").val();
-			var addr2 = $("input[name='addr2']").val();
-			var userAddr = addr1+addr2;
-			
-			var gender=$("#gender").val();
-			var userEmail=$("#userEmail").val();
-			var userNickName=$("input[name='userNickName']").val();
-			var teamCode=$("#teamCode").val();
-			
-			alert($("#userBirth").val());
-			
-			if(userId == null || userId.length <1){
-				alert("아이디는 반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(password == null || password.length <1){
-				alert("패스워드는  반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(userName == null || userName.length <1){
-				alert("이름은  반드시 입력하셔야 합니다.");
-				return;
-			}
-			if(userPhone == null || userPhone < 1){
-				alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-				return;
-			} 
-			
-			$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
-			alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
-			window.close();
-		} 
-		
+	 		var addr2 = $("input[name='addr2']").val();
+			var addr = addr1+addr2;
+			$("#userAddr").val(addr);
+
+			// ajax(User) -> Controller
+			var user = {
+				userId : $("#userId").val(),
+				password : $("#password").val(),
+				userName : $("#userName").val(),
+				userPhone : $("#userPhone").val(),
+				phoneCheck : $("#phoneCheck").val(),
+				userBirth : $("#userBirth").val(),
+				userAddr : $("#userAddr").val(),
+				gender : $("#gender").val(),
+				userEmail : $("#userEmail").val(),
+				userNickName : $("input[name='userNickName']").val(),
+				teamCode : $("#teamCode").val()
+			};
+
+			$.ajax({
+				url:"/users/addUser",
+				method:"POST",
+				data: JSON.stringify(user),
+				contentType: "application/json",
+  				success: function(response) {
+    				alert("컨트롤러 전송 완료!");
+    				window.close();
+    				window.opener.location.reload();
+  				},
+  				error: function(xhr, status, error) {
+    			// 요청 처리 중 에러가 발생한 경우 실행할 로직
+    			console.log("서버 오류 발생:", error);
+  				}
+			});
+		};
+	 
 	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -500,28 +557,36 @@
         	<div class="row">
                     	<form>
                                 <div class="form-inline">
-                                    <label>
-                                    	<br>
-                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 35px; margin-bottom: 10px;"  placeholder="아이디">
-                                        <font id="id_use" size="1"></font>
+                                    <label for="userId">
+                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 35px;"  placeholder="아이디">
                                     </label>
-                                    </div>
-                                <div class="form-inline">
-                                    <label>
-                                        <input type="password" name="password" id="password" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="패스워드">
-                                        <font id="password_use" size="1"></font>
-                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="패스워드 확인">
-                                        <font id="passwordCheck_use" size="1"></font>
-                                    </label>
+                                    	<font id="id_use" size="2"></font>
                                 </div>
-                            <div class="form-inline">
-                                    <label>
-                                        <input type="text" id="userName" name="userName" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="이름">
-                                        <font id="userName_use" size="2"></font>
-                                        <input type="text" id="nicknameCheck" name="userNickName" style="width: 200px; height: 35px; margin-bottom: 10px;" placeholder="닉네임"/>
-		    							<font id="nickname_use" size="2"></font>
+                                <div class="form-inline">
+								<label for="password">
+									<input type="password" name="password" id="password" style="width: 405px; height: 35px;" placeholder="패스워드">
+								</label>
+									<font id="password_use" size="2"></font>
+								</div>
+								<div class="form-inline">
+                                    <label for="passwordCheck">
+                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 35px;" placeholder="패스워드 확인">
                                     </label>
-                            </div>
+                                    	<font id="passwordCheck_use" size="2"></font>
+                                </div>
+                            	<div class="form-inline">
+                                    <label for="userName">
+                                        <input type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름">
+                                    </label>
+                                    	<font id="userName_use" size="2"></font>
+                            	</div>
+								
+								<div class="form-inline">
+                                    <label for="userNickName">
+                                        <input type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임"/>
+                                    </label>
+                                    	<font id="nickname_use" size="2"></font>
+                            	</div>	
                                 <div class="form-inline">
                                     <label>
                                     	생년월일&nbsp;
