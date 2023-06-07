@@ -82,7 +82,7 @@
 		FROM
 		    post p
 		WHERE
-		    p.team_code IN (#{teamCode},'NN') AND user_id = #{userId}
+		    p.team_code IN (#{teamCode},'ALL') AND user_id = #{userId}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 		    		AND user_id LIKE '%${search.searchKeyword}%'

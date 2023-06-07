@@ -128,11 +128,13 @@ public class PostController {
 			
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
+			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("list", list);
 			model.addAttribute("resultPage", resultPage);
 			model.addAttribute("allTeam", allTeam);
 			model.addAttribute("teamCode", teamCode);
+			model.addAttribute("team", team);
 			return "forward:/post/listPost.jsp";
 	}
 	//Best 게시물 조회

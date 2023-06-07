@@ -35,6 +35,30 @@
 		    top: 100px;
 		    right: 300px;
 		}	  
+		.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+		
+
 	 </style>
     
     <script type="text/javascript">
@@ -85,36 +109,26 @@
     			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
 		   });
     })
-    
-    
-   
+
    </script>
-   <!-- include summernote css/js-->
 	
 </head>
 <body>
 
 
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>커뮤니티 게시판</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
+
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
+</div>
+
+<!-- 새로운 툴바 -->
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
        <ul class="nav nav-tabs" role="tablist">
        <c:forEach var="team" items="${allTeam}">
-            
             <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
             <a href="teamCodeHref" role="tab" data-toggle="tab">
              <img alt="img" src="${team.teamEmblem}">
@@ -128,8 +142,6 @@
        </ul>
     </div>
 </div>	
-	
-	
 <!--CONTENT BEGIN-->
 <div class="content">
     <div class="container">
@@ -246,6 +258,7 @@
     </c:if>
 </div>
 <!--NEWS LIST END-->
+
         </div>
     </div>
 </div>

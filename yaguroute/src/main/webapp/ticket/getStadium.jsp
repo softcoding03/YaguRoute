@@ -12,59 +12,72 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style>
+		.col-md-4{
+		margin-top: 50px;
+			transform: scale(1.2);
+		}
+		h1, h4{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+    
+    </style>
     <script type="text/javascript">
-  	$(function() {
-		$(".getSeats").on("click" , function() {
-			var gameCode = $(this).closest(".container").find("input[name='gameCode']").val();
-			self.location = "/ticket/getSeats?gameCode="+gameCode;
+	  	$(function() {
+			$(".getSeats").on("click" , function() {
+				var gameCode = $(this).closest(".container").find("input[name='gameCode']").val();
+				self.location = "/ticket/getSeats?gameCode="+gameCode;
+			});
 		});
-	});
 		
     </script>
 </head>
-
 <body>
+    <!--PLAYER SINGLE WRAP BEGIN-->
+    <section class="player-single-wrap">
+        <div class="container">
+            <div class="row">
+	             <div class="col-md-12">
+	             <img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
+	             <div class="text-overlay">
+	             	<h1>${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</h1>
+	             	<h4>${game.gameDate} / ${game.gameTime}</h5>
+	             </div>
+	             </div> 
+                <div class="col-md-7">
+						<div class="player-photo">
+						    <img src="${game.homeTeam.stadiumImageFile}" width="600" height="600" alt="player">
+						</div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <div class="player-info">
+                    		<div class="captain-bage">경기 장소</div>
+                        <p>${game.homeTeam.stadiumName}	</p>
+                        <div class="captain-bage">남은 좌석</div>
+                        <p>${salesTicket} / 60</p>
+                    </div>
+                   	 <button type="button" class="getSeats">경기 예매</button>
+							<input type="hidden" name="gameCode" value="${game.gameCode}"/>
+                </div>
+                <div class="col-md-12">
+                    <p>경기 예매 규정 안내글 ~sdafasdadfasdffasdafsdasdfasdfsfadfdaaaaaasddddddddddddddddddddddddddd~~~</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="preloader-wrapper" id="preloader">
-<div class="motion-line dark-big"></div>
-<div class="motion-line yellow-big"></div>
-<div class="motion-line dark-small"></div>
-<div class="motion-line yellow-normal"></div>
-<div class="motion-line yellow-small1"></div>
-<div class="motion-line yellow-small2"></div>
-</div>
-
-		<div class="container">
-          <div class="col-md-6">
-              <div class="info">
-                  <div class="wrap">
-                      <h1>Home Stadium</h1>
-                      <a><img src="${game.homeTeam.stadiumImageFile}" width="500" height="500" alt="team-logo1"></a>
-                      <h3>${game.homeTeam.stadiumName}</h3>
-                  </div>
-              </div>
-          </div>	
-	      <div class="col-md-6">
-		      <div class="row">
-			  		<div class="col-xs-4 col-md-6"><strong>현재 남은 좌석 수</strong></div>
-					<div class="col-xs-8 col-md-6">${salesTicket}</div>
-				</div>
-				<div class="row">
-			  		<div class="col-xs-4 col-md-6"><strong>총 좌석 수</strong></div>
-					<div class="col-xs-8 col-md-6">60</div>
-				</div>
-				<div class="row">
-			  		<div class="col-xs-4 col-md-6"><strong>매치업</strong></div>
-					<div class="col-xs-8 col-md-6">${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</div>
-				</div>
-				<div class="row">
-			  		<div class="col-xs-4 col-md-6"><strong>관람일시</strong></div>
-					<div class="col-xs-8 col-md-6">${game.gameDate} / ${game.gameTime}</div>
-				</div>
-			</div>
-			<button type="button" class="getSeats">경기 예매</button>
-			<input type="hidden" name="gameCode" value="${game.gameCode}"/>
-      </div>
+    <!--PLAYER SINGLE WRAP END-->
       
 
 </body>
