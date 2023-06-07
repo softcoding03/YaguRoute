@@ -69,28 +69,6 @@
 
 	});
 
-	$(function() {
-
-		$.ajax({
-			url : "/product/json/autoComplete",
-			method : "GET",
-			dataType : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function(JSONData, status) {
-
-				console.log(JSONData);
-
-				$("#autoComplete").autoComplete({
-					source : JSONData
-				});
-
-			}
-
-		});
-	});
 </script>
 
 </head>
@@ -113,8 +91,8 @@
 
 					<form name="detailForm">
 
-						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> <input type="hidden" id="currentPage"
-							name="currentPage" value="" />
+						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
+						<input type="hidden" id="currentPage" name="currentPage" value="" />
 
 						<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 							<tr>
@@ -224,8 +202,7 @@
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
 <script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
 <script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
-<script type="text/javascript"
-	src="/js/library/jcarousel.connected-carousels.js"></script>
+<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
 <script type="text/javascript" src="/js/library/owl.carousel.js"></script>
 <script type="text/javascript" src="/js/library/progressbar.js"></script>
 <script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>
@@ -262,12 +239,9 @@
 <script type="text/javascript" src="/js/gauge-chart.js"></script>
 <script type="text/javascript" src="/js/stacked-bar.js"></script>
 
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-legend.js"></script>
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-threshold.js"></script>
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-pointlabels.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
 
 <script type="text/javascript" src="/js/treshold.js"></script>
 <script type="text/javascript" src="/js/visible.js"></script>

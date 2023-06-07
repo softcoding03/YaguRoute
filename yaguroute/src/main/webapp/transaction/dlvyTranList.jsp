@@ -37,19 +37,12 @@
 
 <html>
 <head>
-<title>나의 구매목록조회</title>
+<title>배송현황</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
 
-<!--
-//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-function fncGetPurchaseList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();	
-}
-    -->
 
 
 </script>
@@ -60,13 +53,13 @@ function fncGetPurchaseList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/transaction/listTransaction" method="GET">
+<form name="detailForm" action="/transaction/dlvyTranList" method="GET">
 
 
 
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
-					<input type="hidden" id="userId" name="userId" value="${user.userId} " /> 
+					<input type="hidden" id="tranNo" name="tranNo" value="${transaction.tranNo} " /> 
 					<input type="hidden" name="tranStatusCode" value="${tranDetail.tranStatusCode }"/>
 					<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
 					<input type="hidden" id="tranQuantity" name="tranQuantity" value="${tranDetail.tranQuantity}" />
@@ -81,7 +74,7 @@ function fncGetPurchaseList(currentPage) {
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">나의 구매목록조회</td>
+					<td width="93%" class="ct_ttl01">배송현황</td>
 				</tr>
 			</table>
 		</td>
@@ -182,7 +175,7 @@ function fncGetPurchaseList(currentPage) {
 			
 					<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
-					<jsp:param name="id" value="transaction" />
+					<jsp:param name="id" value="dlvyTran" />
 				</jsp:include>
 				<!-- PageNavigation End... -->
 						
