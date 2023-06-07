@@ -24,136 +24,172 @@
 
 
 <style>
-	.match{
-		background-color:#ffffff;
-		color:#dddddd;
-		font-family : Open Sans, sans-serif;
-	}
-	
-	.chat-container {
-		display : "flex";
-		align-items: flex-start;
-		margin: 50px auto;
-		height: 90%;
-		width: 90%;
-		position: relative;
-		background-color:#e5e5e5;
-	}
-	
-	#message-input{
-		width : 100%;
-		height : 20px;
-		margin-bottom: 20px;
-	}
-	
-	.button-container{
-		background-color: #f2f2f2;
-		margin: 100px auto;
-		width: 100%;
-	}
-	      
-	.chat-messages {
-		background-color: #f2f2f2;
-		/* padding: 30px; */
-		/* border-radius: 5px; */
-		height: 390px; 
-		overflow-y: auto;
-		margin-bottom: 20px;
-		margin-top: 20px;
-	}
-	
-	.chat-message {
-		display: flex;
-		align-items: flex-start;
-		margin-top: 15px;
-        margin-bottom: 15px;
-        width:100%;
-    }
-    
-    .message-bubble {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 10px;
-    margin-right: 10px;
-    margin-left: 5px;
-    font-size: 5px;
-	}
-	
-	.content {
-    color: #666;
-	}
-    
-    .chat-message .sender {
-        font-weight: bold;
-        color: #333;
-    }
-    
-    .chat-message .content {
-        margin-top: 5px;
-        color: #666;
-    }
-	      
-	.fireworkAway {
+.match {
+	background-color: #ffffff;
+	color: #dddddd;
+	font-family: Open Sans, sans-serif;
+}
+
+.chat-container {
+	display: "flex";
+	align-items: flex-start;
+	margin: 50px auto;
+	height: 90%;
+	width: 90%;
+	position: relative;
+	background-color: #e5e5e5;
+}
+
+#message-input {
+	width: 100%;
+	height: 20px;
+	margin-bottom: 20px;
+}
+
+.button-container {
+	background-color: #f2f2f2;
+	margin: 100px auto;
+	width: 100%;
+}
+
+.chat-messages {
+	background-color: #f2f2f2;
+	/* padding: 30px; */
+	/* border-radius: 5px; */
+/* 	height: 390px;
+	overflow-y: auto;
+	margin-bottom: 20px;
+	margin-top: 20px; */
+	width: 100%;
+	height: 100%;
+}
+
+.chat-message {
+	display: flex;
+	align-items: flex-start;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+.message-bubble {
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	margin-right: 10px;
+	margin-left: 5px;
+	font-size: 5px;
+}
+
+.content {
+	color: #666;
+}
+
+.chat-message .sender {
+	font-weight: bold;
+	color: #333;
+}
+
+.chat-message .content {
+	margin-top: 5px;
+	color: #666;
+}
+
+.fireworkAway {
 	position: absolute;
 	width: 30px;
 	height: 30px;
-	background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
-    background-size: cover;
-	}
-		    
-	.fireworkHome {
+	background-image:
+		url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
+	background-size: cover;
+}
+
+.fireworkHome {
 	position: absolute;
 	width: 30px;
 	height: 30px;
-	background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
-    background-size: cover;
-	}
-	
-	.drop-area {
-	  display: none;
-	  width: 100%;
-	  height: 200px;
-	  border: 2px dashed #ccc;
-	  border-radius: 10px;
-	  text-align: center;
-	  padding: 20px;
-	  font-size: 16px;
-	  color: #999;
-	}
-	
-	.drop-area.active {
-  	background-color: #f7f7f7;
-	}
-	
-	.table-container {
-	  display: flex;
-	}
-	
-	.table-container table {
-	  flex: 1;
-	}
-	
-	.broadCast,
-	#streaming{
-	 width:100%;
-	 height:550px;
-	}
-	
-	.userImg img{
-	  display: inline-block;
-	  width: 20px;
-	  height: 20px;
-	  border-radius: 50%;
-	  background-color: gray;
-	}
-	
-	.content img{
-	  display: inline-block;
-	  width: 200px;
-	  height: 200px;
-	  background-color: gray;
-	}
-	
+	background-image:
+		url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
+	background-size: cover;
+}
+
+.drop-area {
+	display: none;
+	width: 100%;
+	height: 200px;
+	border: 2px dashed #ccc;
+	border-radius: 10px;
+	text-align: center;
+	padding: 20px;
+	font-size: 16px;
+	color: #999;
+}
+
+.drop-area.active {
+	background-color: #f7f7f7;
+}
+
+.table-container {
+	display: flex;
+}
+
+.table-container table {
+	flex: 1;
+}
+
+.broadCast, #streaming {
+	width: 100%;
+	height: 550px;
+}
+
+.userImg img {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: gray;
+}
+
+.content img {
+	display: inline-block;
+	width: 200px;
+	height: 200px;
+	background-color: gray;
+}
+
+.teamTopBar {
+	width: auto;
+	height: auto;
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	heigth: auto;
+}
+
+h1 {
+	color: white;
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+	/* 기타 스타일 속성 설정 */
+}
+
+.home{
+	background-color: ${channel.gameInfo.homeTeam.teamColor};
+}
+
+.away{
+	background-color: ${channel.gameInfo.awayTeam.teamColor};
+}
 </style>
 
 
@@ -442,32 +478,18 @@
 <jsp:include page="/common/topBar.jsp"/>
 <!-- topBar End -->
 
-<!-- <div class="preloader-wrapper" id="preloader">
-    <div class="motion-line dark-big"></div>
-    <div class="motion-line yellow-big"></div>
-    <div class="motion-line dark-small"></div>
-    <div class="motion-line yellow-normal"></div>
-    <div class="motion-line yellow-small1"></div>
-    <div class="motion-line yellow-small2"></div>
+
+<div class="image-container">
+  <div class="row">
+  	<div class=" col-md-6">
+		<img class="teamTopBar" src="${channel.gameInfo.homeTeam.teamTopBar}">
+	</div>
+	<div class=" col-md-6">
+		<img class="teamTopBar col-md-6" src="${channel.gameInfo.awayTeam.teamTopBar}">
+	</div>
+  </div>
 </div>
- -->
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li>Main/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>실시간 중계</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
+
 
 <div class="match-live-date">
 	<div class="container">
@@ -619,17 +641,22 @@
 								
 					<div class="row">
 						<div class="col-md-6 text-left">
+							<div class="home">
 								<div id="homeClick">
 									<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
 								</div>
-								<div class="name" id="homeCount">${channel.homeClick}</div>
+							</div>
+							<div class="name" id="homeCount">${channel.homeClick}</div>
+							
 						</div>
 
 						<div class="col-md-6 text-right">
-							<div id="awayClick">
-								<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+							<div class="away">
+								<div id="awayClick">
+									<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+								</div>
 							</div>
-							<div class="name" id="awayCount">${channel.awayClick}</div>
+							<div class="name" id="awayCount">${channel.awayClick}</div>							
 						</div>
 					</div>
 				</div>	
