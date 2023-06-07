@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Search;
-import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.Transaction;
@@ -69,13 +68,8 @@ public class TicketController {
 		for(Game game:list) {
 			System.out.println(game);
 		}
-		//모든Team 정보 조회
-		List<Team> allTeam = gameService.getAllTeam();
-		Team team = gameService.getTeamInfo(teamCode);
-		
-		model.addAttribute("team", team);
-		model.addAttribute("allTeam", allTeam);
 		model.addAttribute("gameList", list);
+		
 		return "forward:/ticket/listGameTwoWeeks.jsp";
 	}
 	
@@ -86,8 +80,8 @@ public class TicketController {
 		System.out.println("넘어온 데이터?"+gameCode);
 		Game game = gameService.getGameInfo(gameCode); //game에 대한 정보 (stadium 이미지 및 해당 경기 정보출력위함)
 		int salesTicket = 60 - ticketService.getSalesTicket(gameCode); // 현재 판매된 티켓 수
-		System.out.println("넘겨주는 데이터?"+game+"//"+salesTicket);
 		
+		System.out.println("넘겨주는 데이터?"+game+"//"+salesTicket);
 		model.addAttribute("salesTicket", salesTicket);
 		model.addAttribute("game", game);
 		return "forward:/ticket/getStadium.jsp";
@@ -102,8 +96,6 @@ public class TicketController {
 		for(Ticket ticket:list) {
 			System.out.println("tickets ? "+ticket);
 		}
-		Game game = gameService.getGameInfo(gameCode);
-		model.addAttribute("game", game);
 		model.addAttribute("ticketList", list);
 		return "forward:/ticket/getSeats.jsp";
 	}
