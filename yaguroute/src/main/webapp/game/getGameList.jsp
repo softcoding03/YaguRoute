@@ -123,7 +123,7 @@
 <c:set var="gameIndex" value="0"/>
 <c:set var="tmpIndex" value="0"/>
 <c:set var="teamCodeIndex" value="1"/>
-<c:if test="${teamCode eq 'NN'}">
+<c:if test="${teamCode eq 'ALL'}">
 	<c:set var="teamCodeIndex" value="5"/>
 </c:if>
       <div class="container">

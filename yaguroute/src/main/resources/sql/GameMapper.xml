@@ -19,6 +19,8 @@
 		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
 		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
 		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+		<result property="teamTopBar" column="TEAM_TOPBAR" jdbcType="VARCHAR"/>
+		<result property="teamColor" column="TEAM_COLOR" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<resultMap id="gameSelectMap" type="game">
@@ -79,7 +81,7 @@
 		select *
 		from game
 		WHERE GAME_DATE LIKE '${date}%'
-		<if test="teamCode != 'NN'">
+		<if test="teamCode != 'ALL'">
 			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
 		</if>
 	</select>
@@ -93,7 +95,8 @@
 	<update id="updateGameState" parameterType="game">
 		update game
 		<set>
-			GAME_STATUS_CODE = #{gameStatusCode}
+			GAME_STATUS_CODE = #{gameStatusCode},
+			GAME_TIME = #{gameTime}
 			<if test="winningTeamCode != null">
 				, winning_team_code = #{winningTeamCode}
 				, game_score= #{gameScore}

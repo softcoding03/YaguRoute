@@ -21,25 +21,187 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
     <style>
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
+    @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+
+    body {
+      margin: 0;
+      padding-top: 90px;
+      padding-bottom: 150px;
+      font-family: "Nanum Gothic", arial, helvetica, sans-serif;
+      background-repeat: no-repeat;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      height: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: aliceblue;
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+	.modal {
+	  display: none;
+	  position: fixed;
+	  z-index: 9999;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+
+	.modal-content {
+	  background-color: #fefefe;
+	  margin: 20% auto;
+	  padding: 20px;
+	  border: 1px solid #888;
+	  width: 400px;
+	  height: 430px;
+	  align-items: center;
+	}
+	
+	.modal-content h6 {
+	  margin-top: 0;
+	}
+	
+	.modal-content input {
+	  width: 100%;
+	  margin-bottom: 10px;
+	}
+	
+	.modal-content button {
+	  padding: 10px 20px;
+	  background-color: #4caf50;
+	  color: #fff;
+	  border: none;
+	  cursor: pointer;
+	}
+	
+	.modal-content button:focus {
+	  outline: none;
+	}
+
+    .modal input[type="text"] {
+      margin-bottom: 10px;
+      font-size: 15px;
       width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
     }
-    
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 300px;
+
+    .modal button {
+      font-size: 14px;
+      width: 70%;
+      margin-left: 50px;
     }
+    .center-button {
+        margin-right: 120px;
+    }
+    .findUser {
+    	margin-left: 63px;
+    	margin-bottom: 10px;
+    }
+    #userId, #userPhone, #phoneCheck {
+	    padding: 15px 10px;
+	    border: 2px solid #ccc;
+	    width: 100%;
+	    background: #fff;
+	    font-size: 14px;
+	    color: #666;
+	    line-height: normal;
+	    outline: 0;
+	}
+	
+	.buttonColor {
+		width: 100%;
+	    height: 35px;
+	    background-color: #4CAF50;
+	    color: #ffffff;
+	    border: 1px solid #ccc;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    font-size: 15px;
+	}
+	.modalButton {
+		width:70%;
+		font-size: 14px;
+	}
+	.totalCount {
+		color: red;
+	}
+	
+	table {
+    margin-bottom: 30px !important; 
+    width: 100%;
+	}
+	
+	table tr {
+	    cursor: pointer !important;
+	}
+	
+	table tr th {
+	    background: #4caf50 !important; 
+	    background-color : #4caf50 !important;
+	    font-size: 10px !important; 
+	    text-transform: uppercase !important; 
+	    color: #fff !important; 
+	    height: 32px !important; 
+	    text-align: inherit !important;
+	}
+	
+	table tr th:first-child {
+	    padding-left: 20px !important; 
+	    text-align: left;
+	}
+	
+	table tr td {
+	    padding: 0 20px !important; 
+	    height: 50px !important; 
+	    line-height: normal !important; 
+	    border-bottom: 1px solid #e6e6e6 !important; 
+	    font-size: 12px !important; 
+	    color: #141414 !important; 
+	    text-align: center !important; 
+	    white-space: nowrap;
+	}
+	
+	table tr td>* {
+	    vertical-align: middle !important; 
+	}
+	
+	table tr td:first-child {
+	    text-transform: uppercase !important; 
+	    font-family: Montserrat,sans-serif !important; 
+	    text-align: left !important; 
+	}
+	
+	table tr td:last-child {
+	    font-weight: 700 !important; 
+	    text-align-last: justify;
+	}
+	
+	table tr td:first-child i {
+	    margin-right: 8px !important;  
+	    font-size: 16px !important; 
+	}
+	
+	table tr td:first-child span {
+	    line-height: 29px !important; 
+	}
   </style>
     
     <script type="text/javascript">
@@ -146,42 +308,41 @@
 	   
 		// 모달 창
 	    function openModal() {
-	        document.getElementById("modal").style.display = "block";
-	        
-	        var userId = $("#userId").val();
-	        var userPhone = $("#userPhone").val();
-	        
-	        alert("userId : "+userId);
-	        
-	        var phoneNumberInput = $('#phoneNumber');
-	        phoneNumberInput.val('');
-	        
-	        $.ajax({
-	            url: "/users/findPassword/",
-	            method: "POST",
-	            dataType: "json",
-	            data: {userPhone : userPhone, userId : userId}, // 수정: userId로 변경
-	            
-	            // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-	            success: function(passwords) {
-	            	
-	            	for (var i = 0; i < passwords.length; i++){
-	            		 phoneNumberInput.val(function(index, currentValue){
-	            			if(currentValue === '') {
-	            				return passwords[i];
-	            			} else{
-	            				return currentValue + ',' + passwords[i];
-	            			}
-	            		 })
-	            	}
-	            },
-	            error: function() {
-	            	alert("서버 오류 발생");
-	                return;
-	            }
-			});
-	        
-	    }
+			
+		    document.getElementById("modal").style.display = "block";
+		    var userPhone = $("#userPhone").val();
+		    var userId = $("#userId").val();
+		    var idList = document.getElementById("idList");
+			idList.innerHTML = ""; // 기존 리스트 초기화
+      
+      $.ajax({
+        url: "/users/findPassword/",
+        method: "POST",
+        dataType: "json",
+        data: {userPhone: userPhone, userId:userId},
+        success: function(password) {
+        	var output = "<table><tr><th></th><th>패스워드</th></tr>";
+        	var totalPassword = "";
+        	for (var i = 0; i < password.length; i++) {
+        		output += "<tr>";
+        	    output += "<td align='center'>" + (i + 1) + "</td>";
+        	    output += "<td align='left' name='password'>" + password[i] + "</td>";
+        	    output += "</tr>";
+              }
+        	
+        	output += "</table>";
+        	idList.innerHTML = output;
+        	
+        	totalPassword += "총 " + password.length+"개의 아이디가 검색되었습니다.";
+        	var totalCount = document.getElementById("totalCount");
+        	totalCount.textContent = totalPassword;
+        },
+        error: function(xhr, status, error) {
+            alert("오류 발생(이유) : " + error);
+            return;
+          }
+      });
+    }
 	      
 	    function closeModal() {
 	        document.getElementById("modal").style.display = "none";
@@ -191,16 +352,8 @@
 </head>
 
 <body>
-	<div class="preloader-wrapper" id="preloader">
-    <div class="motion-line dark-big"></div>
-    <div class="motion-line yellow-big"></div>
-    <div class="motion-line dark-small"></div>
-    <div class="motion-line yellow-normal"></div>
-    <div class="motion-line yellow-small1"></div>
-    <div class="motion-line yellow-small2"></div>
-</div>
 
-    <!--BREADCRUMBS BEGIN-->
+<!--     BREADCRUMBS BEGIN
 <section class="image-header">
     <div class="container">
         <div class="row">
@@ -208,8 +361,8 @@
                 <div class="info">
                     <div class="wrap">
                         <ul class="breadcrumbs">
-                            <!--<li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>-->
+                            <li><a href="index.html">Main</a>/</li>
+                            <li>Category</li>
                         </ul>
                         <h1>비밀번호 찾기</h1>
                     </div>
@@ -218,9 +371,9 @@
         </div>
     </div>
 </section>
-<!--BREADCRUMBS END-->
+BREADCRUMBS END
 
-    <!--CONTACT WRAP BEGIN-->
+    CONTACT WRAP BEGIN
 <form>
 	<div class="container">
 		<div class="row">
@@ -243,20 +396,52 @@
 			<button type="button" id="backback">뒤로</button>
 		</div>
 	</div>
+</form> -->
 
-	<!-- 모달창 -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <h6>패스워드 조회결과</h6>
-      	<input type="text" id="phoneNumber" value="" readonly>
-      
-      <!-- <button onclick="findId()">확인</button> -->
-      <button onclick="closeModal()">닫기</button>
+<div class="card">
+    <form action="login" class="login" method="POST">
+      <div class="card-body">
+        <h4 class="card-title"><strong>비밀번호 찾기</strong></h4>
+        <a style="text-align: center; margin-bottom: 60px; font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;패스워드를 찾기위해 휴대폰과 인증번호가 필요합니다.</a><br><br>
+        <div class="findUser">
+        <a style="font-size: 13px;">아이디</a>
+        <input type="text" name="userId" id="userId" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="아이디 입력" autofocus required>
+        <a style="font-size: 13px;">휴대폰</a>
+        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="휴대폰번호 입력" autofocus required>
+        <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; margin-bottom: 10px;" value="인증번호 전송"><br>
+        <div>
+        <a style="font-size: 13px;">인증번호</a>
+          <input type="text" id="phoneCheck" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="인증번호 입력">
+          <input type="button" class="buttonColor" id="phoneCheckButton" style="width: 250px; margin: auto;" value="인증번호 확인">
+      </div>
+      </div>
+      </div>
+    </form>
+
+    <!-- 모달 창 -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+     	<h2 style="text-align: left; margin-bottom: 5px;"><b>패스워드 찾기</b></h2>
+     	<a style="font-size: 11px;">고객님의 정보와 일치하는 야구ROUTE 패스워드 입니다.</a>
+     	  
+        <div id="idListUser" style="margin-bottom: 40px;">
+        <p class="totalCount" id="totalCount" style="font-size: 14px; text-align: center;"></p>
+        	<table id="idList" style="color: #000000">
+        	<caption>패스워드 목록</caption>
+	        	<thead>
+		        	<tr>
+		        	  <th>패스워드</th>
+		        	</tr>
+	        	</thead>
+        	  <tbody>
+        	<!-- 아이디 리스트 동적으로 추가 -->
+        	  </tbody>
+        	</table>
+    	</div>
+        <button type="button" class="modalButton" style="align-content: center;" onclick="closeModal()">닫기</button>
+      </div>
     </div>
-  </div>	
-
-</form>
-<!--CONTACT WRAP END-->
+  </div>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

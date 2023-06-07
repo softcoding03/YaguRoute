@@ -20,7 +20,6 @@
 		<result property="postDate" 			column="post_date" 			jdbcType="TIMESTAMP"/>
 		<result property="postType" 			column="post_type" 			jdbcType="INTEGER"/>
 		<result property="postViews" 			column="post_views" 		jdbcType="INTEGER"/>
-		<result property="notice" 				column="notice" 			jdbcType="INTEGER"/>
 		<result property="postLikes" 			column="post_likes" 		jdbcType="INTEGER"/>
 		<result property="postDislikes" 		column="post_dislikes" 		jdbcType="INTEGER"/>
 		<association property="user" column="user_id" javaType="user" select="getUser"/>
@@ -83,7 +82,7 @@
 		FROM
 		    post p
 		WHERE
-		    p.team_code IN (#{teamCode},'NN') AND user_id = #{userId}
+		    p.team_code IN (#{teamCode},'ALL') AND user_id = #{userId}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 		    		AND user_id LIKE '%${search.searchKeyword}%'
@@ -129,10 +128,10 @@
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, COUNT(e.like) AS post_likes
 		FROM post p, emote e
-		WHERE p.post_no = e.post_no AND e.like = 1 AND p.team_code = #{value}
+		WHERE p.post_no = e.post_no AND e.like = 1 AND p.team_code = #{value} AND post_type not in (4)
 		GROUP BY p.post_no
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 3
+		LIMIT 5
 	</select>
 	
 	<!-- 공지사항 list -->
@@ -148,8 +147,8 @@
 	<!--게시물 작성-->
 	<insert id="addPost" parameterType="post">
 	 	INSERT 
-		INTO post(user_id, team_code, post_title, post_contents, post_date,post_type,notice) 
-		VALUES (#{user.userId},#{user.teamCode},#{postTitle},#{postContents},sysdate(),#{postType},#{notice})
+		INTO post(user_id, team_code, post_title, post_contents, post_date,post_type) 
+		VALUES (#{user.userId},#{user.teamCode},#{postTitle},#{postContents},sysdate(),#{postType})
 	</insert>
 	
 	<!--게시물 삭제-->
@@ -164,8 +163,7 @@
 	   	<set>
 	   		post_title 	= #{postTitle},
 			post_contents = #{postContents},
-			post_type 	=  #{postType},
-			notice		= #{notice}
+			post_type 	=  #{postType}
 	   	</set>
 	   	WHERE post_no = #{postNo}
 	</update>
