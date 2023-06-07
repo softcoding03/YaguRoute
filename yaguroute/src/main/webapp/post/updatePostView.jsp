@@ -42,7 +42,6 @@
 	  		        url: '/post/rest/updatePost',
 	  		        data: post,
 	  		        success: function(response) {
-	  		        	alert(response);
 	  		         if(response === "success"){
 	  		        		window.close();
 	  		        		opener.location.reload();
@@ -51,7 +50,6 @@
   		      });
     			
     		}); 		
-    			
     			
     			
     		var toolbar = [

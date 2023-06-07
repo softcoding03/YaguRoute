@@ -30,6 +30,35 @@
 	    margin-top: 5px;
 	    display: inline-block;
 	  }	  
+		.sidebar{
+			position: sticky;
+		    top: 100px;
+		    right: 300px;
+		}	  
+		.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+		
+
 	 </style>
     
     <script type="text/javascript">
@@ -57,20 +86,17 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-		   /* 
-		   $("a.addPostView").on('click',function(){
-			   self.location = "/post/addPost?teamCode="+MyTeamCode;
-		   });
-		   */
 		   $("a.getPost").on('click',function(){
 			   postNo = $(this).siblings("input[name='postNo']").val()
 			   self.location = "/post/getPost?postNo="+postNo;
+		   });
+		   $("a.getPostList").on('click',function(){
+			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
 		   $("a.getMyPostList").on('click',function(){
 			   self.location = "/post/getMyPostList";
 		   });
 		   $("a.getBestList").on('click',function(){
-			   alert(teamCode);
 			   self.location = "/post/getBestList?teamCode="+teamCode;
 		   });
 		   $("a.getNoticeList").on('click',function(){
@@ -83,36 +109,26 @@
     			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
 		   });
     })
-    
-    
-   
+
    </script>
-   <!-- include summernote css/js-->
 	
 </head>
 <body>
 
 
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>커뮤니티 게시판</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
+
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
+</div>
+
+<!-- 새로운 툴바 -->
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
        <ul class="nav nav-tabs" role="tablist">
        <c:forEach var="team" items="${allTeam}">
-            
             <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
             <a href="teamCodeHref" role="tab" data-toggle="tab">
              <img alt="img" src="${team.teamEmblem}">
@@ -126,8 +142,6 @@
        </ul>
     </div>
 </div>	
-	
-	
 <!--CONTENT BEGIN-->
 <div class="content">
     <div class="container">
@@ -141,6 +155,9 @@
             <li>
                 <a href="javascript:;" class="addPostView"><span class="count 1">1</span>게시물 작성하기</a>
             </li>
+            <li>
+                <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
+            </li>
             <!-- <li> 추후에 사용할지 ..?
                 <a href="#"><span class="count">22</span>Competitions & Reviews</a>
                 <ul>
@@ -152,13 +169,13 @@
                 </ul>
             </li> -->
             <li>
-                <a href="javascript:;" class="getMyPostList"><span class="count 2">2</span>내가 작성한 게시물 보기</a>
+                <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getBestList"><span class="count 3">3</span>Best5 게시물 보기</a>
+                <a href="javascript:;" class="getBestList"><span class="count 4">4</span>Best5 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getNoticeList"><span class="count 4">4</span>공지사항 보기</a>
+                <a href="javascript:;" class="getNoticeList"><span class="count 5">5</span>공지사항 보기</a>
             </li>
         </ul>
     </div>
@@ -205,10 +222,23 @@
 	        <div class="info">
 	        		<h6>
 	        		<input type="hidden" name="postNo" value="${post.postNo}">
-	            <a href="javascript:;" class="getPost">${post.postTitle}</a>	
+	            <a href="javascript:;" class="getPost">
+	            ${post.postTitle}
+	            </a>	
 	            </h6>
 	            <div class="wrap">
 	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	            </div>
+	            <div class="comment-quantity">
+	            	<div class="tags">
+	            		<c:choose>
+								<c:when test="${post.postType == '0'}"><a href="#">잡담</a></c:when>
+								<c:when test="${post.postType == '1'}"><a href="#">응원</a></c:when>
+								<c:when test="${post.postType == '2'}"><a href="#">중고구매</a></c:when>
+								<c:when test="${post.postType == '3'}"><a href="#">중고판매</a></c:when>
+								<c:when test="${post.postType == '4'}"><a href="#">공지사항</a></c:when>
+							</c:choose>
+	            	</div>
 	            </div>
 	            <div class="comment-quantity">3 comments</div>
 	            <div class="clear"></div>
@@ -219,15 +249,16 @@
 	        </div>
 	    </div>
     </c:forEach>
-    
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_all.jsp">
-	<jsp:param name="id" value="post" />
-	</jsp:include>
-	<!-- PageNavigation End... -->
-    
+    <c:if test="${not empty resultPage}">
+		<!-- PageNavigation Start... -->
+		<jsp:include page="../common/pageNavigator_all.jsp">
+		<jsp:param name="id" value="post" />
+		</jsp:include>
+		<!-- PageNavigation End... -->
+    </c:if>
 </div>
 <!--NEWS LIST END-->
+
         </div>
     </div>
 </div>

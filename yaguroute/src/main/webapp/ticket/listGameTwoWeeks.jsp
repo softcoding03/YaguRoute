@@ -12,16 +12,54 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style type="text/css">
+    	.background {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  margin-top: 50px;
+		}    
+		
+		/* 탑바 위한 style */
+		.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		}
+		/* 탑바 위한 style 끝*/
+    </style>
     <script type="text/javascript">
     
 	$(function() {
-		$(".teamButton:nth-child(n+1)").on("click" , function() {
-			var teamCode = $(this).val().trim();
-			self.location = "/ticket/getGameList2w?teamCode="+teamCode;
-		});
+		$("a[href='teamCodeHref']").on('click',function(){
+    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
+    		self.location = "/ticket/getGameList2w?teamCode="+teamCode;
+	   });
 		$(".getStadium").on("click" , function() {
 			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
-			self.location = "/ticket/getStadium?gameCode="+gameCode;
+			var url = "/ticket/getStadium?gameCode="+gameCode;
+			var width = 1200;  // 창의 너비
+			var height = 700;  // 창의 높이
+			var left = (window.screen.width - width) / 2;  // 창의 가로 위치
+			var top = (window.screen.height - height) / 2;  // 창의 세로 위치
+			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
+			window.open(url,"경기 티켓 예매",options);			
 		});
 		$(".getTicketPurchaseList").on("click" , function() {
 			self.location = "/ticket/getTicketPurchaseList?userId=${user.userId}";
@@ -39,50 +77,29 @@
 
 <body>
 
-<div class="preloader-wrapper" id="preloader">
-<div class="motion-line dark-big"></div>
-<div class="motion-line yellow-big"></div>
-<div class="motion-line dark-small"></div>
-<div class="motion-line yellow-normal"></div>
-<div class="motion-line yellow-small1"></div>
-<div class="motion-line yellow-small2"></div>
+<jsp:include page="/common/topBar.jsp"/>
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>티켓 구매</h1></div>
 </div>
-
-
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>Game Tickets</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
+<!-- 팀 구분 툴바 -->
+<div class="mathc-live-broadcasts background">
+	<div class="broadcast-tabs-wrapper">
+       <ul class="nav nav-tabs" role="tablist">
+       <c:forEach var="team" items="${allTeam}">
+            <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+            <a href="teamCodeHref" role="tab" data-toggle="tab">
+             <img alt="img" src="${team.teamEmblem}">
+             <span class="info">
+             	<span class="title">${team.teamNickName}</span>
+             </span>
+             <input type="hidden" name="foreachTeamCode" value="${team.teamCode}"/> 
+            </a>
+            </li>
+       </c:forEach>
+       </ul>
     </div>
-</section>
-<!--BREADCRUMBS END-->
-<table>
-   <tr>
-   <td>
-    <button type="button" class="btn btn-warning teamButton" value="HH">한화</button>
-    <button type="button" class="btn btn-warning teamButton" value="HT">KIA</button>
-    <button type="button" class="btn btn-warning teamButton" value="KT">KT</button>
-    <button type="button" class="btn btn-warning teamButton" value="LG">LG</button>
-    <button type="button" class="btn btn-warning teamButton" value="LT">롯데</button>
-    <button type="button" class="btn btn-warning teamButton" value="NC">NC</button>
-    <button type="button" class="btn btn-warning teamButton" value="OB">두산</button>
-    <button type="button" class="btn btn-warning teamButton" value="SK">SSG</button>
-    <button type="button" class="btn btn-warning teamButton" value="SS">삼성</button>
-    <button type="button" class="btn btn-warning teamButton" value="WO">키움</button>
-   </td>
-</table>
+</div>	
 <button type="button" class="getTicketPurchaseList">예매내역보기</button>
 <button type="button" class="getSalesList">판매리스트</button>
 

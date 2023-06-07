@@ -31,7 +31,7 @@
 					var seatCode = $(this).siblings("input[name='seatCode']").val();
 					var ticketNo = $(this).siblings("input[name='ticketNo']").val();
 					var value = seatCode+"//"+price;
-					console.log("클릭"+price+"//"+seatCode);
+					console.log("클릭"+price+"&nbsp;//&nbsp;"+seatCode);
 					var insertPosition = $('#insertPosition')
 		    		var insertBody = 	"<div id="+seatCode+">"
 											+	"<tr>"
@@ -135,28 +135,46 @@
 		  float: left; /* 가로 정렬을 위해 float 속성 사용 */
 		  transform: scale(2.0); /* 크기 조정 */
 		}
+		h1, h4{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+		.ground{
+			width: 95%;
+		}
+		
     </style>
 </head>
 
 <body>
-
-<div class="preloader-wrapper" id="preloader">
-<div class="motion-line dark-big"></div>
-<div class="motion-line yellow-big"></div>
-<div class="motion-line dark-small"></div>
-<div class="motion-line yellow-normal"></div>
-<div class="motion-line yellow-small1"></div>
-<div class="motion-line yellow-small2"></div>
-</div>
     <!--CLUB STAFF TOP BEGIN-->
 	<div>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<h4>Tickets</h4>
-					<hr>
-				</div>
+	             <img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
+	             <div class="text-overlay">
+	             	<h1>${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</h1>
+	             	<h4>${game.gameDate} / ${game.gameTime}</h5>
+	             </div>
+	         </div> 
+         </div>
+         <br><br>
+	      <div class="row">   
 				<div class="col-md-8">
+					<div>
+						<img class="ground" src="/images/ticket/ground.png">
+					</div>
+					<br><br>
 					<c:forEach var="ticket" items="${ticketList}" varStatus="status">
 						<div class="col-md-2">
 							<a href="javascript:seat;" class="item">
