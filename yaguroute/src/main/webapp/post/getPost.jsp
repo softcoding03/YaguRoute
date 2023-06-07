@@ -57,17 +57,14 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-		   /* 
-		   $("a.addPostView").on('click',function(){
-			   self.location = "/post/addPost?teamCode="+MyTeamCode;
+		   $("a.getPostList").on('click',function(){
+			   alert(teamCode);
+			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-		   */
-		  
 		   $("a.getMyPostList").on('click',function(){
 			   self.location = "/post/getMyPostList";
 		   });
 		   $("a.getBestList").on('click',function(){
-			   alert(teamCode);
 			   self.location = "/post/getBestList?teamCode="+teamCode;
 		   });
 		   $("a.getNoticeList").on('click',function(){
@@ -148,7 +145,7 @@ var postNo;
 	 	//수정 및 삭제
 	 	$('.updatePost').on("click" , function() {
 	 		var url = "/post/updatePost?postNo="+postNo;
-	 		window.open(url,"게시물 작성",'width=1000,height=700');
+	 		window.open(url,"게시물 수정",'width=1000,height=700');
 	 		
 		});
 	 	$('.deletePost').on("click" , function() {
@@ -157,11 +154,6 @@ var postNo;
 				self.location = "/post/deletePost?postNo="+postNo;
 	 		}
 		});
-	 	//목록보기
-	 	$('.getPostList').on("click" , function() {
-			self.location = "/post/getPostList?teamCode="+teamCode;
-		});
-	 	
 	});
 	
     
@@ -221,6 +213,9 @@ var postNo;
             <li>
                 <a href="javascript:;" class="addPostView"><span class="count 1">1</span>게시물 작성하기</a>
             </li>
+            <li>
+                <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
+            </li>
             <!-- <li> 추후에 사용할지 ..?
                 <a href="#"><span class="count">22</span>Competitions & Reviews</a>
                 <ul>
@@ -232,13 +227,13 @@ var postNo;
                 </ul>
             </li> -->
             <li>
-                <a href="javascript:;" class="getMyPostList"><span class="count 2">2</span>내가 작성한 게시물 보기</a>
+                <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getBestList"><span class="count 3">3</span>Best5 게시물 보기</a>
+                <a href="javascript:;" class="getBestList"><span class="count 4">4</span>Best5 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getNoticeList"><span class="count 4">4</span>공지사항 보기</a>
+                <a href="javascript:;" class="getNoticeList"><span class="count 5">5</span>공지사항 보기</a>
             </li>
         </ul>
     </div>
@@ -281,7 +276,7 @@ var postNo;
 <section class="news-single col-xs-12 col-sm-12 col-md-9">
     <div class="item">
         <div class="top-info">
-            <h6>
+            <h3>
 	            <c:choose>
 						<c:when test="${post.postType == '0'}">[잡담]</c:when>
 						<c:when test="${post.postType == '1'}">[응원]</c:when>
@@ -290,8 +285,15 @@ var postNo;
 						<c:when test="${post.postType == '4'}">[공지사항]</c:when>
 					</c:choose>
 					${post.postTitle}
-				</h6>
-            <div class="comment-quantity">게시물 번호: ${post.postNo}</div>
+				</h3>
+            <div class="comment-quantity">Views: ${post.postViews}&nbsp;&nbsp;&nbsp;&nbsp; 작성일: ${post.postDate}&nbsp;&nbsp;&nbsp;&nbsp; 게시물 번호: ${post.postNo}</div>
+        		<hr>
+        		<c:if test="${post.user.userId eq user.userId}">
+	        		<div class="comment-quantity">
+	        			<a href="javascript:;" class="updatePost">수정</a>&nbsp;&nbsp;/&nbsp;&nbsp; 
+	        			<a href="javascript:;" class="updatePost">삭제</a>
+	        		</div>
+        		</c:if>
         </div>
         <div class="post-text">${post.postContents}</div>
         <div class="author-box">
@@ -341,11 +343,7 @@ var postNo;
 		</div>    
 		<!-- 좋아요 싫어요 끝-->
 		<div>
-			<c:if test="${post.user.userId eq user.userId}">
-				<button type="button" class="updatePost">게시물 수정</button><br>
-				<button type="button" class="deletePost">게시물 삭제</button>
-			</c:if>
-			<button type="button" class="getPostList">목록보기</button>
+			
 		</div>
 		    
 			<!-- Comment Start... -->

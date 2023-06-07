@@ -19,6 +19,8 @@
 		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
 		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
 		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+		<result property="teamTopBar" column="TEAM_TOPBAR" jdbcType="VARCHAR"/>
+		<result property="teamColor" column="TEAM_COLOR" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<resultMap id="gameSelectMap" type="game">
