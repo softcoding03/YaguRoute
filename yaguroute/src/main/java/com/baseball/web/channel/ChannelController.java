@@ -95,19 +95,23 @@ public class ChannelController {
 	
 	//getChannelList
 	@GetMapping("listChannel")
-	public ModelAndView getChannelList() throws Exception{
-		//System.out.println("getChannelList 시작");
+	public ModelAndView getChannelList(HttpSession session) throws Exception{
+		//채널 리스트 불러오기
 		List<Channel> list = channelService.getChannelList();
-		
-		for(Channel channel : list) {
-			//System.out.println(channel);
-		}
-		
+		//로그인한 유저 정보
+		User user = (User)session.getAttribute("user");
 		ModelAndView modelAndView = new ModelAndView();
 		
-		modelAndView.addObject("list", list);
-		modelAndView.setViewName("forward:/channel/listStreamingTest.jsp");
+		if(user.getRole().equals("user")) {
+			modelAndView.addObject("list", list);
+			modelAndView.setViewName("forward:/channel/listStreaming.jsp");
+		} else {
+			modelAndView.addObject("list", list);
+			modelAndView.setViewName("forward:/channel/listChannel.jsp");
+		}
 		
+		
+	
 		return modelAndView;
 	}
 	

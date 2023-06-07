@@ -127,6 +127,18 @@
 	
 	</select>
 	
+	
+		<select id="getDlvyTranList" parameterType="search"	resultMap="transactionSelectMap">
+	
+		SELECT *
+		FROM transaction
+		WHERE tran_type = #{tranType}
+	
+		
+		
+	</select>
+	
+	
 	<select id="getSalesList" parameterType="string" resultMap="transactionSelectMap">
 		SELECT t.*, t2.ticket_count
 		FROM transaction t
