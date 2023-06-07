@@ -27,11 +27,26 @@
   <script type="text/javascript">
     	$(function() {
     		$( "button.btn.btn-default").on("click" , function() {
-				fncAddPost();
-			}); 		
-    		function fncAddPost(){
-    			$("form").attr("method" ,"POST").attr("action" , "/post/addPost").submit();
-    		}
+    			event.preventDefault();
+    			var post ={
+    					postType: $("select.form-control").val(),
+    					postTitle: $("input[name='postTitle']").val(),
+    					postContents: $("#summernote").val()
+    			}
+  		      $.ajax({
+	  		        type: 'POST',
+	  		        url: '/post/rest/addPost',
+	  		        data: post,
+	  		        success: function(response) {
+	  		         if(response === "success"){
+	  		        		window.close();
+	  		        		opener.location.reload();
+	  		         }
+	  		        }
+  		      });
+    		}); 
+    		
+    		
     		var toolbar = [
     		    // 글꼴 설정
     		    ['fontname', ['fontname']],
@@ -113,6 +128,7 @@
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">게시물 제목</label>
 			    <div class="col-sm-10">
+			    	<p>게시물 제목은 50자 이내로만 작성 가능합니다.</p>
 			      <input type="text" class="form-control" name="postTitle" placeholder="게시물 제목을 입력해주세요.">
 			    </div>
 			  </div>
@@ -124,15 +140,7 @@
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
-			      <div class="checkbox">
-			        <label>
-			          <input type="checkbox"> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.
-			        </label>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
+			   	 <a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
 			      <button type="submit" class="btn btn-default">작성하기</button>
 			    </div>
 			  </div>

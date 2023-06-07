@@ -11,8 +11,7 @@ public class Post {
 	private String postContents;
 	private Timestamp postDate;
 	private int postViews;
-	private int postType; //0:잡담 1:응원 2:중고판매 3:중고구매
-	private int notice;  //0 or 1
+	private int postType; //0:잡담 1:응원 2:중고판매 3:중고구매 4:notice
 	private int postLikes;
 	private int postDislikes;
 	
@@ -75,13 +74,6 @@ public class Post {
         this.postType = postType;
     }
 
-    public int getNotice() {
-        return notice;
-    }
-    public void setNotice(int notice) {
-        this.notice = notice;
-    }
-    
     public int getPostLikes() {
         return postLikes;
     }
@@ -107,7 +99,6 @@ public class Post {
                 ", postDate=" + postDate +
                 ", postViews=" + postViews +
                 ", postType='" + postType + '\'' +
-                ", notice=" + notice +
                 ", postLikes=" + postLikes +
                 ", postDislikes=" + postDislikes +
                 ']';
