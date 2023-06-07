@@ -1,109 +1,211 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-    <link href="/css/animate.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/admin.css" type="text/css">
-    <!-- Bootstrap Dropdown Hover JS -->
-    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+	<!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+	<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
     <script type="text/javascript">
     	$(function() {
-    		$('input[type="button"]').on('click', function(){
-    			console.log("√ﬂ∞° πˆ∆∞ ≈¨∏Ø º∫∞¯");
+    		$('button:contains("Ï∂îÍ∞Ä")').on('click', function(){
+    			console.log("Ï∂îÍ∞Ä Î≤ÑÌäº ÌÅ¥Î¶≠ ÏÑ±Í≥µ");
     			$('form[name="detailForm"]').attr("method", "post").attr("action", "/channel/addChannel").submit();
     		})
     	});
     </script>
 
+<style>
+input{
+	padding: 15px 10px;
+	border: 1px solid transparent;
+	width: 100%;
+	background: #fff;
+	font-size: 14px;
+	color: #666;
+	line-height: normal;
+	outline: 0
+}
+
+body{
+	background-color:#f2f2f2;
+}
+
+.basic{
+	border: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 13px 24px 11px 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    background: #fff;
+    color: #141414;
+    width: 80%;
+    font-size: 12px;
+    text-transform: uppercase;
+    transition: all 240ms ease-out;
+    -webkit-transition: all 240ms ease-out; 
+}
+</style>
+
 
 </head>
 <body>
-	<h1>addChannelView Test</h1>
+	<!-- Toolbar start -->
+	<jsp:include page="/common/topBar.jsp" />
+	<!-- Toolbar End -->
 	
-	<form name="detailForm" class="form-horizontal">
+	<section class="checkout-wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="text-center">
+						<h4>channel ÏÉùÏÑ±</h4>
+					</div>
+					
+					<div class="customer-info">					
+						<form name="detailForm" class="form-horizontal">
+							<div class="row">
+								
+								<div class="form-group col-md-6 col-md-offset-3">
+									<div class="item">
+										<lable>
+											<span>
+												Ï±ÑÎÑê Ïù¥Î¶Ñ <i>*</i>
+											</span>
+											<input type="text" name="channelName" class="form-control" style="width:400px;"/>
+										</lable>
+									</div>
+									
+									<div class="item">
+										<lable>
+											<span>
+												Î≤ÑÏºì Ïù¥Î¶Ñ <i>*</i>									
+											</span>
+											<input type="text" name="bucketName" class="form-control" style="width:400px;"/>
+										</lable>
+									</div>
+									
+									<div class="item">
+										<lable>
+											<span>Ï†ÄÏû• Í≤ΩÎ°ú</span>
+											<input type="text" name="uploadPath" class="form-control" style="width:400px;"/>
+										</lable>
+									</div>
+									
+									<div class="item">
+										<label>
+											<span>Ï±ÑÎÑê ÌÉÄÏûÖ</span>
+											<select class="basic" name="envType">
+												<option value="REAL">REAL</option>
+												<option value="DEV">DEV</option>
+												<option value="STAGE">STAGE</option>
+											</select>
+										</label>
+									</div>
+									
+									<div class="item">
+										<label>
+											<span>Ïò§ÎäòÏùò Í≤åÏûÑ Î¶¨Ïä§Ìä∏</span>
+											<select class="basic" name="gameCode">
+												<c:set var="i" value="0" />
+												<c:forEach var="game" items="${gamelist}">
+													<lable class="item">
+													<option value="${game.gameCode}">${game.homeTeam.teamNickName} VS ${game.awayTeam.teamNickName}</input>
+													</lable>
+												</c:forEach>
+											</select>
+										</label>
+									</div>
+									
+									<div class="item">
+										<label>
+											<span>thumbnail</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</form>
+						<button type="button" id="submit">Ï∂îÍ∞Ä</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>		
 		
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>√§≥Œ ¿Ã∏ß</strong>
-				</div>
-				<div class="col-xs-8 col-md-4">
-					<input type="text" name="channelName" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"/>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>πˆƒœ ¿Ã∏ß</strong>
-				</div>
-				<div class="col-xs-8 col-md-4">
-					<input type="text" name="bucketName" class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>¿˙¿Â ∞Ê∑Œ</strong>
-				</div>
-				<div class="col-xs-8 col-md-4">
-					<input type="text" name="uploadPath" class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>√§≥Œ ≈∏¿‘</strong>
-				</div>
-				<div class="col-xs-8 col-md-4">
-					<input type="radio" name="envType" value="REAL" class="ct_input_g" style="width: 30px; height: 30px" maxLength="10" minLength="6">REAL</input>
-					<input type="radio" name="envType" value="DEV" class="ct_input_g" style="width: 30px; height: 30px" maxLength="10" minLength="6">DEV</input>
-					<input type="radio" name="envType" value="STAGE" class="ct_input_g" style="width: 30px; height: 30px" maxLength="10" minLength="6">STAGE</input>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>ø¿¥√¿« ∞‘¿” ∏ÆΩ∫∆Æ</strong>
-				</div>
-				
-				<div class="col-xs-8 col-md-4">
-					<c:set var="i" value="0"/>
-					<c:forEach var="game" items="${gamelist}">
-						<input type="radio" name="gameCode" class="ct_input_g" value="${game.gameCode}">${game.gameCode}</input>
-					</c:forEach>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-xs-4 col-md-2">
-					<strong>√§≥Œ ΩÊ≥◊¿œ</strong>
-				</div>
-				<div class="col-xs-8 col-md-4">
-					<button  type="button" class="btn btn-primary btn-xs">
-						<input 	multiple="multiple"	type="file" name="file"/>
-					</button>
-				</div>
-			</div>
-			
-			
-		</form>
-		
-		<input type="button" id="submit" value="√ﬂ∞°"/>
-		
+
+
+
+<script type="text/javascript" src="/js/library/jquery.js"></script>
+	<script type="text/javascript" src="/js/library/jquery-ui.js"></script>
+	<script type="text/javascript" src="/js/library/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
+	<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
+	<script type="text/javascript" src="/js/library/owl.carousel.js"></script>
+	<script type="text/javascript" src="/js/library/progressbar.js"></script>
+	<script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>
+	<script type="text/javascript" src="/js/library/chartist.js"></script>
+	<script type="text/javascript" src="/js/library/Chart.js"></script>
+	<script type="text/javascript" src="/js/library/fancySelect.js"></script>
+	<script type="text/javascript" src="/js/library/isotope.pkgd.js"></script>
+	<script type="text/javascript" src="/js/library/imagesloaded.pkgd.js"></script>
+
+	<script type="text/javascript" src="/js/jquery.team-coundown.js"></script>
+	<script type="text/javascript" src="/js/matches-slider.js"></script>
+	<script type="text/javascript" src="/js/header.js"></script>
+	<script type="text/javascript" src="/js/matches_broadcast_listing.js"></script>
+	<script type="text/javascript" src="/js/news-line.js"></script>
+	<script type="text/javascript" src="/js/match_galery.js"></script>
+	<script type="text/javascript" src="/js/main-club-gallery.js"></script>
+	<script type="text/javascript" src="/js/product-slider.js"></script>
+	<script type="text/javascript" src="/js/circle-bar.js"></script>
+	<script type="text/javascript" src="/js/standings.js"></script>
+	<script type="text/javascript" src="/js/shop-price-filter.js"></script>
+	<script type="text/javascript" src="/js/timeseries.js"></script>
+	<script type="text/javascript" src="/js/radar.js"></script>
+	<script type="text/javascript" src="/js/slider.js"></script>
+	<script type="text/javascript" src="/js/preloader.js"></script>
+	<script type="text/javascript" src="/js/diagram.js"></script>
+	<script type="text/javascript" src="/js/bi-polar-diagram.js"></script>
+	<script type="text/javascript" src="/js/label-placement-diagram.js"></script>
+	<script type="text/javascript" src="/js/donut-chart.js"></script>
+	<script type="text/javascript" src="/js/animate-donut.js"></script>
+	<script type="text/javascript" src="/js/advanced-smil.js"></script>
+	<script type="text/javascript" src="/js/svg-path.js"></script>
+	<script type="text/javascript" src="/js/pick-circle.js"></script>
+	<script type="text/javascript" src="/js/horizontal-bar.js"></script>
+	<script type="text/javascript" src="/js/gauge-chart.js"></script>
+	<script type="text/javascript" src="/js/stacked-bar.js"></script>
+
+	<script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
+	<script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
+	<script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
+
+	<script type="text/javascript" src="/js/treshold.js"></script>
+	<script type="text/javascript" src="/js/visible.js"></script>
+	<script type="text/javascript" src="/js/anchor.js"></script>
+	<script type="text/javascript" src="/js/landing_carousel.js"></script>
+	<script type="text/javascript" src="/js/landing_sport_standings.js"></script>
+	<script type="text/javascript" src="/js/twitterslider.js"></script>
+	<script type="text/javascript" src="/js/champions.js"></script>
+	<script type="text/javascript" src="/js/landing_mainnews_slider.js"></script>
+	<script type="text/javascript" src="/js/carousel.js"></script>
+	<script type="text/javascript" src="/js/video_slider.js"></script>
+	<script type="text/javascript" src="/js/footer_slides.js"></script>
+	<script type="text/javascript" src="/js/player_test.js"></script>
+
+	<script type="text/javascript" src="/js/main.js"></script>
 		
 </body>
 </html>

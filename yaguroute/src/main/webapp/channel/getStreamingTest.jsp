@@ -99,7 +99,6 @@
 	height: 30px;
 	background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
     background-size: cover;
-    transition: top 1s ease-out, opacity 1s ease-out;
 	}
 		    
 	.fireworkHome {
@@ -257,9 +256,16 @@
 				
 				$('body').append(fireworkHome);
 				
-				setTimeout(function() {
+				fireworkHome.animate({
+					top: "-=100px",
+		            opacity: 0
+				}, 1000, function(){
+					$(this).remove();
+				});
+				
+				/* setTimeout(function() {
 					fireworkHome.remove(); // 일정 시간 후에 폭죽 요소 제거
-			    }, 1000);
+			    }, 1000); */
 
 			});
 			
@@ -268,20 +274,20 @@
 				socket.emit('awayClick', 1);
 				
 				var fireworkAway = $('<div class="fireworkAway"></div>');
-				fireworkAway.css('top', (e.clientY - 15) + 'px');
-				fireworkAway.css('left', (e.clientX - 15) + 'px');
-				$('#firework-container-away').append(fireworkAway);
 				
-				setTimeout(function() {
-					fireworkAway.css('top', '-50px');
-					fireworkAway.css('opacity', '0');
-		        }, 100);
+				fireworkAway.css({
+			    	top: e.pageY - 10, // 마우스 클릭 시 커서 위치로 설정
+			        left: e.pageX - 10
+			    });
 				
-				//$('body').append(fireworkAway);
+				$('body').append(fireworkAway);
 				
-				setTimeout(function() {
-					fireworkAway.remove(); // 일정 시간 후에 폭죽 요소 제거
-			    }, 2000);
+				fireworkAway.animate({
+					top: "-=100px",
+		            opacity: 0
+				}, 1000, function(){
+					$(this).remove();
+				});
 			});
 			
 			//이미지 드래그&다운
@@ -624,7 +630,6 @@
 								<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
 							</div>
 							<div class="name" id="awayCount">${channel.awayClick}</div>
-							<div id="firework-container-away" class="position-relative"/>
 						</div>
 					</div>
 				</div>	
