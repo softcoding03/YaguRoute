@@ -2,154 +2,182 @@
 <%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 
 <!DOCTYPE html>
 <html>
 
 <head>
+
 	<meta charset="UTF-8">
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>listProduct</title>
+	<title>salesProdList</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!--  ///////////////////////// CSS ////////////////////////// -->
 
-<head>
+
 
 <style>
+.form-group {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.btn {
+	display: inline-block;
+}
+
+	  body {
+            padding-top : 50px;
+        }
+        
+        .thumbnail {
+        
+        width:260px;
+        height:260px;
+
+        }
+
 
 </style>
 
 
-<title>구매목록조회</title>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
 
 <script type="text/javascript">
+	function fncGetSalesProdList(currentPage) {
+		$("#currentPage").val(currentPage);
+		$("form").attr("method", "GET").attr("action", "/product/salesProdList")
+				.submit();
+	}
 
+	$(function() {
+		$("button.btn-success").on("click", function() {
+			$("#prodTeamCode").val($(this).val());
+			fncGetSalesProdList(1);
+		});
+
+		$("button.btn.btn-default").on("click", function() {
+			fncGetSalesProdList(1);
+		});
+
+		$(".ct_list_pop td:nth-child(2)").on("click", function() {
+			var prodNo = $(this).children('input:hidden').val();
+			self.location = "/product/getProduct?prodNo=" + prodNo;
+		});
+
+	});
 
 
 </script>
 
 </head>
 
+
+
 <body bgcolor="#ffffff" text="#000000">
+
 	<!-- ToolBar Start /////////////////////////////////////-->
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-
-				<!--BREADCRUMBS BEGIN-->
-						<section class="image-header" style="height: 200px;">
-						  <div class="container">
-						    <div class="row">
-						      <div class="col-md-8">
-						        <div class="info">
-						          <div class="wrap">
-						            <h1>구매목록조회</h1>
-						            <p style="margin-bottom: 10px;"> ★ [ ${user.userId} ] 님의 구매내역입니다.</p>
-						          </div>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-						</section>
-
-				<!--BREADCRUMBS END-->
-
-
-<div style="width:98%; margin-left:10px;">
-
-<form name="detailForm" action="/transaction/listTransaction" method="GET">
-
-		<div class="container">
+	<div class="container">
 		<div class="page-header text-info">
 			<div class="row">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" >
-	<tr>
-		<td colspan="30" >
-		전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
-	</tr>
-	<tr>
-		<td class="ct_list_b" >주문번호</td>
-		<td class="ct_list_b" >구단</td>
-		<td class="ct_list_b" >상품명</td>
-		<td class="ct_list_b" >상품가격</td>
-		<td class="ct_list_b" >구매수량</td>
-		<td class="ct_list_b" >사용포인트</td>	
-		<td class="ct_list_b">총 결제금액</td>
-		<td class="ct_list_b">구매상태</td>
-		<td class="ct_list_b">배송</td>
-		<td class="ct_list_b">결제수단</td>
-		<td class="ct_list_b">환불상태</td>		
-	</tr>
 
-	<c:set var="i" value="0"/>
-		<c:forEach var="transaction" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			<c:set var="tranCode" value="${fn:trim(tranDetail.tranStatusCode)}"/>
-			<c:set var="prodTeamCode" value= "${product.prodTeamCode}"/>
-			<c:set var="prodName" value="${product.prodName}" />
-		
-		<tr class="ct_list_pop">
-			<td align="center">${transaction.tranNo}</td>	
-			<td align="center">${product.prodTeamCode}</td>
-			<td align="center">${prodName}</td>
-			<td align="left">${product.prodPrice}</td>
-			<td align="left">${tranDetail.tranQuantity}</td>
-			<td align="left">${transaction.tranUsePoint}</td>
-			<td align="left">${transaction.tranTotalPrice}</td>
-			<td align="left"> 현재	
-					<c:if test="${tranCode eq 1}">
-						구매완료
-					</c:if>
-					<c:if test="${tranCode eq 2}">
-						배송중
-					</c:if>
-					<c:if test="${tranCode eq 3}">
-						배송완료
-					</c:if>
-						상태 입니다.</td>
-		<td align="left"> <c:if test="${tranCode eq 2}">
-			<a href="/updateTranCode?tranNo=${transaction.tranNo}&tranStatusCode=3">배송도착</a>
-		</c:if>
-		</td>
-		<td align="left">${transaction.tranPaymentOption}</td>
-		<td align="left">${tranDetail.refundStatusCode}</td>		
-	</tr>
-	</c:forEach>
-</table>
+				<div style="width: 98%; margin-left: 10px;">
 
-<!-- PageNavigation Start... -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td align="center">
-	   
-	
-			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-			
-					<!-- PageNavigation Start... -->
+
+
+					<form name="detailForm">
+
+						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> <input type="hidden" id="currentPage"
+							name="currentPage" value="" />
+
+						<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="15" height="37">
+								<img src="/images/product/baseball.png" width="40" height="37" /></td>
+								<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 20px;">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<td width="93%" class="ct_ttl01">판매상품관리(관리자)</td>
+										</tr>
+									</table>
+
+								</td>
+								<td width="12" height="37"><img
+									src="/images/ct_ttl_img03.gif" width="12" height="37" /></td>
+							</tr>
+						</table>
+
+						<table height="50">
+							<tr>
+								<td>
+									<button type="button" class="btn btn-success" value="NN">전체</button>
+									<button type="button" class="btn btn-success" value="NC">NC</button>
+									<button type="button" class="btn btn-success" value="OB">두산</button>
+									<button type="button" class="btn btn-success" value="HH">한화</button>
+									<button type="button" class="btn btn-success" value="HT">KIA</button>
+									<button type="button" class="btn btn-success" value="KT">KT</button>
+									<button type="button" class="btn btn-success" value="LG">LG</button>
+									<button type="button" class="btn btn-success" value="LT">롯데</button>
+									<button type="button" class="btn btn-success" value="SK">SSG</button>
+									<button type="button" class="btn btn-success" value="SS">삼성</button>
+									<button type="button" class="btn btn-success" value="WO">키움</button>
+								</td>
+							</tr>
+						</table>
+
+
+
+						<div class="form-group" style="width: 100px;">
+							<select class="form-control" name="searchCondition">
+								<option value="0"
+									${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+							</select>
+						</div>
+
+						<div class="form-group" style="width: 230px;">
+
+							<input type="text" class="form-control" id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
+								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
+
+						<button type="button" class="btn btn-default">검색</button>
+
+						<p class="text-primary">전체 ${resultPage.totalCount} 건, 현재
+							${resultPage.currentPage} 페이지</p>
+
+
+					</form>
+				</div>
+				
+				
+<div class="row text-center">
+  <c:forEach var="product" items="${list}">
+    <div class="col-md-3">
+      <div class="thumbnail">
+        <img src="/images/uploadFiles/${product.prodImage }"/>
+        <div class="caption">
+          <h3>${product.prodName}</h3>
+          <p>${product.prodPrice}</p>
+        </div>
+      </div>
+    </div>
+  </c:forEach>
+</div>
+
+				<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
-					<jsp:param name="id" value="transaction" />
+					<jsp:param name="id" value="salesProd" />
 				</jsp:include>
 				<!-- PageNavigation End... -->
-						
-	
-    	</td>
-	</tr>
-</table>
-<!--  페이지 Navigator 끝 -->
-
-</form>
-
-</div>
 </body>
+
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
@@ -212,4 +240,3 @@
 <script type="text/javascript" src="/js/main.js"></script>
 
 </html>
-		

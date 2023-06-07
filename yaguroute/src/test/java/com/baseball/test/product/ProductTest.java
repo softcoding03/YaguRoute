@@ -23,31 +23,35 @@ public class ProductTest {
 	private ProductService productService;
 	
 	
-	//@Test
+	@Test
 	public void testAddProduct() throws Exception {
 		
 		Product product = new Product();
-		product.setProdNo(3);
-		product.setProdName("정수빈레고피규어");
+		product.setProdNo(66);
+		product.setProdName("서울정수빈");
 		product.setProdPrice(24000);
-		product.setProdStock(400);
+		product.setProdStock(500);
 		product.setProdCategory(4);
-		product.setProdImage("testImageFile");
-		product.setProdTeamCode("OB");
+		product.setProdTeamCode("KT");
+		product.setProdImageFirst("testImageFile12");
+		product.setProdImageSecond("testImageFile23");
+		product.setProdImageThird("testImageFile34");
 		
 			
 		productService.addProduct(product);
-		product = productService.getProduct(3);
+		product = productService.getProduct(66);
 		
 		//System.out.println("addProductTest:: "+product);
 		
-		Assert.assertEquals(3, product.getProdNo());
-		Assert.assertEquals("정수빈레고피규어", product.getProdName());
+		Assert.assertEquals(66, product.getProdNo());
+		Assert.assertEquals("서울정수빈", product.getProdName());
 		Assert.assertEquals(24000, product.getProdPrice());
-		Assert.assertEquals(400, product.getProdStock());
-		Assert.assertEquals("잡화", product.getProdCategory());
-		Assert.assertEquals("testImageFile", product.getProdImage());
-		Assert.assertEquals("OB", product.getProdTeamCode());
+		Assert.assertEquals(500, product.getProdStock());
+		Assert.assertEquals(4, product.getProdCategory());
+		Assert.assertEquals("KT", product.getProdTeamCode());
+		Assert.assertEquals("testImageFile12", product.getProdImageFirst());
+		Assert.assertEquals("testImageFile23", product.getProdImageSecond());		
+		Assert.assertEquals("testImageFile34", product.getProdImageThird());
 
 	}
 	
@@ -66,7 +70,7 @@ public class ProductTest {
 		Assert.assertEquals(120000, product.getProdPrice());
 		Assert.assertEquals(50, product.getProdStock());
 		Assert.assertEquals("유니폼", product.getProdCategory());
-		Assert.assertEquals("yang_old_uniform.jpg", product.getProdImage());
+		//Assert.assertEquals("yang_old_uniform.jpg", product.getProdImage());
 		Assert.assertEquals("OB", product.getProdTeamCode());
 		
 	}
@@ -81,7 +85,7 @@ public class ProductTest {
 		Assert.assertEquals(10000, product.getProdPrice());
 		Assert.assertEquals(10, product.getProdStock());
 		Assert.assertEquals("유니폼", product.getProdCategory());
-		Assert.assertEquals("/images/sk_uniform.jpg", product.getProdImage());
+		//Assert.assertEquals("/images/sk_uniform.jpg", product.getProdImage());
 		Assert.assertEquals("HH", product.getProdTeamCode());
 		
 	
@@ -89,7 +93,7 @@ public class ProductTest {
 		product.setProdPrice(120000);
 		product.setProdStock(50);
 		product.setProdCategory(1);
-		product.setProdImage("testImageFile");
+		//product.setProdImage("testImageFile");
 		product.setProdTeamCode("HH");
 		
 		
@@ -104,7 +108,7 @@ public class ProductTest {
 		Assert.assertEquals(120000, product.getProdPrice());
 		Assert.assertEquals(50, product.getProdStock());
 		Assert.assertEquals("유니폼", product.getProdCategory());
-		Assert.assertEquals("testImageFile", product.getProdImage());
+		//Assert.assertEquals("testImageFile", product.getProdImage());
 		Assert.assertEquals("HH", product.getProdTeamCode());
 	}
 	
