@@ -216,7 +216,7 @@ function remaindTime() {
     var et = end.getTime();
   
    if(nt<ot){
-     $("h4.time-title").html("경기 예측 결과 확인까지 남은 시간");
+     $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
      sec = parseInt(ot - nt) / 1000;
      day = parseInt(sec/60/60/24);
      sec = (sec - (day * 60 * 60 * 24));
