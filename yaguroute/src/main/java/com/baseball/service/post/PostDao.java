@@ -17,7 +17,12 @@ public interface PostDao {
 	public List<Post> getNoticeList(String teamCode) throws Exception;
 	public Emote getEmote(Emote emote) throws Exception;
 	public void addPost(Post post) throws Exception;
+	
+	//게시물 삭제(본문,댓글,emote 모두 삭제)
 	public void deletePost(int postNo) throws Exception;
+	public void deleteEmote(int postNo) throws Exception;
+	public void updateComment(int postNo) throws Exception;
+	
 	public void updatePost(Post post) throws Exception;
 	public int getLikes(int postNo) throws Exception;
 	public int getDislikes(int postNo) throws Exception;

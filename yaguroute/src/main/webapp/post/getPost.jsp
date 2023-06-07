@@ -30,6 +30,32 @@
 	    margin-top: 5px;
 	    display: inline-block;
 	  }	  
+	  	.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+	  .row-align {
+	    display: flex;
+	    align-items: center;
+	  }
 	 </style>
     
     <script type="text/javascript">
@@ -58,7 +84,6 @@
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
 		   $("a.getPostList").on('click',function(){
-			   alert(teamCode);
 			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
 		   $("a.getMyPostList").on('click',function(){
@@ -146,7 +171,6 @@ var postNo;
 	 	$('.updatePost').on("click" , function() {
 	 		var url = "/post/updatePost?postNo="+postNo;
 	 		window.open(url,"게시물 수정",'width=1000,height=700');
-	 		
 		});
 	 	$('.deletePost').on("click" , function() {
 	 		var confirmation = confirm("정말로 삭제하시겠습니까?");
@@ -156,8 +180,6 @@ var postNo;
 		});
 	});
 	
-    
-   
    </script>
    <!-- include summernote css/js-->
 	
@@ -166,19 +188,11 @@ var postNo;
 
 
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>커뮤니티 게시판</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
+</div>
+
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
@@ -291,7 +305,7 @@ var postNo;
         		<c:if test="${post.user.userId eq user.userId}">
 	        		<div class="comment-quantity">
 	        			<a href="javascript:;" class="updatePost">수정</a>&nbsp;&nbsp;/&nbsp;&nbsp; 
-	        			<a href="javascript:;" class="updatePost">삭제</a>
+	        			<a href="javascript:;" class="deletePost">삭제</a>
 	        		</div>
         		</c:if>
         </div>

@@ -18,10 +18,11 @@
 		<result property="postTitle" 			column="post_title" 		jdbcType="VARCHAR"/>
 		<result property="postContents" 		column="post_contents" 		jdbcType="LONGVARCHAR"/>
 		<result property="postDate" 			column="post_date" 			jdbcType="TIMESTAMP"/>
-		<result property="postType" 			column="post_type" 			jdbcType="INTEGER"/>
+		<result property="postType" 			column="post_type" 			jdbcType="VARCHAR"/>
 		<result property="postViews" 			column="post_views" 		jdbcType="INTEGER"/>
 		<result property="postLikes" 			column="post_likes" 		jdbcType="INTEGER"/>
 		<result property="postDislikes" 		column="post_dislikes" 		jdbcType="INTEGER"/>
+		<result property="postComments" 		column="post_comments" 		jdbcType="INTEGER"/>
 		<association property="user" column="user_id" javaType="user" select="getUser"/>
 	</resultMap>
 	
@@ -54,13 +55,19 @@
 	 	SELECT
 		    p.*,
 		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
-		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
+		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes,
+		     COUNT(c.comment_no) AS post_comments
 		FROM
 		    post p
 		JOIN
     		 user u ON p.user_id = u.user_id
+    	LEFT JOIN
+    		 comment c ON c.post_no = p.post_no
 		WHERE
 		    p.team_code = #{teamCode}
+		    <if test="postType != null">
+		    	AND post_type = #{postType}
+		    </if>
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 		    		AND user_nickname LIKE '%${search.searchKeyword}%'
@@ -69,7 +76,9 @@
 		    		AND post_title LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    </if>
-		    AND post_type not in (4)
+		    AND post_type not in ('4')
+		GROUP BY
+    		 p.post_no    
 		ORDER BY
 		    p.post_no DESC
 	</sql>
@@ -78,11 +87,14 @@
 	 	SELECT
 		    p.*,
 		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
-		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
+		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes,
+		    COUNT(c.comment_no) AS post_comments
 		FROM
 		    post p
+		LEFT JOIN
+    		 comment c ON c.post_no = p.post_no
 		WHERE
-		    p.team_code IN (#{teamCode},'ALL') AND user_id = #{userId}
+		    p.team_code IN (#{teamCode},'ALL') AND p.user_id = #{userId}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 		    		AND user_id LIKE '%${search.searchKeyword}%'
@@ -91,6 +103,8 @@
 		    		AND post_title LIKE '%${search.searchKeyword}%'
 		    	</if>
 		    </if>
+		GROUP BY
+    		 p.post_no 
 		ORDER BY
 		    p.post_no DESC
 	</sql>
@@ -124,23 +138,38 @@
 			select last_insert_id()
 	</select>
 	
-	<!--특정 팀의 게시글중에서 추천수가 가장 많은 3개 게시물 list-->
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
-		SELECT p.*, COUNT(e.like) AS post_likes
-		FROM post p, emote e
-		WHERE p.post_no = e.post_no AND e.like = 1 AND p.team_code = #{value} AND post_type not in (4)
-		GROUP BY p.post_no
+		SELECT p.*, e.post_likes, c.post_comments
+		FROM post p
+		LEFT JOIN (
+		    SELECT post_no, COUNT(*) AS post_likes
+		    FROM emote
+		    WHERE `like` = 1
+		    GROUP BY post_no
+		) e ON p.post_no = e.post_no
+		LEFT JOIN (
+		    SELECT post_no, COUNT(*) AS post_comments
+		    FROM comment
+		    GROUP BY post_no
+		) c ON p.post_no = c.post_no
+		WHERE p.team_code = #{value} AND p.post_type NOT IN ('4')
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 5
+		LIMIT 5;		
 	</select>
 	
 	<!-- 공지사항 list -->
 	<select id="getNoticeList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*,
 		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
-		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes
+		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes,
+		    COUNT(c.comment_no) AS post_comments
 		FROM post p
-		WHERE p.team_Code = #{value} AND post_type = 4
+		LEFT JOIN
+    		 comment c ON c.post_no = p.post_no
+		WHERE p.team_Code = #{value} AND post_type = '4'
+		GROUP BY
+    		 p.post_no
 		ORDER by post_no DESC
 	</select>
 	
@@ -156,6 +185,18 @@
 	 	DELETE FROM post 
 		WHERE post_no = #{value}
 	</delete>
+	<delete	id="deleteEmote" parameterType="int">
+	 	DELETE FROM emote 
+		WHERE post_no = #{value}
+	</delete>
+	<!--게시물 삭제 후 댓글 changed '2'-->
+	<update	id="updateComment"	parameterType="int">
+   	UPDATE comment
+   	<set>
+		changed = 3
+   	</set>
+   	WHERE post_no = #{postNo}
+	</update>
 	
 	<!--게시물 수정-->
 	<update	id="updatePost"	parameterType="post">

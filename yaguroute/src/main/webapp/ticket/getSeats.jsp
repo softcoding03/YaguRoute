@@ -30,10 +30,10 @@
 					var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
 					var seatCode = $(this).siblings("input[name='seatCode']").val();
 					var ticketNo = $(this).siblings("input[name='ticketNo']").val();
-					var value = seatCode+"//"+price;
-					console.log("클릭"+price+"&nbsp;//&nbsp;"+seatCode);
+					var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price;
+					console.log("클릭"+price+"//"+seatCode);
 					var insertPosition = $('#insertPosition')
-		    		var insertBody = 	"<div id="+seatCode+">"
+		    		var insertBody = 	"<div class=\"seat\" id="+seatCode+">"
 											+	"<tr>"
 										   +  "<td>"
 										   +  "<input type=\"text\" value="+value+"></input>"
@@ -68,6 +68,13 @@
 	 	$(document).on("click", "button.addPurchase", function() {
 		   requestPay();
 		});
+		
+		$("button.back").on('click',function(){
+			history.back();
+	   });
+		$("button.reload").on('click',function(){
+			location.reload();
+	   });
 
 	   //아임포트 변수
 		var UID = new Date().getTime().toString(20); //유니크한 값 + 제품 번호
@@ -151,6 +158,12 @@
 		.ground{
 			width: 95%;
 		}
+		.back{
+			
+		}
+		#insertPosition{
+			transform: scale(1.2); /* 크기 조정 */
+		}
 		
     </style>
 </head>
@@ -165,7 +178,10 @@
 	             <div class="text-overlay">
 	             	<h1>${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</h1>
 	             	<h4>${game.gameDate} / ${game.gameTime}</h5>
+	             	<button type="button" class="back">이전단계</button>&nbsp;&nbsp;
+	             	<button type="button" class="reload">좌석새로고침</button>
 	             </div>
+	             
 	         </div> 
          </div>
          <br><br>
@@ -204,12 +220,13 @@
 								<tr>
 								<td>좌석 번호 // 가격</td>
 							</div>
-							
 						</table>
-					</div>
-					<div>
-						총가격 :
-						<a id="priceTag" value=""></a>
+						<div class="col-md-6">
+							<h5>총가격 :</h5>
+						</div>	
+						<div class="col-md-6">
+							<h5><a id="priceTag" value=""></a></h5>
+						</div>
 					</div>
 					<div class="col-md-12">
 						<p>1인 최대 4매까지 구매 가능합니다.</p>

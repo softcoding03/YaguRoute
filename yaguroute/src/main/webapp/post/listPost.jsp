@@ -57,6 +57,10 @@
 		  margin-left:300px;
 		  /* 기타 스타일 속성 설정 */
 		}
+	  .row-align {
+	    display: flex;
+	    align-items: center;
+	  }
 		
 
 	 </style>
@@ -86,6 +90,18 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
+			$("a.talk").on("click",function(){
+				self.location = "/post/getPostList?postType=0&teamCode="+teamCode;
+			});
+			$("a.cheer").on("click",function(){
+				self.location = "/post/getPostList?postType=1&teamCode="+teamCode;
+			});
+			$("a.buy").on("click",function(){
+				self.location = "/post/getPostList?postType=2&teamCode="+teamCode;
+			});
+			$("a.sell").on("click",function(){
+				self.location = "/post/getPostList?postType=3&teamCode="+teamCode;
+			});
 		   $("a.getPost").on('click',function(){
 			   postNo = $(this).siblings("input[name='postNo']").val()
 			   self.location = "/post/getPost?postNo="+postNo;
@@ -102,13 +118,11 @@
 		   $("a.getNoticeList").on('click',function(){
 			   self.location = "/post/getNoticeList?teamCode="+teamCode;
 		   });
-    })
-    
-    $(function(){
-    		$("a.addPostView").on('click',function(){
-    			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
+		   $("a.addPostView").on('click',function(){
+   			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
 		   });
     })
+    
 
    </script>
 	
@@ -204,10 +218,10 @@
     <div class="sidebar-tags-wrap">
         <h6>Tags</h6>
         <div class="tags">
-            <a href="#">잡담</a>
-            <a href="#">응원</a>
-            <a href="#">중고구매</a>
-            <a href="#">중고판매</a>
+            <a href="javascript:;" class="talk">잡담</a>
+            <a href="javascript:;" class="cheer">응원</a>
+            <a href="javascript:;" class="buy">중고구매</a>
+            <a href="javascript:;" class="sell">중고판매</a>
         </div>
     </div>
 </section>	
@@ -220,32 +234,38 @@
     <c:forEach var="post" items="${list}">
 	    <div class="item">
 	        <div class="info">
-	        		<h6>
-	        		<input type="hidden" name="postNo" value="${post.postNo}">
-	            <a href="javascript:;" class="getPost">
-	            ${post.postTitle}
-	            </a>	
-	            </h6>
+	        <div class="row row-align">
+	        		<div class="col-md-1.5">
+	        			<div class="tags">
+	            		<c:choose>
+								<c:when test="${post.postType == '0'}"><a>잡담</a></c:when>
+								<c:when test="${post.postType == '1'}"><a>응원</a></c:when>
+								<c:when test="${post.postType == '2'}"><a>중고구매</a></c:when>
+								<c:when test="${post.postType == '3'}"><a>중고판매</a></c:when>
+								<c:when test="${post.postType == '4'}"><a>공지사항</a></c:when>
+							</c:choose>
+	            	</div>
+	           	</div>
+	           	<div class="col-md-10.5">
+		        		<h5>
+		        		<input type="hidden" name="postNo" value="${post.postNo}">
+		            <a href="javascript:;" class="getPost">
+		            ${post.postTitle}
+		            </a>	
+		            </h5>
+		         </div>
+		      </div>
 	            <div class="wrap">
 	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
 	            </div>
-	            <div class="comment-quantity">
-	            	<div class="tags">
-	            		<c:choose>
-								<c:when test="${post.postType == '0'}"><a href="#">잡담</a></c:when>
-								<c:when test="${post.postType == '1'}"><a href="#">응원</a></c:when>
-								<c:when test="${post.postType == '2'}"><a href="#">중고구매</a></c:when>
-								<c:when test="${post.postType == '3'}"><a href="#">중고판매</a></c:when>
-								<c:when test="${post.postType == '4'}"><a href="#">공지사항</a></c:when>
-							</c:choose>
-	            	</div>
-	            </div>
-	            <div class="comment-quantity">3 comments</div>
-	            <div class="clear"></div>
-	            <p>post.postContents 들어갈 부분. 이미지 옵티마이저를 하건 이미지 사이즈 줄여서 출력할것. & 내용 일정 길이 초과되면 ...붙이고 생략시킬 것</p>
-	            <a href="news-single.html" class="continue">Continue Reading</a>
+	            
+	            <!-- <div class="clear"></div> -->
+	            <p>${post.postContents}</p>
+	            <input type="hidden" name="postNo" value="${post.postNo}">
+	            <a href="javascript:;"  class="getPost">Continue Reading</a>
 	            <div class="comment-quantity">${post.postViews} Views</div>
 	            <div class="comment-quantity">${post.postLikes} Likes &nbsp;&nbsp;</div>
+	            <div class="comment-quantity">${post.postComments} Comments &nbsp;&nbsp;</div>
 	        </div>
 	    </div>
     </c:forEach>

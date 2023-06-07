@@ -14,7 +14,7 @@ public class Comment {
 	private String commentContents;
 	private String commentImage;
 	private String grade;
-	private int changed;
+	private int changed;  //0:default, 1:수정됨, 2:삭제됨, 3:본문이 삭제됨
 	
 	public Comment(){
 	}

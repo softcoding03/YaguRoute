@@ -41,6 +41,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void deletePost(int postNo) throws Exception {
 		postDao.deletePost(postNo);
+		postDao.deleteEmote(postNo);
+		postDao.updateComment(postNo);
 	}
 	
 	@Override

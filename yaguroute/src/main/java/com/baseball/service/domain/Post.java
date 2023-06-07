@@ -11,13 +11,22 @@ public class Post {
 	private String postContents;
 	private Timestamp postDate;
 	private int postViews;
-	private int postType; //0:잡담 1:응원 2:중고판매 3:중고구매 4:notice
+	private String postType; //0:잡담 1:응원 2:중고판매 3:중고구매 4:notice
 	private int postLikes;
 	private int postDislikes;
+	private int postComments;
 	
+
+
 	public Post(){
 	}
-	
+	public int getPostComments() {
+		return postComments;
+	}
+
+	public void setPostComments(int postComments) {
+		this.postComments = postComments;
+	}
 	public int getPostNo() {
         return postNo;
     }
@@ -67,10 +76,10 @@ public class Post {
         this.postViews = postViews;
     }
 
-    public int getPostType() {
+    public String getPostType() {
         return postType;
     }
-    public void setPostType(int postType) {
+    public void setPostType(String postType) {
         this.postType = postType;
     }
 
@@ -87,22 +96,11 @@ public class Post {
     public void setPostDislikes(int postDislikes) {
         this.postDislikes = postDislikes;
     }
-	
-
-	// Override
-    public String toString() {
-        return "PostVO: [postNo=" + postNo +
-                ", user='" + user + '\'' +
-                ", teamCode='" + teamCode + '\'' +
-                ", postTitle='" + postTitle + '\'' +
-                ", postContents='" + postContents + '\'' +
-                ", postDate=" + postDate +
-                ", postViews=" + postViews +
-                ", postType='" + postType + '\'' +
-                ", postLikes=" + postLikes +
-                ", postDislikes=" + postDislikes +
-                ']';
-    }
-
-
+	@Override
+	public String toString() {
+		return "Post [postNo=" + postNo + ", user=" + user + ", teamCode=" + teamCode + ", postTitle=" + postTitle
+				+ ", postContents=" + postContents + ", postDate=" + postDate + ", postViews=" + postViews
+				+ ", postType=" + postType + ", postLikes=" + postLikes + ", postDislikes=" + postDislikes
+				+ ", postComments=" + postComments + "]";
+	}
 }
