@@ -8,39 +8,89 @@
 <title>getUserPredict</title>
 </head>
 <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <style>
 	hr{
 		border:none;
-		border-top: 3px solid black;
+		border-top: 3px solid #a3cca3;
+	}
+	
+	input[type=number]{
+		border-radius: 8px;
+		font-size: 18px;
 	}
 	
 	.imgSize{
-		width:100px !important;
-		height:100px !important;
+		width:130px !important;
+		height:110px !important;
+	}
+	.middle{
+		vertical-align: middle !important;
+	}
+	.margin-left{
+		margin-left: 30px;
+	}
+	.margin-right{
+		margin-right: 30px;
+	}
+	.border{
+		border: 3px solid;
+		border-radius: 10px;
+		width: 55px;
+		height: 55px;
+	}
+	.a-css{
+		display:inline-flex !important; 
+		width: 250px;
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
+	.upcoming-match-info .team>*{
+		vertical-align: middle !important;
+	}
+	.input-wrapper {
+   		position: relative;
+	}
+	.input-text {
+	    position: absolute;
+	    top: 50%;
+	    right: 10px;
+	    transform: translateY(-50%);
+	    padding-right: 10px;
+	    font-size: 18px;
+	}
+	.text{
+		font-size: 15px;
 	}
 </style>
 <script type="text/javascript">
 function preventEvent(){
 	
-	$(document).on('mousedown',function(event){
+	$("#preventAll").on('mousedown',function(event){
 		event.preventDefault();
 	})
 	
-	$(document).on('click',function(event){
+	$("#preventAll").on('click',function(event){
 		event.preventDefault();
 	})
 	
-	$(document).on('contextmenu',function(event){
+	$("#preventAll").on('contextmenu',function(event){
 		event.preventDefault();
 	})
 	
 }
+
+function preventAtag(){
+	$(".oneGame .homeGame,.oneGame .awayGame").on('click',function(event){
+		event.preventDefault();
+	})
+}
 </script>
 <body>
 <jsp:include page="/common/topBar.jsp"/>
+<section id="preventAll">
 <section class="image-header">
     <div class="container">
         <div class="row">
@@ -84,125 +134,145 @@ function preventEvent(){
 	</div>
 </c:if>
 <c:if test="${gameSize ne 0}">
-<div class="match-page-top" style="height: 150px !important">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12" style="text-align: center;"><h4 class="time-title"></h4></div>
+			<div class="col-md-12">
+				<div class="upcoming-match-info">
+					<div class="team">
+	                    <div class="avatar"></div>
+	                	<div class="text"></div> 
+	                </div>
+					<div class="counter">
+			            <ul>
+			                <li>
+			               		<div class="digit hours">00</div>
+			                </li>
+			                <li>
+			                  	<div class="digit minutes">00</div>
+			                </li>
+							<li>
+			             			<div class="digit seconds">00</div>
+			            	</li>
+			             </ul>
+					</div>
+					<div class="team right">
+	                	<div class="text"></div> 
+	                	<div class="avatar"></div>
+	                </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<c:if test="${predSize ne 0}">
+		<div class="text-center" style="margin-top: 30px;">
+			<script type="text/javascript">preventAtag();</script>
+			<h4>경기 예측 완료</h4>
+			<h6>결과는 자정 이후 업데이트 됩니다.</h6>
+			
+		</div>
+	</c:if>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="upcoming-match-info">
-				<div class="team">
-                    <div class="avatar"></div>
-                	<div class="text"></div> 
-                </div>
-				<div class="counter">
-		            <ul>
-		                <li>
-		               		<div class="digit hours">00</div>
-		                </li>
-		                <li>
-		                  	<div class="digit minutes">00</div>
-		                </li>
-						<li>
-		             			<div class="digit seconds">00</div>
-		            	</li>
-		             </ul>
-				</div>
-				<div class="team right">
-                	<div class="text"></div> 
-                	<div class="avatar"></div>
-                </div>
+			<div class="col-md-6">
+				<h3>[HOME]</h3>
+			</div>
+			<div class="col-md-6" style="text-align: right;">
+				<h3>[AWAY]</h3>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
-	<c:if test="${predSize ne 0}">
-		<div class="text-center">
-			<h4>경기 예측 완료</h4>
-			<h6>결과는 자정 이후 업데이트 됩니다.</h6>
-		</div>
-	</c:if>
-	<c:if test="${predSize eq 0}">
-	<div class="text-center">
-		<h4 class="time-title"></h4>
-	</div>
-	</c:if>
 <form>
 <input type="hidden" value="${date}" name="date">
 <c:forEach items="${gameList}" var="game" varStatus="gameStatus">
 <c:if test="${predSize ne 0}">
 	<c:set var="pred" value="${predList[gameStatus.index]}"/>
 </c:if>
-
-<input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode">
-<input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId">
-<div class="match-page-top">
+<!-- <input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" ${predSize ne 0 ? 'disabled' : ''} ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'checked' : ''}> -->
+<input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode"/>
+<input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId"/>
+<div class="oneGame">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                 	<hr>
-                    <div class="upcoming-match-info">
-                    
-                        <div class="team col-md-4">
-                        	<div>[home]</div>
-                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
-                            <div class="text">
-                                ${game.homeTeam.teamNickName} <span>${game.homeTeam.hometown}</span>
-                                <div class="latest">
-                                    <div class="latest-title">${game.homeTeam.teamFullName} 승리</div>
-                                    <input type="radio" value="${game.homeTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode"  ${predSize ne 0 ? 'disabled' : ''}  ${(predSize ne 0 and pred.predWinningTeamCode eq game.homeTeam.teamCode) ? 'checked' : ''}>
-                                </div>
-                            </div> 
+                    <div class="upcoming-match-info" style="margin-top: 50px;margin-bottom: 50px;">
+                    	<input type="hidden" value="" name="addPred[${gameStatus.index}].predWinningTeamCode" class="predTeamCode"/>
+                        <div class="team col-md-4 middle homeGame">
+	                        	<a class="a-css">
+		                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.homeTeam.teamCode}"></div>
+		                            <div class="text">
+		                                ${game.homeTeam.teamFullName} <span>${game.homeTeam.hometown}</span>
+		                                <div class="latest">
+				                        	<div class="latest-title">${game.homeTeam.teamNickName} 승리</div>
+				                   		</div>
+		                            </div> 
+		                            
+	                            </a>
+	                            
+	                            <div class="border margin-left"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.homeTeam.teamCode) ? 'flex' : 'none'};"></i></div>
                         </div>
-                        <div>
+                        
+                        <div class="col-md-2" style="text-align: center;">
                             <ul>
                                 <li>
-                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}">전력분석</a></div>
+                                    <div><h6>예측 포인트</h6></div>
                                 </li>
                                 <li>
-                                    <div><p class="name">예측 포인트</p></div>
+                                	<div class="input-wrapper">
+                                		<input style="padding-left: 10px;width: 150px;'" value=${predSize ne 0 ? pred.predPoint : ''} ${predList ne null ? 'disabled' : ''} type="number" width="100px" id="pred${gameCode}" name="addPred[${gameStatus.index}].predPoint" >
+                                		<span class="input-text">point</span>
+                                	</div>
                                 </li>
-                                <li>
-                                	<div><input value=${predSize ne 0 ? pred.predPoint : ''} ${predList ne null ? 'disabled' : ''} type="number" width="100px" id="pred${gameCode}" name="addPred[${gameStatus.index}].predPoint" ></div>
+                                <li style="margin-top:50px;">
+                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">전력분석</a></div>
                                 </li>
                             </ul>
                         </div>
-                        <div class="team right col-md-4">
-                            <div class="text">
-                                ${game.awayTeam.teamNickName}<span>${game.awayTeam.hometown}</span>
-                                <div class="latest">
-                                    <div class="latest-title">${game.awayTeam.teamFullName} 승리</div>
-                                    <button><input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" ${predSize ne 0 ? 'disabled' : ''} ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'checked' : ''}></button>
-                                </div>
-                            </div>
-                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
+                        
+                        <div class="team right col-md-4 middle awayGame">
+                        	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
+	                        <a class="a-css">
+	                            <div class="text">
+	                                ${game.awayTeam.teamFullName}<span>${game.awayTeam.hometown}</span>
+	                                <div class="latest">
+	                                    <div class="latest-title">${game.awayTeam.teamNickName} 승리</div>
+	                                </div>
+	                            </div>
+	                            <div class="avatar" style="border"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.awayTeam.teamCode}"></div>
+							</a>
+							
 					</div>
 					
 				</div>
+				<c:if test="${gameStatus.last eq true}"><hr></c:if>
 			</div>
 			
 		</div>
 	</div>
 </div>
-<c:if test="${gameStatus.last eq true}"><hr></c:if>
+
 
 </c:forEach>
 </form>
-<div class="container">
-	<div class="text-center">
-		<h3>
-		<c:if test="${State ne 1}">
-			<c:if test="${predSize ne 0}">
-				<button id="deletePred">초기화</button>
-			</c:if>
-			<c:if test="${predSize eq 0}">
-				<button id="addPred">예측 정보 저장</button>
-			</c:if>
-		</c:if>	
-		</h3>
+<div class="container" style="margin-bottom: 100px;">
+	<div class="col-md-12">
+		<div class="text-center">
+			<c:if test="${State ne 1}">
+				<c:if test="${predSize ne 0}">
+					<button style="margin-right: 30px;" class="btn" id="deletePred">초기화</button>
+				</c:if>
+				<c:if test="${predSize eq 0}">
+					<button style="margin-right: 30px;" class="btn" id="addPred">예측 정보 저장</button>
+				</c:if>
+			</c:if>	
+		</div>
 	</div>
-	
 </div>
 </c:if>
+</section>
 </body>
 <script type="text/javascript">
 
@@ -215,36 +285,36 @@ function remaindTime() {
     var ot = open.getTime();
     var et = end.getTime();
   
-   if(nt<ot){
-     $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
-     sec = parseInt(ot - nt) / 1000;
-     day = parseInt(sec/60/60/24);
-     sec = (sec - (day * 60 * 60 * 24));
-     hour = parseInt(sec/60/60);
-     sec = (sec - (hour*60*60));
-     min = parseInt(sec/60);
-     sec = parseInt(sec-(min*60));
-     if(hour<10){hour="0"+hour;}
-     if(min<10){min="0"+min;}
-     if(sec<10){sec="0"+sec;}
-      $(".hours").html(hour);
-      $(".minutes").html(min);
-      $(".seconds").html(sec);
+   if(nt<et){
+	   $("h4.time-title").html("경기 예측 마감까지 남은 시간");
+	     sec =parseInt(et - nt) / 1000;
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".hours").html(hour);
+	      $(".minutes").html(min);
+	      $(".seconds").html(sec);
    }else {
-     $("h4.time-title").html("경기 예측 마감까지 남은 시간");
-     sec =parseInt(et - nt) / 1000;
-     day  = parseInt(sec/60/60/24);
-     sec = (sec - (day * 60 * 60 * 24));
-     hour = parseInt(sec/60/60);
-     sec = (sec - (hour*60*60));
-     min = parseInt(sec/60);
-     sec = parseInt(sec-(min*60));
-     if(hour<10){hour="0"+hour;}
-     if(min<10){min="0"+min;}
-     if(sec<10){sec="0"+sec;}
-      $(".hours").html(hour);
-      $(".minutes").html(min);
-      $(".seconds").html(sec);
+      $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
+      sec = parseInt(ot - nt) / 1000;
+      day = parseInt(sec/60/60/24);
+      sec = (sec - (day * 60 * 60 * 24));
+      hour = parseInt(sec/60/60);
+      sec = (sec - (hour*60*60));
+      min = parseInt(sec/60);
+      sec = parseInt(sec-(min*60));
+      if(hour<10){hour="0"+hour;}
+      if(min<10){min="0"+min;}
+      if(sec<10){sec="0"+sec;}
+       $(".hours").html(hour);
+       $(".minutes").html(min);
+       $(".seconds").html(sec);
    }
  }
  
@@ -285,23 +355,37 @@ function validation(){
 		check = false;
 	}
 	
-	$("input[type='radio']").each(function(){
-		if($(this).is(':checked')){
-			radioCount = radioCount+1;
+	$(".predTeamCode").each(function(){
+		if($(this).val() === ''){
+			alert('모든 경기 예측에 참여해야 합니다.')
+			check = false
+			return false;
 		}
 	})
 	
-	if(radioCount != 5){
-		alert('라디오 버튼을 선택해주세요')
-		check = false;
-	}
+		return check;
 	
-	return check;
 }
 
 	$(function(){
 		
 		remaindTime()
+		
+		if(${predSize} === 0){
+			$(".oneGame").each(function(){
+				var elem = $(this)
+				$(this).find(".homeGame").on("click",function(){
+					$(this).find("i").attr("style","display : flex;")
+					$(elem).find(".awayGame i").attr("style","display : none;")
+					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
+				})
+				$(this).find(".awayGame").on("click",function(){
+					$(this).find("i").attr("style","display : flex;")
+					$(elem).find(".homeGame i").attr("style","display : none;")
+					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
+				})
+			})
+		}
 		
 		$("#addPred").on("click",function(){
 			if(validation()){

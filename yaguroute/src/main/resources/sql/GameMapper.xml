@@ -79,7 +79,7 @@
 		select *
 		from game
 		WHERE GAME_DATE LIKE '${date}%'
-		<if test="teamCode != 'NN'">
+		<if test="teamCode != 'ALL'">
 			AND (HOME_TEAM_CODE = #{teamCode} OR AWAY_TEAM_CODE = #{teamCode})
 		</if>
 	</select>
