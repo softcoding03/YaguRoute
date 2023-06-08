@@ -60,6 +60,7 @@ public class ChannelController {
 		LocalDate now = LocalDate.now();
 		List<Game> gameList = gameService.getGameListByDate(now.toString());
 		model.addObject("gamelist", gameList);
+		model.addObject("view", "/channel/addChannelView.jsp");
 		model.setViewName("forward:/channel/addChannelView.jsp");
 		return model;
 	}
@@ -72,6 +73,8 @@ public class ChannelController {
 		
 		System.out.println("addChannel:POST 시작");
 		System.out.println("channel NAME : "+channel.getChannelName());
+		System.out.println("channel env : "+channel.getEnvType());
+		System.out.println("넘어온 gameCode : "+gameCode);
 		
 		if(gameCode != null) {
 			Game gameInfo = gameService.getGameInfo(gameCode);
@@ -153,12 +156,14 @@ public class ChannelController {
 		System.out.println(channel);
 		Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
 		System.out.println(lineUp);
+		GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("lineUp", lineUp);
 		modelAndView.addObject("channel", channel);
-		modelAndView.setViewName("forward:/channel/getStreaming.jsp");
+		modelAndView.addObject("gameRecord", gameRecord);
+		modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
 		
 		System.out.println("getStreaming End...");
 		
@@ -190,28 +195,34 @@ public class ChannelController {
 	
 	@PostMapping("updateChannel")
 	public ModelAndView updateChannel(@ModelAttribute("channel") Channel channel, 
-			@RequestParam("gameCode") String gameCode) throws Exception{
+			@RequestParam("gameCode") String gameCode,
+			@RequestParam("lastgameCode") String lastgameCode) throws Exception{
 		
 		System.out.println("updatacChannel 실행~~~");
 		System.out.println("channel Info : "+channel);
 		System.out.println("game Code : "+gameCode);
+		System.out.println("last game Code : "+lastgameCode);
 		
-		Game gameInfo = gameService.getGameInfo(gameCode);
-		channel.setGameInfo(gameInfo);
-		
+		if(gameCode.equals("NN")) {
+			gameCode = lastgameCode;
+			Game gameInfo = gameService.getGameInfo(gameCode);
+			channel.setGameInfo(gameInfo);
+		} else {
+			Game gameInfo = gameService.getGameInfo(gameCode);
+			channel.setGameInfo(gameInfo);
+		}
+
 		int status = channelRestService.updateChannel(channel);
 		System.out.println("statuse code : "+status);
 		
+		
+		ModelAndView modelAndView = new ModelAndView();
 		if(status == 200 || status == 201) {
 			System.out.println("수정한다.");
 			channelService.updateChannel(channel);
+			modelAndView.addObject("channel", channel);
+			modelAndView.setViewName("forward:/channel/addChannel.jsp");
 		}
-		
-		
-		ModelAndView modelAndView = new ModelAndView();
-		
-		modelAndView.setViewName("forward:/channel/updateChannel.jsp");
-		
 		System.out.println("변경 후 channel : "+channel);
 		
 		return modelAndView;
