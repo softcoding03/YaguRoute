@@ -29,7 +29,7 @@ function fncAddTransaction() {
       var tranUsePoint = $('input[name="tranUsePoint"]').val();      
       //alert(tranUsePoint);
       
-      var tranTotalPrice = ${tranTotalPrice};
+      var tranTotalPrice = ${tranList[0].tranTotalPrice};
       tranTotalPrice -= tranUsePoint;    	 
       //alert("2번쨰알림 "+tranTotalPrice)
       $("#tranTotalPrice").val(tranTotalPrice);
@@ -67,7 +67,7 @@ function fncAddTransaction() {
 			{ //결제 정보 설정 (***아임포트에서 요구하는 변수명 사용해야한다)
 				pg: "html5_inicis", //결제 수단 설정 (관리자콘솔에서 추가한 pg만 가능)
 				merchant_uid: UID, //유니크하게 만들어 놓은 merchat_id값
-				goodsname: "${tranDetail.tranDetailProd.prodNo}", //결제창에 보이는 구매할 상품의 이름
+				goodsname: "${tranDetailList[0].tranDetailProd.prodNo}", //결제창에 보이는 구매할 상품의 이름
 			    amount: payAmount,	//구매할 총 가격
 			    buyer_name: payName, //직접 입력한 받는사람 이름
 			    buyer_tel:  payPhone, //직접 입력한 받는사람 휴대폰번호
@@ -128,12 +128,12 @@ function fncAddTransaction() {
 		<form name="detailForm">
 
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
-					<input type="hidden" id="userId" name="userId" value="${user.userId} " /> 
+					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetailList[0].tranDetailProd.prodNo}" /> 
+					<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
 					<input type="hidden" id="impNo" name="impNo" value="" /> 
-					<input type="hidden" id="merchantNo" name="merchantNo" value="" /> 
+					<input type="hidden" id="merchantNo" name="merchantNo" value=""/> 
 					<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
-					<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity}" />
+					<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity[0]}" />
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 
 
@@ -248,43 +248,43 @@ function fncAddTransaction() {
 				<td height="40" colspan="5" bgcolor="D6E6F5"
 					style="font-size: 15px;" align="center">[구매할 상품 정보]</td>
 			</tr>
-
-			<tr>
-				<td width="300" class="ct_write">상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01" width="299">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td width="105">${tranDetail.tranDetailProd.prodNo}</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">상품명 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01">${tranDetail.tranDetailProd.prodName}</td>
-			</tr>
-						<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">상품수량 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01">${prodQuantity}</td>
-			</tr>
-									<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-						<tr>
-				<td width="104" class="ct_write">상품가격 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01">${prodPrice}</td>
-			</tr>
-
+			<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
+				<tr>
+					<td width="300" class="ct_write">상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
+					<td bgcolor="D6D6D6" width="1"></td>
+					<td class="ct_write01" width="299">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="105">${tranDetail.tranDetailProd.prodNo}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+				</tr>
+				<tr>
+					<td width="104" class="ct_write">상품명 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
+					<td bgcolor="D6D6D6" width="1"></td>
+					<td class="ct_write01">${tranDetail.tranDetailProd.prodName}</td>
+				</tr>
+							<tr>
+					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+				</tr>
+				<tr>
+					<td width="104" class="ct_write">상품수량 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
+					<td bgcolor="D6D6D6" width="1"></td>
+					<td class="ct_write01">${prodQuantity[tranStatus.index]}</td>
+				</tr>
+										<tr>
+					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+				</tr>
+							<tr>
+					<td width="104" class="ct_write">상품가격 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
+					<td bgcolor="D6D6D6" width="1"></td>
+					<td class="ct_write01">${tranDetail.tranDetailProd.prodPrice}</td>
+				</tr>
+			</c:forEach>
 
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -315,7 +315,7 @@ function fncAddTransaction() {
 			<tr>
 				<td width="104" class="ct_write">상품 총 가격(가격*구매수량) <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
 				<td bgcolor="D6D6D6" width="1" ></td>
-				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${tranTotalPrice}" /></td>
+				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${tranList[0].tranTotalPrice}" /></td>
 			</tr>
 
 			<tr>

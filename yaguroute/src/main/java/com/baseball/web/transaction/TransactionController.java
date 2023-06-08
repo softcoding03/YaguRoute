@@ -62,33 +62,48 @@ public class TransactionController {
 	int pageSize;
 
 	@GetMapping(value = "addTransaction")
-	public ModelAndView addTransactionView(@RequestParam("prodNo") int prodNo,
-			@RequestParam("prodQuantity") int prodQuantity, @RequestParam int prodPrice) throws Exception {
+	public ModelAndView addTransactionView(@RequestParam("prodNo") List<Integer> prodNo,
+			@RequestParam("prodQuantity") List<Integer> prodQuantity, @RequestParam List<Integer> prodPrice) throws Exception {
 
 		System.out.println("---/transaction/addTransactionView 작동 시작---");
 
-		TranDetail tranDetail = new TranDetail();
-		tranDetail.setTranDetailProd(productService.getProduct(prodNo));
-
-		Basket basket = new Basket();
-		basket.setProdQuantity(prodQuantity);
-
-		Product product = new Product();
-		product.setProdPrice(prodPrice);
-
-		Transaction transacton = new Transaction();
-
-		int tranTotalPrice = prodQuantity * prodPrice;
-		transacton.setTranTotalPrice(tranTotalPrice);
-
+		List<TranDetail> tranDetailList = new ArrayList<>();
+		List<Basket> basketList = new ArrayList<>();
+		List<Product> prodList = new ArrayList<>();
+		List<Transaction> tranList = new ArrayList<>();
+		
+		int prodSize = prodNo.size();
+		
+		for(int i =0; i<prodSize;i++) {
+			TranDetail tranDetail = new TranDetail();
+			tranDetail.setTranDetailProd(productService.getProduct(prodNo.get(i)));
+			Basket basket = new Basket();
+			basket.setProdQuantity(prodQuantity.get(i));
+			Product product = new Product();
+			product.setProdPrice(prodPrice.get(i));
+			Transaction transacton = new Transaction();
+			int tranTotalPrice = prodQuantity.get(i) * prodPrice.get(i);
+			transacton.setTranTotalPrice(tranTotalPrice);
+			
+			tranDetailList.add(tranDetail);
+			basketList.add(basket);
+			prodList.add(product);
+			tranList.add(transacton);
+		}
+		
+		System.out.println(tranDetailList);
+		System.out.println(basketList);
+		System.out.println(prodList);
+		System.out.println(tranList);
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("tranDetail", tranDetail);
+		modelAndView.addObject("tranDetailList", tranDetailList);
 		modelAndView.addObject("prodQuantity", prodQuantity);
 		modelAndView.addObject("prodPrice", prodPrice);
-		modelAndView.addObject("tranTotalPrice", tranTotalPrice);
+		modelAndView.addObject("tranList", tranList);
 		modelAndView.setViewName("forward:/transaction/addTransactionView.jsp");
-		System.out.println(tranDetail);
+		
 		System.out.println("---/transaction/addTransactionView 작동 완료---");
 
 		return modelAndView;
