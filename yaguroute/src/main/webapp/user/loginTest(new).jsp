@@ -1,14 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
- <c:if test="${ ! empty user }">
- 	<c:redirect url="/main.jsp"/>
- </c:if>
- <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />

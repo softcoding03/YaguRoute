@@ -14,6 +14,25 @@
 </head>
 
 <style type="text/css">
+	.image-container {
+		position: relative;
+		display: inline-block;
+		width: auto;
+		heigth: auto;
+	}
+	.teamTopBar {
+		width: auto !important;
+		height: auto;
+	}
+	
+	.imgSize{
+		width: 130px !important;
+		height: 110px !important;
+	}
+	.teamName{
+		font-size: 15px;
+		font-weight: 600;
+	}
 	ul{
 		list-style:none;
 	}
@@ -42,7 +61,7 @@
 	.left-border-wid{
 		border-radius: 10px;
 		margin-top: 20px;
-		background-color: #8cbf0f;
+		background-color: #2ea11d;
 		width: 60%;
 		padding-bottom: 5px;
 		padding-left: 5px;
@@ -78,17 +97,16 @@
 <body>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>경기 기록</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+    <div class="image-container">
+	  <div class="row">
+	  	<div class=" col-md-6">
+			<img class="teamTopBar" src="${gameRecord.gameInfo.awayTeam.teamTopBar}">
+		</div>
+		<div class=" col-md-6">
+			<img class="teamTopBar col-md-6" src="${gameRecord.gameInfo.homeTeam.teamTopBar}">
+		</div>
+	  </div>
+	</div>
 </section>
 
 <section class="sidebar col-xs-3 col-sm-3 col-md-3 sidebar-offcanvas" id="sidebar">
@@ -97,7 +115,8 @@
            	<h6 style="padding-left: 18px;">다른 경기</h6>
            	<ul>
            	<c:forEach var="toGame" items="${todayGame}">
-           		<li class="left-border-wid">
+           		<li class="left-border-wid" style="${toGame.gameCode eq gameRecord.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
+           			<div>
 	           		<c:if test="${toGame.gameStatusCode eq 2 or toGame.gameStatusCode eq 4}">
 	           			<div class="text">경기종료</div>
 	           			<a href="/game/getGameRecord?gameCode=${toGame.gameCode}">
@@ -120,22 +139,27 @@
 	           		</c:if>
 	           		<c:if test="${toGame.gameStatusCode eq 0}">
 	           				<div class="text" style="font-size: 12px; text-align: center;">${toGame.gameTime} 예정</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}" >${toGame.awayTeam.teamNickName}</span>
-			           		</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
-			           		</div>
+	           				<a href="/game/getGamePreview?gameCode=${toGame.gameCode}">
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}" >${toGame.awayTeam.teamNickName}</span>
+				           		</div>
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+				           		</div>
+			           		</a>
 	           		</c:if>
 	           		<c:if test="${toGame.gameStatusCode eq 1}">
 	           				<div class="text" style="font-size: 12px; text-align: center;">중계중</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
-			           		</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
-			           		</div>
+	           				<a href="/channel/getStreaming?gameCode=${toGame.gameCode}">
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
+				           		</div>
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+				           		</div>
+			           		</a>
 	           		</c:if>
+	           		</div>
            		</li>
            	</c:forEach>
            	</ul>
@@ -146,16 +170,16 @@
 <section id="gameInfo" class="col-xs-12 col-sm-12 col-md-9">
 <div class="container">
 	<div class="row">
-	<h3>경기 정보</h3>
+	<h3>경기 기록</h3>
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="tab-content">
 	    <div class="tab-pane active" id="all">
 	        <div class="amateurs-main-match">
 	            <div class="title">${gameRecord.gameInfo.homeTeam.stadiumName}</div>	
 	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.awayTeam.teamCode}" class="team">
-	                <span class="image"><img src="${gameRecord.gameInfo.awayTeam.teamEmblem}" alt="main-match"></span>
+	                <span class="image"><img class="imgSize" src="${gameRecord.gameInfo.awayTeam.teamEmblem}" alt="main-match"></span>
 	                <span class="info">
-	                    <span class="name">${gameRecord.gameInfo.awayTeam.teamFullName}</span>
+	                    <span class="name teamName">${gameRecord.gameInfo.awayTeam.teamFullName}</span>
 	                </span>
 	            </a>
 	            <div class="score">
@@ -163,9 +187,9 @@
 	            </div>
 	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.homeTeam.teamCode}" class="team guest">
 	                <span class="info">
-	                    <span class="name">${gameRecord.gameInfo.homeTeam.teamFullName}</span>
+	                    <span class="name teamName">${gameRecord.gameInfo.homeTeam.teamFullName}</span>
 	                </span>	
-	                <span class="image"><img src="${gameRecord.gameInfo.homeTeam.teamEmblem}" alt="main-match"></span>
+	                <span class="image"><img class="imgSize" src="${gameRecord.gameInfo.homeTeam.teamEmblem}" alt="main-match"></span>
 	            </a>
 	            <div class="title">${gameRecord.gameInfo.gameDate}</div>
 	            <div class="title">${gameRecord.gameInfo.gameTime}</div>

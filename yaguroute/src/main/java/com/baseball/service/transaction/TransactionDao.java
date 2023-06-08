@@ -20,7 +20,7 @@ public interface TransactionDao {
 
 	public List<Transaction> getTransactionList(Search search, String userId, String tranType) throws Exception; // 구매현황조회(사용자)
 							
-	public List<Transaction> getDlvyTranList(Search search, int tranNo, String tranType) throws Exception;
+//	public List<Transaction> getDlvyTranList(Search search, int tranNo, String tranType) throws Exception;
 	
 	public int getTotalCount(String userId, String tranType) throws Exception;
 

@@ -1,233 +1,215 @@
-<%@ page contentType="text/html; charset=euc-kr"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%-- 
-<%@ page import="com.model2.mvc.service.domain.Product" %>
-
-<% 
-	Product product = (Product)request.getAttribute("product");
-%> /////////////////////// EL / JSTL ¿˚øÎ¿∏∑Œ ¡÷ºÆ √≥∏Æ //////////////////////// --%>
-
-
-
+<!DOCTYPE html>
 <html>
+
 <head>
-<title>ªÛ«∞¡§∫∏ºˆ¡§</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>updateProductView</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!-- Bootstrap Dropdown Hover CSS -->
-<link href="/css/animate.min.css" rel="stylesheet">
-<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<!-- Bootstrap Dropdown Hover JS -->
-<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-
-<!-- jQuery UI toolTip ªÁøÎ CSS-->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- jQuery UI toolTip ªÁøÎ JS-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<!--  ///////////////////////// CSS ////////////////////////// -->
 <style>
-body {
-	padding-top: 50px;
+
+.player-trophy li img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
 }
+
+.background-section {
+  display: inline-block;
+  text-align: center;
+  
+}
+
 </style>
 
 
 <script type="text/javascript">
 
-function fncAddProduct(){
-	//Form ¿Ø»øº∫ ∞À¡ı
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
-
-	if(name == null || name.length<1){
-		alert("ªÛ«∞∏Ì¿∫ π›µÂΩ√ ¿‘∑¬«œø©æﬂ «’¥œ¥Ÿ.");
-		return;
-	}
-	if(detail == null || detail.length<1){
-		alert("∞°∞›¿∫ π›µÂΩ√ ¿‘∑¬«œø©æﬂ «’¥œ¥Ÿ.");
-		return;
-	}
-	if(manuDate == null || manuDate.length<1){
-		alert("¿Á∞Ì¥¬ π›µÂΩ√ ¿‘∑¬«œº≈æﬂ «’¥œ¥Ÿ.");
-		return;
-	}
-	if(price == null || price.length<1){
-		alert("ªÛ«∞ƒ´≈◊∞Ì∏Æ¥¬ π›µÂΩ√ ¿‘∑¬«œº≈æﬂ «’¥œ¥Ÿ.");
-		return;
-    }  
-    if(teamcode == null || teamcode.length<1){
-	      alert("∆¿ ƒ⁄µÂ¥¬ π›µÂΩ√ ¿‘∑¬«œº≈æﬂ «’¥œ¥Ÿ.");
-	      return;
-		
-	//document.detailForm.action='/product/updateProduct';
-	//document.detailForm.submit();
-	$("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
-}
-
-	$(function() {
-		//==> DOM Object GET 3∞°¡ˆ πÊπ˝ ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		//==> 1 ∞˙ 3 πÊπ˝ ¡∂«’ : $("tagName.className:filter«‘ºˆ") ªÁøÎ«‘.	
-		 $( "td.ct_btn01:contains('ºˆ¡§')" ).on("click" , function() {
-			//Debug..
-			//alert(  $( "td.ct_btn01:contains('∞°¿‘')" ).html() );
-			fncAddProduct();
-		});
-	});	
-
 
 </script>
-</head>
 
-<body bgcolor="#ffffff" text="#000000">
+</head>
+<body>
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
+	<!--  ÌôîÎ©¥Íµ¨ÏÑ± div Start /////////////////////////////////////-->
 
-	<form name="detailForm" method="post">
+				<!--BREADCRUMBS BEGIN-->
+					<section class="image-header" style="height: 200px;">
+					  <div class="container">
+					    <div class="row">
+					      <div class="col-md-8">
+					        <div class="info">
+					          <div class="wrap">
+					            <h1>ÏóÖÎç∞Ïù¥Ìä∏ ÏàòÏ†ï</h1>
+					          </div>
+					        </div>
+					      </div>
+					    </div>
+					  </div>
+					</section>
+				<!--BREADCRUMBS END-->
 
-		<input type="hidden" name="prodNo" value="${product.prodNo }" />
+        <!--PLAYER STATS BEGIN-->
+	 <section class="hockey-stats">
+		   <div class="container">
+		      <div class="row">
+		        <h4 style="text-align: center;">Update Product Information</h4>
+		            <div class="col-md-6">
+		                <div class="background-section">
+		                    <ul class="player-trophy">
+		                        <li>
+		                            <img src="/images/product/${product.prodImageFirst}" width="100" height="150" alt="trophy">
+		                        </li>
+		                        <li>
+		                            <img src="/images/product/${product.prodImageSecond}" width="100" height="150" alt="trophy">
+		                        </li>
+		                        <li>
+		                           <img src="/images/product/${product.prodImageThird}" width="100" height="150" alt="trophy">
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+	  				<div class="col-md-6">
+		                <div class="overflow-scroll">
+		                    <table>
 
-		<table width="100%" height="37" border="0" cellpadding="0"
-			cellspacing="0">
-			<tr>
-				<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"
-					width="15" height="37" /></td>
-				<td background="/images/ct_ttl_img02.gif" width="100%"
-					style="padding-left: 10px;">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>ÏÉÅÌíàÎ™Ö: </td>
+                            <td class="club">  <input type="text" name="prodName" value="${product.prodName}"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Í∞ÄÍ≤©: </td>
+                            <td class="club"> <input type="text" name="prodName" value="${product.prodPrice}"></td>
+                        </tr>
+                        
 						<tr>
-							<td width="93%" class="ct_ttl01">ªÛ«∞¡§∫∏ºˆ¡§</td>
-							<td width="20%" align="right">&nbsp;</td>
+						    <td>ÏÉÅÌíà Ïπ¥ÌÖåÍ≥†Î¶¨: </td>
+						    <td class="club">
+						        <select name="prodCategory">
+						            <option value="1" <c:if test="${product.prodCategory == 1}">selected</c:if>>Ïú†ÎãàÌèº</option>
+						            <option value="2" <c:if test="${product.prodCategory == 2}">selected</c:if>>Î™®Ïûê</option>
+						            <option value="3" <c:if test="${product.prodCategory == 3}">selected</c:if>>ÏïºÍµ¨Ïö©Ìíà</option>
+						            <option value="4" <c:if test="${product.prodCategory == 4}">selected</c:if>>Ïû°Ìôî</option>
+						        </select>
+						    </td>
 						</tr>
-					</table>
-				</td>
-				<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"
-					width="12" height="37" /></td>
-			</tr>
-		</table>
-
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			style="margin-top: 13px;">
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">ªÛ«∞∏Ì <img
-					src="/images/ct_icon_red.gif" width="3" height="3"
-					align="absmiddle" />
-				</td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						 
 						<tr>
-							<td width="105"><input type="text" name="prodName"
-								class="ct_input_g" style="width: 100px; height: 19px"
-								maxLength="20" value="${product.prodName}"></td>
+						    <td>Íµ¨Îã®: </td>
+						    <td class="club">        
+						        <select name="prodTeamCode">
+						            <option value="HH" <c:if test="${product.prodTeamCode eq 'HH'}">selected</c:if>>ÌïúÌôî</option>
+						            <option value="OB" <c:if test="${product.prodTeamCode eq 'OB'}">selected</c:if>>ÎëêÏÇ∞</option>
+						            <option value="SS" <c:if test="${product.prodTeamCode eq 'SS'}">selected</c:if>>ÏÇºÏÑ±</option>
+						            <option value="KT" <c:if test="${product.prodTeamCode eq 'KT'}">selected</c:if>>KT</option>
+						            <option value="SK" <c:if test="${product.prodTeamCode eq 'SK'}">selected</c:if>>SSG</option>
+						            <option value="WO" <c:if test="${product.prodTeamCode eq 'WO'}">selected</c:if>>ÌÇ§ÏõÄ</option>
+						            <option value="NC" <c:if test="${product.prodTeamCode eq 'NC'}">selected</c:if>>NC</option>
+						            <option value="LG" <c:if test="${product.prodTeamCode eq 'LG'}">selected</c:if>>LG</option>
+						            <option value="LT" <c:if test="${product.prodTeamCode eq 'LT'}">selected</c:if>>Î°ØÎç∞</option>
+						            <option value="${product.prodTeamCode}" <c:if test="${product.prodTeamCode ne 'HH' && product.prodTeamCode ne 'OB' && product.prodTeamCode ne 'SS' && product.prodTeamCode ne 'KT' && product.prodTeamCode ne 'SK' && product.prodTeamCode ne 'WO' && product.prodTeamCode ne 'NC' && product.prodTeamCode ne 'LG' && product.prodTeamCode ne 'LT'}">selected</c:if>>${product.prodTeamCode}</option>
+						        </select>                         
+						    </td>                  
 						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">∞°∞› <img
-					src="/images/ct_icon_red.gif" width="3" height="3"
-					align="absmiddle" />
-				</td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" name="prodPrice"
-					value="${product.prodPrice }" class="ct_input_g"
-					style="width: 100px; height: 19px" maxLength="10" minLength="6">
-				</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">ªÛ«∞¿Á∞Ì</td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" name="prodStock"
-					value="${product.prodStock}"> <!-- <input type="text" readonly="readonly" name="manuDate" value="${product.manuDate }" 	
-						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
-						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
-	 --></td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">ªÛ«∞ƒ´≈◊∞Ì∏Æ <img
-					src="/images/ct_icon_red.gif" width="3" height="3"
-					align="absmiddle" />
-				</td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="text" name="price"
-					value="${product.prodCategory}" class="ct_input_g"
-					style="width: 100px; height: 19px" maxLength="50" />&nbsp;ø¯</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">ªÛ«∞¿ÃπÃ¡ˆ</td>
-				<td bgcolor="D6D6D6" width="1"></td>
-				<td class="ct_write01"><input type="image" name="prodImages"
-					class="ct_input_g" style="width: 230px; height: 230px"
-					maxLength="13" src="/images/product/${product.prodImages}" /></td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-		</table>
+						 	
+						<tr>					 
+                            <td>ÏÉÅÌíà Ïû¨Í≥†: </td>
+                            <td class="club"> <input type="text" name="prodName" value="${product.prodStock}"></td>
+                        </tr>                       
+                        
+                    </table>
+	                    <div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+                        <button id="updateProduct" type="button" class="btn btn-warning">ÏàòÏ†ï</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+ 
+   
+                      
+<!--PLAYER STATS END-->
+   
 
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			style="margin-top: 10px;">
-			<tr>
-				<td width="53%"></td>
-				<td align="right">
-					<table border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td width="17" height="23"><img src="/images/ct_btnbg01.gif"
-								width="17" height="23" /></td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-								style="padding-top: 3px;">
-								<!-- <a href="javascript:fncAddProduct();">ºˆ¡§</a>  --> ºˆ¡§
-							</td>
-							<td width="14" height="23"><img src="/images/ct_btnbg03.gif"
-								width="14" height="23" /></td>
-							<td width="30"></td>
-							<td width="17" height="23"><img src="/images/ct_btnbg01.gif"
-								width="17" height="23" /></td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-								style="padding-top: 3px;"><a
-								href="javascript:history.go(-1)">√Îº“</a></td>
-							<td width="14" height="23"><img src="/images/ct_btnbg03.gif"
-								width="14" height="23" /></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form>
 
 </body>
+
+<script type="text/javascript" src="/js/library/jquery.js"></script>
+<script type="text/javascript" src="/js/library/jquery-ui.js"></script>
+<script type="text/javascript" src="/js/library/bootstrap.js"></script>
+<script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
+<script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
+<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
+<script type="text/javascript" src="/js/library/owl.carousel.js"></script>
+<script type="text/javascript" src="/js/library/progressbar.js"></script>
+<script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>
+<script type="text/javascript" src="/js/library/chartist.js"></script>
+<script type="text/javascript" src="/js/library/Chart.js"></script>
+<script type="text/javascript" src="/js/library/fancySelect.js"></script>
+<script type="text/javascript" src="/js/library/isotope.pkgd.js"></script>
+<script type="text/javascript" src="/js/library/imagesloaded.pkgd.js"></script>
+
+<script type="text/javascript" src="/js/jquery.team-coundown.js"></script>
+<script type="text/javascript" src="/js/matches-slider.js"></script>
+<script type="text/javascript" src="/js/header.js"></script>
+<script type="text/javascript" src="/js/matches_broadcast_listing.js"></script>
+<script type="text/javascript" src="/js/news-line.js"></script>
+<script type="text/javascript" src="/js/match_galery.js"></script>
+<script type="text/javascript" src="/js/main-club-gallery.js"></script>
+<script type="text/javascript" src="/js/product-slider.js"></script>
+<script type="text/javascript" src="/js/circle-bar.js"></script>
+<script type="text/javascript" src="/js/standings.js"></script>
+<script type="text/javascript" src="/js/shop-price-filter.js"></script>
+<script type="text/javascript" src="/js/timeseries.js"></script>
+<script type="text/javascript" src="/js/radar.js"></script>
+<script type="text/javascript" src="/js/slider.js"></script>
+<script type="text/javascript" src="/js/preloader.js"></script>
+<script type="text/javascript" src="/js/diagram.js"></script>
+<script type="text/javascript" src="/js/bi-polar-diagram.js"></script>
+<script type="text/javascript" src="/js/label-placement-diagram.js"></script>
+<script type="text/javascript" src="/js/donut-chart.js"></script>
+<script type="text/javascript" src="/js/animate-donut.js"></script>
+<script type="text/javascript" src="/js/advanced-smil.js"></script>
+<script type="text/javascript" src="/js/svg-path.js"></script>
+<script type="text/javascript" src="/js/pick-circle.js"></script>
+<script type="text/javascript" src="/js/horizontal-bar.js"></script>
+<script type="text/javascript" src="/js/gauge-chart.js"></script>
+<script type="text/javascript" src="/js/stacked-bar.js"></script>
+
+<script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
+
+<script type="text/javascript" src="/js/treshold.js"></script>
+<script type="text/javascript" src="/js/visible.js"></script>
+<script type="text/javascript" src="/js/anchor.js"></script>
+<script type="text/javascript" src="/js/landing_carousel.js"></script>
+<script type="text/javascript" src="/js/landing_sport_standings.js"></script>
+<script type="text/javascript" src="/js/twitterslider.js"></script>
+<script type="text/javascript" src="/js/champions.js"></script>
+<script type="text/javascript" src="/js/landing_mainnews_slider.js"></script>
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/video_slider.js"></script>
+<script type="text/javascript" src="/js/footer_slides.js"></script>
+<script type="text/javascript" src="/js/player_test.js"></script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
 </html>

@@ -7,7 +7,7 @@ public class Transaction {
 	
 	//Field
 	private int tranNo;
-	private User buyer;
+	private User buyer;	//userId
 	private String impNo;
 	private String merchantNo;
 	private String receiverName;

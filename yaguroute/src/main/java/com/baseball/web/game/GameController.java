@@ -95,6 +95,7 @@ public class GameController {
 		List<Team> allTeam = gameService.getAllTeam();
 		List<Game> gameList= gameService.getGameListByMonthly(date, teamCode);
 		
+		requset.setAttribute("todayDate", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		requset.setAttribute("daysInMonth", daysInMonth);
 		requset.setAttribute("dayOfWeekList", dayOfWeekList);
 		requset.setAttribute("currentDateList", currentDateList);
@@ -135,6 +136,8 @@ public class GameController {
 		Game game = gameService.getGameInfo(gameCode);
 		GamePreview gamePreview = gameService.getGamePreview(game);
 		List<Game> todayGame = gameService.getGameListByDate(game.getGameDate());
+		
+		System.out.println(gamePreview);
 		
 		request.setAttribute("gamePreview", gamePreview);
 		request.setAttribute("todayGame", todayGame);

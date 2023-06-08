@@ -24,6 +24,10 @@
     		font-size: 15px !important;
     		font-weight: 700;
     	}
+    	.table-css td{
+    		font-size: 14px !important;
+    		font-weight: 500 !important;
+    	}
     </style>
 </head>
 <body>
@@ -42,7 +46,7 @@
         </div>
     </div>
 </section>
-	<div class="background">
+<div class="mathc-live-broadcasts background">
 		<div class="broadcast-tabs-wrapper">
 	            <ul class="nav nav-tabs" role="tablist">
 	            <c:forEach var="team" items="${allTeam}">
@@ -60,8 +64,7 @@
 	            </c:forEach>
 	            </ul>
 	        </div>
-	</div>
-
+</div>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -83,7 +86,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12">
 	            	<div class="cart-total">
-	                    <button class="proceed text-center">티켓 예매<i class="fa fa-check" aria-hidden="true"></i></button>
+	                    <button class="proceed text-center" id="goTicket">티켓 예매하러 가기<i class="fa fa-check" aria-hidden="true"></i></button>
 	                </div>
             	</div>
 				<div class="col-md-12" style="margin-top: 50px; ">
@@ -98,7 +101,7 @@
 		                        	<th>승률</th>
 		                        	<th>지난 10경기</th>
 		                        </tr>
-		                        <tr>
+		                        <tr class="table-css">
 		                        	<td>${teamInfo.teamRanking}위</td>
 		                        	<td>${teamInfo.endGameCount}</td>
 		                        	<td>${teamInfo.winCount}</td>
@@ -125,7 +128,7 @@
 		<div class="col-md-12" style="justify-content: center;">
 			<div style="text-align: center; padding-top: 50px;"><h5 class="player-name">${teamInfo.stadiumName} 위치 정보</h5></div>
 			<div><p class="text">주소 : ${teamInfo.stadiumAddress}</p></div>
-			<div id="wrap" class="section" style="padding-bottom: 200px;">
+			<div id="wrap" class="section" style="padding-bottom: 100px;">
 				<div id="map" style="width: 100%; height: 500px;" class="buttons"></div>
 			</div>
 		</div>
@@ -140,6 +143,10 @@
 		var today = new Date();
 		var currentYear = today.getFullYear().toString();
 		$("#nowYear").html(currentYear + '시즌');
+		
+		$("#goTicket").on("click",function(){
+			self.location = "/ticket/getGameList2w?teamCode=${teamInfo.teamCode}";
+		})
 	})
 	function initMap(){
 		

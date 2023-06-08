@@ -32,11 +32,6 @@ public class BasketController {
 	@GetMapping("getBasketList")
 	public String getBasketList(HttpSession session ,HttpServletRequest request) {
 		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			user = new User();
-			user.setUserId("rockseong3");
-			session.setAttribute("user", user);
-		}
 		
 		Basket basket = new Basket();
 		basket.setUserId(user.getUserId());
@@ -49,6 +44,7 @@ public class BasketController {
 		
 		System.out.println(totalPrice);
 		
+		request.setAttribute("basketSize", basketList.size());
 		request.setAttribute("totalPrice", totalPrice);
 		request.setAttribute("basketList", basketList);
 		

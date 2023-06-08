@@ -1,6 +1,7 @@
 package com.baseball.service.trandetail;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,8 +22,10 @@ public interface TranDetailDao {
 	
 	public void updateRefundStatusCode(TranDetail tranDetail) throws Exception;			  //RefundCode
 	
-	public List<TranDetail>getDeliveryList(Search search, int tranNo) throws Exception; 	 //배송현황조회 (admin)
+	public List<TranDetail> getTranDetailList(Search search, String userId, int tranDetailNo) throws Exception; 	//구매현황조회(사용자)
 	
-	public int getTotalCount(int tranNo) throws Exception;
+	//public List<TranDetail> getDlvyTranList(Map<String, Object> map) throws Exception;		//배송현황조회(관리자)
+		
+	public int getTotalCount(int tranDetailNo) throws Exception;
 	
 }

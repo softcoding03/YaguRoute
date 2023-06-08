@@ -79,11 +79,10 @@ public class GamePredictServiceImpl implements GamePredictService {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String strNow = now.format(formatter);
-		System.out.println(strNow);
+		
 		List<Game> gameList = gameDao.getGameListByDate(strNow);
 		
 		for(Game game : gameList) {
-			System.out.println(game);
 			gamePredictDao.updatePredSuccess(game);
 			game.setWinningTeamAllocation(getPredAllocation(game));
 			gameDao.updateGamePredAllocation(game);

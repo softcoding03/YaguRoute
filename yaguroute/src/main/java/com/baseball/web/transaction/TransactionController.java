@@ -62,33 +62,42 @@ public class TransactionController {
 	int pageSize;
 
 	@GetMapping(value = "addTransaction")
-	public ModelAndView addTransactionView(@RequestParam("prodNo") int prodNo,
-			@RequestParam("prodQuantity") int prodQuantity, @RequestParam int prodPrice) throws Exception {
+	public ModelAndView addTransactionView(@RequestParam("prodNo") List<Integer> prodNo,
+			@RequestParam("prodQuantity") List<Integer> prodQuantity, @RequestParam List<Integer> prodPrice) throws Exception {
 
 		System.out.println("---/transaction/addTransactionView 작동 시작---");
 
-		TranDetail tranDetail = new TranDetail();
-		tranDetail.setTranDetailProd(productService.getProduct(prodNo));
-
-		Basket basket = new Basket();
-		basket.setProdQuantity(prodQuantity);
-
-		Product product = new Product();
-		product.setProdPrice(prodPrice);
-
-		Transaction transacton = new Transaction();
-
-		int tranTotalPrice = prodQuantity * prodPrice;
-		transacton.setTranTotalPrice(tranTotalPrice);
-
+		List<TranDetail> tranDetailList = new ArrayList<>();
+		List<Basket> basketList = new ArrayList<>();
+		List<Product> prodList = new ArrayList<>();
+		List<Transaction> tranList = new ArrayList<>();
+		
+		int prodSize = prodNo.size();
+		
+		for(int i =0; i<prodSize;i++) {
+			TranDetail tranDetail = new TranDetail();
+			tranDetail.setTranDetailProd(productService.getProduct(prodNo.get(i)));
+			Basket basket = new Basket();
+			basket.setProdQuantity(prodQuantity.get(i));
+			Product product = new Product();
+			product.setProdPrice(prodPrice.get(i));
+			Transaction transacton = new Transaction();
+			int tranTotalPrice = prodQuantity.get(i) * prodPrice.get(i);
+			transacton.setTranTotalPrice(tranTotalPrice);
+			
+			tranDetailList.add(tranDetail);
+			basketList.add(basket);
+			prodList.add(product);
+			tranList.add(transacton);
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("tranDetail", tranDetail);
+		modelAndView.addObject("tranDetailList", tranDetailList);
 		modelAndView.addObject("prodQuantity", prodQuantity);
 		modelAndView.addObject("prodPrice", prodPrice);
-		modelAndView.addObject("tranTotalPrice", tranTotalPrice);
+		modelAndView.addObject("tranList", tranList);
 		modelAndView.setViewName("forward:/transaction/addTransactionView.jsp");
-		System.out.println(tranDetail);
+		
 		System.out.println("---/transaction/addTransactionView 작동 완료---");
 
 		return modelAndView;
@@ -161,81 +170,8 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-	@GetMapping("listTransaction")
-	public String getTransactionList (@ModelAttribute("search") Search search, HttpSession session,
-									 Model model) throws Exception {
-			
-
-		System.out.println("/transaction/listTransaction 작동 시작");
-	
-
-		if (search.getCurrentPage() == 0) {
-			search.setCurrentPage(1);
-		}
-
-		search.setPageSize(pageSize);
-		System.out.println("데이터가 들어간" + search);
-		
-        User user = (User) session.getAttribute("user");      
-        String userId = user.getUserId();
-            
-        String tranType = "P";
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map = transactionService.getTransactionList(search, userId, tranType);
-		
-		List<Transaction> list = (List<Transaction>) map.get("list");
-		for (Transaction tran : list) {
-			System.out.println(tran);
-		}
-		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
-
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		model.addAttribute("userId", userId);
 
 
-		
-		return "forward:/transaction/listTransaction.jsp";
-	}
-
-	@GetMapping("dlvyTranList")
-	public String getDlvyTranList (@ModelAttribute("search")Search search,
-									@ModelAttribute("transaction")Transaction transaction, Model model) throws Exception {
-		
-		System.out.println("/transaction/dlvyTranList 작동 시작");
-		
-		if (search.getCurrentPage() == 0) {
-			search.setCurrentPage(1);
-		}
-
-		search.setPageSize(pageSize);
-		System.out.println("데이터가 들어간" + search);
-		
-		int tranNo = transaction.getTranNo();
-				
-		String tranType ="P";
-		
-		List<Transaction> dlvyList = transactionService.getDlvyTranList(search, tranNo, tranType);
-		
-		for (Transaction dlvy : dlvyList) {
-			System.out.println(dlvy);
-		}
-		
-//		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-		
-		
-		model.addAttribute("dlvyList", dlvyList);
-		
-		return "forward:/transaction/dlvyTranList.jsp";
-		
-	}
 	
 	
 }
