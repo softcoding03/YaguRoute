@@ -55,7 +55,7 @@
 		$(".ct_list_pop td:nth-child(2)").on("click", function() {
 			var prodNo = $(this).children('input:hidden').val();
 			alert(prodNo);
-			self.location = "/product/getProduct?prodNo=" + prodNo;
+			self.location = "/product/updateProduct?prodNo=" + prodNo;
 		});
 		
 

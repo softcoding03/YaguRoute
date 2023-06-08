@@ -1,15 +1,12 @@
 package com.baseball.web.ticket;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
 import com.baseball.service.domain.Ticket;
 import com.baseball.service.domain.Transaction;
@@ -68,6 +66,12 @@ public class TicketController {
 		for(Game game:list) {
 			System.out.println(game);
 		}
+		//모든Team 정보 조회
+		List<Team> allTeam = gameService.getAllTeam();
+		Team team = gameService.getTeamInfo(teamCode);
+
+		model.addAttribute("team", team);
+		model.addAttribute("allTeam", allTeam);
 		model.addAttribute("gameList", list);
 		
 		return "forward:/ticket/listGameTwoWeeks.jsp";
@@ -96,6 +100,8 @@ public class TicketController {
 		for(Ticket ticket:list) {
 			System.out.println("tickets ? "+ticket);
 		}
+		Game game = gameService.getGameInfo(gameCode);
+		model.addAttribute("game", game);
 		model.addAttribute("ticketList", list);
 		return "forward:/ticket/getSeats.jsp";
 	}

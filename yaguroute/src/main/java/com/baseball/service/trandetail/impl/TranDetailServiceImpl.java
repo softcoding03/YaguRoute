@@ -15,6 +15,7 @@ import com.baseball.service.domain.User;
 import com.baseball.service.trandetail.TranDetailDao;
 import com.baseball.service.trandetail.TranDetailService;
 import com.baseball.service.user.UserDao;
+import com.baseball.service.user.UserService;
 
 @Service
 public class TranDetailServiceImpl implements TranDetailService {
@@ -59,17 +60,29 @@ public class TranDetailServiceImpl implements TranDetailService {
 		
 	}
 
+
 	@Override
-	public Map<String, Object> getDeliveryList(Search search, int tranNo) throws Exception {
-		List<TranDetail> list = tranDetailDao.getDeliveryList(search, tranNo);
-		int totalCount = tranDetailDao.getTotalCount(tranNo);
+	public Map<String, Object> getTranDetailList(Search search, String userId, int tranDetailNo) throws Exception {
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("totalCount", new Integer(totalCount));
+		List<TranDetail> list = tranDetailDao.getTranDetailList(search, userId, tranDetailNo);
+		int totalCount = tranDetailDao.getTotalCount(tranDetailNo);
 		
-		return map;
+		Map<String, Object> tranMap = new HashMap<String, Object>();
+		tranMap.put("tranList", list);
+		tranMap.put("totalCount", new Integer(totalCount));
+		
+		return tranMap;
+
+		
 	}
+
+
+
+
+
+
+
+
 
 	
 }
