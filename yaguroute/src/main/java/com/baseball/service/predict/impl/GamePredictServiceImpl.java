@@ -76,10 +76,10 @@ public class GamePredictServiceImpl implements GamePredictService {
 	}
 	
 	public void updatePredAfterGame() {
-		LocalDate now = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String strNow = now.format(formatter);
-		
+//		LocalDate now = LocalDate.now();
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		String strNow = now.format(formatter);
+		String strNow = "2023-06-08";
 		List<Game> gameList = gameDao.getGameListByDate(strNow);
 		
 		for(Game game : gameList) {
