@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 세션에 사용자 존재하지 않으면 해당 url로 리다이렉트 -->
-<c:if test="${ empty user }">
+<%-- <c:if test="${ empty user }">
  	<c:redirect url="/user/loginTest(new).jsp"/>
-</c:if>
+</c:if> --%>
  
  
 <!DOCTYPE html>

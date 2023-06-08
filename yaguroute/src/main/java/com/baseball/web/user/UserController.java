@@ -128,8 +128,6 @@ public class UserController {
 	public String login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request)
 			throws Exception {
 
-		System.out.println("user user user login: " + user);
-
 		if (userService.getUser(user.getUserId()) != null) {
 			User dbUser = userService.getUser(user.getUserId());
 
@@ -142,7 +140,7 @@ public class UserController {
 
 				System.out.println("user : " + session.getAttribute("user"));
 
-				// session.setMaxInactiveInterval(3000);
+				//session.setMaxInactiveInterval(6);
 
 				return "redirect:/user/index.jsp";
 			} else {
@@ -496,8 +494,8 @@ public class UserController {
 				System.out.println("이미 존재하는 아이디입니다.");
 				//System.out.println("첫 가입 유저... userPoint 올려드림.");
 				session.setAttribute("user", dbUser);
-				return "redirect:/main.jsp";
 				
+				return "redirect:/main.jsp";
 			}
 		}
 		else {
