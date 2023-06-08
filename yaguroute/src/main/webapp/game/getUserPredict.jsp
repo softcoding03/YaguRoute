@@ -226,9 +226,12 @@ function preventAtag(){
                                 		<span class="input-text">point</span>
                                 	</div>
                                 </li>
-                                <li style="margin-top:50px;">
-                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">전력분석</a></div>
-                                </li>
+                                <c:if test="${gameStatusCode.gameStatusCode eq 0}">
+									<li style="margin-top:50px;">
+	                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">전력분석</a></div>
+	                                </li>
+								</c:if>
+                                
                             </ul>
                         </div>
                         

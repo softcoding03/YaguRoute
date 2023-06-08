@@ -76,6 +76,37 @@
 		.padding{
 			padding: 0px 25px 5px 25px;
 		}
+		
+		.imgSize{
+			width: 80px !important;
+			height: 60px !important;
+		}
+		.check{
+			border: 2.5px solid #f03a3a;
+		}
+		
+		#scrollBtn {
+	      position: fixed;
+	      bottom: 50px;
+	      right: 50px;
+	      width: 50px;
+	      height: 50px;
+	      border-radius: 50%;
+	      background-color: darkgreen;
+	      color: #fff;
+	      text-align: center;
+	      line-height: 50px;
+	      font-size: 20px;
+	      cursor: pointer;
+	    }
+	    .teamName{
+	    	font-size: 18px !important;
+	    	font-weight: 700;
+	    }
+	    .oneGameCss{
+	    	font-size: 12px;
+	    }
+	    
     </style>
 </head>
 <body>
@@ -189,7 +220,7 @@
                                            				<td>${dateTmp+1}</td>
                                            			</c:if>
                                            			<c:if test="${bool ne teamCodeIndex}">
-                                           				<td class="activeCal"><a href="#${currentDateList[dateTmp]}">${dateTmp+1}</a></td>
+                                           				<td class="activeCal" style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};"><a href="#${currentDateList[dateTmp]}">${dateTmp+1}</a></td>
                                            			</c:if>
                                            			<c:set var="gameIndex" value="${gameIndex+teamCodeIndex}"/>
                                            		</c:if>
@@ -211,6 +242,7 @@
                                 </table>
                             </div>
                         </div>
+                        <div> <button id="scrollBtn" onclick="scrollToTop()">↑</button></div>
                     </div>
 	</div>
 </section>            
@@ -224,36 +256,39 @@
 </c:if>
 <c:if test="${gameSize ne 0}">
 	<div class="col-md-12 col-sm-12 col-xs-12">
-	
 	<c:set var="tmpDate" value="1111"/>
-	
+	<div>
  	<c:forEach var="game" items="${gameList}" varStatus="gameState" >
+ 	<c:if test="${game.gameDate ne tmpDate}">
+ 		<c:if test="${gameState.index ne 0}">
+ 			</div>
+ 			<br>
+ 			<div class="${game.gameDate eq todayDate ? 'check' : ''}">
+ 		</c:if>
+ 	</c:if>
  	<div class="main-lates-matches">
  		<a class="item" aria-disabled="true">
- 		
  		<c:if test="${game.gameDate ne tmpDate}">
- 			<c:if test="${gameState.index ne 0}">
- 				<hr style="border-top: 2px solid #a3cca3;">
- 			</c:if>
- 			
- 			<div id="${game.gameDate}" class="col-md-12 col-sm-12 col-xs-12"><h6>${game.gameDate}</h6></div>
+ 			<div id="${game.gameDate}" class="col-md-12 col-sm-12 col-xs-12"  style="text-align: center;"><h4>${game.gameDate}<c:if test="${game.gameDate eq todayDate}">&nbsp;&nbsp;(today)</c:if></h4></div>
  			<c:set var="tmpDate" value="${game.gameDate}"/>
  		</c:if>
- 				 <span class="game-result">${game.homeTeam.hometown}</span>
-		        <span class="championship">${game.gameTime}</span>
+ 		<hr style="border-top: 1px solid #a3cca3;margin-top: 0px;margin-bottom: 10px;">
+ 		<div class="oneGameCss">
+ 				 <span class="game-result" style="font-size: 12px;">${game.homeTeam.hometown}</span>
+		        <span class="championship" style="font-size: 14px;">${game.gameTime}</span>
 		        <span class="teams-wrap">
 		                <span class="team">
 		                    <span>
-		                        <img src="${game.awayTeam.teamEmblem}" alt="team-image">
+		                        <img class="imgSize" src="${game.awayTeam.teamEmblem}" alt="team-image">
 		                    </span>
-		                    <span>${game.awayTeam.teamNickName}</span>
+		                    <span class="teamName">${game.awayTeam.teamNickName}</span>
 		                </span>
 		                <span class="score">
 		                    <span>${game.gameScore}</span>
 		                </span>
 		                <span class="team1">
-		                    <span>${game.homeTeam.teamNickName}</span>
-		                    <span><img src="${game.homeTeam.teamEmblem}" alt="team-image"></span>
+		                    <span class="teamName">${game.homeTeam.teamNickName}</span>
+		                    <span><img class="imgSize" src="${game.homeTeam.teamEmblem}" alt="team-image"></span>
 		                </span>
 		        </span>
 		        
@@ -275,13 +310,14 @@
 						</c:if>
 			        </span>
 			   	</span>
+			   	</div>
 			</a>
 		</div>
 	</c:forEach>
 		
 			
 	
-			
+		</div>	
 	</div>
 </c:if>
 </section>
@@ -382,17 +418,17 @@
 	    	$("#searchGameList").attr("method","GET").attr("action","/game/getGameList").submit();
 	    }
 	    
-		    $("a[href='teamCodeHref']").on('click',function(){
-		    	setTimeout(() => fncGetGameList(), 100);
-		    })
+		$("a[href='teamCodeHref']").on('click',function(){
+		  	setTimeout(() => fncGetGameList(), 100);
+		}) 
 		    
-		    console.log($(".trigger").text())
-		    
-		    
-		    
-		    $("ul.options li").on("click",function(){
-		    	setTimeout(() => fncGetGameList(), 100);
-		    })
+		$("ul.options li").on("click",function(){
+		   	setTimeout(() => fncGetGameList(), 100);
+		})
+		
+		$("#scrollBtn").on("click",function(){
+			document.documentElement.scrollTop = 0;
+		})
 		
 	})
 </script>

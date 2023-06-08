@@ -72,6 +72,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			driver.get("https://sports.news.naver.com/kbaseball/schedule/index");
 			
 			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
+//			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div:nth-child()"));
 			if(!todayGame.getAttribute("class").contains("nogame")) {
 				String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
 		
