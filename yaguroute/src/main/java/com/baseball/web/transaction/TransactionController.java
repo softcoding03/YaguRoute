@@ -161,81 +161,8 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-	@GetMapping("listTransaction")
-	public String getTransactionList (@ModelAttribute("search") Search search, HttpSession session,
-									 Model model) throws Exception {
-			
-
-		System.out.println("/transaction/listTransaction 작동 시작");
-	
-
-		if (search.getCurrentPage() == 0) {
-			search.setCurrentPage(1);
-		}
-
-		search.setPageSize(pageSize);
-		System.out.println("데이터가 들어간" + search);
-		
-        User user = (User) session.getAttribute("user");      
-        String userId = user.getUserId();
-            
-        String tranType = "P";
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map = transactionService.getTransactionList(search, userId, tranType);
-		
-		List<Transaction> list = (List<Transaction>) map.get("list");
-		for (Transaction tran : list) {
-			System.out.println(tran);
-		}
-		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
-
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		model.addAttribute("userId", userId);
 
 
-		
-		return "forward:/transaction/listTransaction.jsp";
-	}
-
-	@GetMapping("dlvyTranList")
-	public String getDlvyTranList (@ModelAttribute("search")Search search,
-									@ModelAttribute("transaction")Transaction transaction, Model model) throws Exception {
-		
-		System.out.println("/transaction/dlvyTranList 작동 시작");
-		
-		if (search.getCurrentPage() == 0) {
-			search.setCurrentPage(1);
-		}
-
-		search.setPageSize(pageSize);
-		System.out.println("데이터가 들어간" + search);
-		
-		int tranNo = transaction.getTranNo();
-				
-		String tranType ="P";
-		
-		List<Transaction> dlvyList = transactionService.getDlvyTranList(search, tranNo, tranType);
-		
-		for (Transaction dlvy : dlvyList) {
-			System.out.println(dlvy);
-		}
-		
-//		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-//		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
-//		System.out.println(resultPage);
-		
-		
-		model.addAttribute("dlvyList", dlvyList);
-		
-		return "forward:/transaction/dlvyTranList.jsp";
-		
-	}
 	
 	
 }

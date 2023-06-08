@@ -13,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>listProduct</title>
+	<title>listTransaction</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -32,6 +32,11 @@
 
 <script type="text/javascript">
 
+function fncGetTranDetailList() {
+    var tranDetailNo = $("#tranDetailNo").val(); // tranDetailNo 값 가져오기
+	$("form").attr("method", "GET").attr("action", "/transaction/listTransaction")
+			.submit();
+}
 
 
 </script>
@@ -67,6 +72,8 @@
 <div style="width:98%; margin-left:10px;">
 
 <form name="detailForm" action="/transaction/listTransaction" method="GET">
+   <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
+
 
 		<div class="container">
 		<div class="page-header text-info">
@@ -91,14 +98,12 @@
 	</tr>
 
 	<c:set var="i" value="0"/>
-		<c:forEach var="transaction" items="${list}">
+		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-			<c:set var="tranCode" value="${fn:trim(tranDetail.tranStatusCode)}"/>
-			<c:set var="prodTeamCode" value= "${product.prodTeamCode}"/>
-			<c:set var="prodName" value="${product.prodName}" />
+			
 		
 		<tr class="ct_list_pop">
-			<td align="center">${transaction.tranNo}</td>	
+			<td align="center">${tranDetail.tranDetailNo}</td>	
 			<td align="center">${product.prodTeamCode}</td>
 			<td align="center">${prodName}</td>
 			<td align="left">${product.prodPrice}</td>
