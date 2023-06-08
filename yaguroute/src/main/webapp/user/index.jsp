@@ -6,9 +6,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
- <c:if test="${ ! empty user }">
+<c:if test="${ ! empty user }">
  	<c:redirect url="/main.jsp"/>
  </c:if>
+<c:if test="${ empty user }">
+<script type="text/javascript">
+	$(function(){
+			alert("다시 로그인해주세요.");
+			console.log("다시로그인혀라..");
+			window.location.href = '/user/loginTest(new).jsp';
+		});
+	</script>
+	<c:redirect url="/user/loginTest(new).jsp"/>
+</c:if>
  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 

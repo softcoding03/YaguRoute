@@ -17,7 +17,6 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
 	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-	
     <style>
     .grid-container {
  	 display: grid;
@@ -540,18 +539,16 @@
 	
 	</script>
 </head>
-
+<jsp:include page="/common/topBar.jsp"></jsp:include>
 <body>
 <div class="container_1">
-        <div class="row">
             <div class="col-md-6">
-                <div class="info">
+                <div class="subject" style="text-align: center !important;">
                     <div class="wrap">
-                        <h6>회원가입</h6>
+                        <h3>회원가입</h3>
                     </div>
                 </div>
-            </div>	
-        </div>
+		</div>
 </div>
 <!--CONTACT WRAP BEGIN-->
     	<div class="container_1">
