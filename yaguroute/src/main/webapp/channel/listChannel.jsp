@@ -20,14 +20,34 @@
 
 <!--  ///////////////////////// CSS ////////////////////////// -->
 <style>
-body {
-	padding-top: 50px;
-}
+	body {
+		padding-top: 50px;
+	}
+	
+	#button{
+		background-color : #f2f2f2;
+		margin-top: 20%;
+	}
+	
+    .modal {
+       display: none; /* 초기에는 숨겨진 상태로 설정 */
+       position: fixed;
+       z-index: 9999;
+       left: 0;
+       top: 0;
+       width: 100%;
+       height: 100%;
+       overflow: auto;
+       background-color: rgba(0, 0, 0, 0.4); /* 배경에 투명한 검은색 레이어 생성 */
+   }
 
-#button{
-	background-color : #f2f2f2;
-	margin-top: 20%;
-}
+   .modal-content {
+       background-color:#f2f2f2;
+       margin: 15% auto;
+       padding: 20px;
+       border: 1px solid #888;
+       width: 80%;
+   }
 
 </style>
 
@@ -41,21 +61,93 @@ body {
 					self.location="/channel/getChannel?channelID="+text;
 				});
 				
-				$("button:contains('수정하기')").on("click", function(){
-					console.log("수정하기");
+				$("button:contains('수정')").on("click", function(){
 					var text = $(this).children("input[name='channelID']").val();
-					console.log("수정하기 클릭 시 ChanndlID : "+text);
-					self.location="/channel/updateChannel?channelID="+text;
+					var url = "/channel/updateChannel?channelID="+text;
+					//self.location="/channel/updateChannel?channelID="+text;
+					window.open(url, "채널 수정" ,"width=1000, height=700");
+					
 				})
 				
-				$("button:contains('삭제하기')").on("click", function(){
+				$("button:contains('삭제')").on("click", function(){
 					console.log("삭제하기");
-					var text = $(this).children("input[name='channelID']").val();
-					console.log("삭제하기 클릭 시 ChanndlID : "+text);
-					self.location="/channel/deleteChannel?channelID="+text;
+					var channelID = $(this).children("input[name='channelID']").val();
+					var channelName = $(this).children("input[name='channelName']").val();
+					console.log("삭제하기 클릭 시 ChanndlID : "+channelID);
+					console.log("삭제하기 클릭 시 ChanndlName : "+channelName);
+					
+					const data = {
+						channelID : channelID,
+						channelName : channelName
+					}
+					
+					console.log(data);
+					openModal(data);
+					//self.location="/channel/deleteChannel?channelID="+text;
 				})
+				
+				$("button:contains('채널 생성')").on("click", function(){
+					window.open("/channel/addChannel", "채널 생성" ,"width=1000, height=700");
+				});
+				
+				function openModal(data) {
+					$("#deleteModal").css("display", "block");
+					
+					$(".close").on("click", function() {
+						closeModal();
+					});
+					
+					$("#cancelButton").on("click", function(){
+						closeModal();
+					});
+					
+					$("#channelNameInput").keyup(function() {
+						var channelName = $("#channelNameInput").val();
+						
+						if(channelName == 0){
+							$("#channelName").html("채널 이름을 입력바랍니다.");
+							$("#channelName").attr("color", "#dc3545");
+							
+						}
+						
+						if(data.channelName === channelName){
+							$("#channelName").html("채널 이름 일치");
+							$("#channelName").attr("color", "#4caf50");
+						} else {
+							$("#channelName").html("채널 이름이 일치하지 않습니다.");
+							$("#channelName").attr("color", "#dc3545");
+						}
+					})
+					 
+					$("#confirmButton").on("click", function(){
+						var channelName = $("#channelNameInput").val();
+						console.log(channelName);
+						console.log(data);
+												
+						if(data.channelName === channelName){
+							console.log("일치");
+							self.location="/channel/deleteChannel?channelID="+data.channelID;
+						} else {
+							console.log("채널 이름이 일치하지 않습니다.");
+						}
+						
+						closeModal();
+					});
+					
+					$(window).on("click", function(event) {
+						if (event.target === $("#myModal")[0]) {
+					        closeModal();
+					    }
+					});					
+				}
+				
+				function closeModal() {
+				    $("#deleteModal").css("display", "none");
+				}
+
 			});
-		</script>
+				
+</script>
 
 
 </head>
@@ -84,6 +176,26 @@ body {
 		</div>
 	</section>
 	<!-- header end -->
+	
+	<div id="deleteModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<div>
+				<h4>삭제하시겠습니까?</h4>
+				<h6>채널 이름을 입력해주세요</h6>
+			</div>
+			
+			<label for="channelNameInput">채널 이름:</label> 
+			<input type="text" id="channelNameInput"/>
+			<font id="channelName" size="2"></font>
+			<div>
+				<button id="confirmButton">삭제</button>
+				<button id="cancelButton">취소</button>
+			</div>
+		</div>
+	</div>
+
+	
 
 	<div class="broadcast-wrap">
 		<div class="container">
@@ -92,6 +204,10 @@ body {
 	            	<h4>Channel Management</h4>                
 	            </div>
 	            
+				<div class="basic col-md-12 text-right">
+					<button>채널 생성</button>
+				</div>
+				
 				<c:set var="i" value="0"/>
 				<c:forEach var="channel" items="${list}">
 					<c:set var="i" value="${i+1}"/>
@@ -113,11 +229,18 @@ body {
 				               			<div class="col-md-4 col-sm-4">
 					               			<div class="row">
 					               				<div class="col-md-6 col-sm-6">
-					               					<button type="button" class="btn btn-outline-dark" id=button>수정</button>
+					               					<button type="button" class="btn btn-outline-dark" id=button>
+					               						수정
+					               						<input type="hidden" name="channelID" value="${channel.channelID}"/>
+					               					</button>
 					               				</div>
 					               				
 					               				<div class="col-md-6 col-sm-6">
-					               					<button class="btn btn-outline-dark" id=button>삭제</button>
+					               					<button class="btn btn-outline-dark" id=button>
+					               						삭제
+					               						<input type="hidden" name="channelID" value="${channel.channelID}"/>
+					               						<input type="hidden" name="channelName" value="${channel.channelName}"/>
+					               					</button>
 					               				</div>
 											</div>
 				               			</div>
@@ -132,6 +255,12 @@ body {
 											<div class="row">
 												<div class="col-md-12">
 													<h4>Channel details</h4>
+													<hr/>
+													
+													<div class="alert alert-success">
+														<div class="title">Channel ID</div>
+														${channel.channelID}
+													</div>
 													<hr/>
 													
 													<div class="alert alert-success">
@@ -166,10 +295,10 @@ body {
 										
 									</div>
 								</div>
-								<!-- collaspe End-->
+								<!-- collaspe End-->								
 							</div>
 						</div>
-					</div>
+					</div>					
 				</c:forEach>
 			</div>
 		</div>
@@ -183,8 +312,7 @@ body {
 	<script type="text/javascript" src="/js/library/bootstrap.js"></script>
 	<script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
 	<script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
-	<script type="text/javascript"
-		src="/js/library/jcarousel.connected-carousels.js"></script>
+	<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
 	<script type="text/javascript" src="/js/library/owl.carousel.js"></script>
 	<script type="text/javascript" src="/js/library/progressbar.js"></script>
 	<script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>

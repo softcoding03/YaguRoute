@@ -92,30 +92,5 @@ public class TranDetailTest {
 		System.out.println("updateRefundStatusCode:: "+tranDetail);
 		
 	}
-	
-	//@Test
-	public void testGetDeliveryList() throws Exception {
-	
-		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(5);
-		
-		int tranNo = 27;
-		
-		Map<String, Object> map = tranDetailService.getDeliveryList(search, tranNo);
-		List<TranDetail> list = (List<TranDetail>)map.get("list");
-		Assert.assertEquals(5, list.size());
-	
-	 	for(TranDetail tranDetail:list) {
-	 		System.out.println(tranDetail);
-	 	}		
-		
-		Integer totalCount = (Integer)map.get("totalCount");
-		System.out.println("TranDetail TotalCount: "+totalCount);
-		
-		System.out.println("=======================================");
 
-		totalCount = (Integer)map.get("totalCount");
-
-	}
 }
