@@ -139,7 +139,7 @@
 		FROM tranDetail td
 		INNER JOIN transaction t
 		ON td.tran_no = t.tran_no
-		WHERE t.user_id = #{userId} AND td.tran_detail_no = #{tranDetailNo}
+		WHERE t.user_id = #{userId}
 		
 	</select>
 	
@@ -150,7 +150,7 @@
 				FROM tranDetail td
 				INNER JOIN transaction t
 				ON td.tran_no = t.tran_no
-				WHERE t.user_id = #{userId} AND td.tran_detail_no = #{tranDetailNo}) countTable
+				WHERE t.user_id = #{userId} ) countTable
 	
 	</select>
 	

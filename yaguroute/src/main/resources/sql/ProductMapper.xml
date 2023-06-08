@@ -56,8 +56,7 @@
 	</insert>
 
 	<!-- SELECT SQL -->
-	<select id="getProduct" parameterType="int"
-		resultMap="productSelectMap">
+	<select id="getProduct" parameterType="int" resultMap="productSelectMap">
 
 		SELECT
 		*
@@ -74,9 +73,9 @@
 		<set>
 			prod_name = #{prodName},
 			prod_price = #{prodPrice},
-			prod_stock = #{prodStock},
 			prod_category = #{prodCategory},
-			team_code = #{prodTeamCode}
+			team_code = #{prodTeamCode},
+			prod_stock = #{prodStock},			
 			prod_image_first = #{prodImageFirst},
 			prod_image_second = #{prodImageSecond},
 			prod_image_third = #{prodImageThird}

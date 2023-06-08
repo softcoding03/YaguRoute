@@ -62,19 +62,17 @@ public class TranDetailServiceImpl implements TranDetailService {
 
 
 	@Override
-	public Map<String, Object> getTranDetailList(Search search, String userId, int tranDetailNo) throws Exception {
+	public Map<String, Object> getTranDetailList(Search search, String userId) throws Exception {
+		List<TranDetail> list = tranDetailDao.getTranDetailList(search, userId);
+		int totalCount = tranDetailDao.getTotalCount(search, userId);
 		
-		List<TranDetail> list = tranDetailDao.getTranDetailList(search, userId, tranDetailNo);
-		int totalCount = tranDetailDao.getTotalCount(tranDetailNo);
-		
-		Map<String, Object> tranMap = new HashMap<String, Object>();
-		tranMap.put("tranList", list);
-		tranMap.put("totalCount", new Integer(totalCount));
-		
-		return tranMap;
-
-		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tranList", list);
+		map.put("totalCount",new Integer(totalCount));
+		return map;
 	}
+
+
 
 
 
