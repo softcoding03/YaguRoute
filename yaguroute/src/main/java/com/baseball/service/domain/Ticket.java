@@ -6,7 +6,7 @@ public class Ticket {
 	
 	private String ticketNo;
 	private Game game;  //Team1, Team2 정보 모두 포함되어 있음
-	private String ticketStatus; //0:판매전, 1:판매중, 2:판매완료, 3:환불
+	private int ticketStatus; //0:판매중, 1:판매완료, 2:환불
 	private String seatCode;
 	private int seatPrice;
 	private Transaction transaction;
@@ -21,10 +21,10 @@ public class Ticket {
 	    this.ticketNo = ticketNo;
 	}
 
-	public String getTicketStatus() {
+	public int getTicketStatus() {
 	    return ticketStatus;
 	}
-	public void setTicketStatus(String ticketStatus) {
+	public void setTicketStatus(int ticketStatus) {
 	    this.ticketStatus = ticketStatus;
 	}
 

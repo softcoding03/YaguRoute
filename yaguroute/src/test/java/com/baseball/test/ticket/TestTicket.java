@@ -196,7 +196,6 @@ public class TestTicket{
 	public void updateTicketStatus() throws Exception{
 		System.out.println("updateTicketStatus START");
 		Ticket ticket = new Ticket();	
-		ticket.setTicketStatus("2"); //0:판매전 1:판매중 2:판매완료
 		ticket.setTicketNo("20230313HTHH02023-A11");
 		ticketService.updateTicketStatus(ticket);
 		System.out.println("updateTicketStatus END");

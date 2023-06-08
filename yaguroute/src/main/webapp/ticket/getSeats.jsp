@@ -17,20 +17,79 @@
     <script type="text/javascript">
     
     var priceTag=0; //총 가격
-    
     $(function() {
     	var tdCount=0; //선택 좌석 수
     		//좌석 클릭 시 동적으로 작동 로직
 	    	$(document).on("click", "label:nth-child(n+1)", function(event) {
-	    		if($(this).siblings("input").is("input[name='checkedbox']")){
+	    		var storedEvent = event;
+	    		var ticketNo = $(this).siblings("input[name='ticketNo']").val();
+	    		var seatPrice = Number($(this).siblings("input[name='seatPrice']").val());
+				var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
+				var seatCode = $(this).siblings("input[name='seatCode']").val();
+				var TF = $(this).siblings("input").is("input[name='checkedbox']");
+	    		var ticketStatus;
+	    		
+	    		//좌석 클릭 시 좌석상태코드 확인 ajax	
+	    		$.ajax({				
+				    	url: "/ticket/rest/checkSeat/"+ticketNo,
+			         method: "GET",
+			         dataType : "text",
+			         headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(Data, status) {
+							
+							console.log("결과는?"+Data);
+							ticketStatus = Data; //selling or soldOut 세팅
+							
+							if( TF || ticketStatus==="soldOut"){
+				    			alert("이미 판매된 좌석입니다.")
+				    			storedEvent.preventDefault();
+				    		} else{
+								var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price+"원";
+								console.log("클릭"+price+"//"+seatCode);
+								var insertPosition = $('#insertPosition')
+					    		var insertBody = 	"<div class=\"seat\" id="+seatCode+">"
+														+	"<tr>"
+													   +  "<td>"
+													   +  "<input type=\"text\" value="+value+"></input>"
+													   +	"<input type=\"hidden\" name=\"ticketNo\" value="+ticketNo+"></input>"
+												    	+	"</td>"
+												    	+"</div>";
+												    	
+					    		if(insertPosition.find("div#"+seatCode).length>0) {//해당 div가 존재한다면
+										insertPosition.find("div#"+seatCode).remove();
+						  				tdCount--;
+						  				priceTag -= seatPrice;
+					    		} else if(tdCount > 3){ 
+						    			alert("좌석은 최대 4개까지 선택가능합니다.");
+						    			storedEvent.preventDefault(); //클릭 이벤트 취소
+					    		} else {
+										insertPosition.append(insertBody);
+										tdCount++;
+										priceTag += seatPrice;
+								}//end of if
+					    		
+					    		$("#priceTag").text(priceTag); //총 가격
+					    		$("#tranTotalPrice").val(priceTag);
+					    		console.log(tdCount)
+							}//end of if
+						}
+				});
+				
+				
+				
+				/*
+	    		if($(this).siblings("input").is("input[name='checkedbox']") || ticketStatus==="selling"){
 	    			alert("이미 판매된 좌석입니다.")
 	    			event.preventDefault();
 	    		} else{
 		    		var seatPrice = Number($(this).siblings("input[name='seatPrice']").val());
 					var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
 					var seatCode = $(this).siblings("input[name='seatCode']").val();
-					var ticketNo = $(this).siblings("input[name='ticketNo']").val();
-					var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price;
+					
+					var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price+"원";
 					console.log("클릭"+price+"//"+seatCode);
 					var insertPosition = $('#insertPosition')
 		    		var insertBody = 	"<div class=\"seat\" id="+seatCode+">"
@@ -58,7 +117,7 @@
 		    		$("#tranTotalPrice").val(priceTag);
 		    		console.log(tdCount)
 				}
-    	
+    	*/
 	    	});//end of 좌석 클릭 로직
 	 });
     
@@ -87,7 +146,7 @@
 			   IMP.request_pay({  // 요청객체
 		 		      pg: "html5_inicis",
 		 		      merchant_uid: UID,   // 주문번호
-		 		      name: "${ticketList[0].game.gameCode}", //상품 이름
+		 		      name: "야구루트사이트 티켓구매", //상품 이름
 		 		      amount: priceTag, //총 가격
 		 		      buyer_email: "${user.userEmail}", 
 		 		      buyer_name: "${user.userName}", //고객이 입력한 이름

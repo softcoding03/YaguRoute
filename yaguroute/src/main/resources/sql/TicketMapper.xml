@@ -8,7 +8,7 @@
 		<result property="ticketNo" 			column="ticket_no" 			jdbcType="VARCHAR"/>
 		<result property="game.gameCode" 		column="game_code" 			jdbcType="VARCHAR"/>
 		<result property="transaction.tranNo" 	column="tran_no" 			jdbcType="INTEGER"/>
-		<result property="ticketStatus" 		column="ticket_status"	 	jdbcType="VARCHAR"/>
+		<result property="ticketStatus" 		column="ticket_status"	 	jdbcType="INTEGER"/>
 		<result property="seatCode" 			column="seat_code" 			jdbcType="VARCHAR"/>
 		<result property="seatPrice" 			column="seat_price" 		jdbcType="INTEGER"/>
 		<association property="game" column="game_code" javaType="game" select="getGameInfo"/>
