@@ -1214,7 +1214,7 @@ button[type="button"]:active {
                                 </label>
                                 </div>        
                                 </a>
-                                  
+                               </form>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
