@@ -94,7 +94,6 @@ public class TestPost{
 		post.setPostNo(10);
 		post.setPostTitle("제목이 변경되었습니다.");
 		post.setPostContents("내용이 변경되었습니다.");
-		post.setPostType(3);
 			postService.updatePost(post);
 		System.out.println("update 끝");
 	}

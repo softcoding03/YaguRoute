@@ -113,7 +113,7 @@
            <c:forEach var="list1" items="${commentList1}">
 	            <c:if test="${list1.changed ==2}">
 	           		<div class="comment-item">
-			             <div class="avatar"><img src="/images/common/${list1.user.userImage}" alt="author-avatar"></div>
+			             <div class="avatar"><img src="${list1.user.userImage}" alt="author-avatar"></div>
 			                <div class="info">
 			                    <div class="date">
 			                        <a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
@@ -124,7 +124,7 @@
 	            </c:if>
 	            <c:if test="${list1.changed !=2}">
            		<div class="comment-item">
-		             <div class="avatar"><img src="/images/common/${list1.user.userImage}" alt="author-avatar"></div>
+		             <div class="avatar"><img src="${list1.user.userImage}" alt="author-avatar"></div>
 		                <div class="info">
 		                    <div class="date">
 		                        <a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
@@ -144,7 +144,7 @@
            		<c:forEach var="list2" items="${commentList2}">
 	           		<c:if test="${list2.secondCommentNo == list1.commentNo && list2.changed == 2}">
 		           		<div class="comment-item answer">
-				             <div class="avatar"><img src="/images/common/${list2.user.userImage}" alt="author-avatar"></div>
+				             <div class="avatar"><img src="${list2.user.userImage}" alt="author-avatar"></div>
 				                <div class="info">
 				                    <div class="date">
 				                        <a>${list2.commentDate}</a> by <a>${list2.user.userNickName}</a>
@@ -156,7 +156,7 @@
 		            
 	           		<c:if test="${list2.secondCommentNo == list1.commentNo && list2.changed != 2}">
 		           		<div class="comment-item answer">
-			                <div class="avatar"><img src="/images/common/${list2.user.userImage}" alt="author-avatar"></div>
+			                <div class="avatar"><img src="${list2.user.userImage}" alt="author-avatar"></div>
 			                <div class="info">
 			                    <div class="date">
 			                        <a>${list2.commentDate}</a> by <a>${list2.user.userNickName}</a>
