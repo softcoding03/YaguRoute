@@ -24,6 +24,19 @@
 
 
 <style>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 80%
+}
+
+.match-lineup {
+  width: 80%; 
+  margin: 0 auto; 
+}
+
 .match {
 	background-color: #ffffff;
 	color: #dddddd;
@@ -33,11 +46,13 @@
 .chat-container {
 	display: "flex";
 	align-items: flex-start;
-	margin: 50px auto;
-	height: 90%;
-	width: 90%;
+	margin: auto;
+	height: 100%;
+	width: 100%;
 	position: relative;
-	background-color: #e5e5e5;
+	background-color: #fff;
+	border-radius: 20px;
+
 }
 
 #message-input {
@@ -47,21 +62,22 @@
 }
 
 .button-container {
-	background-color: #f2f2f2;
-	margin: 100px auto;
+	background-color: #fff;
+	margin: 50px auto;
 	width: 100%;
+	border-radius: 10px;
 }
 
 .chat-messages {
 	background-color: #f2f2f2;
-	/* padding: 30px; */
-	/* border-radius: 5px; */
-/* 	height: 390px;
+	padding: 10px;
+	border-radius: 20px;
+	height: 430px;
+	width : 100%;
 	overflow-y: auto;
 	margin-bottom: 20px;
-	margin-top: 20px; */
-	width: 100%;
-	height: 100%;
+	margin-top: 20px;
+
 }
 
 .chat-message {
@@ -169,10 +185,6 @@
 	heigth: auto;
 }
 
-h1 {
-	color: white;
-}
-
 .text-overlay {
 	position: absolute;
 	top: 50%;
@@ -185,10 +197,42 @@ h1 {
 
 .home{
 	background-color: ${channel.gameInfo.homeTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+}
+
+.homeCount{
+	color: #fff; 
+}
+
+.home:active{
+	transform: scale(0.95);
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
 }
 
 .away{
 	background-color: ${channel.gameInfo.awayTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+  	color: #fff;
+}
+
+.away:active{
+	transform: scale(0.95);
 }
 </style>
 
@@ -505,7 +549,7 @@ h1 {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="match-live-info">
-					<div class="title"> ${channel.gameInfo.homeTeam.teamNickName} – ${channel.gameInfo.awayTeam.teamNickName} </div>
+					<div class="text-center"> ${channel.gameInfo.homeTeam.teamNickName} – ${channel.gameInfo.awayTeam.teamNickName} </div>
 					<div class="match-info">
 						<div class="team wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
 							<div class="avatar">
@@ -644,26 +688,25 @@ h1 {
 							<div class="home">
 								<div id="homeClick">
 									<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="homeCount" class="homeCount">${channel.homeClick}</div>
 								</div>
 							</div>
-							<div class="name" id="homeCount">${channel.homeClick}</div>
-							
 						</div>
 
 						<div class="col-md-6 text-right">
 							<div class="away">
 								<div id="awayClick">
 									<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="awayCount" class="homeCount">${channel.awayClick}</div>
 								</div>
-							</div>
-							<div class="name" id="awayCount">${channel.awayClick}</div>							
-						</div>
+							</div>						
+						</div>						
 					</div>
 				</div>	
 			</div>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-12">
 					<div class="container chat-container">
 						<div class="chat-messages" id="chat-messages" class="drop-area">
 					    	<!-- 채팅 메시지를 표시할 영역 -->
@@ -671,7 +714,7 @@ h1 {
 					    
 					    <form id="chat-form">
 					     	<div class="input-group">
-					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요">
+					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요" width="200px"/>
 					    	</div>
 				    	</form>
 				    </div>
@@ -683,12 +726,11 @@ h1 {
 
 <!-- line Up -->
 <section>
-	<div class="col-md-12">
+	<div class="col-md-12 mt-3">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>lineups</h3>
-
 				<div class='match-lineup'>
+				<h3>lineups</h3>
 					<div class="no-gutter">
 					
 						<div class="col-md-6">
