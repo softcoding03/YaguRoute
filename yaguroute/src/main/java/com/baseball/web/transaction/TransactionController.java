@@ -91,12 +91,6 @@ public class TransactionController {
 			tranList.add(transacton);
 		}
 		
-		System.out.println(tranDetailList);
-		System.out.println(basketList);
-		System.out.println(prodList);
-		System.out.println(tranList);
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("tranDetailList", tranDetailList);
 		modelAndView.addObject("prodQuantity", prodQuantity);
