@@ -26,6 +26,7 @@ import com.baseball.service.domain.Game;
 import com.baseball.service.domain.GamePreview;
 import com.baseball.service.domain.GameRecord;
 import com.baseball.service.domain.Player;
+import com.baseball.service.game.GameCrawlingDao;
 import com.baseball.service.game.GameService;
 
 
@@ -40,6 +41,10 @@ public class GameTests {
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
 	
+	@Autowired
+	@Qualifier("gameCrawlingDaoImpl")
+	private GameCrawlingDao gameCrawlingDao;
+	
 	//@Test
 	public void getTeamInfoByTeamName() throws Exception{
 		String teamName = "두산";
@@ -49,6 +54,14 @@ public class GameTests {
 	}
 	
 	@Test
+	public void getTodayGame() throws Exception{
+		List<Game> game = gameCrawlingDao.getTodayGameSchedule();
+		for(Game ga : game) {
+			System.out.println(ga);
+		}
+	}
+	
+	//@Test
 	public void getDate() throws Exception{
 		LocalDate date = LocalDate.now();
         

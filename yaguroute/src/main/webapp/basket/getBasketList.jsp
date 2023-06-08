@@ -45,15 +45,17 @@
 	}
 </style>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <input type="hidden" id="sessionUserId" value="${user.userId}">
+<form>
 <section class="cart-wrap">
     <div class="container">
         <div class="row">
+        <h4>장바구니</h4>
+        <c:if test="${basketSize ne 0}">
             <div class="col-md-12">
-                <h4>장바구니</h4>
-            
+                <input id="basketSize" type="hidden" value="${basketSize}">
+            	
                 <table class="cart-table">
                     <tr>
                         <th></th>
@@ -64,8 +66,9 @@
                     </tr>
                     <c:forEach items="${basketList}" var="basket">
                    		<tr class="cart_iem" id="${basket.basketNo}">
-                   			<input type="hidden" value="${basket.product.prodNo}" id="prodNo"/>
-                   			<input type="hidden" value="${basket.product.prodStock}" id="prodStock"/>
+                   			<input type="hidden" value="${basket.product.prodNo}" id="prodNo" name="prodNo"/>
+                   			<input type="hidden" value="${basket.product.prodStock}" id="prodStock" name="prodQuantity"/>
+                   			<input type="hidden" value="${basket.product.prodStock}" id="prodPrice" name="prodPrice"/>
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
 	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImageFirst}" alt="cart-product">${basket.product.prodName}</td>
 	                        <td class="cost"><fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/></td>
@@ -93,14 +96,24 @@
 	            <div class="col-md-12 col-sm-12">
 	            	<div class="cart-total">
 	            		<button class="proceed" id="getProdList">쇼핑 계속하기</button>
-	                    <button class="proceed to-right">구매하기<i class="fa fa-check" aria-hidden="true"></i></button>
+	                    <button class="proceed to-right" id="addTran">구매하기<i class="fa fa-check" aria-hidden="true"></i></button>
 	                </div>
             	
             	</div>
+            </c:if>
+            <c:if test="${basketSize eq 0}">
+            <div class="col-md-12 col-sm-12" style="text-align: center">
+            		<h2>장바구니가 비어있어요!</h2>
+	            	<div class="cart-total">
+	            		<button class="proceed" id="getProdList">쇼핑 하러가기</button>
+	                </div>
+            	
+            </div>
+            </c:if>
             </div>
         </div>
 </section>
-
+</form>
 </body>
 <script type="text/javascript">
 
@@ -204,6 +217,10 @@
 
 	$(function(){
 		
+		$("#addTran").on("click",function(){
+			$("form").attr("method","GET").attr("action","/transaction/addTransaction").submit();
+		})
+		
 		quantityChange($(".quantity input"))
 		
 		$("#getProdList").on("click",function(){
@@ -233,6 +250,11 @@
 					
 					var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
 					$("#name").text(formatter.format(newTotal));
+					var bsize = parseInt($("#basketSize").val())-1
+					$("#basketSize").val(bsize)
+					if(bsize === 0){
+						location.reload();
+					}
 				}
 			})
 		})
@@ -255,6 +277,7 @@
 					$("tr.cart_iem").remove();
 					$("#totalPrice").val(0);
 					$("#name").text(0);
+					location.reload();
 				}
 				
 			})

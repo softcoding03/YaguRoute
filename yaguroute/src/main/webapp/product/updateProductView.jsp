@@ -37,6 +37,46 @@
 
 <script type="text/javascript">
 
+	$(function() {
+		function fncUpdateProduct() {
+	
+			//Form 유효성 검증  	
+			var name = $("input[name='prodName']").val();
+			var price = $("input[name='prodPrice']").val();
+			var stock = $("input[name='prodStock']").val();
+			var category = $("select[name='prodCategory']").val();
+			var teamcode = $("select[name='prodTeamCode']").val();
+	
+			if (name == null || name.length < 1) {
+				alert("상품명은 반드시 입력하여야 합니다.");
+				return;
+			}
+			if (price == null || price.length < 1) {
+				alert("가격은 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if (stock == null || stock.length < 1) {
+				alert("재고는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if (category == null || category.length < 1) {
+				alert("상품카테고리는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if (teamcode == null || teamcode.length < 1) {
+				alert("팀 코드는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			// 폼 제출
+			$("form").attr("enctype", "multipart/form-data").attr("method", "GET").attr("action", "/product/updateProduct").submit();
+		}
+	
+		$("#updateProduct").on('click', function() {
+			fncUpdateProduct();
+		});
+
+	});
+	
 
 </script>
 
@@ -135,7 +175,10 @@
                         
                     </table>
 	                    <div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
-                        <button id="updateProduct" type="button" class="btn btn-warning">수정</button>
+							<button id="updateProduct" type="button" class="btn btn-warning">수정</button>
+							&nbsp;
+							<button id="updateProdCancle" type="button" class="btn btn-warning">취소</button>
+
                     </div>
                 </div>
             </div>

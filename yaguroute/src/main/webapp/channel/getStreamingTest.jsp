@@ -24,6 +24,27 @@
 
 
 <style>
+.blind{
+	position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+#space {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 90%
+}
+
+.match-lineup {
+  width: 80%; 
+  margin: 0 auto; 
+}
+
 .match {
 	background-color: #ffffff;
 	color: #dddddd;
@@ -33,11 +54,24 @@
 .chat-container {
 	display: "flex";
 	align-items: flex-start;
-	margin: 50px auto;
-	height: 90%;
-	width: 90%;
+	margin: auto;
+	height: 100%;
+	width: 100%;
 	position: relative;
-	background-color: #e5e5e5;
+	background-color: #fff;
+	border-radius: 20px;
+
+}
+
+.background{
+	display: "flex";
+	align-items: flex-start;
+	margin: auto;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	background-color: #fff;
+	border-radius: 20px;
 }
 
 #message-input {
@@ -47,21 +81,22 @@
 }
 
 .button-container {
-	background-color: #f2f2f2;
-	margin: 100px auto;
+	background-color: #fff;
+	margin: 50px auto;
 	width: 100%;
+	border-radius: 10px;
 }
 
 .chat-messages {
 	background-color: #f2f2f2;
-	/* padding: 30px; */
-	/* border-radius: 5px; */
-/* 	height: 390px;
+	padding: 10px;
+	border-radius: 20px;
+	height: 430px;
+	width : 100%;
 	overflow-y: auto;
 	margin-bottom: 20px;
-	margin-top: 20px; */
-	width: 100%;
-	height: 100%;
+	margin-top: 20px;
+
 }
 
 .chat-message {
@@ -130,13 +165,35 @@
 }
 
 .table-container {
+	background-color : #f2f2f2;
 	display: flex;
+	
+}
+
+.table-wrapper {
+  margin-left: 10px; /* 테이블 사이의 간격 조정 */
+  margin-right: 10px; /* 테이블 사이의 간격 조정 */
+  padding : 10px;
+ 	
 }
 
 .table-container table {
 	flex: 1;
 }
 
+/*score table*/
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 3px;
+}
+
+
+.team-name {
+  width: 100px; /* 너비 조정 */
+}
+
+/*스트리밍*/
 .broadCast, #streaming {
 	width: 100%;
 	height: 550px;
@@ -169,10 +226,6 @@
 	heigth: auto;
 }
 
-h1 {
-	color: white;
-}
-
 .text-overlay {
 	position: absolute;
 	top: 50%;
@@ -185,16 +238,72 @@ h1 {
 
 .home{
 	background-color: ${channel.gameInfo.homeTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+}
+
+.homeCount{
+	color: #fff; 
+}
+
+.home:active{
+	transform: scale(0.95);
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
 }
 
 .away{
 	background-color: ${channel.gameInfo.awayTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+  	color: #fff;
+}
+
+.away:active{
+	transform: scale(0.95);
 }
 </style>
 
 
 <script type="text/javascript">
+
+function getTime(){
+	var startTime = "${channel.gameInfo.gameTime}";
+	var currentDate = new Date();
+	var targetTime = new Date();
+	
+	targetTime.setHours(Number(startTime.split(':')[0]));
+	targetTime.setMinutes(Number(startTime.split(':')[1]));
+	targetTime.setSeconds(Number(startTime.split(':')[2]));
+	
+	var timeDiff = targetTime - currentDate;
+	
+	if (timeDiff <= 0) {
+	      $("#countdown").html("경기가 이미 시작되었습니다.");
+	      console.log("경기가 이미 시작되었다.");
+	      return;
+	}
+	
+	setInterval(getTime, 1000);
+}
+
 	$(function(){
+		
+		//getTime();
+		
 		var socket = io.connect('http://192.168.0.36:3001/', {
 			withCredentials: true,
 			 extraHeaders: {
@@ -236,45 +345,11 @@ h1 {
 						} else {
 							console.log("방송 시작 전");
 							$('video').attr("poster", "${channel.gameInfo.homeTeam.teamEmblem}").attr("height", "700px");
-							
-							//var html = "<img src='${channel.gameInfo.homeTeam.teamEmblem}' width='854' heigth='480'/>"
 						}
 								
 					}		
 				}
 			});
-			
-			/* $.ajax({
-				url:"/game/json/getStreamingInfo/${channel.gameInfo.gameCode}",
-				method:"POST",
-				dataType:"json",
-				success: function(jsonData, status){
-					console.log(jsonData);
-					console.log(jsonData.homeScoreList);
-					var tbody = $("tbody");
-					var homeRow = $("<tr></tr>");
-					var awayRow = $("<tr></tr>");
-					var homeTeamName = $("<td></td>").text(jsonData.gameInfo.homeTeam.teamNickName);
-					var awayTeamName = $("<td></td>").text(jsonData.gameInfo.awayTeam.teamNickName);
-					tbody.empty();
-					
-					jsonData.homeScoreList.forEach((element) => {
-						var score = $("<td></td>").text(element);
-						homeRow.append(score);
-					});
-					homeRow.prepend(homeTeamName);
-					tbody.append(homeRow);
-
-					
-					jsonData.awayScoreList.forEach((element) => {
-						var score = $("<td></td>").text(element);
-						awayRow.append(score);
-					});
-					awayRow.prepend(awayTeamName);
-					tbody.append(awayRow);
-				}
-			}); */
-			
 
 		});
 		
@@ -298,11 +373,6 @@ h1 {
 				}, 1000, function(){
 					$(this).remove();
 				});
-				
-				/* setTimeout(function() {
-					fireworkHome.remove(); // 일정 시간 후에 폭죽 요소 제거
-			    }, 1000); */
-
 			});
 			
 			//awayClick
@@ -410,7 +480,7 @@ h1 {
 			var userProfileImg = $('<img></img>').attr("src", data.userImage).attr("alt", "이미지 없음");
 			
 			var userImage = $('<span class="userImg"></span>').append(userProfileImg);
-			var sender = $('<span class="sender"></span>').text(data.userID + " : ");
+			var sender = $('<span class="sender"></span>').text(data.nickName + " : ");
 			var content = $('<span class="content"></span>').text(data.data);
 			messageBubble.append(userImage, sender, content);
 			chatMessage.append(messageBubble);
@@ -431,10 +501,7 @@ h1 {
 						var userImage = $('<span class="userImg"></span>').append(userProfileImg);
 						var sender = $('<span class="sender"></span>').text(data[i].user_id + " : ");
 						var content = $('<span class="content "></span>').append($('<img></img>').attr("src", data[i].chat_image));
-						
-						//chatMessage.append($('<span class="sender"></span>').text(data[i].user_id + " : ")); // 유저 아이디 표시
-						//chatMessage.append($('<img>').attr('src', data[i].chat_image).attr('width', 200).attr('height', 200)); // 이미지 표시
-						
+
 						messageBubble.append(userImage, sender, content);
 						chatMessage.append(messageBubble);
 						$('#chat-messages').append(chatMessage); // 채팅 메시지 요소를 채팅 영역에 추가
@@ -451,6 +518,8 @@ h1 {
 						chatMessage.append(messageBubble);
 						$('#chat-messages').append(chatMessage);
 					}
+					
+					$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
 				} else{
 					console.log("채팅 내역이 없습니다.");
 				}
@@ -460,8 +529,17 @@ h1 {
 		//이미지 파일 받기
 		socket.on("responseImage", (data)=>{
 			console.log(data);
-			$('#chat-messages').append($('<div>').text(data.userID+" : "));
-			$('#chat-messages').append($('<div>').append($('<img>').attr('src', data.Image).attr('width',200).attr('heigth', 200)));
+			var chatMessage = $('<div class="chat-message"></div>');
+			var messageBubble = $('<div class="message-bubble"></div>');
+			var userProfileImg = $('<img></img>').attr("src", data.userImage).attr("alt", "이미지 없음");
+			
+			var userImage = $('<span class="userImg"></span>').append(userProfileImg);
+			var sender = $('<span class="sender"></span>').text(data.userID + " : ");
+			var content = $('<span class="content"></span>').append($('<img></img>').attr("src", data.Image));
+			
+			messageBubble.append(userImage, sender, content);
+			chatMessage.append(messageBubble);
+			$('#chat-messages').append(chatMessage);
 			$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
 		});
 	});
@@ -490,9 +568,8 @@ h1 {
   </div>
 </div>
 
-
 <div class="match-live-date">
-	<div class="container">
+	<div class="container" id="space">
 		<div class="row">
 			<div class="col-md-6"><div class="date">${channel.gameInfo.gameDate}</div></div>
 		</div>
@@ -501,11 +578,11 @@ h1 {
 
 
 <div class="match">
-	<div class="container">
+	<div class="container" id="space">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="match-live-info">
-					<div class="title"> ${channel.gameInfo.homeTeam.teamNickName} – ${channel.gameInfo.awayTeam.teamNickName} </div>
+					<div class="text-center"> ${channel.gameInfo.homeTeam.teamNickName} – ${channel.gameInfo.awayTeam.teamNickName} </div>
 					<div class="match-info">
 						<div class="team wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
 							<div class="avatar">
@@ -541,7 +618,7 @@ h1 {
 
 <!--BROADCASTS BEGIN 스트리밍 구역-->
 
-<div class="container">
+<div class="container" id="space">
 	<div class="row">
 		<div class="col-md-8">
 			<h3>broadcasts</h3>
@@ -555,19 +632,21 @@ h1 {
 						</div>
 						
 						<div class="table-container">
-							<table id="gameScore">
-								<thead class="thead-dark">
+							<div class="table-wrapper">
+								<table id="gameScore">
+								<caption class="blind">스코어 보드 종합</caption>
+								<thead>
 									<tr>
-										<th scope="col">팀 명</th>						
-										<th scope="col">1</th>
-										<th scope="col">2</th>
-										<th scope="col">3</th>
-										<th scope="col">4</th>
-										<th scope="col">5</th>
-										<th scope="col">6</th>
-										<th scope="col">7</th>
-										<th scope="col">8</th>
-										<th scope="col">9</th>
+										<th scope="col" class="team-name">팀 명</th>						
+										<th scope="col" class="team-name">1</th>
+										<th scope="col" class="team-name">2</th>
+										<th scope="col" class="team-name">3</th>
+										<th scope="col" class="team-name">4</th>
+										<th scope="col" class="team-name">5</th>
+										<th scope="col" class="team-name">6</th>
+										<th scope="col" class="team-name">7</th>
+										<th scope="col" class="team-name">8</th>
+										<th scope="col" class="team-name">9</th>
 									</tr>
 								</thead>
 									
@@ -591,40 +670,42 @@ h1 {
 									</tr>
 								</tbody>
 							</table>
-	
-							<table id="totalScore">
-								<thead class="thead-dark">
-									<tr>
-										<th scope="col"></th>
-										<th scope="col">R</th>						
-										<th scope="col">H</th>
-										<th scope="col">E</th>
-										<th scope="col">B</th>
-									</tr>
-								</thead>
-								
-								<tbody>
-								
-									<tr>
-										<td></td>
-										<c:set var="i" value="0"/>
-										<c:forEach var="awayRecord" items="${gameRecord.awayRecord}">
-											<td>${gameRecord.awayRecord[i]}</td>
-											<c:set var="i" value="${i+1}"/>
-										</c:forEach>
-									</tr>
+							</div>
+							
+							<div class="table-wrapper">
+									<table id="totalScore">
+									<thead>
+										<tr>
+											<th scope="col" class="team-name blind">blind</th>
+											<th scope="col" class="team-name">R</th>						
+											<th scope="col" class="team-name">H</th>
+											<th scope="col" class="team-name">E</th>
+											<th scope="col" class="team-name">B</th>
+										</tr>
+									</thead>
 									
-									<tr>
-										<td></td>
-										<c:set var="i" value="0"/>
-										<c:forEach var="homeRecord" items="${gameRecord.homeRecord}">
-											<td>${gameRecord.homeRecord[i]}</td>
-											<c:set var="i" value="${i+1}"/>
-										</c:forEach>
-									</tr>
+									<tbody>
 									
-								</tbody>
-							</table>
+										<tr>
+											<td class="blind">blind</td>
+											<c:set var="i" value="0"/>
+											<c:forEach var="awayRecord" items="${gameRecord.awayRecord}">
+												<td>${gameRecord.awayRecord[i]}</td>
+												<c:set var="i" value="${i+1}"/>
+											</c:forEach>
+										</tr>
+										
+										<tr>
+											<td class="blind">blind</td>
+											<c:set var="i" value="0"/>
+											<c:forEach var="homeRecord" items="${gameRecord.homeRecord}">
+												<td>${gameRecord.homeRecord[i]}</td>
+												<c:set var="i" value="${i+1}"/>
+											</c:forEach>
+										</tr>									
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -633,7 +714,7 @@ h1 {
 		
 		<!-- 채팅 구역 -->
 		<div class="col-md-4">
-			<div class="container button-container">
+			<div class="container button-container" id="space">
 				<div class="cheer">
 					<span class="text-center">
 						<h3>당신의 팀을 응원하세요</h3>
@@ -644,34 +725,33 @@ h1 {
 							<div class="home">
 								<div id="homeClick">
 									<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="homeCount" class="homeCount">${channel.homeClick}</div>
 								</div>
 							</div>
-							<div class="name" id="homeCount">${channel.homeClick}</div>
-							
 						</div>
 
 						<div class="col-md-6 text-right">
 							<div class="away">
 								<div id="awayClick">
 									<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="awayCount" class="homeCount">${channel.awayClick}</div>
 								</div>
-							</div>
-							<div class="name" id="awayCount">${channel.awayClick}</div>							
-						</div>
+							</div>						
+						</div>						
 					</div>
 				</div>	
 			</div>
 			
 			<div class="row">
-				<div class="col">
-					<div class="container chat-container">
+				<div class="col-md-12">
+					<div class="container chat-container" id="space">
 						<div class="chat-messages" id="chat-messages" class="drop-area">
 					    	<!-- 채팅 메시지를 표시할 영역 -->
 					    </div>
 					    
 					    <form id="chat-form">
 					     	<div class="input-group">
-					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요">
+					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요" width="200px"/>
 					    	</div>
 				    	</form>
 				    </div>
@@ -681,16 +761,17 @@ h1 {
 	</div>
 </div>
 
+<section class="blind">blind</section>
 <!-- line Up -->
 <section>
-	<div class="col-md-12">
+	<div class="col-md-12 mt-3">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>lineups</h3>
-
+				<div class="text-center">
+					<h3>lineups</h3>
+				</div>
 				<div class='match-lineup'>
-					<div class="no-gutter">
-					
+					<div class="no-gutter">					
 						<div class="col-md-6">
 							<div class="head">
 								<div class="name">${channel.gameInfo.homeTeam.teamNickName} 선발</div>

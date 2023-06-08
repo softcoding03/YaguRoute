@@ -123,17 +123,19 @@ public class GamePredictController {
 	
 	@Scheduled(cron = "0 55 23 * * ?")
 	public void updatePredState() throws Exception {
-		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		List<Game> gameList = gameService.getGameListByDate(nowDate);
-		boolean state = true;
-		for(Game game : gameList) {
-			if(game.getGameStatusCode().equals("1") || game.getGameStatusCode().equals("0") ){
-				state = false;
-			}
-		}
-		if(state) {
-			gamePredictService.updatePredAfterGame();
-		}
+		System.out.println("hello!!!");
+		//String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//		String nowDate = "2023-06-08";
+//		List<Game> gameList = gameService.getGameListByDate(nowDate);
+//		boolean state = true;
+//		for(Game game : gameList) {
+//			if(game.getGameStatusCode().equals("1") || game.getGameStatusCode().equals("0") ){
+//				state = false;
+//			}
+//		}
+//		if(state) {
+//			gamePredictService.updatePredAfterGame();
+//		}
 	}
 
 }

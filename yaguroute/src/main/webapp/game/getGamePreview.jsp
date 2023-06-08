@@ -35,10 +35,8 @@
 	}
 	.left-border-wid{
 		border-radius: 10px;
-		border-color:blue;
-		border-
 		margin-top: 20px;
-		background-color: #8cbf0f;
+		background-color: #2ea11d;
 		width: 60%;
 		padding-bottom: 5px;
 		padding-left: 5px;
@@ -82,19 +80,34 @@
 		font-family: "Open Sans",sans-serif !important;
 		font-size: 14px;
 	}
+	.match-stat-table .item .percent-bar {
+		background: ${gamePreview.gameInfo.homeTeam.teamColor} !important;
+	}
+	.match-stat-table .item .percent-bar .bar{
+		background: ${gamePreview.gameInfo.awayTeam.teamColor} !important;
+	}
+	
+	.image-container {
+		position: relative;
+		display: inline-block;
+		width: auto;
+		heigth: auto;
+	}
+	.teamTopBar {
+		width: auto;
+		height: auto;
+	}
 </style>
 <script type="text/javascript">
 $(function(){
 	 window.addEventListener('load', function() {
   	  	var section1 = document.getElementById('sidebar');
   		var section2 = document.getElementById('gamePre');
-  		var section3 = document.getElementById('keyPlayer');
   		var section4 = document.getElementById('startingPitcher');
   		
   	  	var section2Height = section2.offsetHeight;
-  		var section3Height = section3.offsetHeight;
   		var section4Height = section4.offsetHeight;
-  	  section1.style.height = section2Height + section3Height + section4Height + 'px';
+  	  section1.style.height = section2Height + section4Height + 'px';
   	});
 })
 </script>
@@ -102,25 +115,26 @@ $(function(){
 <body>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>전력 분석</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+    <div class="image-container">
+	  <div class="row">
+	  	<div class=" col-md-6">
+			<img class="teamTopBar" src="${gamePreview.gameInfo.awayTeam.teamTopBar}">
+		</div>
+		<div class=" col-md-6">
+			<img class="teamTopBar col-md-6" src="${gamePreview.gameInfo.homeTeam.teamTopBar}">
+		</div>
+	  </div>
+	</div>
 </section>
+
 <section class="sidebar col-xs-3 col-sm-3 col-md-3 sidebar-offcanvas" id="sidebar">
 	<div class="sidebar-calendar addShadow">
 		<div class="padding">
            	<h6 style="padding-left: 18px;">다른 경기</h6>
            	<ul>
            	<c:forEach var="toGame" items="${todayGame}">
-           		<li class="left-border-wid">
+           		<li class="left-border-wid" style="${toGame.gameCode eq gamePreview.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
+           			<div>
 	           		<c:if test="${toGame.gameStatusCode eq 2 or toGame.gameStatusCode eq 4}">
 	           			<div class="text">경기종료</div>
 	           			<a href="/game/getGameRecord?gameCode=${toGame.gameCode}">
@@ -143,31 +157,37 @@ $(function(){
 	           		</c:if>
 	           		<c:if test="${toGame.gameStatusCode eq 0}">
 	           				<div class="text" style="font-size: 12px; text-align: center;">${toGame.gameTime} 예정</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}" >${toGame.awayTeam.teamNickName}</span>
-			           		</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
-			           		</div>
+			           		<a href="/game/getGamePreview?gameCode=${toGame.gameCode}">
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}" >${toGame.awayTeam.teamNickName}</span>
+				           		</div>
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+				           		</div>
+			           		</a>
 	           		</c:if>
 	           		<c:if test="${toGame.gameStatusCode eq 1}">
 	           				<div class="text" style="font-size: 12px; text-align: center;">중계중</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
-			           		</div>
-			           		<div>
-			           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
-			           		</div>
+			           		<a href="/channel/getStreaming?gameCode=${toGame.gameCode}">
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span>
+				           		</div>
+				           		<div>
+				           			<span class="side-font-size"><img width="22px" height="22px"  alt="homeImg" src="${toGame.homeTeam.teamEmblem}">${toGame.homeTeam.teamNickName}</span>
+				           		</div>
+			           		</a>
 	           		</c:if>
+	           		</div>
            		</li>
-           	</c:forEach>
+           	</c:forEach>	
            	</ul>
         </div>
 	</div>
 </section>
-<section id="gamePre" style="height:700px;">
+
+<section id="gamePre" style="height: 1200px;">
 <div class="container">
-	<h3>경기 정보</h3>
+	<h3>경기 전력</h3>
 <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;padding-left: 0px;">
 	<div class="tab-content">
 	    <div class="tab-pane active" id="all">
@@ -240,9 +260,7 @@ $(function(){
 			</tbody>
 		</table>
 	</div>
-</div>
-</section>
-<div class="container" id="keyPlayer">
+	<div class="col-md-12 col-sm-12 col-xs-12" id="keyPlayer">
     <div class="row">
         <div class="col-md-12">
             <h4 class="player-name">Key Player</h4>
@@ -297,6 +315,9 @@ $(function(){
 </div>
     </div>
 </div>
+</div>
+</section>
+
 <section id="startingPitcher">
 <c:if test="${gamePreview.homeStartingPitcher != null}">
 <div class="container">
@@ -314,13 +335,18 @@ $(function(){
 		        <div class="name">승패</div>
 		        <div class="percent">${gamePreview.awayStartingPitcher.win}</div>
 		        <div class="percent right">${gamePreview.homeStartingPitcher.win}</div>
+		        <div class="percent-bar">
+		        	<div class="bar bar-2" style="width: 50%"></div>
+		        </div>
 		    </div>
-		    <div class="item">
+		   <div class="item">
 		        <div class="name">이닝</div>
 		        <div class="percent">${gamePreview.awayStartingPitcher.innings}</div>
 		        <div class="percent right">${gamePreview.homeStartingPitcher.innings}</div>
+		        <c:set var="inn01" value="${fn:split(gamePreview.awayStartingPitcher.innings,' ')[0]}"/>
+		        <c:set var="inn02" value="${fn:split(gamePreview.homeStartingPitcher.innings,' ')[0]}"/>
 		        <div class="percent-bar">
-		            <div class="bar bar-6" style="width: ${gamePreview.awayStartingPitcher.innings/(gamePreview.homeStartingPitcher.innings+gamePreview.awayStartingPitcher.innings)*100}%"></div>
+		            <div class="bar bar-2" style="width: ${fn:substring(inn01,0,fn:length(inn01))/(fn:substring(inn02,0,fn:length(inn01))+fn:substring(inn01,0,fn:length(inn01)))*100}%"></div>
 		        </div>
 		    </div>
 		    <div class="item">
@@ -328,7 +354,7 @@ $(function(){
 		        <div class="percent">${gamePreview.awayStartingPitcher.myLostScore}</div>
 		        <div class="percent right">${gamePreview.homeStartingPitcher.myLostScore}</div>
 		        <div class="percent-bar">
-		            <div class="bar bar-6" style="width: ${gamePreview.awayStartingPitcher.myLostScore/(gamePreview.homeStartingPitcher.myLostScore+gamePreview.awayStartingPitcher.myLostScore)*100}%"></div>
+		            <div class="bar bar-2" style="width: ${gamePreview.awayStartingPitcher.myLostScore/(gamePreview.homeStartingPitcher.myLostScore+gamePreview.awayStartingPitcher.myLostScore)*100}%"></div>
 		        </div>
 		    </div>
     	</div>
