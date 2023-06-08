@@ -29,7 +29,33 @@
 	    height: 50px;
 	    margin-top: 5px;
 	    display: inline-block;
-	  }	  
+	  }	 
+	  .teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  
+		  font-size: 18px;
+		  margin-left:300px;
+		  /* 기타 스타일 속성 설정 */
+		}
+	  .row-align {
+	    display: flex;
+	    align-items: center;
+	  } 
 	 </style>
     
     <script type="text/javascript">
@@ -57,8 +83,19 @@
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
+			$("a.talk").on("click",function(){
+				self.location = "/post/getPostList?postType=0&teamCode="+teamCode;
+			});
+			$("a.cheer").on("click",function(){
+				self.location = "/post/getPostList?postType=1&teamCode="+teamCode;
+			});
+			$("a.buy").on("click",function(){
+				self.location = "/post/getPostList?postType=2&teamCode="+teamCode;
+			});
+			$("a.sell").on("click",function(){
+				self.location = "/post/getPostList?postType=3&teamCode="+teamCode;
+			});
 		   $("a.getPostList").on('click',function(){
-			   alert(teamCode);
 			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
 		   $("a.getMyPostList").on('click',function(){
@@ -166,19 +203,10 @@ var postNo;
 
 
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>커뮤니티 게시판</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
+</div>
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
@@ -262,10 +290,10 @@ var postNo;
     <div class="sidebar-tags-wrap">
         <h6>Tags</h6>
         <div class="tags">
-            <a href="#">잡담</a>
-            <a href="#">응원</a>
-            <a href="#">중고구매</a>
-            <a href="#">중고판매</a>
+            <a href="javascript:;" class="talk">잡담</a>
+            <a href="javascript:;" class="cheer">응원</a>
+            <a href="javascript:;" class="buy">중고구매</a>
+            <a href="javascript:;" class="sell">중고판매</a>
         </div>
     </div>
 </section>	
@@ -291,7 +319,7 @@ var postNo;
         		<c:if test="${post.user.userId eq user.userId}">
 	        		<div class="comment-quantity">
 	        			<a href="javascript:;" class="updatePost">수정</a>&nbsp;&nbsp;/&nbsp;&nbsp; 
-	        			<a href="javascript:;" class="updatePost">삭제</a>
+	        			<a href="javascript:;" class="deletePost">삭제</a>
 	        		</div>
         		</c:if>
         </div>
