@@ -47,7 +47,7 @@
 <body>
 <jsp:include page="/common/topBar.jsp"/>
 <input type="hidden" id="sessionUserId" value="${user.userId}">
-<form>
+
 <section class="cart-wrap">
     <div class="container">
         <div class="row">
@@ -64,20 +64,22 @@
                         <th>수량</th>
                         <th class="total">총 가격</th>
                     </tr>
+                    <form>
                     <c:forEach items="${basketList}" var="basket">
                    		<tr class="cart_iem" id="${basket.basketNo}">
                    			<input type="hidden" value="${basket.product.prodNo}" id="prodNo" name="prodNo"/>
                    			<input type="hidden" value="${basket.product.prodStock}" id="prodStock" name="prodQuantity"/>
-                   			<input type="hidden" value="${basket.product.prodStock}" id="prodPrice" name="prodPrice"/>
+                   			<input type="hidden" value="${basket.product.prodPrice}" id="prodPrice" name="prodPrice"/>
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
 	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImageFirst}" alt="cart-product">${basket.product.prodName}</td>
 	                        <td class="cost"><fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/></td>
-	                        <td class="quantity center-wrapper"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"><div id="confirmQuan"><button style="display: none;" class="btn">수량확정</button></div></td>
+	                        <td class="quantity center-wrapper"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"><div id="confirmQuan"><a style="display: none;" class="btn">수량확정</a></div></td>
 	                        <td class="total"><input type="hidden" value="${basket.product.prodPrice*basket.prodQuantity}">
 	                        <fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/>x ${basket.prodQuantity} = <h3><fmt:formatNumber value="${basket.product.prodPrice*basket.prodQuantity}" pattern="###,###"/>원</h3>
 	                        </td>
                        </tr>
                    	 </c:forEach>
+                   	 </form>
                 </table>
             </div>
             <div class="col-md-12 ">
@@ -95,7 +97,7 @@
             </div>
 	            <div class="col-md-12 col-sm-12">
 	            	<div class="cart-total">
-	            		<button class="proceed" id="getProdList">쇼핑 계속하기</button>
+	            		<button class="proceed getProdList">쇼핑 계속하기</button>
 	                    <button class="proceed to-right" id="addTran">구매하기<i class="fa fa-check" aria-hidden="true"></i></button>
 	                </div>
             	
@@ -105,7 +107,7 @@
             <div class="col-md-12 col-sm-12" style="text-align: center">
             		<h2>장바구니가 비어있어요!</h2>
 	            	<div class="cart-total">
-	            		<button class="proceed" id="getProdList">쇼핑 하러가기</button>
+	            		<button class="proceed getProdList">쇼핑 하러가기</button>
 	                </div>
             	
             </div>
@@ -113,7 +115,7 @@
             </div>
         </div>
 </section>
-</form>
+
 </body>
 <script type="text/javascript">
 
@@ -164,16 +166,15 @@
 
 	function quantityChange(elem){
 			elem.one("input",function(){
-				$(this).parent().find("#confirmQuan button").attr("style","display : block;")
-				$(this).parent().find("button").on("click",function(){
+				$(this).parent().find("#confirmQuan a").attr("style","display : block;")
+				$(this).parent().find("a").on("click",function(){
 					var thisButton = $(this).parent().parent();
 					if(checkInputData()){
+						
 						var newQuantity = $(thisButton).find("input").val()
 						var prodNo = $(thisButton).parent().find("#prodNo").val()
 						var basketNo = $(thisButton).parent().attr("id");
-						console.log(prodNo, newQuantity)
-						//<td class="quantity"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+">
-						//<div id="confirmQuan"><button style="display: none;">수량확정</button></div></td>
+						
 						$.ajax({
 							url : "/basket/json/updateBasketProdQuantity/"+prodNo,
 							method : "POST",
@@ -209,7 +210,7 @@
 						})
 						
 						quantityChange($(thisButton).find("input"))
-						$(thisButton).find("button").attr("style","display : none;");
+						$(thisButton).find("a").attr("style","display : none;");
 					}
 				})
 		})
@@ -223,8 +224,8 @@
 		
 		quantityChange($(".quantity input"))
 		
-		$("#getProdList").on("click",function(){
-			self.location = "/product/listProduct"
+		$(".getProdList").on("click",function(){
+			self.location = "/product/salesProdList?prodTeamCode=ALL"
 		})
 		
 		$("tr.cart_iem td.delete").on("click",function(){

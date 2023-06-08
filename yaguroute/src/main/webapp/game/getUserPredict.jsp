@@ -82,11 +82,11 @@ function preventEvent(){
 	
 }
 
-function preventAtag(){
+/* function preventAtag(){
 	$(".oneGame .homeGame,.oneGame .awayGame").on('click',function(event){
 		event.preventDefault();
 	})
-}
+} */
 </script>
 <body>
 <jsp:include page="/common/topBar.jsp"/>
@@ -122,9 +122,6 @@ function preventAtag(){
 <c:forEach items="${gameList}" var="gameStatusCode">
 	<c:if test="${gameStatusCode.gameStatusCode ne 0 and gameStatusCode.gameStatusCode ne 3}">
 		<c:set var="State" value="1"/>
-		<script type="text/javascript">
-			preventEvent();
-		</script>
 	</c:if>
 </c:forEach>
 
@@ -166,7 +163,7 @@ function preventAtag(){
 	</div>
 	<c:if test="${predSize ne 0}">
 		<div class="text-center" style="margin-top: 30px;">
-			<script type="text/javascript">preventAtag();</script>
+			<script type="text/javascript">preventEvent()</script>
 			<h4>경기 예측 완료</h4>
 			<h6>결과는 자정 이후 업데이트 됩니다.</h6>
 			
@@ -303,6 +300,7 @@ function remaindTime() {
 	      $(".hours").html(hour);
 	      $(".minutes").html(min);
 	      $(".seconds").html(sec);
+	      return false;
    }else {
       $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
       sec = parseInt(ot - nt) / 1000;
@@ -318,6 +316,7 @@ function remaindTime() {
        $(".hours").html(hour);
        $(".minutes").html(min);
        $(".seconds").html(sec);
+       return true;
    }
  }
  
@@ -372,7 +371,9 @@ function validation(){
 
 	$(function(){
 		
-		remaindTime()
+		if(remaindTime()){
+			preventEvent();
+		}
 		
 		if(${predSize} === 0){
 			$(".oneGame").each(function(){
