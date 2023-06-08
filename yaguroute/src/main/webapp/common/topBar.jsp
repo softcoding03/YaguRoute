@@ -1,3 +1,7 @@
+
+
+topbar
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!--MAIN MENU WRAP BEGIN-->
@@ -21,14 +25,27 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>경기 예매</span></a>
+                        <a href="/ticket/getGameList2w?teamCode=HH"><span>경기 예매</span></a>
                     </li>
                     <li>
                         <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                     </li>
                     <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
-                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span>커뮤니티 게시판</span></a></li>
-                    <li><a href="/algudgodmain.jsp"><span>Store</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>Store</span></a></li>
+                                        <li>
+                        <a href="#other"><span>미형목록</span></a>
+                        <ul>
+                            <li><a href="/transaction/listTransaction"><span>구매목록조회(마이페이지)</span></a></li>
+                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리(관리자페이지)</span></a></li>
+                            <li><a href="/product/addProductView.jsp"><span>상품등록(관리자페이지)</span></a></li>
+                            <li><a href="search.html"><span>search</span></a></li>
+                            <li><a href="donations.html"><span>donations</span></a></li>
+                            <li><a href="trophies.html"><span>trophies</span></a></li>
+                            <li><a href="about-club.html"><span>about club</span></a></li>
+                            <li><a href="checkout.html"><span>checkout</span></a></li>
+                        </ul>
+                    </li>
                     <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     <li class="cart full">
                         <a href="/basket/getBasketList">
@@ -40,3 +57,10 @@
         </nav>
     </div>
 </div>
+
+
+
+
+
+
+
