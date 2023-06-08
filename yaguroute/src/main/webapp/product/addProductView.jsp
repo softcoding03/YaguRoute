@@ -44,8 +44,7 @@
 				return;
 			}
 			// 폼 제출
-			$("form").attr("enctype", "multipart/form-data").attr("method",
-					"POST").attr("action", "/product/addProduct").submit();
+			$("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action", "/product/addProduct").submit();
 		}
 
 		$(".comment-submit:contains('등록')").on('click', function() {
