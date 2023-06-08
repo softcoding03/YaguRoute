@@ -46,7 +46,7 @@
 		<div class="broadcast-tabs-wrapper">
 	            <ul class="nav nav-tabs" role="tablist">
 	            <c:forEach var="team" items="${allTeam}">
-	            	<c:if test="${team.teamCode ne 'NN'}">
+	            	<c:if test="${team.teamCode ne 'ALL'}">
 		                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
 		                <a href="teamCodeHref" role="tab" data-toggle="tab">
 			                <img alt="img" src="${team.teamEmblem}">

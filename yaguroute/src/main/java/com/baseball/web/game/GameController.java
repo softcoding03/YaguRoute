@@ -64,7 +64,7 @@ public class GameController {
 		if(year==null) {
 			year = nowYear;
 			month = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
-			teamCode = "NN";
+			teamCode = "ALL";
 		}
 		
 		date = year+"-"+(month.length()==2?month:"0"+month);
@@ -114,7 +114,6 @@ public class GameController {
 		GameRecord gameRecord = gameService.getGameRecord(game);
 		List<Game> todayGame = gameService.getGameListByDate(game.getGameDate());
 		
-		System.out.println(todayGame);
 		
 		Comment comment = new Comment();
 		comment.setGameCode(gameCode);
@@ -135,11 +134,10 @@ public class GameController {
 		
 		Game game = gameService.getGameInfo(gameCode);
 		GamePreview gamePreview = gameService.getGamePreview(game);
-		
-		System.out.println("getGamePreview");
-		System.out.println(gameCode);
+		List<Game> todayGame = gameService.getGameListByDate(game.getGameDate());
 		
 		request.setAttribute("gamePreview", gamePreview);
+		request.setAttribute("todayGame", todayGame);
 		
 		return "/game/getGamePreview.jsp";
 	}
@@ -162,7 +160,7 @@ public class GameController {
 		return "/game/getTeam.jsp";
 	}
 	
-	@Scheduled(cron = "0 */5 * * * ?")
+	@Scheduled(cron = "0 1/5 * * * ?")
 	public void updateGameState() throws Exception {
 		gameService.updateTodayGameSchedule();
 	}

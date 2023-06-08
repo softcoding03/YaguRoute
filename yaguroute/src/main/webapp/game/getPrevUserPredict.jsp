@@ -15,21 +15,37 @@
 	hr{
 		border:none;
 		border-top: 2px solid #a3cca3;
-		padding-bottom: 40px;
 	}
 	.imgSize{
-		width:100px !important;
-		height:100px !important;
+		width:130px !important;
+		height:110px !important;
 	}
-	h6{
-		height: 30px;
-		margin: 1px 1px 1px 1px;
+	.middle{
+		vertical-align: middle !important;
 	}
-	.center{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
+	.margin-left{
+		margin-left: 30px;
+	}
+	.margin-right{
+		margin-right: 30px;
+	}
+	.border{
+		border: 3px solid;
+		border-radius: 10px;
+		width: 55px;
+		height: 55px;
+	}
+	.a-css{
+		display:inline-flex !important; 
+		width: 250px;
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
+	.upcoming-match-info .team>*{
+		vertical-align: middle !important;
+	}
+	.text{
+		font-size: 15px;
 	}
 </style>
 <body>
@@ -65,13 +81,13 @@
 
 <c:if test="${gameSize eq 0}">
 	<div class="text-center">
-		<h2>경기가 없습니다.</h2>
+		<h4>경기가 없습니다.</h4>
 	</div>
 </c:if>
 <c:if test="${gameSize ne 0}">
 	<c:if test="${predSize eq 0}">
 		<div class="text-center">
-			<h1>예측한 경기가 없습니다.</h1>
+			<h4>예측한 경기가 없습니다.</h4>
 		</div>
 	</c:if>
 <c:if test="${predSize ne 0}">
@@ -84,6 +100,18 @@
 		</div>
 	</div>
 </div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-md-6">
+				<h3>[HOME]</h3>
+			</div>
+			<div class="col-md-6" style="text-align: right;">
+				<h3>[AWAY]</h3>
+			</div>
+		</div>
+	</div>
+</div>
 <form>
 <input type="hidden" value="${date}" name="date">
 <c:forEach items="${gameList}" var="game" varStatus="gameStatus">
@@ -91,13 +119,12 @@
 <input type="hidden" value="${game.gameCode}" name="addPred[${gameStatus.index}].predGameCode">
 <input type="hidden" value="${user.userId}" name="addPred[${gameStatus.index}].predUserId">
 
-<div class="match-page-top" style="padding: 30px;">
-	
+<div class="oneGame">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                 	<hr>
-                    <div class="upcoming-match-info center">
+                    <div class="upcoming-match-info" style="margin-top: 50px;margin-bottom: 50px;">
                     
                         <div class="team col-md-4">
                         	<c:if test="${game.gameStatusCode eq 2}">
@@ -114,16 +141,18 @@
                         			</div>
                         		</div>
                             </c:if>
-                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
-                            <div class="text">
-                                ${game.homeTeam.teamNickName} <span>${game.homeTeam.hometown}</span>
-                                <div class="latest">
-                                    <div class="latest-title">${game.homeTeam.teamFullName} 승리</div>
-                                    <input type="radio" value="${game.homeTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" disabled="disabled" ${ pred.predWinningTeamCode eq game.homeTeam.teamCode ? 'checked' : ''}>
-                                </div>
+                            <a class="a-css">
+	                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.homeTeam.teamCode}"></div>
+	                            <div class="text">
+	                                ${game.homeTeam.teamFullName} <span>${game.homeTeam.hometown}</span>
+	                                <div class="latest">
+	                                    <div class="latest-title">${game.homeTeam.teamNickName} 승리</div>
+	                                </div>
                             </div> 
+                            </a>
+                              <div class="border margin-left"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.homeTeam.teamCode) ? 'flex' : 'none'};"></i></div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2" style="text-align: center;">
                             <c:if test="${game.gameStatusCode eq 3}">
                             	<h5>취소된 경기입니다.</h5>
                             </c:if>
@@ -143,35 +172,37 @@
                             <c:if test="${game.gameStatusCode eq 4  or game.gameStatusCode eq 2}">
 	                            <div class="info">
 	                                    <div class="btn-wrap">
-	                                    	<a class="btn small" href="/game/getGameRecord?gameCode=${game.gameCode}" style="margin-top:20px;font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">경기기록</a>
+	                                    	<a class="btn small" href="/game/getGameRecord?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">경기기록</a>
 	                                    </div>
 	                            </div>
                             </c:if>
                         </div>
                         
                         <div class="team right col-md-4">
-                            <div class="text">
-                                ${game.awayTeam.teamNickName}<span>${game.awayTeam.hometown}</span>
-                                <div class="latest">
-                                    <div class="latest-title">${game.awayTeam.teamFullName} 승리</div>
-                                    <input type="radio" value="${game.awayTeam.teamCode}" name="addPred[${gameStatus.index}].predWinningTeamCode" disabled="disabled" ${pred.predWinningTeamCode eq game.awayTeam.teamCode ? 'checked' : ''}>
-                                </div>
-                            </div>
-                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
-                            <c:if test="${game.gameStatusCode eq 2}">
-                        		 <div class="text">
-                        			<div class="latest">
-                        				<span class="${game.awayTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.awayTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
-                        			</div>
-                        		</div>
-                            </c:if>
-                            <c:if test="${game.gameStatusCode eq 4}">
-                            	<div class="text">
-                        			<div class="latest">
-                        				<span class="drawn">무</span>
-                        			</div>
-                        		</div>
-                            </c:if>
+                        	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
+                            <a class="a-css">
+	                            <div class="text">
+	                                ${game.awayTeam.teamFullName}<span>${game.awayTeam.hometown}</span>
+	                                <div class="latest">
+	                                    <div class="latest-title">${game.awayTeam.teamNickName} 승리</div>
+	                                </div>
+	                            </div>
+	                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
+	                        </a>    
+	                            <c:if test="${game.gameStatusCode eq 2}">
+	                        		 <div class="text">
+	                        			<div class="latest">
+	                        				<span class="${game.awayTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.awayTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
+	                        			</div>
+	                        		</div>
+	                            </c:if>
+	                            <c:if test="${game.gameStatusCode eq 4}">
+	                            	<div class="text">
+	                        			<div class="latest">
+	                        				<span class="drawn">무</span>
+	                        			</div>
+	                        		</div>
+	                            </c:if>
                            
 					</div>
 					

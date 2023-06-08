@@ -132,7 +132,7 @@ public class PostRestController {
 			return a;
 		}
 		
-		//새 창 띄우고 끄기 위해 ajax로 동작
+		
 		@PostMapping("updatePost")
 		public String updatePost(@ModelAttribute("post") Post post, Model model) throws Exception {
 				System.out.println("/post/rest/updatePost : POST START");	
@@ -141,21 +141,6 @@ public class PostRestController {
 				System.out.println("update 완료");
 				Post post2 = postService.getPost(post.getPostNo());
 				System.out.println("수정된 post"+post2);
-				model.addAttribute("post", post2);
-				return "success";
-		}
-		
-		//새 창 띄우고 끄기 위해 ajax로 동작
-		@PostMapping("addPost")
-		public String addPost(@ModelAttribute("post") Post post, Model model, HttpSession session) throws Exception {
-				System.out.println("/post/rest/addPost : POST START");	
-				System.out.println("-- 넘어온 데이터 ? "+post); //화면에서 userId 히든으로 두고 post에서 같이 뽑을 것
-				User user = (User)session.getAttribute("user");
-				post.setUser(user);//post에 user정보 모두 저장해주기위함
-				postService.addPost(post); //insert 완료
-				int postNo = postService.getLastPostNo();
-				Post post2 = postService.getPost(postNo);
-				System.out.println("-- insert된 post 및 보내지는 post는 ? "+post2);
 				model.addAttribute("post", post2);
 				return "success";
 		}

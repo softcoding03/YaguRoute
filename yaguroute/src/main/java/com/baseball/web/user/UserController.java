@@ -262,6 +262,7 @@ public class UserController {
 		}
 		
 		System.out.println("listUser"+userId);
+		System.out.println("listUser size : "+userId.size());
 		
 		return userId;
 	}

@@ -92,6 +92,8 @@
 			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 		</tr>
 
+
+<%-- 
 		<tr>
 			<td width="104" class="ct_write">상품이미지</td>
 			<td bgcolor="D6D6D6" width="1"></td>
@@ -99,23 +101,25 @@
 				<%
 				String[] fileNames = (String[]) request.getAttribute("fileNames");
 				%>
-				<%
-				for (String fileName : fileNames) {
-				%> <img
-				src="/images/product/<%=fileName%>" width="200" height="200" /> <%
+				<% 	for (String fileName : fileNames) {  %> 
+				<img src="/images/product/<%=fileName%>" width="200" height="200" /> <%
  }
  %>
 			</td>
-		</tr>
-
-
-		<!--  단일 상품 업로드 
+		</tr>--%>	
+				<tr>
+			<td width="104" class="ct_write">상품이미지</td>
+			<td bgcolor="D6D6D6" width="1"></td>
+			<td class="ct_write01">
+				${product.prodImageFirst}, ${product.prodImageSecond},${product.prodImageThird} </td>
+			</tr>
+		<%--  단일 상품 업로드 
 	<tr>
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<img  src="/images/product/${product.prodImage}"/> </td>
-	</tr> -->
+	</tr> --%>
 
 
 		<tr>
@@ -170,12 +174,10 @@
 					<tr>
 						<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23" /></td>
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-							style="padding-top: 3px;">확인 <%-- <a href="/product/listProduct?menu=manage">확인</a> --%>
-						</td>
+							style="padding-top: 3px;">확인  </td>
 						<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23" /></td>
 						<td width="17" height="23"><img src="/images/ct_btnbg01.gif" 	width="17" height="23" /></td>
-						<td background="/images/ct_btnbg02.gif" class="ct_btn01" 	style="padding-top: 3px;">추가등록 <%-- <a href="../product/addProductView.jsp;">추가등록</a> --%>
-						</td>
+						<td background="/images/ct_btnbg02.gif" class="ct_btn01" 	style="padding-top: 3px;">추가등록  </td>
 						<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23" /></td>
 					</tr>
 				</table>

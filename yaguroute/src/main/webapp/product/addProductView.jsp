@@ -91,11 +91,7 @@
 							<div class="col-md-8">
 								<div class="info">
 									<div class="wrap">
-										<ul class="breadcrumbs">
-											<li><a href="algudgodmain.jsp">Main</a>/</li>
-											<li>Category</li>
-										</ul>
-										<h1>Category</h1>
+										<h1>상품 등록</h1>
 									</div>
 								</div>
 							</div>
@@ -107,45 +103,37 @@
 				<!--CHECKOUT WRAP BEGIN-->
 
 				<div class="col-md-7">
-					<h4>상품 등록</h4>
-					</br>
+
 					<div class="customer-info">
 						<form>
+						<p></p>
 							<div class="row">
 								<div class="col-md-9">
 									<div class="item">
-										<label> <span>상품명<i>*</i></span> <input type="text"
-											placeholder="상품명을 입력하세요" name="prodName">
+										<label> <span>상품명<i>*</i></span> <input type="text" placeholder="상품명을 입력하세요" name="prodName">
 										</label>
 									</div>
 								</div>
-
 
 								<div class="col-md-12">
 									<div class="item">
-										<label> <span>상품 이미지 <i>*</i></span> <input
-											type="file" name="prodImages" multiple="multiple">
+										<label> <span>상품 이미지 </span> <input type="file" name="prodImages" multiple="multiple">
 										</label>
 									</div>
 								</div>
 
-
 								<div class="col-md-9">
 									<div class="item">
-										<label> <span>가격 <i>*</i></span> <input type="text"
-											placeholder="가격을 입력하세요" name="prodPrice">
+										<label> <span>가격 <i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice">
 										</label>
 									</div>
 								</div>
 
 								<div class="col-md-6">
 									<div class="item">
-										<label> <span>상품카테고리 <i>*</i></span> <select
-											class="basic" name="prodCategory">
-												<!-- 나중에 에러나니까 제거 -->
+										<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
 												<option value="0"
-													${ product.prodCategory ==0 ? "selected" : ""}>상품
-													카테고리를 선택하세요</option>
+													${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
 												<option value="1"
 													${ product.prodCategory ==1 ? "selected" : ""}>유니폼</option>
 												<option value="2"
@@ -161,11 +149,7 @@
 
 								<div class="col-md-6">
 									<div class="item">
-										<label> <span>구단<i>*</i></span> <select class="basic"
-											name="prodTeamCode">
-												<option value="NN"
-													${ product.prodTeamCode ==NN ? "selected" : ""}>구단을
-													선택하세요</option>
+										<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
 												<option value="OB"
 													${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
 												<option value="LT"
@@ -186,7 +170,8 @@
 													${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
 												<option value="HH"
 													${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
-
+												<option value="NN"
+													${ product.prodTeamCode ==NN ? "selected" : ""}>구단을 선택하세요</option>
 										</select>
 										</label>
 									</div>
@@ -200,15 +185,6 @@
 										</label>
 									</div>
 								</div>
-							</div>
-
-
-							<div class="filter-item">
-								<ul>
-									<li><input type="checkbox" class="filter-check"
-										id="test22"> <label for="test22">내용을 확인 하셨습니까?</label>
-									</li>
-								</ul>
 							</div>
 
 						</form>

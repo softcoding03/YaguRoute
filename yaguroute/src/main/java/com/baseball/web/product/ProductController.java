@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Product;
+import com.baseball.service.game.GameService;
 import com.baseball.service.product.ProductService;
 
 @Controller
@@ -34,6 +36,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	@Autowired
+	@Qualifier("gameServiceImpl")
+	private GameService gameService;
 
 	public ProductController() {
 		System.out.println(this.getClass());
@@ -54,6 +60,9 @@ public class ProductController {
 		System.out.println("MultipartFile22 ::" + multipartFile);
 		System.out.println("/product/addProduct 작동 시작.");
 
+		
+		
+		
 		String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
 
 		// 업로드로 인한 추가
@@ -70,9 +79,19 @@ public class ProductController {
 			System.out.println("originalFileName: " + originalFileName);
 			System.out.println("fileSize: " + size);
 
+			//유니크한 이름 생성, 저장
 			String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-			prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
+			
+			if(temp == 1 ) { 
+				product.setProdImageFirst(uniqueFileName);
+			} else if (temp == 2){
+				product.setProdImageSecond(uniqueFileName);				
+			} else {
+				product.setProdImageThird(uniqueFileName);
+			}
+//			prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
 			temp++;
+						
 //	        prodImages.add(uniqueFileName);
 
 			try {
@@ -82,14 +101,14 @@ public class ProductController {
 			}
 		}
 
-		product.setProdImage(prodTemp);
+		
 //	    product.setProdImage(prodImages);
 		System.out.println(product);
 
 		productService.addProduct(product);
 
-		String[] fileNames = prodTemp.split(",");
-		model.addAttribute("fileNames", fileNames);
+		//String[] fileNames = prodTemp.split(",");
+		//model.addAttribute("fileNames", fileNames);
 
 		return "forward:/product/addProduct.jsp";
 	}
@@ -108,10 +127,12 @@ public class ProductController {
 
 	@GetMapping("listProduct")
 	public String listProduct(@ModelAttribute("search") Search search, Model model,
-			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode) throws Exception {
+			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode,
+			@RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
 
 		System.out.println("search" + search);
 		System.out.println("prodTeamCode" + prodTeamCode);
+		System.out.println("teamCode"+teamCode);
 		System.out.println("/product/listProduct 작동 시작");
 
 		if (search.getCurrentPage() == 0) {
@@ -123,6 +144,7 @@ public class ProductController {
 
 		// Map B/L 수행
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("teamCode", teamCode);
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
 		map = productService.getProductList(map);
@@ -134,24 +156,29 @@ public class ProductController {
 		}
 
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-				pageSize);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
+		
+		//팀 정보 조회
+		List<Team> allTeam = gameService.getAllTeam();
 
 		// Model 과 View 연결
 		model.addAttribute("prodTeamCode", prodTeamCode);
 		model.addAttribute("list", map.get("prodList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("allTeam", allTeam);
 
 		return "forward:/product/listProduct.jsp";
 	}
 	
 	@GetMapping("salesProdList")
 	public String salesProdList(@ModelAttribute("search") Search search, Model model,
-			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode) throws Exception {
+			@RequestParam(value = "prodTeamCode", required = false) String prodTeamCode,
+			@RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
 
 		System.out.println("search" + search);
+		System.out.println("teamCode"+teamCode);
 		System.out.println("prodTeamCode" + prodTeamCode);
 		System.out.println("/product/salesProdList 작동 시작");
 
@@ -164,26 +191,30 @@ public class ProductController {
 
 		// Map B/L 수행
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("teamCode", teamCode);
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
 		map = productService.getSalesProdList(map);
-
 		// Product list 출력
 		List<Product> list = (List<Product>) map.get("salesList");
 		for (Product salesProd : list) {
 			System.out.println(salesProd);
 		}
-
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
-				pageSize);
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 
+		//팀 정보 조회
+		List<Team> allTeam = gameService.getAllTeam();
+
+		
 		// Model 과 View 연결
 		model.addAttribute("prodTeamCode", prodTeamCode);
 		model.addAttribute("list", map.get("salesList"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("allTeam", allTeam);
+
 
 		return "forward:/product/salesProdList.jsp";
 	}
