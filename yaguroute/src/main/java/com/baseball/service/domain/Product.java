@@ -12,11 +12,13 @@ public class Product {
 	private Date prodRegDate;
 	private int prodStock;
 	private int prodCategory;
-	private String prodImage;
 	private String prodTranCode;
 	private String prodRefundCode;
 	private String prodTeamCode;
-
+	private String prodImageFirst;
+	private String prodImageSecond;
+	private String prodImageThird;
+	
 	
 	//Constructor
 	public Product() {
@@ -82,15 +84,6 @@ public class Product {
 		this.prodCategory = prodCategory;
 	}
 
-	public String getProdImage() {
-		return prodImage;
-	}
-
-
-	public void setProdImage(String prodImage) {
-		this.prodImage = prodImage;
-	}
-
 
 	public String getProdTranCode() {
 		return prodTranCode;
@@ -119,14 +112,39 @@ public class Product {
 	public void setProdTeamCode(String prodTeamCode) {
 		this.prodTeamCode = prodTeamCode;
 	}
-	
 
-	// 디버깅용 Override
-	public String toString() {
-		return "Product domain: [prodNo]" + prodNo + "[prodName]" + prodName + "[prodPrice]" + prodPrice 
-				+ "[prodRegDate]" + prodRegDate + "[prodStock]" + prodStock + "[prodCategory]" + prodCategory
-				+ "[prodImage]" + prodImage + "[proTranCode]" + prodTranCode + "[proRefundCode]" + prodRefundCode
-				+ "[prodTeamCode]" + prodTeamCode;
+	public String getProdImageFirst() {
+		return prodImageFirst;
 	}
+
+	public void setProdImageFirst(String prodImageFirst) {
+		this.prodImageFirst = prodImageFirst;
+	}
+
+	public String getProdImageSecond() {
+		return prodImageSecond;
+	}
+
+	public void setProdImageSecond(String prodImageSecond) {
+		this.prodImageSecond = prodImageSecond;
+	}
+
+	public String getProdImageThird() {
+		return prodImageThird;
+	}
+
+	public void setProdImageThird(String prodImageThird) {
+		this.prodImageThird = prodImageThird;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [prodNo=" + prodNo + ", prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodRegDate="
+				+ prodRegDate + ", prodStock=" + prodStock + ", prodCategory=" + prodCategory + ", prodTranCode="
+				+ prodTranCode + ", prodRefundCode=" + prodRefundCode + ", prodTeamCode=" + prodTeamCode
+				+ ", prodImageFirst=" + prodImageFirst + ", prodImageSecond=" + prodImageSecond + ", prodImageThird="
+				+ prodImageThird + "]";
+	}
+
 	
 }

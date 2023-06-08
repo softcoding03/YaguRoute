@@ -163,9 +163,9 @@ public class TransactionController {
 
 	@GetMapping("listTransaction")
 	public String getTransactionList (@ModelAttribute("search") Search search, HttpSession session,
-										@ModelAttribute("transaction") Transaction transaction, Model model) throws Exception {
-		
-		
+									 Model model) throws Exception {
+			
+
 		System.out.println("/transaction/listTransaction 작동 시작");
 	
 
@@ -175,12 +175,10 @@ public class TransactionController {
 
 		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
-
 		
         User user = (User) session.getAttribute("user");      
         String userId = user.getUserId();
-        
-        
+            
         String tranType = "P";
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -199,6 +197,7 @@ public class TransactionController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("userId", userId);
+
 
 		
 		return "forward:/transaction/listTransaction.jsp";

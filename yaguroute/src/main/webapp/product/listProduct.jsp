@@ -8,40 +8,30 @@
 
 <head>
 
-<meta charset="UTF-8" name="viewport"
-	content="width=device-width, initial-scale=1.0">
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- Bootstrap Dropdown Hover CSS -->
-<link href="/css/animate.min.css" rel="stylesheet">
-<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<!-- Bootstrap Dropdown Hover JS -->
-<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-<!-- jQuery UI toolTip 사용 CSS-->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- jQuery UI toolTip 사용 JS-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<!--  ///////////////////////// CSS ////////////////////////// -->
+	<meta charset="UTF-8">
+	<meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>listProduct</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 
 <style>
-.form-group {
-	display: inline-block;
-	margin-right: 10px;
-}
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
 
-.btn {
-	display: inline-block;
-}
+    .btn {
+        display: inline-block;
+    }
+
+    .search-container {
+        text-align: right;
+    }
 </style>
 
 
@@ -64,8 +54,15 @@
 
 		$(".ct_list_pop td:nth-child(2)").on("click", function() {
 			var prodNo = $(this).children('input:hidden').val();
+			alert(prodNo);
 			self.location = "/product/getProduct?prodNo=" + prodNo;
 		});
+		
+
+		$("a[href='teamCodeHref']").on('click',function(){
+    		teamCode = $(this).find("input[name='teamCode']").val()
+    		self.location = "/product/listProduct?prodTeamCode="+teamCode;
+	   });
 
 	});
 
@@ -77,90 +74,84 @@
 
 <body bgcolor="#ffffff" text="#000000">
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
+	
+
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+
+				<!--BREADCRUMBS BEGIN-->
+					<section class="image-header" style="height: 200px;">
+					  <div class="container">
+					    <div class="row">
+					      <div class="col-md-8">
+					        <div class="info">
+					          <div class="wrap">
+					            <h1>판매상품관리</h1>
+					          </div>
+					        </div>
+					      </div>
+					    </div>
+					  </div>
+					</section>
+				<!--BREADCRUMBS END-->
+				
+	<form name="detailForm">
+				<div style="width: 98%; margin-left: 10px; margin-top: 30px;">
+
+<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
+    <div class="broadcast-tabs-wrapper">
+        <ul class="nav nav-tabs" role="tablist">
+            <c:forEach var="team" items="${allTeam}">
+                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+                    <a href="teamCodeHref" role="tab" data-toggle="tab">
+                        <img alt="img" src="${team.teamEmblem}">
+                        <span class="info">
+                            <span class="title">${team.teamNickName}</span>
+                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
+                        </span> 
+                    </a>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
+</div>
+		<div class="container">
 		<div class="page-header text-info">
 			<div class="row">
-
-				<div style="width: 98%; margin-left: 10px;">
-
-
-
-					<form name="detailForm">
+			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
 
 						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
 						<input type="hidden" id="currentPage" name="currentPage" value="" />
 
-						<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td width="15" height="37">
-								<img src="/images/product/baseball.png" width="40" height="37" /></td>
-								<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 20px;">
-									<table width="100%" border="0" cellspacing="0" cellpadding="0">
-										<tr>
-											<td width="93%" class="ct_ttl01">판매상품관리(관리자)</td>
-										</tr>
-									</table>
-
-								</td>
-								<td width="12" height="37"><img
-									src="/images/ct_ttl_img03.gif" width="12" height="37" /></td>
-							</tr>
-						</table>
-
-						<table height="50">
-							<tr>
-								<td>
-									<button type="button" class="btn btn-success" value="NN">전체</button>
-									<button type="button" class="btn btn-success" value="NC">NC</button>
-									<button type="button" class="btn btn-success" value="OB">두산</button>
-									<button type="button" class="btn btn-success" value="HH">한화</button>
-									<button type="button" class="btn btn-success" value="HT">KIA</button>
-									<button type="button" class="btn btn-success" value="KT">KT</button>
-									<button type="button" class="btn btn-success" value="LG">LG</button>
-									<button type="button" class="btn btn-success" value="LT">롯데</button>
-									<button type="button" class="btn btn-success" value="SK">SSG</button>
-									<button type="button" class="btn btn-success" value="SS">삼성</button>
-									<button type="button" class="btn btn-success" value="WO">키움</button>
-								</td>
-							</tr>
-						</table>
-
-
-
+					<div class="search-container">
 						<div class="form-group" style="width: 100px;">
 							<select class="form-control" name="searchCondition">
-								<option value="0"
-									${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+								<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
 							</select>
 						</div>
-
 						<div class="form-group" style="width: 230px;">
-
-							<input type="text" class="form-control" id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
+							<input type="text" class="form-control"  id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
 								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
 
 						<button type="button" class="btn btn-default">검색</button>
+						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
+					</div>
+					
 
-						<p class="text-primary">전체 ${resultPage.totalCount} 건, 현재
-							${resultPage.currentPage} 페이지</p>
-
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							style="margin-top: 20px;">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 
 							<thead>
 								<tr>
-									<th align="center">번호</th>
-									<th align="center">제품명</th>
-									<th align="center">가격</th>
-									<th align="center">등록일</th>
-									<th align="center">재고</th>
-									<th align="center">카테고리</th>
-									<th align="center">팀 코드</th>
-									<th align="center">상품상태</th>
+									<th align="center" style="font-size: 14px;">번호</th>
+									<th align="center" style="font-size: 14px;">제품명</th>
+									<th align="center" style="font-size: 14px;">가격</th>
+									<th align="center" style="font-size: 14px;">등록일</th>
+									<th align="center" style="font-size: 14px;">재고</th>
+									<th align="center" style="font-size: 14px;">카테고리</th>
+									<th align="center" style="font-size: 14px;">팀 코드</th>
+									<th align="center" style="font-size: 14px;">상품상태</th>
 								</tr>
 							</thead>
 
@@ -170,8 +161,7 @@
 									<c:set var="i" value="${ i+1 }" />
 									<tr class="ct_list_pop">
 										<td align="center">${ i }</td>
-										<td align="left" height="30"><input type="hidden"
-											value="${product.prodNo}" /> ${product.prodName}</td>
+										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>
 										<td align="left">${product.prodPrice}</td>
 										<td align="left">${product.prodRegDate}</td>
 										<td align="left">${product.prodStock}</td>
@@ -179,9 +169,7 @@
 										<td align="left">${product.prodTeamCode}</td>
 										<td>${product.prodTranCode eq 'hidden' ? '숨김' : '판매중'}</td>
 									</tr>
-									<tr>
-										<td colspan="15" bgcolor="D6D7D6" height="1"></td>
-									</tr>
+
 								</c:forEach>
 							</tbody>
 						</table>
