@@ -1,3 +1,4 @@
+
 /*----------------------------------------------
 @ filename : lua.js
 @ rams - 20150728
@@ -208,5 +209,3 @@ function lua_getAgent() {
 	}
 	lua_bi["agent"] = browser;
 }
-
-

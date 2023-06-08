@@ -282,10 +282,42 @@
         });
     }
     
-    $(function(){
-    
+    function findUserIdFunction(){
+    	$.ajax({
+            url: "/user/findUserId.jsp",
+            success: function(result) {
+            	
+                var popup = window.open("", "아이디 찾기", "width=480,height=630");
+
+                popup.document.write(result);
+                popup.document.close();
+
+                // 팝업 창이 로드된 후 자동 크기 조정 함수 호출
+                $(popup).on("load", function() {
+                    autoResizePopup(popup);
+                });
+            }
+        });
     	
-    });
+    }
+    
+    function findPasswordFunction(){
+    	$.ajax({
+            url: "/user/findPassword.jsp",
+            success: function(result) {
+            	
+                var popup = window.open("", "비밀번호 찾기", "width=500,height=730");
+
+                popup.document.write(result);
+                popup.document.close();
+
+                // 팝업 창이 로드된 후 자동 크기 조정 함수 호출
+                $(popup).on("load", function() {
+                    autoResizePopup(popup);
+                });
+            }
+        });
+    }
 
     // 팝업 창의 내용이 모두 표시되도록 자동 크기 조정
     function autoResizePopup(popup) {
@@ -361,9 +393,9 @@
 	                              
 	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;"><b>로 그 인</b></button>
                             <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px;"> 회원 가입</a> 
-                            <a href="javascript:void(0);" onclick="findPassword()" style="font-size: 15px; float: right;" >패스워드 찾기</a> 
+                            <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right;" >패스워드 찾기</a> 
                             <span style="float: right; opacity: 0.7;">&nbsp;|&nbsp;</span>
-                            <a href="javascript:void(0);" onclick="findUserId()" style="font-size: 15px; float: right;" >아이디 찾기</a>
+                            <a href="javascript:void(0);" onclick="findUserIdFunction()" style="font-size: 15px; float: right;" >아이디 찾기</a>
                             <br><br>
                             
                             <div class="eaVHUA">

@@ -12,31 +12,32 @@
 		<result property="prodRegDate" column="prod_regdate" jdbcType="DATE" />
 		<result property="prodStock" column="prod_stock" jdbcType="NUMERIC" />
 		<result property="prodCategory" column="prod_category" jdbcType="NUMERIC" />
-		<result property="prodImage" column="prod_image" jdbcType="VARCHAR" />
 		<result property="prodTranCode" column="prod_tran_code" jdbcType="VARCHAR" />
 		<result property="prodRefundCode" column="prod_refund_code" jdbcType="VARCHAR" />
 		<result property="prodTeamCode" column="team_code" jdbcType="VARCHAR" />
-
+		<result property="prodImageFirst" column="prod_image_first" jdbcType="VARCHAR" />
+		<result property="prodImageSecond" column="prod_image_second" jdbcType="VARCHAR" />
+		<result property="prodImageThird" column="prod_image_third" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<sql id="prodList">
-		SELECT prod_no, prod_name, prod_price, prod_regdate, prod_stock, prod_category, prod_image, team_code
+		SELECT *
 		FROM product
 		<where>
-			<if test="prodTeamCode != null">
+			<if test="prodTeamCode != 'ALL'">
 				team_code = #{prodTeamCode}
 			</if>
-			<if test="searchCondition != null">
-				<if test="searchCondition == 0 and searchKeyword != ''">
-					AND prod_name LIKE '%${searchKeyword}%'
+			<if test="search.searchCondition != null">
+				<if test="search.searchCondition == 0 and search.searchKeyword != ''">
+					AND prod_name LIKE '%${search.searchKeyword}%'
 				</if>
 				<if
-					test="searchCondition == 0 and searchKeyword != '' and prodTeamCode == null">
-					prod_name LIKE '%${searchKeyword}%'
+					test="search.searchCondition == 0 and search.searchKeyword != '' and prodTeamCode == 'ALL'">
+					prod_name LIKE '%${search.searchKeyword}%'
 				</if>
 			</if>
-			<if test="prodTeamCode == 'NN'">
+			<if test="prodTeamCode == 'ALL'">
 				OR team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
 			</if>
 		</where>
@@ -49,8 +50,8 @@
 	<insert id="addProduct" parameterType="product">
 
 		INSERT INTO product
-		(prod_no, prod_name, prod_price, prod_stock, prod_category, prod_image, team_code, prod_regdate)
-		VALUES (null, #{prodName}, #{prodPrice}, #{prodStock}, #{prodCategory},#{prodImage},#{prodTeamCode}, SYSDATE())
+		(prod_no, prod_name, prod_price, prod_stock, prod_category, team_code, prod_regdate, prod_image_first, prod_image_second, prod_image_third)
+		VALUES (null, #{prodName}, #{prodPrice}, #{prodStock}, #{prodCategory},#{prodTeamCode}, SYSDATE(), #{prodImageFirst}, #{prodImageSecond}, #{prodImageThird})
 
 	</insert>
 
@@ -75,8 +76,10 @@
 			prod_price = #{prodPrice},
 			prod_stock = #{prodStock},
 			prod_category = #{prodCategory},
-			prod_image = #{prodImage},
 			team_code = #{prodTeamCode}
+			prod_image_first = #{prodImageFirst},
+			prod_image_second = #{prodImageSecond},
+			prod_image_third = #{prodImageThird}
 		</set>
 		WHERE prod_no = #{prodNo}
 
@@ -120,7 +123,5 @@
 
 
 	</select>
-
-
 
 </mapper>

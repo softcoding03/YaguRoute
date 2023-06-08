@@ -101,6 +101,8 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 					}
 					game.setGameStatusCode(String.valueOf(state));
 					
+					game.setGameTime(oneGame.findElement(By.cssSelector(".td_hour")).getText());
+					
 					String teamName="";
 					if(oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("나눔") 
 							|| oneGame.findElement(By.cssSelector(".team_lft")).getText().trim().equals("드림")

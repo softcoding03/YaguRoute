@@ -26,6 +26,7 @@ import com.baseball.service.domain.Predict;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
 import com.baseball.service.predict.GamePredictService;
+import com.baseball.service.user.UserService;
 
 @Controller
 @RequestMapping("/predict/*")
@@ -43,15 +44,16 @@ public class GamePredictController {
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
 	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
 	@GetMapping("getUserPredict")
 	public String getUserPredict(HttpSession session, @RequestParam(value = "date", required = false) String date,
 			HttpServletRequest request) throws Exception {
+		
 		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			user = new User();
-			user.setUserId("rockseong3");
-			session.setAttribute("user", user);
-		}
+		
 		if(date == null) {
 			date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
@@ -61,9 +63,6 @@ public class GamePredictController {
 		List<Predict> pred = (List<Predict>)map.get("predList");
 		List<Game> game = (List<Game>)map.get("gameList");
 		
-		for(Predict predTmp : pred) {
-			System.out.println(predTmp);
-		}
 		Date minTimeDate = new Date(9999, 0, 0); 
 		for(Game gameTmp : game) {
 			String timeString = date+" "+gameTmp.getGameTime()+":00";
@@ -74,7 +73,9 @@ public class GamePredictController {
 		}
 		
 		String minTimeString = new SimpleDateFormat("HH:mm:ss").format(minTimeDate);
-		System.out.println(minTimeString);
+		user = userService.getUser(user.getUserId());
+		session.setAttribute("user", user);
+		
 		
 		request.setAttribute("minTimeString", minTimeString.split("[:]"));
 		request.setAttribute("predSize", pred.size());

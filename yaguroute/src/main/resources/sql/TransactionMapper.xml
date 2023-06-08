@@ -8,23 +8,23 @@
 
 	<resultMap id="transactionSelectMap" type="transaction">
 	
-		<result property="tranNo"				column="tran_no"				jdbcType="NUMERIC"/>
-		<result property="impNo"				column="imp_no"					jdbcType="VARCHAR"/>
-		<result property="merchantNo"			column="merchant_no"			jdbcType="VARCHAR"/>
-		<result property="receiverName"			column="receiver_name"			jdbcType="VARCHAR"/>
-		<result property="receiverPhone"		column="receiver_phone"			jdbcType="VARCHAR"/>
-		<result property="receiverAddr"			column="receiver_addr"			jdbcType="VARCHAR"/>
-		<result property="tranTotalPrice"		column="tran_total_price"		jdbcType="NUMERIC"/>
+		<result property="tranNo"						column="tran_no"				jdbcType="NUMERIC"/>
+		<result property="impNo"						column="imp_no"					jdbcType="VARCHAR"/>
+		<result property="merchantNo"				column="merchant_no"			jdbcType="VARCHAR"/>
+		<result property="receiverName"				column="receiver_name"			jdbcType="VARCHAR"/>
+		<result property="receiverPhone"			column="receiver_phone"			jdbcType="VARCHAR"/>
+		<result property="receiverAddr"				column="receiver_addr"			jdbcType="VARCHAR"/>
+		<result property="tranTotalPrice"				column="tran_total_price"		jdbcType="NUMERIC"/>
 		<result property="tranPaymentOption" 	column="tran_payment_option"	jdbcType="VARCHAR"/>
-		<result property="dlvyRequest"			column="dlvy_request"			jdbcType="VARCHAR"/>
-		<result property="tranDate"				column="tran_date"				jdbcType="TIMESTAMP"/>
-		<result property="tranType"				column="tran_type"				jdbcType="VARCHAR"/>
-		<result property="tranUsePoint"			column="tran_use_point"			jdbcType="NUMERIC"/>
-		<result property="tranAddPoint"			column="tran_add_point"			jdbcType="NUMERIC"/>		
-		<result property="refundStatus"			column="refund_status"			jdbcType="NUMERIC"/>
-		<result property="refundableDate"		column="refundable_date"		jdbcType="TIMESTAMP"/>
-		<result property="ticketCount"			column="ticket_count"			jdbcType="NUMERIC"/>
-		<association property="buyer" 			column="user_id" 	javaType="user" 	select="selectUser"/>		
+		<result property="dlvyRequest"				column="dlvy_request"			jdbcType="VARCHAR"/>
+		<result property="tranDate"						column="tran_date"				jdbcType="TIMESTAMP"/>
+		<result property="tranType"						column="tran_type"				jdbcType="VARCHAR"/>
+		<result property="tranUsePoint"				column="tran_use_point"			jdbcType="NUMERIC"/>
+		<result property="tranAddPoint"				column="tran_add_point"			jdbcType="NUMERIC"/>		
+		<result property="refundStatus"				column="refund_status"			jdbcType="NUMERIC"/>
+		<result property="refundableDate"			column="refundable_date"		jdbcType="TIMESTAMP"/>
+		<result property="ticketCount"					column="ticket_count"			jdbcType="NUMERIC"/>
+		<association property="buyer" 				column="user_id" 	javaType="user" 	select="selectUser"/>		
 		
 	
 	</resultMap>

@@ -1,3 +1,4 @@
+
 // lcslog.js, Version 0.14.0
 // Log-data 2022.09.22.
 (function(exportTarget) {

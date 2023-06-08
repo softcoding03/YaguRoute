@@ -14,8 +14,7 @@
 </head>
 
 <body>
-	<button class="btn btn-primary"
-		onclick="self.location='../product/addProductView.jsp'">상품 등록</button>
+	<button class="btn btn-primary" onclick="self.location='../product/addProductView.jsp'">상품 등록</button>
 	<button class="btn btn-primary"
 		onclick="self.location='../product/updateProductView.jsp'">상품 수정</button>
 

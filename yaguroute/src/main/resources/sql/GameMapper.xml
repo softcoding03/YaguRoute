@@ -95,7 +95,8 @@
 	<update id="updateGameState" parameterType="game">
 		update game
 		<set>
-			GAME_STATUS_CODE = #{gameStatusCode}
+			GAME_STATUS_CODE = #{gameStatusCode},
+			GAME_TIME = #{gameTime}
 			<if test="winningTeamCode != null">
 				, winning_team_code = #{winningTeamCode}
 				, game_score= #{gameScore}

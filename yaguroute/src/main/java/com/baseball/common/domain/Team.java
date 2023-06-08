@@ -31,22 +31,8 @@ public class Team {
 	private String strikeOut;
 	private String doubleLife;
 	private String error;
-	private String teamTopBar;
-	private String teamColor;
 	
 	
-	public String getTeamTopBar() {
-		return teamTopBar;
-	}
-	public void setTeamTopBar(String teamTopBar) {
-		this.teamTopBar = teamTopBar;
-	}
-	public String getTeamColor() {
-		return teamColor;
-	}
-	public void setTeamColor(String teamColor) {
-		this.teamColor = teamColor;
-	}
 	public String getTeamCode() {
 		return teamCode;
 	}
@@ -232,8 +218,7 @@ public class Team {
 				+ ", lastTenMatch=" + lastTenMatch + ", teamBattingAvg=" + teamBattingAvg + ", teamLostScoreAvg="
 				+ teamLostScoreAvg + ", headToHeadRecord=" + headToHeadRecord + ", lastFiveGameGrade="
 				+ lastFiveGameGrade + ", hit=" + hit + ", homerun=" + homerun + ", steal=" + steal + ", strikeOut="
-				+ strikeOut + ", doubleLife=" + doubleLife + ", error=" + error + ", teamTopBar=" + teamTopBar
-				+ ", teamColor=" + teamColor + "]";
+				+ strikeOut + ", doubleLife=" + doubleLife + ", error=" + error + "]";
 	}
 	
 }

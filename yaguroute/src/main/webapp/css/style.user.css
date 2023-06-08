@@ -1,3 +1,52 @@
+
+div.fancy-select {
+    position: relative;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #fff
+}
+
+div.fancy-select.disabled {
+    opacity: .5
+}
+
+div.fancy-select select:focus+div.trigger {
+    box-shadow: 0 0 0 1px #fff
+}
+
+div.fancy-select select:focus+div.trigger.open {
+    box-shadow: none
+}
+
+div.fancy-select div.trigger {
+    border: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 13px 24px 11px 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    background: #fff;
+    color: #141414;
+    width: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    transition: all 240ms ease-out;
+    -webkit-transition: all 240ms ease-out;
+    -moz-transition: all 240ms ease-out;
+    -ms-transition: all 240ms ease-out;
+    -o-transition: all 240ms ease-out
+}
+
+div.fancy-select div.trigger.open {
+    background: #fff;
+    border: 1px solid #fff;
+    color: #141414;
+    box-shadow: none;
+    width: 400px;
+=======
 div.fancy-select {
     position: relative;
     font-weight: 700;
