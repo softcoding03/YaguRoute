@@ -194,7 +194,7 @@
 				                            <span class="then"> start : ${channel.gameInfo.gameTime}</span>
 				                            
 				                            <div>
-				                            <c:if test="${channel.gameInfo.gameStatusCode eq 0 }">
+				                            <c:if test="${channel.gameInfo.gameStatusCode eq 1 }">
 				                            	<button class="recording-button">
 				                            		<span>
 				                            			Live
