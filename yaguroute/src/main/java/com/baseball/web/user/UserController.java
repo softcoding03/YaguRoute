@@ -1,4 +1,4 @@
-﻿package com.baseball.web.user;
+package com.baseball.web.user;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
