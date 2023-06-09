@@ -36,8 +36,6 @@
 <script type="text/javascript">
 	$(function() {
 
-
-
 		$("#addTran").on("click", function() {
 					var prodQuantity = $("input[type='number']").val();
 					var prodNo = "${product.prodNo}";
@@ -46,6 +44,28 @@
 							+ "&prodPrice=" + prodPrice;
 					self.location = addTranUrl;
 				});
+		
+		$("#addBasket").on("click", function() {
+			let productNo = $("#prodNo").val();
+			let userId = $("#userId").val();
+			$.ajax({
+				url : "/basket/json/addBasket/" + productNo,
+				method : "POST",
+				dataType : "text",
+				data : JSON.stringify({
+					userId : userId,
+					prodQuantity : $("input[type='number']").val()
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(data, status) {
+					alert(data)
+				}
+			})
+
+		})
 
 	})
 </script>
@@ -137,9 +157,12 @@
    
                         <div class="quantity-wrap">
                         <div>
+                        	<input id="prodNo" type="hidden" value="${product.prodNo}">
+							<input id="userId" type="hidden" value="${user.userId}">
+							<input id="prodQuantity" type="hidden" value="1">
                            상품수량: <input type="number" placeholder="1" value="1">
-                            <a href="cart.html" class="btn small">Add to cart</a>
-                             <button id="addTran" type="button" class="btn btn-warning">바로구매</button>
+                            <button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
+                            <button id="addTran" type="button" class="btn btn-warning">바로구매</button>
                         </div>
                         <div class="details">
                             <ul>

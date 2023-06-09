@@ -125,11 +125,12 @@
 	</update>
 	
 
-	<select id="getDeliveryList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	<select id="getDlvyTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
 	
-		SELECT *
-		FROM tranDetail
-		WHERE tran_No = #{tranNo}
+		SELECT td.*
+		FROM tranDetail td
+		ORDER BY tran_detail_no
+
 		
 	</select>
 	
@@ -144,14 +145,18 @@
 	</select>
 	
 	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
-			
-		SELECT COUNT(*) 
-		FROM ( SELECT td.*
-				FROM tranDetail td
-				INNER JOIN transaction t
-				ON td.tran_no = t.tran_no
-				WHERE t.user_id = #{userId} ) countTable
-	
+	    SELECT COUNT(*) 
+	    FROM (
+	        SELECT td.*
+	        FROM tranDetail td
+	        INNER JOIN transaction t
+	        ON td.tran_no = t.tran_no
+	        <where>
+	            <if test="userId != null">
+	                AND t.user_id = #{userId}
+	            </if>
+	        </where>
+	    ) countable
 	</select>
 	
 

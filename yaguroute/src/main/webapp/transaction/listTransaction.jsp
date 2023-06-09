@@ -79,7 +79,7 @@ function fncGetTranDetailList() {
 
 <form name="detailForm" action="/transaction/listTransaction" method="GET">
    <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
- <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
+   <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
 
 		<div class="container">
 		<div class="page-header text-info">

@@ -1,5 +1,8 @@
 package com.baseball.web.ticket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +58,7 @@ public class TicketRestController {
 		contents = user.getUserName()+"님 "+
 				game.getGameDate()+" "+game.getGameTime()+" "+
 				game.getAwayTeam().getTeamNickName()+" vs "+
-				game.getHomeTeam().getTeamNickName()+" 경기가 예매되었습니다. *결제취소는 경기시작 하루 전 23시까지 가능합니다.";
+				game.getHomeTeam().getTeamNickName()+" 경기가 예매되었습니다. \n *결제취소는 경기시작 하루 전 23시까지 가능합니다. \n -야구루트-";
 		
 		String result = importAPIRestService.sendSMS(contents, userPhone); //번호와 내용을 변수로 보내줄 것
 		System.out.println("SMS전송 요청 결과는?"+result);
@@ -86,9 +89,9 @@ public class TicketRestController {
 			contents = user.getUserName()+"님 "+
 						game.getGameDate()+" "+game.getGameTime()+" "+
 						game.getAwayTeam().getTeamNickName()+" vs "+
-						game.getHomeTeam().getTeamNickName()+" 경기의 예매 내역이 취소되었습니다. "+
-						"[취소 내역] 취소 금액:"+transaction.getTranTotalPrice()+
-						" 결제취소시각:"+transaction.getTranDate(); 
+						game.getHomeTeam().getTeamNickName()+" 경기의 예매 내역이 취소되었습니다. \n"+
+						"[취소 내역] \n 취소 금액:"+transaction.getTranTotalPrice()+"원"+
+						"\n결제취소시각:"+transaction.getTranDate()+"\n -야구루트-"; 
 			result = importAPIRestService.sendSMS(contents, userPhone); //번호와 내용을 변수로 보내줄 것
 			System.out.println("SMS전송 요청 결과는?"+result);
 			resultData = "success";
@@ -100,39 +103,56 @@ public class TicketRestController {
 	}
 	
 	//좌석 클릭 시 좌석 상태 check
-	@RequestMapping( value="checkSeat/{ticketNo}", method=RequestMethod.GET )
-	public String checkSeat(@PathVariable String ticketNo, HttpSession session) throws Exception{
-		System.out.println(":: /ticket/rest/checkSeat START");
-		System.out.println("넘어온 ticketNo?"+ticketNo);
-		Ticket ticket = ticketService.getTicketInfo(ticketNo);
-		String result="selling";
-		if(ticket.getTicketStatus() ==1) {
-			result="soldOut";
+	@RequestMapping( value="checkStatus/{ticketNoList}", method=RequestMethod.GET )
+	public List<String> checkSeat(@PathVariable String ticketNoList, HttpSession session) throws Exception{
+		System.out.println(":: /ticket/rest/checkStatus START");
+		System.out.println("넘어온 ticketNoList?"+ticketNoList);
+		List<String> list = new ArrayList<>();
+		String regex = "(?<=\\G.{21})"; //문자 21개 기준으로 파싱
+		String[] array = ticketNoList.split(regex);
+		for(String ticketNo:array) {
+			Ticket ticket = ticketService.getTicketInfo(ticketNo);
+			if(ticket.getTicketStatus() ==1) {
+				String seatCode = ticketNo.substring(18);
+				list.add(seatCode); //판매완료된 ticket이면 좌석번호만 따서 list에 담음
+			}
 		}
-		return result;
+		System.out.println("결과는 ?"+list);
+		return list;
 	}
+	
 	//결제하기 클릭 시 좌석상태코드 1(판매완료)로 변경
-	@RequestMapping( value="updateTicketStatus1/{ticketNo}", method=RequestMethod.GET )
-	public String updateTicketStatus1(@PathVariable String ticketNo, HttpSession session) throws Exception{
+	@RequestMapping( value="updateTicketStatus1/{ticketNoList}", method=RequestMethod.GET )
+	public String updateTicketStatus1(@PathVariable String ticketNoList, HttpSession session) throws Exception{
 		System.out.println(":: /ticket/rest/updateTicketStatus1 START");
-		System.out.println("넘어온 ticketNo?"+ticketNo);
-		Ticket ticket = ticketService.getTicketInfo(ticketNo);
-		ticket.setTicketStatus(1);
-		ticketService.updateTicketStatus(ticket);
-		System.out.println(ticketNo+"의 ticketStatus를 1로 변경완료");
+		System.out.println("넘어온 ticketNoList?"+ticketNoList);
+		String regex = "(?<=\\G.{21})";
+		String[] array = ticketNoList.split(regex);
 		
+		for(String ticketNo:array) {
+			Ticket ticket = ticketService.getTicketInfo(ticketNo);
+			ticket.setTicketStatus(1);
+			ticketService.updateTicketStatus(ticket);
+		}
+		
+		System.out.println(ticketNoList+"의 ticketStatus를 1로 변경완료");
 		return "success";
 	}
 	//결제 취소혹은 실패 시 좌석상태코드 0(판매중)로 변경
-	@RequestMapping( value="updateTicketStatus0/{ticketNo}", method=RequestMethod.GET )
-	public String updateTicketStatus0(@PathVariable String ticketNo, HttpSession session) throws Exception{
+	@RequestMapping( value="updateTicketStatus0/{ticketNoList}", method=RequestMethod.GET )
+	public String updateTicketStatus0(@PathVariable String ticketNoList, HttpSession session) throws Exception{
 		System.out.println(":: /ticket/rest/updateTicketStatus0 START");
-		System.out.println("넘어온 ticketNo?"+ticketNo);
-		Ticket ticket = ticketService.getTicketInfo(ticketNo);
-		ticket.setTicketStatus(0);
-		ticketService.updateTicketStatus(ticket);
-		System.out.println(ticketNo+"의 ticketStatus를 0으로 변경완료");
+		System.out.println("넘어온 ticketNo?"+ticketNoList);
+		String regex = "(?<=\\G.{21})"; //문자 21개 기준으로 파싱
+		String[] array = ticketNoList.split(regex);
 		
+		for(String ticketNo:array) {
+			Ticket ticket = ticketService.getTicketInfo(ticketNo);
+			ticket.setTicketStatus(0);
+			ticketService.updateTicketStatus(ticket);
+		}
+		
+		System.out.println(ticketNoList+"의 ticketStatus를 0으로 변경완료");
 		return "success";
 	}
 	
