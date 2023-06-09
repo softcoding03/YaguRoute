@@ -46,7 +46,17 @@
 		vertical-align: middle !important;
 	}
 	.text{
-		font-size: 15px;
+		font-size: 20px;
+		font-weight: 620;
+	}
+	h6{
+		margin-top: 5px !important;
+		margin-bottom: 5px !important;
+		padding-top: 5px !important;
+		padding-bottom: 5px !important;
+	}
+	.col-md-2{
+		text-align: center;
 	}
 </style>
 <body>
@@ -71,8 +81,8 @@
 			<div class="text-center">
 				<h1 id="nowDate">${date}</h1>
 			</div>
-			<a class="nav-arrow right-arrow" id="nextDay" href="#" role="button" data-slide="next">
-	            <i class="fa fa-angle-right" aria-hidden="true"></i>
+			<a class="nav-arrow right-arrow" id="nextDay" href="#" role="button" data-slide="next" style="width: 52px;height: 52px;">
+	            <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
 	            <span class="sr-only"></span>
 	        </a>
         </div>
@@ -105,10 +115,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-6">
-				<h3>[HOME]</h3>
+				<h3>[AWAY]</h3>
 			</div>
 			<div class="col-md-6" style="text-align: right;">
-				<h3>[AWAY]</h3>
+				<h3>[HOME]</h3>
 			</div>
 		</div>
 	</div>
@@ -123,15 +133,27 @@
 <div class="oneGame">
         <div class="container">
             <div class="row">
+            <hr>
+            	<div class="col-md-12" style="margin-top: 20px;">
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><h6>승리팀 배당 <br><fmt:formatNumber value="${game.winningTeamAllocation}" pattern="#,##0.0" />배</h6></div>
+					<div class="col-md-2" style="padding-right: 50px;">
+						<h6>예측 포인트<br><fmt:formatNumber value="${pred.predPoint}" pattern="###,###" /> P</h6><input type="hidden" value="${pred.predPoint}" class="predPoint">
+					</div>
+					<div class="col-md-2" style="padding-right: 70px;">
+						<h6>획득 포인트<br><fmt:formatNumber value="${pred.afterGamePredPoint}" pattern="###,###" /> P</h6>
+		                <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
+					</div>
+				</div>
                 <div class="col-md-12">
-                	<hr>
-                    <div class="upcoming-match-info" style="margin-top: 50px;margin-bottom: 50px;">
+                	
+                    <div class="upcoming-match-info" style="margin-bottom: 30px;">
                     
-                        <div class="team col-md-4">
+                        <div class="team col-md-5">
                         	<c:if test="${game.gameStatusCode eq 2}">
                         		<div class="text">
                         			<div class="latest">
-                        				<span class="${game.homeTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.homeTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
+                        				<span class="${game.awayTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.awayTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
                         			</div>
                         		</div>
                             </c:if>
@@ -143,11 +165,11 @@
                         		</div>
                             </c:if>
                             <a class="a-css">
-	                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.homeTeam.teamCode}"></div>
+	                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.awayTeam.teamCode}"></div>
 	                            <div class="text">
-	                                ${game.homeTeam.teamFullName} <span>${game.homeTeam.hometown}</span>
+	                                ${game.awayTeam.teamNickName}
 	                                <div class="latest">
-	                                    <div class="latest-title">${game.homeTeam.teamNickName} 승리</div>
+	                                    <div class="latest-title">${game.awayTeam.teamNickName} 승리</div>
 	                                </div>
                             </div> 
                             </a>
@@ -160,14 +182,7 @@
                             <c:if test="${game.gameStatusCode eq 2}">
                                
                                		<div>
-	                                 
-	                                <h6>승리팀 배당 <br><fmt:formatNumber value="${game.winningTeamAllocation}" pattern="#,##0.0" />배</h6>
-	                               	
-                                    <h6>예측 포인트<br><fmt:formatNumber value="${pred.predPoint}" pattern="###,###" /> P</h6>
-                                    <input type="hidden" value="${pred.predPoint}" class="predPoint">
-                                    
-                                    <h6>획득 포인트<br><fmt:formatNumber value="${pred.afterGamePredPoint}" pattern="###,###" /> P</h6>
-                                    <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
+	                                <h2>${game.gameScore}</h2>
                                     </div>
                                
                             </c:if>
@@ -180,21 +195,21 @@
                             </c:if>
                         </div>
                         
-                        <div class="team right col-md-4">
+                        <div class="team right col-md-5">
                         	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
-                            <a class="a-css">
+                            <a class="a-css" style="padding-left: 50px;">
 	                            <div class="text">
-	                                ${game.awayTeam.teamFullName}<span>${game.awayTeam.hometown}</span>
+	                                ${game.homeTeam.teamNickName}
 	                                <div class="latest">
-	                                    <div class="latest-title">${game.awayTeam.teamNickName} 승리</div>
+	                                    <div class="latest-title">${game.homeTeam.teamNickName} 승리</div>
 	                                </div>
 	                            </div>
-	                            <div class="avatar"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
+	                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize"></div>
 	                        </a>    
 	                            <c:if test="${game.gameStatusCode eq 2}">
 	                        		 <div class="text">
 	                        			<div class="latest">
-	                        				<span class="${game.awayTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.awayTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
+	                        				<span class="${game.homeTeam.teamCode eq game.winningTeamCode ? 'win' : 'lose' }">${game.homeTeam.teamCode eq game.winningTeamCode ? '승' : '패' }</span>
 	                        			</div>
 	                        		</div>
 	                            </c:if>
@@ -215,6 +230,11 @@
 	</div>
 </div>
 
+	                               	
+                                    
+                                    
+                                    
+                                    
 </c:forEach>
 </form>
 </c:if>

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,6 +74,8 @@ public class TransactionController {
 		
 		int prodSize = prodNo.size();
 		
+		int totalPrice = 0;
+		
 		for(int i =0; i<prodSize;i++) {
 			TranDetail tranDetail = new TranDetail();
 			tranDetail.setTranDetailProd(productService.getProduct(prodNo.get(i)));
@@ -84,6 +85,8 @@ public class TransactionController {
 			product.setProdPrice(prodPrice.get(i));
 			Transaction transacton = new Transaction();
 			int tranTotalPrice = prodQuantity.get(i) * prodPrice.get(i);
+			totalPrice += tranTotalPrice;
+			System.out.println(totalPrice);
 			transacton.setTranTotalPrice(tranTotalPrice);
 			
 			tranDetailList.add(tranDetail);
@@ -93,6 +96,8 @@ public class TransactionController {
 		}
 		
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("prodCount", tranList.size());
+		modelAndView.addObject("totalPrice", totalPrice);
 		modelAndView.addObject("tranDetailList", tranDetailList);
 		modelAndView.addObject("prodQuantity", prodQuantity);
 		modelAndView.addObject("prodPrice", prodPrice);
@@ -106,7 +111,7 @@ public class TransactionController {
 
 	@PostMapping(value = "addTransaction")
 	public String addTransaction(@ModelAttribute("transaction") Transaction transaction,
-	        @RequestParam("prodNo") String prodNo, @RequestParam("userId") String userId,
+	        @RequestParam("prodNo") List<String> prodNo, @RequestParam("userId") String userId,
 	        @RequestParam("impNo") String impNo, @RequestParam("merchantNo") String merchantNo,
 	        @RequestParam("prodQuantity") int prodQuantity, Model model)
 	        throws Exception {
@@ -120,7 +125,12 @@ public class TransactionController {
 			    System.out.println("prodQuantity"+prodQuantity);
 		
 			    // 상품과 사용자 정보 가져오기
-			    Product product = productService.getProduct(Integer.parseInt(prodNo));
+			    List<Product> prodList = new ArrayList<>();
+			    for(String str : prodNo) {
+			    	Product product = productService.getProduct(Integer.parseInt(str));
+			    	prodList.add(product);
+			    }
+			    
 			    User user = userService.getUser(userId);
 		
 			    // Transaction 객체 설정
@@ -130,27 +140,28 @@ public class TransactionController {
 			    transaction.setImpNo(impNo);
 			    transaction.setMerchantNo(merchantNo);
 			
-			    int tranNo = transactionService.addTransaction(transaction);  
+			    int tranNo = transactionService.addTransaction(transaction);
 			    //System.out.println("add된 transaction 정보:: "+transaction);
 	
 			    transaction.setTranNo(tranNo);
 			    //TranDetail 객체 설정하고 add 시작
+			    //System.out.println("setting된 tranNo 정보:: "+transaction);
 			    TranDetail tranDetail = new TranDetail();
-			    tranDetail.setTranDetailProd(product);
 			    tranDetail.setTranStatusCode("1"); // 1:구매완료 2:배송중 3:배송완료
 			    tranDetail.setTranDetailTran(transaction);  // 구매한 transaction 설정
 			    tranDetail.setTranQuantity(prodQuantity); // 구매한 상품 수량 설정
 			    tranDetail.setRefundStatusCode("1"); // 환불 상태 코드 설정
-		
-			    //System.out.println("setting된 tranNo 정보:: "+transaction);
-			    			    
-			    tranDetailService.addTranDetail(tranDetail);
-				    
+			    for(Product prod : prodList) {
+			    	tranDetail.setTranDetailProd(prod);
+			    	tranDetailService.addTranDetail(tranDetail);
+			    	int updateQuantity = prod.getProdStock() - prodQuantity;
+			    	prod.setProdStock(updateQuantity);
+				    		    
+				    productService.updateProduct(prod);
+			    }
+			    
 			    // 재고 업데이트 시작			
-			    int updateQuantity = product.getProdStock() - prodQuantity;
-			    product.setProdStock(updateQuantity);
-			    		    
-			    productService.updateProduct(product);
+			    
 			    
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
@@ -232,5 +243,29 @@ public class TransactionController {
 		return "forward:/transaction/dlvyTranList.jsp";
 	}
 	
+	
+	@RequestMapping("updateTranStatusCode")
+	public ModelAndView updateTranStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
+		
+		tranDetailService.updateTranStatusCode(tranDetail);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/transaction/dlvyTranList");
+
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping("updateRefundStatusCode")
+	public ModelAndView updateRefundStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
+		
+		tranDetailService.updateRefundStatusCode(tranDetail);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/transaction/listTransaction");
+
+		return modelAndView;
+		
+	}
 	
 }

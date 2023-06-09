@@ -135,21 +135,17 @@ function fncGetDlvyTranList() {
 						배송완료
 					</c:if>
 						상태 입니다.</td>
-		<td align="left"> <c:if test="${tranCode eq 2}">
-			<a href="/updateTranCode?tranNo=${tranDetail.tranDetailTran.tranNo}&tranStatusCode=3">배송도착</a>
+		<td align="left"> <c:if test="${tranCode eq 1}">
+			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a>
 		</c:if>
 		</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
 		<td align="left">
-		    <c:choose>
-		        <c:when test="${tranDetail.refundStatusCode eq 1}">
-		            <a class="refund-link">환불요청</a>
-		        </c:when>
-		        <c:when test="${tranDetail.refundStatusCode eq 2}">
-		            <a class="refund-link" href="#">환불</a>
-		        </c:when>
-		        <c:otherwise>${tranDetail.refundStatusCode}</c:otherwise>
-		    </c:choose>
+				<c:choose>
+			    <c:when test="${tranDetail.refundStatusCode eq 2}">
+			        <a class="refund-link" href="#">환불</a>  
+			    </c:when>
+			</c:choose>
 		</td>	
 	</tr>
 	</c:forEach>

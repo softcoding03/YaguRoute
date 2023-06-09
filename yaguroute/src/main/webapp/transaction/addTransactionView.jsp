@@ -15,6 +15,11 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <script type="text/javascript">
 
 
@@ -29,7 +34,7 @@ function fncAddTransaction() {
       var tranUsePoint = $('input[name="tranUsePoint"]').val();      
       //alert(tranUsePoint);
       
-      var tranTotalPrice = ${tranList[0].tranTotalPrice};
+      var tranTotalPrice = ${totalPrice};
       tranTotalPrice -= tranUsePoint;    	 
       //alert("2번쨰알림 "+tranTotalPrice)
       $("#tranTotalPrice").val(tranTotalPrice);
@@ -40,7 +45,7 @@ function fncAddTransaction() {
   // 아임포트 구매 시작 
 	    $(function() {
 	    //$("#productTransaction").on("click" , function() {
-  	  $("td.ct_btn01:contains('구매')").on("click" , function() {
+  	  $("#goAddTran").on("click" , function() {
   	    alert("결제를 시작한다.");
   	    requestPay(tranTotalPrice);
   	  });
@@ -61,13 +66,14 @@ function fncAddTransaction() {
 		var payEmail = $("#receiverEmail").val();
 		var payAddr = $("#receiverAddr").val();
 		var payAmount = $("#tranTotalPrice").val(); // 변경된 tranTotalPrice 값 사용
+		var name = "${prodCount}개 상품 결제";
 			alert(payName + "&" + payPhone + "&" + payAddr + "&" + payAmount);
 		
 			IMP.request_pay( //아임포트로 결제 요청 보내기 (아임포트에서 요구하는 값)
 			{ //결제 정보 설정 (***아임포트에서 요구하는 변수명 사용해야한다)
 				pg: "html5_inicis", //결제 수단 설정 (관리자콘솔에서 추가한 pg만 가능)
 				merchant_uid: UID, //유니크하게 만들어 놓은 merchat_id값
-				goodsname: "${tranDetailList[0].tranDetailProd.prodNo}", //결제창에 보이는 구매할 상품의 이름
+				name: name, //결제창에 보이는 구매할 상품의 이름
 			    amount: payAmount,	//구매할 총 가격
 			    buyer_name: payName, //직접 입력한 받는사람 이름
 			    buyer_tel:  payPhone, //직접 입력한 받는사람 휴대폰번호
@@ -99,9 +105,7 @@ function fncAddTransaction() {
 				 		    	 console.log($("#payOption").val());
 				 		    	 console.log($("#tranUsePoint").val());
 
-				 		    	 					
 
-				 		    	 
 				 		    	 if (rsp.paid_amount == payAmount) { 
 				 		            alert("결제가 완료되었습니다. 결제 승인: "+rsp.paid_at);
 				 		            	fncAddTransaction();
@@ -121,14 +125,13 @@ function fncAddTransaction() {
 </head>
 
 <body>
-
-<button id="applyPointButton">적용</button>
-<button id="productTransaction">구매</button>
+<div class="container">
+	<div class="col-md-12">
+	
 <input type="hidden" name="userPoint" value="${user.userPoint} " /> 
 		<form name="detailForm">
 
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetailList[0].tranDetailProd.prodNo}" /> 
 					<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
 					<input type="hidden" id="impNo" name="impNo" value="" /> 
 					<input type="hidden" id="merchantNo" name="merchantNo" value=""/> 
@@ -137,223 +140,107 @@ function fncAddTransaction() {
 					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 
 
-		<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif" width="15" height="37"></td>
-					<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">구매정보입력</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-				   </table>
-					</td>
-				<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" width="12" height="37" /></td>
-		 	</tr>
-		</table>
-
+		
+					<h4 style="text-align: center;">구매정보입력</h4>
+					
 
 		<table width="600" border="0" cellspacing="0" cellpadding="0"
 			align="center" style="margin-top: 13px;">
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-
-			<tr>
-				<td height="40" colspan="5" bgcolor="D6E6F5"
-					style="font-size: 15px;" align="center">[구매자 정보]</td>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[구매자 정보]</th>
 			</tr>
 			<tr>
-				<td width="104" class="ct_write">구매자아이디 <img
-					src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
-				</td>
-				
-				<td bgcolor="D6D6D6" width="1"></td>
+				<td width="104" class="ct_write">구매자아이디</td>
 				<td class="ct_write01">${user.userId}</td>
 			</tr>
-			
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			
-			<tr>
-				<td width="104" class="ct_write">구매자 이름 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
-				</td>
-				<td bgcolor="D6D6D6" width="1"></td>
+				<td width="104" class="ct_write">구매자 이름</td>
 				<td class="ct_write01">${user.userName}</td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td width="104" class="ct_write">구매자 이메일 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
-				</td>
-				<td bgcolor="D6D6D6" width="1"></td>
+				<td width="104" class="ct_write">구매자 이메일</td>
 				<td class="ct_write01">${user.userEmail}</td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-
-			<tr>
-				<td height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[받는사람 정보]</td>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[받는사람 정보]</th>
 			</tr>
 
 			<tr>
 				<td width="104" class="ct_write">받는사람 이름</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" id="receiverName" name="receiverName" class="ct_input_g" style="width: 150px; height: 19px" 
 				maxLength="20" value="${user.userName}" /></td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
 				<td width="104" class="ct_write">받는사람 휴대폰번호</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" id="receiverPhone" name="receiverPhone" class="ct_input_g" style="width: 150px; height: 19px" 
 				maxLength="20"  value="${user.userPhone}" /></td>
 			</tr>
-						<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
 			<tr>
 				<td width="104" class="ct_write">받는사람 이메일</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" id="receiverEmail" name="receiverEmail" class="ct_input_g" style="width: 150px; height: 19px" 
 				maxLength="20"  value="${user.userEmail}" /></td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
 				<td width="104" class="ct_write">받는사람 배송주소</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" id="receiverAddr" name="receiverAddr" class="ct_input_g" style="width: 150px; height: 19px" 
 					maxLength="20" value="${user.userAddr}" />
 					<button type="button" onclick="validateAddress()">주소찾기</button></td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
 				<td width="104" class="ct_write">구매요청사항</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" name="dlvyRequest"	class="ct_input_g" style="width: 235px; height: 19px" maxLength="20" /></td>
 			</tr>
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td height="40" colspan="5" bgcolor="D6E6F5"
-					style="font-size: 15px;" align="center">[구매할 상품 정보]</td>
+				<th height="40" colspan="5" bgcolor="D6E6F5"
+					style="font-size: 15px;" align="center">[구매할 상품 정보]</th>
 			</tr>
 			<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
 				<tr>
-					<td width="300" class="ct_write">상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
-					<td bgcolor="D6D6D6" width="1"></td>
-					<td class="ct_write01" width="299">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="105">${tranDetail.tranDetailProd.prodNo}</td>
-							</tr>
-						</table>
-					</td>
+					<td width="300" class="ct_write" style="background-color: darkgreen !important;">상품번호</td>
+					<td width="105">${tranDetail.tranDetailProd.prodNo}</td>	
 				</tr>
 				<tr>
-					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-				</tr>
-				<tr>
-					<td width="104" class="ct_write">상품명 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-					<td bgcolor="D6D6D6" width="1"></td>
+					<td width="104" class="ct_write">상품명</td>
 					<td class="ct_write01">${tranDetail.tranDetailProd.prodName}</td>
 				</tr>
-							<tr>
-					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-				</tr>
 				<tr>
-					<td width="104" class="ct_write">상품수량 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-					<td bgcolor="D6D6D6" width="1"></td>
+					<td width="104" class="ct_write">상품수량</td>
 					<td class="ct_write01">${prodQuantity[tranStatus.index]}</td>
 				</tr>
-										<tr>
-					<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-				</tr>
 							<tr>
-					<td width="104" class="ct_write">상품가격 <img	src="/images/ct_icon_red.gif" width="3" height="3"	 align="absmiddle" /> </td>
-					<td bgcolor="D6D6D6" width="1"></td>
+					<td width="104" class="ct_write">상품가격</td>
 					<td class="ct_write01">${tranDetail.tranDetailProd.prodPrice}</td>
 				</tr>
+				<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
 			</c:forEach>
-
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-			<tr>
-				<td height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[결제 정보]</td>
-			</tr>
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[결제 정보]</th>
 			</tr>
 			<tr>
 				<td width="104" class="ct_write">사용포인트</td>
-				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">
 					<div>
 						<input type="text" id="tranUsePoint" name="tranUsePoint" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"
-							value="${transaction.tranUsePoint}" /> <span>${user.userPoint}</span>
-						포인트
+							value="${transaction.tranUsePoint}" /> <span>${user.userPoint}</span>포인트<a id="applyPointButton" class="btn small">적용</a>
 						
 					</div>
 				</td>
 			</tr>
 
 			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-
-			<tr>
 				<td width="104" class="ct_write">상품 총 가격(가격*구매수량) <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
-				<td bgcolor="D6D6D6" width="1" ></td>
-				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${tranList[0].tranTotalPrice}" /></td>
-			</tr>
-
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-			</tr>
-
-			<tr>
-				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}" /></td>
 			</tr>
 		</table>
-
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			style="margin-top: 10px;">
-			<tr>
-				<td width="53%"></td>
-				<td align="center">
-					<table border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23" /></td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-									구매</td>
-							<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23" /></td>
-							<td width="30"></td>
-							<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23" /></td>
-							<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;"><a href="javascript:history.go(-1)">취소</a></td>
-							<td width="14" height="23"><img src="/images/ct_btnbg03.gif"
-								width="14" height="23" /></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form>
-
+</form>
+	<div class="col-md-12" style="margin-bottom: 100px;">
+		<div class="col-md-3"></div>
+		<div class="col-md-3"><button class="btn" id="goAddTran">구매</button></div>
+		<div class="col-md-3"><a class="btn" href="javascript:history.go(-1)">취소</a></div>
+	</div>		
+	
+	</div>
+</div>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
