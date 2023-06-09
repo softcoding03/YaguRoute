@@ -24,8 +24,8 @@ public interface TranDetailDao {
 	
 	public List<TranDetail> getTranDetailList(Search search, String userId) throws Exception; 	//구매내역조회(사용자)
 	
-	//public List<TranDetail> getDlvyTranList(Map<String, Object> map) throws Exception;		//배송현황조회(관리자)
+	public List<TranDetail> getDlvyTranList(Search search) throws Exception;		//배송현황조회(관리자)
 		
-	public int getTotalCount(Search search, String userId) throws Exception;
+	public int getTotalCount(Search search, String userId) throws Exception; // userId가 아니면(null이면) tranNo
 	
 }

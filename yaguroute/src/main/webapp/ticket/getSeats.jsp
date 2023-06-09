@@ -16,79 +16,21 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
     
-    var priceTag=0; //총 가격
+var priceTag=0; //총 가격
+var ticketNoList="";
+    
     $(function() {
     	var tdCount=0; //선택 좌석 수
-    		//좌석 클릭 시 동적으로 작동 로직
+	    	//좌석 클릭 시 동적으로 작동 로직
 	    	$(document).on("click", "label:nth-child(n+1)", function(event) {
-	    		var storedEvent = event;
-	    		var ticketNo = $(this).siblings("input[name='ticketNo']").val();
-	    		var seatPrice = Number($(this).siblings("input[name='seatPrice']").val());
-				var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
-				var seatCode = $(this).siblings("input[name='seatCode']").val();
-				var TF = $(this).siblings("input").is("input[name='checkedbox']");
-	    		var ticketStatus;
-	    		
-	    		//좌석 클릭 시 좌석상태코드 확인 ajax	
-	    		$.ajax({				
-				    	url: "/ticket/rest/checkSeat/"+ticketNo,
-			         method: "GET",
-			         dataType : "text",
-			         headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(Data, status) {
-							
-							console.log("결과는?"+Data);
-							ticketStatus = Data; //selling or soldOut 세팅
-							
-							if( TF || ticketStatus==="soldOut"){
-				    			alert("이미 판매된 좌석입니다.")
-				    			storedEvent.preventDefault();
-				    		} else{
-								var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price+"원";
-								console.log("클릭"+price+"//"+seatCode);
-								var insertPosition = $('#insertPosition')
-					    		var insertBody = 	"<div class=\"seat\" id="+seatCode+">"
-														+	"<tr>"
-													   +  "<td>"
-													   +  "<input type=\"text\" value="+value+"></input>"
-													   +	"<input type=\"hidden\" name=\"ticketNo\" value="+ticketNo+"></input>"
-												    	+	"</td>"
-												    	+"</div>";
-												    	
-					    		if(insertPosition.find("div#"+seatCode).length>0) {//해당 div가 존재한다면
-										insertPosition.find("div#"+seatCode).remove();
-						  				tdCount--;
-						  				priceTag -= seatPrice;
-					    		} else if(tdCount > 3){ 
-						    			alert("좌석은 최대 4개까지 선택가능합니다.");
-						    			storedEvent.preventDefault(); //클릭 이벤트 취소
-					    		} else {
-										insertPosition.append(insertBody);
-										tdCount++;
-										priceTag += seatPrice;
-								}//end of if
-					    		
-					    		$("#priceTag").text(priceTag); //총 가격
-					    		$("#tranTotalPrice").val(priceTag);
-					    		console.log(tdCount)
-							}//end of if
-						}
-				});
-				
-				
-				
-				/*
-	    		if($(this).siblings("input").is("input[name='checkedbox']") || ticketStatus==="selling"){
+	    		if($(this).siblings("input").is("input[name='checkedbox']")){
 	    			alert("이미 판매된 좌석입니다.")
 	    			event.preventDefault();
 	    		} else{
 		    		var seatPrice = Number($(this).siblings("input[name='seatPrice']").val());
 					var price = seatPrice.toLocaleString(); //숫자 1,000 형식으로 변경
 					var seatCode = $(this).siblings("input[name='seatCode']").val();
-					
+					var ticketNo = $(this).siblings("input[name='ticketNo']").val();
 					var value = seatCode+"&nbsp;&nbsp;-&nbsp;&nbsp;"+price+"원";
 					console.log("클릭"+price+"//"+seatCode);
 					var insertPosition = $('#insertPosition')
@@ -104,6 +46,7 @@
 							insertPosition.find("div#"+seatCode).remove();
 			  				tdCount--;
 			  				priceTag -= seatPrice;
+			  				ticketNoList = ticketNoList.replace(ticketNo,""); 
 		    		} else if(tdCount > 3){ 
 			    			alert("좌석은 최대 4개까지 선택가능합니다.");
 			    			event.preventDefault(); //클릭 이벤트 취소
@@ -111,15 +54,19 @@
 							insertPosition.append(insertBody);
 							tdCount++;
 							priceTag += seatPrice;
+							ticketNoList += ticketNo;
 					}//end of if
 		    		
-		    		$("#priceTag").text(priceTag); //총 가격
+					var text = priceTag.toLocaleString()+"원";
+		    		$("#priceTag").text(text); //총 가격
 		    		$("#tranTotalPrice").val(priceTag);
-		    		console.log(tdCount)
+		    		console.log(tdCount);
+		    		console.log(ticketNoList);
 				}
-    	*/
-	    	});//end of 좌석 클릭 로직
-	 });
+	    	});
+	});//end of 좌석 클릭 로직
+				
+
     
 //아임포트 + NAVER SENS
   $(function() {
@@ -132,7 +79,40 @@
 	  
 	  	//결제버튼 클릭
 	 	$(document).on("click", "button.addPurchase", function() {
-		   requestPay();
+	 		if(priceTag != 0){ //0원이 아닐때(좌석선택필수)
+	 			$.ajax({ //좌석 상태 check ajax
+	    	        url: "/ticket/rest/checkStatus/"+ticketNoList,
+	    	        method: "GET",
+	    	        dataType: "json",
+	    	        headers: {
+	    	            "Accept": "application/json",
+	    	            "Content-Type": "application/json"
+	    	        },
+	    	        success: function(Data, status) {
+	    	            console.log("ajax 결과는?" + Data);
+	    	            if(Data.length == 0){
+	    	            	requestPay(); //결제 시작
+	    	            	$.ajax({ //update 1 ajax
+		    		    	        url: "/ticket/rest/updateStatus1/"+ticketNoList,
+		    		    	        method: "GET",
+		    		    	        dataType: "json",
+		    		    	        headers: {
+		    		    	            "Accept": "application/json",
+		    		    	            "Content-Type": "application/json"
+		    		    	        },
+		    		    	        success: function(Data, status) {
+		    		    	        		console.log(Data);
+		    		    	        }
+	    	            	}); //update 1 ajax 끝
+	    	            } else if(Data.length > 0){
+	    	            	alert("이미 판매된 좌석입니다. 다른좌석을 선택해주세요. \n판매된 좌석 => "+Data);
+	    	            	location.reload();
+	    	            }
+	    	        }
+	 			});//check ajax 끝
+	 		} else {
+	 			alert("좌석을 선택하지 않으셨습니다.")
+	 		}
 		});
 
 	   //아임포트 변수
@@ -163,7 +143,7 @@
 		 		    	  $('#payMethod').val(rsp.pay_method);
 		 		    	  
 		 		    	  if(rsp.paid_amount == priceTag){ // 결제 후 검증 로직
-		 		    	  		alert("가격검증 및 결제성공입니다.");
+		 		    	  		console.log("가격검증 및 결제성공.");
 		 		    	  	 	fncAddPurchase(); //db 저장할 때 결제번호라든지 결제 정보도 추가 저장해주기 (컬럼만들고)
 		 		    	  		  //SMS 발송 ajax
 				 		        $.ajax({				
@@ -175,14 +155,38 @@
 				 							"Content-Type" : "application/json"
 				 						},
 				 						success : function(Data, status) {
-				 							alert("결과는?"+status);
 				 				 		}
 				 				  });//SMS 발송 끝
 		 		    	  } else {
 		 		    		 	alert("결제 실패 : 가격이 위조 되었습니다.");
+		 		    		 	$.ajax({ //update 0 ajax
+		    		    	        url: "/ticket/rest/updateStatus0/"+ticketNoList,
+		    		    	        method: "GET",
+		    		    	        dataType: "json",
+		    		    	        headers: {
+		    		    	            "Accept": "application/json",
+		    		    	            "Content-Type": "application/json"
+		    		    	        },
+		    		    	        success: function(Data, status) {
+		    		    	        		console.log(Data);
+		    		    	        }
+	    	            	}); //update 0 ajax 끝
 		 		    	  }
 	 		    	} else {
 		 		   	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+			 		   $.ajax({ //update 0 ajax
+			    	        url: "/ticket/rest/updateStatus0/"+ticketNoList,
+			    	        method: "GET",
+			    	        dataType: "json",
+			    	        headers: {
+			    	            "Accept": "application/json",
+			    	            "Content-Type": "application/json"
+			    	        },
+			    	        success: function(Data, status) {
+			    	        		console.log(Data);
+			    	        }
+	           		}); //update 0 ajax 끝
+		 		   	location.reload();
 		 		 	}
 			   }
 			);
@@ -222,6 +226,27 @@
 		#insertPosition{
 			transform: scale(1.2); /* 크기 조정 */
 		}
+		button[type="button"]:hover {
+            background-color: #99BEFF;
+      }
+      button[type="button"] {
+            width: 30%;
+            height: 45px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size : 15px;
+        }
+       button.back{
+       	width: 40%;
+       	height: 30px;
+       }
+       button.reload{
+       	width: 50%;
+       	height: 30px;
+       }
 		
     </style>
 </head>

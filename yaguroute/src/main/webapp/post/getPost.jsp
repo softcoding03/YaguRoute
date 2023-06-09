@@ -151,7 +151,7 @@ var postNo;
 					console.log(JSONData.disLikes);
 		            if (isLiked) {
 		            	$('#likes').html(JSONData.likes);
-		            	$('#disLikes').html("-"+JSONData.disLikes);
+		            	$('#disLikes').html(JSONData.disLikes);
 		            	if(likes < JSONData.likes){
 		            		$('.check1').html("<span class=\"glyphicon glyphicon-heart\""
 		            							+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
@@ -163,7 +163,7 @@ var postNo;
 		            	}
 		            } else if (isDisliked) {
 		            	$('#likes').html(JSONData.likes);
-		            	$('#disLikes').html("-"+JSONData.disLikes);
+		            	$('#disLikes').html(JSONData.disLikes);
 		                if(disLikes < JSONData.disLikes){
 		                	$('.check2').html("<span class=\"glyphicon glyphicon-heart\"" 
 		                						+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
@@ -367,7 +367,7 @@ var postNo;
 					    </c:choose>
 				</div>
 			</button>
-			<div class="col-xs-8 col-md-4" id="disLikes">-${post.postDislikes}</div>
+			<div class="col-xs-8 col-md-4" id="disLikes">${post.postDislikes}</div>
 		</div>    
 		<!-- 좋아요 싫어요 끝-->
 		<div>
