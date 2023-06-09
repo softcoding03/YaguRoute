@@ -1,7 +1,5 @@
 
 
-topbar
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!--MAIN MENU WRAP BEGIN-->
@@ -25,9 +23,9 @@ topbar
                         </ul>
                     </li>
                     <li>
-                        <a href="/ticket/getGameList2w?teamCode=HH"><span>경기 예매</span></a>
+                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>경기 예매</span></a>
                     </li>
-                    <li>ㅃ
+                    <li>
                         <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                     </li>
                     <li>
@@ -37,7 +35,7 @@ topbar
                     		<li><a href="/game/getTeam?teamCode=${user.teamCode}"><span>팀 정보</span></a></li>
                     	</ul>
                     </li>
-                    <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span>커뮤니티 게시판</span></a></li>
                     <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>Store</span></a></li>
                      
                       <li>  <a href="#other"><span>관리자목록</span></a>
