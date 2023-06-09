@@ -28,7 +28,7 @@
 		 user_point, password, gender, role, withdraw, team_code)
 		VALUES 
 		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, 0,
-		#{password}, 'M', 'user', 0, 'HH' )
+		#{password}, #{gender}, 'user', 0, 'HH' )
 	</insert>
 	
 	<select id="getUser" parameterType="String" resultMap="userSelectMap">

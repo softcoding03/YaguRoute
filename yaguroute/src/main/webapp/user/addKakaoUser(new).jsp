@@ -2,9 +2,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${ empty user }">
- 	<c:redirect url="/user/loginTest(new).jsp"/>
-</c:if>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,10 +36,32 @@
 	    color: lightslategrey;
 	    font-family: Arial;
 	    font-size: 17px;
-	    padding: 9px 15px;
+	    padding: 9px 15px
 	    text-decoration: none;
 	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
 	}
+    
+    .kakao-login {
+		  display: block;
+		  padding: 15px 0;
+		  background: #FEE500;
+		  color: #000000;
+		  font-size: 20px;
+		  margin-bottom: 10px;
+		  /* 글자를 가운데로 정렬합니다. */
+		  text-align: center;
+		  border-radius: 5px;
+		}
+		
+		.kakao-login svg {
+		  display: inline-block;
+		  width: 24px;
+		  height: 24px;
+		  margin-right: 5px;
+		  /* 상하 정렬을 조정해줍니다. 오직 inline, inline-block 요소에서만 작동합니다. */
+		  vertical-align: middle;
+		}
+    
     .link-login {
         display: block;
         padding: 15px 0;
@@ -66,13 +85,14 @@
         
     .birthday {
 	    font-size: 16px;
+	    
 	    font-family: Consolas, sans-serif;
 	   	padding: 15px 10px;
 	    border: 1px solid transparent;
 	    width: 100%;
 	    background: #fff;
 	    font-size: 14px;
-	    color: #666;
+	    color: lightslategrey;
 	    line-height: normal;
 	    outline: 0
       }
@@ -201,6 +221,70 @@
 		    };
 	});
     
+	 // 휴대폰 버튼 클릭
+	$(function(){
+   		$('#phoneButton').on("click", function(){
+   		
+   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
+   		
+   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+   		// rnd에 대한 HTML 요소 생성
+
+   		var newDiv = document.createElement("div");
+
+		// hidden 속성 추가
+		var hiddenDiv = document.createElement('input');
+   		hiddenDiv.type = "hidden";
+		hiddenDiv.value = rnd;
+		hiddenDiv.id = 'rnd';
+		newDiv.appendChild(hiddenDiv);
+		document.body.appendChild(newDiv);
+		
+		if(userPhone.length == 11){
+			alert("인증번호를 발송하였습니다.");
+		}
+		else{
+			alert("휴대폰 번호를 다시 입력해주세요.");
+			return;
+		}
+		
+   		$.ajax({
+               url: "/users/phoneCheck/",
+               method: "POST",
+               dataType: "json",
+               data: {userPhone : userPhone,
+               		rnd : rnd}, // 수정: userId로 변경
+               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+               success: function(result) {
+               },
+               error: function() {
+               	alert("서버 오류 발생");
+                   return;
+           }
+   		});
+   	  });
+   	});
+	
+    // 인증번호 확인
+	$(function(){
+    	
+    	$("#phoneCheckButton").on("click", function(){
+    		
+    		alert("인증버튼 클릭");
+    		
+    		var verify = $("#phoneCheck").val();
+        	var rnd = $("#rnd").val();
+        	
+        	if(verify == rnd){
+        		alert("인증이 완료되었습니다.");
+        	}
+        	else{
+        		alert("인증에 실패하였습니다.");
+        		return;
+        	}
+    	});
+    });
+	
     // 닉네임 체크
 	$(function(){
 		
@@ -316,8 +400,11 @@
                 <div class="info">
                     <div class="wrap">
                     <br><br><br>
-                        <h2 class="link-login" style="text-align: center; font-size: 25px; font-weight: bold;"><img src="/images/user/naverTitle.png" alt="네이버" /> 추가정보</h2>
-                        <br><strong style="text-align: center !important;">&nbsp;&nbsp;&nbsp;네이버 SNS 연동 계정입니다. <br>&nbsp;&nbsp;&nbsp;추가정보 입력이 필요합니다.</strong>
+                        <h2 class="kakao-login"> 
+                        <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
+                        <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
+						</svg>카카오 추가정보</h2>
+                        <br><strong style="text-align: center !important;">&nbsp;&nbsp;&nbsp;카카오 SNS 연동 계정입니다. <br>&nbsp;&nbsp;&nbsp;추가정보 입력이 필요합니다.</strong>
                     </div><br>
                 </div>
             </div>	
@@ -335,19 +422,40 @@
 							<input type="hidden" name="userPhone" value="${user.userPhone}" readonly="readonly"/>
 							<input type="hidden" name="gender" value="${user.gender}" readonly="readonly"/>
 							<input type="hidden" name="userImage" value="${user.userImage}" readonly="readonly"/>
+							
 								<div class="form-inline">
                                     <label for="userNickName">
                                         <input type="text" id="nicknameCheck" name="userNickName" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
                                     </label>
                                     	<font id="nickname_use" size="2"></font>
                             	</div>
+                            	
+                            	<a style="font-size: 17px; font-weight: bold;">생년월일</a>
+                            	<div class="form-inline">
+                                    <label for="userBirth">
+                                        <input type="date" class="birthday" name="userBirth" id="userBirth" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
+                                    </label>
+                                    	<font id="nickname_use" size="2"></font>
+                            	</div>
+                            	
+                            	<div class="form-inline">
+                                    <label for="userPhone">
+                                        <input type="text" name="userPhone" id="userPhone" style="width: 300px; height: 42px; margin-bottom: 10px;"  placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
+                                    </label>
+                                    	<font id="nickname_use" size="2"></font>
+                            	</div>
+                            	
+                            	
                             	<div class="form-inline">
                             		<label>
 		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 300px; height: 40px; margin-bottom: 10px;"  placeholder="주소">&nbsp;&nbsp;
+		    						<a class="ok_button">
 		    						<button type="button" onclick="sample6_execDaumPostcode()">주소&nbsp;선택</button>
+		    						</a>
 									<input type ="hidden" id="userAddr" name="userAddr"> 
 		    						</label>
                             	</div>
+                            	</a>
                             	<div class="form-inline">
                             		<label>
 		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 400px; height: 50px; margin-bottom: 20px;">
