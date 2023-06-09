@@ -143,7 +143,7 @@ function fncGetDlvyTranList() {
 		<td align="left">
 				<c:choose>
 			    <c:when test="${tranDetail.refundStatusCode eq 2}">
-			        <a class="refund-link" href="#">환불</a>
+			        <a class="refund-link" href="#">환불</a>  
 			    </c:when>
 			</c:choose>
 		</td>	

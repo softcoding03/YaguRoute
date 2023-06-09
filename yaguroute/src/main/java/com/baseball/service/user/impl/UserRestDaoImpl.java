@@ -245,8 +245,6 @@ public class UserRestDaoImpl implements UserRestDao{
         System.out.println("userEmail : "+userEmail);
         System.out.println("gender : "+gender);
         
-        
-        
         if(gender.equals("male")) {
         	
         	gender = "M";
@@ -258,9 +256,11 @@ public class UserRestDaoImpl implements UserRestDao{
         }
         
         userInfo.put("userId", userId);
+        userInfo.put("password", userId);
         userInfo.put("userName", userName);
         userInfo.put("userImage", userImage);
         userInfo.put("userEmail", userEmail);
+        
         
 		return userInfo;
 	}

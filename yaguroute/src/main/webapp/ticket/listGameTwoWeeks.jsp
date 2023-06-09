@@ -126,7 +126,6 @@
 			                            <span class="what">KBO 정규시즌</span>
 			                            <span class="then">${list.gameDate} / ${list.gameTime}</span>
 			                        </span>
-			                        <span class="marker">live</span>
 			                    </div>
 			                </div>
 			                <div class="col-md-4 col-sm-12">

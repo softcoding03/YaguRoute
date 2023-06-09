@@ -71,7 +71,7 @@
 							<input type="hidden" name="gameCode" value="${game.gameCode}"/>
                 </div>
                 <div class="col-md-12">
-                    <p>경기 예매 규정 안내글 ~sdafasdadfasdffasdafsdasdfasdfsfadfdaaaaaasddddddddddddddddddddddddddd~~~</p>
+                    <!-- <p>경기 예매 규정 안내글 ~sdafasdadfasdffasdafsdasdfasdfsfadfdaaaaaasddddddddddddddddddddddddddd~~~</p> -->
                 </div>
             </div>
         </div>

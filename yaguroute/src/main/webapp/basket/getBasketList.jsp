@@ -72,7 +72,8 @@
                     <c:forEach items="${basketList}" var="basket">
                    		<tr class="cart_iem" id="${basket.basketNo}">
                    			<input type="hidden" value="${basket.product.prodNo}" id="prodNo" name="prodNo"/>
-                   			<input type="hidden" value="${basket.product.prodStock}" id="prodStock" name="prodQuantity"/>
+                   			<input type="hidden" value="${basket.product.prodStock}" id="prodStock" name="prodStock"/>
+                   			<input type="hidden" value="${basket.prodQuantity}" id="prodQuantity" name="prodQuantity"/>
                    			<input type="hidden" value="${basket.product.prodPrice}" id="prodPrice" name="prodPrice"/>
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
 	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImageFirst}" alt="cart-product">${basket.product.prodName}</td>

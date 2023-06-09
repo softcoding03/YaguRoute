@@ -1010,7 +1010,7 @@ button[type="button"]:active {
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="/images/user/rockseongface.jpg" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -1124,12 +1124,12 @@ button[type="button"]:active {
 								</label>
 									<font id="password_use" size="2"></font>
 								</div>
-								<div class="form-inline">
+								<!-- <div class="form-inline">
                                     <label for="passwordCheck">
                                         <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 35px; border: 1mm solid lightgrey;" placeholder="패스워드 확인">
                                     </label>
                                     	<font id="passwordCheck_use" size="2"></font>
-                                </div>
+                                </div> -->
                             	<div class="form-inline">
                                     <label>
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이름<br>
@@ -1188,9 +1188,8 @@ button[type="button"]:active {
                             	<div class="form-inline">
                             		<label>
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
-		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;"  placeholder="주소">&nbsp;&nbsp;
+		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
 		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: slategray;">주소&nbsp;선택</button>
-									<input type ="text" id="userAddr" name="userAddr" value="${user.userAddr}"> 
 									</a>
 		    						</label>
                             	</div>

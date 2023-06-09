@@ -108,8 +108,8 @@ function preventEvent(){
 	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
 		<div class="main-award-slider" style="height: 100px !important">
    			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
-			<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev">
-	            <i class="fa fa-angle-left" aria-hidden="true"></i>
+			<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev" style="width: 52px;height: 52px;">
+	            <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
 	            <span class="sr-only">Previous</span>
         	</a>
 			<div class="text-center">
@@ -161,17 +161,16 @@ function preventEvent(){
 			</div>
 		</div>
 	</div>
-	<c:if test="${predSize ne 0}">
-		<div class="text-center" style="margin-top: 30px;">
-			<script type="text/javascript">preventEvent()</script>
-			<h4>경기 예측 완료</h4>
-			<h6>결과는 자정 이후 업데이트 됩니다.</h6>
-			
-		</div>
-	</c:if>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
+			<c:if test="${predSize ne 0}">
+				<div class="text-center" style="margin-top: 50px; margin-bottom: 50px; border: 2px solid black;">
+					<script type="text/javascript">preventEvent()</script>
+						<h4>경기 예측 완료</h4>
+						<h6>결과는 자정 이후 업데이트 됩니다.</h6>
+				</div>
+			</c:if>
 			<div class="col-md-6">
 				<h3>[HOME]</h3>
 			</div>
