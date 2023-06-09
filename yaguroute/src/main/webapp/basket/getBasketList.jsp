@@ -43,6 +43,10 @@
 		justify-content: center;
 		align-items: center;
 	}
+	.product-image{
+		width: 100px;
+		height: 100px;
+	}
 </style>
 <body>
 <jsp:include page="/common/topBar.jsp"/>

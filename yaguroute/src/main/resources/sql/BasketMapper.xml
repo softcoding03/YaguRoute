@@ -20,10 +20,12 @@
 		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
 		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
 		<result property="prodCategory"		column="prod_category"		jdbcType="NUMERIC"/>
-		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
 		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
 		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>
 		<result property="prodTeamCode"		column="team_code"			jdbcType="VARCHAR"/>
+		<result property="prodImageFirst" column="prod_image_first" jdbcType="VARCHAR" />
+		<result property="prodImageSecond" column="prod_image_second" jdbcType="VARCHAR" />
+		<result property="prodImageThird" column="prod_image_third" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<select		id="getProduct"	parameterType="int" resultMap="productSelectMap">
