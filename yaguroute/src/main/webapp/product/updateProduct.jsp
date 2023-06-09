@@ -37,6 +37,18 @@
 
 <script type="text/javascript">
 
+function fncGetProductList(currentPage) {
+	$("#currentPage").val(currentPage);
+	$("form").attr("method", "GET").attr("action", "/product/listProduct?prodTeamCode='ALL'")
+			.submit();
+}	
+
+$(function() {
+	  // 수정 버튼 클릭 이벤트 처리
+	  $("#commit").on("click", function() {
+		  fncGetProductList();
+	  });
+	});
 
 </script>
 
@@ -47,7 +59,7 @@
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-
+		<form name="detailForm">
 				<!--BREADCRUMBS BEGIN-->
 					<section class="image-header" style="height: 200px;">
 					  <div class="container">
@@ -76,8 +88,7 @@
 
                         <tr>
                             <td>상품명: </td>
-                            <td class="club">
-							${product.prodName } </td>
+                            <td class="club"> ${product.prodName } </td>
                         </tr>
                         
                         <tr>
@@ -117,6 +128,7 @@
 						            <c:when test="${product.prodTeamCode eq 'SS'}">삼성</c:when>
 						            <c:when test="${product.prodTeamCode eq 'KT'}">KT</c:when>
 						            <c:when test="${product.prodTeamCode eq 'SK'}">SSG</c:when>
+						            <c:when test="${product.prodTeamCode eq 'HT'}">기아</c:when>						            
 						            <c:when test="${product.prodTeamCode eq 'WO'}">키움</c:when>
 						            <c:when test="${product.prodTeamCode eq 'NC'}">NC</c:when>
 						            <c:when test="${product.prodTeamCode eq 'LG'}">LG</c:when>
@@ -131,19 +143,21 @@
                         </tr>                       
                         
                     </table>
+                    
+                    		<button id="commit" type="button" class="btn btn-warning">확인(목록으로)</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="background-section">
                     <ul class="player-trophy">
                         <li>
-                            <img src="/images/product/${product.prodImageFirst}" width="100" height="150" alt="trophy">
+                            <img src="/images/product/${product.prodImageFirst}" width="100" height="150" alt="이미지가 나오질 않어">
                         </li>
                         <li>
-                            <img src="/images/product/${product.prodImageSecond}" width="100" height="150" alt="trophy">
+                            <img src="/images/product/${product.prodImageSecond}" width="100" height="150" alt="이미지가 나오질 않어">
                         </li>
                         <li>
-                           <img src="/images/product/${product.prodImageThird}" width="100" height="150" alt="trophy">
+                           <img src="/images/product/${product.prodImageThird}" width="100" height="150" alt="이미지가 나오질 않어">
                         </li>
                     </ul>
                 </div>
@@ -158,6 +172,7 @@
                       
 <!--PLAYER STATS END-->
    
+   </form>
 
 
 </body>

@@ -28,23 +28,36 @@
     		font-size: 14px !important;
     		font-weight: 500 !important;
     	}
+    	.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  font-size: 18px;
+		  margin-left:400px;
+		}
+		.teamTopBar {
+		  width: 100%;
+		  height: 300px;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1,h2,h3,h4,h5,h6{
+			color: ${teamInfo.teamColor};
+		}
     </style>
 </head>
 <body>
 <jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>팀 정보</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+    <div class="image-container">
+	  <img class="teamTopBar" src="${teamInfo.teamTopBar}">
+	  <div class="text-overlay"><h1 style="color: white;">${teamInfo.teamFullName}</h1></div>
+	</div>
 </section>
 <div class="mathc-live-broadcasts background">
 		<div class="broadcast-tabs-wrapper">
@@ -71,7 +84,7 @@
 			<div class="text-center"><h1>${teamInfo.teamFullName}</h1></div>
 				<div class="col-md-4">
 					<div><h4>Emblem</h4></div>
-					<div><img src="${teamInfo.teamEmblem}" width="300" height="300"></div>
+					<div><img src="${teamInfo.teamEmblem}" width="320" height="300"></div>
 				</div>
 				<div class="col-md-8">
 					<div><h4>Introduce</h4></div>

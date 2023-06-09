@@ -41,12 +41,8 @@
     		self.location = "/product/salesProdList?prodTeamCode="+teamCode;
 	   });
 		
-		$("button.btn-detail").on("click", function() {
-			var prodNo = $(this).children('input:hidden').val();
-			alert(prodNo);
-			self.location = "/product/getProduct?prodNo=" + prodNo;
-		});
 	});
+	
 
 
 </script>
@@ -60,6 +56,8 @@
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
+		<form name="detailForm">
+			<input type="hidden" id="prodNo" name="prodNo" value="${product.ProdNo} " /> 
     <!--BREADCRUMBS BEGIN-->
 <section class="image-header" >
     <div class="container">
@@ -119,100 +117,7 @@
                         </ul>
                     </div>
                     <div class="filter-wrap">
-                        <h6>Filters</h6>
-                        <div class="filter-slider">
-                            <div class="top">
-                                <label for="amount">Price</label>
-                                <input type="text" id="amount" readonly="" name="amount">
-                            </div>
-                            <div class="ui-slider">
-                            </div>
-                        </div>
-                        <div class="filter-items-wrap">
-                            <div class="filter-title">Sport</div>
-                            <div class="filter-item">
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test1">
-                                        <label for="test1">Lifestyle</label>
-                                    </li>
-                                    <li>
-                                        <input checked="" type="checkbox" class="filter-check" id="test2">
-                                        <label for="test2">Running</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test3">
-                                        <label for="test3">Football</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test4">
-                                        <label for="test4">Basketball</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test5">
-                                        <label for="test5">Gym &amp; Training</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test6">
-                                        <label for="test6">Skateboarding</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test7">
-                                        <label for="test7">Tennis</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test8">
-                                        <label for="test8">Golf</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test9">
-                                        <label for="test9">American Football</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test10">
-                                        <label for="test10">Athletics</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test11">
-                                        <label for="test11">Surf &amp; Swimming</label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="filter-title">Brand</div>	
-                            <div class="filter-item">
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test12">
-                                        <label for="test12">Adidas</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test13">
-                                        <label for="test13">Hueabas</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test14">
-                                        <label for="test14">Other</label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="filter-title">Fit</div>	
-                            <div class="filter-item">
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test15">
-                                        <label for="test15">Slim</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test16">
-                                        <label for="test16">Tight</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" class="filter-check" id="test17">
-                                        <label for="test17">Loose</label>
-                                    </li>
-                                </ul>
-                            </div>
-                           </div>	
+  
                         </div>
 
                 </div>
@@ -226,19 +131,17 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="store-list-item">         
                                 <div>
-                                    <a href="product.html">
-                                        <img src="/images/product/${product.prodImageFirst}" alt="product">
-                                    </a>
+                                    <a href="/product/getProduct?prodNo=${product.prodNo}">
+                                        <img src="/images/product/${product.prodImageFirst}" alt="product"> </a>
                                     <div class="info">
                                         <span class="name">${product.prodName} </span>
                                         <span class="price">${product.prodPrice}</span>	
                                         
                                         <div class="btn-wrap">
-                                            <button class="btn small">장바구니담기</button>
-                                            <button class="btn btn-detail">상세보기</button>
+                                            <button class="btn btn-detail" id="prodDetail">상세보기</button>
                                         </div>
+                                        
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -261,6 +164,7 @@
 </div>
 </div>
 
+</form>
 </body>
 
 

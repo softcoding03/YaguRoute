@@ -34,9 +34,40 @@
 
 
 <script type="text/javascript">
+	$(function() {
 
+		$("#addTran").on("click", function() {
+					var prodQuantity = $("input[type='number']").val();
+					var prodNo = "${product.prodNo}";
+					var prodPrice = "${product.prodPrice}";
+					var addTranUrl = "/transaction/addTransaction?prodNo="+ prodNo + "&prodQuantity=" + prodQuantity
+							+ "&prodPrice=" + prodPrice;
+					self.location = addTranUrl;
+				});
+		
+		$("#addBasket").on("click", function() {
+			let productNo = $("#prodNo").val();
+			let userId = $("#userId").val();
+			$.ajax({
+				url : "/basket/json/addBasket/" + productNo,
+				method : "POST",
+				dataType : "text",
+				data : JSON.stringify({
+					userId : userId,
+					prodQuantity : $("input[type='number']").val()
+				}),
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(data, status) {
+					alert(data)
+				}
+			})
 
+		})
 
+	})
 </script>
 
 </head>
@@ -117,7 +148,7 @@
                     <div class="product-right-info">
                         <div class="rating-wrap">
                             <div class="rating four"></div>
-                            <div class="quantity">( 상품평균평점, 상품평수 작성예정)</div>
+                            <div class="quantity">( -----------)</div>
                         </div>
 						
 						<h4>${product.prodName}</h4>
@@ -125,9 +156,13 @@
                        
    
                         <div class="quantity-wrap">
-                            <input type="number" placeholder="1">
-                            <a href="cart.html" class="btn small">Add to cart</a>
-                             <a href="cart.html" class="btn detail">바로구매</a>
+                        <div>
+                        	<input id="prodNo" type="hidden" value="${product.prodNo}">
+							<input id="userId" type="hidden" value="${user.userId}">
+							<input id="prodQuantity" type="hidden" value="1">
+                           상품수량: <input type="number" placeholder="1" value="1">
+                            <button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
+                            <button id="addTran" type="button" class="btn btn-warning">바로구매</button>
                         </div>
                         <div class="details">
                             <ul>
@@ -246,221 +281,9 @@
             </div>
         </div>
 
-        <!--STORE BANNER BEGIN-->
 
-        <div class="store-banner position-relative">
-            <div class="store-banner-info">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="title">official <span>apparel</span></div>
-                            <a href="store.html" class="btn">Details</a>
-                        </div>	
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!--STORE BANNER END-->
 
-    </section>
-
-    <!--PRODUCT SINGLE END-->
-
-    <!--FEATURED PRODUCTS BEGIN-->
-
-    <section class="featured-products">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Featured products</h4>
-                </div>
-                <div class="col-md-12">
-                    <div class="owl-carousel owl-theme featured-slider">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="images/common/store-item-img.jpg" alt="store-item-img">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Short-Sleeve Football</span>
-                                    <span class="price">£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="images/common/product-2.jpg" alt="store-item-img">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Short-Sleeve Football</span>
-                                    <span class="price">£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="images/common/product-3.jpg" alt="store-item-img">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Short-Sleeve Football</span>
-                                    <span class="price">£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="images/common/product-4.jpg" alt="store-item-img">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Short-Sleeve Football</span>
-                                    <span class="price">£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="images/common/product-3.jpg" alt="store-item-img">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Short-Sleeve Football</span>
-                                    <span class="price">£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="custom-navigation featured-navigation">
-                        <a class="custom-next-btn"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                        <a class="custom-prev-btn"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="store.html" class="feat-show-all">show all</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--FEATURED PRODUCTS END-->
-
-       <!--FOOTER BEGIN-->
-<footer class="footer">
-    <div class="wrapper-overfllow">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="footer-left">
-                        <div class="wrap">
-                            <a href="index.html" class="foot-logo"><img src="images/baseball/footer-logo.png" alt="footer-logo"></a>
-                            <p>Activated charcoal trust fund ugh prism af, beard marfa air plant stumptown gastropub farm-to-table jianbing.</p>
-                            <ul class="foot-left-menu">
-                                <li><a href="staff.html">First team</a></li>
-                                <li><a href="staff.html">Second team</a></li>
-                                <li><a href="amateurs.html">Amateurs</a></li>
-                                <li><a href="donations.html">Donation</a></li>
-                                <li><a href="trophies.html">trophies</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-lg-offset-1">
-                    <div class="foot-news">
-                        <h4>Recent news</h4>
-                        <div class="item">
-                            <a href="news.html" class="image"><img class="img-responsive" src="images/baseball/foot-news-img.jpg" alt="news-image"></a>
-                            <a href="news.html" class="name">When somersaulting Sanchez shouldered Mexico’s hopes</a>
-                            <a href="news.html" class="date">25 Sep 2016</a>
-                            <span class="separator">in</span>
-                            <a href="news.html" class="category">Highlights</a>
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-lg-3 col-md-4 col-sm-12">
-                    <div class="foot-contact">
-                        <h4>Contact us</h4>
-                        <ul class="contact-list">
-                            <li><i class="fa fa-flag" aria-hidden="true"></i><span>276 Upper Parliament Street, Liverpool L8, Great Britain</span></li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:team@email.com">team@email.com</a></li>
-                            <li class="phone"><i class="fa fa-phone" aria-hidden="true"></i><span>+61 3 8376 6284</span></li>
-                        </ul>
-                        <ul class="socials">
-                            <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-menu-wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="footer-menu">
-                        <li class="active"><a href="index.html"><span>Home</span></a></li>
-                        <li><a href="matches.html"><span>Matches</span></a></li>
-                        <li><a href="staff.html"><span>Team</span></a></li>
-                        <li><a href="news.html"><span>News</span></a></li>
-                        <li><a href="store.html"><span>Store</span></a></li>
-                        <li><a href="contacts.html"><span>Contact</span></a></li>
-                    </ul>	
-                    <a href="#top" class="foot-up"><span>up <i class="fa fa-caret-up" aria-hidden="true"></i></span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="copyrights">
-                        © 2017 Team - Sport club psd template
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="created">
-                        <a href="#">Created by <img src="images/common/created-icon.png" alt="create-by-image"> torbara</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!--FOOTER END-->
    
 </body>
 

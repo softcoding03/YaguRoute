@@ -170,7 +170,39 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-
+	@GetMapping("listTransaction")
+	public String getTranDetailList (@ModelAttribute("search")Search search, HttpSession session, Model model) throws Exception {
+		
+		System.out.println("search" +search); //당연히 값 없음
+		System.out.println("/transaction/listTransaction 작동 시작");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		System.out.println("데이터가 들어간" + search);
+		
+		User user = (User)session.getAttribute("user");
+		String userId = user.getUserId();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map = tranDetailService.getTranDetailList(search, userId);
+		
+		List<TranDetail> list = (List<TranDetail>) map.get("tranList");
+		
+		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		
+		model.addAttribute("list", map.get("tranList"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		model.addAttribute("userId", userId);
+		
+		return "forward:/transaction/listTransaction.jsp";
+	}
 
 	
 	

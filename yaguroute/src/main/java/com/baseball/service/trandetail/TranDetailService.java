@@ -17,7 +17,7 @@ public interface TranDetailService {
 	
 	public void updateRefundStatusCode(TranDetail tranDetail) throws Exception;
 	
-	public Map<String, Object> getTranDetailList(Search search, String userId, int tranDetailNo) throws Exception;
+	public Map<String, Object> getTranDetailList(Search search, String userId) throws Exception;
 
 	//public Map<String, Object> getDlvyTranList(Map<String, Object> map) throws Exception;
 	

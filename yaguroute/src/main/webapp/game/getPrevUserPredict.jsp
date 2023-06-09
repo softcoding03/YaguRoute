@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,12 +160,13 @@
                             <c:if test="${game.gameStatusCode eq 2}">
                                
                                		<div>
-                                    <h6>승리팀 배당 : ${game.winningTeamAllocation}배</h6>
-                                
-                                    <h6>예측 포인트 : ${pred.predPoint} P</h6>
+	                                 
+	                                <h6>승리팀 배당 <br><fmt:formatNumber value="${game.winningTeamAllocation}" pattern="#,##0.0" />배</h6>
+	                               	
+                                    <h6>예측 포인트<br><fmt:formatNumber value="${pred.predPoint}" pattern="###,###" /> P</h6>
                                     <input type="hidden" value="${pred.predPoint}" class="predPoint">
                                     
-                                    <h6>획득 포인트 : ${pred.afterGamePredPoint} P</h6>
+                                    <h6>획득 포인트<br><fmt:formatNumber value="${pred.afterGamePredPoint}" pattern="###,###" /> P</h6>
                                     <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
                                     </div>
                                
@@ -229,15 +231,15 @@
 		var afterSum = 0;
 		var predSum = 0;
 		$(".afterPredPoint").each(function(){
-			afterSum = afterSum + $(this).val();
+			afterSum = afterSum + parseInt($(this).val());
 		})
 		
 		$(".predPoint").each(function(){
-			predSum = predSum + $(this).val();
+			predSum =  predSum + parseInt($(this).val());
 		})
 		
-		
-		sum = afterSum - predSum;
+		var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
+		sum = formatter.format(afterSum - predSum);
 		if(afterSum - predSum>=0){
 			sum = "+"+sum
 		}
