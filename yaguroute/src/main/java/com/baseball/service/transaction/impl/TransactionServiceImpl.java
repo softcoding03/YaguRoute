@@ -55,7 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public int addTransaction(Transaction transaction) throws Exception {
 		
 		// 포인트 업데이트
-		User user = userDao.getUser("algudgod");
+		User user = userDao.getUser(transaction.getBuyer().getUserId());
 		
 		int tranUsePoint = transaction.getTranUsePoint();
 		int tranAddPoint = (transaction.getTranTotalPrice()/1000) *10 ; 

@@ -1,5 +1,9 @@
 package com.baseball.web.game;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +34,15 @@ public class GameRestController {
 		GameRecord gameRecord = gameService.getGameRecord(game);
 		
 		return gameRecord;
+	}
+	
+	@PostMapping("getTodayGameInfo")
+	public List<Game> getTodayGameInfo() throws Exception {
+		
+		List<Game> listGame = gameService.getGameListByDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		
+		
+		return listGame;
 	}
 
 }
