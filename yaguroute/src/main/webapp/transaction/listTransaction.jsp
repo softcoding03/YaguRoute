@@ -143,19 +143,24 @@ function fncGetTranDetailList() {
 					</c:if>
 						상태 입니다.</td>
 		<td align="left"> <c:if test="${tranCode eq 2}">
-			<a href="/updateTranCode?tranNo=${tranDetail.tranDetailTran.tranNo}&tranStatusCode=3">배송도착</a>
+			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=3">배송도착</a>
 		</c:if>
 		</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
 		<td align="left" >
 			  <c:choose>
-			    <c:when test="${tranDetail.refundStatusCode eq 1}">
-			      <a href="/tranDetail/updateRefundCode"  class="refund-link">환불요청</a>
+			    <c:when test="${tranDetail.refundStatusCode eq 1 and tranDetail.tranStatusCode eq 1}">
+			      <a href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2" >환불요청</a>
 			    </c:when>
-			    <c:otherwise>${tranDetail.refundStatusCode}</c:otherwise>
 			  </c:choose>
 		</td>		
-		<td align="left"></td>
+		<td align="left">
+					  <c:choose>
+			    <c:when test="${tranDetail.tranStatusCode eq 3}">
+			      <a href="addComment?prodNo="${tranDetail.tranDetailProd.prodNo}  class="refund-link">등록</a>
+			    </c:when>
+			  </c:choose>
+		</td>
 	</tr>
 	</c:forEach>
 </table>

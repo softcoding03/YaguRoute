@@ -84,9 +84,5 @@ public class TranDetailServiceImpl implements TranDetailService {
 		return map;
 	}
 
-	
 
-
-
-	
 }

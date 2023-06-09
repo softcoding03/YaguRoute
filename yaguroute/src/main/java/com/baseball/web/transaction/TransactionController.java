@@ -233,4 +233,28 @@ public class TransactionController {
 	}
 	
 	
+	@RequestMapping("updateTranStatusCode")
+	public ModelAndView updateTranStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
+		
+		tranDetailService.updateTranStatusCode(tranDetail);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/transaction/dlvyTranList");
+
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping("updateRefundStatusCode")
+	public ModelAndView updateRefundStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
+		
+		tranDetailService.updateRefundStatusCode(tranDetail);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/transaction/listTransaction");
+
+		return modelAndView;
+		
+	}
+	
 }
