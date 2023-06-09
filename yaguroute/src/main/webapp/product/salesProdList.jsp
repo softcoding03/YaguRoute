@@ -132,7 +132,7 @@
                             <div class="store-list-item">         
                                 <div>
                                     <a href="/product/getProduct?prodNo=${product.prodNo}">
-                                        <img src="/images/product/${product.prodImageFirst}" alt="product"> </a>
+                                        <img src="/images/product/${product.prodImageFirst}"  alt="product"> </a>
                                     <div class="info">
                                         <span class="name">${product.prodName} </span>
                                         <span class="price">${product.prodPrice}</span>	

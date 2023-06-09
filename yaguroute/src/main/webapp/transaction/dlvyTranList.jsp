@@ -9,40 +9,39 @@
 <html>
 
 <head>
-
-<meta charset="UTF-8" name="viewport"
-	content="width=device-width, initial-scale=1.0">
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- Bootstrap Dropdown Hover CSS -->
-<link href="/css/animate.min.css" rel="stylesheet">
-<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<!-- Bootstrap Dropdown Hover JS -->
-<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-<!-- jQuery UI toolTip 사용 CSS-->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- jQuery UI toolTip 사용 JS-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+	<meta charset="UTF-8">
+	<meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>dlvyTranList</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <!--  ///////////////////////// CSS ////////////////////////// -->
 
-
-<html>
 <head>
-<title>배송현황</title>
 
+<style>
+
+
+a.refund-link {
+  color: blue;
+}
+
+
+</style>
+
+
+<title>배송현황조회</title>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
 
+function fncGetDlvyTranList() {
+	$("form").attr("method", "GET").attr("action", "/transaction/dlvyTranList")
+			.submit();
+}
 
 
 </script>
@@ -50,117 +49,104 @@
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
+	<!-- ToolBar Start /////////////////////////////////////-->
+<jsp:include page="/common/topBar.jsp"/>
+	<!-- ToolBar End /////////////////////////////////////-->
+
+	<!--  화면구성 div Start /////////////////////////////////////-->
+
+				<!--BREADCRUMBS BEGIN-->
+						<section class="image-header" style="height: 200px;">
+						  <div class="container">
+						    <div class="row">
+						      <div class="col-md-8">
+						        <div class="info">
+						          <div class="wrap">
+						            <h1>배송현황조회</h1>
+						            <p style="margin-bottom: 10px;"> ★ [ 판매된 상품의 배송현황입니다. ]</p>
+						          </div>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</section>
+
+				<!--BREADCRUMBS END-->
+
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/transaction/dlvyTranList" method="GET">
+<form name="detailForm" action="/transaction/listTransaction" method="GET">
+   <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
+    <input type="hidden" id="tranNo" name="tranNo" value="${tranDetail.tranDetailTran.tranNo} "/>
+   <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
 
-
-
-					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-					<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
-					<input type="hidden" id="tranNo" name="tranNo" value="${transaction.tranNo} " /> 
-					<input type="hidden" name="tranStatusCode" value="${tranDetail.tranStatusCode }"/>
-					<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
-					<input type="hidden" id="tranQuantity" name="tranQuantity" value="${tranDetail.tranQuantity}" />
-					<input type="hidden" id="prodPrice" name="prodPrice" value="${product.prodPrice}" />
-					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">배송현황</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+		<div class="container">
+		<div class="page-header text-info">
+			<div class="row">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
 	<tr>
 		<td colspan="30" >
 		전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">주문번호</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">구매방법</td>
-		<td class="ct_line02"></td>	
-		<td class="ct_list_b" width="150">상품가격</td>
-		<td class="ct_line02"></td>		
-		<td class="ct_list_b" width="150">총 가격</td>
-		<td class="ct_line02"></td>	
-		<td class="ct_list_b" width="150">수령인 이름</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">수령인 휴대폰 번호</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송상태</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송수정</td>
-	</tr>
-	<tr>
-		<td colspan="30" bgcolor="808285" height="1"></td>
+		<td class="ct_list_b" >주문번호</td>
+		<td class="ct_list_b" >구단</td>
+		<td class="ct_list_b" >상품명</td>
+		<td class="ct_list_b">총 결제금액</td>
+		<td class="ct_list_b">구매상태</td>
+		<td class="ct_list_b">배송</td>
+		<td class="ct_list_b">결제수단</td>
+		<td class="ct_list_b">환불상태</td>			
 	</tr>
 
-
-
-		<c:set var="i" value="0"/>
-		<c:forEach var="transaction" items="${list}">
+	<c:set var="i" value="0"/>
+		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-
-			<c:set var="tranCode" value="${fn:trim(tranDetail.tranStatusCode)}"/>
-			
-			
-		<tr class="ct_list_pop">
-			<td align="center"> ${transaction.tranNo}	</td>
+			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
 		
-		<td></td>
-
-		<td align="center">${transaction.tranPaymentOption}</td>
-		<td></td>
-				<td align="left">${product.prodPrice}</td>
-		<td></td>
-				<td align="left">${transaction.tranDate}</td>
-		<td></td>
-				<td align="left">${transaction.tranTotalPrice}</td>
-		<td></td>
-		<td align="left">${transaction.receiverName}</td>
-		<td></td>
-		<td align="left">${transaction.receiverPhone}</td>
-		<td></td>
-		<td align="left"> 현재	
-			<c:if test="${tranCode eq 1}">
-				구매완료
-			</c:if>
-			<c:if test="${tranCode eq 2}">
-				배송중
-			</c:if>
-			<c:if test="${tranCode eq 3}">
-				배송완료
-			</c:if>
-				상태 입니다.</td>
-
-
-		<td></td>
-		<td align="left">
-		<c:if test="${tranCode eq 2}">
-
-			<a href="/updateTranCode?tranNo=${transaction.tranNo}&tranCode=3">배송도착</a>
+		<tr class="ct_list_pop">
+			<td align="center">${tranDetail.tranDetailNo}</td>	
+			<td align="center">
+  <c:choose>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
+    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
+  </c:choose>
+</td>
+			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
+			<td align="left">${tranDetail.tranDetailTran.tranTotalPrice}</td>
+			<td align="left"> 현재	
+					<c:if test="${tranCode eq 1}">
+						구매완료
+					</c:if>
+					<c:if test="${tranCode eq 2}">
+						배송중
+					</c:if>
+					<c:if test="${tranCode eq 3}">
+						배송완료
+					</c:if>
+						상태 입니다.</td>
+		<td align="left"> <c:if test="${tranCode eq 1}">
+			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a>
 		</c:if>
 		</td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
+		<td align="left">
+				<c:choose>
+			    <c:when test="${tranDetail.refundStatusCode eq 2}">
+			        <a class="refund-link" href="#">환불</a>  
+			    </c:when>
+			</c:choose>
+		</td>	
 	</tr>
 	</c:forEach>
 </table>

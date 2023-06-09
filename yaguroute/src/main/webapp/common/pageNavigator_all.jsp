@@ -122,7 +122,7 @@
 			      <c:if test="${param.id == 'Transaction'}">
 			        <a href="javascript:fncGetTransactionList('${resultPage.endUnitPage+1}')">
 			      </c:if>
-			      <c:if test="${param.id == 'dlvy'}">
+			      <c:if test="${param.id == 'dlvyTran'}">
 			        <a href="javascript:fncGetDlvyTranList('${resultPage.endUnitPage+1}')">
 			      </c:if>
 			      
