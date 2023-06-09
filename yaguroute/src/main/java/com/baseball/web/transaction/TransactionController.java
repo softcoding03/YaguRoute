@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -204,6 +205,32 @@ public class TransactionController {
 		return "forward:/transaction/listTransaction.jsp";
 	}
 
+	@GetMapping("dlvyTranList")
+	public String getDlvyTranList (@ModelAttribute("search")Search search, Model model) throws Exception {
+		
+		System.out.println("search" +search); //당연히 값 없음
+		System.out.println("/transaction/getDlvyTranList 작동 시작");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		System.out.println("데이터가 들어간" + search);
+		
+		
+		Map<String, Object> map = tranDetailService.getDlvyTranList(search);
+		
+		List<TranDetail> list = (List<TranDetail>) map.get("dlvyList");
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		model.addAttribute("list", map.get("dlvyList"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/transaction/dlvyTranList.jsp";
+	}
 	
 	
 }

@@ -19,7 +19,7 @@ public interface TranDetailService {
 	
 	public Map<String, Object> getTranDetailList(Search search, String userId) throws Exception;
 
-	public Map<String, Object> getDlvyTranList(Search search, int tranNo) throws Exception;
+	public Map<String, Object> getDlvyTranList(Search search) throws Exception;
 	
 
 }

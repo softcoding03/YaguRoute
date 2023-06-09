@@ -74,9 +74,9 @@ public class TranDetailServiceImpl implements TranDetailService {
 
 
 	@Override
-	public Map<String, Object> getDlvyTranList(Search search, int tranNo) throws Exception {
-		List<TranDetail> list = tranDetailDao.getDlvyTranList(search, tranNo);
-		int totalCount = tranDetailDao.getTotalCount(search, null);   //null == tranNo
+	public Map<String, Object> getDlvyTranList(Search search) throws Exception {
+		List<TranDetail> list = tranDetailDao.getDlvyTranList(search);
+		int totalCount = tranDetailDao.getTotalCount(search, null);   //null == x
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("dlvyList", list); 
