@@ -63,8 +63,8 @@
         }
 	
         .login-container h3 {
-            color: #333333;
             text-align: center;
+            color: forestgreen;
         }
 		
 		.login-message {
@@ -72,7 +72,19 @@
 		  justify-content: center;
 		  align-items: center;
 		}
-		
+		button, input, select, textarea {
+    	background-color: rgb(68, 199, 103);
+	    border-radius: 28px;
+	    border: 1px solid rgb(120, 255, 134);
+	    display: inline-block;
+	    cursor: pointer;
+	    color: lightslategrey;
+	    font-family: Arial;
+	    font-size: 19px;
+	    padding: 9px 15px;
+	    text-decoration: none;
+	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	}
         .login-container label {
             display: block;
             color: #333333;
@@ -83,10 +95,8 @@
 		.login-container input[type="password"]
 		{
 		    width: 100%;
-        	padding: 10px;
-        	border-radius: 5px;
         	border: 1px solid #ccc;
-
+			font-size: 17px;
 		}
 		.login-container input::placeholder {
         	opacity: 0.7; /* 투명도 조정 */
@@ -232,6 +242,7 @@
 			display: flex;
 		  	justify-content: center;
 		  	align-items: center;
+		  	font-family: monospace;
 		}
     </style> 
     

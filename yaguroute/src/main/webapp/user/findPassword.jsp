@@ -35,13 +35,25 @@
       align-items: center;
       height: 100vh;
     }
-
+	button, input, select, textarea {
+    	background-color: rgb(68, 199, 103);
+	    border-radius: 28px;
+	    border: 1px solid rgb(120, 255, 134);
+	    display: inline-block;
+	    cursor: pointer;
+	    color: lightslategrey;
+	    font-family: Arial;
+	    font-size: 17px;
+	    padding: 9px 15px;
+	    text-decoration: none;
+	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	}
     .card {
       height: auto;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background-color: aliceblue;
+      background-color: mintcream;
     }
 
     .card-title {
@@ -128,14 +140,15 @@
 	
 	.buttonColor {
 		width: 100%;
-	    height: 35px;
-	    background-color: #4CAF50;
+	    /* height: 35px; */
+	    /* background-color: #4CAF50; */
 	    color: #ffffff;
 	    border: 1px solid #ccc;
-	    border-radius: 5px;
+	    /* border-radius: 5px; */
 	    cursor: pointer;
 	    font-size: 15px;
 	}
+	
 	.modalButton {
 		width:70%;
 		font-size: 14px;
