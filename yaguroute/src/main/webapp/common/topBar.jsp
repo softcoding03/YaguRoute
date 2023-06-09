@@ -43,6 +43,7 @@ topbar
                       <li>  <a href="#other"><span>관리자페이지</span></a>
                         <ul>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리(관리자페이지)</span></a></li>
+                             <li><a href="/product/dlvyTranList"><span>상품배송관리(관리자페이지)</span></a></li>                           
                             <li><a href="/product/addProductView.jsp"><span>상품등록(관리자페이지)</span></a></li>
                         </ul>
                     </li>
