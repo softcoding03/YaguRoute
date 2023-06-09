@@ -21,6 +21,7 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
     	// 로그아웃 버튼 구현
     	$(function(){
@@ -28,6 +29,50 @@
     			alert("로그아웃 성공");
     			window.location.href="/users/logout";
     		})
+    		
+    		
+    		$.ajax({
+				url : "/game/json/getTodayGameInfo",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData, status){
+					console.log(JSONData)
+					console.log(JSONData[0])
+					console.log(JSONData[0].gameCode)
+					for(var i=0;i<JSONData.length;i++){
+						var game = JSONData[i];
+						console.log(game.gameDate)
+						$(".main-lates-matches").append(
+								/* '<div>hello</div>' */
+								'<a class="item">'
+						        +'<span class="championship">'+game.gameTime+' / '+game.homeTeam.stadiumName+'</span>'
+						        +'<span class="teams-wrap">'
+						               +'<span class="team">'
+						                    +'<span>'
+						                        +'<img src="'+game.homeTeam.teamEmblem+'" alt="team-image">'
+						                    +'</span>'
+						                    +'<span>'+game.homeTeam.teamNickName+'</span>'
+						                +'</span>'
+						                +'<span class="score">'
+						                    +'<span>'+game.gameScore+'</span>'
+						                +'</span>'
+						                +'<span class="team1">'
+						                    +'<span>'+game.awayTeam.teamNickName+'</span>'
+						                    +'<span><img src="'+game.awayTeam.teamEmblem+'" alt="team-image"></span>'
+						                +'</span>'
+						        +'</span>'
+						    +'</a>'/**/
+						) //end of append
+						
+					}//end of for
+					
+				}//end of success
+				
+			})//end of ajax
+    		
     	});
     	
     	/* $(function(){
@@ -89,9 +134,11 @@
     </div>
 
 <jsp:include page="/common/topBar.jsp"/>
-    <div class="main-slider-section">
+<div class="main-slider-section">
     <div class="main-slider">
-        <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000">
+        <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000" style="position: relative;display: flex;">
+	        	<!-- <img alt="img" src="/images/teamTopBar/WO.jpg" style="width:100%;height: auto;">
+	        	<img alt="img" src="/images/teamTopBar/HH.jpg" style="width:100%;height: auto;"> -->
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
                     <div class="main-slider-caption">
@@ -316,87 +363,7 @@
                     <h6>Latest matches</h6>
                         
 <div class="main-lates-matches">
-    <a href="" class="item">
-        <span class="championship">National cup - quarterfinal</span>
-        <span class="teams-wrap">
-                <span class="team">
-                    <span>
-                        <img src="/images/common/team-logo1.png" alt="team-image">
-                    </span>
-                    <span>Team 1</span>
-                </span>
-                <span class="score">
-                    <span>3:2</span>
-
-                </span>
-                <span class="team1">
-                    <span>Internacional</span>
-                    <span><img src="/images/common/team-logo2.png" alt="team-image"></span>
-                </span>
-        </span>
-        <span class="game-result">(5-4) penalties</span>
-    </a>
-    <a href="" class="item">
-        <span class="championship">National cup - quarterfinal</span>
-        <span class="teams-wrap">
-                <span class="team">
-                    <span>
-                        <img src="/images/common/team-logo3.png" alt="team-image">
-                    </span>
-                    <span>Team 1</span>
-                </span>
-                <span class="score">
-                    <span>3:2</span>
-
-                </span>
-                <span class="team1">
-                    <span>Team 2</span>
-                    <span><img src="/images/common/team-logo4.png" alt="team-image"></span>
-                </span>
-        </span>
-        <span class="game-result">(5-4) penalties</span>
-    </a>
-    <a href="" class="item">
-        <span class="championship">National cup - quarterfinal</span>
-        <span class="teams-wrap">
-                <span class="team">
-                    <span>
-                        <img src="/images/common/team-logo5.png" alt="team-image">
-                    </span>
-                    <span>Team 1</span>
-                </span>
-                <span class="score">
-                    <span>3:2</span>
-
-                </span>
-                <span class="team1">
-                    <span>Team 2</span>
-                    <span><img src="/images/common/team-logo1.png" alt="team-image"></span>
-                </span>
-        </span>
-        <span class="game-result">(5-4) penalties</span>
-    </a>
-    <a href="" class="item">
-        <span class="championship">National cup - quarterfinal</span>
-        <span class="teams-wrap">
-                <span class="team">
-                    <span>
-                        <img src="/images/common/team-logo2.png" alt="team-image">
-                    </span>
-                    <span>Team 1</span>
-                </span>
-                <span class="score">
-                    <span>3:2</span>
-
-                </span>
-                <span class="team1">
-                    <span>Team 2</span>
-                    <span><img src="/images/common/team-logo3.png" alt="team-image"></span>
-                </span>
-        </span>
-        <span class="game-result">(5-4) penalties</span>
-    </a>
-    <a href="" class="item">
+    <!-- <a href="" class="item">
         <span class="championship">National cup - quarterfinal</span>
         <span class="teams-wrap">
                 <span class="team">
@@ -415,7 +382,7 @@
                 </span>
         </span>
         <span class="game-result">(5-4) penalties</span>
-    </a>
+    </a> -->
 </div>
                 </div>
             </div>
