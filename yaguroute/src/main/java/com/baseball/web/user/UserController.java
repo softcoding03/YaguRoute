@@ -196,14 +196,22 @@ public class UserController {
 	}
 
 	@PostMapping(value = "updateUser")
-	public String updateUser(@ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+	public @ResponseBody  ResponseEntity<String> updateUser(@RequestBody User user, Model model, HttpSession session) throws Exception {
 
 		System.out.println("원래 값 : " + session.getAttribute("user"));
 		System.out.println("새로 바꿀 값 : " + user);
 
 		userService.updateUser(user);
 
-		return "redirect:/users/getUser";
+		System.out.println("여긴 updateUser/POST ");
+		
+//		// 세션 풀기(변경되었으므로... 최신꺼 불러오기)
+//		session.invalidate();
+		
+		// 다시 세션 접속(변경 확인)
+		session.setAttribute("user", user);
+		
+		return ResponseEntity.ok("전송 성공");
 	}
 
 	@RequestMapping(value = "listUser") // 관리자 전용
