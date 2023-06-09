@@ -99,9 +99,7 @@ function fncAddTransaction() {
 				 		    	 console.log($("#payOption").val());
 				 		    	 console.log($("#tranUsePoint").val());
 
-				 		    	 					
 
-				 		    	 
 				 		    	 if (rsp.paid_amount == payAmount) { 
 				 		            alert("결제가 완료되었습니다. 결제 승인: "+rsp.paid_at);
 				 		            	fncAddTransaction();
