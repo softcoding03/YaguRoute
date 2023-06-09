@@ -193,7 +193,7 @@ $(function(){
 	    <div class="tab-pane active" id="all">
 	        <div class="amateurs-main-match">
 	            <div class="title">${gamePreview.gameInfo.homeTeam.stadiumName}</div>	
-	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.awayTeam.teamCode}" class="team">
+	            <a href="/game/getTeam?teamCode=${gamePreview.gameInfo.awayTeam.teamCode}" class="team">
 	                <span class="image"><img class="imgSize" src="${gamePreview.gameInfo.awayTeam.teamEmblem}" alt="main-match"></span>
 	                <span class="info">
 	                    <span class="name teamName">${gamePreview.gameInfo.awayTeam.teamFullName}</span>
@@ -202,7 +202,7 @@ $(function(){
 	            <div class="score">
 	                <span>VS</span>	
 	            </div>
-	            <a href="/game/getTeam?teamCode=${gameRecord.gameInfo.homeTeam.teamCode}" class="team guest">
+	            <a href="/game/getTeam?teamCode=${gamePreview.gameInfo.homeTeam.teamCode}" class="team guest">
 	                <span class="info">
 	                    <span class="name teamName">${gamePreview.gameInfo.homeTeam.teamFullName}</span>
 	                </span>	

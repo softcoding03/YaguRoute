@@ -27,7 +27,7 @@ public interface ProductDao {
 	
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 
-	public List autoComplete() throws Exception;
+	//public List autoComplete() throws Exception;
 	
 	
 }

@@ -198,6 +198,9 @@ public class ProductController {
 		for (Product salesProd : list) {
 			System.out.println(salesProd);
 		}
+		Product product = new Product();
+		int prodNo = product.getProdNo();
+		System.out.println("prodNo"+prodNo);
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -212,6 +215,7 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("allTeam", allTeam);
+		model.addAttribute("prodNo", prodNo);
 
 
 		return "forward:/product/salesProdList.jsp";
@@ -223,6 +227,7 @@ public class ProductController {
 		System.out.println("/product/updateProductView 작동 시작");
 		// Business Logic
 		Product product = productService.getProduct(prodNo);
+		System.out.println("prodNo??"+prodNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 
@@ -237,7 +242,7 @@ public class ProductController {
 
 		productService.updateProduct(product);
 
-		return "redirect:/product/getProduct?prodNo=" + product.getProdNo();
+		return "forward:/product/updateProduct.jsp";
 
 	}
 

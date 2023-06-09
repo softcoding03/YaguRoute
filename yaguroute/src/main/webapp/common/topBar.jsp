@@ -30,7 +30,13 @@ topbar
                     <li>ㅃ
                         <a href="/predict/getUserPredict"><span>게임 예측</span></a>
                     </li>
-                    <li><a href="/game/getGameList"><span>게임 매치</span></a></li>
+                    <li>
+                    	<a href="/game/getGameList"><span>경기</span></a>
+                    	<ul>
+                    		<li><a href="/game/getGameList"><span>경기 일정</span></a></li>
+                    		<li><a href="/game/getTeam?teamCode=${user.teamCode}"><span>팀 정보</span></a></li>
+                    	</ul>
+                    </li>
                     <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
                     <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>Store</span></a></li>
                      

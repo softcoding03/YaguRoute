@@ -24,6 +24,12 @@
 
 <style>
 
+
+a.refund-link {
+  color: blue;
+}
+
+
 </style>
 
 
@@ -33,7 +39,7 @@
 <script type="text/javascript">
 
 function fncGetTranDetailList() {
-    var tranDetailNo = $("#tranDetailNo").val(); // tranDetailNo 값 가져오기
+
 	$("form").attr("method", "GET").attr("action", "/transaction/listTransaction")
 			.submit();
 }
@@ -58,7 +64,7 @@ function fncGetTranDetailList() {
 						        <div class="info">
 						          <div class="wrap">
 						            <h1>구매목록조회</h1>
-						            <p style="margin-bottom: 10px;"> ★ [ ${user.userId} ] 님의 구매내역입니다.</p>
+						            <p style="margin-bottom: 10px;"> ★ [ ${user.userNickName} ] 님의 구매내역입니다.</p>
 						          </div>
 						        </div>
 						      </div>
@@ -73,7 +79,7 @@ function fncGetTranDetailList() {
 
 <form name="detailForm" action="/transaction/listTransaction" method="GET">
    <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
-
+ <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
 
 		<div class="container">
 		<div class="page-header text-info">
@@ -94,22 +100,37 @@ function fncGetTranDetailList() {
 		<td class="ct_list_b">구매상태</td>
 		<td class="ct_list_b">배송</td>
 		<td class="ct_list_b">결제수단</td>
-		<td class="ct_list_b">환불상태</td>		
+		<td class="ct_list_b">환불상태</td>	
+		<td class="ct_list_b">후기등록(x)</td>			
 	</tr>
 
 	<c:set var="i" value="0"/>
 		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-			
+			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
 		
 		<tr class="ct_list_pop">
 			<td align="center">${tranDetail.tranDetailNo}</td>	
-			<td align="center">${product.prodTeamCode}</td>
-			<td align="center">${prodName}</td>
-			<td align="left">${product.prodPrice}</td>
+			<td align="center">
+  <c:choose>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
+    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
+    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
+  </c:choose>
+</td>
+			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
+			<td align="left">${tranDetail.tranDetailProd.prodPrice}</td>
 			<td align="left">${tranDetail.tranQuantity}</td>
-			<td align="left">${transaction.tranUsePoint}</td>
-			<td align="left">${transaction.tranTotalPrice}</td>
+			<td align="left">${tranDetail.tranDetailTran.tranUsePoint}</td>
+			<td align="left">${tranDetail.tranDetailTran.tranTotalPrice}</td>
 			<td align="left"> 현재	
 					<c:if test="${tranCode eq 1}">
 						구매완료
@@ -122,11 +143,19 @@ function fncGetTranDetailList() {
 					</c:if>
 						상태 입니다.</td>
 		<td align="left"> <c:if test="${tranCode eq 2}">
-			<a href="/updateTranCode?tranNo=${transaction.tranNo}&tranStatusCode=3">배송도착</a>
+			<a href="/updateTranCode?tranNo=${tranDetail.tranDetailTran.tranNo}&tranStatusCode=3">배송도착</a>
 		</c:if>
 		</td>
-		<td align="left">${transaction.tranPaymentOption}</td>
-		<td align="left">${tranDetail.refundStatusCode}</td>		
+		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
+		<td align="left" >
+			  <c:choose>
+			    <c:when test="${tranDetail.refundStatusCode eq 1}">
+			      <a href="/tranDetail/updateRefundCode"  class="refund-link">환불요청</a>
+			    </c:when>
+			    <c:otherwise>${tranDetail.refundStatusCode}</c:otherwise>
+			  </c:choose>
+		</td>		
+		<td align="left"></td>
 	</tr>
 	</c:forEach>
 </table>

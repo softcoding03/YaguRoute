@@ -16,6 +16,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <style>
@@ -37,45 +38,48 @@
 
 <script type="text/javascript">
 
-	$(function() {
-		function fncUpdateProduct() {
 	
-			//Form 유효성 검증  	
-			var name = $("input[name='prodName']").val();
-			var price = $("input[name='prodPrice']").val();
-			var stock = $("input[name='prodStock']").val();
-			var category = $("select[name='prodCategory']").val();
-			var teamcode = $("select[name='prodTeamCode']").val();
-	
-			if (name == null || name.length < 1) {
-				alert("상품명은 반드시 입력하여야 합니다.");
-				return;
-			}
-			if (price == null || price.length < 1) {
-				alert("가격은 반드시 입력하셔야 합니다.");
-				return;
-			}
-			if (stock == null || stock.length < 1) {
-				alert("재고는 반드시 입력하셔야 합니다.");
-				return;
-			}
-			if (category == null || category.length < 1) {
-				alert("상품카테고리는 반드시 입력하셔야 합니다.");
-				return;
-			}
-			if (teamcode == null || teamcode.length < 1) {
-				alert("팀 코드는 반드시 입력하셔야 합니다.");
-				return;
-			}
-			// 폼 제출
-			$("form").attr("enctype", "multipart/form-data").attr("method", "GET").attr("action", "/product/updateProduct").submit();
+	function fncUpdateProduct(prodNo) {
+
+		//Form 유효성 검증  	
+		var name = $("input[name='prodName']").val();
+		var price = $("input[name='prodPrice']").val();
+		var stock = $("input[name='prodStock']").val();
+		var category = $("select[name='prodCategory']").val();
+		var teamcode = $("select[name='prodTeamCode']").val();
+
+		if (name == null || name.length < 1) {
+			alert("상품명은 반드시 입력하여야 합니다.");
+			return;
 		}
-	
-		$("#updateProduct").on('click', function() {
-			fncUpdateProduct();
+		if (price == null || price.length < 1) {
+			alert("가격은 반드시 입력하셔야 합니다.");
+			return;
+		}
+		if (stock == null || stock.length < 1) {
+			alert("재고는 반드시 입력하셔야 합니다.");
+			return;
+		}
+		if (category == null || category.length < 1) {
+			alert("상품카테고리는 반드시 입력하셔야 합니다.");
+			return;
+		}
+		if (teamcode == null || teamcode.length < 1) {
+			alert("팀 코드는 반드시 입력하셔야 합니다.");
+			return;
+		}
+
+			$("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
+		}
+		
+	$(function() {
+		  // 수정 버튼 클릭 이벤트 처리
+		  $("#updateProduct").on("click", function() {
+			  var prodNo = $(this).val();
+		    fncUpdateProduct();
+		  });
 		});
 
-	});
 	
 
 </script>
@@ -103,7 +107,8 @@
 					  </div>
 					</section>
 				<!--BREADCRUMBS END-->
-
+	<form name="detailForm">
+					<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/> 
         <!--PLAYER STATS BEGIN-->
 	 <section class="hockey-stats">
 		   <div class="container">
@@ -135,7 +140,7 @@
                         
                         <tr>
                             <td>가격: </td>
-                            <td class="club"> <input type="text" name="prodName" value="${product.prodPrice}"></td>
+                            <td class="club"> <input type="text" name="prodPrice" value="${product.prodPrice}"></td>
                         </tr>
                         
 						<tr>
@@ -170,7 +175,7 @@
 						 	
 						<tr>					 
                             <td>상품 재고: </td>
-                            <td class="club"> <input type="text" name="prodName" value="${product.prodStock}"></td>
+                            <td class="club"> <input type="text" name="prodStock" value="${product.prodStock}"></td>
                         </tr>                       
                         
                     </table>
@@ -190,7 +195,7 @@
                       
 <!--PLAYER STATS END-->
    
-
+</form>
 
 </body>
 
