@@ -594,8 +594,12 @@ button[type="button"]:active {
 		
 		window.location.href="/users/withDrawView";
 	}
-	 
 	
+	// 메인화면으로 이동
+	function mainGoFunction() {
+		
+		window.location.href="/main.jsp";
+	}
 </script>
 
  <script type="text/javascript">
@@ -841,7 +845,7 @@ button[type="button"]:active {
     };
 	
  	// 수정 버튼 클릭
-	$(function(){
+	/* $(function(){
 		
 		$('#userUpdate').on("click", function(){
 			
@@ -851,7 +855,7 @@ button[type="button"]:active {
 			alert("수정이 완료되었습니다.");
 			$('form').attr("method", "POST").attr("action", "/users/updateUser").submit();
 		});
-	});
+	}); */
  	
 	 // form에 입력값 제출
 	 
@@ -902,21 +906,35 @@ button[type="button"]:active {
 	// 		window.close();
 	// 	} 
 
-		function fncAddUser() {
+	// 수정 버튼 클릭
+		function fncUpdateUser() {
 
 			alert("ㅎㅇ");
+			
+			var userId=$("#userId").val();
+			alert(userId);
 			
 			// userBirth logic...
 			var userBirth=$("#birthday").val();
 			var value = userBirth.replace(/-/g, "");
 			$("#userBirth").val(value);
-
+			alert(userBirth);
+			
 			// userAddr logic...
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();
-			var addr = addr1+addr2;
-			$("#userAddr").val(addr);
-
+	 		var addr = '';
+	 		if(addr1 != null || addr2 != null){
+	 			addr = addr1+addr2;
+	 			$("#userAddr").val(addr);
+	 		}
+	 		
+			
+			
+			alert($("userAddr").val());
+			
+			
+			
 			// ajax(User) -> Controller
 			var user = {
 				userId : $("#userId").val(),
@@ -926,21 +944,22 @@ button[type="button"]:active {
 				phoneCheck : $("#phoneCheck").val(),
 				userBirth : $("#userBirth").val(),
 				userAddr : $("#userAddr").val(),
-				gender : $("#gender").val(),
+				gender : $("input[name='gender']").val(),
+				userPoint : $("#userPoiont").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
 				teamCode : $("#teamCode").val()
 			};
+			alert(user);
 
 			$.ajax({
-				url:"/users/addUser",
+				url:"/users/updateUser",
 				method:"POST",
 				data: JSON.stringify(user),
 				contentType: "application/json",
   				success: function(response) {
     				alert("컨트롤러 전송 완료!");
-    				window.close();
-    				window.opener.location.reload();
+    				window.location.href="/users/getUser";
   				},
   				error: function(xhr, status, error) {
     			// 요청 처리 중 에러가 발생한 경우 실행할 로직
@@ -952,8 +971,8 @@ button[type="button"]:active {
 	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#signup" ).on("click" , function() {
-			fncAddUser();
+		$( "#userUpdate" ).on("click" , function() {
+			fncUpdateUser();
 		});
 	});
 	
@@ -971,7 +990,7 @@ button[type="button"]:active {
 	</script>
 
 <jsp:include page="/common/topBar.jsp"></jsp:include>
-<body onclick="clearDocs();gnbClose();" id="mainBody" class="bgother">
+<body id="mainBody" class="bgother">
 <div id="wrap" class="wrap naverid">
     <!-- skip navigation -->
     <div class="u_skip"><a href="https://nid.naver.com/user2/help/myInfoV2?lang=ko_KR#container">본문 바로가기</a></div>
@@ -1073,9 +1092,6 @@ button[type="button"]:active {
 
                 <div id="headerTop" class="path_area">
                     <div id="gnb" class="" style="float:right;">
-                        <script type='text/javascript' charset='utf-8'
-                                src='https://static.nid.naver.com/template/gnb_utf8.nhn?2023. 6. 7'>
-                        </script>
                     </div>
                 </div>
                 
@@ -1115,7 +1131,7 @@ button[type="button"]:active {
                                     	<font id="passwordCheck_use" size="2"></font>
                                 </div>
                             	<div class="form-inline">
-                                    <label for="userName">
+                                    <label>
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이름<br>
                                         <input type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름" value="${user.userName}">
                                         </a>
@@ -1124,7 +1140,7 @@ button[type="button"]:active {
                             	</div>
 								
 								<div class="form-inline">
-                                    <label for="userNickName">
+                                    <label>
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">닉네임<br>
                                         <input type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임" value="${user.userNickName}"/>
                                         </a>
@@ -1173,8 +1189,8 @@ button[type="button"]:active {
                             		<label>
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
 		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;"  placeholder="주소">&nbsp;&nbsp;
-		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: slategray;" value="${user.userAddr}">주소&nbsp;선택</button>
-									<input type ="hidden" id="userAddr" name="userAddr"> 
+		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: slategray;">주소&nbsp;선택</button>
+									<input type ="text" id="userAddr" name="userAddr" value="${user.userAddr}"> 
 									</a>
 		    						</label>
                             	</div>
@@ -1208,13 +1224,16 @@ button[type="button"]:active {
      								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px;"></div> 
      								<!-- <button id="btn-upload-file">서버전송</button> -->
  								</div>
+ 								
+ 								<input type="text" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
+ 								
                             	<div class="form-group">
                             	<label>
                                 <button type="button" class="btn-upload-file" id="userUpdate">수정</button>
                                 </label>
                                 </div>        
                                 </a>
-                                  
+                               </form>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

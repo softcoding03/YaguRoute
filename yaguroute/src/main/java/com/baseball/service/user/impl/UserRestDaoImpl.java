@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,9 @@ public class UserRestDaoImpl implements UserRestDao{
 	public UserRestDaoImpl() {
 		System.out.println(this.getClass());
 	}
+	
+	@Value("${fileUploadPath}")
+	private String fileUploadPath;
 	
 	@Override
 	public String getAccessTokenNaver(String authorizationCode) throws Exception {
@@ -259,8 +263,8 @@ public class UserRestDaoImpl implements UserRestDao{
       try {
       	
       	  String fileName = file.getOriginalFilename();
-          String fileDir = "C:\\images\\";
-          filePath = fileDir + File.separator + fileName;
+         
+          filePath =  fileUploadPath + File.separator + fileName;
           
           File save = new File(filePath);
           file.transferTo(save);

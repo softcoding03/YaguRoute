@@ -552,7 +552,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                     </div>
                 </div>
                 <div class="subindex_item">
+                <div class="title"></div>
     <div class="subindex_greenbox">
+    <div class="account_box">
         <div class="myprofile">
             <div class="info_title">
                 <h3 class="title_text">기본정보</h3>
@@ -620,25 +622,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
             </li>
         </ul>
     </div>
+    </div>
 </div>
 <!--//-->
 
 <!--프로모션 정보수신 동의-->
 <div class="subindex_item">
-    <div class="head_title">
-        <h2 class="subindex_title">프로모션 정보수신 동의</h2>
-        <a href="javascript:;" id="info2" class="link_info" aria-expanded="false"><span class="blind">도움말</span></a>
-
-        <div id="info2ToolTip" class="info_tooltip" aria-hidden="true" style="display: none;">
-            <strong class="info_head">네이버 서비스 및 제휴 이벤트, 혜택, 맞춤형 정보를 보내 드려요.</strong>
-            <p class="info_desc">
-								주요 공지, 보안, 이벤트 당첨에 대해서는 <em class="accent">수신 동의 여부와 관계 없이 알려 드려요.</em>
-							</p>
-            <p class="info_desc">본 동의는 네이버 공통 서비스에 한해 유효하며, 개별로 수신 동의를 받는 일부 서비스는 해당 서비스의 동의 상태를 따릅니다. 수신 동의 상태는 최대 2일 이내에 반영됩니다.</p>
-            <button type="button" id="infoExit2" class="btn_exit"><span class="blind">닫기</span></button>
-        </div>
-
-    </div>
     <div class="subindex_box">
         <ul class="subindex_row">
             <li>

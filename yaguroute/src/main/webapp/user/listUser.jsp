@@ -54,6 +54,24 @@
 			
 		});
 	});
+
+	$(function(){
+	$("#playerList").on("click", function(){
+		
+		alert("playerList");
+		
+		window.location.href="/player/listPlayer";
+	});
+	});
+	
+	$(function(){
+    $("#getBestPlayerList").on("click", function(){
+		
+		alert("bestPlayerList");
+		
+		window.location.href="/player/listBestPlayer";
+	});
+	});
     </script>
 </head>
 
@@ -89,6 +107,8 @@
         	
             <h3>회원 리스트</h3>
             <form>
+            	<button type="button" id="playerList">선수 리스트</button>
+	            <button type="button" id="getBestPlayerList">이주의 선수 조회</button>
             <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
@@ -151,7 +171,8 @@
 		</jsp:include>
 		<!-- PageNavigation End... -->
     </div>
-</div>
+</div> 
+
 <!--LAST MATCHES END-->
 </section>
 <!--PLAYER SINGLE WRAP END-->
