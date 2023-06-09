@@ -24,6 +24,20 @@
   	 grid-template-columns: repeat(2, 1fr);
  	 gap: 10px;
 	}
+	
+	button, input, select, textarea {
+    	background-color: rgb(68, 199, 103);
+	    border-radius: 28px;
+	    border: 1px solid rgb(120, 255, 134);
+	    display: inline-block;
+	    cursor: pointer;
+	    color: ghostwhite;
+	    font-family: Arial;
+	    font-size: 17px;
+	    padding: 9px 15px;
+	    text-decoration: none;
+	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	}
     </style>
     
     <style>
