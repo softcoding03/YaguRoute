@@ -21,6 +21,10 @@
 
 <body>
 
+	<!-- ToolBar Start /////////////////////////////////////-->
+<jsp:include page="/common/topBar.jsp"/>
+	<!-- ToolBar End /////////////////////////////////////-->
+
 <!--PLAYER INFO BEGIN-->
 <div class="container">
 	<div class="row">
@@ -29,14 +33,14 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="stats">
-							<p class="number">상세조회다 완료하셨군요????????????</p>
+							<p class="number">결제를 완료하셨군요????????????</p>
 						</div>
 					</div>
 				</div>
                 <div class="row">
 					<div class="col-md-12">
 						<div class="stats">
-							<a href="transaction/listTransaction.jsp" class="btn btn-primary">확인(목록으로이동)</a>
+							
 						</div>
 					</div>
 				</div>

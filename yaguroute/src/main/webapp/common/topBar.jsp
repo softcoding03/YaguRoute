@@ -40,7 +40,7 @@ topbar
                     <li><a href="/post/getPostList?teamCode=OB"><span>커뮤니티 게시판</span></a></li>
                     <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>Store</span></a></li>
                      
-                      <li>  <a href="#other"><span>관리자목록</span></a>
+                      <li>  <a href="#other"><span>관리자페이지</span></a>
                         <ul>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리(관리자페이지)</span></a></li>
                             <li><a href="/product/addProductView.jsp"><span>상품등록(관리자페이지)</span></a></li>
