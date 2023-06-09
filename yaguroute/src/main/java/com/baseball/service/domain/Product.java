@@ -1,4 +1,4 @@
-﻿package com.baseball.service.domain;
+package com.baseball.service.domain;
 
 import java.sql.Date;
 
