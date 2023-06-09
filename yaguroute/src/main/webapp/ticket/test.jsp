@@ -15,16 +15,13 @@
    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	var refundableDate = "${transaction.refundableDate}";
-	var tranDate ="${transaction.tranDate}";
-	var formattedDateTime1 = refundableDate.replace("T", " ");
-	var formattedDateTime2 = tranDate.replace("T", " ");
-	alert(formattedDateTime1+formattedDateTime2)
-	$("div.refundableDate").text(formattedDateTime1+" 이전까지");
-	$("div.tranDate").text(formattedDateTime2);
-});
 		$(function(){
+			var refundableDate = "${transaction.refundableDate}";
+			var tranDate ="${transaction.tranDate}";
+			var formattedDateTime1 = refundableDate.replace("T", " ");
+			var formattedDateTime2 = tranDate.replace("T", " ");
+			$("#refundableDate").text(formattedDateTime1+" 이전까지");
+			$("#tranDate").text(formattedDateTime2);
 			
 			
 		 	//환불
@@ -67,129 +64,111 @@ $(document).ready(function() {
 		});
 </script>
 <style>
-		img{
-		 text-align: center;
-			transform: scale(0.7);
-		}
-		button[type="button"]:hover {
-            background-color: #99BEFF;
-      }
-      button[type="button"] {
-            width: 20%;
-            height: 45px;
-            background-color: #ffffff;
-            color: #000000;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size : 15px;
-            text-align: center;
-        }
-       .row3{
-        text-align: center;
-        }
+
 </style>
 </head>
 
 <body>
-	<!--PLAYER SINGLE WRAP BEGIN-->
-	<div class="col-md-12">
-		<div class="col-md-6"><img src="${ticketList[0].game.homeTeam.teamTopBar}"></div>
-		<div class="col-md-6"><img src="${ticketList[0].game.awayTeam.teamTopBar}"></div>
-	</div>
-		<div class="container">
+		<h1>예매 상세 내역</h1>
 		<div class="row">
-				<div class="col-md-12">
-					<div class="row3">
-					<h4>${ticketList[0].game.homeTeam.teamFullName}&nbsp;&nbsp; vs &nbsp;&nbsp;${ticketList[0].game.awayTeam.teamFullName}</h4>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="player-info">
-						<h3>예매 내역</h3>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>경기 일시</strong></div>
-								<div class="col-xs-8 col-md-4" id="tranDate">${ticketList[0].game.gameDate} _ ${ticketList[0].game.gameTime}</div>
-							</div>
-							<hr/>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>경기 장소</strong></div>
-								<div class="col-xs-8 col-md-4">${ticketList[0].game.homeTeam.stadiumName}</div>
-							</div>
-							
-						<hr>
-						<h3>티켓 정보</h3>
-						<div class="overflow-scroll">
-							<table>
-								<tr>
-									<th></th>
-									<th>티켓번호</th>
-									<th>좌석번호</th>
-									<th>가격</th>
-								</tr>
-				  				<c:forEach var="ticket" items="${ticketList}" varStatus="status">
-				  				<tr>
-				  					<td align="left">${status.index + 1}</td>
-				  					<td align="center">${ticket.ticketNo}</td>
-					            <td align="left">${ticket.seatCode}</td>
-					            <td align="left">${ticket.seatPrice}</td>
-				  				</tr>
-				  				</c:forEach>
-							</table>
-						</div>
-						<hr>
-						<c:if test="${transaction.refundStatus eq 0}">
-							<h3>결제 내역</h3>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>결제 시각</strong></div>
-								<div class="col-xs-8 col-md-4 tranDate"></div>
-							</div>
-							<hr/>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>결제 수단</strong></div>
-								<div class="col-xs-8 col-md-4">${transaction.tranPaymentOption}</div>
-							</div>
-							<hr/>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>결제 금액</strong></div>
-								<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
-							</div>
-							<hr/>
-							<div class="row">
-						  		<div class="col-xs-4 col-md-2"><strong>결제 취소가능기간</strong></div>
-								<div class="col-xs-8 col-md-4 refundableDate"></div>
-							</div>
-							<hr>
-							<div>
-								<button type="button" class="refundTransaction">결제 취소</button>
-							</div>
-						</c:if>
-						<c:if test="${transaction.refundStatus eq 1}">
-							<h3>취소 내역</h3>
-							<div class="row">
-						  		<div class="col-xs-4">결제 취소 시각</div>
-								<div class="col-xs-8 tranDate"></div>
-							</div>
-							<div class="row">
-						  		<div class="col-xs-4">결제 수단</div>
-								<div class="col-xs-8">${transaction.tranPaymentOption}</div>
-							</div>
-							<div class="row">
-						  		<div class="col-xs-4">취소 금액</div>
-								<div class="col-xs-8">${transaction.tranTotalPrice}</div>
-							</div>
-						</c:if>      
-					</div>
-				</div>
-				<hr>
-				<div class="col-md-12">
-					<p style="color:red;">*티켓 취소는 경기 시작 하루 전 23:00까지 가능합니다. ex) 5월12일 14:00 경기 -> 5월11일 23:00까지 취소 가능</p>
-				</div>
-				<hr>
-				<button type="button" class="getTicketPurchaseList">목록보기</button>
-				</div>
+	  		<img src="${ticketList[0].game.homeTeam.teamEmblem}" width="50">
+	  		<div class="col-md-2">VS</div>
+			<img src="${ticketList[0].game.awayTeam.teamEmblem}" width="50">
 		</div>
-	<!--PLAYER SINGLE WRAP END-->      
+		<div class="row">
+	  		<div class="col-md-5">${ticketList[0].game.homeTeam.teamFullName}</div>
+	  		<div class="col-md-2"></div>
+			<div class="col-md-5">${ticketList[0].game.awayTeam.teamFullName}</div>
+		</div>
+		<hr/>
+		<h3>예매 내역</h3>
+		<hr><hr>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>경기 일시</strong></div>
+			<div class="col-xs-8 col-md-4">${ticketList[0].game.gameDate} / ${ticketList[0].game.gameTime}</div>
+		</div>
+		<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>경기 장소</strong></div>
+			<div class="col-xs-8 col-md-4">${ticketList[0].game.homeTeam.stadiumName}</div>
+		</div>
+		<hr/>
+		<div>
+	  		<table class="table table-hover table-striped" >
+	  			<thead>
+	  				<tr>
+	  					<th align="center">티켓 번호</th>
+		            <th align="left">좌석 번호</th>
+		            <th align="left">가격</th>
+	  				</tr>
+	  			</thead>
+	  			<tbody>
+	  				<c:forEach var="ticket" items="${ticketList}">
+	  				<tr>
+	  					<td align="center">${ticket.ticketNo}</td>
+		            <td align="left">${ticket.seatCode}</td>
+		            <td align="left">${ticket.seatPrice}</td>
+	  				</tr>
+	  				</c:forEach>
+	  			</tbody>
+	  		</table>
+		</div>
+		<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>총 금액</strong></div>
+			<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
+		</div>
+		<hr><hr>
+		<c:if test="${transaction.refundStatus eq 0}">
+			<h3>결제 내역</h3>
+			<hr/><hr>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 시각</strong></div>
+				<div class="col-xs-8 col-md-4" id="tranDate"></div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 수단</strong></div>
+				<div class="col-xs-8 col-md-4">${transaction.tranPaymentOption}</div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 금액</strong></div>
+				<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 취소가능기간</strong></div>
+				<div class="col-xs-8 col-md-4" id="refundableDate"></div>
+			</div>
+			<hr>
+			<div>
+				<button type="button" class="refundTransaction">결제 취소</button>
+				<button type="button" class="getTicketPurchaseList">목록보기</button>
+			</div>
+		</c:if>
+		<c:if test="${transaction.refundStatus eq 1}">
+			<h3>취소 내역</h3>
+			<hr/><hr>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 취소 시각</strong></div>
+				<div class="col-xs-8 col-md-4" id="tranDate"></div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>결제 수단</strong></div>
+				<div class="col-xs-8 col-md-4">${transaction.tranPaymentOption}</div>
+			</div>
+			<hr/>
+			<div class="row">
+		  		<div class="col-xs-4 col-md-2"><strong>취소 금액</strong></div>
+				<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
+			</div>
+			<hr/>
+			<div>
+				<button type="button" class="getTicketPurchaseList">목록보기</button>
+			</div>
+		</c:if>      
 
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

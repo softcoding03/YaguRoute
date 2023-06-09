@@ -108,7 +108,7 @@
       <div class="row">
          <div class="col-md-12">
              <h4>Upcoming matches</h4>
-             <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>                
+             <p>*현재로부터 2주 이내 경기만 예매 가능합니다.</p>                
          </div>
          <div class="col-md-12">
          <!-- List 시작 -->
