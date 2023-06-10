@@ -273,7 +273,6 @@
 			var userImage = "${user.userImage}"
 			var teamCode = $("select[name='teamCode']").val();
 			var userNickName = $("input[name='userNickName']").val();
-			var teamCode = $("input[name='teamCode']").val();
 			
 			alert(teamCode);
 			

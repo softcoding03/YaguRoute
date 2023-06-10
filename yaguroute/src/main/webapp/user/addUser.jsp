@@ -398,11 +398,21 @@
     }).open();
 	}
 	
+	 
+/* 	// 가입 버튼
+    $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$( "#signup" ).on("click" , function() {
+			fncAddUser();
+		});
+	}); */
+	
 	
 	//fileDropzone dropzone 설정할 태그의 id로 지정
     Dropzone.options.fileDropzone = {
+			
         url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+        autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
         clickable: true, // 클릭가능여부
         thumbnailHeight: 90, // Upload icon size
         thumbnailWidth: 90, // Upload icon size
@@ -417,7 +427,7 @@
             
         	var myDropzone = this;
 			var maxFiles = this.options.maxFiles;
-            
+			
             // 파일 업로드 제한에 도달했을 때 알림 표시
             this.on("maxfilesexceeded", function(file) {
                 // 알림을 표시하는 로직을 추가
@@ -430,15 +440,15 @@
             });
 
             // 서버로 파일 업로드를 진행하는 함수
-            document.querySelector("#btn-upload-file").addEventListener("click", function() {
+            document.querySelector("#signup").addEventListener("click", function() {
+            	alert("ㅎㅇㅎㅇ");
                 myDropzone.processQueue();
+                fncAddUser();
             });
         }
         
     };
-	
-	 // form에 입력값 제출
-	 
+
  	// function fncAddUser() {		
 	// 	 	// 11개여야함.
 	// 		var userId=$("input[name='userId']").val();
@@ -510,7 +520,7 @@
 				phoneCheck : $("#phoneCheck").val(),
 				userBirth : $("#userBirth").val(),
 				userAddr : $("#userAddr").val(),
-				gender : $("#gender").val(),
+				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
 				teamCode : $("#teamCode").val()
@@ -532,14 +542,7 @@
   				}
 			});
 		};
-	 
-	// 가입 버튼
-    $(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#signup" ).on("click" , function() {
-			fncAddUser();
-		});
-	});
+
 	
 /* 	// 뒤로 가기 버튼
 	$(function(){

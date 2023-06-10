@@ -14,9 +14,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
 	
     <style>
     .grid-container {
@@ -223,70 +221,6 @@
 		        window.location.href = "/user/loginTest(new).jsp";
 		    };
 	});
-    
-	 // 휴대폰 버튼 클릭
-	$(function(){
-   		$('#phoneButton').on("click", function(){
-   		
-   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
-   		
-   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
-   		// rnd에 대한 HTML 요소 생성
-
-   		var newDiv = document.createElement("div");
-
-		// hidden 속성 추가
-		var hiddenDiv = document.createElement('input');
-   		hiddenDiv.type = "hidden";
-		hiddenDiv.value = rnd;
-		hiddenDiv.id = 'rnd';
-		newDiv.appendChild(hiddenDiv);
-		document.body.appendChild(newDiv);
-		
-		if(userPhone.length == 11){
-			alert("인증번호를 발송하였습니다.");
-		}
-		else{
-			alert("휴대폰 번호를 다시 입력해주세요.");
-			return;
-		}
-		
-   		$.ajax({
-               url: "/users/phoneCheck/",
-               method: "POST",
-               dataType: "json",
-               data: {userPhone : userPhone,
-               		rnd : rnd}, // 수정: userId로 변경
-               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-               success: function(result) {
-               },
-               error: function() {
-               	alert("서버 오류 발생");
-                   return;
-           }
-   		});
-   	  });
-   	});
-	
-    // 인증번호 확인
-	$(function(){
-    	
-    	$("#phoneCheckButton").on("click", function(){
-    		
-    		alert("인증버튼 클릭");
-    		
-    		var verify = $("#phoneCheck").val();
-        	var rnd = $("#rnd").val();
-        	
-        	if(verify == rnd){
-        		alert("인증이 완료되었습니다.");
-        	}
-        	else{
-        		alert("인증에 실패하였습니다.");
-        		return;
-        	}
-    	});
-    });
 	
     // 닉네임 체크
 	$(function(){
@@ -345,24 +279,98 @@
     }).open();
 	}
 	
-	// 애드 유저
+	// 휴대폰 인증 클릭
+	$(function(){
+   		$('#phoneButton').on("click", function(){
+   		
+   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
+   		alert(userPhone);
+   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+   		// rnd에 대한 HTML 요소 생성
+
+   		var newDiv = document.createElement("div");
+
+		// hidden 속성 추가
+		var hiddenDiv = document.createElement('input');
+   		hiddenDiv.type = "hidden";
+		hiddenDiv.value = rnd;
+		hiddenDiv.id = 'rnd';
+		newDiv.appendChild(hiddenDiv);
+		document.body.appendChild(newDiv);
+		
+		if(userPhone.length == 11){
+			alert("인증번호를 발송하였습니다.");
+			document.getElementById('phoneCheckId').style.display = 'block';
+		}
+		else{
+			alert("휴대폰 번호를 다시 입력해주세요.");
+			return;
+		}
+		
+   		$.ajax({
+               url: "/users/phoneCheck/",
+               method: "POST",
+               dataType: "json",
+               data: {userPhone : userPhone,
+               		rnd : rnd}, // 수정: userId로 변경
+               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+               success: function(result) {
+               },
+               error: function() {
+               	alert("서버 오류 발생");
+                   return;
+           }
+   	  });
+   	});
+	});
+	// 인증번호 확인
+	$(function(){
+    	
+    	$("#phoneCheckButton").on("click", function(){
+    		
+    		alert("인증버튼 클릭");
+    		
+    		var verify = $("#phoneCheck").val();
+        	var rnd = $("#rnd").val();
+        	
+        	if(verify == rnd){
+        		alert("인증이 완료되었습니다.");
+        	}
+        	else{
+        		alert("인증에 실패하였습니다.");
+        		return;
+        	}
+    	});
+    });
+	
+		// 애드 유저
 		function fncAddUser() {
 
 			alert("ㅎㅇ");
 			
+			// userBirth logic...
+			var userBirth=$("#birthday").val();
+			alert(userBirth);
+			var value = userBirth.replace(/-/g, "");
+			$("#userBirth").val(value);
+			
+			// userAddr logic...
+			var addr1 = $("input[name='addr1']").val();
+	 		var addr2 = $("input[name='addr2']").val();
+			var addr = addr1+addr2;
+			$("#userAddr").val(addr);
+			
 			var userId = "${user.userId}";
 			var userName = "${user.userName}";
-			var userBirth = "${user.userBirth}";
 			var userEmail = "${user.userEmail}";
 			var userPassword = "${user.password}";
-			var userPhone = "${user.userPhone}";
 			var gender = "${user.gender}";
-			var userImage = "${user.userImage}"
+			var userImage = "${user.userImage}";
 			var teamCode = $("select[name='teamCode']").val();
 			var userNickName = $("input[name='userNickName']").val();
-			var teamCode = $("input[name='teamCode']").val();
 			
 			alert(teamCode);
+			alert(userPhone);
 			
 			// userAddr logic...
 			var addr1 = $("input[name='addr1']").val();
@@ -370,8 +378,9 @@
 			var userAddr = addr1+addr2;
 			$("#userAddr").val(userAddr);
 			
+			
 			$("form").attr("method", "POST").attr("action", "/users/addNaverUser").submit();
-
+			
 		};
 	 
 	// 가입 버튼
@@ -417,14 +426,12 @@
     	<div class="container_1">
         	<div class="row">
                     	<form>
-	                    	<input type="hidden" name="userId" value="${user.userId}" readonly="readonly"/>
-							<input type="hidden" name="userName" value="${user.userName}" readonly="readonly"/>
-							<input type="hidden" name="userBirth" value="${user.userBirth}" readonly="readonly"/>
-							<input type="hidden" name="userEmail" value="${user.userEmail}" readonly="readonly"/>
-							<input type="hidden" name="password" value="${user.password}" readonly="readonly"/>
-							<input type="hidden" name="userPhone" value="${user.userPhone}" readonly="readonly"/>
-							<input type="hidden" name="gender" value="${user.gender}" readonly="readonly"/>
-							<input type="hidden" name="userImage" value="${user.userImage}" readonly="readonly"/>
+	                    	<input  type="hidden" name="userId" value="${user.userId}" readonly="readonly"/>
+							<input  type="hidden" name="userName" value="${user.userName}" readonly="readonly"/>
+							<input  type="hidden" name="userEmail" value="${user.userEmail}" readonly="readonly"/>
+							<input  type="hidden" name="password" value="${user.password}" readonly="readonly"/>
+							<input  type="hidden" name="gender" value="${user.gender}" readonly="readonly"/>
+							<input  type="hidden" name="userImage" value="${user.userImage}" readonly="readonly"/>
 							
 								<div class="form-inline">
                                     <label for="userNickName">
@@ -436,18 +443,25 @@
                             	<a style="font-size: 17px; font-weight: bold;">생년월일</a>
                             	<div class="form-inline">
                                     <label for="userBirth">
-                                        <input type="date" class="birthday" name="userBirth" id="userBirth" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
+                                        <input type="date" class="birthday" name="birthday" id="birthday" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
+                                    	<input type="hidden" name="userBirth" id="userBirth">
                                     </label>
-                                    	<font id="nickname_use" size="2"></font>
                             	</div>
                             	
                             	<div class="form-inline">
-                                    <label for="userPhone">
-                                        <input type="text" name="userPhone" id="userPhone" style="width: 300px; height: 42px; margin-bottom: 10px;"  placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
-                                    </label>
-                                    	<font id="nickname_use" size="2"></font>
+                            		<label>
+		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="휴대폰 번호"/>&nbsp;&nbsp;
+		    						<button type="button" id="phoneButton" >인증번호 발송</button>
+		    						</label>
                             	</div>
-                            	
+                            	<div class="form-inline">
+                            		<label>
+                            		<a id="phoneCheckId" style="display: none;">
+		    						<input type="text" id="phoneCheck" name="userPhoneCheck" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="인증번호를 입력해주세요."/>&nbsp;&nbsp;
+		    						<button type="button" id="phoneCheckButton" >인증번호 확인</button>
+		    						</a>
+		    						</label>
+                            	</div>
                             	
                             	<div class="form-inline">
                             		<label>
@@ -458,7 +472,6 @@
 									<input type ="hidden" id="userAddr" name="userAddr"> 
 		    						</label>
                             	</div>
-                            	</a>
                             	<div class="form-inline">
                             		<label>
 		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 400px; height: 50px; margin-bottom: 20px;">
