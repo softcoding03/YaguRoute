@@ -192,6 +192,10 @@ public class TicketController {
 	 	gamelist.add(game);
 		}
 		System.out.println("game정보 불러온 것 :: " +gamelist);
+		
+		User user= (User)session.getAttribute("user");
+		Team team = gameService.getTeamInfo(user.getTeamCode()); //상단바 출력위한 팀정보
+		model.addAttribute("team", team);
 		model.addAttribute("transaction", list);//transaction 결제내역 리스트 (gamelist와 1:1)
 		model.addAttribute("game", gamelist); //결제내역에 해당하는 게임 정보 리스트
 		return "forward:/ticket/listTicketPurchase.jsp";

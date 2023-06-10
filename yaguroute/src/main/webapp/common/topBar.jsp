@@ -5,7 +5,7 @@
 <!--MAIN MENU WRAP BEGIN-->
 <style>
 .custom-logo-link{
-	right: 100px;
+	right: 130px;
 }
 .main-menu-wrap{
 		position: sticky;
@@ -75,12 +75,14 @@ img.logo{
                         	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
                             <li><a href="/product/addProductView.jsp"><span>상품등록</span></a></li>
+                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>
                         </ul>
                     </li>
                	   <li>  <a href="#other"><span>마이페이지</span></a>
                         <ul>
                         	<li><a href="/users/getUser"><span>내 정보 보기</span></a></li>
                             <li><a href="/transaction/listTransaction"><span>상품구매목록조회</span></a></li>
+                            <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span>티켓예매내역조회</span></a></li>
                         </ul>
                     </li>
                     
@@ -96,7 +98,13 @@ img.logo{
     </div>
 </div>
 
-
+<script type="text/javascript">
+	$("a.getSalesList").on("click" , function() {
+		var currentDate = new Date();
+		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
+		self.location = "/ticket/getSalesList?month="+currentMonth;
+	});
+</script>
 
 
 

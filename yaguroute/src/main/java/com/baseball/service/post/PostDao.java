@@ -15,6 +15,7 @@ public interface PostDao {
 	public List<Post> getMyPostList(Map<String,Object> map) throws Exception;
 	public List<Post> getPostBestList(String teamCode) throws Exception;
 	public List<Post> getNoticeList(String teamCode) throws Exception;
+	public List<Post> getNoticeList2(String teamCode) throws Exception;
 	public Emote getEmote(Emote emote) throws Exception;
 	public void addPost(Post post) throws Exception;
 	
