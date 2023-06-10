@@ -370,31 +370,29 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
 	/*네이버 로그인 시*/
     .naver-login {
-        display: block;
-        padding: 8px;
-        background: #19ce60;
-        color: #fff;
-        font-size: 14px;
-        margin-bottom: 5px;
-        text-align: center;
-        border-radius: 5%;
-        margin: auto;
-        width: 170px;
-        font-weight: bold;
-    }
+	    display: inline-block;
+	    /* padding: 5px; */
+	    background: #19ce60;
+	    color: #fff;
+	    font-size: 12px;
+	    text-align: center;
+	    border-radius: 10%;
+	    margin: auto;
+	    width: 80px;
+	    font-weight: bold;
+	}
 
     /*카카오 로그인 시*/
     .kakao-login {
-        display: block;
-        padding: 8px;
+        display: inline-block;
+        /* padding: 8px; */
         background: #FEE500;
         color: #000000;
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 12px;
         text-align: center;
-        border-radius: 5px;
+        border-radius: 10%;
         margin: auto;
-        width: 170px;
+        width: 80px;
         font-weight: bold;
     }
     
@@ -1118,6 +1116,17 @@ button[type="button"]:active {
                 <p class="userId" id="userId">${user.userId}</p>
             </div>
         </div>
+        <a href="/users/logout" style="text-align: center; width: 10px; color: gray;
+    border-radius: 28px;
+    display: inline-block;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 16px;
+    padding: 6px 15px;
+    text-decoration: none;
+    border: 1px solid #cdd3d8;
+    width: 120px;
+    font-family: 'Gwangyang';">로그아웃</a>
     </div>
 
     <div id="headerLeft" class="header_left" aria-hidden="false">

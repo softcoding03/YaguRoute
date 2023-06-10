@@ -398,33 +398,44 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
 <style>
 
+	/* button, input, select, textarea {
+    background-color: rgb(55 57 101);
+    border-radius: 28px;
+    display: inline-block;
+    cursor: pointer;
+    color: ghostwhite;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 9px 15px;
+    text-decoration: none;
+    width: 120px;
+	} */
+	
     /*네이버 로그인 시*/
     .naver-login {
-        display: block;
-        padding: 8px;
-        background: #19ce60;
-        color: #fff;
-        font-size: 14px;
-        margin-bottom: 5px;
-        text-align: center;
-        border-radius: 5%;
-        margin: auto;
-        width: 170px;
-        font-weight: bold;
-    }
+	    display: inline-block;
+	    /* padding: 5px; */
+	    background: #19ce60;
+	    color: #fff;
+	    font-size: 12px;
+	    text-align: center;
+	    border-radius: 10%;
+	    margin: auto;
+	    width: 80px;
+	    font-weight: bold;
+	}
 
     /*카카오 로그인 시*/
     .kakao-login {
-        display: block;
-        padding: 8px;
+        display: inline-block;
+        /* padding: 8px; */
         background: #FEE500;
         color: #000000;
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 12px;
         text-align: center;
-        border-radius: 5px;
+        border-radius: 10%;
         margin: auto;
-        width: 170px;
+        width: 80px;
         font-weight: bold;
     }
     
@@ -489,6 +500,43 @@ a {
 		window.location.href="/users/getUser";
 	}
 	
+	// 전화번호를 '-'를 붙여 출력하기
+	$(function(){
+		
+		var userPhone = "${user.userPhone}";
+		var formatNumber = userPhone.slice(0,3) + "-" + userPhone.slice(3,7) + "-" + userPhone.slice(7);
+		
+		$("#phoneNoRegSpan").text(formatNumber);
+	});
+	
+	// 생일 년도(yyyy) 자르고 mm월 dd일로 출력하기
+	$(function(){
+		
+		var userBirth = "${user.userBirth}";
+		
+	    var year = userBirth.slice(0, 4);
+	    var month = userBirth.slice(4, 6) - 1;
+	    var day = userBirth.slice(6, 8);
+
+	    var birthDate = new Date(year, month, day);
+	    var formattedBirth = month+1 + "월 " + day + "일";
+
+	    // D-day를 계산하기 위한 변수 선언
+	    var currentYear = new Date().getFullYear();
+	    var dDay = new Date(currentYear, month, day);
+	    
+	    var currentDate = new Date();
+	    
+	    // D-day 계산
+	    var timeDiff = dDay.getTime() - currentDate.getTime();
+	    var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));  // 남은 시간을 일 단위로 변환
+	 	
+	    var dDayComment = "D-"+daysDiff 
+	    
+	    $(".youBirth").text(formattedBirth);
+	   	$("#dDay").text(dDayComment);
+	});
+	
 </script>
 
 <jsp:include page="/common/topBar.jsp"></jsp:include>
@@ -516,15 +564,27 @@ a {
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
-                <p class="userNickName" style="font-size: 26px; font-weight: 700;">${user.userNickName}</p>
+                <p class="userNickName" style="font-size: 23px; font-weight: 700;">${user.userNickName}</p>
                 <p class="userId" id="userId">${user.userId}</p>
             </div>
+           	 <a href="/users/logout" style="text-align: center; width: 10px; color: gray;
+    border-radius: 28px;
+    display: inline-block;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 16px;
+    padding: 6px 15px;
+    text-decoration: none;
+    border: 1px solid #cdd3d8;
+    width: 120px;
+    font-family: 'Gwangyang';">로그아웃</a>
         </div>
     </div>
 
     <div id="headerLeft" class="header_left" aria-hidden="false">
 
         <ul class="left_menu" role="menu">
+        	
         	<li>
                 <a href="#" class="left_item" role="menuitem" onclick="getUserFunction()" aria-current="">
                     <div class="menu_text "><b>내 정보 보기</b></div>
@@ -603,7 +663,7 @@ a {
     <div class="subindex_greenbox">
     <div class="account_box">
         <div class="myprofile">
-            <div class="info_title">
+            <!-- <div class="info_title">
                 <h3 class="title_text">기본정보</h3>
                 <a href="javascript:;" id="info1" class="link_info" aria-expanded="false"><span
                             class="blind">도움말</span></a>
@@ -618,7 +678,7 @@ a {
                     <button type="button" id="infoExit1" class="btn_exit"><span class="blind">닫기</span></button>
                 </div>
 
-            </div>
+            </div> -->
             <ul class="myinfo_area">
                 <li>
                 
@@ -714,11 +774,22 @@ a {
 
 <!--생일 관리-->
 <div class="subindex_item">
-	<h2 class="subindex_title">&nbsp;${user.userName}님의 생일</h2>
-    <div class="subindex_onebox">	
-        <div class="onebox_title desc">  
+	<h2 class="subindex_title">&nbsp;${user.userName}님의 생일은...</h2>
+    <div class="subindex_onebox" style="height: 50px; padding: 12px 17px 18px;">	
+        <div class="onebox_title desc">
+        <div class="forBirth" style="font-family:'Gwangyang';"> 
+         
+        &nbsp; ${user.userName}님의 생일은
+        <a class="youBirth"><b>${user.userBirth}</b></a>
+        입니다.
+        
+        &emsp;
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="18" fill="currentColor" class="bi bi-calendar-heart" viewBox="0 0 16 16" style="color: hotpink;">
+  		<path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+		</svg>
+        <a class="dDay" id="dDay" style="color: crimson; font-size: 20px;"></a>
         </div>
-        <div class="youBirth"> <h4>${user.userName}님의 생일은 <b>${user.userBirth}</b>입니다.</div>
+        </div>
     </div>
 </div>
 

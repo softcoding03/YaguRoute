@@ -163,7 +163,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		// HTTP 요청에 필요한 파라미터 설정
 		String postParams = "grant_type=authorization_code" +
 			"&client_id=" + "492090239797ebad0d3181db65216b78" +
-			"&redirect_uri=" + "http://192.168.0.116:8080/users/kakaoLogin" +
+			"&redirect_uri=" + "http://192.168.55.155:8080/users/kakaoLogin" +
 			"&code=" + authorizationCode;
 		
 		

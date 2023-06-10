@@ -143,13 +143,13 @@
         rgba(129, 230, 217, 1) 0%,
         rgba(79, 209, 197, 1) 100%
     );
-    border-radius: 1000px;
-    color: darkslategray;
-    cursor: pointer;
-    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
-    font-weight: 700;
-    transition: 0.3s;
-    margin-top: 20px;
+	    border-radius: 1000px;
+	    color: darkslategray;
+	    cursor: pointer;
+	    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+	    font-weight: 700;
+	    transition: 0.3s;
+	    margin-top: 20px;
 	}
 	
 	.btn-upload-file:hover {

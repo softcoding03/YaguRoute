@@ -438,28 +438,17 @@
                             
                            	<div class="cont">
 							  <!-- 네이버 로그인 버튼 -->
-							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/users/naverLogin" class="link-login">
+							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.55.155:8080/users/naverLogin" class="link-login">
 							    <img src="/images/user/naverTitle.png" alt="네이버" /> 네이버로 로그인
 							  </a>
 							  <!-- 카카오 로그인 버튼 -->
-							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin" class="kakao-login">
+							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.55.155:8080/users/kakaoLogin" class="kakao-login">
 							    <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
 							      <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
 							    </svg>
 							    카카오로 로그인
 							  </a>
 							</div>
-                                <!--
-                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin">
-                                <img id="kakaoLogin" class="kakao-submit" width="183" height="45" src="/images/user/kakaoLogin.png" alt="카카오 로그인 버튼">
-                                </a> -->
-
-								<!-- <button type="button" id="signup" class="signup" >회 원 가 입</button><br>
-								<button type="button" id="findUserId" class="find">아이디 찾기</button>
-								<button type="button" id="findPassword" class="find">비밀번호 찾기</button> -->
- 								<!-- <button type="button" id="addPlayer" class="plusPlayer">선수 추가</button>
- 								<button type="button" id="listPlayer" class="listPlayer">선수 리스트</button>
- 								<button type="button" id="bestPlayerList" class="bestPlayer">이주의 선수 리스트</button> -->
 					  </form>
                    </div>
                 </div><br>

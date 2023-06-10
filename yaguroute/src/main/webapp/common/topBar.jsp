@@ -26,6 +26,11 @@ img.logo{
 	font-size: 16px;
 }
 
+/* 로그아웃 추가를 위한 너비 확장 */
+.container {
+    width: 1370px;
+}
+
 </style>
 <div class="main-menu-wrap">
     <div class="container">
@@ -60,6 +65,13 @@ img.logo{
                     
                     <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     
+                    <li>  <a href="#other"><span>선수 조회</span></a>
+                        <ul>
+                        	 <li><a href="/player/listPlayer"><span>선수 리스트</span></a></li>
+                            <li><a href="/player/listBestPlayer"><span>이 주의 선수</span></a></li>
+                        </ul>
+                    </li>
+                    
                     <li>
                         <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>티켓 예매</span></a>
                     </li>
@@ -85,13 +97,22 @@ img.logo{
                             <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span>티켓예매내역조회</span></a></li>
                         </ul>
                     </li>
-                    
-                    
                     <li class="cart full">
                         <a href="/basket/getBasketList">
                             <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
                         </a>
-                    </li>	
+                    </li>
+                    &emsp;
+					<li class="userClass">
+                     	<a href="/users/getUser">
+                        <img src="${user.userImage}" alt="유저 이미지" style="width: 30px; border-radius: 100%; height: 30px;">
+                        </a>
+                    </li>
+                    <li class="userLogout">
+                        <a href="/users/logout">
+                            <span><i style="box-sizing: border-box; font-size: 12px; font-family: monospace; font-style: normal;">로그아웃</i></span>
+                        </a>
+                    </li>
                 </ul>
             </div>       
         </nav>
