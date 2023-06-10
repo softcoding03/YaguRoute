@@ -172,6 +172,13 @@
     		 p.post_no
 		ORDER by post_no DESC
 	</select>
+	<!-- 공지사항 제목만 출력 위한 2개 list -->
+	<select id="getNoticeList2" parameterType="string" resultMap="postSelectMap">
+		SELECT post_title, post_date
+		FROM post
+		WHERE team_Code = #{value} AND post_type = '4'
+		LIMIT 2
+	</select>
 	
 	<!--게시물 작성-->
 	<insert id="addPost" parameterType="post">

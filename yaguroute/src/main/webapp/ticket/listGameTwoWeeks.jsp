@@ -12,7 +12,8 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <style type="text/css">
+    
+<style type="text/css">
     	.background {
 		  display: flex;
 		  justify-content: center;
@@ -20,7 +21,7 @@
 		  margin-top: 50px;
 		}    
 		
-		/* 탑바 위한 style */
+		/* 팀탑바 위한 style */
 		.teamTopBar {
 		  width: 100%;
 		  height: auto;
@@ -42,9 +43,9 @@
 		  font-size: 18px;
 		  margin-left:300px;
 		}
-		/* 탑바 위한 style 끝*/
-    </style>
-    <script type="text/javascript">
+		/* 팀탑바 위한 style 끝*/
+</style>
+<script type="text/javascript">
     
 	$(function() {
 		$("a[href='teamCodeHref']").on('click',function(){
@@ -61,18 +62,9 @@
 			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
 			window.open(url,"경기 티켓 예매",options);			
 		});
-		$(".getTicketPurchaseList").on("click" , function() {
-			self.location = "/ticket/getTicketPurchaseList?userId=${user.userId}";
-		});
-		$(".getSalesList").on("click" , function() {
-			var currentDate = new Date();
-			var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
-			console.log(currentMonth);
-			self.location = "/ticket/getSalesList?month="+currentMonth;
-		});
 	});
 		
-    </script>
+</script>
 </head>
 
 <body>
@@ -100,8 +92,6 @@
        </ul>
     </div>
 </div>	
-<button type="button" class="getTicketPurchaseList">예매내역보기</button>
-<button type="button" class="getSalesList">판매리스트</button>
 
 <div class="broadcast-wrap">
    <div class="container">

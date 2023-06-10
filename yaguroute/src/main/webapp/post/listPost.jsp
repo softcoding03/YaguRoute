@@ -215,16 +215,26 @@
 		  </form>
 		</div>
 		<!-- Search -->
-    
-    <div class="sidebar-tags-wrap">
-        <h6>Tags</h6>
-        <div class="tags">
-            <a href="javascript:;" class="talk">잡담</a>
-            <a href="javascript:;" class="cheer">응원</a>
-            <a href="javascript:;" class="buy">중고구매</a>
-            <a href="javascript:;" class="sell">중고판매</a>
-        </div>
-    </div>
+		<!-- Recent News -->
+     	<div class="recent-news">
+          <h6>Notice</h6>
+          <c:forEach var="notice" items="${noticeList}">
+	          <div class="item">
+	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
+	              <a href="javascript:;" class="getNotice">${notice.postTitle }</a>
+	          </div>
+			 </c:forEach>
+      </div>
+      <!-- Recent News -->              
+	    <div class="sidebar-tags-wrap">
+	        <h6>Tags</h6>
+	        <div class="tags">
+	            <a href="javascript:;" class="talk">잡담</a>
+	            <a href="javascript:;" class="cheer">응원</a>
+	            <a href="javascript:;" class="buy">중고구매</a>
+	            <a href="javascript:;" class="sell">중고판매</a>
+	        </div>
+	    </div>
 </section>	
 <!--SIEDBAR END-->
 <!--NEWS LIST BEGIN-->
