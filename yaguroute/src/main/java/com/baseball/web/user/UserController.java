@@ -50,6 +50,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.Request;
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.User;
 import com.baseball.service.kakaologin.KakaoLoginService;
 import com.baseball.service.naverlogin.NaverLoginService;
@@ -101,27 +102,31 @@ public class UserController {
 	@GetMapping(value = "getUsers")
 	public String getUsers(@RequestParam("userId") String userId, Model model, HttpSession session) throws Exception {
 
-		System.out.println(userId);
+		System.out.println("userId는?? : "+userId);
 		
 		User user = userService.getUser(userId);
 		
+		System.out.println("userPassword : "+user);
+		System.out.println("session 친구 : "+session.getAttribute(userId));
 		model.addAttribute("user", user);
 		
 		return "forward:/user/getUser.jsp";
 	}
 	
 	@GetMapping(value = "getUser")
-	public String getUser(String userId, Model model, HttpSession session) throws Exception {
+	public String getUser(Model model, HttpSession session) throws Exception {
 
-		session.getAttribute(userId);
+		User user = (User) session.getAttribute("user");
+		Team team = userDao.getTeamEmblem(user.getTeamCode());
+
+		System.out.println("userPassword : "+user);
+		System.out.println("session 친구 : "+user.getUserId());
+		System.out.println("teamEmblem : "+team.getTeamEmblem());
 		
-		User user = (User) session.getAttribute(userId);
-		
-		System.out.println(user);
-		
+		model.addAttribute("team", team);
 		model.addAttribute("user", user);
 		
-		return "redirect:/user/getUser.jsp";
+		return "forward:/user/getUser.jsp";
 	}
 	
 	@PostMapping(value = "login")

@@ -12,10 +12,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
-import com.amazonaws.auth.policy.Resource;
 import com.baseball.service.domain.User;
 import com.baseball.service.user.UserRestDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,6 @@ public class UserRestDaoImpl implements UserRestDao{
 	
 	@Value("${fileUploadPath}")
 	private String fileUploadPath;
-	ResourceLoader resourceLoader;
 	
 	@Override
 	public String getAccessTokenNaver(String authorizationCode) throws Exception {
@@ -269,31 +269,50 @@ public class UserRestDaoImpl implements UserRestDao{
 	public String getUserImage(@ModelAttribute("file") MultipartFile file) throws Exception {
 		// TODO Auto-generated method stub
 		
-		// TODO Auto-generated method stub
+		if(file.isEmpty()) {
+			return null;
+		}
 		
-				String filePath = null;
-				
-				String absolutePath = new File("").getAbsolutePath();
-				System.out.println(absolutePath);
-				if (!file.isEmpty()) {
-		      try {
-		      	
-		      	  String fileName = file.getOriginalFilename();
-		         
-		          filePath =  fileUploadPath + File.separator + fileName;
-		          
-		          File save = new File(filePath);
-		          file.transferTo(save);
-		          
-		          System.out.println("File uploaded successfully: " + fileName);
-		      } catch (Exception e) {
-		          // 업로드 실패 시 예외 처리
-		          System.out.println("Failed to upload file: " + e.getMessage());
-		      	}
-				} else {
-		      // 업로드할 파일이 없는 경우 예외 처리
-		      System.out.println("No file selected for upload");
-		  }	
-				return filePath;
+		String filePath = null;
+		
+		try {
+		String absolutePath = new File("").getAbsolutePath();
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		String uploadPath = absolutePath+fileUploadPath;
+		filePath = fileUploadPath+fileName;
+		
+		System.out.println("filePath : "+uploadPath);
+		
+		System.out.println("filePath : "+filePath);
+		
+		// 파일 저장
+		file.transferTo(new File(uploadPath + fileName));
+		System.out.println("업로드 완료? ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		/*
+		 * String filePath = null;
+		 * 
+		 * String absolutePath = new File("").getAbsolutePath();
+		 * System.out.println(absolutePath);
+		 * 
+		 * if (!file.isEmpty()) { try { String fileName = file.getOriginalFilename();
+		 * 
+		 * filePath = fileUploadPath + File.separator + fileName;
+		 * 
+		 * File save = new File(filePath); file.transferTo(save);
+		 * 
+		 * System.out.println("File uploaded successfully: " + fileName); } catch
+		 * (Exception e) { // 업로드 실패 시 예외 처리
+		 * System.out.println("Failed to upload file: " + e.getMessage()); } } else { //
+		 * 업로드할 파일이 없는 경우 예외 처리 System.out.println("No file selected for upload"); }
+		 * return filePath;
+		 */
+		
+		return filePath;
 	}
 }

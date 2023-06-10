@@ -363,13 +363,104 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 #gnb.gnb_one_pwe .gnb_ico_num .gnb_ico_new {border-radius: 13px 0 0 13px;}
 #gnb.gnb_one_pwe .gnb_ico_num .gnb_count {border-radius: 0 13px 13px 0;}</style></head>
 
+<script type="text/javascript">
+
+	$(function(){
+		
+		var userId = document.getElementById("userId");
+		var userIdText = userId.innerText; // 아이디 텍스트 가져오기
+		
+		if (userIdText.length > 40) {
+			
+			userId.remove();
+
+		    var naverLoginElement = document.createElement("p");
+		    naverLoginElement.classList.add("naver-login");
+		    naverLoginElement.innerText = "NAVER"; // 원하는 텍스트 작성
+
+		    var profileElement = document.querySelector(".profile");
+		    profileElement.appendChild(naverLoginElement); // 네이버 로그인 요소 추가
+		}
+		else if(/^\d+$/.test(userIdText)) {
+		
+			userId.remove();
+			
+			var kakaoLoginElement = document.createElement("p");
+			kakaoLoginElement.classList.add("kakao-login");
+			kakaoLoginElement.innerText = "KAKAO";
+			
+			var profileElement = document.querySelector(".profile");
+		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
+		}
+	});
+
+</script>
+
 <style>
+
+    /*네이버 로그인 시*/
+    .naver-login {
+        display: block;
+        padding: 8px;
+        background: #19ce60;
+        color: #fff;
+        font-size: 14px;
+        margin-bottom: 5px;
+        text-align: center;
+        border-radius: 5%;
+        margin: auto;
+        width: 170px;
+        font-weight: bold;
+    }
+
+    /*카카오 로그인 시*/
+    .kakao-login {
+        display: block;
+        padding: 8px;
+        background: #FEE500;
+        color: #000000;
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-align: center;
+        border-radius: 5px;
+        margin: auto;
+        width: 170px;
+        font-weight: bold;
+    }
+    
 	.youBirth {
 		text-align: center;
 	}
 	.pointgogo {
 		padding-right: 20px !important;
 	}
+	.subindex_greenbox {
+    padding: 16px 17px 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 2px 2px 14px 0 rgba(0,164,73,.08) !important;
+    border: solid 3px rgb(49 43 145 / 80%) !important;
+    background-color: #fff !important;
+    box-sizing: border-box !important;
+}
+.profile_area .photo .photo_edit {
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #2e38a1;
+    box-shadow: 2px 6px 8px 0 rgba(30,30,35,.08);
+    box-sizing: border-box;
+}
+a {
+    color: #31367b;
+    text-decoration: none;
+    outline: 0;
+    transition: all .4s;
+    font-family: 'Gwangyang';
+}
 </style>
 
 <script type="text/javascript">
@@ -386,11 +477,22 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		window.location.href="/users/withDrawView";
 	}
 	 
+	// 메인화면으로 이동
+	function mainGoFunction() {
+		
+		window.location.href="/main.jsp";
+	}
+	
+	// 내 정보 보기로 이동
+	function getUserFunction() {
+		
+		window.location.href="/users/getUser";
+	}
 	
 </script>
 
 <jsp:include page="/common/topBar.jsp"></jsp:include>
-<body onclick="clearDocs();gnbClose();" id="mainBody" class="bgother">
+<body id="mainBody" class="bgother">
 <div id="wrap" class="wrap naverid">
     <!-- skip navigation -->
     <div class="u_skip"><a href="https://nid.naver.com/user2/help/myInfoV2?lang=ko_KR#container">본문 바로가기</a></div>
@@ -414,8 +516,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
-                <p class="useid">${user.userNickName}</p>
-                <p class="usemail">${user.userId}</p>
+                <p class="userNickName" style="font-size: 26px; font-weight: 700;">${user.userNickName}</p>
+                <p class="userId" id="userId">${user.userId}</p>
             </div>
         </div>
     </div>
@@ -423,6 +525,11 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div id="headerLeft" class="header_left" aria-hidden="false">
 
         <ul class="left_menu" role="menu">
+        	<li>
+                <a href="#" class="left_item" role="menuitem" onclick="getUserFunction()" aria-current="">
+                    <div class="menu_text "><b>내 정보 보기</b></div>
+                </a>
+            </li>
             <li>
                 <a href="#" class="left_item" role="menuitem" onclick="updateUserFunction()" aria-current="">
                     <div class="menu_text "><b>내 정보 수정</b></div>
@@ -438,14 +545,13 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                     <div class="menu_text "><b>회원탈퇴</b></div>
                 </a>
             </li>
+            <li>
+            	<a href="#" class="left_item" role="menuitem" onclick="mainGoFunction()" aria-current="">
+                    <div class="menu_text "><b>메인으로</b></div>
+                </a>
+            </li>
         </ul>
         <ul class="left_link">
-            <li><a href="https://nca.naver.com/chat/account/view" class="left_item" onclick="nclk(this,&#39;fot.smartbot&#39;,&#39;&#39;,&#39;&#39;,event)">
-                    <div class="link_text">스마트봇 상담</div>
-                </a></li>
-            <li><a href="https://talk.naver.com/ct/wc4bsu#nafullscreen" class="left_item" onclick="nclk(this,&#39;fot.membertalktalk&#39;,&#39;&#39;,&#39;&#39;,event)">
-                    <div class="link_text">회원톡톡</div>
-                </a></li>
         </ul>
 
         <!-- footerLeft -->
@@ -475,65 +581,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
     </div>
 </header>
-<script>
-    var rurl = encodeURIComponent(document.location.href);
-    var rawRurl = document.location.href;
-    var myInfoV2HomeUrl = encodeURIComponent("https://nid.naver.com/user2/help/myInfoV2?lang=" + "ko_KR");
-
-    // 작은 화면 - 영문일 때 메뉴 텍스트 길이 짤리지 않도록
-    if (window.innerWidth <= 385) {
-        var lnbAreaScrollLeft = $('#lnbArea').scrollLeft();
-    }
-
-    // 사용자 정보 수정 버튼
-    function changeImage() {
-        nclk(this,'nid.prfedit','','',event);
-        document.location.href = "/mobile/user/help/naverProfile?m=initModifyProfile&lang=ko_KR&returnUrl=" + rurl;
-    }
-
-    function landscapeHandler() {
-        if (window.innerWidth <= window.innerHeight) {
-            $('body').removeClass('landscape');
-            $('div .container').addClass('floating');
-        } else {
-            $('body').addClass('landscape');
-            $('div .container').removeClass('floating');
-        }
-    }
-
-    function logout() {
-        nclk(this,'fot.logout','','',event);
-        if (confirm("로그아웃 하시겠습니까?") == true) {
-            var returnUrl;
-            returnUrl = "https://nid.naver.com/nidlogin.logout?svctype=262144&url=" + myInfoV2HomeUrl;
-            $(location).attr('href', returnUrl);
-        }
-    }
-
-    function goHelpPage() {
-        nclk(this,'fot.help','','',event);
-        document.location.href = "https://m.help.naver.com/support/alias/membership/p.membership/5640.naver";
-    }
-
-    function changeLanguage() {
-        var baseUrl = "/user2/help/myInfoV2?";
-
-
-        nclk(this,'fot.english','','',event);
-        baseUrl += "lang=en_US";
-        document.location.href = baseUrl;
-    }
-
-    function goNaverMain() {
-        nclk(this,'fot.naver','','',event);
-        document.location.href = "https://m.naver.com";
-    }
-
-    function goSimpleSignIn() {
-        nclk(this,'fot.simplesignin','','',event);
-        document.location.href = "https://nid.naver.com/nidlogin.login?svctype=262144&url=" + myInfoV2HomeUrl;
-    }
-</script>
     <div id="container" class="container">
         <!-- container -->
         <div id="content" class="content">
@@ -574,8 +621,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
             </div>
             <ul class="myinfo_area">
                 <li>
+                
                     <div class="myphoto">
-                        <img src="/images/teamEmblem/KT.png"
+                        <img src="${team.teamEmblem}"
                              width="56" height="56" alt="내 프로필 이미지">
                     </div>
                 </li>
@@ -593,7 +641,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                 </li>
             </ul>
         </div>
-
         <ul class="subindex_row">
             <li>
                 <div id="phoneNoRegDiv" class="row_item phone ">
@@ -667,1021 +714,14 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
 <!--생일 관리-->
 <div class="subindex_item">
-	<h2 class="subindex_title">최성락님의 생일</h2>
+	<h2 class="subindex_title">&nbsp;${user.userName}님의 생일</h2>
     <div class="subindex_onebox">	
         <div class="onebox_title desc">  
         </div>
-        <div class="youBirth"> <h4>최성락님의 생일은 <b>${user.userBirth}</b>입니다.</div>
+        <div class="youBirth"> <h4>${user.userName}님의 생일은 <b>${user.userBirth}</b>입니다.</div>
     </div>
 </div>
 
-<!--배송지 관리-->
-<!-- <div class="subindex_item">
-    <div class="subindex_onebox">
-        <div class="onebox_title desc">
-            <h2 class="subindex_title">배송지 관리</h2>
-        </div>
-        <a href="https://new-m.pay.naver.com/member/shipping/list" class="link_right" onclick="nclk(this,'imn.addcheck','','',event)">
-                    <span class="case">총4건</span>
-        </a>
-        <div class="subindex_desc">쇼핑, 예약 등에서 사용하신 배송지를 관리할 수 있어요.</div>
-    </div>
-</div> -->
-
-<!--개인정보 이용내역-->
-<!-- <div class="subindex_item">
-    <div class="subindex_onebox">
-        <div class="onebox_title">
-            <h2 class="subindex_title">개인정보 이용내역</h2>
-            <a href="javascript:;" id="info3" class="link_info" aria-expanded="false"><span class="blind">도움말</span></a>
-            <div id="info3ToolTip" class="info_tooltip" aria-hidden="true" style="display: none;">
-                <p class="info_desc">내 개인정보가 어떻게 이용되고 있는지 확인할 수 있어요.</p>
-                <button type="button" id="infoExit3" class="btn_exit"><span class="blind">닫기</span></button>
-            </div>
-
-        </div>
-        <button type="button" id="personalInfoHistoryButton" class="btn_edit" onclick="nclk(this,'imn.privacychk','','',event)">
-            <span class="text">조회</span>
-        </button>
-    </div>
-</div> -->
-
-<!--회원탈퇴-->
-<!-- <div class="subindex_link">
-    <div class="drop_link">
-        <a href="javascript:;" class="btn_link" onclick="goMemberDelete()">
-            <span class="text">회원탈퇴</span>
-        </a>
-    </div>
-		</div>  
-		</div>
-      </div>
-        //container
-    </div>
-</div> -->
-<form id="fm" name="fm">
-    <input type="hidden" name="token_help" id="token_help" value="UB2gb2EwTHhhtB31">
-    <input type="hidden" name="isEmailYn" id="isEmailYn" value="N">
-    <input type="hidden" name="isPhoneYn" id="isPhoneYn" value="Y">
-    <input type="hidden" name="phoneAuthYn" id="phoneAuthYn" value="N">
-    <input type="hidden" name="mobileYn" id="mobileYn" value="Y">
-    <!--팝업딥드-->
-    <div id="dimmed" class="dimmed" aria-hidden="true" style="display:none;"></div>
-    <!--팝업내용-->
-    <div id="phoneNumberChangePopUpLayer" class="layer" style="display:none;">
-        <div class="popup_layer">
-            <div class="popup_layer_inner">
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-<form name="formAuth" method="post" action="https://nid.naver.com/user2/help/changeUserInfo?m=actionUserMobile">
-    <input type="hidden" name="authRes" value="">
-    <input type="hidden" name="token_help" value="UB2gb2EwTHhhtB31">
-</form>
-
-<script>
-    var isValid = '';
-    var emailType = '';
-
-    $(document).ready(function () {
-        $('#myLetterEmailAuthGuide, #pswdEmailAuthGuide').click(function () {
-            var authGuideTxt = '#' + $(this).attr('id')
-                + 'Txt';
-            var $authGuideTxt = $(authGuideTxt);
-            if ($authGuideTxt.css('display') === 'none') {
-                $authGuideTxt.css('display', 'block');
-            } else {
-                $authGuideTxt.css('display', 'none');
-            }
-        });
-
-        if (isValid !== "Y") return;
-
-        if (emailType === "myLetterEmail") {
-            showMyLetterEmailChangePopUp();
-            return;
-        }
-
-        showPswdEmailChangePopUp();
-    });
-
-    function showPhoneNumberChangePopUp() {
-        var clickCode = "imn";
-            clickCode = "nid";
-
-        displayObj('dimmed');
-        displayObj('phoneNumberChangePopUpLayer');
-        document.getElementById("wrap").classList.add("is_fixed");
-        resetInternationalCode();
-        if (document.getElementById("isPhoneYn").value === "Y") {
-            nclk(this, clickCode + '.mphoneedit', '', '', event)
-            document.getElementById("phoneNoForm").style.display = "block";
-        } else {
-            nclk(this, clickCode + '.mphoneregister', '', '', event)
-            document.getElementById("phoneNoForm").style.display = "none";
-        }
-    }
-
-    function hidePhoneNumberChangePopUp() {
-        hiddenObj('dimmed');
-        hiddenObj('phoneNumberChangePopUpLayer');
-        document.getElementById("wrap").classList.remove("is_fixed");
-        resetInternationalCode();
-        document.getElementById("phoneNo").value = '';
-        document.getElementById("authNo").value = '';
-        document.getElementById("authNo").className = "popup_input";
-        document.getElementById("e_phoneNo").innerHTML = "";
-        document.getElementById("authNo").disabled = true;
-    }
-
-    function resetInternationalCode() {
-        var internationalCode = document.getElementById('internationalCode');
-        for (var i = 0; i < internationalCode.length; i++) {
-            if (internationalCode.options[i].value === '82') {
-                internationalCode.options[i].selected = true;
-            } else {
-                internationalCode.options[i].selected = false;
-            }
-        }
-    }
-
-    var sendSmsForChangePhoneNoFlag = false;
-
-    function sendSmsForChangePhoneNo() {
-        if (sendSmsForChangePhoneNoFlag === true) {
-            return;
-        }
-
-        if (document.getElementById("phoneNo").value == "") {
-            document.getElementById("e_phoneNo").className = "popup_error";
-            document.getElementById("e_phoneNo").innerHTML = "전화번호를 입력하세요.";
-            return;
-        }
-
-        nclk(this, 'inf.mphoneverify', '', '', window.event);
-
-        sendAuthNo(sendSmsForChangePhoneNoFlag);
-    }
-
-    var CHANGE_USER_INFO_URL = "/user2/help/changeUserInfo";
-
-    function sendAuthNo(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var phoneNo = document.getElementById("phoneNo").value;
-        var mobileYn = document.getElementById("mobileYn").value;
-
-        var index = document.getElementById("internationalCode").selectedIndex;
-        var internationalCode = document.getElementById("internationalCode").options[index].value;
-        var urls = CHANGE_USER_INFO_URL + "?m=sendAuthNo&token_help=" + token + "&phoneNo=" + encodeURIComponent(phoneNo) + "&internationalCode=" + encodeURIComponent(internationalCode);
-
-        $.ajax({
-            type: "GET",
-            url: urls,
-            success: function (data) {
-                msgKey = data.substr(4, 999);
-
-                var list = msgKey.split("|", 3);
-                if (msgKey.length > 300) {
-                    alert("유효 시간이 초과 되었습니다. 다시 시도해 주세요.");
-                    document.location.href = rawRurl;
-                } else {
-                    var resultCode = list[0];
-                    var resultMessage = list[1];
-                    if (resultCode == "0") {
-                        document.getElementById("e_phoneNo").className = "popup_error green";
-                        document.getElementById("e_phoneNo").innerHTML = resultMessage;
-                        document.getElementById("authNo").disabled = false;
-                        document.getElementById("authNo").value = "";
-                        document.getElementById("authNo").focus();
-                    } else if (resultCode == "-2") {
-                        var message = "인증하신 휴대전화 번호는 이미 다른 아이디에 등록되어 추가로 등록이 불가합니다. 등록을 원하시면 다른 아이디에 등록된 휴대전화 번호를 삭제해야 합니다. 삭제 하시겠습니까?";
-                        if (confirm(message)) {
-                            if (mobileYn == "Y") {
-                                document.location.href = "/user2/help/deleteContacts?m=informDeletePhoneNo&lang=ko_KR&returnUrl=" + rurl;
-                            } else {
-                                window.open("/user2/help/deleteContacts?m=informDeletePhoneNo&lang=ko_KR&returnUrl=" + rurl, 'deleteContacts');
-                            }
-                        }
-                    } else {
-                        document.getElementById("e_phoneNo").className = "popup_error";
-                        document.getElementById("e_phoneNo").innerHTML = resultMessage;
-                    }
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    var checkAuthNoForChangePhoneNoFlag = false;
-
-    function checkAuthNoForChangePhoneNo() {
-        if (checkAuthNoForChangePhoneNoFlag === true) {
-            return;
-        }
-
-        if (document.getElementById("isPhoneYn").value == "Y") {
-            nclk(this, 'inf.mphoneok', '', '', window.event);
-        } else {
-            nclk(this, 'inf.mphoneregok', '', '', window.event);
-        }
-
-        if ((document.getElementById("phoneNo").value != "" && document.getElementById("phoneNo").value.length >= 7) && document.getElementById("authNo").disabled == true) {
-            document.getElementById("e_phoneNo").className = "popup_error";
-            document.getElementById("e_phoneNo").innerHTML = "[인증] 버튼을 클릭하여, 인증번호를 받아주세요.";
-            return;
-        }
-
-        if (document.getElementById("phoneNo").value == "" && document.getElementById("authNo").disabled == true) {
-            document.getElementById("e_phoneNo").className = "popup_error";
-            document.getElementById("e_phoneNo").innerHTML = "전화번호를 입력하세요.";
-            document.getElementById("phoneNo").focus();
-            return;
-        }
-
-        if (document.getElementById("phoneAuthYn").value == "N" && document.getElementById("phoneNo").value.length < 7 && document.getElementById("phoneNo").value.length != 0) {
-            document.getElementById("e_phoneNo").className = "popup_error";
-            document.getElementById("e_phoneNo").innerHTML = "전화번호 형식에 맞게 입력해 주세요.";
-            document.getElementById("phoneNo").focus();
-            return;
-        }
-
-        if (document.getElementById("authNo").disabled == false && document.getElementById("authNo").value.length < 6) {
-            if (document.getElementById("authNo").value.length == 0) {
-                document.getElementById("e_phoneNo").className = "popup_error";
-                document.getElementById("e_phoneNo").innerHTML = "인증번호를 입력해 주세요.";
-            } else {
-                document.getElementById("e_phoneNo").className = "popup_error";
-                document.getElementById("e_phoneNo").innerHTML = "인증번호를 정확하게 입력해 주세요.";
-            }
-            document.getElementById("authNo").focus();
-            return;
-        }
-
-        checkAuthNo(checkAuthNoForChangePhoneNoFlag);
-    }
-
-    function checkAuthNo(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var authNo = document.getElementById("authNo").value;
-        var mobileYn = document.getElementById("mobileYn").value;
-
-        var urls = CHANGE_USER_INFO_URL + "?m=checkAuthNo&token_help=" + token + "&authNo=" + encodeURIComponent(authNo);
-
-        $.ajax({
-            type: "GET",
-            url: urls,
-            success: function (data) {
-                msgKey = data.substr(4, 999);
-
-                var list = msgKey.split("|", 2);
-                if (msgKey.length > 300) {
-                    alert("유효 시간이 초과 되었습니다. 다시 시도해 주세요.");
-                    document.location.href = rawRurl;
-                } else {
-                    if (list[0] == "-1") {
-                        document.getElementById("e_phoneNo").className = "popup_error";
-                        document.getElementById("e_phoneNo").innerHTML = list[1];
-                    } else {
-                        document.getElementById("p_txt_phoneNo").innerHTML = list[1];
-                        document.getElementById("p_txt_phoneNo_changeYn").innerHTML = (list[1] == "" ? "등록" : "수정");
-                        document.getElementById("b_txt_phoneNo_reg").innerHTML = (list[1] == "" ? "등록" : "변경");
-                        if (list[1] == "") {
-                            document.getElementById("phoneNoRegDiv").classList.remove("phone");
-                            document.getElementById("phoneNoRegDiv").classList.add("not");
-                            document.getElementById("phoneNoRegBtn").className = "btn_accent"
-                        } else {
-                            document.getElementById("phoneNoRegDiv").classList.remove("not");
-                            document.getElementById("phoneNoRegDiv").classList.add("phone");
-                            document.getElementById("phoneNoRegBtn").className = "btn_edit"
-                        }
-                        document.getElementById("phoneNoRegSpan").innerHTML = (list[1] == "" ? "전화번호 없음" : list[1]);
-                        document.getElementById("phoneNoRegBtnTxt").innerHTML = (list[1] == "" ? "등록" : "수정");
-                        hidePhoneNumberChangePopUp();
-
-                        if (list[1] == "") {
-                            document.getElementById("isPhoneYn").value = "N";
-                            document.getElementById("phoneAuthYn").value = "Y";
-                        } else {
-                            document.getElementById("isPhoneYn").value = "Y";
-                        }
-                    }
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    function showMyLetterEmailChangePopUp() {
-        var clickCode = "imn";
-            clickCode = "nid";
-
-        displayObj('dimmed');
-        displayObj('myLetterEmailChangePopUpLayer');
-        document.getElementById("wrap").classList.add("is_fixed");
-        if (isValid === "Y" && emailType === "myLetterEmail") {
-            document.getElementById("myLetterEmailForm").style.display = "none";
-            document.getElementById("p_txt_myLetterEmailForm").style.display = "none";
-            document.getElementById("myLetterEmailPhoneVerify").style.display = "none";
-            document.getElementById("myLetterEmail").disabled = false;
-        } else {
-            nclk(this, clickCode + '.primaryedit', '', '', event)
-            document.getElementById("myLetterEmailForm").style.display = "block";
-            document.getElementById("p_txt_myLetterEmailForm").style.display = "block";
-            document.getElementById("myLetterEmailPhoneVerify").style.display = "block";
-            document.getElementById("myLetterEmail").disabled = true;
-        }
-    }
-
-    function hideMyLetterEmailChangePopUp() {
-        hiddenObj('dimmed');
-        hiddenObj('myLetterEmailChangePopUpLayer');
-        document.getElementById("wrap").classList.remove("is_fixed");
-        document.getElementById("confirmMyLetterEmail").value = "";
-        document.getElementById("myLetterEmail").value = "";
-        document.getElementById("myLetterEmailAuthNo").value = "";
-        document.getElementById("myLetterEmailAuthNo").className = "popup_input";
-        document.getElementById("e_myLetterEmail").innerHTML = "";
-        document.getElementById("myLetterEmail").disabled = true;
-        document.getElementById("myLetterEmailAuthNo").disabled = true;
-        document.getElementById("myLetterEmailAuthGuideTxt").style.display = "none"
-    }
-
-    var element_e_myLetterEmail = document.getElementById("e_myLetterEmail");
-    var element_confirmMyLetterEmail = document.getElementById("confirmMyLetterEmail");
-    var element_myLetterEmail = document.getElementById("myLetterEmail");
-    var element_myLetterEmailAuthNo = document.getElementById("myLetterEmailAuthNo");
-
-    var element_confirmPswdEmail = document.getElementById("confirmPswdEmail");
-    var element_pswdEmail = document.getElementById("pswdEmail");
-    var element_pswdEmailAuthNo = document.getElementById("pswdEmailAuthNo");
-    var element_e_pswdEmail = document.getElementById("e_pswdEmail");
-    var element_isEmailYn = document.getElementById("isEmailYn");
-
-    var doConfirmMyLetterEmailFlag = false;
-
-    function doConfirmMyLetterEmail() {
-        if (doConfirmMyLetterEmailFlag === true) {
-            return;
-        }
-
-        nclk(this, 'inf.primaryconfirm', '', '', window.event);
-
-        if (element_confirmMyLetterEmail.value == "" || element_confirmMyLetterEmail.value.replace(/^\s+/, "") == "") {
-            element_e_myLetterEmail.innerHTML = "이메일 주소를 입력해 주세요.";
-            element_confirmMyLetterEmail.focus();
-            element_confirmMyLetterEmail.value = "";
-            return;
-        }
-
-        if (!isValid_email_myinfo(element_confirmMyLetterEmail.value.replace(/^\s+/, ""), "e_myLetterEmail")) {
-            element_e_myLetterEmail.innerHTML = "이메일 형식이 올바르지 않습니다.";
-            element_confirmMyLetterEmail.focus();
-            element_confirmMyLetterEmail.value = "";
-            return;
-        }
-
-        confirmMyLetterEmail(doConfirmMyLetterEmailFlag);
-    }
-
-    function confirmMyLetterEmail(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var myLetterEmail = element_confirmMyLetterEmail.value;
-
-        var urls = CHANGE_USER_INFO_URL + "?m=checkMyLetterEmail&token_help=" + token;
-
-        $.ajax({
-            type: "POST",
-            url: urls,
-            data: {"myLetterEmail": myLetterEmail},
-            success: function (data) {
-                handleSessionExpiredErr(data);
-
-                var result = JSON.parse(data);
-                if (result.resultCode == 0) {
-                    element_e_myLetterEmail.className = "popup_error green";
-                    element_e_myLetterEmail.innerHTML = "현재 정보가 확인되었습니다. 변경할 이메일을 입력해주세요.";
-                    element_myLetterEmail.disabled = false;
-                    element_myLetterEmail.focus();
-                } else {
-                    element_e_myLetterEmail.className = "popup_error";
-                    element_e_myLetterEmail.innerHTML = result.resultMsg;
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    function handleSessionExpiredErr(data) {
-        if (data && data.indexOf("-9|") === 0) {
-            alertReturnMessage(data.split("|")[1]);
-            document.location.reload();
-        }
-    }
-
-    function alertReturnMessage(resultMessage) {
-        if (resultMessage) {
-            alert(resultMessage.replace("\\n", "\n"));
-        }
-    }
-
-    var sendAuthNoForEmailAuthFlag = false;
-
-    function sendAuthNoForEmailAuth(obj) {
-        if (sendAuthNoForEmailAuthFlag === true) {
-            return;
-        }
-
-        if (document.getElementById(obj).disabled == true) {
-            document.getElementById("e_" + obj).innerHTML = "현재 이메일 주소가 정확한지 확인해 주세요.";
-            element_confirmMyLetterEmail.focus();
-            return;
-        }
-
-        if (obj == 'myLetterEmail') {
-            nclk(this, 'inf.primarychangeverify', '', '', window.event);
-
-            element_e_myLetterEmail.innerHTML = "";
-            element_e_myLetterEmail.className = "popup_error";
-            element_myLetterEmailAuthNo.value = "";
-            element_myLetterEmailAuthNo.className = "popup_input";
-
-            if (element_myLetterEmail.value == "" || element_myLetterEmail.value.replace(/^\s+/, "") == "") {
-                element_e_myLetterEmail.innerHTML = "이메일 주소를 입력해 주세요.";
-                element_myLetterEmail.focus();
-                element_myLetterEmail.value = "";
-                return;
-            }
-        } else {
-            nclk(this, 'inf.recoverychangeverify', '', '', window.event);
-
-            element_e_pswdEmail.innerHTML = "";
-            element_e_pswdEmail.className = "popup_error";
-            element_pswdEmailAuthNo.value = "";
-            element_pswdEmailAuthNo.className = "popup_input";
-
-            if (element_pswdEmail.value == "" || element_pswdEmail.value.replace(/^\s+/, "") == "") {
-                element_e_pswdEmail.innerHTML = "이메일 주소를 입력해 주세요.";
-                element_pswdEmail.focus();
-                element_pswdEmail.value = "";
-                return;
-            }
-        }
-
-        if (!isValid_email_myinfo(document.getElementById(obj).value.replace(/^\s+/, ""), "e_" + obj)) {
-            document.getElementById("e_" + obj).innerHTML = "이메일 형식이 올바르지 않습니다.";
-            document.getElementById(obj).focus();
-            document.getElementById(obj).value = "";
-            return;
-        }
-
-        getAjaxSendAuthNoForEmailAuth(obj, sendAuthNoForEmailAuthFlag);
-    }
-
-    function getAjaxSendAuthNoForEmailAuth(obj, submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var email = document.getElementById(obj).value;
-        var urls = CHANGE_USER_INFO_URL + "?m=sendAuthNoForEmail&token_help=" + token;
-
-        $.ajax({
-            type: "POST",
-            url: urls,
-            data: {"email": email},
-            success: function (data) {
-                handleSessionExpiredErr(data);
-
-                var result = JSON.parse(data);
-                if (result.resultCode == 0) {
-                    document.getElementById(obj + 'AuthNo').disabled = false;
-                    document.getElementById(obj + 'AuthNo').focus();
-                    document.getElementById("e_" + obj).className = "popup_error green";
-                } else {
-                    document.getElementById("e_" + obj).className = "popup_error";
-                }
-                document.getElementById("e_" + obj).innerHTML = result.resultMsg;
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    var setEmailFlag = false;
-
-    function setEmail() {
-        if (setEmailFlag === true) {
-            return;
-        }
-
-        nclk(this, 'inf.primaryok', '', '', window.event);
-
-        element_e_myLetterEmail.className = "popup_error";
-        element_e_myLetterEmail.innerHTML = "";
-
-        if (element_myLetterEmail.disabled == true) {
-            element_e_myLetterEmail.innerHTML = "현재 이메일 주소가 정확한지 확인해 주세요.";
-            element_confirmMyLetterEmail.focus();
-            return;
-        }
-
-        if (element_myLetterEmail.value == "" || element_myLetterEmail.value.replace(/^\s+/, "") == "") {
-            element_e_myLetterEmail.innerHTML = "이메일 주소를 입력해 주세요.";
-            element_myLetterEmail.focus();
-            element_myLetterEmail.value = "";
-            return;
-        }
-
-        if (!isValid_email_myinfo(element_myLetterEmail.value.replace(/^\s+/, ""), "e_myLetterEmail")) {
-            element_e_myLetterEmail.innerHTML = "이메일 형식이 올바르지 않습니다.";
-            element_myLetterEmail.focus();
-            element_myLetterEmail.value = "";
-            return;
-        }
-
-        if (element_myLetterEmail.value != "" && element_myLetterEmailAuthNo.disabled == true) {
-            element_e_myLetterEmail.innerHTML = "[인증] 버튼을 클릭하여, 인증번호를 받아주세요.";
-            return;
-        }
-
-        if (element_myLetterEmailAuthNo.disabled == false && element_myLetterEmailAuthNo.value.length != 6) {
-            if (element_myLetterEmailAuthNo.value.length == 0) {
-                element_e_myLetterEmail.innerHTML = "인증번호를 입력해 주세요.";
-            } else {
-                element_e_myLetterEmail.innerHTML = "인증번호를 정확하게 입력해 주세요.";
-            }
-            element_myLetterEmailAuthNo.focus();
-            return;
-        }
-
-        setMyLetterEmail(setEmailFlag);
-        return;
-    }
-
-    function setMyLetterEmail(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var myLetterEmail = element_myLetterEmail.value;
-        var authNo = element_myLetterEmailAuthNo.value;
-
-        var urls = CHANGE_USER_INFO_URL + "?m=setMyLetterEmailWithVerification&token_help=" + token;
-
-        $.ajax({
-            type: "POST",
-            url: urls,
-            data: {"myLetterEmail": myLetterEmail, "authNo": authNo},
-            success: function (data) {
-                handleSessionExpiredErr(data);
-
-                var result = JSON.parse(data);
-                if (result.resultCode == 0) {
-                    document.getElementById("p_txt_myLetterEmail").innerHTML = result.resultMsg;
-                    document.getElementById("myLetterEmailRegSpan").innerHTML = result.resultMsg;
-                    isValid = "N";
-                    hideMyLetterEmailChangePopUp();
-                } else if (result.resultCode == -2) {
-                    element_e_myLetterEmail.innerHTML = result.resultMsg;
-                } else {
-                    element_e_myLetterEmail.innerHTML = result.resultMsg;
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    function showPswdEmailChangePopUp() {
-        var clickCode = "imn";
-            clickCode = "nid";
-
-        displayObj('dimmed');
-        displayObj('pswdEmailChangePopUpLayer');
-        document.getElementById("wrap").classList.add("is_fixed");
-        if (!(isValid === "Y" && emailType === "pswdEmail") && element_isEmailYn.value === "Y") {
-            document.getElementById("pswdEmailForm").style.display = "block";
-            document.getElementById("p_txt_pswdEmailForm").style.display = "block";
-            document.getElementById("pswdEmailPhoneVerify").style.display = "block";
-            document.getElementById("pswdEmail").disabled = true;
-        } else {
-            document.getElementById("pswdEmailForm").style.display = "none";
-            document.getElementById("p_txt_pswdEmailForm").style.display = "none";
-            document.getElementById("pswdEmailPhoneVerify").style.display = "none";
-            document.getElementById("pswdEmail").disabled = false;
-        }
-
-        if (isValid !== "Y" && element_isEmailYn.value === "Y") {
-            nclk(this, clickCode + '.recoveryedit', '', '', event)
-        } else {
-            nclk(this, clickCode + '.recoveryregister', '', '', event)
-        }
-    }
-
-    function hidePswdEmailChangePopUp() {
-        hiddenObj('dimmed');
-        hiddenObj('pswdEmailChangePopUpLayer');
-        document.getElementById("wrap").classList.remove("is_fixed");
-        document.getElementById("confirmPswdEmail").value = "";
-        document.getElementById("pswdEmail").value = "";
-        document.getElementById("pswdEmailAuthNo").value = "";
-        document.getElementById("pswdEmailAuthNo").className = "popup_input";
-        document.getElementById("e_pswdEmail").innerHTML = "";
-        document.getElementById("pswdEmail").disabled = true;
-        document.getElementById("pswdEmailAuthNo").disabled = true;
-        document.getElementById("pswdEmailAuthGuideTxt").style.display = "none"
-    }
-
-    var doConfirmPswdEmailFlag = false;
-
-    function doConfirmPswdEmail() {
-        if (doConfirmPswdEmailFlag === true) {
-            return;
-        }
-
-        nclk(this, 'inf.recoveryconfirm', '', '', window.event);
-
-        element_e_pswdEmail.className = "popup_error";
-        element_e_pswdEmail.innerHTML = "";
-
-        if (element_isEmailYn.value == "Y") {
-            if (element_confirmPswdEmail.value == "" || element_confirmPswdEmail.value.replace(/^\s+/, "") == "") {
-                element_e_pswdEmail.innerHTML = "이메일 주소를 입력해 주세요.";
-                element_confirmPswdEmail.focus();
-                element_confirmPswdEmail.value = "";
-                return;
-            }
-
-            if (!isValid_email_myinfo(element_confirmPswdEmail.value.replace(/^\s+/, ""), "e_pswdEmail")) {
-                element_e_pswdEmail.innerHTML = "이메일 형식이 올바르지 않습니다.";
-                element_confirmPswdEmail.focus();
-                element_confirmPswdEmail.value = "";
-                return;
-            }
-
-            confirmPasswdEmail(doConfirmPswdEmailFlag);
-        }
-    }
-
-    function confirmPasswdEmail(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var pswdEmail = element_confirmPswdEmail.value;
-
-        var urls = CHANGE_USER_INFO_URL + "?m=checkPasswdEmail&token_help=" + token;
-        $.ajax({
-            type: "POST",
-            url: urls,
-            data: {"pswdEmail": pswdEmail},
-            success: function (data) {
-                msgKey = data.substr(4, 999);
-
-                var list = msgKey.split("|", 2);
-                if (msgKey.length > 300) {
-                    alert("유효 시간이 초과 되었습니다. 다시 시도해 주세요.");
-                    document.location.href = rawRurl;
-                } else {
-                    if (list[0] == "0") {
-                        element_e_pswdEmail.className = "popup_error green";
-                        element_e_pswdEmail.innerHTML = "현재 정보가 확인되었습니다. 변경할 이메일을 입력해주세요.";
-                        element_pswdEmail.disabled = false;
-                        element_pswdEmail.focus();
-                    } else {
-                        element_e_pswdEmail.className = "popup_error";
-                        element_e_pswdEmail.innerHTML = list[1];
-                    }
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    var setPswdEmailFlag = false;
-
-    function setPswdEmail() {
-        if (setPswdEmailFlag === true) {
-            return;
-        }
-
-        if (element_isEmailYn.value == "Y") {
-            nclk(this, 'inf.recoveryok', '', '', window.event);
-        } else {
-            nclk(this, 'inf.recoveryregok', '', '', window.event);
-        }
-
-        element_e_pswdEmail.className = "popup_error";
-        element_e_pswdEmail.innerHTML = "";
-
-        if (element_isEmailYn.value == "N" && element_pswdEmail.value == "") {
-            element_e_pswdEmail.innerHTML = "삭제하실 이메일 주소가 없습니다.";
-            return;
-        }
-
-        if (element_isEmailYn.value == "Y" && element_pswdEmail.disabled == true) {
-            element_e_pswdEmail.innerHTML = "현재 이메일 주소가 정확한지 확인해 주세요.";
-            element_confirmPswdEmail.focus();
-            return;
-        }
-
-        if (element_pswdEmail.value == "" || element_pswdEmail.value.replace(/^\s+/, "") == "") {
-            if (!confirm("본인확인 이메일을 삭제하시겠습니까?")) {
-                element_pswdEmail.focus();
-                return;
-            }
-        } else {
-            if (element_pswdEmail.value != "" && !isValid_pswdEmail(element_pswdEmail.value.replace(/^\s+/, ""), "e_pswdEmail")) {
-                element_e_pswdEmail.innerHTML = "이메일 형식이 올바르지 않습니다.";
-                element_pswdEmail.focus();
-                element_pswdEmail.value = "";
-                return;
-            }
-
-            if (element_pswdEmailAuthNo.disabled == true) {
-                element_e_pswdEmail.innerHTML = "[인증] 버튼을 클릭하여, 인증번호를 받아주세요.";
-                return;
-            }
-
-            if (element_pswdEmailAuthNo.disabled == false && element_pswdEmailAuthNo.value.length != 6) {
-                if (element_pswdEmailAuthNo.value.length == 0) {
-                    element_e_pswdEmail.innerHTML = "인증번호를 입력해 주세요.";
-                } else {
-                    element_e_pswdEmail.innerHTML = "인증번호를 정확하게 입력해 주세요.";
-                }
-                element_pswdEmailAuthNo.focus();
-                return;
-            }
-        }
-
-        setPasswdEmail(setPswdEmailFlag);
-        return;
-    }
-
-    function setPasswdEmail(submitFlag) {
-        if (submitFlag === true) {
-            return;
-        } else {
-            submitFlag = true;
-        }
-
-        var token = 'UB2gb2EwTHhhtB31';
-        var pswdEmail = element_pswdEmail.value;
-        var authNo = element_pswdEmailAuthNo.value;
-
-        var urls = CHANGE_USER_INFO_URL + "?m=setPasswdEmailWithVerification&token_help=" + token;
-
-        $.ajax({
-            type: "POST",
-            url: urls,
-            data: {"pswdEmail": pswdEmail, "authNo": authNo},
-            success: function (data) {
-                handleSessionExpiredErr(data);
-
-                var result = JSON.parse(data);
-                if (result.resultCode == 0) {
-                    var newPasswdEmail = result.resultMsg;
-                    document.getElementById("p_txt_pswdEmail").innerHTML = newPasswdEmail;
-                    document.getElementById("p_txt_pswdEmail_changeYn").innerHTML = (newPasswdEmail == "" ? "등록" : "수정");
-                    document.getElementById("pswdEmail").placeholder = (newPasswdEmail == "" ? "등록할 이메일 입력" : "변경할 이메일 입력");
-                    document.getElementById("b_txt_pswdEmail_reg").innerHTML = (newPasswdEmail == "" ? "등록" : "변경");
-                    if (newPasswdEmail == "") {
-                        document.getElementById("pswdEmailRegDiv").classList.add("not");
-                        document.getElementById("pswdEmailRegBtn").className = "btn_accent"
-                    } else {
-                        document.getElementById("pswdEmailRegDiv").classList.remove("not");
-                        document.getElementById("pswdEmailRegBtn").className = "btn_edit"
-                    }
-                    document.getElementById("pswdEmailRegSpan").innerHTML = (newPasswdEmail == "" ? "본인확인 이메일 없음" : newPasswdEmail);
-                    document.getElementById("pswdEmailRegBtnTxt").innerHTML = (newPasswdEmail == "" ? "등록" : "수정");
-                    element_isEmailYn.value = (newPasswdEmail == "" ? "N" : "Y");
-                    isValid = "N";
-                    hidePswdEmailChangePopUp();
-                } else {
-                    element_e_pswdEmail.innerHTML = result.resultMsg;
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("일시적인 오류입니다. 잠시 후 다시 시도해 주세요.");
-                $(location).attr("href", rawRurl);
-            },
-            complete: function () {
-                submitFlag = false;
-            }
-        });
-    }
-
-    function userMobile(emailType) {
-        var ua = window.navigator.userAgent.toLowerCase();
-        if ((/crios/.test(ua) || (navigator.userAgentData && navigator.userAgentData.platform.indexOf('iOS') !== -1 && (navigator.userAgentData.brands.some(function(v) { return /Chrome/i.test(v.brand) })))) && /ipad/.test(ua)) {
-            alert("접속하신 브라우저에서는 본인 휴대전화 인증이 지원되지 않습니다. 다른 브라우저를 이용해 주세요.");
-            return;
-        }
-
-        if (emailType === "myLetterEmail") {
-            nclk(this, 'inf.primaryverify', '', '', event);
-        } else {
-            nclk(this, 'inf.recoveryverify', '', '', event);
-        }
-
-        document.location.href = "/user2/help/changeUserInfo?m=viewUserMobile&token_help=UB2gb2EwTHhhtB31&emailType=" + emailType;
-
-        return;
-    }
-
-    function changeVerifyToPopupInput(obj) {
-        var element = document.getElementById(obj);
-        if (element.value.length === 0) {
-            element.classList.remove("verify");
-        } else {
-            element.classList.add("verify");
-        }
-    }
-
-    function excuteNclicksCancelAsPhoneYn() {
-        if (document.getElementById("isPhoneYn").value == "Y") {
-            nclk(this, 'inf.mphonecancel', '', '', event)
-        } else {
-            nclk(this, 'inf.mphoneregcancel', '', '', event)
-        }
-    }
-
-    function excuteNclicksCloseAsPhoneYn() {
-        if (document.getElementById("isPhoneYn").value == "Y") {
-            nclk(this, 'inf.mphonex', '', '', event)
-        } else {
-            nclk(this, 'inf.mphoneregx', '', '', event)
-        }
-    }
-
-    function excuteNclicksCancelAsPswdEmailYn() {
-        if (document.getElementById("isEmailYn").value == "Y") {
-            nclk(this, 'inf.recoverycancel', '', '', event)
-        } else {
-            nclk(this, 'inf.recoveryregcancel', '', '', event)
-        }
-    }
-
-    function excuteNclicksCloseAsPswdEmailYn() {
-        if (document.getElementById("isEmailYn").value == "Y") {
-            nclk(this, 'inf.recoveryx', '', '', event)
-        } else {
-            nclk(this, 'inf.recoveryregx', '', '', event)
-        }
-    }
-</script><!--팝업딥드-->
-<div id="dimmed2" class="dimmed" aria-hidden="true" style="display:none;"></div>
-<!--팝업내용-->
-<div id="twoStepVerificationPopUpLayer" class="layer" style="display:none;">
-    <div class="popup_layer">
-        <div class="popup_layer_inner">
-            <div class="popup_content">
-                <!--팝업콘텐츠영역-->
-                <div class="contact_2step_popup" style="width:329px;">
-                    <h4 class="contact_edit_title">
-                        새로운 <strong class="bold">2단계 인증</strong>으로 바꿔 보세요.<br>
-                        "번거로운 숫자 대신, 한번의 클릭"
-                    </h4>
-                    <div class="contact_edit_desc">
-                        보안성은 그대로, 편리함을 더한 새로운 '2단계 인증'으로 바꿔 보세요.
-                        스마트 기기 알림 화면에서 '예' 버튼만 클릭하면 안전하게 로그인할 수 있습니다.
-                        새로운 기능 제공으로 현재 OTP 관리 기능은 지원하지 않습니다.
-                    </div>
-                    <div class="contact_edit_desc">
-                        <strong>OTP 로그인을 해제한 후, 2단계 인증을 설정하세요.</strong>
-                    </div>
-                    <div class="btn_duo_popup ratio">
-                        <a href="https://nid.naver.com/mobile/user/help/2StepVerif?m=viewReleaseSettings&amp;token_help=UB2gb2EwTHhhtB31&amp;lang=ko_KR" class="btn_item on" role="button" onclick="nclk(this,&#39;2fc.otprelease&#39;,&#39;&#39;,&#39;&#39;,event)">
-                            <span class="btn_text">OTP 해제하기</span>
-                        </a>
-                        <a href="javascript:;" class="btn_item" role="button" onclick="nclk(this,&#39;2fc.otplater&#39;,&#39;&#39;,&#39;&#39;,event);hide2StepVerificationPopUp()">
-                            <span class="btn_text">나중에 하기</span>
-                        </a>
-                    </div>
-                    <button type="button" class="close_popup" onclick="nclk(this,&#39;2fc.otprx&#39;,&#39;&#39;,&#39;&#39;,event);hide2StepVerificationPopUp()"><span class="blind">닫기</span></button>
-                </div>
-                <!-- // -->
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-getGNB();
-
-window.onresize = function() {
-	setContainerHeight(document.getElementById('content').clientHeight);
-}
-
-function landscapeHandler() {
-        var headerLeft = document.querySelector("#headerLeft")
-        var headerTop = document.querySelector("#headerTop");
-        if (window.innerWidth >= 1024) {
-            headerLeft.ariaHidden = "false";
-            headerTop.ariaHidden = "false";
-        } else {
-            headerLeft.ariaHidden = "true";
-            headerTop.ariaHidden = "true";
-        }
-    }
-
-    $(document).ready(function(){
-        landscapeHandler();
-
-        $("a[id^='info']").click(function () {
-            var $this = $(this);
-            if($this.attr("aria-expanded") === "true"){
-                $this.attr("aria-expanded", "false");
-                var info = "#" + $this.attr("id");
-                var infoToolTip = $(info + "ToolTip");
-                infoToolTip.attr("aria-hidden", "true");
-                infoToolTip.css("display", "none");
-            } else {
-                $this.attr("aria-expanded", "true");
-                var infoToolTip = $("#" + $this.attr("id") + "ToolTip");
-                infoToolTip.attr("aria-hidden", "false");
-                infoToolTip.css("display", "block");
-            }
-        })
-
-        $("button[id^='infoExit']").click(function () {
-            var info = "#info" + $(this).attr("id").substr(8, 1);
-            $(info).attr("aria-expanded", "false");
-            var infoToolTip = $(info + "ToolTip");
-            infoToolTip.attr("aria-hidden", "true");
-            infoToolTip.css("display", "none");
-        })
-    });
-
-    var timer; // 디바운싱
-    window.addEventListener('resize', function () {
-        clearTimeout(timer);
-        timer = setTimeout(landscapeHandler, 300);
-    });
-
-</script>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

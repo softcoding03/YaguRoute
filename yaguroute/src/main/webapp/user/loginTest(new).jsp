@@ -60,17 +60,19 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             margin: 0 auto;
             background-color: #ffffff;
+            
         }
 	
         .login-container h3 {
             text-align: center;
-            color: forestgreen;
+            color: #19376D;
         }
 		
 		.login-message {
 		  display: flex;
 		  justify-content: center;
 		  align-items: center;
+		  font-family: monospace;
 		}
 		button, input, select, textarea {
     	background-color: rgb(68, 199, 103);
@@ -83,12 +85,13 @@
 	    font-size: 19px;
 	    padding: 9px 15px;
 	    text-decoration: none;
-	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	    /* text-shadow: rgb(47, 102, 39) 0px 1px 0px; */
 	}
         .login-container label {
             display: block;
             color: #333333;
             font-size: 13px;
+            
         }
 
 		.login-container input[type="text"], 
@@ -101,21 +104,29 @@
 		.login-container input::placeholder {
         	opacity: 0.7; /* 투명도 조정 */
     	}
-		
+		a {
+		    color: #19376D;
+		    text-decoration: none;
+		    outline: 0;
+		    transition: all .4s;
+		    font-weight: bold;
+		}
 		
         .login-container button[type="button"] {
-            width: 100%;
-            height: 45px;
-            background-color: #4CAF50;
+            width: 93%;
+            /* height: 45px; */
+            background-color: #19376D;
             color: #ffffff;
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
             font-size : 15px;
+            border-radius: 100px;
+            margin: auto;
         }
 
         .login-container button[type="button"]:hover {
-            background-color: #45a049;
+            background-color: #19376D;
         }
         
         .comment-submit {
@@ -188,6 +199,7 @@
             margin-bottom: 10px;
             /* 글자를 가운대로 정렬합니다. */
             text-align: center;
+            border-radius: 100px;
         }
 
         .link-login img {
@@ -207,7 +219,8 @@
 		  margin-bottom: 10px;
 		  /* 글자를 가운데로 정렬합니다. */
 		  text-align: center;
-		}
+		  border-radius: 100px;
+		}	
 		
 		.kakao-login svg {
 		  display: inline-block;
@@ -243,17 +256,17 @@
 		  	justify-content: center;
 		  	align-items: center;
 		  	font-family: monospace;
+		  	
 		}
     </style> 
     
     <script type="text/javascript">
  
     // 아이디 비밀번호 일치하는지 확인
-    $( function() {
 		
-		$("#userId").focus();
 		
-		$("#login").on("click" , function() {
+		function loginFunction(){
+				
 			var id=$('#userId').val();
 			var password=$('#password').val();
 			
@@ -267,9 +280,10 @@
 				alert("password를 입력해 주세요.");
 				return;
 			}
+			
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
-		});
-	});	
+		};	
+    
     function signupFunction() {
         $.ajax({
             url: "/user/addUser.jsp",
@@ -347,6 +361,8 @@
 	
 	$(function(){
 		
+		$("#userId").focus();
+		
 		$("#addPlayer").on("click", function(){
 			
 			alert("선수 더하기 클릭");
@@ -373,6 +389,15 @@
 			window.location.href="/player/listBestPlayer";
 		});
 	});
+	
+	$(document).keydown(function(event) {
+		  if (event.which === 13) {
+		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
+		    loginFunction();
+		  }
+	});
+	
+	
     </script>
 </head>
 
@@ -397,11 +422,11 @@
 	                        
 	                        <br><br>
 	                              
-	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;"><b>로 그 인</b></button>
-                            <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px;"> 회원 가입</a> 
-                            <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right;" >패스워드 찾기</a> 
+	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;" onclick="loginFunction()"><b>로 그 인</b></button>
+                            <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px; color: #19376D;"> 회원 가입</a> 
+                            <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right; color: #19376D;" >패스워드 찾기</a> 
                             <span style="float: right; opacity: 0.7;">&nbsp;|&nbsp;</span>
-                            <a href="javascript:void(0);" onclick="findUserIdFunction()" style="font-size: 15px; float: right;" >아이디 찾기</a>
+                            <a href="javascript:void(0);" onclick="findUserIdFunction()" style="font-size: 15px; float: right; color: #19376D;" >아이디 찾기</a>
                             <br><br>
                             
                             <div class="eaVHUA">

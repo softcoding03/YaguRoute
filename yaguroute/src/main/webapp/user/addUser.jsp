@@ -26,21 +26,29 @@
 	}
 	
 	button, input, select, textarea {
-    	background-color: rgb(68, 199, 103);
-	    border-radius: 28px;
-	    border: 1px solid rgb(120, 255, 134);
-	    display: inline-block;
-	    cursor: pointer;
-	    color: ghostwhite;
-	    font-family: Arial;
-	    font-size: 17px;
-	    padding: 9px 15px;
-	    text-decoration: none;
-	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
-	}
+    background-color: #19376D;
+    border-radius: 28px;
+    /* border: 1px solid rgb(120, 255, 134); */
+    display: inline-block;
+    cursor: pointer;
+    color: ghostwhite;
+    /* font-family: Arial; */
+    /* font-size: 17px; */
+    /* padding: 9px 15px; */
+    text-decoration: none;
+    /* text-shadow: rgb(47, 102, 39) 0px 1px 0px; */
+}
     </style>
     
     <style>
+    
+    /*dropZone 크기 조절 */
+    /* .dropzone .dz-preview .dz-image img {
+  		border-radius: 50%;
+  	    margin-bottom: 20px;
+  	    
+	} */
+    
     .birthday {
     font-size: 16px;
     font-family: Consolas, sans-serif;
@@ -109,8 +117,9 @@
     display: grid !important;
     place-items: center !important;
   	}
+  	
 	</style>
-    
+
     <style>
     .form-group {
   	display: flex;
@@ -140,6 +149,7 @@
     box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
     font-weight: 700;
     transition: 0.3s;
+    margin-top: 20px;
 	}
 	
 	.btn-upload-file:hover {
@@ -162,9 +172,127 @@
 	}
 	
 	#id_use, #password_use, #passwordCheck_use, #userName_use, #nickname_use{
-    display: block;
-    margin-top: 5px;
+	    display: block;
+	    margin-top: 5px;
 	}
+	
+/* 	.parent-container {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	} */
+	
+		/* Dropzone 스타일 */
+	.dropzone {
+	  border: 5px dashed #bbb ;
+	  border-radius: 5px ;
+	  background: #f9f9f9 ;
+	  padding: 5px ;
+	  text-align: center ;
+	  width: 200px;
+	  height: 40px;
+	  margin-right: 20px;
+	}
+	
+	.dropzone, .dropzone * {
+    	box-sizing: border-box !important;
+    	margin: 0px !important;
+	}
+	
+	/* 파일 드랍 영역 */
+	.dropzone .dz-message {
+	  /* font-size: 1.5em !important; */
+	  /* color: #888 !important; */
+	}
+	
+	/* 미리보기 영역 */
+	.dropzone .dz-preview {
+	  margin: 10px !important;
+	  display: inline-block !important;
+	  vertical-align: top !important;
+	  position: relative !important;
+	  width: 120px !important;
+	}
+	
+	.dropzone .dz-preview.dz-error:hover .dz-error-message {
+    	opacity: 0 !important;
+    	pointer-events: auto;
+	}
+	
+	.dropzone .dz-remove {
+    /* position: absolute !important; */
+    top: 5px !important;
+    /* right: 5px !important; */
+    /* width: 20px !important; */
+    height: 20px !important;
+    border-radius: 50% !important;
+    background-color: #fff !important;
+    color: #888 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    line-height: 20px !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+}
+	
+	.dropzone, .dropzone * {
+	    box-sizing: border-box !important;
+	    margin: 0px !important;
+	}
+	
+	.dropzone .dz-preview .dz-image {
+	  position: relative !important;
+	}
+	
+	
+	.dropzone .dz-remove {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  width: 50px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background-color: #fff !important;
+  color: #888 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  line-height: 20px !important;
+  cursor: pointer !important;
+  z-index: 999 !important;
+}
+	
+	
+	.dropzone .dz-remove:hover {
+	  background-color: #f00 !important;
+	  color: #fff !important;
+	}	
+	
+	.dropzone .dz-preview .dz-remove-image {
+	  position: absolute !important;
+	  top: 5px !important;
+	  right: -20px !important;
+	  width: 20px !important;
+	  height: 20px;
+	  background-color: #f00 !important;
+	  color: #fff !important;
+	  font-size: 14px !important;
+	  text-align: center !important;
+	  line-height: 20px !important;
+	  cursor: pointer !important;
+	  z-index: 999 !important;
+	}
+
+	.dropzone .dz-preview .dz-image img {
+	  width: 100% !important;
+	  height: auto !important;
+	}
+	
+	.dropzone .dz-preview .dz-details {
+	  font-size: 0.9em !important;
+	  text-align: center !important;
+	  margin-top: 10px !important;
+	}
+	
     </style>
     <!-- 구단코드 이미지 적용 -->
     
@@ -410,7 +538,8 @@
 	
 	//fileDropzone dropzone 설정할 태그의 id로 지정
     Dropzone.options.fileDropzone = {
-			
+		
+		acceptedFiles: "image/jpeg, image/png, image/jpg", // 이 파일들만 업로드 가능
         url: '/users/userImage', //업로드할 url (ex)컨트롤러)
         autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
         clickable: true, // 클릭가능여부
@@ -422,7 +551,8 @@
         addRemoveLinks: true, // 삭제버튼 표시 여부
         dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
         uploadMultiple: false, // 다중업로드 기능
-        dictDefaultMessage: "사진 업로드 (최대1MB)", // 메시지 변경
+        dictDefaultMessage: "사진 업로드 (최대 1MB)<br>jpeg, jpg, png 파일", // 줄바꿈 추가
+        dictInvalidFileType: "유효하지 않은 파일 형식입니다.",	
         init: function() {
             
         	var myDropzone = this;
@@ -430,8 +560,8 @@
 			
             // 파일 업로드 제한에 도달했을 때 알림 표시
             this.on("maxfilesexceeded", function(file) {
-                // 알림을 표시하는 로직을 추가
                 
+            	// 알림을 표시하는 로직을 추가
                 if(myDropzone.files.length > maxFiles){
                     myDropzone.removeFile(file);
                     alert("최대 1개의 파일만 업로드할 수 있습니다.");
@@ -608,7 +738,7 @@
                                 <div class="form-inline">
                                     <label>
                                     	생년월일&nbsp;
-                                        <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px;" placeholder="생년월일">
+                                        <input type="date" name="birthday" id="birthday" style="width: 200px; background-color: #ffffff; color: black;" placeholder="생년월일">
                                         <input type="hidden" name="userBirth" id="userBirth">
                                         &nbsp;&nbsp;
                                         <label class="byul">남성
@@ -671,9 +801,10 @@
                                     
                                     <b>프로필 사진</b>  
                             	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px;"></div> 
+     								<div class="dropzone" id="fileDropzone"></div> 
      								<!-- <button id="btn-upload-file">서버전송</button> -->
  								</div>
+ 								
                             	<div class="form-group">
                             	<label>
                                 <button type="button" class="btn-upload-file" id="signup" >가입</button>
