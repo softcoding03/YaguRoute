@@ -22,7 +22,7 @@
 		$("#currentPage").val(currentPage);
 		alert(currentPage);
 		$("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
-		}
+	}
 	
 	$(function() {
 		 

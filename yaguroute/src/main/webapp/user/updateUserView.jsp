@@ -367,7 +367,14 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 #gnb.gnb_one_pwe .gnb_ico_num .gnb_count {border-radius: 0 13px 13px 0;}</style></head>
 
 	<style>
-
+	
+	.naverid {
+    width: 2500px;
+	}
+	.container {
+    width: 1400px !important;
+	}
+	
 	/*네이버 로그인 시*/
     .naver-login {
 	    display: inline-block;
@@ -1086,7 +1093,6 @@ button[type="button"]:active {
 	}); */
 	
 	</script>
-
 <jsp:include page="/common/topBar.jsp"></jsp:include>
 <body id="mainBody" class="bgother">
 <div id="wrap" class="wrap naverid">
