@@ -97,6 +97,13 @@
 		});
 	});
 	
+	$(document).keydown(function(event) {
+		  if (event.which === 13) {
+		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
+		    loginFunction();
+		  }
+	});
+	
 	/* $(function(){
 		
 		$("td:nth-child(1)").on("click", function(){

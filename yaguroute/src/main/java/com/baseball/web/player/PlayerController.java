@@ -166,7 +166,7 @@ public class PlayerController {
 		
 		model.addAttribute("list", bestDateMap.get("list"));
 		
-		return "forward:/player/listBestPlayer.jsp";
+		return "forward:/player/listBestPlayer(new).jsp";
 	} 
 	
 	// 해당 날짜에 해당하는 선수의 playerId로 Player객체를 가져와 리스트에 담기
