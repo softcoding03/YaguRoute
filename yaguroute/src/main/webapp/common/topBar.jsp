@@ -86,8 +86,9 @@ img.logo{
                         <ul>
                         	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
+                             <li><a href="/transaction/dlvyTranList"><span>상품배송관리</span></a></li>                                
                             <li><a href="/product/addProductView.jsp"><span>상품등록</span></a></li>
-                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>
+                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>                        
                         </ul>
                     </li>
                	   <li>  <a href="#other"><span>마이페이지</span></a>

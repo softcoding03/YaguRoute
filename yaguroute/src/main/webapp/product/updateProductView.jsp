@@ -12,11 +12,11 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>updateProductView</title>
+	<title>상품 수정</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <style>
@@ -93,45 +93,40 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 
 				<!--BREADCRUMBS BEGIN-->
-					<section class="image-header" style="height: 200px;">
-					  <div class="container">
-					    <div class="row">
-					      <div class="col-md-8">
-					        <div class="info">
-					          <div class="wrap">
-					            <h1>업데이트 수정</h1>
-					          </div>
-					        </div>
-					      </div>
-					    </div>
-					  </div>
-					</section>
+
 				<!--BREADCRUMBS END-->
 	<form name="detailForm">
-					<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/> 
+		<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/> 
         <!--PLAYER STATS BEGIN-->
 	 <section class="hockey-stats">
 		   <div class="container">
 		      <div class="row">
-		        <h4 style="text-align: center;">Update Product Information</h4>
-		            <div class="col-md-6">
-		                <div class="background-section">
-		                    <ul class="player-trophy">
-		                        <li>
-		                            <img src="/images/product/${product.prodImageFirst}" width="100" height="150" alt="trophy">
-		                        </li>
-		                        <li>
-		                            <img src="/images/product/${product.prodImageSecond}" width="100" height="150" alt="trophy">
-		                        </li>
-		                        <li>
-		                           <img src="/images/product/${product.prodImageThird}" width="100" height="150" alt="trophy">
-		                        </li>
-		                    </ul>
-		                </div>
-		            </div>
+		        <h3 style="text-align: center;">Update Product Information</h3>
+
 	  				<div class="col-md-6">
 		                <div class="overflow-scroll">
 		                    <table>
+					    <tr>
+					        <td>이미지: </td>
+					        <td class="club">
+					            <input type="file" name="prodImageFirst" accept="image/product">
+					            <img src="/images/product/${product.prodImageFirst}" width="100" height="150" alt="trophy">
+					        </td>
+					    </tr>
+					    <tr>
+					        <td></td>
+					        <td class="club">
+					            <input type="file" name="prodImageSecond" accept="image/*">
+					            <img src="/images/product/${product.prodImageSecond}" width="100" height="150" alt="trophy">
+					        </td>
+					    </tr>
+					    <tr>
+					        <td></td>
+					        <td class="club">
+					            <input type="file" name="prodImageThird" accept="image/*">
+					            <img src="/images/product/${product.prodImageThird}" width="100" height="150" alt="trophy">
+					        </td>
+					    </tr>	
 
                         <tr>
                             <td>상품명: </td>
