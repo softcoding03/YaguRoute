@@ -170,7 +170,10 @@ public class UserController {
 
 		System.out.println("회원가입 대상 : " + user.getUserId());
 		
-		if(user.getUserImage() == null) {
+		if(userImage == null) {
+			user.setUserImage("/images/user/defaultProfile.png");
+		}
+		else {
 			user.setUserImage(userImage);
 		}
 		

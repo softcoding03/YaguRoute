@@ -23,6 +23,7 @@ import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Product;
+import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
 import com.baseball.service.product.ProductService;
 
@@ -184,7 +185,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(pageSize);
+		search.setPageSize(6);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -245,5 +246,6 @@ public class ProductController {
 		return "forward:/product/updateProduct.jsp";
 
 	}
+	
 
 }

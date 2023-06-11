@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.bestplayer.BestPlayerDao;
 import com.baseball.service.bestplayer.BestPlayerService;
 import com.baseball.service.domain.BestPlayer;
@@ -76,9 +79,11 @@ public class PlayerController {
 	private int pageSize;
 	
 	@GetMapping("listPlayer")
-	public String listPlayer(@ModelAttribute("search") Search search, Model model) throws Exception{
+	public String listPlayer(@ModelAttribute("search") Search search, Model model, @RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
 		
-		System.out.println("lisPlayer ㅎㅇ");
+		System.out.println("search" + search);
+		System.out.println("/player/listPlayer : GET ");
+
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -90,16 +95,28 @@ public class PlayerController {
 		// B/L 수행
 		Map<String, Object> map = playerService.getPlayerList(search);
 		System.out.println("search :::"+search);
+		System.out.println("map : "+map);
+		List<Player> totalPlayerList = (List<Player>) map.get("list");
+		List<String> playerTeam =new ArrayList<>();
+		
+		for(Player player : totalPlayerList) {
+			playerTeam.add(player.getPlayerId());
+		}
+		
+		System.out.println("playerTeam : "+playerTeam);
 		
 		Page resultPage = new Page(search.getCurrentPage(), (int) map.get("totalCount"), pageUnit, pageSize);
 		
+		List<Team> allTeam = playerDao.getAllTeam();
 		// Model And View Connect...
-		
+
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("allTeam", allTeam);
+		model.addAttribute("teamCode", teamCode);
 		
-		return "forward:/player/listPlayer.jsp";
+		return "forward:/player/listPlayer(new).jsp";
 	}
 	
 	@GetMapping("getPlayer")
@@ -149,7 +166,7 @@ public class PlayerController {
 		
 		model.addAttribute("list", bestDateMap.get("list"));
 		
-		return "forward:/player/listBestPlayer.jsp";
+		return "forward:/player/listBestPlayer(new).jsp";
 	} 
 	
 	// 해당 날짜에 해당하는 선수의 playerId로 Player객체를 가져와 리스트에 담기

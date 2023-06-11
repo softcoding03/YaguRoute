@@ -67,7 +67,7 @@ img.logo{
                     
                     <li>  <a href="#other"><span>선수 조회</span></a>
                         <ul>
-                        	 <li><a href="/player/listPlayer(new).jsp"><span>선수 리스트</span></a></li>
+                        	 <li><a href="/player/listPlayer"><span>선수 리스트</span></a></li>
                             <li><a href="/player/listBestPlayer"><span>이 주의 선수</span></a></li>
                         </ul>
                     </li>
@@ -86,8 +86,9 @@ img.logo{
                         <ul>
                         	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
+                             <li><a href="/transaction/dlvyTranList"><span>상품배송관리</span></a></li>                                
                             <li><a href="/product/addProductView.jsp"><span>상품등록</span></a></li>
-                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>
+                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>                        
                         </ul>
                     </li>
                	   <li>  <a href="#other"><span>마이페이지</span></a>

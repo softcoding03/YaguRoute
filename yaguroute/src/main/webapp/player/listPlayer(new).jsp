@@ -8,12 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
         <title>선수 조회</title>
-   <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+   	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <!--[if lte IE 10]>
-    <script>location.href = "https://fifaonline4.nexon.com/common/ie9";</script>
-    <![endif]-->
     <link rel="stylesheet" type="text/css" href="/css/player/fo4_ssl.css" media="all">
     
     <style>
@@ -35,13 +32,20 @@
 	    border-right: 1px solid #3e3d55;
 	    width: 91px;
 	}
+		#middle.sub>div.datacenter {
+	    background: #fff url(/images/user/image.png) center 0 no-repeat;
+	}
+		.sub .datacenter .tab_list.large ul li a {
+	    background-color: #2a2ac7;
+	}
+		.sub .datacenter .tab_list.large ul li {
+	    border-color: #000000;
+	}
+	
     </style>
     
 <jsp:include page="/common/topBar.jsp"></jsp:include>
 <body class="default">
-
-<script type="text/javascript" src="/js/player/ngb_bodystart.js" charset="euc-kr"></script>
-<script type="text/javascript" src="/js/player/ngb_bodystart.js(1)" charset="euc-kr"></script>
 <main id="middle" class="sub">
     <input type="hidden" id="hidParam" value="">
     <!-- 데이터센터 -->
@@ -58,191 +62,181 @@
     
 
 <script type="text/javascript">
+    
+	function fncGetPlayerList(currentPage) {
+		
+		alert(currentPage);
+		$("#currentPage").val(currentPage);
+		alert($("#currentPage").val());
+		 $("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
+		
+		/* self.location.href="/player/listPlayer?currentPage="+currentPage; */
+		
+		}
+	
+	$(function() {
+		 
+		// teamCode 누르면 조회되는 방식
+		$("button.btn-success").on("click", function() {
+			$("#playerTeamCode").val($(this).val());
+			fncGetPlayertList(1);
+		});
+		
+		 $( "#searching" ).on("click" , function() {
+			 alert("searching ㅎㅇ");
+			fncGetPlayerList(1);
+		});
+		 
+		 $("a[href='teamCodeHref']").on('click',function(){
+			 
+			 alert("teamCode ㅎㅇ");
+			 
+	         teamCode = $(this).find("input[name='teamCode']").val()
+	       	 alert(teamCode);
+	    	 self.location = "/player/listPlayer?teamCode="+teamCode;
+		});
+	});
+	
+	$(document).keydown(function(event) {
+		  if (event.which === 13) {
+		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
+		    loginFunction();
+		  }
+	});
+	
+	/* $(function(){
+		
+		$("td:nth-child(1)").on("click", function(){
+			self.location.href="/player/getPlayer?playerId="+$(this).text().trim();
+		});
+		$( "td:nth-child(1)" ).css("color" , "green");
+	}); */
+	
 </script>
 
 <div class="coach_area">
 </div>
 </div>
-
-<div class="tab_list large">
-    <ul>
-        <li class="tab8 active"><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-        <li class="tab8 "><a href=""><img src="/images/teamEmblem/한화.png" style="width: 30px; height: 20px;" alt="한화구단">한화</a></li>
-    </ul>
+<div class="tab_list large" style="font-family: 'Gwangyang';">
+    <ul class="nav nav-tabs" role="tablist">
+            <c:forEach var="team" items="${allTeam}">
+                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+                    <a href="teamCodeHref" role="tab" data-toggle="tab">
+                        <img alt="img" src="${team.teamEmblem}" style="width: 37px; height: 33px;" >
+                        <span class="info">
+                            <span class="title">${team.teamNickName}</span>
+                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
+                        </span> 
+                    </a>
+                </li>
+            </c:forEach>
+        </ul>
 </div>                
-            </div>
+</div>
 
+			
+			<form role="form" id="form1" >	
             <div class="player_view">
                 <div class="header">
                     <div class="tit" style="font-family: 'Gwangyang'">선수 검색</div>
                 </div>
             </div>
-
-            <form role="form" id="form1" onsubmit="return false;">
-                <input type="hidden" name="n1Confederation" value="0">
-                <input type="hidden" name="n4LeagueId" value="0">
-                <input type="hidden" name="strSeason">
-                <input type="hidden" name="strPosition">
-                <input type="hidden" name="strPhysical">
-                <input type="hidden" name="n1LeftFootAblity" value="0">
-                <input type="hidden" name="n1RightFootAblity" value="0">
-                <input type="hidden" name="n1SkillMove" value="0">
-                <input type="hidden" name="n1InterationalRep" value="0">
-                <input type="hidden" name="n4BirthMonth" value="0">
-                <input type="hidden" name="n4BirthDay" value="0">
-                <input type="hidden" name="n4TeamId" value="0">
-                <input type="hidden" name="n4NationId" value="0">
-                <input type="hidden" name="strAbility1">
-                <input type="hidden" name="strAbility2">
-                <input type="hidden" name="strAbility3">
-                <input type="hidden" name="strTrait1">
-                <input type="hidden" name="strTrait2">
-                <input type="hidden" name="strTrait3">
-                <input type="hidden" name="strTraitNon1">
-                <input type="hidden" name="strTraitNon2">
-                <input type="hidden" name="strTraitNon3">
-                <input type="hidden" name="n1Strong" value="1">
-                <input type="hidden" name="n1Grow" value="0">
-                <input type="hidden" name="n1TeamColor" value="0">
-                <input type="hidden" name="strSkill1" value="sprintspeed">
-                <input type="hidden" name="strSkill2" value="acceleration">
-                <input type="hidden" name="strSkill3" value="strength">
-                <input type="hidden" name="strSkill4" value="stamina">
-                <input type="hidden" name="strSearchStatus" value="off">
-                <input type="hidden" name="strOrderby">
-                <input type="hidden" name="teamcolorid" value="0">
-                <input type="hidden" name="strTeamColorCategory">
-                <input type="hidden" name="n1History" value="0">
-                <input type="hidden" name="n4PlayYear" value="0">
+				
+                총 ${resultPage.totalCount } 명의 선수가 검색되었습니다.
+                
+                <%-- <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>선수이름</option>
+					</select>
+				</div> --%>
+                
+       			<input type="hidden" id="playerTeamCode" name="playerTeamCode" value="${player.teamCode}" /> 
+				<input type="hidden" id="currentPage" name="currentPage" value="" />
                 
                 <div class="search_panel">
                     <div class="search_input_name">
-                        <input type="text" id="searchName" name="strPlayerName" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." class="ui-autocomplete-input" autocomplete="off">
-                    <div class="autoList"><ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul></div></div>
+                        <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
                     <div class="search_input_detail">
                         
                     </div>
                     <div class="search_input_submit">
-                        <button class="btn_search" style="font-family: 'Gwangyang'" onclick="DataCenter.SetSearch();">검색</button>
-                        <button class="btn_reset" style="font-family: 'Gwangyang'" onclick="location.href=&#39;/datacenter&#39;">초기화</button>
+                        <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
+                        <button type="button" class="btn_reset" style="font-family: 'Gwangyang'" >초기화</button>
                     </div>
-
                 </div>
-            </form>
+                </form>
             <div class="player_list">
                 <div class="content">
                     <div class="player_list_wrap">
                         <div class="thead">
                             <div class="tr">
-                                <div class="th default" style="font-family: 'Gwangyang'">기본정보</div>
+                                <div class="th default" style="font-family: 'Gwangyang'; line-height: 60px;">기본정보</div>
                                 <div class="th pay" style="font-family: 'Gwangyang'">
-                                    급여
+                                    선수 등번호
                                 </div>
                                 <div class="th th_ar ovr" style="font-family: 'Gwangyang'">
-                                    <span>OVR<em>(기본OVR)</em></span>
+                                    <span>포지션<em>(기본포지션)</em></span>
                                 </div>
                                 <div class="th th_ar">
-                                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_ar_sort" style="font-family: 'Gwangyang'"><span>속력</span></a>
+                                    <a style="font-family: 'Gwangyang'"><span>생년월일</span></a>
                                 </div>
                                 <div class="th th_ar">
-                                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_ar_sort" style="font-family: 'Gwangyang'"><span>가속력</span></a>
+                                    <a style="font-family: 'Gwangyang'"><span>신장</span></a>
                                 </div>
                                 <div class="th th_ar">
-                                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_ar_sort" style="font-family: 'Gwangyang'"><span>몸싸움</span></a>
+                                    <a style="font-family: 'Gwangyang'"><span>몸무게</span></a>
                                 </div>
                                 <div class="th th_ar">
-                                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_ar_sort" style="font-family: 'Gwangyang'"><span>스태미너</span></a>
+                                    <a style="font-family: 'Gwangyang'"><span>구단</span></a>
                                 </div>
                                 <div class="th th_ar_bp" style="font-family: 'Gwangyang'">
-                                    선수 가치(BP)
+                                    선수 가치(연봉기준)
                                 </div>
                                 <div class="th th_ar_score" style="font-family: 'Gwangyang'">
-                                    평가 점수
+                                    타수
                                 </div>
                             </div>
                         </div>
                         <div class="tbody">
                             <div id="divPlayerList">
-
+		<tr>
+		<c:set var="i" value="0" />
+		  				<c:forEach var="player" items="${list}">
+						<c:set var="i" value="${ i+1 }" />
+						<tr>
         <div class="td default">
             <div class="player_info">
 
                 <div class="players_utils players_utils_100140601">
-                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_collect " onclick="DataCenter.SetPlayerFavorit(this, 100140601, 1)"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.GetPlayerGrow(this,100140601,$(&#39;#hidParam&#39;).val())" class="btn_boost_helper"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.GetPlayerDetail(this,100140601,$(&#39;#hidParam&#39;).val(),2)" class="btn_detail_link"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_vs" onclick="DataCenter.GetPlayerCompare(100140601);"></a>
                 </div>
 
-                <div class="players_alert">
-                    <div class="pop_collect collect_100140601">
-                        <span class="ico ico_dt_arr_big" style="font-family: 'Gwangyang'"></span>
-                        <p><span class="player" >네마냐 비디치</span>(이)가<br>관심 선수로 등록 되었습니다.</p>
-                    </div>
-                    <div class="pop_alert alert_100140601">
-                        <span class="ico ico_dt_ap_big"></span>
-                        <p>관심 선수가 가득 차서 더 이상<br>등록이 안됩니다.</p>
-                    </div>
-                    <div class="pop_alert alert_del_100140601">
-                        <span class="ico ico_dt_ap_big"></span>
-                        <p><span class="player">네마냐 비디치</span>(이)가<br>관심 선수에서 삭제 되었습니다.</p>
-                    </div>
-                </div>
-
-                <div class="thumb"><img src="/js/player/p100140601.png" alt="" onerror="this.src=&#39;https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png&#39;"></div>
+                <div class="thumb"><img src="${player.playerImage}" alt="" onerror="this.src=&#39;https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png&#39;"></div>
                 <div class="info_top">
-                    <div class="season"><img src="/js/player/icontm(1).png" alt=""></div>
-                    <div class="name">네마냐 비디치</div>
+                    <div class="season">&nbsp;</div>
+                    <div class="name">${player.playerName}</div>
                     <input type="hidden" name="Strong100140601" value="1/3">
                 </div>
                 <div class="info_middle">
-                        <span class="position df"><span class="txt">CB</span><span class="skillData_100140601">120</span> </span>
-                                                        </div>
+                        &nbsp;&nbsp;&nbsp;<span class="position df"><span class="txt">${player.playerPosition}</span><span class="skillData_100140601">${player.playerNumber}</span> </span>
+				</div>
                 <div class="info_bottom">
-                    <div class="en_wrap selector_wrap">
-                        <a href="https://fifaonline4.nexon.com/datacenter#" class="ability en_level1">1</a>
-                        <div class="selector_list" style="display: none;">
-                            <ul>
-                                <li><a class="selector_item en_level0" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;0/0&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">-</a></li>
-                                <li><a class="selector_item en_level1" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;1/3&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">1</a></li>
-                                <li><a class="selector_item en_level2" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;2/4&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">2</a></li>
-                                <li><a class="selector_item en_level3" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;3/5&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">3</a></li>
-                                <li><a class="selector_item en_level4" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;4/7&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">4</a></li>
-                                <li><a class="selector_item en_level5" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;5/9&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">5</a></li>
-                                <li><a class="selector_item en_level6" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;6/11&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">6</a></li>
-                                <li><a class="selector_item en_level7" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;7/14&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">7</a></li>
-                                <li><a class="selector_item en_level8" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;8/18&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">8</a></li>
-                                <li><a class="selector_item en_level9" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;9/22&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">9</a></li>
-                                <li><a class="selector_item en_level10" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;10/27&#39;, &#39;skillData_100140601&#39;, &#39;Strong100140601&#39;, 100140601)">10</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <a href="javascript:;" data-no="100140601" class="btn_preview"><span></span></a>
+                    &nbsp;&nbsp;&nbsp;<a href="javascript:;" data-no="100140601" class="btn_preview"><span></span></a>
                 </div>
             </div>
         </div>
         <div class="td td_ar">
-            <span class="pay">30</span>
+            <span class="pay">${player.playerNumber}</span>
         </div>
             <div class="td td_ar ">
                 <span>
-                    <span class="skillData_100140601">                        
-120                    </span>
+                    <span class="skillData_100140601">${player.playerPosition}</span>
 
                 </span>
             </div>
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="sprintspeed">
-                        120
+                        ${player.playerBirth}
                     </span>
                     
                 </span>
@@ -250,7 +244,7 @@
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="acceleration">
-                        115
+                        ${player.playerHeight}cm
                     </span>
                     
                 </span>
@@ -258,7 +252,7 @@
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="strength">
-                        123
+                        ${player.playerWeight}kg
                     </span>
                     
                 </span>
@@ -266,151 +260,28 @@
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="stamina">
-                        117
+                        ${player.teamCode}
                     </span>
-                    
                 </span>
         </div>
 
         <div class="td td_ar_bp bp_100140601">
-            <span class="span_bp0" style="display:none">-</span>
-            <span class="span_bp1" style="">308,000,000,000</span>
-            <span class="span_bp2" style="display:none">357,000,000,000</span>
-            <span class="span_bp3" style="display:none">399,000,000,000</span>
-            <span class="span_bp4" style="display:none">638,000,000,000</span>
-            <span class="span_bp5" style="display:none">1,280,000,000,000</span>
-            <span class="span_bp6" style="display:none">2,820,000,000,000</span>
-            <span class="span_bp7" style="display:none">6,770,000,000,000</span>
-            <span class="span_bp8" style="display:none">17,600,000,000,000</span>
-            <span class="span_bp9" style="display:none">49,300,000,000,000</span>
-            <span class="span_bp10" style="display:none">158,000,000,000,000</span>
+            <span class="span_bp1" style="">${player.playerSalary}만원</span>
         </div>
-        <div class="td td_ar_score"><span>9.2 <em>(13)</em></span></div>
-
-    <div class="tr" onclick="$(&#39;#PlayerVs1&#39;).val(&#39;278252371&#39;);">
-        <div class="td default">
-            <div class="player_info">
-
-                <div class="players_utils players_utils_278252371">
-                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_collect " onclick="DataCenter.SetPlayerFavorit(this, 278252371, 1)"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.GetPlayerGrow(this,278252371,$(&#39;#hidParam&#39;).val())" class="btn_boost_helper"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.GetPlayerDetail(this,278252371,$(&#39;#hidParam&#39;).val(),2)" class="btn_detail_link"></a>
-                    <a href="https://fifaonline4.nexon.com/datacenter#" class="btn_vs" onclick="DataCenter.GetPlayerCompare(278252371);"></a>
-                </div>
-
-                <div class="players_alert">
-                    <div class="pop_collect collect_278252371">
-                        <span class="ico ico_dt_arr_big"></span>
-                        <p><span class="player">J. 벨링엄</span>(이)가<br>관심 선수로 등록 되었습니다.</p>
-                    </div>
-                    <div class="pop_alert alert_278252371">
-                        <span class="ico ico_dt_ap_big"></span>
-                        <p>관심 선수가 가득 차서 더 이상<br>등록이 안됩니다.</p>
-                    </div>
-                    <div class="pop_alert alert_del_278252371">
-                        <span class="ico ico_dt_ap_big"></span>
-                        <p><span class="player">J. 벨링엄</span>(이)가<br>관심 선수에서 삭제 되었습니다.</p>
-                    </div>
-                </div>
-
-                <div class="thumb"><img src="/js/player/p278252371.png" alt="" onerror="this.src=&#39;https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png&#39;"></div>
-                <div class="info_top">
-                    <div class="season"><img src="/js/player/23toty(1).png" alt=""></div>
-                    <div class="name">J. 벨링엄</div>
-                    <input type="hidden" name="Strong278252371" value="1/3">
-                </div>
-                <div class="info_middle">
-                        <span class="position mf"><span class="txt">CM</span><span class="skillData_278252371">111</span> </span>
-                                                        </div>
-                <div class="info_bottom">
-                    <div class="en_wrap selector_wrap">
-                        <a href="https://fifaonline4.nexon.com/datacenter#" class="ability en_level1">1</a>
-                        <div class="selector_list" style="display: none;">
-                            <ul>
-                                <li><a class="selector_item en_level0" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;0/0&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">-</a></li>
-                                <li><a class="selector_item en_level1" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;1/3&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">1</a></li>
-                                <li><a class="selector_item en_level2" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;2/4&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">2</a></li>
-                                <li><a class="selector_item en_level3" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;3/5&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">3</a></li>
-                                <li><a class="selector_item en_level4" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;4/7&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">4</a></li>
-                                <li><a class="selector_item en_level5" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;5/9&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">5</a></li>
-                                <li><a class="selector_item en_level6" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;6/11&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">6</a></li>
-                                <li><a class="selector_item en_level7" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;7/14&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">7</a></li>
-                                <li><a class="selector_item en_level8" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;8/18&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">8</a></li>
-                                <li><a class="selector_item en_level9" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;9/22&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">9</a></li>
-                                <li><a class="selector_item en_level10" href="https://fifaonline4.nexon.com/datacenter#" onclick="DataCenter.SetSkillPoint(&#39;10/27&#39;, &#39;skillData_278252371&#39;, &#39;Strong278252371&#39;, 278252371)">10</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <a href="javascript:;" data-no="278252371" class="btn_preview"><span></span></a>
-                </div>
-            </div>
+        <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
+        </tr>
+        </c:forEach>
+        <jsp:include page="/common/pageNavigator_all.jsp">
+        <jsp:param name="id" value="player"/>
+        </jsp:include>
+        </tr>
         </div>
-        <div class="td td_ar">
-            <span class="pay">26</span>
         </div>
-            <div class="td td_ar ">
-                <span>
-                    <span class="skillData_278252371">                        
-111                    </span>
-
-                </span>
-            </div>
-        <div class="td td_ar">
-                <span>
-                    <span class="skillData_278252371" data-type="sprintspeed">
-                        109
-                    </span>
-                    
-                </span>
+        
         </div>
-        <div class="td td_ar">
-                <span>
-                    <span class="skillData_278252371" data-type="acceleration">
-                        111
-                    </span>
-                    
-                </span>
-        </div>
-        <div class="td td_ar">
-                <span>
-                    <span class="skillData_278252371" data-type="strength">
-                        101
-                    </span>
-                    
-                </span>
-        </div>
-        <div class="td td_ar">
-                <span>
-                    <span class="skillData_278252371" data-type="stamina">
-                        117
-                    </span>
-                    
-                </span>
-        </div>
-
-        <div class="td td_ar_bp bp_278252371">
-            <span class="span_bp0" style="display:none">-</span>
-            <span class="span_bp1" style="">20,300,000,000</span>
-            <span class="span_bp2" style="display:none">22,000,000,000</span>
-            <span class="span_bp3" style="display:none">37,000,000,000</span>
-            <span class="span_bp4" style="display:none">85,000,000,000</span>
-            <span class="span_bp5" style="display:none">376,000,000,000</span>
-            <span class="span_bp6" style="display:none">966,000,000,000</span>
-            <span class="span_bp7" style="display:none">2,320,000,000,000</span>
-            <span class="span_bp8" style="display:none">6,030,000,000,000</span>
-            <span class="span_bp9" style="display:none">16,900,000,000,000</span>
-            <span class="span_bp10" style="display:none">54,100,000,000,000</span>
-        </div>
-        <div class="td td_ar_score"><span>8.1 <em>(10)</em></span></div>
-    </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
     <!-- //데이터센터 -->
-
 </main>
 <!-- //MAIN -->
 <!-- 미리보기 팝업 -->
@@ -421,124 +292,7 @@
 <!-- 비교하기 팝업-->
 <div id="playerCompare" class="compare_popup layer_compare">
 </div>
-
-<script>
-    var sliderDefaultOption = {
-        range: true,
-        min: 0,
-        max: 200,
-        values: [ 0, 200],
-        change: function (event, ui) {
-
-            var target = $(this).slider();
-            target.find(".min_num").text(ui.values[0]);
-            target.find(".max_num").text(ui.values[1]);
-            target.closest(".range_slider").find(".min_val").val(ui.values[0])
-            target.closest(".range_slider").find(".max_val").val(ui.values[1]);
-            fn_CheckSearchCount();
-
-        },
-        slide: function (event, ui) {
-
-            var target = $(this).slider();
-            target.find(".min_num").text(ui.values[0]);
-            target.find(".max_num").text(ui.values[1]);
-            target.closest(".range_slider").find(".min_val").val(ui.values[0])
-            target.closest(".range_slider").find(".max_val").val(ui.values[1]);
-        },
-        create: function (event, ui) {
-
-            var that = this;
-            var target = $(this).slider();
-
-            target.eq(0).append("<span class='half_num'>" + (parseInt(($(this).slider("option", "min") + $(this).slider("option", "max")) / 2)) + "</span>")
-            target.find(".ui-slider-handle").eq(0).append("<span class='min_num'>" + $(this).slider("values", 0) + "</span>");
-            target.find(".ui-slider-handle").eq(1).append("<span class='max_num'>" + $(this).slider("values", 1) + "</span>");
-            target.closest(".range_slider").find(".min_val").val($(this).slider("values", 0));
-            target.closest(".range_slider").find(".max_val").val($(this).slider("values", 1));
-
-            target.closest(".range_slider").find(".min_val").on("change", function () {
-
-                if ($(this).val() > $(that).slider("values", 1)) {
-                    $(that).slider("values", 0, $(that).slider("values", 1));
-                    return
-                }
-                $(that).slider("values", 0, $(this).val());
-            });
-            target.closest(".range_slider").find(".max_val").on("change", function () {
-                if ($(this).val() < $(that).slider("values", 0)) {
-                    $(that).slider("values", 1, $(that).slider("values", 0));
-                    return
-                }
-                $(that).slider("values", 1, $(this).val());
-            });
-        },
-    };
-
-    $("#slider1 .wrap_slider").slider(sliderDefaultOption);
-    $("#slider2 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 4, max: 99, values: [0,99] }));
-
-    $("#slider3 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 40, max: 200, values: [0,200] }));
-    $("#slider4 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 40, max: 200, values: [0,200] }));
-    $("#slider5 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 40, max: 200, values: [0,200] }));
-
-    $("#slider6 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 1900, max: 2010, values: [1900,2010] }));
-    $("#slider7 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 140, max: 208, values: [140,208] }));
-    $("#slider8 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 50, max: 110, values: [50,110] }));
-    $("#slider9 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 0, max: 99999, values: [0, 99999] }));
-    $("#slider19 .wrap_slider").slider($.extend(sliderDefaultOption, { min: 0, max: 10, values: [0, 10] }));
-
-
-    $("body").click(function (e) {
-        if ($(e.target).hasClass("btn_preview")) {
-        } else {
-            $("#playerPreview").hide();
-            $(".btn_preview").removeClass("active");
-        }
-    });
-
-    $(function () {
-        var _targetEl = $('#searchName');
-        _targetEl.parent().append("<div class='autoList'></div>");
-
-        var _txt;
-        _targetEl.autocomplete({
-            source: function (request, response) {
-                _txt = request.term;
-                return $.ajax({
-                    url: "/datacenter/searchtxtplayerlist",
-                    type: "POST",
-                    cache: false,
-                    dataType: "text",
-                    data: { strsearch: $("#searchName").val() }
-                }).done(function (data) {
-                    if (data.length) {
-                        var arr = $.parseJSON(data);
-                        arr.splice(10);
-                        response(arr);
-                    }
-                })
-            },
-            delay: 1000,
-            appendTo: ".autoList",
-            autoFocus: true,
-            focus: function (event, ui) {
-                return false;
-            },
-            minLength: 1,
-            select: function (evt, ui) {
-                $("#searchName").val(ui.item.label);
-                return false;
-            }
-        }).autocomplete("instance")._renderItem = function (ul, item) {
-            var regex = new RegExp(_txt, 'gi');
-            return $("<li>")
-                .append("<div>" + (item.label.replace(regex, "<span style='color:#25c7f5'>" + _txt + "</span>")) + "</div>")
-                .appendTo(ul);
-        };
-    });
-</script>
-
+	
         <!-- //MAIN -->
         <!-- 공통 FOOTER -->
         <footer id="footer" role="contentinfo">

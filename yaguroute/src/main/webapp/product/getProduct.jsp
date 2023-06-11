@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -30,6 +31,49 @@
         object-fit: contain;
 }
 
+body {
+  text-align: center;
+  color: #fff;
+  font-family: arial;
+}
+.content {
+  width: 800px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 16px;
+  line-height: 20px;
+  margin-top: 20px;
+}
+hr {
+  width: 70px;
+  height: @center-border-size;
+  margin: 0 auto;
+  background: @center-border-color;
+  border: none;
+  position: relative;
+  overflow: visible;
+  &:before,
+  &:after {
+    position: absolute;
+    display: block;
+    content: "";
+    height: 1px;
+    width: 55px;
+    border-bottom: 1px solid @side-border-color;
+    top: @center-border-size/2 - @side-border-size - (@side-border-size/2);
+  }
+  &:before {
+    left: -60px;
+  }
+    &:after {
+    right: -60px;
+  }
+}
 </style>
 
 
@@ -68,6 +112,11 @@
 		})
 
 	})
+	
+	    function changeStageImage(image) {
+        var stageImages = document.getElementById("stageImages");
+        stageImages.innerHTML = '<li class="stage-item"><span class="store-badge new">new</span><img src="' + image.src + '" alt="product-main-img"></li>';
+    }
 </script>
 
 </head>
@@ -80,81 +129,55 @@
 
 
 
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>상품상세조회</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
-<!--BREADCRUMBS END-->
-
     <!--PRODUCT SINGLE BEGIN-->
 
-    <section class="product-single">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12"><h4>${product.prodName} ${product.prodTeamCode }</h4></div>
-                <div class="col-md-7">
-                    <div class="product-slider">
-                        <div class="connected-carousels">
-                            <div class="navigation jcarousel-skin-default">
-                                <a href="#" class="prev prev-navigation"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
-                                <a href="#" class="next next-navigation"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
-                                    <ul>
-                                        <li>
-                                            <img src="/images/product/${product.prodImageFirst}" alt="product-thumb">
-                                        </li>
-                                        <li>
-                                            <img src="/images/product/${product.prodImageSecond}" alt="product-thumb">
-                                        </li>
-                                        <li>
-                                            <img src="/images/product/${product.prodImageThird}"alt="product-thumb">
-                                        </li>
-                                        <li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="stage">
-                                <div class="carousel carousel-stage"  style="width: 100%; height: 500px;">
-                                    <ul>
-                                        <li class="stage-item">
-                                            <span class="store-badge new">new</span>
-                                            <img src="/images/product/${product.prodImageFirst}" alt="product-main-img">
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                
+		    <section class="product-single">
+		        <div class="container">
+		            <div class="row">
+		<div class="col-md-12">
+		    <h3>PRODUCT DETAIL</h3>
+		</div>
+		<div class="col-md-7">
+		    <div class="product-slider">
+		        <div class="connected-carousels">
+		            <div class="navigation jcarousel-skin-default">
+		                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
+		                    <ul>
+		                        <li>
+		                            <img src="/images/product/${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                        </li>
+		                        <li>
+		                            <img src="/images/product/${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                        </li>
+		                        <li>
+		                            <img src="/images/product/${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+		            <div class="stage" style="overflow: hidden;">
+		                <div class="carousel carousel-stage" style="width: 100%; height: 500px; display: flex; align-items: center; justify-content: center;">
+		                    <ul id="stageImages">
+		                        <li class="stage-item">
+		                            <span class="store-badge new">new</span>
+		                            <img src="/images/product/${product.prodImageFirst}" alt="product-main-img">
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+                                
                 <div class="col-md-5">
                     <div class="product-right-info">
-                        <div class="rating-wrap">
-                            <div class="rating four"></div>
-                            <div class="quantity">( -----------)</div>
-                        </div>
-						
-						<h4>${product.prodName}</h4>
-                        <div class="price">${product.prodPrice}원</div>
-                       
-   
+                        <div class="details">
+                        <h4> 엠블럼 </h4>
+                            <div class="content"><hr /></div> 
+                        </div>						
+						<h4>[${product.prodTeamCode}] ${product.prodName}</h4>
+                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
+                        <br>                    
                         <div class="quantity-wrap">
                         <div>
                         	<input id="prodNo" type="hidden" value="${product.prodNo}">
@@ -164,35 +187,45 @@
                             <button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
                             <button id="addTran" type="button" class="btn btn-warning">바로구매</button>
                         </div>
-                        <div class="details">
-                            <ul>
-                                <li><span>team: </span>${product.prodTeamCode}</li>
-                                <li><span>Categories: </span>${product.prodCategory} </li>
-                                <li>
-                                    <span>Tags: </span>
-                                    <a href="#">이것도,</a>
-                                    <a href="#">쓸수있으면,</a>
-                                    <a href="#">좋은,</a>
-                                    <a href="#">태그,</a>
-                                    <a href="#">running,</a>
-                                    <a href="#">run</a>
-                                </li>
-                            </ul>
-                        </div>
+						<br> 
+						 <div class="details">
+						    <ul>
+						        <li><span>배송비: </span>무료</li>
+									<li>
+									    <span>적립: </span>
+									    <c:set var="accumulation" value="${product.prodPrice * 0.01}" />
+									    ${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation} 포인트 </li> 
+									    <li style="font-size: 12px;"><span style="font-size: 12px;">구매금액의 1%가 포인트로 적립됩니다. </span></li>
+						    </ul>
+						</div>
+					</div>
+			</div>
+   </div>
+   
+   </div>
+   </div>
+   
+   </section>
+   
+   <br>
+      <br>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+                      <ul class="socials">
+                            <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        </ul>
+
         <div class="product-tab-wrap">
             <div class="tab-top">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <ul>
-                                <li><a href="#description">Description</a></li>
-                                <li><a href="#aditionalInformation">Aditional Information</a></li>
-                                <li class="active"><a href="#reviews">Reviews (2)</a></li>
+                                <li><a href="#description">상품 정보</a></li>
+                                <li class="active"><a href="#reviews">상품평 (-)</a></li>
                             </ul>
                         </div>
                     </div>
@@ -281,9 +314,11 @@
             </div>
         </div>
 
-
-
-
+        <!--STORE BANNER BEGIN-->
+   
+   </div>
+   </div>
+   
    
 </body>
 
