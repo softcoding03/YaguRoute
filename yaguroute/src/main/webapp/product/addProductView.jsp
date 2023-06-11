@@ -1,17 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+
+
 <head>
-<meta charset="UTF-8">
-<title>상품 등록</title>
-<link
-	href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900"
-	rel="stylesheet" />
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>상품 등록</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    
+    
 <script type="text/javascript">
 	$(function() {
 		function fncAddProduct() {
@@ -47,24 +54,22 @@
 			$("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action", "/product/addProduct").submit();
 		}
 
-		$(".comment-submit:contains('등록')").on('click', function() {
+		$(".addProduct-submit:contains('등록')").on('click', function() {
 			fncAddProduct();
 		});
-		$(".comment-submit:contains('취소')").on('click', function() {
+		$(".addProduct-submit:contains('취소')").on('click', function() {
 			self.location = "../algudgodmain.jsp";
 		});
 	});
 
-	function FileUpload() {
-
-		$("form").attr("enctype", "multipart/form-data").submit();
-	}
 </script>
 </head>
 
 <style>
-.comment-submit {
-	background-color: #8CD790; /* 배경색 설정 */
+
+
+.addProduct-submit {
+	background-color: #77af9c; /* 배경색 설정 */
 	color: white; /* 글자색 설정 */
 	border: none; /* 테두리 제거 */
 	padding: 10px 20px; /* 안쪽 여백 설정 */
@@ -72,41 +77,79 @@
 	cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 }
 
-.comment-submit:hover {
+.addProduct-submit:hover {
 	background-color: #4CAF50; /* 마우스 오버 시 배경색 변경 */
 }
+
 </style>
 
+<style>
+.custom-file-input {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-file-input:hover {
+  background-color: #f0d264;
+}
+
+.custom-file-input span {
+  font-weight: bold;
+}
+
+.custom-file-input input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.addProduct-submit {
+  border-radius: 20px;
+   background-color: #7fccde;
+  color: white;
+  font-size: 16px;
+  border: none;
+}
+
+</style>
+
+
 <body bgcolor="#ffffff" text="#000000">
+	 <!-- ToolBar Start /////////////////////////////////////-->
+	 <jsp:include page="/common/topBar.jsp"/>
+	 <!-- ToolBar End /////////////////////////////////////-->
+			
+				<!--상단 이미지 바-->
+							
 
-
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<!--BREADCRUMBS BEGIN-->
-				<section class="image-header">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-8">
-								<div class="info">
-									<div class="wrap">
-										<h1>상품 등록</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				<!--BREADCRUMBS END-->
+				<!--상단 이미지 바-->
 
 				<!--CHECKOUT WRAP BEGIN-->
-
-				<div class="col-md-7">
+<section class="hockey-stats">
+		   <div class="container">
+		   <br>
+		      <div class="row">
+			        <h3 style="text-align: center;"> Add Product Information</h3>
+			    <div class="container" style="border: 2px solid #000; padding: 10px; width: 600px; border-radius: 10px;">
+				<div class="col-md-12" >
 
 					<div class="customer-info">
 						<form>
-						<p></p>
+					    <br>
 							<div class="row">
+
 								<div class="col-md-9">
 									<div class="item">
 										<label> <span>상품명<i>*</i></span> <input type="text" placeholder="상품명을 입력하세요" name="prodName">
@@ -116,10 +159,14 @@
 
 								<div class="col-md-12">
 									<div class="item">
-										<label> <span>상품 이미지 </span> <input type="file" name="prodImages" multiple="multiple">
-										</label>
-									</div>
-								</div>
+								<label>
+								  <span>상품 이미지</span>
+								  <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; background-color: #f0f0f0;">
+								</label>
+							
+												</div>
+																</div>
+							
 
 								<div class="col-md-9">
 									<div class="item">
@@ -128,7 +175,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-6">
+								<div class="col-md-5">
 									<div class="item">
 										<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
 												<option value="0"
@@ -146,7 +193,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div class="item">
 										<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
 												<option value="OB"
@@ -175,8 +222,6 @@
 										</label>
 									</div>
 								</div>
-
-
 								<div class="col-md-9">
 									<div class="item">
 										<label> <span>상품재고 <i>*</i></span> <input type="text"
@@ -185,22 +230,22 @@
 									</div>
 								</div>
 							</div>
-
 						</form>
 					</div>
 				</div>
-
-			</div>
 		</div>
 	</div>
+</div>
+<br>
+</section> 
 
-	<div class="col-md-8 text-center">
-		<button class="comment-submit">등록</button>
-		<td></td>
-		<button class="comment-submit">취소</button>
+	<div class="col-md-12 text-center">
+		<br>
+	    <button class="addProduct-submit" type="button"> 등록 </button>
+		<button class="addProduct-submit" type="button"> 취소 </button>
 	</div>
-
-
+	<br>
+	
 </body>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
@@ -208,8 +253,7 @@
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
 <script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
 <script type="text/javascript" src="/js/library/jquery.jcarousel.js"></script>
-<script type="text/javascript"
-	src="/js/library/jcarousel.connected-carousels.js"></script>
+<script type="text/javascript" src="/js/library/jcarousel.connected-carousels.js"></script>
 <script type="text/javascript" src="/js/library/owl.carousel.js"></script>
 <script type="text/javascript" src="/js/library/progressbar.js"></script>
 <script type="text/javascript" src="/js/library/jquery.bracket.min.js"></script>

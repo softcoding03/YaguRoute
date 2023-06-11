@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baseball.common.domain.Search;
 import com.baseball.service.domain.Product;
@@ -26,6 +27,7 @@ public interface ProductDao {
 	public List<Product> getSalesProdList(Map<String, Object>map) throws Exception; // 판매상품목록 (admin, user)
 	
 	public int getTotalCount(Map<String, Object> map) throws Exception;
+	
 
 	//public List autoComplete() throws Exception;
 	
