@@ -113,6 +113,12 @@
 		SELECT *
 		FROM transaction
 		WHERE user_id = #{userId} AND tran_type = #{tranType}
+		<if test="search.days != 0">
+		AND tran_date >= NOW() - INTERVAL ${search.days} DAY
+		</if>
+		<if test="search.days == 30">
+		AND tran_date >= NOW() - INTERVAL 1 month
+		</if>
 		LIMIT #{search.startRowNum}, #{search.pageSize}
 		
 		

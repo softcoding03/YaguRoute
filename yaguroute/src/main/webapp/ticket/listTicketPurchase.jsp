@@ -10,7 +10,10 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-    
+
+	function fncGetTicketPurchaseList(currentPage){
+		self.location="/ticket/getTicketPurchaseList?userId=${user.userId}&currentPage="+currentPage;
+	}
     
     $(function(){
 		$(".getTicketPurchaseDetail").on("click" , function() {
@@ -23,6 +26,13 @@
 			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top + ', toolbar=no'; // 주소 표시줄이 숨겨진 옵션 추가
 			window.open(url,"경기 티켓 예매",options);	
 		});
+		
+		$("label").on("click" , function() {
+			var daysValue = $(this).siblings("input").val();
+			console.log(daysValue);
+			self.location="/ticket/getTicketPurchaseList?userId=${user.userId}&daysValue="+daysValue;
+		});
+		
     })
    
 </script>
@@ -69,8 +79,9 @@
 <body>
 <jsp:include page="/common/topBar.jsp"/>
 
+
 <div class="image-container">
-  <img class="teamTopBar" src="${team.teamTopBar}">
+  <img class="teamTopBar" src="/images/teamTopBar/yagurouteTopBar.png">
   <div class="text-overlay"><h1>티켓 예매 내역</h1></div>
 </div>
 
@@ -82,20 +93,12 @@
 				<div class="ui-slider"></div>
 			</div>
 			<div class="filter-items-wrap">
-				<div class="filter-title">기간별 조회</div>
+				<div class="filter-title">예매기간별 조회</div>
 				<div class="filter-item">
 					<ul>
-						<li><input type="checkbox" class="filter-check" id="test1"> <label for="test1">7일</label></li>
-						<li><input type="checkbox" class="filter-check" id="test2"> <label for="test2">15일</label></li>
-						<li><input type="checkbox" class="filter-check" id="test3"> <label for="test3">1개월</label></li>
-					</ul>
-				</div>
-				<div class="filter-title">예매상태별 조회 </div>
-				<div class="filter-item">
-					<ul>
-						<li><input type="checkbox" class="filter-check" id="test12"> <label for="test12">전체</label></li>
-						<li><input type="checkbox" class="filter-check" id="test13"> <label for="test13">예매</label></li>
-						<li><input type="checkbox" class="filter-check" id="test14"> <label for="test14">취소</label></li>
+						<li><input type="checkbox" class="filter-check" id="test1" value="7"> <label for="test1">7일</label></li>
+						<li><input type="checkbox" class="filter-check" id="test2" value="15"> <label for="test2">15일</label></li>
+						<li><input type="checkbox" class="filter-check" id="test3" value="30"> <label for="test3">1개월</label></li>
 					</ul>
 				</div>
 			</div>
@@ -139,6 +142,11 @@
 		        </tbody>
 		      </table>
 	      </div>
+		   <!-- PageNavigation Start... -->
+			<jsp:include page="../common/pageNavigator_all.jsp">
+			<jsp:param name="id" value="ticket" />
+			</jsp:include>
+			<!-- PageNavigation End... -->
 	   	</div>
 	   </div>
 	</div>

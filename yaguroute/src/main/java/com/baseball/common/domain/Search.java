@@ -11,10 +11,19 @@ public class Search {
 	private int pageSize;
 	private int endRowNum;
 	private int startRowNum;
+	private int days;
 	
 	//Constructor
 	public Search() {
 		
+	}
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
 	}
 
 	public String getSearchCondition() {
@@ -87,9 +96,6 @@ public class Search {
 		return "Search [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", standard="
 				+ standard + ", category=" + category + ", teamCondition=" + teamCondition + ", currentPage="
 				+ currentPage + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ "]";
+				+ ", days=" + days + "]";
 	}
-	
-
-	
 }
