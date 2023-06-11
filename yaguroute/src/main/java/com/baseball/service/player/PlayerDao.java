@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Player;
 
 public interface PlayerDao {
@@ -21,4 +22,6 @@ public interface PlayerDao {
 	public void dropForeignKey();
 	
 	public void addForeignKey();
+	
+	public List<Team> getAllTeam();
 }

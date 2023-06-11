@@ -25,6 +25,22 @@
 		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
 	</resultMap>
 	
+	<resultMap id="teamSelectMap" type="team">
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="teamNickName" column="TEAM_NICKNAME" jdbcType="VARCHAR"/>
+		<result property="teamEmblem" column="TEAM_EMBLEM" jdbcType="VARCHAR"/>
+		<result property="stadiumName" column="STADIUM_NAME" jdbcType="VARCHAR"/>
+		<result property="stadiumImageFile" column="STADIUM_IMAGE_FILE" jdbcType="VARCHAR"/>
+		<result property="hometown" column="HOMETOWN" jdbcType="VARCHAR"/>
+		<result property="stadiumLat" column="STADIUM_LAT_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumLng" column="STADIUM_LNG_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumAddress" column="STADIUM_ADDRESS" jdbcType="VARCHAR"/>
+		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
+		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
+		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+		<result property="teamTopBar" column="TEAM_TOPBAR" jdbcType="VARCHAR"/>
+		<result property="teamColor" column="TEAM_COLOR" jdbcType="VARCHAR"/>
+	</resultMap>
 	<!-- 선수 테이블에 추가 -->
 	<insert id="addPlayer" parameterType="player">
 
@@ -73,18 +89,12 @@
 	<sql id="playerList">
 	SELECT *
 	FROM player
-	
-	<if test="searchCondition != null">
 		<where>
-			<if test="searchCondition == 0 and searchKeyword !='' ">
- 				player_name = #{searchKeyword}
-			</if>
-			<if test="searchCondition == 1 and searchKeyword !='' ">
-				team_code = #{searchKeyword}
+			<if test="searchKeyword !='' ">
+ 				player_name LIKE '%${searchKeyword}%'
 			</if>
 		</where>
-		</if>
-		ORDER BY team_code
+		ORDER BY player_name
 	</sql>
 	
 	<select id="getTotalCount" parameterType="search" resultType="int">
@@ -92,5 +102,9 @@
 		FROM (<include refid="playerList"/>) countTable
 	</select>
 	
+	<select id="getAllTeam" resultMap="teamSelectMap">
+		select *
+		from team
+	</select>
 	
 </mapper>

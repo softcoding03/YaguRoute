@@ -67,7 +67,7 @@ img.logo{
                     
                     <li>  <a href="#other"><span>선수 조회</span></a>
                         <ul>
-                        	 <li><a href="/player/listPlayer(new).jsp"><span>선수 리스트</span></a></li>
+                        	 <li><a href="/player/listPlayer"><span>선수 리스트</span></a></li>
                             <li><a href="/player/listBestPlayer"><span>이 주의 선수</span></a></li>
                         </ul>
                     </li>

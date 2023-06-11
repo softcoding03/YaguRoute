@@ -33,9 +33,11 @@
 					<c:if test="${param.id == 'dlvyTran'}">
 					  <a href="javascript:fncGetDlvyTranList('${ resultPage.currentPage-1}')">
 					</c:if>
-					
 			    	<c:if test="${param.id == 'player'}">
 					  <a href="javascript:fncGetPlayerList('${ resultPage.currentPage-1}')">
+					</c:if>
+					<c:if test="${param.id == 'ticket'}">
+					  <a href="javascript:fncGetTicketPurchaseList('${ resultPage.currentPage-1}')">
 					</c:if>
 					<i class="fa fa-chevron-left" aria-hidden="true"></i></a>
 				</li>
@@ -65,11 +67,12 @@
 				    	<c:if test="${param.id == 'dlvyTran'}">
 				    		<a href="javascript:fncGetDlvyTranList'${ i }');">${ i }<span class="sr-only">(current)</span></a>
 				    	</c:if>
-				    	
 				    	<c:if test="${param.id == 'player'}">
 				    		<a href="javascript:fncGetPlayerList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
 				    	</c:if>
-				    	
+				    	<c:if test="${param.id == 'ticket'}">
+				    		<a href="javascript:fncGetTicketPurchaseList('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+				    	</c:if>
 				    </li>
 				</c:if>	
 				
@@ -93,9 +96,11 @@
 						<c:if test="${param.id == 'dlvyTran'}">
 							<a href="javascript:fncGetDlvyTranList('${ i }');">${ i }</a>
 						</c:if>
-						
 						<c:if test="${param.id == 'player'}">
 							<a href="javascript:fncGetPlayerList('${ i }');">${ i }</a>
+						</c:if>
+						<c:if test="${param.id == 'ticket'}">
+							<a href="javascript:fncGetTicketPurchaseList('${ i }');">${ i }</a>
 						</c:if>
 					</li>
 				</c:if>
@@ -125,9 +130,11 @@
 			      <c:if test="${param.id == 'dlvyTran'}">
 			        <a href="javascript:fncGetDlvyTranList('${resultPage.endUnitPage+1}')">
 			      </c:if>
-			      
 			      <c:if test="${param.id == 'player'}">
 			        <a href="javascript:fncGetPlayerList('${resultPage.endUnitPage+1}')">
+			      </c:if>
+			      <c:if test="${param.id == 'ticket'}">
+			        <a href="javascript:fncGetTicketPurchaseList('${resultPage.endUnitPage+1}')">
 			      </c:if>
 			    <i class="fa fa-chevron-left" aria-hidden="true"></i></a>
 				</li>
