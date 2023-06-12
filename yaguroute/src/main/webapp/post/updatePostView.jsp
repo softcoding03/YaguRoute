@@ -113,6 +113,16 @@
      
    
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1DH7W8BRC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L1DH7W8BRC');
+</script>
+
 <body>
 		<form class="form-horizontal" >
 		    <input type="hidden" name="teamCode" value="${post.teamCode}"/>

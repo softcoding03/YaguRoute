@@ -18,6 +18,8 @@ public interface GameService {
 	
 	public List<Team> getAllTeam();
 	
+	public void updateTeamInfo(Team team);
+	
 	public Game getGameInfo(String gameCode);
 	
 	public List<Game> getGameListByDate(String date);
@@ -29,6 +31,8 @@ public interface GameService {
 	public void addGame(Game game);
 	
 	public List<Game> getGameListTwoWeeks(String teamCode);
+	
+	public List<Team> getAllTeamRanking();
 	
 	public void updateTodayGameSchedule() throws Exception;
 	

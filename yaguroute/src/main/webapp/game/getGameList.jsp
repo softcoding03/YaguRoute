@@ -30,7 +30,7 @@
     
 		.sidebar-calendar{
 			position: sticky;
-		    top: 100px;
+		    top: 400px;
 		    right: 300px;
 		}
 		.background {

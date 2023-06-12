@@ -30,6 +30,45 @@
     			window.location.href="/users/logout";
     		})
     		
+    		$("#myCarousel").on('slid.bs.carousel',function(){
+    			$("#select").attr('id','');
+    			var index = $("#myCarousel").find(".carousel-inner div.active").attr("id");
+    			$("a."+index).attr('id','select')
+    		})
+    		
+    		$.ajax({
+    			url : "/game/json/getTeam",
+				method : "POST",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData,status){
+					for(var i=0;i<JSONData.length;i++){
+						var team = JSONData[i];
+						if(team.teamCode === 'ALL')
+							continue;
+						$("#teamRanking").append(
+							'<tr class="table-css" id="'+team.teamCode+'">'+ /* 이미지를 요소에 맞게 확대/축소하여 채움 */
+			                	'<td>'+team.teamRanking+'</td>'+
+			                	'<td>'+team.teamNickName+'<img src="'+team.teamEmblem+'" alt="team-image" style="padding-left:10px;width:35px;height:25px;">'+'</td>'+
+			                	'<td style="width: 50px;padding-right:50px;"></td>'+
+			                	'<td>'+team.endGameCount+'</td>'+
+			                	'<td>'+team.winCount+'</td>'+
+			                	'<td>'+team.tieCount+'</td>'+
+			                	'<td>'+team.loseCount+'</td>'+
+			                	'<td>'+team.winRate+'</td>'+
+			                '</tr>'
+						)
+						if(i<4){
+							$("#"+team.teamCode+" td:nth-child(2)").find("img").remove()
+							/* $("#"+team.teamCode+" td:first").attr("style",'color:white;background-color:'+team.teamColor+';') */
+							$("#"+team.teamCode+" td:nth-child(2)").attr("style",'border-radius: 50%;width:240px;height:60px;text-align:right;color:white;background-image:url('+team.teamTopBar+');background-repeat: no-repeat;background-size: cover;');
+							$("#"+team.teamCode).attr("class","top-css")
+						}
+					}
+				}
+    		})
     		
     		$.ajax({
 				url : "/game/json/getTodayGameInfo",
@@ -39,36 +78,71 @@
 					"Content-Type" : "application/json"
 				},
 				success : function(JSONData, status){
-					console.log(JSONData)
-					console.log(JSONData[0])
-					console.log(JSONData[0].gameCode)
-					for(var i=0;i<JSONData.length;i++){
-						var game = JSONData[i];
-						console.log(game.gameDate)
-						$(".main-lates-matches").append(
-								/* '<div>hello</div>' */
-								'<a class="item">'
-						        +'<span class="championship">'+game.gameTime+' / '+game.homeTeam.stadiumName+'</span>'
-						        +'<span class="teams-wrap">'
-						               +'<span class="team">'
-						                    +'<span>'
-						                        +'<img src="'+game.homeTeam.teamEmblem+'" alt="team-image">'
-						                    +'</span>'
-						                    +'<span>'+game.homeTeam.teamNickName+'</span>'
-						                +'</span>'
-						                +'<span class="score">'
-						                    +'<span>'+game.gameScore+'</span>'
-						                +'</span>'
-						                +'<span class="team1">'
-						                    +'<span>'+game.awayTeam.teamNickName+'</span>'
-						                    +'<span><img src="'+game.awayTeam.teamEmblem+'" alt="team-image"></span>'
-						                +'</span>'
-						        +'</span>'
-						    +'</a>'/**/
-						) //end of append
-						
-					}//end of for
-					
+					if(JSONData.length != 0){
+						for(var i=0;i<JSONData.length;i++){
+							var game = JSONData[i];
+							console.log(game.gameDate)
+							$(".main-lates-matches").append(
+									'<a '+(i === 0 ? 'id="select"' : 'id')+' role="button" class="item '+game.gameCode+'" data-target="#myCarousel" data-slide-to="'+i+'">'
+							        +'<span class="championship">'+game.gameTime+' / '+game.homeTeam.stadiumName+'</span>'
+							        +'<span class="teams-wrap">'
+							               +'<span class="team">'
+							                    +'<span>'
+							                        +'<img src="'+game.homeTeam.teamEmblem+'" alt="team-image">'
+							                    +'</span>'
+							                    +'<span>'+game.homeTeam.teamNickName+'</span>'
+							                +'</span>'
+							                +'<span class="score">'
+							                    +'<span>'+game.gameScore+'</span>'
+							                +'</span>'
+							                +'<span class="team1">'
+							                    +'<span>'+game.awayTeam.teamNickName+'</span>'
+							                    +'<span><img src="'+game.awayTeam.teamEmblem+'" alt="team-image"></span>'
+							                +'</span>'
+							        +'</span>'
+							    +'</a>'/**/
+							) //end of append(".main-lates-matches")
+						}//end of for
+					      
+					    var tmpStr = "";
+					    var tmpItem = "";
+					    for(var k=0;k<JSONData.length;k++){
+					    	var tmpGame = JSONData[k];
+					    	var gameState = tmpGame.gameStatusCode 
+					    	var message = (gameState === '0' ? '준비중' : (gameState === '1' ? 'LIVE' : (gameState === '2' || gameState === '4' ? '경기종료' : '경기취소')));
+					    	var tmpClass = (gameState === '1' ? 'stream' : (gameState === '0' || gameState === '2' || gameState === '4' ? 'atag' : 'cancel'));
+					    	var location = (gameState === '0' ? '/game/getGamePreview?gameCode='+game.gameCode : (gameState === '1' ? '/channel/getStreaming?gameCode='+game.gameCode : (gameState === '2' || gameState === '4' ? '/game/getGameRecord?gameCode='+game.gameCode : '경기취소')));
+					    	tmpItem += '<div id="'+tmpGame.gameCode+'" class="item '+(k===0 ? 'active' : '')+ '">'+
+					    	'<a class="first-slide" href="'+location+'">'+
+						    	'<div style="position: relative;" class="score">'+
+						          	'<img src="'+tmpGame.homeTeam.teamTopBar+'" alt="First slide" style="width: auto;height: 220px;">'+
+						          	'<h1 style="position: absolute; top: 20%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.homeTeam.teamNickName+'</h1>'+
+						          	'<h5 class="'+tmpClass+'" style="position: absolute; top: 50%; transform: translateY(-80%); right: 175px;">'+message+'</h5>'+
+						          	'<img class="first-slide" src="/images/ticket/vs.png" alt="vs" style="width: auto;height: 200px; position: absolute; top: 50%; transform: translateY(-55%); right: 0;">'+
+						          	'<img class="first-slide" src="'+tmpGame.awayTeam.teamTopBar+'" alt="Second slide" style="width: auto;height: 220px;">'+
+						          	'<h1 style="position: absolute; top: 70%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.awayTeam.teamNickName+'</h1>'+
+						        '</div>'+
+					    	'</a>'+
+					    	'</div>'
+						}
+						$("#myCarousel").append(
+							'<div class="carousel-inner" role="listbox">'+
+							tmpItem+
+							'</div>'+
+							'<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">'+
+					        '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>'+
+					        '<span class="sr-only">Previous</span>'+
+					      '</a>'+
+					      '<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">'+
+					        '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>'+
+					        '<span class="sr-only">Next</span>'+
+					      '</a>'
+						)//end of append("#myCarousel")
+					}else{
+						$("#noGame").text("오늘 진행되는 경기가 없습니다.");
+						$("#noGame").parent().attr('style','display:block;text-align: center;');
+						$("section.main-match-shedule h6").remove();
+					}
 				}//end of success
 				
 			})//end of ajax
@@ -97,8 +171,62 @@
     });
     
 </script> -->
-
+<style type="text/css">
+		#select{
+			 background-color: #5e8208 !important;
+		}
+		.atag {
+		  padding: 10px 10px 10px 10px;
+		  background-color: #BDBDBD !important;
+		  border-radius: 15%;
+		}
+		.cancel{
+			border-radius: 15%;
+			background-color: #db5e5e !important;
+			padding: 10px 10px 10px 10px;
+		}
+		.stream{
+			border-radius: 15%;
+			background-color: #f03a3a !important;
+			padding: 10px 10px 10px 10px;
+		}
+		table tr td:first-child{
+    		width: 100px;
+    		font-size: 20px !important;
+    		font-weight: 600 !important;
+    	}
+    	table tr td:nth-child(5){
+    		color:blue;
+    	}
+    	table tr td:nth-child(7){
+    		color:red;
+    	}
+		.top-css td,.top-css th{
+    		font-size: 16px !important;
+    		font-weight: 550 !important;
+    		font-family: none !important;
+    	}
+		.table-css td,.table-css th{
+    		font-size: 15px !important;
+    		font-weight: 500 !important;
+    		font-family: none !important;
+    	}
+    	.table-css td:nth-child(2),th:nth-child(2){
+    		width: 200px;
+    		padding-left: 0px !important;
+    	}
+<%-- end of 최성락 css --%>
+</style>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1DH7W8BRC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L1DH7W8BRC');
+</script>
 
 <body>
 	<div class="preloader-wrapper" id="preloader">
@@ -110,11 +238,11 @@
     <div class="motion-line yellow-small2"></div>
 </div>
 <jsp:include page="/common/topBar.jsp"/>
-<div class="main-slider-section">
+<!-- <div class="main-slider-section">
     <div class="main-slider">
         <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000" style="position: relative;display: flex;">
-	        	<!-- <img alt="img" src="/images/teamTopBar/WO.jpg" style="width:100%;height: auto;">
-	        	<img alt="img" src="/images/teamTopBar/HH.jpg" style="width:100%;height: auto;"> -->
+	        	<img alt="img" src="/images/teamTopBar/WO.jpg" style="width:100%;height: auto;">
+	        	<img alt="img" src="/images/teamTopBar/HH.jpg" style="width:100%;height: auto;">
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
                     <div class="main-slider-caption">
@@ -202,7 +330,7 @@
 
             </div>
 
-            <!-- Controls -->
+            Controls
             <a class="nav-arrow left-arrow" href="#main-slider" role="button" data-slide="prev">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
                 <span class="sr-only"></span>
@@ -303,42 +431,39 @@
             </span>
         </a>
     </div>
-</div>
+</div> -->
 
     <!--MAIN MACTH SHEDULE BEGIN-->
 
     <section class="main-match-shedule">
         <div class="container">
             <div class="row">
+            	<div class="col-md-12"><h4 style="text-align:center;padding-bottom: 0px;">팀 순위</h4></div>
+            	<div class="col-md-12">
+					<h4 id="nowYear"></h4>
+					<table class="table-standings" id="teamRanking">
+		                        <tr class="table-css">
+		                        	<th>순위</th>
+		                        	<th>팀</th>
+		                        	<th style="width: 50px;padding-right:50px;"></th>
+		                        	<th>경기</th>
+		                        	<th>승리</th>
+		                        	<th>무승부</th>
+		                        	<th>패배</th>
+		                        	<th>승률</th>
+		                        </tr>
+		                    </table>
+				
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12"><h4 style="text-align: center;margin-top: 50px;">Today's  Match</h4></div>
                 <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h6>Next match</h6>
                     
-<div class="main-next-match bg-cover">
-    <img src="/images/baseball/next-match-bg.jpg" class="next-match-background-img" alt="next-image"> 
-    <div class="wrap">
-        <div class="place" >Estadio Olimpico Monumental</div>
-        <div class="date" >28 septemer 2016 / 8:30 PM</div>
-        <div class="teams-wrap" >
-                <a href="staff.html" class="team">
-                    <span>Team 1</span>
-                    <span><img src="/images/common/team-logo1.png" alt="team-image"></span>
-                </a>
-                <div class="vs">
-                   vs
-                </div>
-                <a href="staff.html" class="team1">
-                    <span><img src="/images/common/team-logo2.png" alt="team-image"></span>
-                    <span>Team2</span>
-                </a>
-        </div>
-        <a href="" class="booking">UPCOMING MATCH</a>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
     </div>
-</div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h6>Latest matches</h6>
-                        
-<div class="main-lates-matches">
+                <div class="col-md-6 col-sm-12 col-xs-12">                
+	<div class="main-lates-matches">
     <!-- <a href="" class="item">
         <span class="championship">National cup - quarterfinal</span>
         <span class="teams-wrap">
@@ -361,11 +486,13 @@
     </a> -->
 </div>
                 </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;display: none;">
+                	<h1 id="noGame">안녕하세요</h1>
+                </div>
             </div>
         </div>
     </section>
 
-    <!--MAIN MACTH SHEDULE END-->
 
     <!--MAIN PLAYERS STAT BEGIN-->
 

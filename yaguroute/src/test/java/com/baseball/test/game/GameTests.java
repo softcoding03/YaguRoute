@@ -53,7 +53,7 @@ public class GameTests {
 		System.out.println(testTeam);
 	}
 	
-	@Test
+	//@Test
 	public void getTodayGame() throws Exception{
 		List<Game> game = gameCrawlingDao.getTodayGameSchedule();
 		for(Game ga : game) {
@@ -188,6 +188,21 @@ public class GameTests {
 		Calendar cal = Calendar.getInstance();
 		cal.set(2023, 6, 1);//월설정은 부터 시작
 		System.out.println(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+	}
+	
+	//@Test
+	public void updateTeamInfo() throws Exception{
+		List<Team> teamList = gameService.getAllTeam();
+		for(Team team : teamList) {
+			System.out.println(team);
+			gameService.updateTeamInfo(gameService.getTeamInfo(team.getTeamCode()));
+		}
+	}
+	
+	//@Test
+	public void addThisYearGame() throws Exception {
+		gameCrawlingDao.getThisYearGameSchedule();
+		
 	}
 
 }

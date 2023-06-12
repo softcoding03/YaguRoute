@@ -38,8 +38,11 @@ public class BasketController {
 		System.out.println(basket);
 		List<Basket> basketList = basketService.getBasketList(basket);
 		int totalPrice = 0;
-		for(Basket basketTmp : basketList) {
-			totalPrice += basketTmp.getProduct().getProdPrice()*basketTmp.getProdQuantity();
+		if(basketList.size() != 0) {
+			for(Basket basketTmp : basketList) {
+				System.out.println(basketTmp);
+				totalPrice += basketTmp.getProduct().getProdPrice()*basketTmp.getProdQuantity();
+			}
 		}
 		
 		System.out.println(totalPrice);

@@ -57,6 +57,10 @@
 		where user_id = #{value}
 	</select>
 	
+	<!-- 방금 insert된 auto_increment 값 get하기 -->
+	<select id="getLastCommentNo" resultType="int">
+			select last_insert_id()
+	</select>
 	<select id="getComment" parameterType="int" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		WHERE comment_no = #{value}
