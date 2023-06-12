@@ -165,9 +165,11 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		SimpleDateFormat strFromat = new SimpleDateFormat("yyyyMMdd");
 		WebDriver driver = null;
 		WebDriver orderDriver = null;
+		WebDriver monthDriver = null;
 		try{
 			driver = chromeDriverPool.acquireWebDriver();
 			orderDriver = chromeDriverPool.acquireWebDriver();
+			monthDriver = chromeDriverPool.acquireWebDriver();
 			/*WebDriver driver = new ChromeDriver(ops);*/
 			
 			orderDriver.get("https://sports.news.naver.com/kbaseball/schedule/index");
@@ -175,14 +177,14 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			orderDriver.findElement(By.xpath("//*[@id=\"_currentYearButton\"]")).click();
 			List<WebElement> yearList = orderDriver.findElements(By.cssSelector("#_yearList > li"));
 			
-			orderDriver.findElement(By.xpath("//*[@id=\"_currentMonthButton\"]")).click();
-			List<WebElement> monthList = orderDriver.findElements(By.cssSelector("#_monthList > li"));
-			
 			for(WebElement year : yearList) {
+				monthDriver.get("https://sports.news.naver.com/kbaseball/schedule/index?date=20230612&month=03&year="+year.getText()+"&teamCode=");
+				monthDriver.findElement(By.xpath("//*[@id=\"_currentMonthButton\"]")).click();
+				List<WebElement> monthList = monthDriver.findElements(By.cssSelector("#_monthList > li"));
 				for(WebElement mon : monthList) {
-					System.out.println(mon.getText()+year.getText()+"");
+					System.out.println(year.getText()+" "+mon.getText());
 					
-					String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230520&month="+mon.getText()+"&year="+year.getText()+"&teamCode=";
+					String url = "https://sports.news.naver.com/kbaseball/schedule/index?date=20230612&month="+mon.getText()+"&year="+year.getText()+"&teamCode=";
 					
 					driver.get(url);
 					
@@ -257,10 +259,10 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 								continue;
 							}else {
 								game.setGameCode(gameTmp);
+								System.out.println(game);
+								gameDao.addGame(game);
 								thisYearGameList.add(game);
 							}
-							System.out.println(game);
-							
 						}
 					}
 				}

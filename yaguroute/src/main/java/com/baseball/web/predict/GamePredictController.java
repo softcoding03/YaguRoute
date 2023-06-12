@@ -121,11 +121,10 @@ public class GamePredictController {
 		return "/predict/getUserPredict";
 	}
 	
-	@Scheduled(cron = "0 10 0 * * ?")
+	@Scheduled(cron = "0 55 23 * * ?")
 	public void updatePredState() throws Exception {
-		System.out.println("hello!!!");
-		//String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String nowDate = "2023-06-08";
+		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		//String nowDate = "2023-06-08";
 		List<Game> gameList = gameService.getGameListByDate(nowDate);
 		boolean state = true;
 		for(Game game : gameList) {

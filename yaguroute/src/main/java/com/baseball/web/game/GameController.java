@@ -154,9 +154,6 @@ public class GameController {
 		List<Team> allTeam = gameService.getAllTeam();
 		Team teamInfo = gameService.getTeamInfo(teamCode);
 		
-		for(Team team : allTeam) {
-			System.out.println(team);
-		}
 		System.out.println(teamCode);
 		
 		request.setAttribute("teamInfo", teamInfo);
@@ -169,6 +166,15 @@ public class GameController {
 	@Scheduled(cron = "0 1/5 * * * ?")
 	public void updateGameState() throws Exception {
 		gameService.updateTodayGameSchedule();
+	}
+	
+	@Scheduled(cron = "0 50 23 * * ?")
+	public void updateTeamInfo() throws Exception {
+		List<Team> teamList = gameService.getAllTeam();
+		for(Team team : teamList) {
+			gameService.getTeamInfo(team.getTeamCode());
+			
+		}
 	}
 //	
 //	public void addDynamicTask() {
