@@ -22,6 +22,10 @@ public interface GameDao {
 	
 	public void updateGameState(Game game);
 	
+	public void updateTeamInfo(Team team);
+	
+	public List<Team> getAllTeamRanking();
+	
 	public List<Game> getGameListByMonthly(String date, String teamCode); 
 	
 	public void addGame(Game game);

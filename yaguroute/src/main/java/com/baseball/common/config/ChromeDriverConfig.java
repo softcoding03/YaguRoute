@@ -46,6 +46,7 @@ public class ChromeDriverConfig {
 		private WebDriver createNewWebDriver() {
 			String WEB_DRIVER_ID = "webdriver.chrome.driver";
 			String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
+			String WEB_DRIVER_LINUX_PATH ="/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/chromedriver_linux64/chromedriver";
 			
 			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 			ChromeOptions ops = new ChromeOptions();

@@ -28,7 +28,15 @@
 		
     </script>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1DH7W8BRC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-L1DH7W8BRC');
+</script>
 <body>
 
 <jsp:include page="/common/topBar.jsp"/>
@@ -52,21 +60,6 @@
     </div>
 </section>
 <!--BREADCRUMBS END-->
-<table>
-   <tr>
-   <td>
-    <button type="button" class="btn btn-warning teamButton" value="HH">한화</button>
-    <button type="button" class="btn btn-warning teamButton" value="HT">KIA</button>
-    <button type="button" class="btn btn-warning teamButton" value="KT">KT</button>
-    <button type="button" class="btn btn-warning teamButton" value="LG">LG</button>
-    <button type="button" class="btn btn-warning teamButton" value="LT">롯데</button>
-    <button type="button" class="btn btn-warning teamButton" value="NC">NC</button>
-    <button type="button" class="btn btn-warning teamButton" value="OB">두산</button>
-    <button type="button" class="btn btn-warning teamButton" value="SK">SSG</button>
-    <button type="button" class="btn btn-warning teamButton" value="SS">삼성</button>
-    <button type="button" class="btn btn-warning teamButton" value="WO">키움</button>
-   </td>
-</table>
 
 <div class="broadcast-wrap">
    <div class="container">

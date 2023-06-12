@@ -19,6 +19,13 @@
 		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
 		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
 		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+		<result property="teamRanking" column="TEAM_RANKING" jdbcType="NUMERIC"/>
+		<result property="endGameCount" column="END_GAME_COUNT" jdbcType="NUMERIC"/>
+		<result property="winCount" column="WIN_COUNT" jdbcType="NUMERIC"/>
+		<result property="loseCount" column="LOSE_COUNT" jdbcType="NUMERIC"/>
+		<result property="tieCount" column="TIE_COUNT" jdbcType="NUMERIC"/>
+		<result property="winRate" column="WIN_RATE" jdbcType="VARCHAR"/>
+		<result property="lastTenMatch" column="LAST_TEN_MATCH" jdbcType="VARCHAR"/>
 		<result property="teamTopBar" column="TEAM_TOPBAR" jdbcType="VARCHAR"/>
 		<result property="teamColor" column="TEAM_COLOR" jdbcType="VARCHAR"/>
 	</resultMap>
@@ -59,6 +66,12 @@
 	<select id="getAllTeam" resultMap="teamSelectMap">
 		select *
 		from team
+	</select>
+	
+	<select id="getAllTeamRanking" resultMap="teamSelectMap">
+		select *
+		from team
+		ORDER BY TEAM_RANKING;
 	</select>
 	
 	<select id="getGameInfo" parameterType="string" resultMap="gameSelectMap">
@@ -107,7 +120,7 @@
 		</where>
 	</update>
 	
-	<insert id="addThisYearGameSchedule" parameterType="game">
+	<insert id="addGame" parameterType="game">
 		insert into game (GAME_CODE, HOME_TEAM_CODE, AWAY_TEAM_CODE,GAME_DATE,GAME_TIME,GAME_STATUS_CODE,GAME_SCORE)
 		values(
 			#{gameCode},
@@ -139,6 +152,22 @@
 		</set>
 		<where>
 			game_code = #{gameCode}
+		</where>
+	</update>
+	
+	<update id="updateTeamInfo" parameterType="team">
+		update team
+		<set>
+			TEAM_RANKING = #{teamRanking},
+			END_GAME_COUNT = #{endGameCount},
+			WIN_COUNT = #{winCount},
+			LOSE_COUNT = #{loseCount},
+			TIE_COUNT = #{tieCount},
+			WIN_RATE = #{winRate},
+			LAST_TEN_MATCH = #{lastTenMatch}
+		</set>
+		<where>
+			TEAM_CODE = #{teamCode}
 		</where>
 	</update>
 	

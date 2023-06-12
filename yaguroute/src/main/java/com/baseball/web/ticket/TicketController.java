@@ -213,7 +213,10 @@ public class TicketController {
 		
 		User user= (User)session.getAttribute("user");
 		Team team = gameService.getTeamInfo(user.getTeamCode()); //상단바 출력위한 팀정보
+		//모든Team 정보 조회
+		List<Team> allTeam = gameService.getAllTeam();
 		
+		model.addAttribute("allTeam", allTeam);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("team", team);
 		model.addAttribute("transaction", list);//transaction 결제내역 리스트 (gamelist와 1:1)

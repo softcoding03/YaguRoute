@@ -7,7 +7,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>getTransactionList</title>
+<title>addTransaction</title>
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900"
 	rel="stylesheet" />
@@ -61,8 +61,7 @@
 <script type="text/javascript" src="js/library/bootstrap.js"></script>
 <script type="text/javascript" src="js/library/jquery.sticky.js"></script>
 <script type="text/javascript" src="js/library/jquery.jcarousel.js"></script>
-<script type="text/javascript"
-	src="js/library/jcarousel.connected-carousels.js"></script>
+<script type="text/javascript" src="js/library/jcarousel.connected-carousels.js"></script>
 <script type="text/javascript" src="js/library/owl.carousel.js"></script>
 <script type="text/javascript" src="js/library/progressbar.js"></script>
 <script type="text/javascript" src="js/library/jquery.bracket.min.js"></script>
