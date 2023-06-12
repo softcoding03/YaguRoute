@@ -34,6 +34,29 @@
 		});
 		
     })
+    
+    //따라다니는 퀵메뉴
+		$(document).ready(function(){
+		  var currentPosition = parseInt($(".quickmenu").css("top"));
+		  $(window).scroll(function() {
+		    var position = $(window).scrollTop(); 
+		    $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},700);
+		  });
+		});
+    
+    	$(document).ready(function() {
+    	  $('.quickmenu li a[href="#team"]').click(function(e) {
+    	    e.preventDefault();
+    	    $(this).siblings('.submenu').slideToggle();
+    	  });
+    	  $('.quickmenu li a[href="#back"]').click(function(e) {
+    		  history.back();
+      	});
+    	  $('.quickmenu li a[href="#forward"]').click(function(e) {
+    		  history.forward();
+      	});
+    	});
+    	//따라다니는 퀵메뉴 끝
    
 </script>
 <style>
@@ -73,12 +96,38 @@
 		  font-size: 18px;
 		  margin-left:300px;
 		}
-		/* 팀탑바 위한 style 끝*/		
+		/* 팀탑바 위한 style 끝*/
+		
+		//따라다니는 퀵메뉴
+		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+		a {text-decoration:none;}
+		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
+		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
+		.quickmenu ul li a:hover {color:#000;}
+		.quickmenu ul li:last-child {border-bottom:0;}
+		.content {position:relative;min-height:1000px;}		
+		.quickmenu .submenu {display: none;}
+		
+		
 </style>
+
 </head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1DH7W8BRC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L1DH7W8BRC');
+</script>
+
 <body>
 <jsp:include page="/common/topBar.jsp"/>
-
+<a type="hidden" id="top"/>
 
 <div class="image-container">
   <img class="teamTopBar" src="/images/teamTopBar/yagurouteTopBar.png">
@@ -151,6 +200,31 @@
 	   </div>
 	</div>
 </div>
+
+<!-- 퀵메뉴 -->
+<div class="quickmenu">
+  <ul>
+  	 <li>
+  	 	<ul class="submenu">
+       <c:forEach var="team" items="${allTeam}">
+            <li class="${team.teamCode eq teamCode ?'active':''}">
+            <a href="submenuTeamCode">
+             <img alt="img" src="${team.teamEmblem}" style="width:45px;">
+             <input type="hidden" class="submenuTeamCode" value="${team.teamCode}"/> 
+            </a>
+            </li>
+       </c:forEach>
+  	 	</ul>
+  	 	<a href="#team">구단</a>
+  	 </li>
+    <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
+    <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
+    <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>
+    <li><a href="#forward"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>
+  </ul>
+</div>
+
+<a type="hidden" id="bottom"/>
       
       
 </body>

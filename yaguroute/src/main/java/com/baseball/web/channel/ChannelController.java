@@ -79,6 +79,9 @@ public class ChannelController {
 		if(gameCode != null) {
 			Game gameInfo = gameService.getGameInfo(gameCode);
 			channel.setGameInfo(gameInfo);
+		} else {
+			Game gameInfo = gameService.getGameInfo(gameCode);
+			channel.setGameInfo(gameInfo);
 		}
 		
 		
@@ -87,8 +90,6 @@ public class ChannelController {
 		
 		// 2.channel 로컬 DB에 저장
 		channelService.addChannel(returnData);
-		
-		
 		
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("channel",returnData);
@@ -103,7 +104,7 @@ public class ChannelController {
 		List<Channel> list = channelService.getChannelList();
 		//로그인한 유저 정보
 		User user = (User)session.getAttribute("user");
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView();		
 		
 		if(user.getRole().equals("user")) {
 			modelAndView.addObject("list", list);
@@ -171,7 +172,7 @@ public class ChannelController {
 	}
 	
 	@GetMapping("updateChannel")
-	public ModelAndView updateChannelView(@RequestParam(value="channelID") String channelID) throws Exception{
+	public ModelAndView updateChannelView(@RequestParam(value="channelID", required=false) String channelID) throws Exception{
 		System.out.println("updateChannelView");
 		System.out.println("channelID : "+channelID);
 		Channel channel = channelService.getChannel(channelID);
@@ -254,8 +255,14 @@ public class ChannelController {
 		    Channel channel = channelList.get(i);
 		    int gameIndex = i % gameList.size();
 		    Game game = gameList.get(gameIndex);
-		    channel.setGameInfo(game);
-		    channelService.updateChannelGameCode(channel);
+		    if (game.getGameCode().equals("null")) {
+		    	System.out.println("게임 없음");
+		    	channel.setGameInfo(null);
+		    	channelService.updateChannelGameCode(channel);
+		    } else {
+		    	channel.setGameInfo(game);
+			    channelService.updateChannelGameCode(channel);
+		    }
 		    System.out.println("채널 ID: " + channel.getChannelID() + ", 게임 정보: " + game);
 		}
 	}
