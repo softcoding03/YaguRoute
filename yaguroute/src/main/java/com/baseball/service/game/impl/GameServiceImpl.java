@@ -45,6 +45,10 @@ public class GameServiceImpl implements GameService {
 		return gameDao.getAllTeam();
 	}
 	
+	public List<Team> getAllTeamRanking(){
+		return gameDao.getAllTeamRanking();
+	}
+	
 	//gameCode로 한경기 정보 검색
 	public Game getGameInfo(String gameCode) {
 		return gameDao.getGameInfo(gameCode);
@@ -86,6 +90,10 @@ public class GameServiceImpl implements GameService {
 	
 	public void updateGameVideo(Game game) {
 		gameDao.updateGameVideo(game);
+	}
+	
+	public void updateTeamInfo(Team team) {
+		gameDao.updateTeamInfo(team);
 	}
 	
 	public GameRecord getGameRecord(Game game) throws Exception{
