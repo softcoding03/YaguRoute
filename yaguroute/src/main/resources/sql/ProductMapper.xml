@@ -45,7 +45,6 @@
 	</sql>
 
 
-
 	<!-- INSERT SQL -->
 	<insert id="addProduct" parameterType="product">
 
@@ -67,22 +66,22 @@
 
 
 	<!-- UPDATE SQL -->
-	<update id="updateProduct" parameterType="product">
+<update id="updateProduct" parameterType="product">
 
-		UPDATE product
-		<set>
-			prod_name = #{prodName},
-			prod_price = #{prodPrice},
-			prod_category = #{prodCategory},
-			team_code = #{prodTeamCode},
-			prod_stock = #{prodStock},			
-			prod_image_first = #{prodImageFirst},
-			prod_image_second = #{prodImageSecond},
-			prod_image_third = #{prodImageThird}
-		</set>
-		WHERE prod_no = #{prodNo}
+  UPDATE product
+  <set>
+    prod_name = #{prodName},
+    prod_price = #{prodPrice},
+    prod_category = #{prodCategory},
+    team_code = #{prodTeamCode},
+    prod_stock = #{prodStock},
+	prod_image_first = #{prodImageFirst},
+	prod_image_second = #{prodImageSecond},
+	prod_image_third = #{prodImageThird}
+  </set>
+  WHERE prod_no = #{prodNo}
 
-	</update>
+</update>
 
 
 	<!-- DELETE SQL -->
@@ -106,13 +105,14 @@
 
 	</select>
 	
-	<select id="getSalesProductList" parameterType="java.util.Map" resultMap="productSelectMap">
+	<select id="getSalesProdList" parameterType="java.util.Map" resultMap="productSelectMap">
 	
 		<include refid="prodList" />
 		Limit #{search.startRowNum}, #{search.pageSize}
 	
-	
 	</select>
+	
+	
 	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
 
 		SELECT COUNT(*)

@@ -202,6 +202,7 @@ public class ProductController {
 		Product product = new Product();
 		int prodNo = product.getProdNo();
 		System.out.println("prodNo"+prodNo);
+		
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);

@@ -108,7 +108,7 @@ function fncGetTranDetailList() {
 		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
-		
+			<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>		
 		<tr class="ct_list_pop">
 			<td align="center">${tranDetail.tranDetailNo}</td>	
 			<td align="center">
@@ -141,19 +141,24 @@ function fncGetTranDetailList() {
 					<c:if test="${tranCode eq 3}">
 						배송완료
 					</c:if>
+					<c:if test="${tranCode eq 4}">
+						환불완료
+					</c:if>								
 						상태 입니다.</td>
 		<td align="left"> <c:if test="${tranCode eq 2}">
 			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=3">배송도착</a>
 		</c:if>
 		</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
-		<td align="left" >
+			<td align="left">
 			  <c:choose>
 			    <c:when test="${tranDetail.refundStatusCode eq 1 and tranDetail.tranStatusCode eq 1}">
-			      <a href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2" >환불요청</a>
+			      <a href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2">환불요청</a>
+			    </c:when>
+			    <c:when test="${tranDetail.refundStatusCode eq 3}">환불완료
 			    </c:when>
 			  </c:choose>
-		</td>		
+			</td>
 		<td align="left">
 					  <c:choose>
 			    <c:when test="${tranDetail.tranStatusCode eq 3}">

@@ -18,7 +18,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!--  ///////////////////////// CSS ////////////////////////// -->
 
 <head>
@@ -30,7 +30,6 @@ a.refund-link {
   color: blue;
 }
 
-
 </style>
 
 
@@ -41,7 +40,7 @@ a.refund-link {
 
 $(function() {
 	  $(".refund").on("click", function() {
-	    var tranDetailNo = $("#tranDetailNo").val(); // 환불 대상 거래번호 가져오기
+	    var tranDetailNo = $(this).attr("id"); // 환불 대상 거래번호 가져오기
 	    alert(tranDetailNo);
 	    var confirmation = confirm("구매를 취소하시겠습니까?");
 
@@ -102,9 +101,7 @@ $(function() {
 <div style="width:98%; margin-left:10px;">
 
 <form name="detailForm" action="/transaction/dlvyTranList" method="GET">
-   <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
-    <input type="hidden" id="tranNo" name="tranNo" value="${tranDetail.tranDetailTran.tranNo} "/>
-   <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
+
 
 		<div class="container">
 		<div class="page-header text-info">
@@ -129,24 +126,24 @@ $(function() {
 		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
-		
+		<input type="hidden" name="tranDetailNo" id="tranDetailNo" value="${tranDetail.tranDetailNo}" />	
 		<tr class="ct_list_pop">
-			<td align="center">${tranDetail.tranDetailNo}</td>	
+		<td align="center">${tranDetail.tranDetailNo}</td>
 			<td align="center">
-  <c:choose>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
-    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
-  </c:choose>
-</td>
+			  <c:choose>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
+			    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
+			    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
+			  </c:choose>
+			</td>
 			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
 			<td align="left">${tranDetail.tranDetailTran.tranTotalPrice}</td>
 			<td align="left"> 현재	
@@ -159,16 +156,20 @@ $(function() {
 					<c:if test="${tranCode eq 3}">
 						배송완료
 					</c:if>
+					<c:if test="${tranCode eq 4}">
+						환불완료
+					</c:if>					
 						상태 입니다.</td>
-		<td align="left"> <c:if test="${tranCode eq 1}">
-			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a>
-		</c:if>
-		</td>
+				<td align="left">
+				  <c:if test="${tranCode eq 1 and tranDetail.refundStatusCode eq 1}">
+				    <a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a>
+				  </c:if>
+				</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
 		<td align="left">
 				<c:choose>
 			    <c:when test="${tranDetail.refundStatusCode eq 2}">
-			       <a class="refund" data-tranDetailNo="${tranDetail.tranDetailNo}">환불</a>  
+			        <a class="refund" id="${tranDetail.tranDetailNo}"  href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=3&tranCode=4" >환불</a>
 			    </c:when>
 			</c:choose>
 		</td>	

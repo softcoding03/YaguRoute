@@ -11,7 +11,7 @@ public interface BestPlayerDao {
 	public void addBestPlayer(BestPlayer bestPlayer) throws Exception;
 	
 	public List<BestPlayer> getBestPlayerList(Search search) throws Exception;
-	
+	/**/
 	public int getTotalCount(Search search) throws Exception;
 	
 	public List<BestPlayer> getBestPlayerByDate() throws Exception;

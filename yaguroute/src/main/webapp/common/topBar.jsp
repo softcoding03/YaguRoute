@@ -106,7 +106,7 @@ img.logo{
                     &emsp;
 					<li class="userClass">
                      	<a href="/users/getUser">
-                        <img src="${user.userImage}" alt="유저 이미지" style="width: 30px; border-radius: 100%; height: 30px;">
+                        <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;"alt="유저 이미지" style="width: 30px; border-radius: 100%; height: 30px;">
                         </a>
                     </li>
                     <li class="userLogout">

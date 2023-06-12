@@ -122,151 +122,124 @@ function fncAddTransaction() {
 
 </script>
 </head>
-<style>
 
-
-</style>
 <body>
+<div class="container">
+	<div class="col-md-12">
+	
+<input type="hidden" name="userPoint" value="${user.userPoint} " /> 
+		<form name="detailForm">
 
-	 <!-- ToolBar Start /////////////////////////////////////-->
-	 <jsp:include page="/common/topBar.jsp"/>
-	 <!-- ToolBar End /////////////////////////////////////-->
-	 
+					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
+					<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
+					<input type="hidden" id="impNo" name="impNo" value="" /> 
+					<input type="hidden" id="merchantNo" name="merchantNo" value=""/> 
+					<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
+					<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity[0]}" />
+					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 
 
-    <!--BREADCRUMBS BEGIN-->
+		
+					<h4 style="text-align: center;">구매정보입력</h4>
+					
 
-<!--BREADCRUMBS END-->
+		<table width="600" border="0" cellspacing="0" cellpadding="0"
+			align="center" style="margin-top: 13px;">
+			<tr>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[구매자 정보]</th>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">구매자아이디</td>
+				<td class="ct_write01">${user.userId}</td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">구매자 이름</td>
+				<td class="ct_write01">${user.userName}</td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">구매자 이메일</td>
+				<td class="ct_write01">${user.userEmail}</td>
+			</tr>
+			<tr>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[받는사람 정보]</th>
+			</tr>
 
-    <!--CHECKOUT WRAP BEGIN-->
-<section class="checkout-wrap">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-md-7">
-                <h4>주문/결제</h4>
-                <div class="customer-info">
-           
-                        <div class="row">
-                        
-                            <div class="col-md-6">
-                                <div class="item">
-                                    <label>
-                                        <span>구매자 아이디 <i>*</i></span>
-                                        <input type="text"  value="${user.userId}" >
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="item">
-                                    <label>
-                                        <span>구매자 이름 <i>*</i></span>
-                                        <input type="text" value="${user.userName}" >
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <div class="item">
-                                    <label>
-                                        <span>구매자 이메일</span>
-                                        <input type="text" value="${user.userEmail}" >
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="item">
-                                    <label>
-                                        <span>받는사람 이름 <i>*</i></span>
-                                        <input type="text" id="receiverName" name="receiverName" value="${user.userName}"  >
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="item">
-                                    <label>
-                                        <span>받는사람 휴대폰번호 <i>*</i></span>
-                                        <input type="text" id="receiverPhone" name="receiverPhone" value="${user.userPhone}"  >
-                                    </label>
-                                </div>
-                            </div>
-                              <div class="col-md-12">
-                                <div class="item">
-                                    <label>
-                                        <span>받는사람 이메일주소 <i>*</i></span>
-                                        <input type="text" id="receiverEmail" name="receiverEmail" value="${user.userEmail}"  >
-                                    </label>
-                                </div>
-                            </div>
-                           <div class="col-md-12">
-                                <div class="item">
-                                    <label>
-                                        <span>받는사람 주소 <i>*</i></span>
-                                        <input type="text" id="receiverAddr" name="receiverAddr" value="${user.userAddr}"  > 
-                                    </label>
-                                </div>
-                            </div>
-                           <div class="col-md-12">
-                                <div class="item">
-                                    <label>
-                                        <span>배송 요청 사항 <i>*</i></span>
-                                        <input type="text" id="dlvyRequest" name="dlvyRequest"  > 
-                                    </label>
-                                </div>
-                            </div>                
-                        </div>
-                  </div>
-            </div>
-            <div class="col-md-5">
-                <h4>결제 정보</h4>
-              	  <table class="cart-table">
-                	<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
-                      <tbody><tr>
-                            <th class="product">구매할 상품 정보</th>
-                            <th class="total"></th>
-                        </tr>
-                	    <tr>
-                            <td>상품명</td>
-                            <td class="prodName" style="text-align: right;">${tranDetail.tranDetailProd.prodName}</td>
-                        </tr>
-                        <tr>
-                            <td>상품 수량</td>
-                            <td class="prodQuantity" style="text-align: right;">${prodQuantity[tranStatus.index]}개</td>
-                        </tr>
-                         <tr>
-                            <td>상품 가격</td>
-                            <td class="prodQuantity" style="text-align: right;">${tranDetail.tranDetailProd.prodPrice}원</td>
-                        </tr>    
+			<tr>
+				<td width="104" class="ct_write">받는사람 이름</td>
+				<td class="ct_write01"><input type="text" id="receiverName" name="receiverName" class="ct_input_g" style="width: 150px; height: 19px" 
+				maxLength="20" value="${user.userName}" /></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">받는사람 휴대폰번호</td>
+				<td class="ct_write01"><input type="text" id="receiverPhone" name="receiverPhone" class="ct_input_g" style="width: 150px; height: 19px" 
+				maxLength="20"  value="${user.userPhone}" /></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">받는사람 이메일</td>
+				<td class="ct_write01"><input type="text" id="receiverEmail" name="receiverEmail" class="ct_input_g" style="width: 150px; height: 19px" 
+				maxLength="20"  value="${user.userEmail}" /></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">받는사람 배송주소</td>
+				<td class="ct_write01"><input type="text" id="receiverAddr" name="receiverAddr" class="ct_input_g" style="width: 150px; height: 19px" 
+					maxLength="20" value="${user.userAddr}" />
+					<button type="button" onclick="validateAddress()">주소찾기</button></td>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">구매요청사항</td>
+				<td class="ct_write01"><input type="text" name="dlvyRequest"	class="ct_input_g" style="width: 235px; height: 19px" maxLength="20" /></td>
+			</tr>
+			<tr>
+				<th height="40" colspan="5" bgcolor="D6E6F5"
+					style="font-size: 15px;" align="center">[구매할 상품 정보]</th>
+			</tr>
+			<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
+				<tr>
+					<td width="300" class="ct_write" style="background-color: darkgreen !important;">상품번호</td>
+					<td width="105">${tranDetail.tranDetailProd.prodNo}</td>	
+				</tr>
+				<tr>
+					<td width="104" class="ct_write">상품명</td>
+					<td class="ct_write01">${tranDetail.tranDetailProd.prodName}</td>
+				</tr>
+				<tr>
+					<td width="104" class="ct_write">상품수량</td>
+					<td class="ct_write01">${prodQuantity[tranStatus.index]}</td>
+				</tr>
 							<tr>
-							  <td>할인</td>
-							  <td class="ct_write01">
-							    <div>
-							      <input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 100px;">
-							     <span style="display: inline-block; width: 150px; background-color: #F0F0F0; padding: 5px; border-radius: 3px; font-weight: bold;">${user.userPoint}포인트</span>
-							      <a id="applyPointButton" class="btn small">적용</a>
-							    </div>
-							  </td>
-							</tr>                                         
-                        <tr>
-                            <td><strong>Total</strong></td>
-                            <td class="total"></td>
-                        </tr>
-               </c:forEach>
-            </tbody>
-          </table>
-             
-                    
-                <div class="cart-total">
-                <button class="proceed"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--CHECKOUT WRAP END-->
+					<td width="104" class="ct_write">상품가격</td>
+					<td class="ct_write01">${tranDetail.tranDetailProd.prodPrice}</td>
+				</tr>
+				<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" /> 
+			</c:forEach>
+			<tr>
+				<th height="40" colspan="5" bgcolor="D6E6F5" style="font-size: 15px;" align="center">[결제 정보]</th>
+			</tr>
+			<tr>
+				<td width="104" class="ct_write">사용포인트</td>
+				<td class="ct_write01">
+					<div>
+						<input type="text" id="tranUsePoint" name="tranUsePoint" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"
+							value="${transaction.tranUsePoint}" /> <span>${user.userPoint}</span>포인트<a id="applyPointButton" class="btn small">적용</a>
+						
+					</div>
+				</td>
+			</tr>
 
+			<tr>
+				<td width="104" class="ct_write">상품 총 가격(가격*구매수량) <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" /></td>
+				<td class="ct_write01"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}" /></td>
+			</tr>
+		</table>
+</form>
+	<div class="col-md-12" style="margin-bottom: 100px;">
+		<div class="col-md-3"></div>
+		<div class="col-md-3"><button class="btn" id="goAddTran">구매</button></div>
+		<div class="col-md-3"><a class="btn" href="javascript:history.go(-1)">취소</a></div>
+	</div>		
+	
+	</div>
+</div>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

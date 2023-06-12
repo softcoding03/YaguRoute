@@ -8,11 +8,11 @@
     i-amphtml-layout="" i-amphtml-no-boilerplate="" transformed="self;v=1" amp-version="2305252018001"
     class="i-amphtml-singledoc i-amphtml-standalone">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style amp-runtime="" i-amphtml-version="012302271541000">
+    <style ">
         html {
             overflow-x: hidden !important
         }
@@ -1193,7 +1193,7 @@
         /*# sourceURL=/extensions/amp-social-share/0.1/amp-social-share.css*/
     </style>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <link rel="preload" href="./MAKING FOOTBALL TRULY GLOBAL _ FIFA Publications_files/v0.js.ë¤ì´ë¡ë" as="script">
+    <!-- <link rel="preload" href="./MAKING FOOTBALL TRULY GLOBAL _ FIFA Publications_files/v0.js.ë¤ì´ë¡ë" as="script"> -->
     <meta property="og:title" content="MAKING FOOTBALL TRULY GLOBAL  | FIFA Publications">
     <meta property="og:site_name" content="FIFA Publications">
     <meta property="og:type" content="website">
@@ -1225,11 +1225,11 @@
         src="./MAKING FOOTBALL TRULY GLOBAL _ FIFA Publications_files/amp-analytics-0.1.js.ë¤ì´ë¡ë" async=""></script>
     <script custom-element="amp-bind"
         src="./MAKING FOOTBALL TRULY GLOBAL _ FIFA Publications_files/amp-bind-0.1.js.ë¤ì´ë¡ë" async=""></script>
-    <link rel="icon" type="image/png" sizes="32x32"
+    <!-- <link rel="icon" type="image/png" sizes="32x32"
         href="https://publications.fifa.com/static/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16"
-        href="https://publications.fifa.com/static/images/favicon-16x16.png">
-    <link rel="icon" href="https://publications.fifa.com/static/images/favicon.ico">
+        href="https://publications.fifa.com/static/images/favicon-16x16.png"> -->
+    <!-- <link rel="icon" href="https://publications.fifa.com/static/images/favicon.ico">
     <link rel="preload" as="video" href="https://digitalhub.fifa.com/m/1d46c8b72c7a9cf8/original/FIFA_Globe_p.mp4"
         media="(max-width: 767px)">
     <link rel="preload" as="image"
@@ -1259,7 +1259,7 @@
     <link rel="apple-touch-icon" sizes="180x180"
         href="https://publications.fifa.com/static/images/apple-touch-icon.png">
     <link rel="manifest" crossorigin="use-credentials" href="https://publications.fifa.com/static/site.webmanifest">
-    <link rel="mask-icon" color="#326295" href="https://publications.fifa.com/static/images/safari-pinned-tab.svg">
+    <link rel="mask-icon" color="#326295" href="https://publications.fifa.com/static/images/safari-pinned-tab.svg"> -->
     <style amp-custom="">
         @font-face {
             font-family: Open Sans;
