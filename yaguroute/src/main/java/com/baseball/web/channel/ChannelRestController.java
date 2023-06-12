@@ -65,37 +65,41 @@ public class ChannelRestController {
 
 		for(Channel test : channelList) {
 			
-			String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
-			String recordStatus = channelRestService.getChannelRecordStatus(test.getChannelID());
-			Game game = test.getGameInfo();
-			
-			
-			if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
+			if (!(test.getGameInfo() == null)) {
+				String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
+				String recordStatus = channelRestService.getChannelRecordStatus(test.getChannelID());
+				Game game = test.getGameInfo();
 				
-				if(gameStatus.equals("2") || gameStatus.equals("4")) {
-					//System.out.println("영상 녹화 종료");
-					//System.out.println(test);
-					//System.out.println(game);
+				if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
 					
-					String videoName = channelRestService.stopChannel(test.getChannelID());
-					game.setVideoName(videoName);
+					if(gameStatus.equals("2") || gameStatus.equals("4")) {
+						//System.out.println("영상 녹화 종료");
+						//System.out.println(test);
+						//System.out.println(game);
+						
+						String videoName = channelRestService.stopChannel(test.getChannelID());
+						game.setVideoName(videoName);
+						
+						String videoLink = channelRestService.getVideo(test, videoName);
+						game.setVideoLink(videoLink);
+						
+						game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/images/60d320a4-e816-4487-8e2d-8e1ccc1b83d6hani.jpg");
+						
+						//System.out.println("setting된 game : "+game);
+						gameService.updateGameVideo(game);
+					} else {
+						//System.out.println("안됐지롱~");
+						//System.out.println(test);
+						//System.out.println(game);
+					}
 					
-					String videoLink = channelRestService.getVideo(test, videoName);
-					game.setVideoLink(videoLink);
-					
-					game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/images/60d320a4-e816-4487-8e2d-8e1ccc1b83d6hani.jpg");
-					
-					//System.out.println("setting된 game : "+game);
-					gameService.updateGameVideo(game);
 				} else {
-					System.out.println("안됐지롱~");
-					System.out.println(test);
-					System.out.println(game);
+					//System.out.println("채널 송출 전 입니다.");
 				}
-				
 			} else {
-				System.out.println("채널 송출 전 입니다.");
+				//System.out.println("오늘은 경기가 없습니다.");
 			}
+			
 		}
 
 	}

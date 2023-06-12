@@ -61,10 +61,6 @@ body{
 
 </head>
 <body>
-	<!-- Toolbar start -->
-	<jsp:include page="/common/topBar.jsp" />
-	<!-- Toolbar End -->
-	
 	<section class="checkout-wrap">
 		<div class="container">
 			<div class="row">
