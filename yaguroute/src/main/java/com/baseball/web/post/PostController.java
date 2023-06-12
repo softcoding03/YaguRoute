@@ -96,6 +96,7 @@ public class PostController {
 			for(Comment b:list2) {
 				System.out.println("2레이어 댓글"+b);	
 			}
+			
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("commentList1", list1);

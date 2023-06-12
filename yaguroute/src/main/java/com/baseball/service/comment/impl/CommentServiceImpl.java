@@ -53,5 +53,10 @@ public class CommentServiceImpl implements CommentService {
 		return commentDao.getComment(commentNo);
 	}
 
+	@Override
+	public int getLastCommentNo() throws Exception {
+		return commentDao.getLastCommentNo();
+	}
+
 	
 }
