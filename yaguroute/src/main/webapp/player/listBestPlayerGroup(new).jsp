@@ -59,60 +59,83 @@
             color: #fff;
             font-weight: bold;
         }
-
-        .player.goalkeeper {
-            top: 45%;
-            left: 5%;
-        }
-
-        .player.defender1 {
-		    top: 30%;
-		    left: 22%;
+		
+		        .player.defender1 {
+		    top: -10%;
+		    left: 11%;
+		}
+		
+		        .player.defender2 {
+		    top: 16.2%;
+		    left: 36.6%;
+		}
+		
+		        .player.defender3 {
+		    top: 18%;
+		    left: 14%;
+		}
+		
+		        .player.defender4 {
+		    top: 4%;
+		    left: 47%;
+		}
+		
+		        .player.midfielder1 {
+		    top: 4%;
+		    right: 70.1%;
+		}
+		
+		        .player.midfielder2 {
+		    left: 36.5%;
+		    top: -18%;
+		}
+		
+		        .player.midfielder3 {
+		    top: -9.8%;
+		    left: 64%;
+		}
+		
+		        .player.forward1 {
+		    top: 18%;
+		    left: 59%;
+		}
+		
+		
+		        .player.forward2 {
+		    top: 44.3%;
+		    left: 36.5%;
+		}
+		.player-card {
+		    width: 428px;
+		    height: 600px;
+		    background-image: url(/images/player/icon.png);
+		    background-position: center center, top left;
+		    background-repeat: no-repeat, no-repeat;
+		    position: absolute;
+		    background-size: 188px;
+		    opacity: 1.0;
+		    filter: blur(0.6px);
+		    filter: brightness(95%);
 		}
 
-        .player.defender2 {
-		    top: 42.2%;
-		    left: 39.3%;
+        .player-image {
+		    position: absolute;
+		    top: 46.19%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    width: 128px;
+		    /* border-radius: 50%; */
+		    height: 112px;
 		}
-
-        .player.defender3 {
-		    top: 48%;
-		    left: 29%;
-		}
-
-        .player.defender4 {
-		    top: 25%;
-		    left: 49%;
-		}
-
-        .player.midfielder1 {
-		    top: 65%;
-		    right: 48.1%;
-		}
-
-        .player.midfielder2 {
-		    left: 48.5%;
-		    top: 49%;
-		}
-
-        .player.midfielder3 {
-		    top: 42.2%;
-		    left: 57%;
-		}
-
-        .player.midfielder4 {
-            top: 65%;
-            left: 60%;
-        }
-
-        .player.forward1 {
-		    top: 48%;
-		    left: 68%;
-		}
-
-        .player.forward2 {
-		    top: 29.3%;
-		    left: 74%;
+		.player-name {
+		    position: absolute;
+		    bottom: 10px;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    text-align: center;
+		    font-size: 18px;
+		    color: #1a2a7f;
+		    top: 58%;
 		}
     </style>
     
@@ -506,15 +529,16 @@
                                                                 </div>
 		
 	   <div class="soccer-field" style="margin-bottom: 180px;">
-	        <div class="player defender1">${list[0].playerName}<img alt="1번 선수" src="${list[0].playerImage }"></div>
-	        <div class="player defender2">${list[1].playerName}<img alt="2번 선수" src="${list[1].playerImage }"></div>
-	        <div class="player defender3">${list[2].playerName}<img alt="3번 선수" src="${list[2].playerImage }"></div>
-	        <div class="player defender4">${list[3].playerName}<img alt="4번 선수" src="${list[3].playerImage }"></div>
-	        <div class="player midfielder1">${list[4].playerName}<img alt="5번 선수" src="${list[4].playerImage }"></div>
-	        <div class="player midfielder2">${list[5].playerName}<img alt="6번 선수" src="${list[5].playerImage }"></div>
-	        <div class="player midfielder3">${list[6].playerName}<img alt="7번 선수" src="${list[6].playerImage }"></div>
-	        <div class="player forward1">${list[7].playerName}<img alt="8번 선수" src="${list[7].playerImage }"></div>
-	        <div class="player forward2">${list[8].playerName}<img alt="9번 선수" src="${list[8].playerImage }"></div>
+	   		
+	        <div class="player defender1"><div class="player-card"><img class="player-image" alt="1번 선수" src="${list[0].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[0].playerNumber}</a> ${list[0].playerName }</div></div></div>
+	        <div class="player defender2"><div class="player-card"><img class="player-image" alt="2번 선수" src="${list[1].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[1].playerNumber}</a> ${list[1].playerName }</div></div></div>
+	        <div class="player defender3"><div class="player-card"><img class="player-image" alt="3번 선수" src="${list[2].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[2].playerNumber}</a> ${list[2].playerName }</div></div></div>
+	        <div class="player defender4"><div class="player-card"><img class="player-image" alt="4번 선수" src="${list[3].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[3].playerNumber}</a> ${list[3].playerName }</div></div></div>
+	        <div class="player midfielder1"><div class="player-card"><img class="player-image" alt="5번 선수" src="${list[4].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[4].playerNumber}</a> ${list[4].playerName }</div></div></div>
+	        <div class="player midfielder2"><div class="player-card"><img class="player-image" alt="6번 선수" src="${list[5].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[5].playerNumber}</a> ${list[5].playerName }</div></div></div>
+	        <div class="player midfielder3"><div class="player-card"><img class="player-image" alt="7번 선수" src="${list[6].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[6].playerNumber}</a> ${list[6].playerName }</div></div></div>
+	        <div class="player forward1"><div class="player-card"><img class="player-image" alt="8번 선수" src="${list[7].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[7].playerNumber}</a> ${list[7].playerName }</div></div></div>
+	        <div class="player forward2"><div class="player-card"><img class="player-image" alt="9번 선수" src="${list[8].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[8].playerNumber}</a> ${list[8].playerName }</div></div></div>
 	    </div>
 	    
 	    

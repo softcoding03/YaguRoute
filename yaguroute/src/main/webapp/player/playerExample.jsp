@@ -1,107 +1,47 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>s
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <title>Soccer Player Positions</title>
     <style>
-    	
-        .soccer-field {
-		    position: relative;
-		    width: 1600px;
-    		height: 900px;
-		    background-image: url(/images/player/playGround.jpg);
-		    background-size: cover;
-		    margin: 0 auto;
-		}
-        .player {
+        .player-card {
+            position: relative;
+            width: 428px;
+            height: 600px;
+            background-image: url(/images/player/icon.png);
+            background-position: center center, top left;
+            background-repeat: no-repeat, no-repeat;
+            background-size: 188px;
+            opacity: 1.0;
+            filter: blur(0.6px);
+            filter: brightness(95%);
+        }
+
+        .player-image {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background-color: #f00;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 60px;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .player.goalkeeper {
-            top: 45%;
-            left: 5%;
-        }
-
-        .player.defender1 {
-            top: 25%;
-            left: 20%;
-        }
-
-        .player.defender2 {
-            top: 65%;
-            left: 20%;
-        }
-
-        .player.defender3 {
-            top: 45%;
-            left: 30%;
-        }
-
-        .player.defender4 {
-            top: 25%;
-            left: 40%;
-        }
-
-        .player.midfielder1 {
-            top: 65%;
-            left: 40%;
-        }
-
-        .player.midfielder2 {
-            top: 45%;
+            top: 50%;
             left: 50%;
+            transform: translate(-50%, -50%);
+            width: 128px;
+            height: 112px;
         }
 
-        .player.midfielder3 {
-            top: 25%;
-            left: 60%;
-        }
-
-        .player.midfielder4 {
-            top: 65%;
-            left: 60%;
-        }
-
-        .player.forward1 {
-            top: 45%;
-            left: 70%;
-        }
-
-        .player.forward2 {
-            top: 25%;
-            left: 80%;
+        .player-name {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 20px;
+            color: #ffffff;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="soccer-field">
-        <div class="player goalkeeper">GK</div>
-        <div class="player defender1">D</div>
-        <div class="player defender2">D</div>
-        <div class="player defender3">D</div>
-        <div class="player defender4">D</div>
-        <div class="player midfielder1">M</div>
-        <div class="player midfielder2">M</div>
-        <div class="player midfielder3">M</div>
-        <div class="player midfielder4">M</div>
-        <div class="player forward1">F</div>
-        <div class="player forward2">F</div>
+    <div class="player-card">
+        <img class="player-image" src="https://lgcxydabfbch3774324.cdn.ntruss.com/KBO_IMAGE/person/middle/2023/79847.jpg" alt="Player Photo">
+        <div class="player-name">John Doe</div>
     </div>
 </body>
 </html>
