@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baseball.common.domain.Search;
+import com.baseball.common.domain.Team;
 import com.baseball.service.domain.User;
 
 @Mapper
@@ -34,4 +35,7 @@ public interface UserDao {
 	public boolean phoneCheck(String userPhone) throws Exception;
 	
 	public List<User> findUserId(String userPhone) throws Exception;
-}
+	
+	public Team getTeamEmblem(String teamCode) throws Exception;
+	
+	}

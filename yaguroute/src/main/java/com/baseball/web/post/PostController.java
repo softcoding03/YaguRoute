@@ -141,7 +141,11 @@ public class PostController {
 			List<Team> allTeam = gameService.getAllTeam();
 			Team team = gameService.getTeamInfo(teamCode);
 			
+			//사이드바에 noticeList 위함
+			List<Post> noticeList = postService.getNoticeList2(teamCode);
+			
 			model.addAttribute("list", list);
+			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("resultPage", resultPage);
 			model.addAttribute("allTeam", allTeam);
 			model.addAttribute("teamCode", teamCode);

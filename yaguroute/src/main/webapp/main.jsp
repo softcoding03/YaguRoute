@@ -109,30 +109,6 @@
     <div class="motion-line yellow-small1"></div>
     <div class="motion-line yellow-small2"></div>
 </div>
-
-<div class="top-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7 hidden-sm hidden-xs">
-                <div class="top-contacts">
-                    <ul class="socials">
-                        <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                    </ul>
-                    <ul class="contacts">
-                        <li class="phone"><i class="fa fa-phone-square" aria-hidden="true"></i>+82 010 3633 1908</li>
-                        <li class="skype"><a href="callto:team.skype"><i class="fa fa-skype" aria-hidden="true"></i>rockseong</a></li>
-                    </ul>
-                </div>
-            </div>
-            <button type="button" id="logout" class="logout">로그아웃</button>
-            </div>
-        </div>
-    </div>
-
 <jsp:include page="/common/topBar.jsp"/>
 <div class="main-slider-section">
     <div class="main-slider">

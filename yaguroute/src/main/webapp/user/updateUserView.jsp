@@ -366,11 +366,53 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 #gnb.gnb_one_pwe .gnb_ico_num .gnb_ico_new {border-radius: 13px 0 0 13px;}
 #gnb.gnb_one_pwe .gnb_ico_num .gnb_count {border-radius: 0 13px 13px 0;}</style></head>
 
-<style>
+	<style>
+	
+	.naverid {
+    width: 2500px;
+	}
+	.container {
+    width: 1400px !important;
+	}
+	
+	/*네이버 로그인 시*/
+    .naver-login {
+	    display: inline-block;
+	    /* padding: 5px; */
+	    background: #19ce60;
+	    color: #fff;
+	    font-size: 12px;
+	    text-align: center;
+	    border-radius: 10%;
+	    margin: auto;
+	    width: 80px;
+	    font-weight: bold;
+	}
+
+    /*카카오 로그인 시*/
+    .kakao-login {
+        display: inline-block;
+        /* padding: 8px; */
+        background: #FEE500;
+        color: #000000;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 10%;
+        margin: auto;
+        width: 80px;
+        font-weight: bold;
+    }
+    
     .grid-container {
  	 display: grid;
   	 grid-template-columns: repeat(2, 1fr);
  	 gap: 10px;
+	}
+	a {
+    color: #1a146f;
+    text-decoration: none;
+    outline: 0;
+    transition: all .4s;
 	}
     </style>
     
@@ -390,6 +432,11 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     </style>
     
     <style> 
+    
+    h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-family: 'Gwangyang';
+	}
     #password {
     padding: 15px 10px;
     border: 1px solid transparent;
@@ -426,6 +473,19 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     line-height: normal;
     outline: 0
     } 
+    
+    .profile_area .photo .photo_edit {
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #2e38a1;
+    box-shadow: 2px 6px 8px 0 rgba(30,30,35,.08);
+    box-sizing: border-box;
+}
     </style>
     
     <!-- 옆(좌,우)으로 이동시키기 위함. -->
@@ -463,19 +523,26 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     border: none;
     min-width: 200px;
     min-height: 50px;
-    background: linear-gradient(
-        90deg,
-        rgba(129, 230, 217, 1) 0%,
-        rgba(79, 209, 197, 1) 100%
-    );
+    background: linear-gradient( 90deg, rgb(31 64 103) 0%, rgb(47 78 191) 100% );
     border-radius: 1000px;
     color: darkslategray;
     cursor: pointer;
-    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+    box-shadow: 12px 12px 24px rgb(50 48 213 / 64%);
     font-weight: 700;
     transition: 0.3s;
-	}
-	
+}
+	button, input, select, textarea {
+    
+    border-radius: 28px;
+    border: 1px solid rgb(120, 255, 134);
+    display: inline-block;
+    cursor: pointer;
+    /* color: ghostwhite; */
+    font-family: Arial;
+    font-size: 17px;
+    padding: 9px 15px;
+    text-decoration: none;
+}
 	.btn-upload-file:hover {
 	    transform: scale(1.2);
 	}
@@ -525,19 +592,19 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	}
 	
 	/* 버튼 스타일 */
-button[type="button"] {
-    display: inline-block;
-    padding: 5px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-}
+	button[type="button"] {
+	    display: inline-block;
+	    padding: 5px 15px;
+	    font-size: 16px;
+	    font-weight: bold;
+	    text-align: center;
+	    text-decoration: none;
+	    white-space: nowrap;
+	    cursor: pointer;
+	    border: none;
+	    border-radius: 4px;
+	    color: #fff;
+	}
 
 /* 버튼 호버 스타일 */
 button[type="button"]:hover {
@@ -569,6 +636,12 @@ button[type="button"]:active {
 
 
 <style>
+	.header_left .left_footer .footer_text {
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: -.46px;
+    color: #929294;
+}
 	.youBirth {
 		text-align: center;
 	}
@@ -600,10 +673,42 @@ button[type="button"]:active {
 		
 		window.location.href="/main.jsp";
 	}
+	function getUserFunction() {
+		window.location.href="/users/getUser";
+	}
 </script>
 
  <script type="text/javascript">
-	
+ 
+ 	$(function(){
+		
+		var userId = document.getElementById("userId");
+		var userIdText = userId.innerText; // 아이디 텍스트 가져오기
+		
+		if (userIdText.length > 40) {
+			
+			userId.remove();
+
+		    var naverLoginElement = document.createElement("p");
+		    naverLoginElement.classList.add("naver-login");
+		    naverLoginElement.innerText = "NAVER"; // 원하는 텍스트 작성
+
+		    var profileElement = document.querySelector(".profile");
+		    profileElement.appendChild(naverLoginElement); // 네이버 로그인 요소 추가
+		}
+		else if(/^\d+$/.test(userIdText)) {
+		
+			userId.remove();
+			
+			var kakaoLoginElement = document.createElement("p");
+			kakaoLoginElement.classList.add("kakao-login");
+			kakaoLoginElement.innerText = "KAKAO";
+			
+			var profileElement = document.querySelector(".profile");
+		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
+		}
+	});
+ 
  	// userId 수정 불가 알림
     $(function(){
 		$('#userId').on("click", function(){
@@ -988,7 +1093,6 @@ button[type="button"]:active {
 	}); */
 	
 	</script>
-
 <jsp:include page="/common/topBar.jsp"></jsp:include>
 <body id="mainBody" class="bgother">
 <div id="wrap" class="wrap naverid">
@@ -1015,14 +1119,30 @@ button[type="button"]:active {
             </a>
             <div class="profile">
                 <p class="useid">${user.userNickName}</p>
-                <p class="usemail">${user.userId}</p>
+                <p class="userId" id="userId">${user.userId}</p>
             </div>
         </div>
+        <a href="/users/logout" style="text-align: center; width: 10px; color: gray;
+    border-radius: 28px;
+    display: inline-block;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 16px;
+    padding: 6px 15px;
+    text-decoration: none;
+    border: 1px solid #cdd3d8;
+    width: 120px;
+    font-family: 'Gwangyang';">로그아웃</a>
     </div>
 
     <div id="headerLeft" class="header_left" aria-hidden="false">
 
         <ul class="left_menu" role="menu">
+        	<li>
+                <a href="#" class="left_item" role="menuitem" onclick="getUserFunction()" aria-current="">
+                    <div class="menu_text "><b>내 정보 보기</b></div>
+                </a>
+            </li>
             <li>
                 <a href="#" class="left_item" role="menuitem" onclick="updateUserFunction()" aria-current="">
                     <div class="menu_text "><b>내 정보 수정</b></div>
@@ -1224,7 +1344,7 @@ button[type="button"]:active {
      								<!-- <button id="btn-upload-file">서버전송</button> -->
  								</div>
  								
- 								<input type="text" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
+ 								<input type="hidden" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
  								
                             	<div class="form-group">
                             	<label>

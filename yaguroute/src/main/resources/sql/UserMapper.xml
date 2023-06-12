@@ -21,6 +21,23 @@
 		<result property="withDraw" column="withdraw" jdbcType="INTEGER"/>
 		<result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
 	</resultMap>
+	
+	<resultMap id="teamSelectMap" type="team">
+		<result property="teamCode" column="TEAM_CODE" jdbcType="VARCHAR"/>
+		<result property="teamNickName" column="TEAM_NICKNAME" jdbcType="VARCHAR"/>
+		<result property="teamEmblem" column="TEAM_EMBLEM" jdbcType="VARCHAR"/>
+		<result property="stadiumName" column="STADIUM_NAME" jdbcType="VARCHAR"/>
+		<result property="stadiumImageFile" column="STADIUM_IMAGE_FILE" jdbcType="VARCHAR"/>
+		<result property="hometown" column="HOMETOWN" jdbcType="VARCHAR"/>
+		<result property="stadiumLat" column="STADIUM_LAT_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumLng" column="STADIUM_LNG_TOCHAR" jdbcType="DOUBLE"/>
+		<result property="stadiumAddress" column="STADIUM_ADDRESS" jdbcType="VARCHAR"/>
+		<result property="teamFullName" column="TEAM_FULL_NAME" jdbcType="VARCHAR"/>
+		<result property="teamHomepage" column="TEAM_HOMEPAGE" jdbcType="VARCHAR"/>
+		<result property="teamIntroduce" column="TEAM_INTRODUCE" jdbcType="VARCHAR"/>
+		<result property="teamTopBar" column="TEAM_TOPBAR" jdbcType="VARCHAR"/>
+		<result property="teamColor" column="TEAM_COLOR" jdbcType="VARCHAR"/>
+	</resultMap>
 
 	<insert id="addUser" parameterType="user">
 		INSERT INTO user
@@ -34,7 +51,13 @@
 	<select id="getUser" parameterType="String" resultMap="userSelectMap">
 		SELECT *
 		FROM user
-		WHERE user_id = #{value}
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="getTeamEmblem" parameterType="String" resultMap="teamSelectMap">
+		SELECT *
+		FROM team
+		WHERE team.team_code=#{user.teamCode}
 	</select>
 	
 	<update id="updateUser" parameterType="user">
@@ -56,7 +79,7 @@
 	      withdraw = 0,
 	      team_code = #{teamCode}
 	  	WHERE user_id = #{userId}
-</update>
+	</update>
 	
 	<update id="withDraw" parameterType="user">
 		UPDATE user
@@ -123,4 +146,5 @@
 		FROM user
 		WHERE user_phone = #{userPhone}
 	</select>
+	
 </mapper>

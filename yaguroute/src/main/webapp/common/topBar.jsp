@@ -5,7 +5,7 @@
 <!--MAIN MENU WRAP BEGIN-->
 <style>
 .custom-logo-link{
-	right: 100px;
+	right: 130px;
 }
 .main-menu-wrap{
 		position: sticky;
@@ -24,6 +24,11 @@ img.logo{
 .navbar span{
 	font-family:"Gwangyang";
 	font-size: 16px;
+}
+
+/* 로그아웃 추가를 위한 너비 확장 */
+.container {
+    width: 1370px;
 }
 
 </style>
@@ -60,6 +65,13 @@ img.logo{
                     
                     <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
                     
+                    <li>  <a href="#other"><span>선수 조회</span></a>
+                        <ul>
+                        	 <li><a href="/player/listPlayer"><span>선수 리스트</span></a></li>
+                            <li><a href="/player/listBestPlayer"><span>이 주의 선수</span></a></li>
+                        </ul>
+                    </li>
+                    
                     <li>
                         <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>티켓 예매</span></a>
                     </li>
@@ -74,29 +86,47 @@ img.logo{
                         <ul>
                         	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
                             <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
+                             <li><a href="/transaction/dlvyTranList"><span>상품배송관리</span></a></li>                                
                             <li><a href="/product/addProductView.jsp"><span>상품등록</span></a></li>
+                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>                        
                         </ul>
                     </li>
                	   <li>  <a href="#other"><span>마이페이지</span></a>
                         <ul>
                         	<li><a href="/users/getUser"><span>내 정보 보기</span></a></li>
                             <li><a href="/transaction/listTransaction"><span>상품구매목록조회</span></a></li>
+                            <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span>티켓예매내역조회</span></a></li>
                         </ul>
                     </li>
-                    
-                    
                     <li class="cart full">
                         <a href="/basket/getBasketList">
                             <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
                         </a>
-                    </li>	
+                    </li>
+                    &emsp;
+					<li class="userClass">
+                     	<a href="/users/getUser">
+                        <img src="${user.userImage}" alt="유저 이미지" style="width: 30px; border-radius: 100%; height: 30px;">
+                        </a>
+                    </li>
+                    <li class="userLogout">
+                        <a href="/users/logout">
+                            <span><i style="box-sizing: border-box; font-size: 12px; font-family: monospace; font-style: normal;">로그아웃</i></span>
+                        </a>
+                    </li>
                 </ul>
             </div>       
         </nav>
     </div>
 </div>
 
-
+<script type="text/javascript">
+	$("a.getSalesList").on("click" , function() {
+		var currentDate = new Date();
+		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
+		self.location = "/ticket/getSalesList?month="+currentMonth;
+	});
+</script>
 
 
 

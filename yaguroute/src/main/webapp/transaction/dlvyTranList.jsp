@@ -14,6 +14,7 @@
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>dlvyTranList</title>
+	   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -38,11 +39,35 @@ a.refund-link {
 
 <script type="text/javascript">
 
-function fncGetDlvyTranList() {
-	$("form").attr("method", "GET").attr("action", "/transaction/dlvyTranList")
-			.submit();
-}
+$(function() {
+	  $(".refund").on("click", function() {
+	    var tranDetailNo = $("#tranDetailNo").val(); // 환불 대상 거래번호 가져오기
+	    alert(tranDetailNo);
+	    var confirmation = confirm("구매를 취소하시겠습니까?");
 
+	    if (confirmation) {
+	      $.ajax({
+	        url: "/transaction/rest/refund/" + tranDetailNo,
+	        method: "GET",
+	        dataType: "text",
+	        headers: {
+	          "Accept": "application/json",
+	          "Content-Type": "application/json"
+	        },
+	        success: function(data, status) {
+	          if (data === "success") {
+	            alert("결제 취소가 완료되었습니다.");
+	          } else {
+	            alert("결제 취소에 실패했습니다.");
+	          }
+	        },
+	        error: function(xhr, status, error) {
+	          alert("환불 요청 중 오류가 발생했습니다.");
+	        }
+	      });
+	    }
+	  });
+	});
 
 </script>
 
@@ -76,7 +101,7 @@ function fncGetDlvyTranList() {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/transaction/listTransaction" method="GET">
+<form name="detailForm" action="/transaction/dlvyTranList" method="GET">
    <input type="hidden" id="tranDetailNo" name="tranDetailNo" value="${tranDetail.tranDetailNo} "/>
     <input type="hidden" id="tranNo" name="tranNo" value="${tranDetail.tranDetailTran.tranNo} "/>
    <input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${product.prodTeamCode} "/>
@@ -143,7 +168,7 @@ function fncGetDlvyTranList() {
 		<td align="left">
 				<c:choose>
 			    <c:when test="${tranDetail.refundStatusCode eq 2}">
-			        <a class="refund-link" href="#">환불</a>  
+			       <a class="refund" data-tranDetailNo="${tranDetail.tranDetailNo}">환불</a>  
 			    </c:when>
 			</c:choose>
 		</td>	

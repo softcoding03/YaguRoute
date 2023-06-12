@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -19,32 +19,18 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
    
    
-   <script type="text/javascript">
-	function fncGetSalesProdList(currentPage) {
-		$("#currentPage").val(currentPage);
-		$("form").attr("method", "GET").attr("action", "/product/salesProdList")
-		.submit();
-	}
+<script type="text/javascript">
+    function fncGetSalesProdList(currentPage) {
+        $("#currentPage").val(currentPage);
+        $("form").attr("method", "GET").attr("action", "/product/salesProdList").submit();
+    }
 
-	$(function() {
-		$("button.btn-success").on("click", function() {
-			$("#prodTeamCode").val($(this).val());
-			fncGetSalesProdList(1);
-		});
-
-		$("button.btn.btn-default").on("click", function() {
-			fncGetSalesProdList(1);
-		});
-		
-		$("a[href='teamCodeHref']").on('click', function(){
-    		teamCode = $(this).find("input[name='teamCode']").val();
-    		self.location = "/product/salesProdList?prodTeamCode="+teamCode;
-	   });
-		
-	});
-	
-
-
+    $(function() {
+        $("a[href='teamCodeHref']").on('click', function() {
+            teamCode = $(this).find("input[name='teamCode']").val();
+            self.location = "/product/salesProdList?prodTeamCode=" + teamCode;
+        });
+    });
 </script>
    
  
@@ -55,24 +41,8 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
-
+	<input type="hidden" id="prodNo" name="prodNo" value="${product.ProdNo} " /> 
 		<form name="detailForm">
-			<input type="hidden" id="prodNo" name="prodNo" value="${product.ProdNo} " /> 
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>YaguRoute Store</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
-<!--BREADCRUMBS END-->
 
 <div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
     <div class="broadcast-tabs-wrapper">
@@ -135,10 +105,10 @@
                                         <img src="/images/product/${product.prodImageFirst}"  alt="product"> </a>
                                     <div class="info">
                                         <span class="name">${product.prodName} </span>
-                                        <span class="price">${product.prodPrice}</span>	
+                                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
                                         
                                         <div class="btn-wrap">
-                                            <button class="btn btn-detail" id="prodDetail">상세보기</button>
+                                         <a href="/product/getProduct?prodNo=${product.prodNo}" class="btn btn-detail">상세보기</a>
                                         </div>
                                         
                                     </div>

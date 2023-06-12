@@ -60,17 +60,19 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             margin: 0 auto;
             background-color: #ffffff;
+            
         }
 	
         .login-container h3 {
             text-align: center;
-            color: forestgreen;
+            color: #19376D;
         }
 		
 		.login-message {
 		  display: flex;
 		  justify-content: center;
 		  align-items: center;
+		  font-family: monospace;
 		}
 		button, input, select, textarea {
     	background-color: rgb(68, 199, 103);
@@ -83,12 +85,13 @@
 	    font-size: 19px;
 	    padding: 9px 15px;
 	    text-decoration: none;
-	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	    /* text-shadow: rgb(47, 102, 39) 0px 1px 0px; */
 	}
         .login-container label {
             display: block;
             color: #333333;
             font-size: 13px;
+            
         }
 
 		.login-container input[type="text"], 
@@ -101,21 +104,29 @@
 		.login-container input::placeholder {
         	opacity: 0.7; /* 투명도 조정 */
     	}
-		
+		a {
+		    color: #19376D;
+		    text-decoration: none;
+		    outline: 0;
+		    transition: all .4s;
+		    font-weight: bold;
+		}
 		
         .login-container button[type="button"] {
-            width: 100%;
-            height: 45px;
-            background-color: #4CAF50;
+            width: 93%;
+            /* height: 45px; */
+            background-color: #19376D;
             color: #ffffff;
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
             font-size : 15px;
+            border-radius: 100px;
+            margin: auto;
         }
 
         .login-container button[type="button"]:hover {
-            background-color: #45a049;
+            background-color: #19376D;
         }
         
         .comment-submit {
@@ -188,6 +199,7 @@
             margin-bottom: 10px;
             /* 글자를 가운대로 정렬합니다. */
             text-align: center;
+            border-radius: 100px;
         }
 
         .link-login img {
@@ -207,7 +219,8 @@
 		  margin-bottom: 10px;
 		  /* 글자를 가운데로 정렬합니다. */
 		  text-align: center;
-		}
+		  border-radius: 100px;
+		}	
 		
 		.kakao-login svg {
 		  display: inline-block;
@@ -243,17 +256,17 @@
 		  	justify-content: center;
 		  	align-items: center;
 		  	font-family: monospace;
+		  	
 		}
     </style> 
     
     <script type="text/javascript">
  
     // 아이디 비밀번호 일치하는지 확인
-    $( function() {
 		
-		$("#userId").focus();
 		
-		$("#login").on("click" , function() {
+		function loginFunction(){
+				
 			var id=$('#userId').val();
 			var password=$('#password').val();
 			
@@ -267,9 +280,10 @@
 				alert("password를 입력해 주세요.");
 				return;
 			}
+			
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
-		});
-	});	
+		};	
+    
     function signupFunction() {
         $.ajax({
             url: "/user/addUser.jsp",
@@ -347,6 +361,8 @@
 	
 	$(function(){
 		
+		$("#userId").focus();
+		
 		$("#addPlayer").on("click", function(){
 			
 			alert("선수 더하기 클릭");
@@ -373,6 +389,15 @@
 			window.location.href="/player/listBestPlayer";
 		});
 	});
+	
+	$(document).keydown(function(event) {
+		  if (event.which === 13) {
+		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
+		    loginFunction();
+		  }
+	});
+	
+	
     </script>
 </head>
 
@@ -397,11 +422,11 @@
 	                        
 	                        <br><br>
 	                              
-	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;"><b>로 그 인</b></button>
-                            <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px;"> 회원 가입</a> 
-                            <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right;" >패스워드 찾기</a> 
+	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;" onclick="loginFunction()"><b>로 그 인</b></button>
+                            <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px; color: #19376D;"> 회원 가입</a> 
+                            <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right; color: #19376D;" >패스워드 찾기</a> 
                             <span style="float: right; opacity: 0.7;">&nbsp;|&nbsp;</span>
-                            <a href="javascript:void(0);" onclick="findUserIdFunction()" style="font-size: 15px; float: right;" >아이디 찾기</a>
+                            <a href="javascript:void(0);" onclick="findUserIdFunction()" style="font-size: 15px; float: right; color: #19376D;" >아이디 찾기</a>
                             <br><br>
                             
                             <div class="eaVHUA">
@@ -413,28 +438,17 @@
                             
                            	<div class="cont">
 							  <!-- 네이버 로그인 버튼 -->
-							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/users/naverLogin" class="link-login">
+							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.55.155:8080/users/naverLogin" class="link-login">
 							    <img src="/images/user/naverTitle.png" alt="네이버" /> 네이버로 로그인
 							  </a>
 							  <!-- 카카오 로그인 버튼 -->
-							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin" class="kakao-login">
+							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.55.155:8080/users/kakaoLogin" class="kakao-login">
 							    <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
 							      <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
 							    </svg>
 							    카카오로 로그인
 							  </a>
 							</div>
-                                <!--
-                                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin">
-                                <img id="kakaoLogin" class="kakao-submit" width="183" height="45" src="/images/user/kakaoLogin.png" alt="카카오 로그인 버튼">
-                                </a> -->
-
-								<!-- <button type="button" id="signup" class="signup" >회 원 가 입</button><br>
-								<button type="button" id="findUserId" class="find">아이디 찾기</button>
-								<button type="button" id="findPassword" class="find">비밀번호 찾기</button> -->
- 								<!-- <button type="button" id="addPlayer" class="plusPlayer">선수 추가</button>
- 								<button type="button" id="listPlayer" class="listPlayer">선수 리스트</button>
- 								<button type="button" id="bestPlayerList" class="bestPlayer">이주의 선수 리스트</button> -->
 					  </form>
                    </div>
                 </div><br>

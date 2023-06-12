@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
 import com.baseball.common.domain.Team;
 import com.baseball.service.domain.Game;
@@ -49,6 +51,12 @@ public class TicketController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Value("${commonProperties.pageUnit}")
+	int pageUnit;
+	
+	// @Value("${commonProperties.pageSize}") 
+	int pageSize = 10;
 	
 	public TicketController() {
 		System.out.println(this.getClass());
@@ -167,22 +175,32 @@ public class TicketController {
 	
 	//userId로 ticket 결제내역 List get
 	@GetMapping("getTicketPurchaseList")
-	public String getTicketPurchaseList(@RequestParam("userId") String userId,Model model,HttpSession session) throws Exception{
+	public String getTicketPurchaseList(@RequestParam("userId") String userId,
+										@RequestParam(value="currentPage", required = false) Integer currentPage ,
+										@RequestParam(value="daysValue", required = false) Integer daysValue,
+										Model model,HttpSession session) throws Exception{
 		System.out.println("/ticket/getTicketPurchaseList : GET START");
+		//7or15or1month
+		int days = 0; 
+		if(daysValue != null) {
+			days = daysValue.intValue();
+		}
+		
 		Search search = new Search();
-		search.setCurrentPage(1);
-		search.setPageSize(30);
+		currentPage = (currentPage == null) ? 1 : currentPage;
+		search.setCurrentPage(currentPage);
+		search.setPageSize(pageSize);
+		search.setDays(days);
 		String tranType = "t";
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
 	 	for(Transaction tran:list) {
 	 		System.out.println(tran);
 	 	}
-		/*
-		Integer totalCount = (Integer)map.get("totalCount");
-		System.out.println("Transaction TotalCount:: "+totalCount);
-		totalCount = (Integer)map.get("totalCount");
-		*/
+		
+		Integer totalCount = ((Integer)map.get("totalCount")).intValue();
+		Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
+		System.out.println("Transaction TotalCount//resultPage::= "+totalCount+"//"+resultPage);
 		////////결제내역list 정보///////
 		
 		////////game 정보(화면에 어느 경기를 예매한건지 경기정보 출력해주기 위함/////
@@ -192,6 +210,12 @@ public class TicketController {
 	 	gamelist.add(game);
 		}
 		System.out.println("game정보 불러온 것 :: " +gamelist);
+		
+		User user= (User)session.getAttribute("user");
+		Team team = gameService.getTeamInfo(user.getTeamCode()); //상단바 출력위한 팀정보
+		
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("team", team);
 		model.addAttribute("transaction", list);//transaction 결제내역 리스트 (gamelist와 1:1)
 		model.addAttribute("game", gamelist); //결제내역에 해당하는 게임 정보 리스트
 		return "forward:/ticket/listTicketPurchase.jsp";
