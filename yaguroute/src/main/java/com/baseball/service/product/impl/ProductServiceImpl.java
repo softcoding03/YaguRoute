@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Map<String, Object> getSalesProdList(Map<String, Object> map) throws Exception {
-		List<Product> List = productDao.getProductList(map);
+		List<Product> List = productDao.getSalesProdList(map);
 		int totalCount = productDao.getTotalCount(map);
 		
 		Map<String, Object> salesMap = new HashMap<String, Object>();

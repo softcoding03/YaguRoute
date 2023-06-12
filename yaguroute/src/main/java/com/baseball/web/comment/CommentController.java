@@ -36,41 +36,5 @@ public class CommentController {
 		System.out.println(this.getClass());
 	}
 	
-	@PostMapping("addComment")
-	public String addComment(@ModelAttribute("comment") Comment comment, Model model,HttpSession session) throws Exception {
-		System.out.println("/comment/addComment : POST START");	
-		System.out.println("-- 넘어온 데이터 ? "+comment); 
-		User user = (User)session.getAttribute("user");
-		comment.setUser(user);
-		System.out.println("insert되는 comment? "+comment);
-		commentService.addComment(comment);
-		int postNo = comment.getPostNo();
-		
-		return "redirect:/post/getPost?postNo="+postNo;
-	}
-	
-	@PostMapping("updateComment")
-	public String updateComment(@ModelAttribute("comment") Comment comment, Model model,HttpSession session) throws Exception {
-		System.out.println("/comment/updateComment : POST START");	
-		System.out.println("-- 넘어온 데이터 ? "+comment); 
-		User user = (User)session.getAttribute("user");
-		comment.setUser(user);
-		System.out.println("update되는 comment? "+comment);
-		commentService.updateComment(comment);
-		int postNo = comment.getPostNo();
-		
-		return "redirect:/post/getPost?postNo="+postNo;
-	}
-	
-	@GetMapping("deleteComment")
-	public String deleteComment(@RequestParam("commentNo") int commentNo,@RequestParam("postNo") int postNo, Model model,HttpSession session) throws Exception {
-		System.out.println("/comment/deleteComment : GET START");	
-		System.out.println("-- 넘어온 데이터 ? "+commentNo+"//"+postNo); 
-		commentService.deleteComment(commentNo); //레코드가 삭제되지 않고 changed 칼럼이 2로 변경됨(0:x,1:수정됨,2:삭제됨)
-		
-		return "redirect:/post/getPost?postNo="+postNo;
-	}
-	
-	
 	
 }
