@@ -113,6 +113,22 @@
 		position: relative;
 		z-index: 2;
   		}
+  		
+  		.no_game{
+  			background-image: url('../images/baseball/empty_ground.png');
+  			background-size: cover;
+  			background-repeat: no-repeat;
+  			background-position: center;
+  			width : 100%;
+  			height : 900px;
+  			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			text-align: center;
+			font-size: 50px;
+			font-family:"Gwangyang";
+  		}
     </style>
 </head>
 <body>
@@ -120,16 +136,6 @@
 <!-- topBar start -->
 <jsp:include page="/common/topBar.jsp"/>
 <!-- topBar End -->
-
-<div class="preloader-wrapper" id="preloader">
-    <div class="motion-line dark-big"></div>
-    <div class="motion-line yellow-big"></div>
-    <div class="motion-line dark-small"></div>
-    <div class="motion-line yellow-normal"></div>
-    <div class="motion-line yellow-small1"></div>
-    <div class="motion-line yellow-small2"></div>
-</div>
-
 <section class="image-header">
     <div class="container">
         <div class="row">
@@ -148,88 +154,94 @@
     </div>
 </section>
 
-<div class="broadcast-wrap">
+<c:if test="${list[0].gameInfo.gameCode eq null}">
+	<div class="no_game">
+		오늘 경기는 없습니다.
+    </div>
+</c:if>
+
+<c:if test="${!channel.gameInfo.gameCode eq null}"> 
+<div class="container">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
             	<h4>Today's Match</h4>                
             </div>
-            
             <c:set var="i" value="0"/>
             <c:forEach var="channel" items="${list}">
             <c:set var="i" value="${i+1}"/>
-            <div class="col-md-12">
-            	<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
-            		<div class="broadcast-item">
-            			<div class="item-header" id="headingOne">
-            				<div class="row">
-            					<div class="col-md-1 col-sm-2">
-				                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
-				                </div>
-				                
-				                <div class="col-md-7 col-sm-10">
-				                    <div class="item-head-body">
-				                        <img src="${channel.gameInfo.homeTeam.teamEmblem}" width="40" height="40" alt="team-logo1">
-				                        <span class="vs">vs</span>
-				                        <img src="${channel.gameInfo.awayTeam.teamEmblem}" width="40" height="40" alt="team-logo1">
-				                        <span class="info">
-				                            <span class="what">${channel.gameInfo.homeTeam.teamNickName} VS ${channel.gameInfo.awayTeam.teamNickName}</span>
-				                            <span class="then">${channel.gameInfo.gameDate}</span>
-				                        </span>
-				                    
-				                        <span class="marker">
-				                        	<c:if test="${channel.gameInfo.gameStatusCode eq 0 }">경기 전</c:if>
-				                        	<c:if test="${channel.gameInfo.gameStatusCode eq 2 }">경기 종료</c:if>
-				                        	<c:if test="${channel.gameInfo.gameStatusCode eq 3 }">경기 취소</c:if>
-				                        	<c:if test="${channel.gameInfo.gameStatusCode eq 1 }">경기 중</c:if>
-				                        	<c:if test="${channel.gameInfo.gameStatusCode eq 4 }">경기 종료</c:if>
-				                        </span>
-				                    </div>
-				                </div>
-				                <div class="col-md-4 col-sm-12">
-				                    <div class="channel">
-				                        <img src="https://kr.object.ncloudstorage.com/mainpjt/images/01baa05b-180a-49d8-8c19-cdbcd389d1b9Haerin.gif" width="60" height="60" alt="channel-logo">
-				                        <span class="info">
-				                            <span class="what"> 장소 : ${channel.gameInfo.homeTeam.stadiumName}</span>
-				                            <span class="then"> start : ${channel.gameInfo.gameTime}</span>
-				                            
-				                            <div>
-				                            <c:if test="${channel.gameInfo.gameStatusCode eq 2 || channel.gameInfo.gameStatusCode eq 4}">
-				                            	<button class="recording-button">
-				                            		<span>
-				                            			Live
-				                            			<input type="hidden" name="channelID" value="${channel.channelID}"/>
-				                            		</span>
-				                            	</button>
-				                            </c:if>
-				                            
-				                            <c:if test="${channel.gameInfo.gameStatusCode eq 0 }">
-				                            	<button class="custom-button">준비 중</button>
-				                            </c:if>
-				                            
-				                            <c:if test="${channel.gameInfo.gameStatusCode eq 1}">
-				                            	<button class="custom-button">결과</button>
-				                            </c:if>
-				                            
-				                            <c:if test="${channel.gameInfo.gameStatusCode eq 3 }">
-				                            	<button class="custom-button">cancel</button>
-				                            </c:if>
-				                            	
-				                            </div>
-				                        </span>
-				                    </div>
-				                </div>
-            				</div>
-            			</div>            			
-            		</div>
-            	</div>
-            </div>
-            </c:forEach>
-            
+                
+	            <div class="col-md-12">
+	            	<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
+	            		<div class="broadcast-item">
+	            			<div class="item-header" id="headingOne">
+	            				<div class="row">
+	            					<div class="col-md-1 col-sm-2">
+					                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                </div>
+					                
+					                <div class="col-md-7 col-sm-10">
+					                    <div class="item-head-body">
+					                        <img src="${channel.gameInfo.homeTeam.teamEmblem}" width="40" height="40" alt="team-logo1">
+					                        <span class="vs">vs</span>
+					                        <img src="${channel.gameInfo.awayTeam.teamEmblem}" width="40" height="40" alt="team-logo1">
+					                        <span class="info">
+					                            <span class="what">${channel.gameInfo.homeTeam.teamNickName} VS ${channel.gameInfo.awayTeam.teamNickName}</span>
+					                            <span class="then">${channel.gameInfo.gameDate}</span>
+					                        </span>
+					                    
+					                        <span class="marker">
+					                        	<c:if test="${channel.gameInfo.gameStatusCode eq 0 }">경기 전</c:if>
+					                        	<c:if test="${channel.gameInfo.gameStatusCode eq 2 }">경기 종료</c:if>
+					                        	<c:if test="${channel.gameInfo.gameStatusCode eq 3 }">경기 취소</c:if>
+					                        	<c:if test="${channel.gameInfo.gameStatusCode eq 1 }">경기 중</c:if>
+					                        	<c:if test="${channel.gameInfo.gameStatusCode eq 4 }">경기 종료</c:if>
+					                        </span>
+					                    </div>
+					                </div>
+					                <div class="col-md-4 col-sm-12">
+					                    <div class="channel">
+					                        <img src="https://kr.object.ncloudstorage.com/mainpjt/images/01baa05b-180a-49d8-8c19-cdbcd389d1b9Haerin.gif" width="60" height="60" alt="channel-logo">
+					                        <span class="info">
+					                            <span class="what"> 장소 : ${channel.gameInfo.homeTeam.stadiumName}</span>
+					                            <span class="then"> start : ${channel.gameInfo.gameTime}</span>
+					                            
+					                            <div>
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 2 || channel.gameInfo.gameStatusCode eq 4}">
+					                            	<button class="recording-button">
+					                            		<span>
+					                            			Live
+					                            			<input type="hidden" name="channelID" value="${channel.channelID}"/>
+					                            		</span>
+					                            	</button>
+					                            </c:if>
+					                            
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 0 }">
+					                            	<button class="custom-button">준비 중</button>
+					                            </c:if>
+					                            
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 1}">
+					                            	<button class="custom-button">결과</button>
+					                            </c:if>
+					                            
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 3 }">
+					                            	<button class="custom-button">cancel</button>
+					                            </c:if>
+					                            	
+					                            </div>
+					                        </span>
+					                    </div>
+					                </div>
+	            				</div>
+	            			</div>            			
+	            		</div>
+	            	</div>
+	            </div>           
+            </c:forEach>            
 		</div>
 	</div>
 </div>
-
+</c:if>
 
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
