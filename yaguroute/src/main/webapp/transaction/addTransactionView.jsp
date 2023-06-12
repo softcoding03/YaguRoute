@@ -23,7 +23,6 @@
 <script type="text/javascript">
 
 
-
 function fncAddTransaction() { 
 	$("form").attr("method" ,"POST").attr("action" , "/transaction/addTransaction").submit();
 }
