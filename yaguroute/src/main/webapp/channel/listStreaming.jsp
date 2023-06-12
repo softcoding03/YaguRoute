@@ -160,7 +160,7 @@
     </div>
 </c:if>
 
-<c:if test="${!channel.gameInfo.gameCode eq null}"> 
+<c:if test="${!(list[0].gameInfo.gameCode eq null)}"> 
 <div class="container">
 	<div class="container">
 		<div class="row">
@@ -170,7 +170,7 @@
             <c:set var="i" value="0"/>
             <c:forEach var="channel" items="${list}">
             <c:set var="i" value="${i+1}"/>
-                
+                <c:if test="${!(channel.gameInfo.gameCode eq null)}">
 	            <div class="col-md-12">
 	            	<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
 	            		<div class="broadcast-item">
@@ -207,7 +207,7 @@
 					                            <span class="then"> start : ${channel.gameInfo.gameTime}</span>
 					                            
 					                            <div>
-					                            <c:if test="${channel.gameInfo.gameStatusCode eq 2 || channel.gameInfo.gameStatusCode eq 4}">
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 2 || channel.gameInfo.gameStatusCode eq 4 || channel.gameInfo.gameStatusCode eq 0}">
 					                            	<button class="recording-button">
 					                            		<span>
 					                            			Live
@@ -236,7 +236,8 @@
 	            			</div>            			
 	            		</div>
 	            	</div>
-	            </div>           
+	            </div>   
+	            </c:if>        
             </c:forEach>            
 		</div>
 	</div>

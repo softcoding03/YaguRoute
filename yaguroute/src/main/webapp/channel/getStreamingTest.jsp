@@ -16,7 +16,8 @@
 <!-- socket.io CDN -->
 <script src="https://cdn.socket.io/3.1.3/socket.io.min.js"></script>
 <!-- jquery CDN -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
 <!-- Video.js CDN, CSS CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video.min.js"></script>
@@ -150,7 +151,7 @@
 
 .drop-area {
 	display: none;
-	width: 100%;
+	width: 100px;
 	height: 200px;
 	border: 2px dashed #ccc;
 	border-radius: 10px;
@@ -301,13 +302,12 @@ function getTime(){
 }
 
 	$(function(){
-		
 		//getTime();
 		
-		var socket = io.connect('http://223.130.133.54:3000', {
+		var socket = io.connect('http://192.168.0.36:3000'/* 'http://223.130.133.54:3000' */, {
 			withCredentials: true,
 			 extraHeaders: {
-				'Access-Control-Allow-Origin': 'http://223.130.133.54:3000'
+				'Access-Control-Allow-Origin': 'http://192.168.0.36:3000'/* 'http://223.130.133.54:3000' */
 			 },
 			 path: '/socket.io',
 			 query: {
@@ -315,8 +315,6 @@ function getTime(){
 				 userID: '${sessionScope.user.userId}'
 			 }
 		});
-		
-	
 		
 		$(window).on("load", function(){
 			socket.emit('join');
@@ -397,32 +395,36 @@ function getTime(){
 			});
 			
 			//이미지 드래그&다운
-			 var dropZone = $('#chat-messages');
-			 dropZone.on('dragover', handleDragOver);
-			 dropZone.on('dragleave', handleDragLeave);
-			 dropZone.on('drop', handleFileSelect);
-			 
-			/*  dropZone.on('dragenter', function(){
-				dropZone.show();
+			var dropZone = $('#drop-area');
+			dropZone.hide();
+			
+			dropZone.droppable({
+				drop: function(event, ui) {
+					event.preventDefault();
+					handleFileSelect(event.originalEvent);
+					console.log("droppable drop 실행");
+				}
+				/* over: function(event, ui) {
+					event.preventDefault();
+				    dropZone.addClass('active');
+				},
+				out: function(event, ui) {
+					event.preventDefault();
+				    dropZone.removeClass('active');
+				} */
+				
+			});
+			
+			 $(document).on('dragenter', function(event) {
+				    dropZone.show();
 			 });
 			 
-			 dropZone.on('dragleave', function() {
-				 dropZone.hide();
-			 }); */
-			 
-			 function handleDragOver(event) {
-				    event.stopPropagation();
-				    event.preventDefault();
-				    event.originalEvent.dataTransfer.dropEffect = 'copy';
-				    dropZone.addClass('active');
-			}
-			 
-			function handleDragLeave(event) {
-				    event.stopPropagation();
-				    event.preventDefault();
-				    dropZone.removeClass('active');
-			}
-			 
+			 $(document).on('dragleave', function(event) {
+			 	if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+					dropZone.hide();
+				}
+			 });
+			
 			function handleFileSelect(event) {
 				    event.stopPropagation();
 				    event.preventDefault();
@@ -433,9 +435,10 @@ function getTime(){
 				    if (files.length > 0) {
 				    	var formData = new FormData();
 				        formData.append('image', files[0]);
-				        
+				        console.log("됐다")
 				        $.ajax({
-				            url: "http://192.168.0.36:3001/image/upload",
+				            url: /* "http://223.130.133.54:3000/image/upload" */
+				            "http://192.168.0.36:3000/image/upload",
 				            type: "POST",
 				            processData: false,
 				            contentType: false,
@@ -576,6 +579,7 @@ function getTime(){
 	</div>
 </div>
 
+<div id=countdown></div>
 
 <div class="match">
 	<div class="container" id="space">
@@ -745,10 +749,12 @@ function getTime(){
 			<div class="row">
 				<div class="col-md-12">
 					<div class="container chat-container" id="space">
-						<div class="chat-messages" id="chat-messages" class="drop-area">
-					    	<!-- 채팅 메시지를 표시할 영역 -->
-					    </div>
-					    
+						
+						<div class="chat-messages" id="chat-messages">
+							<!-- 채팅 메시지를 표시할 영역 -->
+							
+						</div>
+						<div class="drop-area" id="drop-area"></div>
 					    <form id="chat-form">
 					     	<div class="input-group">
 					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요" width="200px"/>
