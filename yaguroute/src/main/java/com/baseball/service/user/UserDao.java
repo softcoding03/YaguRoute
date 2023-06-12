@@ -11,7 +11,7 @@ import com.baseball.service.domain.User;
 
 @Mapper
 public interface UserDao {
-	
+	/**/
 	public void addUser(User user)throws Exception;
 	
 	public User getUser(String userId) throws Exception;

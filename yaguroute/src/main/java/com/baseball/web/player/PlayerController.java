@@ -154,8 +154,7 @@ public class PlayerController {
 //		model.addAttribute("list", map.get("list"));
 //		model.addAttribute("resultPage", resultPage);
 //		model.addAttribute("search", search);
-		
-		System.out.println("too many nigger");
+		System.out.println("listBestPlayer : GET");
 		List<BestPlayer> bestList = bestPlayerDao.getBestPlayerByDate();
 		System.out.println(bestList);
 		
@@ -166,7 +165,7 @@ public class PlayerController {
 		
 		model.addAttribute("list", bestDateMap.get("list"));
 		
-		return "forward:/player/listBestPlayer(new).jsp";
+		return "forward:/player/listBestPlayer(extended).jsp";
 	} 
 	
 	// 해당 날짜에 해당하는 선수의 playerId로 Player객체를 가져와 리스트에 담기
@@ -186,12 +185,12 @@ public class PlayerController {
 		
 		// 1. 금주의 선수 Map -> List로 변환함.
 		List<BestPlayer> bestPlayerList = (List<BestPlayer>) bestPlayerMap.get("list");
-		System.out.println("bestPlayerList 2 : "+bestPlayerList); // 원래는 model.attribute()로 정보를 넘겼지만...
+		//System.out.println("bestPlayerList 2 : "+bestPlayerList); // 원래는 model.attribute()로 정보를 넘겼지만...
 		
 		// 2. 전체 선수 Map
 		search.setPageSize(playerDao.getTotalCount(search));
 		Map<String, Object> playerMap = playerService.getPlayerList(search);
-		System.out.println("search in player :: "+playerDao.getTotalCount(search));
+		//System.out.println("search in player :: "+playerDao.getTotalCount(search));
 		
 		// 3. 전체 선수 Map -> List로 변환함.
 		List<Player> totalPlayerList = (List<Player>) playerMap.get("list");
@@ -199,26 +198,29 @@ public class PlayerController {
 
 		bestPlayerList = bestPlayerList.stream().filter(bestplayer -> bestplayer.getBestDate().equals(bestDate))
 				.collect(Collectors.toList());
-
+		
 		List<Player> playList = new ArrayList<>();
 		
 		for (BestPlayer bestPlayers : bestPlayerList) {
 			
 			//System.out.println("bestPlayers : "+bestPlayers.getPlayerId());
 			Player player = playerService.getPlayer(bestPlayers.getPlayerId());
-			
-			System.out.println("player : "+player);
+			System.out.println("bestPlayer : "+player);
 			
 			playList.add(player);
 		}
 		
+		System.out.println("1. player List : "+playList.get(1));
+		System.out.println("2. search : "+search);
+		System.out.println("3. bestDate : "+bestDate);
 //		player가 있잖아. bestPlayer의 아이디와 일치하는 player를 가져오려고하는건데? 그치? 
 		
 		model.addAttribute("list",playList);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("bestDate", bestDate);
 		
-		return "forward:/player/listBestPlayerGroup.jsp";
+		return "forward:/player/listBestPlayerGroup(new).jsp";
 	}
 	
 //	@Scheduled(fixedRate = 30000)
