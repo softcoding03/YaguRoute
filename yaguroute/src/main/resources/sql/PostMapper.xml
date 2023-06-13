@@ -153,7 +153,12 @@
 		    FROM comment
 		    GROUP BY post_no
 		) c ON p.post_no = c.post_no
+		<if test="teamCode != 'all'">
 		WHERE p.team_code = #{value} AND p.post_type NOT IN ('4')
+		</if>
+		<if test="teamCode == 'all'">
+		WHERE p.post_type NOT IN ('4')
+		</if>
 		ORDER BY post_likes DESC, post_views DESC
 		LIMIT 5
 	</select>

@@ -472,7 +472,8 @@ public class UserController {
 		
 		// session 등록`
 		session.setAttribute("user", user);
-		return "redirect:/main.jsp";
+		//return "redirect:/main.jsp";
+		return "redirect:/main/getMain";
 	}
 	
 	@GetMapping( value="naverLogin")
@@ -512,7 +513,8 @@ public class UserController {
 				//System.out.println("첫 가입 유저... userPoint 올려드림.");
 				session.setAttribute("user", dbUser);
 				
-				return "redirect:/main.jsp";
+				//return "redirect:/main.jsp";
+				return "redirect:/main/getMain";
 			}
 		}
 		else {
@@ -592,7 +594,8 @@ public class UserController {
 				System.out.println("이미 존재하는 아이디입니다.");
 				//System.out.println("첫 가입 유저... userPoint 올려드림.");
 				session.setAttribute("user", dbUser);
-				return "redirect:/main.jsp";
+				//return "redirect:/main.jsp";
+				return "redirect:/main/getMain";
 				
 			}
 		}
@@ -613,7 +616,8 @@ public class UserController {
 		
 		// session 등록
 		session.setAttribute("user", user);
-		return "redirect:/main.jsp";
+		//return "redirect:/main.jsp";
+		return "redirect:/main/getMain";
 	}
 	
 	@PostMapping("userImage")

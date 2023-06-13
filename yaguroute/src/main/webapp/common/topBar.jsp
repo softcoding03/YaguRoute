@@ -46,7 +46,7 @@ span{
 
 <div class="main-menu-wrap">
     <div class="container">
-        <a href="/main.jsp" class="custom-logo-link">
+        <a href="javascript:;" class="custom-logo-link getMain">
         	<img src="/images/baseball/yaguRoute.png" class="logo"/>
         </a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#team-menu" aria-expanded="false">
@@ -59,7 +59,7 @@ span{
             <div class="collapse navbar-collapse" id="team-menu">
                 <ul class="main-menu nav">
                     <li>
-                        <a href="/main.jsp"><span>홈</span></a>
+                        <a href="javascript:;" class="getMain"><span>홈</span></a>
                     </li>
                     <li>
 	                    	<a href="/game/getGameList"><span>경기 스케줄</span></a>
@@ -133,6 +133,11 @@ span{
 		var currentDate = new Date();
 		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
 		self.location = "/ticket/getSalesList?month=" + currentMonth;
+	});
+	
+	//Main에 데이터 뿌려주기 위한 req
+	$("a.getMain").on("click", function() {
+		self.location = "/main/getMain";
 	});
 </script>
 

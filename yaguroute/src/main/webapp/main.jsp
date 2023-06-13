@@ -222,15 +222,55 @@
 </script>
 
 <body>
-	<div class="preloader-wrapper" id="preloader">
-    <div class="motion-line dark-big"></div>
-    <div class="motion-line yellow-big"></div>
-    <div class="motion-line dark-small"></div>
-    <div class="motion-line yellow-normal"></div>
-    <div class="motion-line yellow-small1"></div>
-    <div class="motion-line yellow-small2"></div>
-</div>
+
 <jsp:include page="/common/topBar.jsp"/>
+<!-- 공지사항 -->
+<div class="main-breaking-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-12 ">
+                <div class="break-title">
+                    <span>공지사항</span>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <div id="main-breaking-list" class="carousel slide main-breaking-list" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                    		<div class="item active">
+                            <a href="javascript:;" class="getNotice">
+                                <span class="date notice">${postDateList[0]}<span>/</span>
+                                </span>	
+                                <span class="news notice">${noticeList[0].postTitle}</span>
+                            </a>
+	                     </div>
+                    		<c:set var="size" value="${noticeList.size()}"/>
+								<c:forEach var="i" begin="1" end="${size -1}" step="1">
+	                        <div class="item">
+	                            <a href="javascript:;" class="getNotice">
+	                                <span class="date notice">${postDateList[i]}<span>/</span>
+	                                </span>	
+	                                <span class="news notice">${noticeList[i].postTitle}</span>
+	                            </a>
+	                        </div>
+                        </c:forEach>
+                    </div>	
+                    <div class="arrow-wrap">
+                        <!-- Controls -->
+                        <a class="nav-arrow left-arrow" href="#main-breaking-list" role="button" data-slide="prev">
+                            <i class="fa fa-caret-left" aria-hidden="true"></i>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="nav-arrow right-arrow" href="#main-breaking-list" role="button" data-slide="next">
+                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 공지사항 END -->
 <!-- <div class="main-slider-section">
     <div class="main-slider">
         <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000" style="position: relative;display: flex;">
@@ -731,25 +771,20 @@
 
     <!--MAIN PLAYERS STAT END-->
 
-    <!--SUCCESS STORY BEGIN-->
+<!--인기 게시물 Best 5-->
 <section class="success-story sport">
     <div class="container">
         <div class="row">
-            <div class="col-md-7">
-                <h4>success story <br>began here</h4>
-                <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep mixtape semiotics brunch. </p>
+            <div class="col-md-12">
+                <h4>인기 게시물 Best 5</h4>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="icon"><img src="/images/common/success-icon.png" alt="succes-icon"></div>
-                        <div class="title">Legendary</div>
-                        <p>Next level paleo taxidermy, bespoke messenger bag leggings occupy food truck. </p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="icon"><img src="/images/common/success-icon1.png" alt="succes-icon"></div>
-                        <div class="title">Legendary</div>
-                        <p>Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch. </p>
-                    </div>
-                    <div class="col-md-12"><a href="trophies.html" class="booking">trophies</a></div>
+                	  <c:forEach var="bestPost" items="${bestPostList}">
+	                    <div class="col-md-2">
+	                        <div class="icon"><img src="${bestPost.user.userImage}" style="width:30px;"alt="succes-icon"></div>
+	                        <div class="title">${bestPost.user.userNickName }</div>
+	                        <p>${bestPost.postTitle}</p>
+	                    </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="col-md-5 position-relative">
@@ -762,7 +797,7 @@
         </div>
     </div>	
 </section>
-<!--SUCCESS STORY END-->
+<!--인기 게시물 Best 5-END-->
 
     <!--SUCCESS STORY BEGIN-->
 <section class="success-story-cybersport">
@@ -1558,45 +1593,6 @@
     </section>
 
     <!--MAIN TEAM STORE END-->
-
-    <div class="main-breaking-news">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12 ">
-                <div class="break-title">
-                    <span>공지사항</span>
-                </div>
-            </div>
-            <div class="col-md-10 col-sm-9 col-xs-12">
-                <div id="main-breaking-list" class="carousel slide main-breaking-list" data-ride="carousel">
-                    <div class="carousel-inner" role="listbox">
-                    		<c:forEach var="notice" items="noticeList">
-	                        <div class="item active">
-	                            <a href="javascript:;" class="getNotice">
-	                                <span class="date notice">
-	                                    <%-- ${notice.postDate}<span>/</span> --%>
-	                                </span>	
-	                                <%-- <span class="news notice">${notice.postTitle}</span> --%>
-	                            </a>
-	                        </div>
-                        </c:forEach>
-                    </div>	
-                    <div class="arrow-wrap">
-                        <!-- Controls -->
-                        <a class="nav-arrow left-arrow" href="#main-breaking-list" role="button" data-slide="prev">
-                            <i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="nav-arrow right-arrow" href="#main-breaking-list" role="button" data-slide="next">
-                            <i class="fa fa-caret-right" aria-hidden="true"></i>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
     <!--FOOTER BEGIN-->
 <footer class="footer">
