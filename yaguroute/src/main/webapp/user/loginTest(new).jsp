@@ -453,7 +453,7 @@
 							    카카오로 로그인
 							  </a>
 							</div>
-					  </form>
+					  </form> 
                    </div>
                 </div><br>
                 <div>

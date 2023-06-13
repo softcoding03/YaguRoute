@@ -77,10 +77,10 @@ public class CommentRestController {
 	  }
 	  
 		
-	  @RequestMapping( value="deleteComment/{commentNo}/{postNo}", method=RequestMethod.GET )
-	public String deleteComment(@RequestParam("commentNo") int commentNo,@RequestParam("postNo") int postNo, Model model,HttpSession session) throws Exception {
+	  @RequestMapping( value="deleteComment/{commentNo}", method=RequestMethod.GET )
+	public String deleteComment(@PathVariable("commentNo") int commentNo, Model model,HttpSession session) throws Exception {
 		System.out.println("/comment/rest/deleteComment : GET START");	
-		System.out.println("-- 넘어온 데이터 ? "+commentNo+"//"+postNo); 
+		System.out.println("-- 넘어온 데이터 ? "+commentNo); 
 		commentService.deleteComment(commentNo); //레코드가 삭제되지 않고 changed 칼럼이 2로 변경됨(0:x,1:수정됨,2:삭제됨)
 		return "success";
 	}

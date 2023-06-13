@@ -15,10 +15,9 @@
 
 <style type="text/css">
 	.image-container {
-		position: relative;
+		position: absolute;
 		display: inline-block;
 		width: auto;
-		heigth: auto;
 	}
 	.teamTopBar {
 		width: auto !important;
@@ -62,7 +61,7 @@
 		border-radius: 10px;
 		margin-top: 20px;
 		background-color: #2ea11d;
-		width: 60%;
+		width: 50%;
 		padding-bottom: 5px;
 		padding-left: 5px;
 		box-shadow: 3px 3px 3px 1px gray;
@@ -77,13 +76,20 @@
 	}
 	.sidebar-calendar{
 		position: sticky;
-	    top: 100px;
-	    right: 300px;
+	    top: 300px;
+	    right: 100px;
 	}
-	.sidebar{
-		width: 15% !important;
-		padding-left:80px !important; 
-	}
+	/* @media (max-width: 767px){ */
+		.sidebar{
+			width: 20% !important;
+			padding-left:150px !important;
+		}
+	/* } */
+	@media (max-width: 1850px){
+		.sidebar{
+			display: none;
+		}
+	} 
 	.side-font-size{
 		font-size: 14px;
 	}
@@ -102,17 +108,16 @@
 	  	<div class=" col-md-6">
 			<img class="teamTopBar" src="${gameRecord.gameInfo.awayTeam.teamTopBar}">
 		</div>
-		<div class=" col-md-6">
-			<img class="teamTopBar col-md-6" src="${gameRecord.gameInfo.homeTeam.teamTopBar}">
+		<div class=" col-md-6" style="padding-left: 0px;">
+			<img class="teamTopBar" src="${gameRecord.gameInfo.homeTeam.teamTopBar}">
 		</div>
 	  </div>
 	</div>
 </section>
-
-<section class="sidebar col-xs-3 col-sm-3 col-md-3 sidebar-offcanvas" id="sidebar">
+<section class="sidebar col-xs-3 sidebar-offcanvas" id="sidebar">
 	<div class="sidebar-calendar addShadow">
 		<div class="padding">
-           	<h6 style="padding-left: 18px;">다른 경기</h6>
+           	<h6 style="padding-left: 25px;width: 50%;text-align: center;">다른 경기</h6>
            	<ul>
            	<c:forEach var="toGame" items="${todayGame}">
            		<li class="left-border-wid" style="${toGame.gameCode eq gameRecord.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
@@ -167,7 +172,7 @@
 	</div>
 </section>
 <div class="container">
-<section id="gameInfo" class="col-xs-12 col-sm-12 col-md-9">
+<section id="gameInfo" class="col-xs-9 col-sm-9 col-md-9">
 <div class="container">
 	<div class="row">
 	<h3>경기 기록</h3>
@@ -241,7 +246,7 @@
 </div>
 </div>
 </section>                
-<section id="titlePlayer" class="player-single-wrap col-xs-10 col-sm-10 col-md-10">
+<section id="titlePlayer" class="player-single-wrap col-xs-9 col-sm-9 col-md-9">
 <div class="container">
             <div class="row">
 <div class="player-info">
@@ -268,7 +273,7 @@
 </div>
 </div>
 </section>
-<section id="rest" class="col-xs-10 col-sm-10 col-md-10">
+<section id="rest" class="col-xs-9 col-sm-9 col-md-9">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
