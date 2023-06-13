@@ -17,7 +17,7 @@
 <script src="https://cdn.socket.io/3.1.3/socket.io.min.js"></script>
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 
 <!-- Video.js CDN, CSS CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video.min.js"></script>
@@ -25,11 +25,20 @@
 
 
 <style>
+/* body{
+	background-image:
+		url('../images/baseball/empty_ground.png');
+} */
+
+video{
+	border-radius: 10px;
+}
+
 .blind{
 	position: absolute;
     clip: rect(0 0 0 0);
     width: 1px;
-    height: 1px;
+    height: 10px;
     margin: -1px;
     overflow: hidden;
 }
@@ -61,7 +70,6 @@
 	position: relative;
 	background-color: #fff;
 	border-radius: 20px;
-
 }
 
 .background{
@@ -76,9 +84,11 @@
 }
 
 #message-input {
-	width: 100%;
-	height: 20px;
+	width: 460px;
+	height: 30px;
 	margin-bottom: 20px;
+	padding : 10px;
+	background-color: #f2f2f2;
 }
 
 .button-container {
@@ -97,7 +107,6 @@
 	overflow-y: auto;
 	margin-bottom: 20px;
 	margin-top: 20px;
-
 }
 
 .chat-message {
@@ -151,23 +160,27 @@
 
 .drop-area {
 	display: none;
-	width: 100px;
-	height: 200px;
-	border: 2px dashed #ccc;
-	border-radius: 10px;
-	text-align: center;
-	padding: 20px;
-	font-size: 16px;
-	color: #999;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
 }
 
 .drop-area.active {
-	background-color: #f7f7f7;
+	display: block;
+	color : white;
+	border-radius: 10px;
+	text-align: center;
+	font-family:"Gwangyang";
 }
 
 .table-container {
 	background-color : #f2f2f2;
 	display: flex;
+	border-radius: 10px;
 	
 }
 
@@ -175,7 +188,6 @@
   margin-left: 10px; /* 테이블 사이의 간격 조정 */
   margin-right: 10px; /* 테이블 사이의 간격 조정 */
   padding : 10px;
- 	
 }
 
 .table-container table {
@@ -188,7 +200,6 @@ table {
     text-indent: initial;
     border-spacing: 3px;
 }
-
 
 .team-name {
   width: 100px; /* 너비 조정 */
@@ -245,6 +256,7 @@ table {
   	cursor: pointer;
   	transition: transform 0.3s;
   	width : 100%;
+  	margin-bottom: 20px;
 }
 
 .homeCount{
@@ -276,6 +288,45 @@ button {
 .away:active{
 	transform: scale(0.95);
 }
+
+.radius{
+	border-radius: 10px !important;
+}
+
+.time{
+	/* opacity: 70%; */
+	background-image:
+		url('https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg');
+	width : 100%;
+	height : 600px;
+}
+
+.alarm-text{
+	font-family:"Gwangyang";
+	text-align: center;
+	color: white;
+	padding : 50px;
+	margin-top : 40px;
+	font-size: 30px;
+}
+
+.time-text{
+	font-family:"Gwangyang";
+	text-align: center;
+	color: white;
+	padding : 50px;
+	margin-top : 40px;
+	font-size: 50px;
+	background-color : black;
+	border-radius: 10px;
+	display: flex;
+	justify-content : center;
+}
+
+.align{
+	display: flex;
+	justify-content : center;
+}
 </style>
 
 
@@ -284,26 +335,28 @@ button {
 function getTime(){
 	var startTime = "${channel.gameInfo.gameTime}";
 	var currentDate = new Date();
-	var targetTime = new Date();
-	
+	var targetTime = new Date();	
 	targetTime.setHours(Number(startTime.split(':')[0]));
 	targetTime.setMinutes(Number(startTime.split(':')[1]));
-	targetTime.setSeconds(Number(startTime.split(':')[2]));
-	
+	targetTime.setSeconds(Number(00));
 	var timeDiff = targetTime - currentDate;
 	
-	if (timeDiff <= 0) {
-	      $("#countdown").html("경기가 이미 시작되었습니다.");
-	      console.log("경기가 이미 시작되었다.");
-	      return;
+	if (timeDiff => 0) {
+		var seconds = Math.floor(timeDiff / 1000); //남은 시간 초로 계산
+		var min = Math.floor(seconds / 60);//분으로 변환
+		var hour = Math.floor(min / 60);//시간으로 변환
+		
+		$(".hour").text(hour+"시");
+		$(".min").text(min%60+"분");
+		$(".sec").text(seconds%60+"초");
+		return true;
+	} else {
+		return false;
 	}
 	
-	setInterval(getTime, 1000);
 }
 
 	$(function(){
-		//getTime();
-		
 		var socket = io.connect('http://192.168.0.36:3000'/* 'http://223.130.133.54:3000' */, {
 			withCredentials: true,
 			 extraHeaders: {
@@ -342,7 +395,28 @@ function getTime(){
 							});
 						} else {
 							console.log("방송 시작 전");
-							$('video').attr("poster", "${channel.gameInfo.homeTeam.teamEmblem}").attr("height", "700px");
+							$("#streaming").remove();
+							var time = $('<div class="time radius"></div>');
+							var timemessage = $('<div class="alarm-text">경기가 곧 시작됩니다.</div>');
+							var blind = $('<span class="blind">남은 시간</span>');
+							var timeBox = $('<div>').append(
+									  $('<div>').addClass('row align').append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('hour time-text').text('00'))
+									  )
+									  .append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('min time-text').text('00'))
+									  )
+									  .append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('sec time-text').text('00'))
+									  )
+									);
+							time.append(blind, timemessage, timeBox);
+							$("#title1").append(time);
+							getTime();
+							if(getTime()){
+								setInterval(getTime, 1000);	
+							}
+							//$('video').attr("poster", "https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg").attr("height", "700px");
 						}
 								
 					}		
@@ -398,44 +472,39 @@ function getTime(){
 			var dropZone = $('#drop-area');
 			dropZone.hide();
 			
-			dropZone.droppable({
-				drop: function(event, ui) {
-					event.preventDefault();
-					handleFileSelect(event.originalEvent);
-					console.log("droppable drop 실행");
-				}
-				/* over: function(event, ui) {
-					event.preventDefault();
-				    dropZone.addClass('active');
-				},
-				out: function(event, ui) {
-					event.preventDefault();
-				    dropZone.removeClass('active');
-				} */
-				
+			$(document).on('dragenter', function(event) {
+				dropZone.addClass('active');
+				dropZone.show();
 			});
 			
-			 $(document).on('dragenter', function(event) {
-				    dropZone.show();
-			 });
-			 
-			 $(document).on('dragleave', function(event) {
-			 	if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+			dropZone.on('dragover', function(event) {
+				event.preventDefault();
+			});
+			
+			dropZone.on('drop', function(event){
+				event.preventDefault();
+		 		handleFileSelect(event.originalEvent);
+		 		dropZone.hide();
+		 	});
+		 	
+			$(document).on('dragleave', function(event) {
+				if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+					event.preventDefault();
+					dropZone.removeClass('active');
 					dropZone.hide();
 				}
-			 });
-			
+			});
+			 
 			function handleFileSelect(event) {
 				    event.stopPropagation();
 				    event.preventDefault();
 				    dropZone.removeClass('active');
 				    
-				    var files = event.originalEvent.dataTransfer.files;
+				    var files = event.target.files || event.dataTransfer.files;;
 				    // 파일 업로드 처리 로직을 여기에 구현하세요.
 				    if (files.length > 0) {
 				    	var formData = new FormData();
 				        formData.append('image', files[0]);
-				        console.log("됐다")
 				        $.ajax({
 				            url: /* "http://223.130.133.54:3000/image/upload" */
 				            "http://192.168.0.36:3000/image/upload",
@@ -477,7 +546,6 @@ function getTime(){
 		  });
 		
 		socket.on("responseMessage", (data) => {
-			console.log("흐으음,,,",data);
 			var chatMessage = $('<div class="chat-message"></div>');
 			var messageBubble = $('<div class="message-bubble"></div>');
 			var userProfileImg = $('<img></img>').attr("src", data.userImage).attr("alt", "이미지 없음");
@@ -547,13 +615,8 @@ function getTime(){
 		});
 	});
 </script>
-
-
-
-
-
-
 </head>
+
 <body>
 <!-- topBar start -->
 <jsp:include page="/common/topBar.jsp"/>
@@ -595,12 +658,12 @@ function getTime(){
 							<div class="text">
 								<h4>${channel.gameInfo.homeTeam.teamNickName}</h4>
 							</div>
-						</div>
+						</div>						
 						
-						<div class="score">
-            				${channel.gameInfo.gameScore}       
-            			</div>
-            			
+						<div class="score" id="score">
+	            				${channel.gameInfo.gameScore}       
+	            		</div>
+	            			            		
             			<div class="team right  wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
             				<div class="text">
             					<h4>${channel.gameInfo.awayTeam.teamNickName}</h4>
@@ -625,8 +688,7 @@ function getTime(){
 <div class="container" id="space">
 	<div class="row">
 		<div class="col-md-8">
-			<h3>broadcasts</h3>
-			
+			<h3>broadcasts</h3>	
 			<div class="mathc-live-broadcasts">
 				<div class="background">
 					<div class="tab-content">
@@ -641,22 +703,22 @@ function getTime(){
 								<caption class="blind">스코어 보드 종합</caption>
 								<thead>
 									<tr>
-										<th scope="col" class="team-name">팀 명</th>						
-										<th scope="col" class="team-name">1</th>
-										<th scope="col" class="team-name">2</th>
-										<th scope="col" class="team-name">3</th>
-										<th scope="col" class="team-name">4</th>
-										<th scope="col" class="team-name">5</th>
-										<th scope="col" class="team-name">6</th>
-										<th scope="col" class="team-name">7</th>
-										<th scope="col" class="team-name">8</th>
-										<th scope="col" class="team-name">9</th>
+										<th scope="col" class="team-name radius">팀 명</th>						
+										<th scope="col" class="team-name radius">1</th>
+										<th scope="col" class="team-name radius">2</th>
+										<th scope="col" class="team-name radius">3</th>
+										<th scope="col" class="team-name radius">4</th>
+										<th scope="col" class="team-name radius">5</th>
+										<th scope="col" class="team-name radius">6</th>
+										<th scope="col" class="team-name radius">7</th>
+										<th scope="col" class="team-name radius">8</th>
+										<th scope="col" class="team-name radius">9</th>
 									</tr>
 								</thead>
 									
 								<tbody>
 									<tr>
-										<td>${channel.gameInfo.awayTeam.teamNickName}</td>
+										<td class="radius">${channel.gameInfo.awayTeam.teamNickName}</td>
 										<c:set var="i" value="0"/>
 										<c:forEach var="awayScoreList" items="${gameRecord.awayScoreList}">
 											<td>${gameRecord.awayScoreList[i]}</td>
@@ -665,7 +727,7 @@ function getTime(){
 									</tr>
 									
 									<tr>
-										<td>${channel.gameInfo.homeTeam.teamNickName}</td>
+										<td class="radius">${channel.gameInfo.homeTeam.teamNickName}</td>
 										<c:set var="i" value="0"/>
 										<c:forEach var="homeScoreList" items="${gameRecord.homeScoreList}">
 											<td>${gameRecord.homeScoreList[i]}</td>
@@ -681,10 +743,10 @@ function getTime(){
 									<thead>
 										<tr>
 											<th scope="col" class="team-name blind">blind</th>
-											<th scope="col" class="team-name">R</th>						
-											<th scope="col" class="team-name">H</th>
-											<th scope="col" class="team-name">E</th>
-											<th scope="col" class="team-name">B</th>
+											<th scope="col" class="team-name radius">R</th>						
+											<th scope="col" class="team-name radius">H</th>
+											<th scope="col" class="team-name radius">E</th>
+											<th scope="col" class="team-name radius">B</th>
 										</tr>
 									</thead>
 									
@@ -718,7 +780,8 @@ function getTime(){
 		
 		<!-- 채팅 구역 -->
 		<div class="col-md-4">
-			<div class="container button-container" id="space">
+		<br/><br/>
+			<div class="container button-container" id="space">					
 				<div class="cheer">
 					<span class="text-center">
 						<h3>당신의 팀을 응원하세요</h3>
@@ -752,12 +815,12 @@ function getTime(){
 						
 						<div class="chat-messages" id="chat-messages">
 							<!-- 채팅 메시지를 표시할 영역 -->
-							
+							<div class="drop-area" id="drop-area">여기에 드랍하세요</div>
 						</div>
-						<div class="drop-area" id="drop-area"></div>
+						
 					    <form id="chat-form">
 					     	<div class="input-group">
-					        	<input type="text" id="message-input" class="form-control" placeholder="메시지를 입력하세요" width="200px"/>
+					        	<input type="text" id="message-input" class="radius" placeholder="메시지를 입력하세요" width="200px"/>
 					    	</div>
 				    	</form>
 				    </div>
@@ -779,7 +842,7 @@ function getTime(){
 				<div class='match-lineup'>
 					<div class="no-gutter">					
 						<div class="col-md-6">
-							<div class="head">
+							<div class="head radius">
 								<div class="name">${channel.gameInfo.homeTeam.teamNickName} 선발</div>
 							</div>
 							
@@ -802,11 +865,11 @@ function getTime(){
 						</div>
 						
 						<div class="col-md-6">
-							<div class="head">
+							<div class="head radius">
 								<div class="name right">${channel.gameInfo.awayTeam.teamNickName} 선발</div>
 							</div>
 							
-							<div class="team-wrap right">
+							<div class="team-wrap right radius">
 								<c:set var="i" value="0"/>
 								<c:forEach var="homePlayerList" items="${lineUp.awayPlayerList}">
 									<div class="member">
