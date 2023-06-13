@@ -82,7 +82,7 @@ span{
                     <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>상점</span></a></li>
                     <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span>커뮤니티 게시판</span></a></li>
                     <c:if test="${user.role eq 'admin'}">
-	                    <li><a href="#other"><span>관리자페이지</span></a>
+	                    <li><a href="/admin/getAdmin.jsp"><span>관리자페이지</span></a>
 	                        <ul>
 	                        	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
 	                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
