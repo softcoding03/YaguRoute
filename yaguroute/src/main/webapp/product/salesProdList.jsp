@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>listProduct</title>
+	<title>salesProdList</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -22,119 +23,124 @@
 <script type="text/javascript">
     function fncGetSalesProdList(currentPage) {
         $("#currentPage").val(currentPage);
-        $("form").attr("method", "GET").attr("action", "/product/salesProdList").submit();
+        $("form").attr("method", "GET").attr("action", "/product/salesProdList")
+        .submit();
     }
 
     $(function() {
         $("a[href='teamCodeHref']").on('click', function() {
             teamCode = $(this).find("input[name='teamCode']").val();
-            self.location = "/product/salesProdList?prodTeamCode=" + teamCode;
+            self.location = "/product/salesProdList?prodTeamCode=" + teamCode;    
         });
+        
+		$("button.btn.btn-default").on("click", function() {
+			fncGetSalesProdList(1);
+		});
     });
+    
 </script>
-   
- 
 </head>
 
 <body>
 
-	<!-- ToolBar Start /////////////////////////////////////-->
-<jsp:include page="/common/topBar.jsp"/>
-	<!-- ToolBar End /////////////////////////////////////-->
-	<input type="hidden" id="prodNo" name="prodNo" value="${product.ProdNo} " /> 
+		<!-- ToolBar Start /////////////////////////////////////-->
+				<jsp:include page="/common/topBar.jsp"/>
+		<!-- ToolBar End /////////////////////////////////////-->
+
 		<form name="detailForm">
 
-<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
-    <div class="broadcast-tabs-wrapper">
-        <ul class="nav nav-tabs" role="tablist">
-            <c:forEach var="team" items="${allTeam}">
-                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
-                    <a href="teamCodeHref" role="tab" data-toggle="tab">
-                        <img alt="img" src="${team.teamEmblem}">
-                        <span class="info">
-                            <span class="title">${team.teamNickName}</span>
-                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
-                        </span> 
-                    </a>
-                </li>
-            </c:forEach>
-        </ul>
-    </div>
-</div>
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
+			    <div class="broadcast-tabs-wrapper">
+			        <ul class="nav nav-tabs" role="tablist">
+			            <c:forEach var="team" items="${allTeam}">
+			                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+			                    <a href="teamCodeHref" role="tab" data-toggle="tab">
+			                        <img alt="img" src="${team.teamEmblem}">
+			                        <span class="info">
+			                            <span class="title">${team.teamNickName}</span>
+			                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
+			                        </span> 
+			                    </a>
+			                </li>
+			            </c:forEach>
+			        </ul>
+			    </div>
+			</div>
 
+	<div class="container">
+		<div class="page-header text-info">
+			<div class="row">
+			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
+			
+			        <!-- Search -->
+					<div class="search-container">
+						<div class="form-group" style="width: 100px;">
+							<select class="form-control" name="searchCondition">
+								<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+							</select>
+						</div>
+						<div class="form-group" style="width: 230px;">
+							<input type="text" class="form-control"  id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
+								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
 
-	
+						<button type="button" class="btn btn-default">검색</button>
+						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
+					</div>
+				<!-- Search -->
+
+						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
+						<input type="hidden" id="currentPage" name="currentPage" value="" />				
     <!--STORE WRAP BEGIN-->
-    <div class="store-wrap">
-        <div class="container">
-            <div class="row row-offcanvas row-offcanvas-left">
-                <div class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
-                    <div class="sidebar-menu-wrap">
-                        <h6>Categories</h6>
-                        <ul class="categories-list">
-                            <li>
-                                <a href="#"><span class="count">◆</span>유니폼</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="count">◆</span>모자</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="count">◆</span>야구용품</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="count">◆</span>잡화</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="filter-wrap">
-  
-                        </div>
+		    <div class="store-wrap">
+		        <div class="container">
+		            <div class="row row-offcanvas row-offcanvas-left">
+		                <div class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
+		                    <div class="filter-wrap">
+		                 </div>
+		                </div>
+		                <div class="col-md-12">
+		                    <h6>${product.prodTeamCode}</h6>
+		                    <div class="row">
+		                           <c:forEach var="product" items="${list}">
+		                        <div class="col-md-4 col-sm-6">
+		                            <div class="store-list-item">         
+		                                <div>
+		                                    <a href="/product/getProduct?prodNo=${product.prodNo}">
+		                                        <img src="/images/product/${product.prodImageFirst}"  alt="product"> </a>
+		                                    <div class="info">
+		                                        <span class="name">${product.prodName} </span>
+		                                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
+		                                        
+		                                        <div class="btn-wrap">
+		                                         <a href="/product/getProduct?prodNo=${product.prodNo}" class="btn btn-detail">상세보기</a>
+		                                        </div>
+		            	                       	 </div>
+			                                </div>
+			                            </div>
+			                        </div>
+		                       </c:forEach>
+		                </div>
+		            </div>
 
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-9">
-                    <p class="hidden-md hidden-lg">
-                        <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
-                    </p>
-                    <h6>${product.prodTeamCode}</h6>
-                    <div class="row">
-                           <c:forEach var="product" items="${list}">
-                        <div class="col-md-4 col-sm-6">
-                            <div class="store-list-item">         
-                                <div>
-                                    <a href="/product/getProduct?prodNo=${product.prodNo}">
-                                        <img src="/images/product/${product.prodImageFirst}"  alt="product"> </a>
-                                    <div class="info">
-                                        <span class="name">${product.prodName} </span>
-                                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
-                                        
-                                        <div class="btn-wrap">
-                                         <a href="/product/getProduct?prodNo=${product.prodNo}" class="btn btn-detail">상세보기</a>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                          </c:forEach>
-                </div>
-            </div>
-     
      			<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
 					<jsp:param name="id" value="salesProd" />
 				</jsp:include>
 				<!-- PageNavigation End... -->
 
-
+			</div>
+		</div>
+	</div>
+</div>
 
     <!--STORE WRAP END-->
 
-
-</div>
-</div>
+				</div>
+		</div>
 </div>
 
 </form>
+
 </body>
 
 

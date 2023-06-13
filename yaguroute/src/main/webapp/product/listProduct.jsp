@@ -39,7 +39,7 @@
 	function fncGetProductList(currentPage) {
 		$("#currentPage").val(currentPage);
 		$("form").attr("method", "GET").attr("action", "/product/listProduct")
-				.submit();
+		.submit();
 	}
 
 	$(function() {
@@ -76,46 +76,27 @@
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
-	
-
 	<!--  화면구성 div Start /////////////////////////////////////-->
-
-				<!--BREADCRUMBS BEGIN-->
-					<section class="image-header" style="height: 200px;">
-					  <div class="container">
-					    <div class="row">
-					      <div class="col-md-8">
-					        <div class="info">
-					          <div class="wrap">
-					            <h1>판매상품관리</h1>
-					          </div>
-					        </div>
-					      </div>
-					    </div>
-					  </div>
-					</section>
-				<!--BREADCRUMBS END-->
 				
 	<form name="detailForm">
-				<div style="width: 98%; margin-left: 10px; margin-top: 30px;">
-
-<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
-    <div class="broadcast-tabs-wrapper">
-        <ul class="nav nav-tabs" role="tablist">
-            <c:forEach var="team" items="${allTeam}">
-                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
-                    <a href="teamCodeHref" role="tab" data-toggle="tab">
-                        <img alt="img" src="${team.teamEmblem}">
-                        <span class="info">
-                            <span class="title">${team.teamNickName}</span>
-                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
-                        </span> 
-                    </a>
-                </li>
-            </c:forEach>
-        </ul>
-    </div>
-</div>
+			
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
+			    <div class="broadcast-tabs-wrapper">
+			        <ul class="nav nav-tabs" role="tablist">
+			            <c:forEach var="team" items="${allTeam}">
+			                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+			                    <a href="teamCodeHref" role="tab" data-toggle="tab">
+			                        <img alt="img" src="${team.teamEmblem}">
+			                        <span class="info">
+			                            <span class="title">${team.teamNickName}</span>
+			                            <input type="hidden" name="teamCode" value="${team.teamCode}"/>
+			                        </span> 
+			                    </a>
+			                </li>
+			            </c:forEach>
+			        </ul>
+			    </div>
+			</div>
 		<div class="container">
 		<div class="page-header text-info">
 			<div class="row">
@@ -168,14 +149,14 @@
 										<td align="left">${product.prodTeamCode}</td>
 										<td>${product.prodTranCode eq 'hidden' ? '숨김' : '판매중'}</td>
 									</tr>
-
-								</c:forEach>
-							</tbody>
-						</table>
-
-
-					</form>
+									</c:forEach>
+								</tbody>
+							</table>
+				      </div>
+			    	</div>
 				</div>
+		</div>
+	</form>
 
 				<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">

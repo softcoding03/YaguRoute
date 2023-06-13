@@ -14,42 +14,40 @@
 		<result property="prodCategory" column="prod_category" jdbcType="NUMERIC" />
 		<result property="prodTranCode" column="prod_tran_code" jdbcType="VARCHAR" />
 		<result property="prodRefundCode" column="prod_refund_code" jdbcType="VARCHAR" />
-		<result property="prodTeamCode" column="team_code" jdbcType="VARCHAR" />
+		<result property="prodTeamCode" column="prod_team_code" jdbcType="VARCHAR" />
 		<result property="prodImageFirst" column="prod_image_first" jdbcType="VARCHAR" />
 		<result property="prodImageSecond" column="prod_image_second" jdbcType="VARCHAR" />
 		<result property="prodImageThird" column="prod_image_third" jdbcType="VARCHAR" />
 	</resultMap>
 
 
-	<sql id="prodList">
-		SELECT *
-		FROM product
-		<where>
-			<if test="prodTeamCode != 'ALL'">
-				team_code = #{prodTeamCode}
-			</if>
-			<if test="search.searchCondition != null">
-				<if test="search.searchCondition == 0 and search.searchKeyword != ''">
+<sql id="prodList">
+	SELECT *
+	FROM product
+	<where>
+		<if test="search.searchCondition != null and search.searchKeyword != ''">
+			<choose>
+				<when test="prodTeamCode != 'ALL'">
 					AND prod_name LIKE '%${search.searchKeyword}%'
-				</if>
-				<if
-					test="search.searchCondition == 0 and search.searchKeyword != '' and prodTeamCode == 'ALL'">
-					prod_name LIKE '%${search.searchKeyword}%'
-				</if>
-			</if>
-			<if test="prodTeamCode == 'ALL'">
-				OR team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
-			</if>
-		</where>
-		ORDER BY prod_no
-	</sql>
+				</when>
+				<otherwise>
+					AND (prod_team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO') AND prod_name LIKE '%${search.searchKeyword}%')
+				</otherwise>
+			</choose>
+		</if>
+		<if test="prodTeamCode != 'ALL'">
+			AND prod_team_code = #{prodTeamCode}
+		</if>
+	</where>
+	ORDER BY prod_no
+</sql>
 
 
 	<!-- INSERT SQL -->
 	<insert id="addProduct" parameterType="product">
 
 		INSERT INTO product
-		(prod_no, prod_name, prod_price, prod_stock, prod_category, team_code, prod_regdate, prod_image_first, prod_image_second, prod_image_third)
+		(prod_no, prod_name, prod_price, prod_stock, prod_category, prod_team_code, prod_regdate, prod_image_first, prod_image_second, prod_image_third)
 		VALUES (null, #{prodName}, #{prodPrice}, #{prodStock}, #{prodCategory},#{prodTeamCode}, SYSDATE(), #{prodImageFirst}, #{prodImageSecond}, #{prodImageThird})
 
 	</insert>
@@ -68,19 +66,19 @@
 	<!-- UPDATE SQL -->
 <update id="updateProduct" parameterType="product">
 
-  UPDATE product
-  <set>
-    prod_name = #{prodName},
-    prod_price = #{prodPrice},
-    prod_category = #{prodCategory},
-    team_code = #{prodTeamCode},
-    prod_stock = #{prodStock},
-	prod_image_first = #{prodImageFirst},
-	prod_image_second = #{prodImageSecond},
-	prod_image_third = #{prodImageThird}
-  </set>
-  WHERE prod_no = #{prodNo}
-
+	  UPDATE product
+		  <set>
+		    prod_name = #{prodName},
+		    prod_price = #{prodPrice},
+		    prod_category = #{prodCategory},
+		    prod_stock = #{prodStock},
+		    prod_team_code = #{prodTeamCode},
+			prod_image_first = #{prodImageFirst},
+			prod_image_second = #{prodImageSecond},
+			prod_image_third = #{prodImageThird}
+		  </set>
+		  WHERE prod_no = #{prodNo}
+		  
 </update>
 
 
@@ -120,7 +118,8 @@
 		<include refid="prodList" />
 		) countTable
 
-
 	</select>
+
+
 
 </mapper>

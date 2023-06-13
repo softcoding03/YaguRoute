@@ -185,7 +185,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(6);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -195,18 +195,20 @@ public class ProductController {
 		map.put("search", search);
 		map = productService.getSalesProdList(map);
 		// Product list 출력
-		List<Product> list = (List<Product>) map.get("salesList");
+		
+		System.out.println("totallllll"+map.get("totalCount"));
+		List<Product> list = (List<Product>) map.get("salesList");	
 		for (Product salesProd : list) {
 			System.out.println(salesProd);
 		}
-		Product product = new Product();
-		int prodNo = product.getProdNo();
-		System.out.println("prodNo"+prodNo);
-		
+//		Product product = new Product();
+//		int prodNo = product.getProdNo();
+//		System.out.println("prodNo"+prodNo);
+//		
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
-		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page(search.getCurrentPage(),((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
-
+		
 		//팀 정보 조회
 		List<Team> allTeam = gameService.getAllTeam();
 
@@ -217,7 +219,7 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("allTeam", allTeam);
-		model.addAttribute("prodNo", prodNo);
+//		model.addAttribute("prodNo", prodNo);
 
 
 		return "forward:/product/salesProdList.jsp";
@@ -237,11 +239,48 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("product") Product product) throws Exception {
+	public String updateProduct(@ModelAttribute("product") Product product,
+								  @RequestParam("prodImages")List<MultipartFile> multipartFile) throws Exception {
 
 		System.out.println(product);
+		System.out.println(multipartFile);
 		System.out.println("/product/updateProduct 작동 시작");
+		
+		String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
 
+	    String prodTemp = "";
+	    long listSize = multipartFile.size();
+	    int temp = 1;		
+	    
+	    
+	    for (MultipartFile mf : multipartFile) {
+	        String originalFileName = mf.getOriginalFilename();
+	        long size = mf.getSize();
+
+	        System.out.println("originalFileName: " + originalFileName);
+	        System.out.println("fileSize: " + size);
+
+	        String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+
+	        if (temp == 1) {
+	            product.setProdImageFirst(uniqueFileName);
+	        } else if (temp == 2) {
+	            product.setProdImageSecond(uniqueFileName);
+	        } else {
+	            product.setProdImageThird(uniqueFileName);
+	        }
+	        temp++;
+
+	        try {
+	            mf.transferTo(new File(path + "\\" + uniqueFileName));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+		
+	    
+	    System.out.println(product);
+	        
 		productService.updateProduct(product);
 
 		return "forward:/product/updateProduct.jsp";

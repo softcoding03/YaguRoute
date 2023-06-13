@@ -124,14 +124,16 @@
 			return;
 		}
 
-			$("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
+		console.log(prodNo);
+ 		$("form").attr("enctype", "multipart/form-data").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
 		}
 		
 	$(function() {
 		  // 수정 버튼 클릭 이벤트 처리
 		  $("#updateProduct").on("click", function() {
-			  var prodNo = $(this).val();
-		    fncUpdateProduct();
+			  var prodNo = $("#prodNo").val();
+			  console.log(prodNo);
+		    fncUpdateProduct(prodNo);
 		  });
 		});
 
@@ -144,7 +146,7 @@
 	 <!-- ToolBar Start /////////////////////////////////////-->
 	 <jsp:include page="/common/topBar.jsp"/>
 	 <!-- ToolBar End /////////////////////////////////////-->
-			
+				
 				<!--상단 이미지 바-->
 							
 
@@ -161,6 +163,7 @@
 
 					<div class="customer-info">
 						<form>
+						<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo }" />			
 					    <br>
 							<div class="row">
 
