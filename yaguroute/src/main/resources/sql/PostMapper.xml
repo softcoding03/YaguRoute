@@ -167,7 +167,12 @@
 		FROM post p
 		LEFT JOIN
     		 comment c ON c.post_no = p.post_no
+    	<if test="teamCode == 'all'">
+    	WHERE post_type = '4'	 
+    	</if>
+    	<if test="teamCode != 'all'">
 		WHERE p.team_Code = #{value} AND post_type = '4'
+		</if>
 		GROUP BY
     		 p.post_no
 		ORDER by post_no DESC

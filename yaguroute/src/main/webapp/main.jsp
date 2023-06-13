@@ -1564,52 +1564,22 @@
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-12 ">
                 <div class="break-title">
-                    <span>Breaking news</span>
+                    <span>공지사항</span>
                 </div>
             </div>
             <div class="col-md-10 col-sm-9 col-xs-12">
                 <div id="main-breaking-list" class="carousel slide main-breaking-list" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <a href="news.html" class=" ">
-                                <span class="date">
-                                    17 April 2017<span>/</span>
-                                </span>	
-                                <span class="news">Curabitur id tellus mi. In laoreet lacinia luctus.</span>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="news.html" class=" ">
-                                <span class="date">
-                                    17 April 2017<span>/</span>
-                                </span>	
-                                <span class="news">Quisque ante lacus, fermentum et ante ultrices, accumsan blandit magna.</span>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="news.html" class=" ">
-                                <span class="date">
-                                    17 April 2017<span>/</span>
-                                </span>	
-                                <span class="news">Sed tincidunt placerat viverra.</span>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="news.html" class=" ">
-                                <span class="date">
-                                    17 April 2017<span>/</span>
-                                </span>	
-                                <span class="news">Acts of the week</span>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="news.html" class=" ">
-                                <span class="date">
-                                    17 April 2017<span>/</span>
-                                </span>	
-                                <span class="news">Nullam feugiat tortor at luctus ultrices.</span>
-                            </a>
-                        </div>
+                    		<c:forEach var="notice" items="noticeList">
+	                        <div class="item active">
+	                            <a href="javascript:;" class="getNotice">
+	                                <span class="date notice">
+	                                    <%-- ${notice.postDate}<span>/</span> --%>
+	                                </span>	
+	                                <%-- <span class="news notice">${notice.postTitle}</span> --%>
+	                            </a>
+	                        </div>
+                        </c:forEach>
                     </div>	
                     <div class="arrow-wrap">
                         <!-- Controls -->
