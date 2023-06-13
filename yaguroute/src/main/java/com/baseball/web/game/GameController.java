@@ -172,8 +172,7 @@ public class GameController {
 	public void updateTeamInfo() throws Exception {
 		List<Team> teamList = gameService.getAllTeam();
 		for(Team team : teamList) {
-			gameService.getTeamInfo(team.getTeamCode());
-			
+			gameService.updateTeamInfo(gameService.getTeamInfo(team.getTeamCode()));
 		}
 	}
 //	
