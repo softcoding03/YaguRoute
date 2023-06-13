@@ -58,7 +58,7 @@
 	    top: 50%;
 	    right: 10px;
 	    transform: translateY(-50%);
-	    padding-right: 10px;
+	    padding-right: 20px;
 	    font-size: 18px;
 	}
 	.text{
@@ -69,15 +69,21 @@
 function preventEvent(){
 	
 	$("#preventAll").on('mousedown',function(event){
-		event.preventDefault();
+		if(!$(event.target).hasClass('btn')){
+			event.preventDefault();
+		}
 	})
 	
 	$("#preventAll").on('click',function(event){
-		event.preventDefault();
+		if(!$(event.target).hasClass('btn')){
+			event.preventDefault();
+		}
 	})
 	
 	$("#preventAll").on('contextmenu',function(event){
-		event.preventDefault();
+		if(!$(event.target).hasClass('btn')){
+			event.preventDefault();
+		}
 	})
 	
 }
@@ -222,7 +228,7 @@ function preventEvent(){
                                 		<span class="input-text">point</span>
                                 	</div>
                                 </li>
-                                <c:if test="${gameStatusCode.gameStatusCode eq 0}">
+                                <c:if test="${game.gameStatusCode eq 0}">
 									<li style="margin-top:50px;">
 	                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">전력분석</a></div>
 	                                </li>
@@ -318,7 +324,7 @@ function remaindTime() {
        return true;
    }
  }
- 
+
 
 function validation(){
 	var radioCount = 0;
@@ -335,25 +341,26 @@ function validation(){
 			  return false;
 		  }
 	});
-	
+	if(!check){return false}
 	$("input[type='number']").each(function(){
 		var value = $(this).val();
 		if(value.trim() === ''){
-			alert('비어있는 포인트가 있습니다.')
+			alert('비어있는 예측 포인트가 있습니다.')
 			check = false;
 			return false;
 		}
 	})
-	
+	if(!check){return false}
 	var sum = 0;
 	$("input[type='number']").each(function(){
 		var value = $(this).val();
 		sum = sum + parseInt(value);
 	})
-	
+	if(!check){return false}
 	if(sum > parseInt(${user.userPoint})){
 		alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
 		check = false;
+		return false;
 	}
 	
 	$(".predTeamCode").each(function(){
@@ -364,7 +371,7 @@ function validation(){
 		}
 	})
 	
-		return check;
+	return check;
 	
 }
 
