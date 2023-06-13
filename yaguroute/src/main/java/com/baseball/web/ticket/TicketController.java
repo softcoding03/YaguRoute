@@ -76,6 +76,7 @@ public class TicketController {
 		}
 		//모든Team 정보 조회
 		List<Team> allTeam = gameService.getAllTeam();
+		allTeam.remove(0); //All 팀 삭제
 		Team team = gameService.getTeamInfo(teamCode);
 
 		model.addAttribute("team", team);
