@@ -192,6 +192,7 @@ public class TicketController {
 		search.setPageSize(pageSize);
 		search.setDays(days);
 		String tranType = "t";
+		
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
 	 	for(Transaction tran:list) {

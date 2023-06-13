@@ -52,10 +52,9 @@ public class GameRestController {
 	
 	@PostMapping("getTodayGameInfo")
 	public List<Game> getTodayGameInfo() throws Exception {
-//		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String nowDate = "2023-06-11";
+		String nowDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		//String nowDate = "2023-06-11";
 		List<Game> listGame = gameService.getGameListByDate(nowDate);
-		
 		
 		return listGame;
 	}

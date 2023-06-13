@@ -106,6 +106,7 @@
 	    .teamName{
 	    	font-size: 18px !important;
 	    	font-weight: 700;
+	    	color: black;
 	    }
 	    .oneGameCss{
 	    	font-size: 12px;
@@ -138,7 +139,10 @@
 		}
     </style>
 </head>
+
+
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header" style="min-height: 150px;height: 150px;">
 	<div class="row">
@@ -239,7 +243,6 @@
                                            		<c:if test="${gameList[gameIndex].gameDate ne currentDateList[dateTmp]}">
                                            			<td>${dateTmp+1}</td>
                                            		</c:if>
-                                           		
                                            		<c:if test="${gameList[gameIndex].gameDate eq currentDateList[dateTmp]}">
                                            			<c:forEach var="hello" begin="0" end="${teamCodeIndex-1}">
                                            				<c:if test="${gameList[gameIndex+hello].gameStatusCode eq 3}">
@@ -247,7 +250,7 @@
                                            				</c:if>
                                            			</c:forEach>
                                            			<c:if test="${bool eq teamCodeIndex}">
-                                           				<td>${dateTmp+1}</td>
+                                           				<td style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};">${dateTmp+1}</td>
                                            			</c:if>
                                            			<c:if test="${bool ne teamCodeIndex}">
                                            				<td class="activeCal" style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};"><a href="#${currentDateList[dateTmp]}">${dateTmp+1}</a></td>
@@ -296,13 +299,14 @@
  			<div class="${game.gameDate eq todayDate ? 'check' : ''}">
  		</c:if>
  	</c:if>
+ 	
  	<div class="main-lates-matches">
  		<a class="item" aria-disabled="true">
  		<c:if test="${game.gameDate ne tmpDate}">
  			<div id="${game.gameDate}" class="col-md-12 col-sm-12 col-xs-12"  style="text-align: center;"><h4>${game.gameDate}<c:if test="${game.gameDate eq todayDate}">&nbsp;&nbsp;(today)</c:if></h4></div>
  			<c:set var="tmpDate" value="${game.gameDate}"/>
  		</c:if>
- 		<hr style="border-top: 1px solid #a3cca3;margin-top: 0px;margin-bottom: 10px;">
+ 		<hr style="border-top: 1px solid #a3cca3;margin-top: 10px;margin-bottom: 10px;">
  		<div class="oneGameCss">
  				 <span class="game-result" style="font-size: 12px;">${game.homeTeam.hometown}</span>
 		        <span class="championship" style="font-size: 14px;">${game.gameTime}</span>
@@ -314,7 +318,7 @@
 		                    <span class="teamName">${game.awayTeam.teamNickName}</span>
 		                </span>
 		                <span class="score">
-		                    <span>${game.gameScore}</span>
+		                    <span style="font-family: 'FontAwesome';">${game.gameScore}</span>
 		                </span>
 		                <span class="team1">
 		                    <span class="teamName">${game.homeTeam.teamNickName}</span>
@@ -327,16 +331,16 @@
 			       	<span class="score">
 			       		<input type="hidden" value="${game.gameCode}" id="gameCode">
 	 					<c:if test="${game.gameStatusCode eq 0}">
-							<%-- <a class="team" href="/game/getGamePreview?gameCode=${game.gameCode}">전력 분석</a>--%><span class="pre">전력 분석</span>
+							<%-- <a class="team" href="/game/getGamePreview?gameCode=${game.gameCode}">전력 분석</a>--%><span role="button"  class="pre" style="font-family: 'FontAwesome';">전력 분석</span>
 						</c:if>
 						<c:if test="${game.gameStatusCode eq 1}">
-							<%-- <a class="team" href="#">실시간 중계</a>--%><span class="stream">LIVE</span>
+							<%-- <a class="team" href="#">실시간 중계</a>--%><span role="button"  class="stream" style="font-family: 'FontAwesome';">LIVE</span>
 						</c:if>
 						<c:if test="${game.gameStatusCode eq 2}">
-							<%-- <a class="team" href="/game/getGameRecord?gameCode=${game.gameCode}">경기 기록</a>--%><span class="atag">경기 기록</span>
+							<%-- <a class="team" href="/game/getGameRecord?gameCode=${game.gameCode}">경기 기록</a>--%><span role="button"  class="atag" style="font-family: 'FontAwesome';">경기 기록</span>
 						</c:if>
 						<c:if test="${game.gameStatusCode eq 3}">
-							<span class="cancel">경기 취소</span>
+							<span class="cancel" style="font-family: 'FontAwesome';">경기 취소</span>
 						</c:if>
 			        </span>
 			   	</span>

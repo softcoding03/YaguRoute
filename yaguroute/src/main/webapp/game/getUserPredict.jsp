@@ -24,7 +24,7 @@
 	
 	.imgSize{
 		width:130px !important;
-		height:110px !important;
+		height:130px !important;
 	}
 	.middle{
 		vertical-align: middle !important;
@@ -58,12 +58,36 @@
 	    top: 50%;
 	    right: 10px;
 	    transform: translateY(-50%);
-	    padding-right: 20px;
+	    padding-right: 16px;
 	    font-size: 18px;
+	    color:black;
+	    
 	}
 	.text{
-		font-size: 15px;
+		font-size: 18px !important;
+		font-weight: 600;
 	}
+	.transparency{
+		background-color: rgba(256,256,256,0.9);
+		/* background-color: rgba(0,0,0,0.6); */
+	}
+	.background {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  margin-top: 50px;
+		  margin-bottom: 50px;
+		}
+	/* 
+	body *{
+		color:white !important;
+	} */
+	#back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
 </style>
 <script type="text/javascript">
 function preventEvent(){
@@ -97,31 +121,37 @@ function preventEvent(){
 <body>
 <jsp:include page="/common/topBar.jsp"/>
 <section id="preventAll">
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>경기 예측</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+<section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/baseball/predict_background_img.jpg" alt="img">
+        </div>	
+	</div>
 </section>
+<div class="mathc-live-broadcasts background" style="margin-top: 0px;">
+	<div class="broadcast-tabs-wrapper">
+		<ul class="nav nav-tabs" role="tablist">
+			<li style="border-radius: 30%;background: content-box;"><h1 style="margin-left: 30px;margin-right: 30px;color:black;font-size: 50px;font-family:'Gwangyang'">경기 예측</h1></li>
+		</ul>
+		
+	</div>
+</div>
 <div class="container">
-	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
-		<div class="main-award-slider" style="height: 100px !important">
-   			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
-			<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev" style="width: 52px;height: 52px;">
-	            <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
-	            <span class="sr-only">Previous</span>
-        	</a>
-			<div class="text-center">
-				<h1 id="nowDate">${date}</h1>
+	<div class="row">
+		<div class="col-md-12 transparency">
+			<div class="text-right" style="background: content-box;"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
+				<div class="main-award-slider" style="height: 100px !important">
+		   			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
+					<a class="nav-arrow left-arrow" id="prevDay" href="#" role="button" data-slide="prev" style="width: 52px;height: 52px;">
+			            <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
+			            <span class="sr-only">Previous</span>
+		        	</a>
+					<div class="text-center">
+						<h1 id="nowDate">${date}</h1>
+					</div>
+		        </div>
 			</div>
-        </div>
+		</div>
 	</div>
 </div>
 <c:set var="State" value="0"/>
@@ -139,8 +169,8 @@ function preventEvent(){
 <c:if test="${gameSize ne 0}">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12" style="text-align: center;"><h4 class="time-title"></h4></div>
-			<div class="col-md-12">
+			<div class="col-md-12 transparency" style="text-align: center;"><h4 class="time-title"></h4></div>
+			<div class="col-md-12 transparency">
 				<div class="upcoming-match-info">
 					<div class="team">
 	                    <div class="avatar"></div>
@@ -169,7 +199,7 @@ function preventEvent(){
 	</div>
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 transparency">
 			<c:if test="${predSize ne 0}">
 				<div class="text-center" style="margin-top: 50px; margin-bottom: 50px; border: 2px solid black;">
 					<script type="text/javascript">preventEvent()</script>
@@ -198,17 +228,17 @@ function preventEvent(){
 <div class="oneGame">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 transparency">
                 	<hr>
                     <div class="upcoming-match-info" style="margin-top: 50px;margin-bottom: 50px;">
                     	<input type="hidden" value="" name="addPred[${gameStatus.index}].predWinningTeamCode" class="predTeamCode"/>
-                        <div class="team col-md-4 middle homeGame">
+                        <div class="team col-md-5 middle homeGame">
 	                        	<a class="a-css">
 		                            <div class="avatar"><img src="${game.homeTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.homeTeam.teamCode}"></div>
-		                            <div class="text">
+		                            <div class="text" style="padding-left: 10px;">
 		                                ${game.homeTeam.teamFullName} <span>${game.homeTeam.hometown}</span>
 		                                <div class="latest">
-				                        	<div class="latest-title">${game.homeTeam.teamNickName} 승리</div>
+				                        	<div class="latest-title" style="padding-left: 30px;font-size: 14px;">${game.homeTeam.teamNickName} 승리</div>
 				                   		</div>
 		                            </div> 
 		                            
@@ -228,6 +258,9 @@ function preventEvent(){
                                 		<span class="input-text">point</span>
                                 	</div>
                                 </li>
+                                <li>
+                                	<p class="warn-message"></p>
+                                </li>
                                 <c:if test="${game.gameStatusCode eq 0}">
 									<li style="margin-top:50px;">
 	                                    <div><a class="btn small" href="/game/getGamePreview?gameCode=${game.gameCode}" style="font-size:16px;font-family: Raleway,sans-serif; font-weight: 900;">전력분석</a></div>
@@ -237,13 +270,13 @@ function preventEvent(){
                             </ul>
                         </div>
                         
-                        <div class="team right col-md-4 middle awayGame">
+                        <div class="team right col-md-5 middle awayGame">
                         	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
 	                        <a class="a-css">
-	                            <div class="text">
+	                            <div class="text" style="padding-right: 10px;">
 	                                ${game.awayTeam.teamFullName}<span>${game.awayTeam.hometown}</span>
 	                                <div class="latest">
-	                                    <div class="latest-title">${game.awayTeam.teamNickName} 승리</div>
+	                                    <div class="latest-title" style="padding-right: 30px;font-size: 14px;">${game.awayTeam.teamNickName} 승리</div>
 	                                </div>
 	                            </div>
 	                            <div class="avatar" style="border"><img src="${game.awayTeam.teamEmblem}" alt="match-list-team-img" class="imgSize" id="${game.awayTeam.teamCode}"></div>
@@ -254,7 +287,6 @@ function preventEvent(){
 				</div>
 				<c:if test="${gameStatus.last eq true}"><hr></c:if>
 			</div>
-			
 		</div>
 	</div>
 </div>
@@ -262,17 +294,19 @@ function preventEvent(){
 
 </c:forEach>
 </form>
-<div class="container" style="margin-bottom: 100px;">
-	<div class="col-md-12">
-		<div class="text-center">
-			<c:if test="${State ne 1}">
-				<c:if test="${predSize ne 0}">
-					<button style="margin-right: 30px;" class="btn" id="deletePred">초기화</button>
-				</c:if>
-				<c:if test="${predSize eq 0}">
-					<button style="margin-right: 30px;" class="btn" id="addPred">예측 정보 저장</button>
-				</c:if>
-			</c:if>	
+<div class="container">
+	<div class="row" style="margin-bottom: 100px;">
+		<div class="col-md-12 transparency">
+			<div class="text-center"  style="padding-bottom: 20px;">
+				<c:if test="${State ne 1}">
+					<c:if test="${predSize ne 0}">
+						<button style="margin-right: 30px;" class="btn" id="deletePred">초기화</button>
+					</c:if>
+					<c:if test="${predSize eq 0}">
+						<button style="margin-right: 30px;" class="btn" id="addPred">예측 정보 저장</button>
+					</c:if>
+				</c:if>	
+			</div>
 		</div>
 	</div>
 </div>
@@ -329,34 +363,32 @@ function remaindTime() {
 function validation(){
 	var radioCount = 0;
 	var check = true;
+	var regex = /^[1-9]\d*$/;
 	
-	$('input[type="number"]').on('input', function() {
-		  var value = $(this).val();
-		  var regex = /^[1-9]\d*$/;
-		  
-		  if (!regex.test(value)) {
-			  alert('숫자만 입력해 주세요.')
-			  $(this).val("")
-			  check = false;
-			  return false;
-		  }
-	});
 	if(!check){return false}
 	$("input[type='number']").each(function(){
 		var value = $(this).val();
 		if(value.trim() === ''){
 			alert('비어있는 예측 포인트가 있습니다.')
+			$(this).focus();
+			check = false;
+			return false;
+		}else if(!regex.test(value)){
+			alert('예측 포인트는 숫자만 입력 가능합니다.')
+			$(this).focus();
 			check = false;
 			return false;
 		}
 	})
+	
 	if(!check){return false}
+	
 	var sum = 0;
 	$("input[type='number']").each(function(){
 		var value = $(this).val();
 		sum = sum + parseInt(value);
 	})
-	if(!check){return false}
+	
 	if(sum > parseInt(${user.userPoint})){
 		alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
 		check = false;
@@ -366,6 +398,7 @@ function validation(){
 	$(".predTeamCode").each(function(){
 		if($(this).val() === ''){
 			alert('모든 경기 예측에 참여해야 합니다.')
+			$(this).focus();
 			check = false
 			return false;
 		}
@@ -374,8 +407,27 @@ function validation(){
 	return check;
 	
 }
-
+function number_validation(){
+	
+}
 	$(function(){
+		
+		$('input[type="number"]').on('input', function() {
+			  var value = $(this).val();
+			  var regex = /^[1-9]\d*$/;
+			  check = true;
+			  if (!regex.test(value)) {
+				  $(this).val("")
+				  $(this).parent().parent().parent().find("p.warn-message").text("숫자만 입력해 주세요.(0~9)");
+				  $(this).focus()
+				  check = false;
+				  return check;
+			  }else if (regex.test(value)) {
+				  $(this).parent().parent().parent().find("p.warn-message").text("");
+				  $(this).focus()
+				  return check;
+			  }
+		});
 		
 		if(remaindTime()){
 			preventEvent();
