@@ -120,8 +120,8 @@ public class TransactionController {
 			    System.out.println("Transaction Data:: " + transaction);
 			    System.out.println("prodNo:: " + prodNo);
 			    System.out.println("userId:: " + userId);
-			    System.out.println("impNo:: " + impNo);
-			    System.out.println("merchantNo:: " + merchantNo);
+			    System.out.println("impNo:: " + impNo);			 
+			    System.out.println("merchantNo:: " + merchantNo); 
 			    System.out.println("prodQuantity"+prodQuantity);
 		
 			    // 상품과 사용자 정보 가져오기
@@ -262,7 +262,7 @@ public class TransactionController {
 		tranDetailService.updateRefundStatusCode(tranDetail);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/transaction/listTransaction");
+		modelAndView.setViewName("forward:/transaction/dlvyTranList");
 
 		return modelAndView;
 		

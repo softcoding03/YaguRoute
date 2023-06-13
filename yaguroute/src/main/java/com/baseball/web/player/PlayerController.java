@@ -120,15 +120,15 @@ public class PlayerController {
 	}
 	
 	@GetMapping("getPlayer")
-	public String  getPlayer(@RequestParam("playerId") String playerId, Model model) throws Exception{
+	public @ResponseBody Player getPlayer(@RequestParam("playerId") String playerId, Model model) throws Exception{
 		
-		System.out.println("getPlayer ㅎㅇ");
+		System.out.println("getPlayer : GET ");
 		
 		Player player = playerService.getPlayer(playerId);
 		
-		model.addAttribute("player", player);
+		System.out.println("선택한 선수 : "+player);
 		
-		return "forward:/player/getPlayer.jsp";
+		return player;
 	}
 	
 	@GetMapping("listBestPlayer")
