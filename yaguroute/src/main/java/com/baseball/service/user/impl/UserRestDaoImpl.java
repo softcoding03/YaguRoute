@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.core.io.Resource;
 
 import com.baseball.service.domain.User;
@@ -277,17 +278,21 @@ public class UserRestDaoImpl implements UserRestDao{
 		String fileName = null;
 		
 		try {
-		String absolutePath = new File("").getAbsolutePath();
+		//String absolutePath = new File("").getAbsolutePath();
 		fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		String uploadPath = absolutePath+fileUploadPath;
+		//String uploadPath = absolutePath+fileUploadPath;
 		filePath = fileUploadPath+fileName;
 		
-		System.out.println("upLoadPath : "+uploadPath);
+		//System.out.println("upLoadPath : "+uploadPath);
 		
 		System.out.println("filePath : "+filePath);
 		
+		
+		
 		// 파일 저장
-		file.transferTo(new File(uploadPath + fileName));
+		//file.transferTo(new File(uploadPath + fileName));
+		
+		
 		System.out.println("업로드 완료");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -316,6 +321,19 @@ public class UserRestDaoImpl implements UserRestDao{
 		 * return filePath;
 		 */
 		
+		
+		
 		return filePath;
 	}
+	/*
+	 * public void addResource(ResourceHandlerRegistry registry) {
+	 * 
+	 * registry.addResourceHandler("/user/**")
+	 * .addResourceLocations("file:///"+fileUploadPath);
+	 * 
+	 * System.out.println(registry);
+	 * 
+	 * String filePath = "/images/user/"; }
+	 */
+	
 }
