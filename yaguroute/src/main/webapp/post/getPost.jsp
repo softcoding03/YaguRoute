@@ -56,6 +56,9 @@
 	    display: flex;
 	    align-items: center;
 	  } 
+	  button.thumbs-btn{
+	  		width:30px;
+	  }
 	 </style>
     
     <script type="text/javascript">
@@ -342,8 +345,43 @@ var postNo;
             </div>
         </div>
         
-		<!-- 좋아요 싫어요 -->
+      <!-- 좋아요 싫어요 -->
 		<div class="row">
+	  		<input type="hidden" name="type" value="Like"/>
+	  		<div class="col-xs-4 col-md-2"><strong>좋아요</strong></div>
+	  			<a href="javascript:;" class="like">
+		  		<div class="col-xs-4 col-md-1 check1">
+						<c:choose>
+					        <c:when test="${emote.like == 1}">
+					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
+					        </c:when>
+					        <c:otherwise>
+					            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					        </c:otherwise>
+					    </c:choose>
+				</div>
+				</a>
+			<div class="col-xs-8 col-md-4" id="likes">${post.postLikes}</div>
+	  		<input type="hidden" name="type" value="DisLike"/>
+	  		<div class="col-xs-4 col-md-2"><strong>싫어요</strong></div>
+	  			<a href="javascript:;" class="disLike">
+			  	<div class="col-xs-4 col-md-1 check2">
+						<c:choose>
+					        <c:when test="${emote.disLike == 1}">
+					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
+					        </c:when>
+					        <c:otherwise>
+					            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					        </c:otherwise>
+					    </c:choose>
+				</div>
+				</a>
+			<div class="col-xs-8 col-md-4" id="disLikes">${post.postDislikes}</div>
+		</div>
+		<!-- 좋아요 싫어요 끝-->
+      
+		<!-- 좋아요 싫어요 -->
+		<!--  <div class="row">
 	  		<input type="hidden" name="type" value="Like"/>
 	  		<div class="col-xs-4 col-md-2"><strong>좋아요</strong></div>
 	  		<button type="button" class="btn btn-default btn-lg thumbs-btn liked">
@@ -377,11 +415,8 @@ var postNo;
 				</div>
 			</button>
 			<div class="col-xs-8 col-md-4" id="disLikes">${post.postDislikes}</div>
-		</div>    
+		</div>     -->
 		<!-- 좋아요 싫어요 끝-->
-		<div>
-			
-		</div>
 		    
 			<!-- Comment Start... -->
 			<jsp:include page="../comment/listComment.jsp"/>
