@@ -58,62 +58,100 @@
 	.col-md-2{
 		text-align: center;
 	}
+	.transparency{
+		background-color: rgba(256,256,256,0.9);
+		/* background-color: rgba(0,0,0,0.6); */
+	}
+	#back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
+	.background {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  margin-top: 50px;
+		  margin-bottom: 50px;
+		}
 </style>
 <body>
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>경기 예측</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
-<div class="container">
-	<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
-		<div class="main-award-slider" style="padding-bottom: 10px;">
-   			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
-			<div class="text-center">
-				<h1 id="nowDate">${date}</h1>
-			</div>
-			<a class="nav-arrow right-arrow" id="nextDay" href="#" role="button" data-slide="next" style="width: 52px;height: 52px;">
-	            <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
-	            <span class="sr-only"></span>
-	        </a>
-        </div>
+<section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/baseball/predict_background_img.jpg" alt="img">
+        </div>	
 	</div>
-	
+</section>
+<div class="mathc-live-broadcasts background" style="margin-top: 0px;">
+	<div class="broadcast-tabs-wrapper">
+		<ul class="nav nav-tabs" role="tablist">
+			<li style="border-radius: 30%;background: content-box;"><h1 style="margin-left: 30px;margin-right: 30px;color:black;font-size: 50px;font-family:'Gwangyang'">경기 예측</h1></li>
+		</ul>
+		
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 transparency">
+			<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
+				<div class="main-award-slider" style="padding-bottom: 10px;">
+		   			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
+					<div class="text-center">
+						<h1 id="nowDate">${date}</h1>
+					</div>
+					<a class="nav-arrow right-arrow" id="nextDay" href="#" role="button" data-slide="next" style="width: 52px;height: 52px;">
+			            <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+			            <span class="sr-only"></span>
+			        </a>
+		        </div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <c:if test="${gameSize eq 0}">
-	<div class="text-center">
-		<h4>경기가 없습니다.</h4>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 transparency" style="padding-bottom: 100px;">
+			<div class="text-center">
+				<h4>경기가 없습니다.</h4>
+			</div>
+		</div>
 	</div>
+</div>
 </c:if>
 <c:if test="${gameSize ne 0}">
 	<c:if test="${predSize eq 0}">
-		<div class="text-center">
-			<h4>예측한 경기가 없습니다.</h4>
+		<div class="container">
+	<div class="row">
+		<div class="col-md-12 transparency" style="padding-bottom: 100px;">
+			<div class="text-center">
+				<h4>예측한 경기가 없습니다.</h4>
+			</div>
 		</div>
+	</div>
+</div>
 	</c:if>
 <c:if test="${predSize ne 0}">
 <div class="container">
-	<div class="text-center">
-		<h2>경기 예측 결과</h2>
-		<div>
-			<div class="text">획득 포인트 결과</div>
-			<div class="text" id ="result"></div>
+	<div class="row">
+		<div class="col-md-12 transparency">
+			<div class="text-center">
+				<h2>경기 예측 결과</h2>
+				<div>
+					<div class="text">획득 포인트 결과</div>
+					<div class="text" id ="result"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 transparency">
 			<div class="col-md-6">
 				<h3>[AWAY]</h3>
 			</div>
@@ -134,7 +172,7 @@
         <div class="container">
             <div class="row">
             <hr>
-            	<div class="col-md-12" style="margin-top: 20px;">
+            	<div class="col-md-12 transparency" style="margin-top: 20px;">
 					<div class="col-md-3"></div>
 					<div class="col-md-2"><h6>승리팀 배당 <br><fmt:formatNumber value="${game.winningTeamAllocation}" pattern="#,##0.0" />배</h6></div>
 					<div class="col-md-2" style="padding-right: 50px;">
@@ -145,7 +183,7 @@
 		                <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
 					</div>
 				</div>
-                <div class="col-md-12">
+                <div class="col-md-12 transparency">
                 	
                     <div class="upcoming-match-info" style="margin-bottom: 30px;">
                     

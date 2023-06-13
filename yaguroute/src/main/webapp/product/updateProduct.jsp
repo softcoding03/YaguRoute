@@ -44,7 +44,7 @@ function fncGetProductList(currentPage) {
 }	
 
 $(function() {
-	  // 수정 버튼 클릭 이벤트 처리
+	  // 확인 버튼 클릭 이벤트 처리
 	  $("#commit").on("click", function() {
 		  fncGetProductList();
 	  });
@@ -60,21 +60,6 @@ $(function() {
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 		<form name="detailForm">
-				<!--BREADCRUMBS BEGIN-->
-					<section class="image-header" style="height: 200px;">
-					  <div class="container">
-					    <div class="row">
-					      <div class="col-md-8">
-					        <div class="info">
-					          <div class="wrap">
-					            <h1>업데이트 수정</h1>
-					          </div>
-					        </div>
-					      </div>
-					    </div>
-					  </div>
-					</section>
-				<!--BREADCRUMBS END-->
 
         <!--PLAYER STATS BEGIN-->
         
@@ -166,9 +151,7 @@ $(function() {
     </div>
 </section>
         
-        
-        
-        
+
                       
 <!--PLAYER STATS END-->
    

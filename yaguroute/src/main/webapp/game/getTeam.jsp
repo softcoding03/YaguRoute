@@ -25,8 +25,14 @@
     		font-weight: 700;
     	}
     	.table-css td{
-    		font-size: 14px !important;
-    		font-weight: 500 !important;
+    		font-size: 16px !important;
+    		font-weight: 550 !important;
+    		font-family: 'Gwangyang';
+    	}
+    	.table-css th{
+    		font-size: 15px !important;
+    		font-weight: 550 !important;
+    		font-family: 'Gwangyang';
     	}
     	.text-overlay {
 		  position: absolute;
@@ -51,7 +57,6 @@
     </style>
 </head>
 <body>
-<jsp:include page="/common/changePageEvent.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
     <div class="image-container">
@@ -91,21 +96,12 @@
 					<div class="text"> ${teamInfo.teamIntroduce}</div>
 				</div>
 				<div class="col-md-8">
-					<div><h4>Homepage</h4></div>
-					<div><a href="${teamInfo.teamHomepage}">${teamInfo.teamNickName} 홈페이지 바로가기 : ${teamInfo.teamHomepage}</a></div>
+					<div><h4>Hometown - ${teamInfo.hometown}<br><br><br>Homepage - <a href="${teamInfo.teamHomepage}">${teamInfo.teamFullName} 홈페이지 바로가기</a></h4></div>
 				</div>
-				<div class="col-md-8">
-					<div><h4>Hometown</h4>${teamInfo.hometown}</div>
-				</div>
-				<div class="col-md-12 col-sm-12">
-	            	<div class="cart-total">
-	                    <button class="proceed text-center" id="goTicket">티켓 예매하러 가기<i class="fa fa-check" aria-hidden="true"></i></button>
-	                </div>
-            	</div>
-				<div class="col-md-12" style="margin-top: 50px; ">
-					<h4 id="nowYear"></h4>
-					<table class="table-standings">
-		                        <tr>
+				<div class="col-md-12" style="margin-top: 0px; ">
+					<h4 id="nowYear" style="padding-top: 0px;"></h4>
+					<table class="table-standings" style="margin-bottom: 0px;">
+		                        <tr class="table-css">
 		                        	<th>현재순위</th>
 		                        	<th>경기</th>
 		                        	<th>승리</th>
@@ -126,6 +122,12 @@
 		                    </table>
 				
 				</div>
+				<div class="col-md-12 col-sm-12">
+	            	<div class="cart-total">
+	                    <button class="proceed text-center" id="goTicket" style="margin-top: 0px;margin-bottom: 50px;">티켓 예매하러 가기<i class="fa fa-check" aria-hidden="true"></i></button>
+	                </div>
+            	</div>
+				
 				<div class="col-md-12">
 					<div><h4>Stadium</h4></div>
 					<div style="text-align: center;"><h5>${teamInfo.stadiumName}</h5></div>
@@ -178,7 +180,12 @@
 		})
 		
 		let infoWindow = new naver.maps.InfoWindow({
-			content:'<div><div>${teamInfo.teamFullName} 홈구장</div>'+'<div><a href="${teamInfo.teamHomepage}">바로가기</a></div></div>'
+			content:'<div><div style="margin-left:20px;margin-right:20px;margin-bottom:30px;">'+
+				'<div style="text-align:center;"><h6>${teamInfo.stadiumName}</h6></div>'+
+				'<div><img style="width:30px;height:30px;" src="${teamInfo.teamEmblem}">${teamInfo.teamNickName} 홈구장</div>'+
+				'<div><p class="text">주소 : ${teamInfo.stadiumAddress}</p></div>'+
+				'<div><a href="${teamInfo.teamHomepage}">홈페이지 바로가기</a></div>'+
+			'<div></div>'
 		})
 		
 		infoWindow.open(map,marker);

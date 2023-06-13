@@ -36,7 +36,7 @@
 		list-style:none;
 	}
 	
-	li{
+	.li{
 		float:left;
 		margin-right:60px;
 	}
@@ -60,7 +60,7 @@
 	.left-border-wid{
 		border-radius: 10px;
 		margin-top: 20px;
-		background-color: #2ea11d;
+		background-color: rgba(25, 55, 109,0.5);
 		width: 50%;
 		padding-bottom: 5px;
 		padding-left: 5px;
@@ -98,9 +98,12 @@
 		text-align: center;
 		font-weight: 600;
 	}
+	
+	
 </style>
 
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
     <div class="image-container">
@@ -120,7 +123,7 @@
            	<h6 style="padding-left: 25px;width: 50%;text-align: center;">다른 경기</h6>
            	<ul>
            	<c:forEach var="toGame" items="${todayGame}">
-           		<li class="left-border-wid" style="${toGame.gameCode eq gameRecord.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
+           		<li class="left-border-wid .li" style="${toGame.gameCode eq gameRecord.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
            			<div>
 	           		<c:if test="${toGame.gameStatusCode eq 2 or toGame.gameStatusCode eq 4}">
 	           			<div class="text">경기종료</div>

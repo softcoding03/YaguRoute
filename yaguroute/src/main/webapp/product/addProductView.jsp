@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>상품 등록</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -78,7 +79,7 @@
 }
 
 .addProduct-submit:hover {
-	background-color: #4CAF50; /* 마우스 오버 시 배경색 변경 */
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
 }
 
 </style>
@@ -91,7 +92,7 @@
   border: 2px solid #4CAF50;
   border-radius: 4px;
   padding: 8px 12px;
-  background-color: #4CAF50;
+  background-color: #FACC2E;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -123,10 +124,22 @@
   border: none;
 }
 
+.title {
+  text-align: center;
+  font-size: 32px;
+  color: #0B4C5F;
+  padding: 20px;
+  background-color: #E0ECF8;
+  border-radius: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  height: 75px;
+
+}
 </style>
 
 
-<body bgcolor="#ffffff" text="#000000">
+<body >
 	 <!-- ToolBar Start /////////////////////////////////////-->
 	 <jsp:include page="/common/topBar.jsp"/>
 	 <!-- ToolBar End /////////////////////////////////////-->
@@ -135,108 +148,107 @@
 							
 
 				<!--상단 이미지 바-->
-
+<form name="detailForm">
 				<!--CHECKOUT WRAP BEGIN-->
-<section class="hockey-stats">
-		   <div class="container">
-		   <br>
-		      <div class="row">
-			        <h3 style="text-align: center;"> Add Product Information</h3>
-			    <div class="container" style="border: 2px solid #000; padding: 10px; width: 600px; border-radius: 10px;">
-				<div class="col-md-12" >
-
-					<div class="customer-info">
-						<form>
-					    <br>
-							<div class="row">
-
-								<div class="col-md-9">
-									<div class="item">
-										<label> <span>상품명<i>*</i></span> <input type="text" placeholder="상품명을 입력하세요" name="prodName">
+	<section class="hockey-stats">
+	  <div class="container">
+		 <br>
+			  <div class="row">
+			  <div class="col-md-12" >
+				 <h3 class="title" style="text-align: center; margin: 0 auto;">상품 등록</h3>
+				   <div class="container" style="border: 3px  padding: 10px; width: 500px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); background-color: #EFF8FB;">
+						<div class="col-md-12" >
+							<div class="customer-info">
+	
+							     <br>
+									<div class="row">
+		
+										<div class="col-md-9">
+											<div class="item">
+												<label> <span>상품명<i>*</i></span> <input type="text" placeholder="상품명을 입력하세요" name="prodName">
+												</label>
+											</div>
+										</div>
+		
+										<div class="col-md-12">
+											<div class="item">
+										<label>
+										  <span>상품 이미지</span>
+										  <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; background-color: #f0f0f0;">
 										</label>
 									</div>
 								</div>
-
-								<div class="col-md-12">
-									<div class="item">
-								<label>
-								  <span>상품 이미지</span>
-								  <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; background-color: #f0f0f0;">
-								</label>
-							
-												</div>
-																</div>
-							
-
-								<div class="col-md-9">
-									<div class="item">
-										<label> <span>가격 <i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice">
-										</label>
+								
+	
+									<div class="col-md-9">
+										<div class="item">
+											<label> <span>가격 <i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice">
+											</label>
+										</div>
+									</div>
+	
+									<div class="col-md-5">
+										<div class="item">
+											<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
+													<option value="0"
+														${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
+													<option value="1"
+														${ product.prodCategory ==1 ? "selected" : ""}>유니폼</option>
+													<option value="2"
+														${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
+													<option value="3"
+														${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
+													<option value="4"
+														${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
+											</select>
+											</label>
+										</div>
+									</div>
+	
+									<div class="col-md-4">
+										<div class="item">
+												<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
+													<option value="OB"
+														${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
+													<option value="LT"
+														${ product.prodTeamCode ==LT ? "selected" : ""}>롯데자이언츠</option>
+													<option value="LG"
+														${ product.prodTeamCode ==LG ? "selected" : ""}>LG트윈스</option>
+													<option value="KT"
+														${ product.prodTeamCode ==KT ? "selected" : ""}>KT위즈</option>
+													<option value="HT"
+														${ product.prodTeamCode ==HT ? "selected" : ""}>기아타이거즈</option>
+													<option value="SK"
+														${ product.prodTeamCode ==SK ? "selected" : ""}>SSG랜더스</option>
+													<option value="NC"
+														${ product.prodTeamCode ==NC ? "selected" : ""}>NC다이노스</option>
+													<option value="WO"
+														${ product.prodTeamCode ==WO ? "selected" : ""}>키움히어로즈</option>
+													<option value="SS"
+														${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
+													<option value="HH"
+														${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
+													<option value="NN"
+														${ product.prodTeamCode ==NN ? "selected" : ""}>구단을 선택하세요</option>
+												</select>
+												</label>
+											</div>
+										</div>
+										<div class="col-md-9">
+											<div class="item">
+												<label> <span>상품재고 <i>*</i></span> <input type="text"
+													placeholder="수량을 입력하세요" name="prodStock">
+												</label>
+											</div>
+										</div>
 									</div>
 								</div>
-
-								<div class="col-md-5">
-									<div class="item">
-										<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
-												<option value="0"
-													${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
-												<option value="1"
-													${ product.prodCategory ==1 ? "selected" : ""}>유니폼</option>
-												<option value="2"
-													${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
-												<option value="3"
-													${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
-												<option value="4"
-													${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
-										</select>
-										</label>
-									</div>
-								</div>
-
-								<div class="col-md-4">
-									<div class="item">
-										<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
-												<option value="OB"
-													${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
-												<option value="LT"
-													${ product.prodTeamCode ==LT ? "selected" : ""}>롯데자이언츠</option>
-												<option value="LG"
-													${ product.prodTeamCode ==LG ? "selected" : ""}>LG트윈스</option>
-												<option value="KT"
-													${ product.prodTeamCode ==KT ? "selected" : ""}>KT위즈</option>
-												<option value="HT"
-													${ product.prodTeamCode ==HT ? "selected" : ""}>기아타이거즈</option>
-												<option value="SK"
-													${ product.prodTeamCode ==SK ? "selected" : ""}>SSG랜더스</option>
-												<option value="NC"
-													${ product.prodTeamCode ==NC ? "selected" : ""}>NC다이노스</option>
-												<option value="WO"
-													${ product.prodTeamCode ==WO ? "selected" : ""}>키움히어로즈</option>
-												<option value="SS"
-													${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
-												<option value="HH"
-													${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
-												<option value="NN"
-													${ product.prodTeamCode ==NN ? "selected" : ""}>구단을 선택하세요</option>
-										</select>
-										</label>
-									</div>
-								</div>
-								<div class="col-md-9">
-									<div class="item">
-										<label> <span>상품재고 <i>*</i></span> <input type="text"
-											placeholder="수량을 입력하세요" name="prodStock">
-										</label>
-									</div>
-								</div>
-							</div>
-						</form>
+						</div>
 					</div>
-				</div>
-		</div>
-	</div>
-</div>
-<br>
+		    	</div>
+		    </div>
+	   </div>
+   <br>
 </section> 
 
 	<div class="col-md-12 text-center">
@@ -246,6 +258,7 @@
 	</div>
 	<br>
 	
+	</form>
 </body>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
@@ -290,12 +303,9 @@
 <script type="text/javascript" src="/js/gauge-chart.js"></script>
 <script type="text/javascript" src="/js/stacked-bar.js"></script>
 
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-legend.js"></script>
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-threshold.js"></script>
-<script type="text/javascript"
-	src="/js/library/chartist-plugin-pointlabels.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
+<script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
 
 <script type="text/javascript" src="/js/treshold.js"></script>
 <script type="text/javascript" src="/js/visible.js"></script>

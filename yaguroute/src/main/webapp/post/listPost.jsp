@@ -47,16 +47,6 @@
 		h1{
 		color: white;
 		}
-		.text-overlay {
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  
-		  font-size: 18px;
-		  margin-left:300px;
-		  /* 기타 스타일 속성 설정 */
-		}
 		.row-align {
 	    display: flex;
 	    align-items: center;
@@ -73,6 +63,16 @@
 		.content {position:relative;min-height:1000px;}		
 		.quickmenu .submenu {display: none;}
 		
+		#back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
+	  
+	  .row-offcanvas {
+	    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경과 투명도 조절 */
+	  }
 	 </style>
     
     <script type="text/javascript">
@@ -167,7 +167,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 
@@ -175,10 +174,13 @@
 <a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
-<div class="image-container">
-  <img class="teamTopBar" src="${team.teamTopBar}">
-  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
-</div>
+<section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/background/background1.jpg" alt="img">
+        </div>	
+	</div>
+</section>
 
 <!-- 새로운 툴바 -->
 <!-- 팀 구분 툴바 -->

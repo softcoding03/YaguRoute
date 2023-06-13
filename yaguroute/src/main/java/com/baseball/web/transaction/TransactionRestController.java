@@ -52,25 +52,39 @@ public class TransactionRestController {
 		System.out.println("refund로 넘어온 tranDetailNo??"+tranDetailNo);
 		
 		String resultData;
-		//User user = (User)session.getAttribute("user");
 		TranDetail tranDetail = tranDetailService.getTranDetail(tranDetailNo);
 		String merchantNo = tranDetail.getTranDetailTran().getMerchantNo();	
-			
 		System.out.println("merchantNo"+merchantNo);
+//		User user = (User)session.getAttribute("user");
+
+
+		System.out.println("user:: "+tranDetail.getTranDetailTran().getBuyer()); //userId만 존재. algudgod
+		String userId = tranDetail.getTranDetailTran().getBuyer().getUserId(); 
+		User user = userService.getUser(userId);
+		System.out.println("userPhone"+user.getUserPhone()); // null
+		String userPhone = user.getUserPhone();
+		String contents;
+		
 		String result = importAPIRestService.importRefund(merchantNo, 0);
+		
 		if(result.equals("success")) {
 			System.out.println("환불 성공");
 			tranDetailService.getTranDetail(tranDetailNo);
 			tranDetailService.updateRefundStatusCode(tranDetail);
+
+			contents = user.getUserPhone()+"님께서 결제하신 상품의 취소가 완료 되었습니다." +
+					"[야구루트 결제 취소내역] \n 결제 취소 금액: "+tranDetail.getTranDetailTran().getTranTotalPrice()+"원"+
+					"\n "+tranDetail.getTranDetailTran().getTranDate();
+			result = importAPIRestService.sendSMS(contents, userPhone);
+			System.out.println("sendSMS 요청:: "+result);	
 			
 			int tranUsePoint = tranDetail.getTranDetailTran().getTranUsePoint(); // 사용했던 포인트
 			int tranAddPoint = tranDetail.getTranDetailTran().getTranAddPoint(); // 적립된 포인트
 			System.out.println("tranUsePoint"+tranUsePoint);
 			System.out.println("tranAddPoint"+tranAddPoint);
-			
-			User user = (User)session.getAttribute("user");
+		
 			int userPoint = user.getUserPoint();
-			System.out.println("userPoint"+userPoint);  //UserPoint 업데이트를 위한 호출
+			System.out.println("userPoint"+userPoint);  //UserPoint 업데이트를 위한 호출  안찍힘
 			
 			user.setUserPoint(user.getUserPoint()+tranUsePoint-tranAddPoint); // userPoint 재 셋팅
 			
@@ -84,7 +98,7 @@ public class TransactionRestController {
 			product.setProdStock(prodStock+tranQuantity);
 			
 			productService.updateProduct(product);
-
+			System.out.println("userPoint, 재고 update끝"+product);
 			resultData = "success";
 		} else {
 			System.out.println("환불 실패");
@@ -93,4 +107,19 @@ public class TransactionRestController {
 		return resultData;
 	}
 
+	@GetMapping("sendSMS")
+	public String sendSMS(HttpSession session) throws Exception {
+//		System.out.println("tranDetailNo"+tranDetailNo);
+		System.out.println("sendSMS 작동 시작");
+//		TranDetail tranDetail = tranDetailService.getTranDetail(tranDetailNo);
+		User user = (User)session.getAttribute("user");
+		String userPhone = user.getUserPhone();
+		String contents;
+		contents = user.getUserName()+"님께서 주문하신 상품이 결제 완료 되었습니다.";
+		
+		String result = importAPIRestService.sendSMS(contents, userPhone); // 번호와 내용을 변수로 보내는 것
+		System.out.println("sendSMS 작동 종료?"+result);
+		return result;
+	}
+	
 }
