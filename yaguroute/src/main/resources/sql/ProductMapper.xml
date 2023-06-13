@@ -120,6 +120,11 @@
 
 	</select>
 
-
+	 <select  id="autoComplete"	resultType="string">
+	
+		SELECT prod_name	
+	 	 FROM product
+	 
+	 </select>	
 
 </mapper>

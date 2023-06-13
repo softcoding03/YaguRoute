@@ -38,7 +38,7 @@ a.refund-link {
 
 <script type="text/javascript">
 
-function fncGetTranDetailList() {
+function fncGetTransactionList() {
 
 	$("form").attr("method", "GET").attr("action", "/transaction/listTransaction")
 			.submit();
@@ -132,7 +132,7 @@ function fncGetTranDetailList() {
 			<td align="left">${tranDetail.tranDetailTran.tranUsePoint}</td>
 			<td align="left">${tranDetail.tranDetailTran.tranTotalPrice}</td>
 			<td align="left"> 현재	
-					<c:if test="${tranCode eq 1}">
+					<c:if test="${tranCode eq 1 && refundStatusCode eq 1 }">
 						구매완료
 					</c:if>
 					<c:if test="${tranCode eq 2}">
@@ -141,12 +141,16 @@ function fncGetTranDetailList() {
 					<c:if test="${tranCode eq 3}">
 						배송완료
 					</c:if>
-					<c:if test="${tranCode eq 4}">
-						환불완료
-					</c:if>								
+					<c:if test="${refundStatusCode eq 2}">
+						환불요청 진행
+					</c:if>	
+					<c:if test="${refundStatusCode eq 3}">
+						환불 완료
+					</c:if>													
 						상태 입니다.</td>
-		<td align="left"> <c:if test="${tranCode eq 2}">
-			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=3">배송도착</a>
+		<td align="left"> 
+		<c:if test="${tranCode eq 2}">
+			<a href="updateStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=3">배송도착</a>
 		</c:if>
 		</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>

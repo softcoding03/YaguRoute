@@ -64,7 +64,31 @@
 	   });
 
 	});
-
+	 $( function() {
+		 
+		 $.ajax(
+	 				{
+	 					url: "/product/json/autoComplete",
+	 					method: "GET",
+	 					dataType: "json",
+	 					headers: {
+	 						"Accept" : "application/json",
+							"Content-Type" : "application/json"						
+	 					},
+	 					success: function(JSONData, status) {
+	
+	 						
+	 					console.log(JSONData);
+	 					
+	 				    $( "#autoComplete" ).autocomplete({
+	 					      source: JSONData
+	 					    });
+	 				
+	 					}
+	 					
+	 				});
+			 });
+					
 </script>
 
 </head>
