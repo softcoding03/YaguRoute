@@ -357,10 +357,10 @@ function getTime(){
 }
 
 	$(function(){
-		var socket = io.connect('http://192.168.0.36:3000'/* 'http://223.130.133.54:3000' */, {
+		var socket = io.connect(/*'http://192.168.0.36:3000'*/ 'http://223.130.133.54:3000' , {
 			withCredentials: true,
 			 extraHeaders: {
-				'Access-Control-Allow-Origin': 'http://192.168.0.36:3000'/* 'http://223.130.133.54:3000' */
+				'Access-Control-Allow-Origin': /*'http://192.168.0.36:3000'*/'http://223.130.133.54:3000' 
 			 },
 			 path: '/socket.io',
 			 query: {
@@ -506,8 +506,7 @@ function getTime(){
 				    	var formData = new FormData();
 				        formData.append('image', files[0]);
 				        $.ajax({
-				            url: /* "http://223.130.133.54:3000/image/upload" */
-				            "http://192.168.0.36:3000/image/upload",
+				            url: "http://223.130.133.54:3000/image/upload",
 				            type: "POST",
 				            processData: false,
 				            contentType: false,
