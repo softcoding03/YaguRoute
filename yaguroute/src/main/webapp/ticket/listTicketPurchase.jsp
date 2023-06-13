@@ -111,6 +111,12 @@
 		.quickmenu .submenu {display: none;}
 		
 		
+		.background-image-class {
+		  background-image: url('/images/ticket/park.jpg');
+		  /* 다른 배경 설정 옵션들 */
+		}
+		
+		
 </style>
 
 </head>
@@ -127,15 +133,15 @@
 
 <body>
 <jsp:include page="/common/topBar.jsp"/>
+
+<div class="background-image-class">
+
 <a type="hidden" id="top"/>
 
-<div class="image-container">
-  <img class="teamTopBar" src="/images/teamTopBar/yagurouteTopBar.png">
-  <div class="text-overlay"><h1>티켓 예매 내역</h1></div>
-</div>
+<div><h1>티켓 예매 내역</h1></div>
 
 <div class="container">
-	<div class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
+	<div class="sidebar col-xs-6 col-sm-6 col-md-2 sidebar-offcanvas" id="sidebar">
 		<div class="filter-wrap">
 			<h6>Filters</h6>
 			<div class="filter-slider">
@@ -156,7 +162,7 @@
 <br>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-10">
 			<div>
 				<table class="table table-hover table-striped" >
 		        <thead>
@@ -226,7 +232,7 @@
 
 <a type="hidden" id="bottom"/>
       
-      
+</div>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

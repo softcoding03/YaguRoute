@@ -7,7 +7,8 @@
 
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
 <c:if test="${ ! empty user }">
- 	<c:redirect url="/main.jsp"/>
+ 	<%-- <c:redirect url="/main.jsp"/> --%>
+ 	<c:redirect url="/main/getMain"/>
  </c:if>
 <c:if test="${ empty user }">
 <script type="text/javascript">
