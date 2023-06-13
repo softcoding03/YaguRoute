@@ -340,8 +340,8 @@ function getTime(){
 	targetTime.setMinutes(Number(startTime.split(':')[1]));
 	targetTime.setSeconds(Number(00));
 	var timeDiff = targetTime - currentDate;
-	
-	if (timeDiff => 0) {
+	console.log(timeDiff);
+	if (timeDiff > 0) {
 		var seconds = Math.floor(timeDiff / 1000); //남은 시간 초로 계산
 		var min = Math.floor(seconds / 60);//분으로 변환
 		var hour = Math.floor(min / 60);//시간으로 변환
@@ -413,12 +413,13 @@ function getTime(){
 							time.append(blind, timemessage, timeBox);
 							$("#title1").append(time);
 							getTime();
-							if(getTime()){
+							if(getTime() === true){
 								setInterval(getTime, 1000);	
-							}
-							//$('video').attr("poster", "https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg").attr("height", "700px");
-						}
-								
+							} else {
+								var video = $("<video id='streaming' class='video-js vjs-big-play-button vjs-big-play-centered'></video>")
+								video.attr("poster", "https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg").attr("height", "700px");
+							}							
+						}								
 					}		
 				}
 			});
