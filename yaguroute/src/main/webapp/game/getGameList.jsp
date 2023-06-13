@@ -27,10 +27,14 @@
     	.activeCal a:hover{
     		background-color: coral !important;
     	}
+    	
+    	.sidebar-back{
+    		background-color: white;
+    	}
     
 		.sidebar-calendar{
 			position: sticky;
-		    top: 400px;
+		    top: 300px;
 		    right: 300px;
 		}
 		.background {
@@ -106,23 +110,42 @@
 	    .oneGameCss{
 	    	font-size: 12px;
 	    }
-	    
+	    #back-img{
+	    	width: 100%;
+	    	position: fixed;
+	    	height: -webkit-fill-available;
+	    }
+	    .relative-text{
+		  position: absolute;
+		  top: 20%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  font-size: 18px;
+		  margin-left:400px;
+		  color: white;
+	    }
+	    #back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
+		
+		#back-img img {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: cover;
+		}
     </style>
 </head>
 <body>
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <h1>경기 일정</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+<section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/baseball/baseball_stadium.png" alt="img">
+        </div>	
+	</div>
 </section>
 
 
@@ -131,7 +154,14 @@
 <input type="hidden" name="year" value="">
 <input type="hidden" name="month" value="">
 <input type="hidden" name="teamCode" value="">
-
+<div class="mathc-live-broadcasts background" style="margin-top: 0px;">
+	<div class="broadcast-tabs-wrapper">
+		<ul class="nav nav-tabs" role="tablist">
+			<li style="border-radius: 30%;background: content-box;"><h1 style="margin-left: 30px;margin-right: 30px;color:white;font-size: 50px;font-family:'Gwangyang'">경기 일정</h1></li>
+		</ul>
+		
+	</div>
+</div>
 <div class="mathc-live-broadcasts background">
 		<div class="broadcast-tabs-wrapper">
 	            <ul class="nav nav-tabs" role="tablist">
@@ -160,7 +190,7 @@
       <div class="container">
             <div class="row row-offcanvas row-offcanvas-left">
 <section class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
-		<div class="sidebar-calendar addShadow">
+		<div class="sidebar-calendar addShadow sidebar-back">
 			<div class="padding">
                         <h6>Games Calendar</h6>
                         <div class="widget widget_calendar">
@@ -248,7 +278,7 @@
 </section>            
    
 <section class="news-single col-xs-12 col-sm-12 col-md-9" id="main">
-<div class="col-md-12 col-sm-12 col-xs-12"><h6>matches</h6></div>
+<div class="col-md-12 col-sm-12 col-xs-12"><h5>matches</h5></div>
 <c:if test="${gameSize eq 0}">
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<h3>조회된 경기가 없습니다.</h3>

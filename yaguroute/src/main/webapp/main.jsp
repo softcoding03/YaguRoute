@@ -85,8 +85,8 @@
 							                    +'</span>'
 							                    +'<span>'+game.homeTeam.teamNickName+'</span>'
 							                +'</span>'
-							                +'<span class="score">'
-							                    +'<span>'+game.gameScore+'</span>'
+							                +'<span  class="score">'
+							                    +`<span style="font-family: 'FontAwesome';">`+game.gameScore+`</span>`
 							                +'</span>'
 							                +'<span class="team1">'
 							                    +'<span>'+game.awayTeam.teamNickName+'</span>'

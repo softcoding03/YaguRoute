@@ -14,13 +14,18 @@
 <style type="text/css">
 	.sidebar-calendar{
 		position: sticky;
-	    top: 100px;
-	    right: 300px;
+	    top: 300px;
+	    right: 100px;
 	}
 	.sidebar{
-		width: 15% !important;
-		padding-left:80px !important; 
+		width: 20% !important;			
+		padding-left:150px !important;
 	}
+	@media (max-width: 1850px){
+		.sidebar{
+			display: none;
+		}
+	} 
 	.side-font-size{
 		font-size: 14px;
 	}
@@ -37,7 +42,7 @@
 		border-radius: 10px;
 		margin-top: 20px;
 		background-color: #2ea11d;
-		width: 60%;
+		width: 50%;
 		padding-bottom: 5px;
 		padding-left: 5px;
 		box-shadow: 3px 3px 3px 1px gray;
@@ -88,10 +93,9 @@
 	}
 	
 	.image-container {
-		position: relative;
+		position: absolute;
 		display: inline-block;
 		width: auto;
-		heigth: auto;
 	}
 	.teamTopBar {
 		width: auto;
@@ -120,17 +124,17 @@ $(function(){
 	  	<div class=" col-md-6">
 			<img class="teamTopBar" src="${gamePreview.gameInfo.awayTeam.teamTopBar}">
 		</div>
-		<div class=" col-md-6">
-			<img class="teamTopBar col-md-6" src="${gamePreview.gameInfo.homeTeam.teamTopBar}">
+		<div class="col-md-6" style="padding-left: 0px;">
+			<img class="teamTopBar" src="${gamePreview.gameInfo.homeTeam.teamTopBar}">
 		</div>
 	  </div>
 	</div>
 </section>
 
-<section class="sidebar col-xs-3 col-sm-3 col-md-3 sidebar-offcanvas" id="sidebar">
+<section class="sidebar col-xs-3 sidebar-offcanvas" id="sidebar">
 	<div class="sidebar-calendar addShadow">
 		<div class="padding">
-           	<h6 style="padding-left: 18px;">다른 경기</h6>
+           	<h6 style="padding-left: 25px;width: 50%;text-align: center;">다른 경기</h6>
            	<ul>
            	<c:forEach var="toGame" items="${todayGame}">
            		<li class="left-border-wid" style="${toGame.gameCode eq gamePreview.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
@@ -184,8 +188,8 @@ $(function(){
         </div>
 	</div>
 </section>
-
-<section id="gamePre" style="height: 1200px;">
+<div class="container">
+<section id="gamePre" style="height: 1200px;" class="col-xs-9 col-sm-9 col-md-9">
 <div class="container">
 	<h3>경기 전력</h3>
 <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;padding-left: 0px;">
@@ -318,7 +322,7 @@ $(function(){
 </div>
 </section>
 
-<section id="startingPitcher">
+<section id="startingPitcher" class="col-xs-9 col-sm-9 col-md-9">
 <c:if test="${gamePreview.homeStartingPitcher != null}">
 <div class="container">
 <div class="row">
@@ -367,8 +371,7 @@ $(function(){
 </div>
 </c:if>
 </section>
-
-
+</div>
 
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
