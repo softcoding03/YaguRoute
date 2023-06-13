@@ -274,25 +274,28 @@ public class UserRestDaoImpl implements UserRestDao{
 		}
 		
 		String filePath = null;
+		String fileName = null;
 		
 		try {
 		String absolutePath = new File("").getAbsolutePath();
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		String uploadPath = absolutePath+fileUploadPath;
 		filePath = fileUploadPath+fileName;
 		
-		System.out.println("filePath : "+uploadPath);
+		System.out.println("upLoadPath : "+uploadPath);
 		
 		System.out.println("filePath : "+filePath);
 		
 		// 파일 저장
 		file.transferTo(new File(uploadPath + fileName));
-		System.out.println("업로드 완료? ");
+		System.out.println("업로드 완료");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
+		// 데이터 베이스에 알맞게 저장하기
+		filePath = "/images/user/"+fileName;
 		
 		/*
 		 * String filePath = null;
