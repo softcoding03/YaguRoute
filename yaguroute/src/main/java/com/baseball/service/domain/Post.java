@@ -1,6 +1,7 @@
 package com.baseball.service.domain;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Post {
 	
@@ -9,7 +10,7 @@ public class Post {
 	private String teamCode;
 	private String postTitle;
 	private String postContents;
-	private Timestamp postDate;
+	private LocalDateTime postDate;
 	private int postViews;
 	private String postType; //0:잡담 1:응원 2:중고판매 3:중고구매 4:notice
 	private int notice;  //0 or 1
@@ -60,10 +61,10 @@ public class Post {
         this.postContents = postContents;
     }
 
-    public Timestamp getPostDate() {
+    public LocalDateTime getPostDate() {
         return postDate;
     }
-    public void setPostDate(Timestamp postDate) {
+    public void setPostDate(LocalDateTime postDate) {
         this.postDate = postDate;
     }
 

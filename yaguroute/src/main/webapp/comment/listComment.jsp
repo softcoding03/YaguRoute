@@ -31,6 +31,53 @@
 	<script type="text/javascript">
 	 
 	$(function() {
+		
+		//대댓글작성창 출력(reply 클릭)
+		$(document).on("click", ".reply", function() {
+			var insertPosition = $(this).closest('.comment-item');
+			var commentNo = insertPosition.find("input[name='commentNo']").val();
+			var secondComment =   "<div class=\"comment-item answer addSecond\">"
+									  	 +	"<form>"								
+							          +   	   "<div class=\"item\">"
+							          +    	          "<span>댓글을 입력해주세요. (100자 제한)</span>"
+							          +    	          "<textarea name=\"commentContents\"></textarea>"
+							          +    	 "</div>"
+								       +  	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
+								       +  	"<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
+								   	 + "</form>"
+							          + "<button type=\"button\" class=\"addComment\">댓글 작성</button>"
+							   	 	 +"</div>";
+			if(insertPosition.find(".comment-item.answer.addSecond").length === 0){ //작성창 출력된 상태 x 
+				insertPosition.append(secondComment);
+			} else {
+				insertPosition.find(".comment-item.answer.addSecond").remove(); //작성창 출력된 상태 o
+			}
+		});
+		
+var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
+		//수정창 출력(수정 클릭)
+		$(document).on("click", ".quote.update", function() {
+			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
+			var postNo = $("#postNo").val();
+			var replacePosition = $(this).closest(".info");
+			currentComment = replacePosition.html(); // 기존 댓글 저장
+			var commentContents = $(this).closest(".info").find(".contents").text();
+			var commentBody = "<form>"
+						         +   	"<div class=\"item\">"
+						         +  	     "<textarea name=\"commentContents\">"+commentContents+"</textarea>"
+							      + 	   "</div>"
+									+		"<div class=\"col-md-6\" style=\"text-align:right;\">"
+						         +   		"<button type=\"button\" class=\"updateComment\">수정 하기</button>"
+						         +		"</div>"
+						         +		"<div class=\"col-md-6\" style=\"text-align:right;\">"
+						         +   		"<button type=\"button\" class=\"cancelUpdate\">취소</button>"
+						         +		"</div>"
+						         +	"<input type=\"hidden\" name=\"commentNo\" value="+commentNo+">"
+						         +	"<input type=\"hidden\" name=\"postNo\" value="+postNo+">"
+						         +"</form>";
+			replacePosition.html(commentBody);
+		});
+		
 		//댓글등록 클릭 시 동작
 		$(document).on("click", ".addComment" , function() {
 			var formData = $(this).siblings('form').serialize();
@@ -59,7 +106,7 @@
 				         +   		   "<p class=\"contents\">"+json.commentContents+"</p>"
 				         +    	 "<a href=\"javascript:reply;\" class=\"reply\">reply</a>"
 				         +    "</div>"
-				         +    "<input type=\"hidden\" name=\"commentNo\" value="+json.commentNo+">"
+				         +    "<input type=\"hidden\" name=\"commentNo\" value="+json.commentNo+"><br>"
 				         +"</div>";
 				      
 				      var addComment2 =
@@ -90,7 +137,7 @@
 			});
 		});
 		
-		//수정완료요청시 로직
+		//수정완료 로직
 		$(document).on("click", ".updateComment", function() {
 			var replacePosition = $(this).closest("div.info");
 			var formData = $(this).closest('form').serialize();
@@ -111,6 +158,10 @@
                    + "</div>"
                    + "<p class=\"contents\">"+json.commentContents+"</p>";
                    
+                   if(json.secondCommentNo == 0){
+                	   updateComment	+= "<a href=\"javascript:reply;\" class=\"reply\">reply</a>";  
+                   };					
+                   
                   replacePosition.html(updateComment);
 					}
 			})
@@ -119,73 +170,31 @@
 		//수정취소요청시 로직
 		$(document).on("click", ".cancelUpdate", function() {
 			var replacePosition = $(this).closest("div.info");
-			//var body = 
+			replacePosition.html(currentComment);
 		});
 		
 		//댓글삭제시 로직
 		$(document).on("click", ".quote.delete", function() {
-			var deletePosition = $(this).siblings("p.contents");
-			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
-			var postNo = $('#postNo').val();
+			var commentNo = $(this).closest('.info').siblings("input[name='commentNo']").val();
+			console.log(commentNo);
+			var deletePosition = $(this).closest(".date").siblings("p.contents");
+			//var postNo = $('#postNo').val();
 			var confirmation = confirm("정말로 삭제하시겠습니까?");
 			var deleteComment = "<p style=\"color:#b4b4b4;\">--- 삭제된 댓글입니다 ---</p>"
 	 		if(confirmation){
 	 			$.ajax({
 					type : 'get',
-					url : '/comment/rest/deleteComment/'+commentNo+"/"+postNo,
-					dataType : 'json',
+					url : '/comment/rest/deleteComment/'+commentNo,
+					dataType : 'text',
 					success : function(json){
-						console.log(json);
-							
-						deletePosition.replace(deleteComment);
+						console.log("결과"+json);
+						deletePosition.replaceWith(deleteComment);
 					}
 				})
 	 		}
 		});
 		
-		//대댓글 작성창 출력(reply 클릭)
-		$(document).on("click", ".reply", function() {
-			var insertPosition = $(this).closest('.comment-item');
-			var commentNo = insertPosition.find("input[name='commentNo']").val();
-			var secondComment =   "<div class=\"comment-item answer addSecond\">"
-									  	 +	"<form>"								
-							          +   	   "<div class=\"item\">"
-							          +    	          "<span>Your comment</span>"
-							          +    	          "<textarea name=\"commentContents\"></textarea>"
-							          +    	 "</div>"
-								       +  	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
-								       +  	"<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
-								   	 + "</form>"
-							          + "<button type=\"button\" class=\"addComment\">댓글 작성</button>"
-							   	 	 +"</div>";
-			if(insertPosition.find(".comment-item.answer.addSecond").length === 0){ //작성창 출력된 상태 x 
-				insertPosition.append(secondComment);
-			} else {
-				insertPosition.find(".comment-item.answer.addSecond").remove(); //작성창 출력된 상태 o
-			}
-		});
 		
-		//수정창 출력(수정 클릭)
-		$(document).on("click", ".quote.update", function() {
-			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
-			var postNo = $("#postNo").val();
-			var replacePosition = $(this).closest(".info");
-			var commentContents = $(this).closest(".info").find(".contents").text();
-			var commentBody = "<form>"
-						         +   	"<div class=\"item\">"
-						         +  	     "<textarea name=\"commentContents\">"+commentContents+"</textarea>"
-							      + 	   "</div>"
-									+		"<div class=\"col-md-6\" style=\"text-align:right;\">"
-						         +   		"<button type=\"button\" class=\"updateComment\">수정 하기</button>"
-						         +		"</div>"
-						         +		"<div class=\"col-md-6\" style=\"text-align:right;\">"
-						         +   		"<button type=\"button\" class=\"cancelUpdate\">취소</button>"
-						         +		"</div>"
-						         +	"<input type=\"hidden\" name=\"commentNo\" value="+commentNo+">"
-						         +	"<input type=\"hidden\" name=\"postNo\" value="+postNo+">"
-						         +"</form>";
-			replacePosition.html(commentBody);
-		});
 		
 	});
 	
@@ -195,7 +204,7 @@
 
 <body>
        	<div class="comments-wrap">
-           <h4>Comments</h4>
+           <h4>댓 글</h4>
            <!-- 1번레이어 for문 시작 -->
            <c:forEach var="list1" items="${commentList1}">
 				<div class="comment-item">
@@ -216,7 +225,7 @@
 								<p style="color:#b4b4b4;">--- 삭제된 댓글입니다 ---</p>			                 
 							</c:if>
 						</div>
-						<input type="hidden" name="commentNo" value="${list1.commentNo}">
+						<input type="hidden" name="commentNo" value="${list1.commentNo}"> <br>
 				
 						<!-- 2번레이어 for문 시작 -->
 	           		<c:forEach var="list2" items="${commentList2}">
@@ -245,23 +254,15 @@
 		           	</c:forEach><!-- 2번레이어 for문 끝 -->	
 	           </div><!-- 하나의 comment-item 끝 -->
            </c:forEach><!-- 1번레이어 for문 끝 -->
-           
-           
-           
-			 
-				 
-				 
-				 
-				 
 				           
            <div class="leave-comment-wrap">
-               <h4>Leave a comment</h4>	
+               <h4>댓글 작성</h4>	
                <form>								
                    <div class="row">
                        <div class="col-md-12">
                            <div class="item">
                                <label>
-                                   <span>Your comment</span>
+                                   <span>댓글을 입력해주세요. (100자 제한)</span>
                                    <textarea name="commentContents" class="body"></textarea>
                                </label>
                            </div>
