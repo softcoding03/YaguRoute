@@ -41,7 +41,159 @@
 		.sub .datacenter .tab_list.large ul li {
 	    border-color: #000000;
 	}
-	
+	.pointer_popup .content_header .pay_side {
+	    position: absolute;
+	    top: 29px;
+	    right: 415px;
+	    line-height: 38px;
+	    text-align: center;
+	    background-image: url(https://ssl.nexon.com/s2/game/fo4/obt/sprite_210600.png);
+	    background-position: 0px -723px;
+	    width: 37px;
+	    height: 38px;
+	    margin-top: 5px;
+	}
+	.pointer_popup .content_middle {
+		    width: 700px;
+		    height: 165px;
+		    background: #edeff8;
+		    overflow: hidden;
+		    box-shadow: inset 0 8px 22px rgba(0,0,0,.4);
+		    border-radius: 6px;
+		}
+	.pointer_popup .content_header .info_wrap .info_line.info_etc span {
+		    display: unset;
+		    position: relative;
+		    padding-right: 14px;
+		    margin-right: 12px;
+		    float: none;
+		    font-size: 20px;
+		    top: 67px;
+		}
+		.close {
+		    float: right;
+		    font-size: 21px;
+		    font-weight: 700;
+		    line-height: revert;
+		    color: #000;
+		    text-shadow: 0 1px 0 #fff;
+		    opacity: 0.2;
+		    display: contents;
+		}
+    </style>
+    
+       <style>
+        /* 모달 스타일 */
+        .modal {
+            display: none; /* 초기에는 숨김 */
+            position: fixed; /* 화면에 고정 */
+            z-index: 9999; /* 다른 요소보다 위에 표시 */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 반투명한 배경 */
+        }
+        
+
+        .modal-content {
+		    background-color: #fff;
+		    margin: 10% auto;
+		    padding: 20px;
+		    border: 1px solid #ccc;
+		    width: 701px;
+		    max-width: 90%;
+		    text-align: center;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		    height: 416px;
+		}
+
+        .close {
+        	position: inherit;
+		    color: #aaa;
+		    float: inline-end;
+		    font-size: 44px;
+		    font-weight: bold;
+		    cursor: pointer;
+		}
+        
+        .pointer_popup .content_header .info_wrap .info_line {
+		    margin-bottom: -2px;
+		}
+		.pointer_popup .content_middle ul li {
+		    float: left;
+		    width: 114px;
+		    text-align: center;
+		    padding-top: 22px;
+		    zing: border-box;
+		}
+		.pointer_popup .content_header .thumb {
+		    position: absolute;
+		    top: 4px;
+		    left: 11px;
+		    width: 140px;
+		    height: 205px;
+		}
+		.pointer_popup .content_header .thumb .img img {
+		    width: 122px;
+		    height: 113px;
+		}
+		.pointer_popup .content_header .thumb .card_back img {
+		    width: 187px;
+		    height: 244px;
+		}	
+		.pointer_popup .content_header .thumb .img {
+		    position: absolute;
+		    top: 41px;
+		    right: -20px;
+		    z-index: 1;
+		    overflow: hidden;
+		    width: 131px;
+		    height: 170px;
+		}
+		.pointer_popup .content_header .thumb .pay {
+		    position: absolute;
+		    bottom: -11px;
+		    left: 68%;
+		    width: 32px;
+		    height: 18px;
+		    background-color: rgba(0,0,0,0);
+		    margin: 8.66px 0;
+		    border-left: solid 2px #a7a9ae;
+		    border-right: solid 2px #a7a9ae;
+		    transform: scale(0.55) translateX(-30px);
+		    font-size: 17px;
+		    color: #3f434a;
+		    text-align: center;
+		    font-weight: bold;
+		    font-family: "EASANS";
+		    line-height: 20px;
+		    font-weight: 600;
+		    letter-spacing: 1px;
+		    opacity: .74;
+		}
+		.pointer_popup .content_header .thumb .name_wrap {
+		    width: 100%;
+		    position: absolute;
+		    top: 160px;
+		    left: 21px;
+		    text-align: center;
+		}
+		.pointer_popup .content_header .thumb .name_wrap .name {
+		    font-size: 19px;
+		    display: inline-block;
+		    max-width: 93px;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    font-family: 'Gwangyang';
+		}
+		.pointer_popup .content_header .info_wrap .info_line .position span {
+	    margin-right: 8px;
+	    vertical-align: text-bottom;
+	    font-size: 25px;
+	    font-family: 'Gwangyang';
+	}
     </style>
     
 <jsp:include page="/common/topBar.jsp"></jsp:include>
@@ -65,9 +217,7 @@
     
 	function fncGetPlayerList(currentPage) {
 		
-		alert(currentPage);
 		$("#currentPage").val(currentPage);
-		alert($("#currentPage").val());
 		 $("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
 		
 		/* self.location.href="/player/listPlayer?currentPage="+currentPage; */
@@ -83,16 +233,20 @@
 		});
 		
 		 $( "#searching" ).on("click" , function() {
-			 alert("searching ㅎㅇ");
+			 
+			 var searchKeyword = $("#searchKeyword").val();
+			    
+			 if(searchKeyword.length <= 1){
+			    	alert("최소 두 자 이상 검색해 주세요.");
+			    	return;
+			 }
+			 
 			fncGetPlayerList(1);
 		});
 		 
 		 $("a[href='teamCodeHref']").on('click',function(){
 			 
-			 alert("teamCode ㅎㅇ");
-			 
 	         teamCode = $(this).find("input[name='teamCode']").val()
-	       	 alert(teamCode);
 	    	 self.location = "/player/listPlayer?teamCode="+teamCode;
 		});
 	});
@@ -100,18 +254,85 @@
 	$(document).keydown(function(event) {
 		  if (event.which === 13) {
 		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
-		    loginFunction();
+		    
+		    var searchKeyword = $("#searchKeyword").val();
+		    
+		    if(searchKeyword.length <= 1){
+		    	alert("최소 두 자 이상 검색해 주세요.");
+		    	return;
+		    }
+		    
+		    fncGetPlayerList(1);
 		  }
 	});
 	
-	/* $(function(){
+	$(function(){
 		
-		$("td:nth-child(1)").on("click", function(){
-			self.location.href="/player/getPlayer?playerId="+$(this).text().trim();
+		$("a[href='preview']").on('click',function(){
+			 event.preventDefault();
+	         playerId = $(this).find("span[id='playerId']").text().trim();
+	         /* self.location.href="/player/getPlayer?playerId="+playerId; */
+	         document.getElementById("myModal").style.display = "block";
+	         
+	         $.ajax({
+	 	        url: "/player/getPlayer/",
+	 	        method: "GET",
+	 	        dataType: "json",
+	 	        data: {playerId: playerId},
+	 	        success: function(Player) {
+	 	        	console.log(Player);
+	 	        	$("#playerName1").text(Player.playerName);
+	 	        	$("#playerName2").text(Player.playerName);
+	 	        	$("#playerHeight").text(Player.playerHeight+"cm");
+	 	        	$("#playerBirth").text(Player.playerBirth);
+	 	        	$("#playerWeight").text(Player.playerWeight+"kg");
+	 	        	$("#playerPosition").text(Player.playerPosition);
+	 	        	$("#playerNumber1").text(Player.playerNumber);
+	 	        	$("#playerNumber2").text(Player.playerNumber);
+	 	        	$("#playerNumber3").text(Player.playerNumber);
+	 	        	$("#era").text(Player.era);
+	 	        	$("#battingAvg").text(Player.battingAvg);
+	 	        	$("#hitter").text(Player.hitter);
+	 	        	$("#stolenBase").text(Player.stolenBase);
+	 	        	$("#threeOut").text(Player.threeOut);
+	 	        	$("#homeRun").text(Player.homeRun);
+	 	        	$('#playerImage1').attr('src', Player.playerImage);
+	 	        },
+	 	        error: function(xhr, status, error) {
+	 	            alert("오류 발생(이유) : " + error);
+	 	            return;
+	 	          }
+	 	      });
 		});
-		$( "td:nth-child(1)" ).css("color" , "green");
-	}); */
-	
+	});
+	    
+	 $(function(){
+		
+		 $("#close").on("click", function(){
+			
+			 console.log("창 닫기");
+			 
+			 document.getElementById("myModal").style.display = "none";
+		 });
+	 });
+	 
+	 window.addEventListener("click", function(event){
+		
+		 var modal = document.getElementById("myModal");
+		 //var modal = $("#myModal");
+		 if(event.target == modal){
+			
+			modal.style.display = "none"; 
+		 }
+	 });
+	 
+	 $(function(){
+		
+		 $(".btn_reset").on("click", function(){
+			
+			 window.location.href="/player/listPlayer";
+		 });
+	 });
 </script>
 
 <div class="coach_area">
@@ -157,7 +378,6 @@
                     <div class="search_input_name">
                         <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
                     <div class="search_input_detail">
-                        
                     </div>
                     <div class="search_input_submit">
                         <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
@@ -210,7 +430,8 @@
                 <div class="players_utils players_utils_100140601">
                 </div>
 
-                <div class="thumb"><img src="${player.playerImage}" alt="" onerror="this.src=&#39;https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png&#39;"></div>
+                <div class="thumb">
+                <a><img src="${player.playerImage}" alt="선수 이미지" onerror="this.src=&#39;https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png&#39;"></a></div>
                 <div class="info_top">
                     <div class="season">&nbsp;</div>
                     <div class="name">${player.playerName}</div>
@@ -219,9 +440,13 @@
                 <div class="info_middle">
                         &nbsp;&nbsp;&nbsp;<span class="position df"><span class="txt">${player.playerPosition}</span><span class="skillData_100140601">${player.playerNumber}</span> </span>
 				</div>
+				
                 <div class="info_bottom">
-                    &nbsp;&nbsp;&nbsp;<a href="javascript:;" data-no="100140601" class="btn_preview"><span></span></a>
+                    &nbsp;&nbsp;&nbsp;<a href="preview" data-no="100140601" class="btn_preview">
+                    <span class="playerId" id="playerId" hidden="">&nbsp;${player.playerId}</span>
+                    </a>
                 </div>
+                
             </div>
         </div>
         <div class="td td_ar">
@@ -285,9 +510,6 @@
 </main>
 <!-- //MAIN -->
 <!-- 미리보기 팝업 -->
-<div id="playerPreview" class="pointer_popup layer_preview" style="display:none">
-
-</div>
 
 <!-- 비교하기 팝업-->
 <div id="playerCompare" class="compare_popup layer_compare">
@@ -311,6 +533,90 @@
         </nav>
     </div>
 </footer>
+
+
+<!-- 모달 창 -->
+<div id="myModal" class="modal">
+<div class="modal-content">
+<div id="playerPreview" class="pointer_popup layer_preview" style="display: block; position: absolute;  left: -0.8px; left: -1px; height: 407px; width: 700px;">
+<div class="layer_content">
+    <div class="wrap">
+        <div class="content_header">
+            <a href="#" class="btn_delete"><em></em><em></em></a>
+            <div class="thumb icontm _ICONTM" >
+                <div class="card_back"><img src="/images/player/icon.png" alt=""></div>
+                <div class="img"><img id="playerImage1" src="" alt="" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"></div>
+                <div class="live_wrap">
+				
+                </div>
+                <div class="name_wrap"><div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div><div class="name" id="playerName1"></div></div>
+                <div class="pay" id="playerNumber1"></div>
+            </div>
+            <div class="info_wrap">
+                <div class="info_line info_name">
+                    <div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div>
+                    <div class="name" id="playerName2" style="font-size: 25px;"></div>
+                </div>
+                <div class="info_line info_ab" style="position: inherit;">
+                        <span class="position fw">
+                        	<div>
+                       	 		<span class="txt" id="playerPosition" style="font-family: 'Gwangyang'; font-size: 23px;"></span>
+                       	 		<span class="skillData_100190045 value" id="playerNumber2"></span>
+                        	</div>                        
+                    </span>
+                </div>
+                <div class="info_line info_etc">
+                	<div class="info"><br>
+                    <span class="etc birth" id="playerBirth"></span>
+                    <span class="etc height" id="playerHeight"></span>
+                    <span class="etc weight" id="playerWeight"></span>
+                    </div>
+                </div>
+                <div class="info_line">
+                    <div class="etc team">
+
+                    </div>
+                </div>
+            </div>
+            <div class="pay_side" id="playerNumber3"></div>
+        </div>
+        <div class="content_middle">
+            <ul>
+                    <li class="ab">
+                        <div class="txt">평균 자책점</div>
+                        <div class="value over120" id="era"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">타율</div>
+                        <div class="value over120" id="battingAvg"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">타수</div>
+                        <div class="value over120" id="hitter"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">홈런 수</div>
+                        <div class="value over120" id="homeRun"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">도루 수</div>
+                        <div class="value over80" id="stolenBase"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">삼진 수</div>
+                        <div class="value over110" id="threeOut"></div>
+                    </li>
+            </ul>
+        	</div>
+   		 </div>
+   		         		<div class="closed" id="close">
+			<span class="close">&times;</span>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- 모달 창 종료 -->
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

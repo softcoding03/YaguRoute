@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${ !empty user }">
- 	<c:redirect url="/main.jsp"/>
+ 	<c:redirect url="/main/getMain"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -306,6 +306,7 @@
         });
     }
     
+    
     function findUserIdFunction(){
     	$.ajax({
             url: "/user/findUserId.jsp",
@@ -406,6 +407,11 @@
 </head>
 
 <body>
+<!-- <script>
+    if (window !== window.top) {
+        window.top.location.href = window.location.href;
+    }
+</script> -->
 
 <!--CONTACT WRAP BEGIN-->
 <div class="login-wrapper">

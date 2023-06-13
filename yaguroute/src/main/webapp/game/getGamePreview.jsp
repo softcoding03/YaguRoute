@@ -41,7 +41,7 @@
 	.left-border-wid{
 		border-radius: 10px;
 		margin-top: 20px;
-		background-color: #2ea11d;
+		background-color: rgba(25, 55, 109,0.5);
 		width: 50%;
 		padding-bottom: 5px;
 		padding-left: 5px;
@@ -113,11 +113,14 @@ $(function(){
   		var section4Height = section4.offsetHeight;
   	  section1.style.height = section2Height + section4Height + 'px';
   	});
+	 
 })
 </script>
 </head>
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
+
 <section class="image-header">
     <div class="image-container">
 	  <div class="row">
