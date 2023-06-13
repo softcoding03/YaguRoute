@@ -329,9 +329,9 @@
 				error : function(){
 					alert("서버요청실패");
 				}
-			})
-		})
-	})
+			});
+		});
+	});
     
 	// 패스워드 체크
 	$(function(){
@@ -362,6 +362,7 @@
 			
 			var nickname = $('#nicknameCheck').val();
 			console.log(nickname);
+			
 			$.ajax({
 				url : "/user/userNickNameCheck",
 				method : "POST",
@@ -387,8 +388,8 @@
 				error : function(){
 					alert("서버 요청 실패");
 				}
-			})
-		})
+			});
+		});
 	});
 	
     // 패스워드 더블체크
@@ -462,6 +463,7 @@
 		if(userPhone.length == 11){
 			alert("인증번호를 발송하였습니다.");
 			document.getElementById('phoneCheckId').style.display = 'block';
+			$("#userPhone").prop("disabled", true);
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
@@ -497,6 +499,7 @@
         	
         	if(verify == rnd){
         		alert("인증이 완료되었습니다.");
+        		$("#phoneCheck").prop("disabled", true);
         	}
         	else{
         		alert("인증에 실패하였습니다.");
@@ -541,7 +544,7 @@
 		
 		acceptedFiles: "image/jpeg, image/png, image/jpg", // 이 파일들만 업로드 가능
         url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
         clickable: true, // 클릭가능여부
         thumbnailHeight: 90, // Upload icon size
         thumbnailWidth: 90, // Upload icon size
@@ -625,22 +628,189 @@
 	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
 	// 		window.close();
 	// 	} 
-
+ 		
+ 		// addUser
 		function fncAddUser() {
 
-			alert("ㅎㅇ");
+			var userId = $("#userId").val();
+			alert(userId);
 			
-			// userBirth logic...
+			// 1. userId 유효성 검증
+			 $.ajax({
+					url : "/user/userIdCheck", // 해당 url의 Controller로 진입
+					type : "POST", // POST방식으로 전달
+					data : {userId : userId}, // data는 Key[userId], value[mb_id](위의 value)...
+					dataType : 'json', // json데이터형식으로 보낸다.
+					success : function(result){ // 서버에서 response(result값)가 전송된다.
+					
+						var pattern = /^(?=.*[a-zA-Z])[a-zA-Z\d]+$/;
+						
+						if(result == 1){
+							alert("아이디를 중복해서 사용할 수 없습니다.");
+							return;
+						}else if(userId.length > 20 && userId.length < 10 ){
+							alert("아이디는 10 ~ 20자까지 가능합니다.");
+							return;
+						}else if(!pattern.test(userId)){
+							alert("아이디는 영문이나 영문 숫자 조합만 가능합니다.");
+							return; 
+						}else{
+							alert("1. 아이디 통과");
+							return;
+						}
+					},
+					error : function(){
+						alert("서버요청실패");
+					}
+				});
+			
+			// 2. password 유효성 검증
+			var password = $("#password").val();
+			alert(password);
+			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+			
+			if(password.length > 50){
+				alert("패스워드는 50자 까지 가능합니다.");
+				return;
+			}else if(password.length < 10){
+				alert("패스워드는 10자 이상 가능합니다.");
+				return;
+			}else if(!pattern.test(password)){
+				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
+				return;
+			}
+			else{
+				alert("2. password 통과");
+			}
+			
+			var passwordCheck = $("#passwordCheck").val();
+			alert("password : "+password);
+			alert("passwordCheck : "+passwordCheck);
+			
+			if(passwordCheck == null){
+				alert("패스워드 확인을 해 주세요.");
+				return;
+			}else if(password !== passwordCheck){
+				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
+				return;
+			}else{
+				alert("패스워드 체크 통과");
+			}
+			
+			// 3. userName 유효성 검증
+			var userName = $("#userName").val();
+			alert("3. userName : "+userName);
+			
+			if(userName.length > 10){
+				alert("이름은 10자까지 가능합니다.");
+				return;
+			}else if(userName.length < 1){
+				alert("최소 1자 이상 입력해주세요.");
+				return;
+			}
+			else {
+				alert("3. userName 통과");
+			}
+			
+			// 6. userNickName 유효성 검증
+			var userNickName = $("input[name='userNickName']").val();
+			alert("userNickName : "+userNickName);
+			
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : userNickName},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						alert("이미 사용중인 닉네임입니다. 다시 입력 해 주세요.");
+						return;
+					}else if(userNickName < 1){
+						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(userNickName > 20){
+						alert("닉네임은 최대 20자리까지 가능합니다.");
+						return;
+					}else{
+						alert("6. userNickName 통과");
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+			
+			// 4. userPhone 유효성 검증
+			var userPhone = $("#userPhone").val();
+			
+			if(userPhone.length == 11){
+				alert("4. userPhone 통과");
+			}else{
+				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
+				return;
+			}
+			
+			var phoneCheck = $("#phoneCheck").val();
+			if(phoneCheck.length == 5){
+				alert("phoneCheck 통과");
+			}else{
+				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+				return;
+			}
+			
+			// 5. userBirth 유효성 검증
 			var userBirth=$("#birthday").val();
-			var value = userBirth.replace(/-/g, "");
-			$("#userBirth").val(value);
-
-			// userAddr logic...
+			
+			if(userBirth == null){
+				alert("5. userBirth 통과");
+				var value = userBirth.replace(/-/g, "");
+				$("#userBirth").val(value);
+			}else{
+				alert("생일을 입력 해 주세요.");
+				return;
+			}
+			
+			// 8. gender 유효성 검증
+			// PATH!!
+			
+			// 7. userAddr 유효성 검증
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();
-			var addr = addr1+addr2;
+			var addr = addr1+"   "+addr2;
 			$("#userAddr").val(addr);
-
+			alert(addr);
+			
+			if(addr == null){
+				alert("주소를 입력해 주시기 바랍니다.");
+				return;
+			}else{
+				alert("7. userAddr 통과");
+			}
+			
+			
+			
+			// 9. userEmail 유효성 검증
+			var userEmail = $("#userEmail").val();
+			alert("userEmail : "+userEmail);
+			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			
+			if(emailCheck.test(userEmail)){
+				alert("9. 이메일 통과");
+			}else if(userEmail.length > 40 ){
+				alert("이메일은 최대 40자 까지 입력 가능합니다.");
+				return;
+			}else{
+				alert("유효하지 않은 이메일입니다.");
+				return;
+			}
+			
+			// 10. 구단코드 유효성 검증
+			// PATH!!!
+			
+			// 11. 프로필 사진 유효성 검증
+			// PATH!!!
+			
 			// ajax(User) -> Controller
 			var user = {
 				userId : $("#userId").val(),
@@ -784,7 +954,7 @@
                             	<div class="form-inline">
                             	<label>
                             		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px;">
-                            			<option value="NN">선택하지 않음</option>
+                            			<option value="ALL">선택하지 않음</option>
       									<option value="LG">LG 트윈스</option>
       									<option value="SS">삼성 라이온즈</option>
       									<option value="LT">롯데 자이언츠</option> 

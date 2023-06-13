@@ -107,11 +107,11 @@
         	
             <h3>회원 리스트</h3>
             <form>
-            	<button type="button" id="playerList">선수 리스트</button>
-	            <button type="button" id="getBestPlayerList">이주의 선수 조회</button>
+            	<!-- <button type="button" id="playerList">선수 리스트</button>
+	            <button type="button" id="getBestPlayerList">이주의 선수 조회</button> -->
             <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
+						<%-- <option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option> --%>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
 					</select>
 			</div>
