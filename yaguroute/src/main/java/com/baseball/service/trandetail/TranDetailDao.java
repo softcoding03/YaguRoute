@@ -28,4 +28,5 @@ public interface TranDetailDao {
 		
 	public int getTotalCount(Search search, String userId) throws Exception; // userId가 아니면(null이면) tranNo
 	
+	public List<TranDetail> getBestTranList() throws Exception; //판매인기리스트
 }

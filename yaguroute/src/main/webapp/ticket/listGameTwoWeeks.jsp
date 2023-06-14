@@ -39,9 +39,33 @@
 		  top: 50%;
 		  left: 50%;
 		  transform: translate(-50%, -50%);
-		  
 		  font-size: 18px;
 		  margin-left:300px;
+		}
+		span{
+			font-family:"Gwangyang";
+			font-size:15px;
+		}
+		button[type="button"]:hover {
+			background-color: #99BEFF;
+		}
+		
+		button[type="button"] {
+			width: 50%;
+			height: 45px;
+			background-color: #c3eaff;
+			color: #000000;
+			border: 2px solid #000000;
+			border-radius: 9px;
+			cursor: pointer;
+			font-size: 15px;
+			font-family:"Gwangyang";
+			text-align: center;
+			font-color: white;
+		}
+		.channel{
+			display:flex;
+			justify-content:center;
 		}
 		/* 팀탑바 위한 style 끝*/
 </style>
@@ -116,23 +140,22 @@
 			    <div class="broadcast-item">
 			        <div class="item-header" id="headingOne">
 			            <div class="row">
-			                <div class="col-md-7 col-sm-10">
+			                <div class="col-md-8 col-sm-10">
 			                    <div class="item-head-body">
-			                        <a><img src="${list.homeTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
+			                        <a><img src="${list.homeTeam.teamEmblem}" style="height:40px;" alt="team-logo1"></a>
 			                        <span class="vs">vs</span>
-			                        <a><img src="${list.awayTeam.teamEmblem}" width="40" height="40" alt="team-logo1"></a>
+			                        <a><img src="${list.awayTeam.teamEmblem}" style="height:40px;" alt="team-logo1"></a>
 			                        <span class="info">
 			                            <span class="what">KBO 정규시즌</span>
 			                            <span class="then">${list.gameDate} / ${list.gameTime}</span>
 			                        </span>
+			                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;구장 : ${list.homeTeam.stadiumName}</span>
 			                    </div>
 			                </div>
 			                <div class="col-md-4 col-sm-12">
 			                    <div class="channel">
-			                        <span class="info">
 			                        <button type="button" class="getStadium">경기 예매</button>
 			                        <input type="hidden" name="gameCode" value="${list.gameCode}">
-			                        </span>
 			                    </div>
 			                </div>
 			            </div>	

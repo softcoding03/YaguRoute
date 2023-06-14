@@ -1,13 +1,21 @@
 package com.baseball.web.ticket;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -156,4 +164,49 @@ public class TicketRestController {
 		return "success";
 	}
 	
+	
+	//티켓 결제 후 해당 정보(transaction add + ticket update)
+	@PostMapping("addTicketPurchase")
+	public String addTicketPurchase(@ModelAttribute("transaction") Transaction transaction,
+									@ModelAttribute("ticket") String ticket,
+									Model model,HttpSession session) throws Exception{
+		System.out.println("/ticket/rest/addTicketPurchase : POST START");
+		System.out.println("넘어온 데이터?"+transaction+"//"+ticket);
+		String regex = "(?<=\\G.{21})";
+		String[] split = ticket.split(regex);
+		User user = (User)session.getAttribute("user");
+		transaction.setBuyer(user);
+		transaction.setTranType("T");
+		//refundableDate -> 전날 23시로 세팅
+		String dateString = ticketService.getTicketInfo(split[0]).getGame().getGameDate();//ticketNo로 해당 티켓 정보가져옴(gameDate get위함)// 기존 날짜 및 시간
+		System.out.println("dateString"+dateString);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.parse(dateString, formatter);
+		LocalDate refundDate = localDate.minusDays(1);
+		LocalDateTime refundDateTime = refundDate.atTime(23, 0, 0);
+		System.out.println("refundDateTime??"+refundDateTime); 
+		transaction.setRefundableDate(refundDateTime);
+		
+		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
+		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
+		
+		List<String> list = new ArrayList<>(); //각 ticketNo를 list에 넣어주기
+		for(String splitTicket:split) {
+			list.add(splitTicket);
+		}
+		Map<String, Object> map = new HashMap<>(); // Mapper에 map 객체 보내주기 위함
+		map.put("tranNo", tranNo);
+		map.put("list", list);
+		ticketService.addTicketPurchase(map); //각 ticket에 tranNo 업데이트해줌
+		
+		/*
+		 * Transaction transaction2 = transactionService.getTransaction(tranNo);//결제번호로
+		 * 해당 결제정보 가져옴 List<Ticket> listTicket =
+		 * ticketService.getTicketPurchaseList(tranNo); //결제번호로 해당 티켓 정보들 가져옴+티켓에 game
+		 * 정보도 있음 model.addAttribute("ticketList", listTicket);//티켓정보+게임정보
+		 * model.addAttribute("transaction", transaction2); //결제정보+유저정보
+		 */		
+		System.out.println("addTicketPurchase 종료");
+		return "success";
+	}
 }

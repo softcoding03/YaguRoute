@@ -85,4 +85,11 @@ public class TranDetailServiceImpl implements TranDetailService {
 	}
 
 
+	@Override
+	public List<TranDetail> getBestTranList() throws Exception {
+		
+		return tranDetailDao.getBestTranList();
+	}
+
+
 }
