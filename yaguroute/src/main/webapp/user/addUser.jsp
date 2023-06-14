@@ -292,6 +292,9 @@
 	  text-align: center !important;
 	  margin-top: 10px !important;
 	}
+	.col-md-6 {
+	    width: 100%;
+	}
 	
     </style>
     <!-- 구단코드 이미지 적용 -->
@@ -303,19 +306,17 @@
 			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
 			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
 				//alert("여기까지 옴!");
+			
 			 $.ajax({
 				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
 				type : "POST", // POST방식으로 전달
 				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
 				dataType : 'json', // json데이터형식으로 보낸다.
 				success : function(result){ // 서버에서 response(result값)가 전송된다.
+					var pattern = /^(?=.*[a-zA-Z])[a-zA-Z\d]+$/; // 영문 & 숫자 조합
 					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
 						$("#id_use").html('이미 사용중인 아이디입니다.');
 						$("#id_use").attr('color','#dc3545');
-					} 
-					else if(result == 0 && id.length >= 5 && id.length <= 20){
-						$("#id_use").html('사용할 수 있는 아이디입니다.');
-						$("#id_use").attr('color','#2fb380');
 					} 
 					else if(id.length < 5){
 						$("#id_use").html('최소 아이디 길이는 5자 입니다.');
@@ -325,6 +326,15 @@
 						$("#id_use").html('아이디는 20자를 넘길 수 없습니다.');
 						$("#id_use").attr('color','#dc3545');
 					}
+					else if(!pattern.test(id)){
+						$("#id_use").html('영문&숫자 조합하여 5자 이상 입력 바랍니다.');
+						$("#id_use").attr('color','#dc3545');
+					}
+					else{
+						$("#id_use").html('사용할 수 있는 아이디입니다.');
+						$("#id_use").attr('color','#2fb380');
+					} 
+
 				},
 				error : function(){
 					alert("서버요청실패");
@@ -339,18 +349,24 @@
 		$("#password").keyup(function(){
 			
 			var password = $("#password").val();
-			console.log(password);
+			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
 			if(password.length < 10){
 				$("#password_use").html('비밀번호는 10자 이상입니다.');
 				$("#password_use").attr('color','#dc3545');
 			} 
-			else if(password.length >= 10 && password.length <= 20){
-				$("#password_use").html('');
+			else if(!pattern.test(password)){
+				$("#password_use").html('비밀번호는 영문과 숫자 조합 10자 이상 가능합니다.');
+				$("#password_use").attr('color','#dc3545');
 			}
 			else if(password.length > 20){
 				$("#password_use").html('비밀번호는 20자 이하만 가능합니다.');
 				$("#password_use").attr('color','#dc3545');
+			}
+			else{
+				$("#password_use").html('적절한 비밀번호입니다.');
+				$("#password_use").attr('color','#2fb380');
 			}
 		});
 	});
@@ -400,10 +416,13 @@
 			
 			var passwordCheck = $("#passwordCheck").val();
 			var password = $("#password").val();
-			console.log(passwordCheck);
 			
-			if(password == passwordCheck){
-				$('#passwordCheck_use').html('비밀번호가 같아용');
+			if(password.length < 2 ){
+				$('#passwordCheck_use').html('먼저 비밀번호를 확인해 주시기 바랍니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+			else if(password == passwordCheck){
+				$('#passwordCheck_use').html('입력한 비밀번호와 같습니다.');
 				$('#passwordCheck_use').attr('color', '#2fb380');
 			}
 			else{
@@ -436,7 +455,6 @@
 		$("#userBirth").on("click", function(){
 			
 			var userBirth = $("#userBirth").val();
-			console.log(userBirth);
 			
 		});
 	});
@@ -464,26 +482,26 @@
 			alert("인증번호를 발송하였습니다.");
 			document.getElementById('phoneCheckId').style.display = 'block';
 			$("#userPhone").prop("disabled", true);
+			
+	   		$.ajax({
+	               url: "/users/phoneCheck/",
+	               method: "POST",
+	               dataType: "json",
+	               data: {userPhone : userPhone,
+	               		rnd : rnd}, // 수정: userId로 변경
+	               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+	               success: function(result) {
+	               },
+	               error: function() {
+	               	alert("서버 오류 발생");
+	                   return;
+	           }
+	   		});
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
 			return;
 		}
-		
-   		$.ajax({
-               url: "/users/phoneCheck/",
-               method: "POST",
-               dataType: "json",
-               data: {userPhone : userPhone,
-               		rnd : rnd}, // 수정: userId로 변경
-               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-               success: function(result) {
-               },
-               error: function() {
-               	alert("서버 오류 발생");
-                   return;
-           }
-   		});
    	  });
    	});
 	
@@ -537,98 +555,9 @@
 			fncAddUser();
 		});
 	}); */
-	
-	
-	//fileDropzone dropzone 설정할 태그의 id로 지정
-    Dropzone.options.fileDropzone = {
-		
-		acceptedFiles: "image/jpeg, image/png, image/jpg", // 이 파일들만 업로드 가능
-        url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-        clickable: true, // 클릭가능여부
-        thumbnailHeight: 90, // Upload icon size
-        thumbnailWidth: 90, // Upload icon size
-        maxFiles: 1, // 업로드 파일수
-        maxFilesize: 1, // 최대업로드용량 : 1MB
-        parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-        addRemoveLinks: true, // 삭제버튼 표시 여부
-        dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-        uploadMultiple: false, // 다중업로드 기능
-        dictDefaultMessage: "사진 업로드 (최대 1MB)<br>jpeg, jpg, png 파일", // 줄바꿈 추가
-        dictInvalidFileType: "유효하지 않은 파일 형식입니다.",	
-        init: function() {
-            
-        	var myDropzone = this;
-			var maxFiles = this.options.maxFiles;
-			
-            // 파일 업로드 제한에 도달했을 때 알림 표시
-            this.on("maxfilesexceeded", function(file) {
-                
-            	// 알림을 표시하는 로직을 추가
-                if(myDropzone.files.length > maxFiles){
-                    myDropzone.removeFile(file);
-                    alert("최대 1개의 파일만 업로드할 수 있습니다.");
-                }
-                
-            });
-
-            // 서버로 파일 업로드를 진행하는 함수
-            document.querySelector("#signup").addEventListener("click", function() {
-            	alert("ㅎㅇㅎㅇ");
-                myDropzone.processQueue();
-                fncAddUser();
-            });
-        }
-        
-    };
-
- 	// function fncAddUser() {		
-	// 	 	// 11개여야함.
-	// 		var userId=$("input[name='userId']").val();
-	// 		var password=$("#password").val();
-	// 		var userName=$("#userName").val();
-	// 		var userPhone=$("#userPhone").val();
-	// 		var phoneCheck=$("#phoneCheck").val();
-	// 		var userBirth=$("#birthday").val();
-			
-	// 		// userBirth logic
-	// 		var value = userBirth.replace(/-/g, "");
-	// 		$("#userBirth").val(value);
-			
-	// 		// addr1 + addr2 (주소 + 상세주소)
-	// 		var addr1 = $("input[name='addr1']").val();
-	// 		var addr2 = $("input[name='addr2']").val();
-	// 		var userAddr = addr1+addr2;
-			
-	// 		var gender=$("#gender").val();
-	// 		var userEmail=$("#userEmail").val();
-	// 		var userNickName=$("input[name='userNickName']").val();
-	// 		var teamCode=$("#teamCode").val();
-			
-	// 		alert($("#userBirth").val());
-			
-	// 		if(userId == null || userId.length <1){
-	// 			alert("아이디는 반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(password == null || password.length <1){
-	// 			alert("패스워드는  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userName == null || userName.length <1){
-	// 			alert("이름은  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userPhone == null || userPhone < 1){
-	// 			alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-	// 			return;
-	// 		} 
-			
-	// 		$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
-	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
-	// 		window.close();
-	// 	} 
  		
+	
+	
  		// addUser
 		function fncAddUser() {
 
@@ -763,12 +692,13 @@
 			var userBirth=$("#birthday").val();
 			
 			if(userBirth == null){
+				alert("생일을 입력 해 주세요.");
+				return;
+				
+			}else{
 				alert("5. userBirth 통과");
 				var value = userBirth.replace(/-/g, "");
 				$("#userBirth").val(value);
-			}else{
-				alert("생일을 입력 해 주세요.");
-				return;
 			}
 			
 			// 8. gender 유효성 검증
@@ -781,7 +711,7 @@
 			$("#userAddr").val(addr);
 			alert(addr);
 			
-			if(addr == null){
+			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
 			}else{

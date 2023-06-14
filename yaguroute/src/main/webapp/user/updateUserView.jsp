@@ -568,14 +568,15 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	}
 	
 	input[type=text] {
+	border: 1px solid #4d5da4;
     padding: 15px 10px;
-    border: 1mm solid lightgrey;
     width: 100%;
     background: #fff;
     font-size: 14px;
     color: #666;
     line-height: normal;
     outline: 0;
+    
 }
 	
 	input[type="radio"] {
@@ -606,24 +607,24 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	    color: #fff;
 	}
 
-/* 버튼 호버 스타일 */
-button[type="button"]:hover {
-  background-color: #0056b3;
-}
-
-/* 버튼 클릭 스타일 */
-button[type="button"]:active {
-  background-color: #003580;
-}
-
-/* 예시를 위한 스타일 */
-.container {
-  margin-bottom: 10px;
-}
+	/* 버튼 호버 스타일 */
+	button[type="button"]:hover {
+	  background-color: #0056b3;
+	}
+	
+	/* 버튼 클릭 스타일 */
+	button[type="button"]:active {
+	  background-color: #003580;
+	}
+		
+	/* 예시를 위한 스타일 */
+	.container {
+	  margin-bottom: 10px;
+	}
 	
 	/* 선택된 라디오 버튼 스타일 */
 	input[type="radio"]:checked {
-	  background-color: #ccc;
+	  background-color: #212fd6;
 	}
 	
 	/* 라디오 버튼 라벨 스타일 */
@@ -673,15 +674,26 @@ button[type="button"]:active {
 		
 		window.location.href="/main.jsp";
 	}
+	
 	function getUserFunction() {
+		
 		window.location.href="/users/getUser";
 	}
+	
 </script>
 
  <script type="text/javascript">
  
+	 $(document).ready(function() {
+		  setTimeout(function() {
+		    // 1초 후에 실행되는 코드
+		    console.log('1초가 지났습니다.');
+		  }, 10000);
+		});
+ 
  	$(function(){
 		
+ 		
 		var userId = document.getElementById("userId");
 		var userIdText = userId.innerText; // 아이디 텍스트 가져오기
 		
@@ -695,6 +707,16 @@ button[type="button"]:active {
 
 		    var profileElement = document.querySelector(".profile");
 		    profileElement.appendChild(naverLoginElement); // 네이버 로그인 요소 추가
+		    
+		    $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
+		    $("#passwordNone").css("display", "none");
+		    $("#passwordCheckNone").css("display", "none");
+		    $("#birthdayNone").css("display", "none");
+		    $("#genderNone").css("display", "none");
+		    $("#phoneNone").css("display", "none");
+		    $("#emailNone").css("display", "none");
+		    $("#userNameNone").css("display", "none");
+		    
 		}
 		else if(/^\d+$/.test(userIdText)) {
 		
@@ -715,8 +737,8 @@ button[type="button"]:active {
 			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
 			$("#id_use").html('아이디는 수정할 수 없습니다.');
 			$("#id_use").attr('color','#dc3545');
-		})
-	})
+		});
+	});
     
 	// 패스워드 체크
 	$(function(){
@@ -724,29 +746,61 @@ button[type="button"]:active {
 		$("#password").keyup(function(){
 			
 			var password = $("#password").val();
-			console.log(password);
-			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			if(password.length < 10){
 				$("#password_use").html('비밀번호는 10자 이상입니다.');
 				$("#password_use").attr('color','#dc3545');
 			} 
-			else if(password.length >= 10 && password.length <= 20){
-				$("#password_use").html('');
+			else if(!pattern.test(password)){
+				$("#password_use").html('비밀번호는 영문과 숫자 조합 10자 이상 가능합니다.');
+				$("#password_use").attr('color','#dc3545');
 			}
 			else if(password.length > 20){
 				$("#password_use").html('비밀번호는 20자 이하만 가능합니다.');
 				$("#password_use").attr('color','#dc3545');
 			}
+			else{
+				$("#password_use").html('적절한 비밀번호입니다.');
+				$("#password_use").attr('color','#2fb380');
+				// 비밀번호 변경 위한 체크 버튼 출력
+				$("#passwordCheck").val('');
+				$('#passwordCheck').prop('disabled', false);
+			}
 		});
 	});
 	
-    // 닉네임 체크
+	// 패스워드 더블체크
+	$(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		
+		$( "#passwordCheck" ).keyup(function() {
+			
+			var passwordCheck = $("#passwordCheck").val();
+			var password = $("#password").val();
+			
+			if(password.length < 2 ){
+				$('#passwordCheck_use').html('먼저 비밀번호를 확인해 주시기 바랍니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+			else if(password == passwordCheck){
+				$('#passwordCheck_use').html('입력한 비밀번호와 같습니다.');
+				$('#passwordCheck_use').attr('color', '#2fb380');
+			}
+			else{
+				$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+		});
+	});	
+	
+	// 닉네임 체크
 	$(function(){
 		
 		$('#nicknameCheck').keyup(function(){
 			
 			var nickname = $('#nicknameCheck').val();
 			console.log(nickname);
+			
 			$.ajax({
 				url : "/user/userNickNameCheck",
 				method : "POST",
@@ -772,31 +826,10 @@ button[type="button"]:active {
 				error : function(){
 					alert("서버 요청 실패");
 				}
-			})
-		})
+			});
+		});
 	});
 	
-    // 패스워드 더블체크
-	$(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		
-		$( "#passwordCheck" ).keyup(function() {
-			
-			var passwordCheck = $("#passwordCheck").val();
-			var password = $("#password").val();
-			console.log(passwordCheck);
-			
-			if(password == passwordCheck){
-				$('#passwordCheck_use').html('비밀번호가 같아용');
-				$('#passwordCheck_use').attr('color', '#2fb380');
-			}
-			else{
-				$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
-				$("#passwordCheck_use").attr('color', '#dc3545');
-			}
-		});
-	});	
-    
 	// 이름 체크
 	$(function(){
 		
@@ -948,97 +981,189 @@ button[type="button"]:active {
         }
         
     };
-	
- 	// 수정 버튼 클릭
-	/* $(function(){
-		
-		$('#userUpdate').on("click", function(){
-			
-			var userName = $('#userName').val();
-			alert(userName);
-			
-			alert("수정이 완료되었습니다.");
-			$('form').attr("method", "POST").attr("action", "/users/updateUser").submit();
-		});
-	}); */
- 	
-	 // form에 입력값 제출
-	 
- 	// function fncAddUser() {		
-	// 	 	// 11개여야함.
-	// 		var userId=$("input[name='userId']").val();
-	// 		var password=$("#password").val();
-	// 		var userName=$("#userName").val();
-	// 		var userPhone=$("#userPhone").val();
-	// 		var phoneCheck=$("#phoneCheck").val();
-	// 		var userBirth=$("#birthday").val();
-			
-	// 		// userBirth logic
-	// 		var value = userBirth.replace(/-/g, "");
-	// 		$("#userBirth").val(value);
-			
-	// 		// addr1 + addr2 (주소 + 상세주소)
-	// 		var addr1 = $("input[name='addr1']").val();
-	// 		var addr2 = $("input[name='addr2']").val();
-	// 		var userAddr = addr1+addr2;
-			
-	// 		var gender=$("#gender").val();
-	// 		var userEmail=$("#userEmail").val();
-	// 		var userNickName=$("input[name='userNickName']").val();
-	// 		var teamCode=$("#teamCode").val();
-			
-	// 		alert($("#userBirth").val());
-			
-	// 		if(userId == null || userId.length <1){
-	// 			alert("아이디는 반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(password == null || password.length <1){
-	// 			alert("패스워드는  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userName == null || userName.length <1){
-	// 			alert("이름은  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userPhone == null || userPhone < 1){
-	// 			alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-	// 			return;
-	// 		} 
-			
-	// 		$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
-	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
-	// 		window.close();
-	// 	} 
 
-	// 수정 버튼 클릭
+		// updateUser
 		function fncUpdateUser() {
 
-			alert("ㅎㅇ");
-			
-			var userId=$("#userId").val();
+			var userId = $("#userId").val();
 			alert(userId);
 			
-			// userBirth logic...
-			var userBirth=$("#birthday").val();
-			var value = userBirth.replace(/-/g, "");
-			$("#userBirth").val(value);
-			alert(userBirth);
+			// 1. userId 유효성 검증
+			 $.ajax({
+					url : "/user/userIdCheck", // 해당 url의 Controller로 진입
+					type : "POST", // POST방식으로 전달
+					data : {userId : userId}, // data는 Key[userId], value[mb_id](위의 value)...
+					dataType : 'json', // json데이터형식으로 보낸다.
+					success : function(result){ // 서버에서 response(result값)가 전송된다.
+					
+						var pattern = /^(?=.*[a-zA-Z])[a-zA-Z\d]+$/;
+						
+						if(result == 1){
+							alert("아이디를 중복해서 사용할 수 없습니다.");
+							return;
+						}else if(userId.length > 20 && userId.length < 10 ){
+							alert("아이디는 10 ~ 20자까지 가능합니다.");
+							return;
+						}else if(!pattern.test(userId)){
+							alert("아이디는 영문이나 영문 숫자 조합만 가능합니다.");
+							return; 
+						}else{
+							alert("1. 아이디 통과");
+							return;
+						}
+					},
+					error : function(){
+						alert("서버요청실패");
+					}
+				});
 			
-			// userAddr logic...
+			// 2. password 유효성 검증
+			var password = $("#password").val();
+			alert(password);
+			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+			
+			if(password.length > 50){
+				alert("패스워드는 50자 까지 가능합니다.");
+				return;
+			}else if(password.length < 10){
+				alert("패스워드는 10자 이상 가능합니다.");
+				return;
+			}else if(!pattern.test(password)){
+				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
+				return;
+			}
+			else{
+				alert("2. password 통과");
+			}
+			
+			var passwordCheck = $("#passwordCheck").val();
+			alert("password : "+password);
+			alert("passwordCheck : "+passwordCheck);
+			
+			if(passwordCheck == null){
+				alert("패스워드 확인을 해 주세요.");
+				return;
+			}else if(password !== passwordCheck){
+				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
+				return;
+			}else{
+				alert("패스워드 체크 통과");
+			}
+			
+			// 3. userName 유효성 검증
+			var userName = $("#userName").val();
+			alert("3. userName : "+userName);
+			
+			if(userName.length > 10){
+				alert("이름은 10자까지 가능합니다.");
+				return;
+			}else if(userName.length < 1){
+				alert("최소 1자 이상 입력해주세요.");
+				return;
+			}
+			else {
+				alert("3. userName 통과");
+			}
+			
+			// 6. userNickName 유효성 검증
+			var userNickName = $("input[name='userNickName']").val();
+			alert("userNickName : "+userNickName);
+			
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : userNickName},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						alert("이미 사용중인 닉네임입니다. 다시 입력 해 주세요.");
+						return;
+					}else if(userNickName < 1){
+						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(userNickName > 20){
+						alert("닉네임은 최대 20자리까지 가능합니다.");
+						return;
+					}else{
+						alert("6. userNickName 통과");
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+			
+			// 4. userPhone 유효성 검증
+			var userPhone = $("#userPhone").val();
+			
+			if(userPhone.length == 11){
+				alert("4. userPhone 통과");
+			}else{
+				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
+				return;
+			}
+			
+			var phoneCheck = $("#phoneCheck").val();
+			if(phoneCheck.length == 5){
+				alert("phoneCheck 통과");
+			}else{
+				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+				return;
+			}
+			
+			// 5. userBirth 유효성 검증
+			var userBirth=$("#birthday").val();
+			
+			if(userBirth == null){
+				alert("생일을 입력 해 주세요.");
+				return;
+				
+			}else{
+				alert("5. userBirth 통과");
+				var value = userBirth.replace(/-/g, "");
+				$("#userBirth").val(value);
+			}
+			
+			// 8. gender 유효성 검증
+			// PATH!!
+			
+			// 7. userAddr 유효성 검증
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();
-	 		var addr = '';
-	 		if(addr1 != null || addr2 != null){
-	 			addr = addr1+addr2;
-	 			$("#userAddr").val(addr);
-	 		}
-	 		
+			var addr = addr1+"   "+addr2;
+			$("#userAddr").val(addr);
+			alert(addr);
+			
+			if(addr.length < 2){
+				alert("주소를 입력해 주시기 바랍니다.");
+				return;
+			}else{
+				alert("7. userAddr 통과");
+			}
 			
 			
-			alert($("userAddr").val());
 			
+			// 9. userEmail 유효성 검증
+			var userEmail = $("#userEmail").val();
+			alert("userEmail : "+userEmail);
+			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
+			if(emailCheck.test(userEmail)){
+				alert("9. 이메일 통과");
+			}else if(userEmail.length > 40 ){
+				alert("이메일은 최대 40자 까지 입력 가능합니다.");
+				return;
+			}else{
+				alert("유효하지 않은 이메일입니다.");
+				return;
+			}
+			
+			// 10. 구단코드 유효성 검증
+			// PATH!!!
+			
+			// 11. 프로필 사진 유효성 검증
+			// PATH!!!
 			
 			// ajax(User) -> Controller
 			var user = {
@@ -1049,13 +1174,11 @@ button[type="button"]:active {
 				phoneCheck : $("#phoneCheck").val(),
 				userBirth : $("#userBirth").val(),
 				userAddr : $("#userAddr").val(),
-				gender : $("input[name='gender']").val(),
-				userPoint : $("#userPoiont").val(),
+				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
 				teamCode : $("#teamCode").val()
 			};
-			alert(user);
 
 			$.ajax({
 				url:"/users/updateUser",
@@ -1064,7 +1187,8 @@ button[type="button"]:active {
 				contentType: "application/json",
   				success: function(response) {
     				alert("컨트롤러 전송 완료!");
-    				window.location.href="/users/getUser";
+    				window.close();
+    				window.opener.location.reload();
   				},
   				error: function(xhr, status, error) {
     			// 요청 처리 중 에러가 발생한 경우 실행할 로직
@@ -1229,30 +1353,32 @@ button[type="button"]:active {
         	<div class="row">
                     		<form>
                                 <div class="form-inline">
-                                    <label for="userId">
-                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">아이디 <br>
-                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 35px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
+                                    <label for="userId" id="userIdNone" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">아이디 <br>
+                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 40px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
                                         </a>
                                     </label>
                                     	<font id="id_use" size="2"></font>
                                 </div>
-                                <div class="form-inline">
+                                <div class="form-inline" id="passwordNone" style="display: block">
 								<label for="password">
 									<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">패스워드 <br>
-									<input type="password" name="password" id="password" style="width: 405px; height: 35px; border: 1mm solid lightgrey;" placeholder="패스워드" value="${user.password}">
+									<input type="password" name="password" id="password" style="border: 1px solid #0e55c6; width: 405px; height: 40px; "  placeholder="패스워드" value="${user.password}">
 									</a>
 								</label>
 									<font id="password_use" size="2"></font>
 								</div>
-								<!-- <div class="form-inline">
-                                    <label for="passwordCheck">
-                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 35px; border: 1mm solid lightgrey;" placeholder="패스워드 확인">
+								<div class="form-inline" id="passwordCheckNone" style="display: block">
+                                    <label for="passwordCheck" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">패스워드 체크<br>
+                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 40px; border: 1px solid #0e55c6;" disabled placeholder="패스워드 확인" value="${user.password }">
+                                        </a>
                                     </label>
                                     	<font id="passwordCheck_use" size="2"></font>
-                                </div> -->
+                                </div> 
                             	<div class="form-inline">
-                                    <label>
-                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이름<br>
+                                    <label for="passwordCheck" id="userNameNone" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; height: 40px;">이름<br>
                                         <input type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름" value="${user.userName}">
                                         </a>
                                     </label>
@@ -1260,19 +1386,22 @@ button[type="button"]:active {
                             	</div>
 								
 								<div class="form-inline">
-                                    <label>
+                                    <label for="nickname">
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">닉네임<br>
                                         <input type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임" value="${user.userNickName}"/>
                                         </a>
                                     </label>
                                     	<font id="nickname_use" size="2"></font>
                             	</div>	
-                                <div class="form-inline">
+                                <div class="form-inline" style="color: #1a146f; font-size: medium; font-weight: bold;">
+                                		<label for="userBirth" id="birthdayNone" style="display: block">
                                     	생년월일&nbsp;
                                         <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px; border: groove;" placeholder="생년월일" value="${user.userBirth}">
                                         <input type="hidden" name="userBirth" id="userBirth">
                                         &nbsp;&nbsp;
+                                        </label>
                                         
+                                        <label for="gender" id="genderNone" style="display: block">
                                         <a class="sungbyul">
                                         <label class="byul">남성
                                         <input type="radio" name="gender" value="M" ${user.gender == 'M' ? 'checked' : ''}>
@@ -1281,13 +1410,14 @@ button[type="button"]:active {
                                         <input type="radio" name="gender" value="W" ${user.gender == 'W' ? 'checked' : ''}>
                                         </label>
                                         </a>
+                                        </label>
                                 </div>
                                 <div class="form-inline">
-                            		<label>
+                            		<label for="userPhone" id="phoneNone" style="display: block;">
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">휴대폰 번호<br>
 		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" placeholder="휴대폰 번호" value="${user.userPhone}"/>&nbsp;&nbsp;
 		    						</a>
-		    						<button type="button" id="phoneButton" style="background-color: slategray;" >인증번호 발송</button>
+		    						<button type="button" id="phoneButton" style=" background-color: #2c74bb; border-radius: 21px;" >인증번호 발송</button>
 		    						</label>
                             	</div>
                             	<div class="form-inline">
@@ -1299,7 +1429,7 @@ button[type="button"]:active {
 		    						</label>
                             	</div>
                             	<div class="form-inline">
-                            		<label>
+                            		<label for="email" id="emailNone" style="display: block;">
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이메일<br>
 		    						<input type="text" name="userEmail" id="userEmail" style="width: 405px; height: 35px; margin-bottom: 10px;" placeholder="이메일" value="${user.userEmail}"/>
 		    						</a>
@@ -1309,7 +1439,7 @@ button[type="button"]:active {
                             		<label>
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
 		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
-		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: slategray;">주소&nbsp;선택</button>
+		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: #2c74bb; border-radius: 21px;">주소&nbsp;선택</button>
 									</a>
 		    						</label>
                             	</div>
@@ -1321,7 +1451,7 @@ button[type="button"]:active {
                             	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">선호구단<br>
                             	<div class="form-inline">
                             	<label>
-                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; border: 2px solid grey;">
+                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; border: 1px solid #0e55c6;">
                             			<option value="NN" ${user.teamCode == 'NN' ? 'selected' : ''}>선택하지 않음</option>
       									<option value="LG" ${user.teamCode == 'LG' ? 'selected' : ''}>LG 트윈스</option>
       									<option value="SS" ${user.teamCode == 'SS' ? 'selected' : ''}>삼성 라이온즈</option>
@@ -1338,9 +1468,9 @@ button[type="button"]:active {
                                     </div>
                                     </a>
                                     
-                                <a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">프로필 사진<br> 
+                                <a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">프로필 사진<br> 
                             	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px;"></div> 
+     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px; border: 1px solid #0e55c6; border-radius: 39px;"></div> 
      								<!-- <button id="btn-upload-file">서버전송</button> -->
  								</div>
  								
