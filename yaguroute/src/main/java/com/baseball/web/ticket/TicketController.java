@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,11 +159,9 @@ public class TicketController {
 		search.setDays(days);
 		String tranType = "t";
 		
+		//transaction 결제정보
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");
-	 	for(Transaction tran:list) {
-	 		System.out.println(tran);
-	 	}
 		
 		Integer totalCount = ((Integer)map.get("totalCount")).intValue();
 		Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
@@ -173,7 +172,17 @@ public class TicketController {
 		List<Game> gamelist = new ArrayList<>();
 		for(Transaction tran:list) { //결제내역List에서 tranNo뽑아내서 게임정보불러온 다음 다시 list화
 	 	Game game=gameService.getGameInfo(ticketService.getGameCode(tran.getTranNo()));
-	 	gamelist.add(game);
+	 		//형식 변환
+	 		String gameDate = game.getGameDate();
+	 		String gameTime = game.getGameTime();
+	 		String gameDateTime = gameDate.concat(" ").concat(gameTime);
+	 		SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	 		SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+            Date date = inputFormat.parse(gameDateTime);
+            String formattedDate = outputFormat.format(date);
+            System.out.println("형식변경한 gameDate ? " +formattedDate);  // 출력: 2023년 06월 21일 18시 30분
+            game.setGameDate(formattedDate);
+            gamelist.add(game);
 		}
 		System.out.println("game정보 불러온 것 :: " +gamelist);
 		

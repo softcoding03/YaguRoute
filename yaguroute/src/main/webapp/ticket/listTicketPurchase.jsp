@@ -9,6 +9,67 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<style>
+	/* 팀탑바 위한 style */
+		.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
+		h1{
+		color: white;
+		font-family:"Gwangyang";
+		}
+		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  font-size: 18px;
+		  margin-left:300px;
+		}
+		button[type="button"]:hover {
+			background-color: #99BEFF;
+		}
+		
+		button[type="button"] {
+			width: 100%;
+			height: 40px;
+			background-color: #ffffff;
+			color: #000000;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 14px;
+			text-align: center;
+		}
+		
+		//따라다니는 퀵메뉴
+		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+		a {text-decoration:none;}
+		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
+		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
+		.quickmenu ul li a:hover {color:#000;}
+		.quickmenu ul li:last-child {border-bottom:0;}
+		.content {position:relative;min-height:1000px;}		
+		
+	  tbody{
+	  		font-family:"Gwangyang";
+	  }
+	  td{
+	  	vertical-align: middle !important;
+	  	font-size: 14px !important;
+	  }
+		
+</style>    
+    
 <script type="text/javascript">
 
 	function fncGetTicketPurchaseList(currentPage){
@@ -57,67 +118,11 @@
       	});
     	});
     	//따라다니는 퀵메뉴 끝
+    	
+
    
 </script>
-<style>
-		button[type="button"]:hover {
-			background-color: #99BEFF;
-		}
-		
-		button[type="button"] {
-			width: 100%;
-			height: 45px;
-			background-color: #ffffff;
-			color: #000000;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			cursor: pointer;
-			font-size: 15px;
-			text-align: center;
-		}
-		/* 팀탑바 위한 style */
-		.teamTopBar {
-		  width: 100%;
-		  height: auto;
-		}
-		.image-container {
-		  position: relative;
-		  display: inline-block;
-		  width: 100%;
-		}
-		h1{
-		color: white;
-		}
-		.text-overlay {
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  font-size: 18px;
-		  margin-left:300px;
-		}
-		/* 팀탑바 위한 style 끝*/
-		
-		//따라다니는 퀵메뉴
-		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
-		a {text-decoration:none;}
-		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
-		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
-		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
-		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
-		.quickmenu ul li a:hover {color:#000;}
-		.quickmenu ul li:last-child {border-bottom:0;}
-		.content {position:relative;min-height:1000px;}		
-		.quickmenu .submenu {display: none;}
-		
-		
-		.background-image-class {
-		  background-image: url('/images/ticket/park.jpg');
-		  /* 다른 배경 설정 옵션들 */
-		}
-		
-		
-</style>
+
 
 </head>
 
@@ -127,18 +132,25 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 
 <body>
+<a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
-<div class="background-image-class">
+<!-- <section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/background/background1.jpg" alt="img">
+        </div>	
+	</div>
+</section> -->
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>티켓 예매 내역</h1></div>
+</div>
 
-<a type="hidden" id="top"/>
-
-<div><h1>티켓 예매 내역</h1></div>
 
 <div class="container">
 	<div class="sidebar col-xs-6 col-sm-6 col-md-2 sidebar-offcanvas" id="sidebar">
@@ -172,6 +184,7 @@
 		            <th align="left">경기 일시</th>
 		            <th align="left">결제시각</th>
 		            <th align="left">취소가능기간</th>
+		            <th align="left">상세 보기</th>
 		          </tr>
 		        </thead>
 				  <tbody>
@@ -179,22 +192,24 @@
 				  	  		예매 내역이 없습니다.
 				  	  </c:if>
 					  <c:if test="${not empty transaction}">
+					  		<input type="hidden" name="transaction" value="${transaction}">
+					  		<input type="hidden" name="size" value="${transaction.size()}">
 					  		<c:set var="size" value="${transaction.size()}"/>
 							<c:forEach var="i" begin="0" end="${size -1}" step="1">
 							<tr>
-							  <td align="left">${transaction[i].tranNo}</td>
+							  <td align="left" valign="middle">${transaction[i].tranNo}</td>
 							  <td align="left"><img src="${game[i].homeTeam.teamEmblem}" style="width:50px;"> vs <img src="${game[i].awayTeam.teamEmblem}" style="width:50px;"></td>
-							  <td align="left">${game[i].gameDate} ${game[i].gameTime}</td>
-							  <td align="left">${transaction[i].tranDate}</td>
+							  <td align="left">${game[i].gameDate}</td>
+							  <td align="left" class="tranDate${i}">${transaction[i].tranDate}</td>
 							  <c:if test="${transaction[i].refundStatus ==1}">
-							  		<td align="left">결제 취소</td>
+							  		<td align="left" style="color:red;">결제 취소</td>
 							  </c:if>
 							  <c:if test="${transaction[i].refundStatus ==0}">
-							  		<td align="left">${transaction[i].refundableDate}이전까지</td>
+							  		<td align="left" class="refundableDate${i}">${transaction[i].refundableDate}이전까지</td>
 							  </c:if>
 							  <td align="left">
 							  		<input type="hidden" name="tranNo" value="${transaction[i].tranNo}">
-							  		<button type="button" class="getTicketPurchaseDetail">예매 상세</button>
+							  		<button type="button" class="getTicketPurchaseDetail" ><i class="fi fi-rr-receipt" style="font-size:20px;"></i></button>
 							  </td>
 							</tr>
 				        	</c:forEach>
@@ -215,19 +230,6 @@
 <!-- 퀵메뉴 -->
 <div class="quickmenu">
   <ul>
-  	 <li>
-  	 	<ul class="submenu">
-       <c:forEach var="team" items="${allTeam}">
-            <li class="${team.teamCode eq teamCode ?'active':''}">
-            <a href="submenuTeamCode">
-             <img alt="img" src="${team.teamEmblem}" style="width:45px;">
-             <input type="hidden" class="submenuTeamCode" value="${team.teamCode}"/> 
-            </a>
-            </li>
-       </c:forEach>
-  	 	</ul>
-  	 	<a href="#team">구단</a>
-  	 </li>
     <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
     <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
     <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>

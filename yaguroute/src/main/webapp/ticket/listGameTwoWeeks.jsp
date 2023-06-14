@@ -33,6 +33,7 @@
 		}
 		h1{
 		color: white;
+		font-family:"Gwangyang";
 		}
 		.text-overlay {
 		  position: absolute;
@@ -68,6 +69,17 @@
 			justify-content:center;
 		}
 		/* 팀탑바 위한 style 끝*/
+		
+/*  		#back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}		
+		.row.info{
+	    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경과 투명도 조절 */
+	  }  */
+	  
 </style>
 <script type="text/javascript">
     
@@ -96,17 +108,28 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 
 <body>
 
 <jsp:include page="/common/topBar.jsp"/>
+
+
+<!-- <section class="image-header" style="min-height: 0px;height: 0px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/background/background6_2.png" alt="img">
+        </div>	
+	</div>
+</section> -->
+
 <div class="image-container">
   <img class="teamTopBar" src="${team.teamTopBar}">
   <div class="text-overlay"><h1>티켓 구매</h1></div>
 </div>
+
+
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
@@ -126,13 +149,9 @@
     </div>
 </div>	
 
-<div class="broadcast-wrap">
+<div class="content">
    <div class="container">
       <div class="row">
-         <div class="col-md-12">
-             <h4>Upcoming matches</h4>
-             <p>*현재로부터 2주 이내 경기만 예매 가능합니다.</p>                
-         </div>
          <div class="col-md-12">
          <!-- List 시작 -->
          <c:forEach var="list" items="${gameList}">
@@ -165,6 +184,33 @@
 			</c:forEach>
         </div>
      </div>
+  </div>
+  
+  <div class="container">
+  		<div class="row info">
+	  		<div class="col-md-12">
+	  			<h2>예매 안내</h2>
+	  		</div>
+	  		<div class="col-md-12">
+				<p>1. 예매 가능시간 : 경기당일 경기시작시까지</p>
+				<p>2. 예매티켓 취소 가능시간 : 경기시간 1일 전까지 (ex 04.12.14:00 경기인 경우 -> 04.11.24:00까지 취소 가능)</p>
+				<p>3. 현장 매표소 운영시간 : 평일 경기 시작 1시간 30분 전 / 주말,공휴일 경기 시작 2시간 전 시작 (변경 시 별도 공지)</p>
+				<p>4. 예매정책</p> 
+				<p>*매수제한 : 1회 4매</p> 
+				<p>*취소수수료 : 장당 1,000원</p> 
+				
+				<h3>티켓수령 및 입장</h3>
+				<p>1. 경기당일 매표소가 혼잡하오니, 가급적 모바일티켓을 활용하여 편안한 입장을 권장드립니다.</p>
+				<p>*모바일 티켓은 바로 출입구에서 입장이 가능합니다.</p>
+				<p>2. 본인확인이 힘들 경우, 입장권 교환이 불가할 수 있습니다.</p>
+				<p>3. 경기 당일 주차장이 협소하여 사용이 불가할 수 있으니, 가능하면 대중교통 이용 바랍니다.
+				  (주차장 이용 불가로 인한 경기 티켓 교환,환불은 불가합니다)</p>
+				<p>4. 예매하신 티켓의 전매, 위조 등의 위법행위를 엄격히 금지합니다.</p>
+				<p>* 티켓 예매 후 타인에게 재판매하거나 양도/양수 과정에서 예매자의 신상정보를 타인에게 임의로 전달시에는 판매자와 구매자 모두 피해를 입을 수 있습니다. 이로 인한 피해에 대해서는 구단과 구단과 계약된 티켓판매 업체는 일절 책임지지 않습니다.</p>
+				<p>* 예매한 티켓을 순수한 관람 목적이 아닌 재판매의 의도로 예매를 하거나, 티켓의 위조나 변조 등을 통하여 티켓을 판매하는 등의 경우 주최측의 권한으로 사전 통보없이 구매취소 및 강제폐기(압류)할 수 있음을 알려드립니다. </p>
+	  		</div>
+	  	</div>
+	  	<br><br>
   </div>
 </div>
 

@@ -26,6 +26,33 @@
  </style>
   <script type="text/javascript">
     	$(function() {
+    		//유효성 검사
+ 			$('input[name="channelName"]').keyup(function(){
+    			var value = $(this).val();
+    			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+    			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+    			
+    			if(value.length < 3){
+    				$("#channelName").html("3문자 미만입니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("수정")').prop('disabled', true); // 버튼 비활성화
+    			} else if (value.length > 20){
+    				$("#channelName").html("20문자 초과입니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("수정")').prop('disabled', true); // 버튼 비활성화
+    			} else if (!regex.test(value) || specialChars.test(value)){
+    				$("#channelName").html("특수 문자는 불가합니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("수정")').prop('disabled', true); // 버튼 비활성화
+    			} else {
+    				$("#channelName").html("성공");
+					$("#channelName").attr("color", "#4caf50");
+					$('button:contains("수정")').prop('disabled', false); // 버튼 활성화
+    			}
+    		});   		
+    		
+    		
+    		
     		$( "button.btn.btn-default").on("click" , function() {
     			event.preventDefault();
     			var post ={
@@ -61,11 +88,7 @@
     		    // 글머리 기호, 번호매기기, 문단정렬
     		    ['para', ['ul', 'ol', 'paragraph']],
     		    // 줄간격
-    		    ['height', ['height']],
-    		    // 그림첨부, 링크만들기, 동영상첨부
-    		    ['insert',['picture','link','video']],
-    		    // 코드보기, 확대해서보기, 도움말
-    		    ['view', ['codeview','fullscreen', 'help']]
+    		    ['height', ['height']]
     		  ];
     		
   			var setting = {
@@ -138,6 +161,7 @@
 			    <div class="col-sm-10">
 			    	<p>게시물 제목은 50자 이내로만 작성 가능합니다.</p>
 			      <input type="text" class="form-control" name="postTitle" placeholder="게시물 제목을 입력해주세요.">
+			    	<input type="text" 
 			    </div>
 			  </div>
 			  <div class="form-group">

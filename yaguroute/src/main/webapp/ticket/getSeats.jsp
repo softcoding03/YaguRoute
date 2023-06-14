@@ -316,12 +316,12 @@ var ticketNoList="";
 										<input type="hidden" name="seatCode" value="${ticket.seatCode}">
 										<input type="hidden" name="ticketNo" value="${ticket.ticketNo}">
 										<input type="checkbox" name="checkbox" class="filter-check" id="test${status.count}" value="${status.count}">
-										<label for="test${status.count}" />
+										<label for="test${status.count}"/>
 										<hr>
 									</c:when>
 									<c:when test="${ticket.ticketStatus eq 1}">
 										<input checked type="checkbox" name="checkedbox" class="filter-check green" id="test${status.count}">
-										<label for="test${status.count}" />
+										<label for="test${status.count}"/>
 										<hr>
 									</c:when>
 								</c:choose>
