@@ -232,8 +232,9 @@ table {
 }
 
 .image-container {
+	overflow: hidden;
 	position: relative;
-	display: inline-block;
+	display: flex;
 	width: auto;
 	heigth: auto;
 }

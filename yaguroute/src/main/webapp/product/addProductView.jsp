@@ -43,57 +43,65 @@
 			 } else {
 					$("#prodName").html("성공");
 					$("#prodName").attr("color", "#4caf50");
-					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
-				 
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);	 
 				}
 		});
 		
 		$("input[name='prodPrice']").keyup(function(){
 			
 			var value = $(this).val();
-			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
-				
+			var specialChars = /[~`!@#$%^&*()\-=+|<>?]/g;  //거르고 싶은 특수문자
+			var numericRegex = /^[0-9]+$/;
+			
 			 if(value.length < 1 || value == null){
 					$("#prodPrice").html("최소글자(1)이상을 입력하여야합니다.");
 					$("#prodPrice").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
-			 } else if (value.length > 11) {
-					$("#prodPrice").html("최대글자(11)을 초과하였습니다.");
+			 } else if (value.length > 100) {
+					$("#prodPrice").html("최대글자(100)을 초과하였습니다.");
 					$("#prodPrice").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
 			 } else if (specialChars.test(value)) {
 					$("#prodPrice").html("특수문자는 입력할 수 없습니다.");
 					$("#prodPrice").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
-			 } else {
+			 } else if (!numericRegex.test(value)) {
+				 	$("#prodPrice").html("숫자만 입력할 수 있습니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화	
+			 }	else {
 					$("#prodPrice").html("성공");
 					$("#prodPrice").attr("color", "#4caf50");
-					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);	 
 				}
 		});
 
 		$("input[name='prodStock']").keyup(function(){
 			
 			var value = $(this).val();
-			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
-				
+			var specialChars = /[~`!@#$%^&*()\-=+|<>?]/g;  //거르고 싶은 특수문자
+			var numericRegex = /^[0-9]+$/; // 숫자만 입력
+			
 			 if(value.length < 1 || value == null){
 					$("#prodStock").html("최소글자(1)이상을 입력하여야합니다.");
 					$("#prodStock").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
-			 } else if (value.length > 11) {
-					$("#prodStock").html("최대글자(11)을 초과하였습니다.");
+			 } else if (value.length > 100) {
+					$("#prodStock").html("최대글자(100)을 초과하였습니다.");
 					$("#prodStock").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
 			 } else if (specialChars.test(value)) {
 					$("#prodStock").html("특수문자는 입력할 수 없습니다.");
 					$("#prodStock").attr("color", "#dc3545");
 					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
-			 } else {
+			 } else if (!numericRegex.test(value)) {
+				 	$("#prodStock").html("숫자만 입력할 수 있습니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화	
+			 }else {
 					$("#prodStock").html("성공");
 					$("#prodStock").attr("color", "#4caf50");
-					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
-				 
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);	 
 				}
 
 		});
