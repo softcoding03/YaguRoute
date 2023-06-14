@@ -129,7 +129,7 @@ $(function() {
                         
                     </table>
                     
-                    		<button id="commit" type="button" class="btn btn-warning">확인(목록으로)</button>
+                    		<button id="commit" type="button" class="btn btn-warning">확인</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -150,8 +150,7 @@ $(function() {
         </div>
     </div>
 </section>
-        
-
+       
                       
 <!--PLAYER STATS END-->
    
