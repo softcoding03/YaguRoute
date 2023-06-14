@@ -74,12 +74,21 @@ $(function() {
 
 <body bgcolor="#ffffff" text="#000000">
 	<!-- ToolBar Start /////////////////////////////////////-->
-<jsp:include page="/common/topBar.jsp"/>
+  <jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
-	<!--  화면구성 div Start /////////////////////////////////////-->
+				<!--BREADCRUMBS BEGIN-->
+
+						      <div class="col-md-8" style="margin-top: 60px; margin-left:30px;">
+						        <div class="info">
+						          <div class="wrap">
+						            <h1>상품배송관리</h1>
+						          </div>
+						        </div>
+						      </div>
 
 
+				<!--BREADCRUMBS END-->
 
 
 <div style="width:98%; margin-left:10px;">
@@ -153,7 +162,7 @@ $(function() {
 				    <a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=2">배송시작</a>
 				  </c:if>
 				</td>
-		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
+		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>	
 		<td align="left">
 				<c:choose>
 			    <c:when test="${tranDetail.refundStatusCode eq 2}">
@@ -171,8 +180,14 @@ $(function() {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-	   
 	
+
+    	</td>
+	</tr>
+</table>
+<!--  페이지 Navigator 끝 -->
+
+</form>
 			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 			
 					<!-- PageNavigation Start... -->
@@ -181,14 +196,6 @@ $(function() {
 				</jsp:include>
 				<!-- PageNavigation End... -->
 						
-	
-    	</td>
-	</tr>
-</table>
-<!--  페이지 Navigator 끝 -->
-
-</form>
-
 </div>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

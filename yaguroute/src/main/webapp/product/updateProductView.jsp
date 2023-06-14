@@ -19,81 +19,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-<style>
-
-.player-trophy li img {
-  width: 50%;
-  height: 50%;
-  object-fit: contain;
-}
-
-.background-section {
-  display: inline-block;
-  text-align: center;
-  
-}
-.addProduct-submit {
-	background-color: #77af9c; /* 배경색 설정 */
-	color: white; /* 글자색 설정 */
-	border: none; /* 테두리 제거 */
-	padding: 10px 20px; /* 안쪽 여백 설정 */
-	font-size: 16px; /* 글자 크기 설정 */
-	cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
-}
-
-.addProduct-submit:hover {
-	background-color: #4CAF50; /* 마우스 오버 시 배경색 변경 */
-}
-
-</style>
-
-<style>
-.custom-file-input {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #4CAF50;
-  border-radius: 4px;
-  padding: 8px 12px;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.custom-file-input:hover {
-  background-color: #f0d264;
-}
-
-.custom-file-input span {
-  font-weight: bold;
-}
-
-.custom-file-input input[type="file"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.addProduct-submit {
-  border-radius: 20px;
-   background-color: #7fccde;
-  color: white;
-  font-size: 16px;
-  border: none;
-}
 
 
-</style>
 
 
 <script type="text/javascript">
 
-$(function() {
+$(function(prodNo) {
 	
 	//유효성 체크 시작
 	$("input[name='prodName']").keyup(function(){
@@ -144,7 +76,6 @@ $(function() {
 				$("#prodPrice").html("성공");
 				$("#prodPrice").attr("color", "#4caf50");
 				$(".addProduct-submit:contains('수정')").prop('disabled', false);  
-
 			}
 	});
 
@@ -172,7 +103,6 @@ $(function() {
 				$(".addProduct-submit:contains('수정')").prop('disabled', false);  
 			 
 			}
-
 	});
 	
 	function fncUpdateProduct(prodNo) {
@@ -205,43 +135,97 @@ $(function() {
 			return;
 		}
 
-
  		$("form").attr("enctype", "multipart/form-data").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
 
 	}
 		
 	$(function() {
 		  // 수정 버튼 클릭 이벤트 처리
-		  $("#updateProduct").on("click", function() {
+		  $(".addProduct-submit:contains('수정')").on("click", function() {
 			  var prodNo = $("#prodNo").val();
 		    fncUpdateProduct(prodNo);
 		  });
-		  
+			  
 		});
-
-});
+	
+	});
 
 </script>
 
 </head>
+
+<style>
+
+.addProduct-submit:hover {
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
+}
+
+.addProduct-submit {
+  border-radius: 20px;
+  background-color: #E0F7E7;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  color: #000000; /* 글자색 설정 */
+}
+#back-img {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('https://cdn.pixabay.com/photo/2018/10/28/13/22/baseball-3778774_1280.png');
+  background-size: 900px;
+  background-repeat: no-repeat;
+  background-position:  center;
+  opacity: 0.5;
+}
+	.transparency{
+		background-color: rgba(256,256,256,0.3);
+		margin: 0 auto;
+	}
+		/* background-color: rgba(0,0,0,0.6); */
+	.item {
+    justify-content: center;
+    align-items: center;
+	width:100%;
+	}
+	
+	.rounded-input {
+  border-radius: 20px;
+}
+
+.rounded-select {
+  border-radius: 50px;
+}
+
+	
+</style>
+
+
+
+
 <body bgcolor="#ffffff" text="#000000">
 	 <!-- ToolBar Start /////////////////////////////////////-->
 	 <jsp:include page="/common/topBar.jsp"/>
 	 <!-- ToolBar End /////////////////////////////////////-->
 				
-				<!--상단 이미지 바-->
-							
-
-				<!--상단 이미지 바-->
-
+    <div class="row">
+      <div class="col-md-12">
+        <div id="back-img"></div>
+      </div>
+</div>
 				<!--CHECKOUT WRAP BEGIN-->
 <section class="hockey-stats">
-		   <div class="container">
+		   <div class="container" style="display: flex; justify-content: center;">
 		   <br>
-		      <div class="row">
-			        <h3 style="text-align: center;"> Update Product Information</h3>
-			    <div class="container" style="border: 2px solid #000; padding: 10px; width: 600px; border-radius: 10px;">
-				<div class="col-md-12" >
+				  <div class="row">
+				  <div class="transparency" >
+					 <h3 class="title" style="text-align: center; margin: 20 auto; font-weight: bold;">상품 수정</h3>
+					 <br>
+						<div class="container" style="border: 3px; padding: 10px; width: 600px; border-radius: 10px; 
+                              margin-top: 50px; margin-left: auto;
+                              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
 
 					<div class="customer-info">
 						<form>
@@ -249,10 +233,10 @@ $(function() {
 					    <br>
 							<div class="row">
 
-								<div class="col-md-9">
+								<div class="col-md-12">
 									<div class="item">
 										<label> <span>상품명<i>*</i></span> 
-										<input type="text" placeholder="상품명을 입력하세요" name="prodName" value="${product.prodName }">
+										<input type="text" placeholder="상품명을 입력하세요" name="prodName" value="${product.prodName }" class="rounded-input" />
 										</label>
 									</div>
 								</div>
@@ -260,7 +244,7 @@ $(function() {
 								<div class="col-md-12">
 									<div class="item">
 								<label>
-								  <span>상품 이미지</span>
+								  <span>상품 이미지<i>*</i></span> 
 								  <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; background-color: #f0f0f0;">
 								</label>
 							
@@ -268,63 +252,46 @@ $(function() {
 						</div>
 							
 
-								<div class="col-md-9">
-									<div class="item">
-										<label> <span>가격 <i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice"value="${product.prodPrice }">
-										</label>
-									</div>
-								</div>
 
-								<div class="col-md-5">
-									<div class="item">
-										<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
-												<option value="0"
-													${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
-												<option value="1"
-													${ product.prodCategory ==1 ? "selected" : ""}>유니폼</option>
-												<option value="2"
-													${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
-												<option value="3"
-													${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
-												<option value="4"
-													${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
-										</select>
-										</label>
-									</div>
-								</div>
+			<div class="col-md-12">
+			    <div class="item">
+			        <label><span>가격<i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice" value="${product.prodPrice}" class="rounded-input" /></label>
+			    </div>
+			</div>
+			
+			<div class="col-md-6">
+			    <div class="item">
+			        <label><span>상품카테고리<i>*</i></span> <select class="basic rounded-select" name="prodCategory">
+			            <option value="0" ${product.prodCategory == 0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
+			            <option value="1" ${product.prodCategory == 1 ? "selected" : ""}>유니폼</option>
+			            <option value="2" ${product.prodCategory == 2 ? "selected" : ""}>모자</option>
+			            <option value="3" ${product.prodCategory == 3 ? "selected" : ""}>야구용품</option>
+			            <option value="4" ${product.prodCategory == 4 ? "selected" : ""}>잡화</option>
+			        </select></label>
+			    </div>
+			</div>
+			
+			<div class="col-md-6">
+			    <div class="item">
 
-								<div class="col-md-4">
+			        <label><span>구단<i>*</i></span> <select class="basic rounded-select" name="prodTeamCode">
+			            <option value="NN" ${product.prodTeamCode == 'NN' ? 'selected' : ''}>구단을 선택하세요</option>
+			            <option value="OB" ${product.prodTeamCode == 'OB' ? 'selected' : ''}>두산베어스</option>
+			            <option value="LT" ${product.prodTeamCode == 'LT' ? 'selected' : ''}>롯데자이언츠</option>
+			            <option value="LG" ${product.prodTeamCode == 'LG' ? 'selected' : ''}>LG트윈스</option>
+			            <option value="KT" ${product.prodTeamCode == 'KT' ? 'selected' : ''}>KT위즈</option>
+			            <option value="HT" ${product.prodTeamCode == 'HT' ? 'selected' : ''}>기아타이거즈</option>
+			            <option value="SK" ${product.prodTeamCode == 'SK' ? 'selected' : ''}>SSG랜더스</option>
+			            <option value="NC" ${product.prodTeamCode == 'NC' ? 'selected' : ''}>NC다이노스</option>
+			            <option value="WO" ${product.prodTeamCode == 'WO' ? 'selected' : ''}>키움히어로즈</option>
+			            <option value="SS" ${product.prodTeamCode == 'SS' ? 'selected' : ''}>삼성라이온즈</option>
+			            <option value="HH" ${product.prodTeamCode == 'HH' ? 'selected' : ''}>한화이글스</option>
+			        </select></label>
+			    </div>
+			</div>
+								<div class="col-md-12">
 									<div class="item">
-										<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
-												<option value="OB"
-													${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
-												<option value="LT"
-													${ product.prodTeamCode ==LT ? "selected" : ""}>롯데자이언츠</option>
-												<option value="LG"
-													${ product.prodTeamCode ==LG ? "selected" : ""}>LG트윈스</option>
-												<option value="KT"
-													${ product.prodTeamCode ==KT ? "selected" : ""}>KT위즈</option>
-												<option value="HT"
-													${ product.prodTeamCode ==HT ? "selected" : ""}>기아타이거즈</option>
-												<option value="SK"
-													${ product.prodTeamCode ==SK ? "selected" : ""}>SSG랜더스</option>
-												<option value="NC"
-													${ product.prodTeamCode ==NC ? "selected" : ""}>NC다이노스</option>
-												<option value="WO"
-													${ product.prodTeamCode ==WO ? "selected" : ""}>키움히어로즈</option>
-												<option value="SS"
-													${ product.prodTeamCode ==SS ? "selected" : ""}>삼성라이온즈</option>
-												<option value="HH"
-													${ product.prodTeamCode ==HH ? "selected" : ""}>한화이글스</option>
-												<option value="NN"
-													${ product.prodTeamCode ==NN ? "selected" : ""}>구단을 선택하세요</option>
-										</select>
-										</label>
-									</div>
-								</div>
-								<div class="col-md-9">
-									<div class="item">
-										<label> <span>상품재고 <i>*</i></span> <input type="text" placeholder="수량을 입력하세요" name="prodStock" value="${product.prodStock }">
+										<label> <span>상품재고 <i>*</i></span> <input type="text" placeholder="수량을 입력하세요" name="prodStock" value="${product.prodStock }" class="rounded-input" />
 										</label>
 									</div>
 								</div>
@@ -340,7 +307,7 @@ $(function() {
 
 	<div class="col-md-12 text-center">
 		<br>
-	    <button class="addProduct-submit" type="button" id="updateProduct"> 수정 </button>
+	    <button class="addProduct-submit" type="button"> 수정 </button>
 		<button class="addProduct-submit" type="button"> 취소 </button>
 	</div>
 	<br>

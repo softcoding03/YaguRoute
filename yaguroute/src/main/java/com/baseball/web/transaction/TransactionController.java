@@ -191,7 +191,7 @@ public class TransactionController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		search.setPageSize(8);
 		System.out.println("데이터가 들어간" + search);
 		
 		User user = (User)session.getAttribute("user");
