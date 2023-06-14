@@ -70,6 +70,7 @@
 	.transparency{
 		background-color: rgba(256,256,256,0.9);
 		/* background-color: rgba(0,0,0,0.6); */
+		
 	}
 	.background {
 		  display: flex;

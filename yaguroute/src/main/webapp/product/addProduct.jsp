@@ -8,15 +8,17 @@
 <html>
 
 <head>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+	<meta charset="UTF-8">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>	
 <title>addProduct</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <script type="text/javascript">
 	$(function() {
@@ -47,224 +49,56 @@
 		font-size: 16px;
 	}
 
-	h3 {
-		font-size: 24px;
-		color: #333;
-		margin-bottom: 20px;
-	}
-
-	#productData {
-		background-color: #fff;
-		padding: 20px;
-		border-radius: 8px;
-	}
-
-	#productData div {
-		margin-bottom: 10px;
-	}
-
-	#productData span {
-		font-weight: bold;
-	}
-
-	#productData div:first-child {
-		margin-top: 0;
-	}
-
-	#productData div:last-child {
-		margin-bottom: 0;
-	}
-	
-	
-	* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: #eaedf1;
-  font-family: 'Lato', sans-serif;
-}
-.header {
-  background: white;
-  padding: 30px;
-  text-align: center;
-}
-.header h1 {
-  font-weight: 300;
-  display: inline;
-}
-h2 {
-  color: #89867e;
-  text-align: center;
-  font-weight: 300;
-}
-.color {
-  width: 350px;
-  margin: 0 auto;
-}
-.color li {
-  margin: 0 15px 0 0;
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  border-radius: 100%;
-}
-.color .red    {background: #fa5a5a;}
-.color .yellow {background: #f0d264;}
-.color .green  {background: #82c8a0;}
-.color .cyan   {background: #7fccde;}
-.color .blue   {background: #6698cb;}
-.color .purple {background: #cb99c5;}
-
-.content, 
-.content-gradient, 
-.content-3d {
-  margin: 40px auto;
-}
-
-.container {
-  border: 5px solid transparent;
-  border-radius: 50px;
-  padding: 20px;
-}
-.content {
-  width: 80%;
-  max-width: 700px;
-}
-.content-3d {
-  width: 50%;
-  max-width: 300px;
-}
-pre {
+#back-img {
+  position: fixed;
   width: 100%;
-  padding: 30px;
-  background-color: rgba(0, 0, 0, 0.72);
-  color: #f8f8f2;
-  border-radius: 0 0 4px 4px;
-  margin-top: 20px;
-  white-space: pre-wrap; /* css-3 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: break-word; /* Internet Explorer 5.5+ */
-}
-pre .bt  {color: #f8f8f2;} /* <> */
-pre .anc {color: #f92672;} /* anchor tag */
-pre .att {color: #a6a926;} /* attribute */
-pre .val {color: #e6db74;} /* value */
-
-.btn-container, .container {
-  background-color: white;
-  border-radius: 4px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-.container h2 {
-  padding-top: 30px;
-  font-weight: 300;
-}
-.btn, .btn-two {
-  margin: 9px;
-}
-.btn-gradient {
-  margin: 5px;
-}
-a[class*="btn"] {text-decoration: none;}
-input[class*="btn"], 
-button[class*="btn"] {border: 0;}
-
-/* Here you can change the button sizes */
-.btn.large, 
-.btn-two.large, 
-.btn-effect.large {
-  padding: 20px 40px; 
-  font-size: 22px;
-}
-.btn.small, 
-.btn-two.small, 
-.btn-gradient.small, 
-.btn-effect.small {
-  padding: 8px 18px;  
-  font-size: 14px;
-}
-.btn.mini, 
-.btn-two.mini, 
-.btn-gradient.mini, 
-.btn-effect.mini {
-  padding: 4px 12px;  
-  font-size: 12px;
-}
-.btn.block, 
-.btn-two.block, 
-.btn-gradient.block, 
-.btn-effect.block {
-  display: block;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-.btn-gradient.large {
-  padding: 15px 45px; 
-  font-size: 22px;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('/images/product/baseaballStradium.png');
+  background-size: 800px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0.4;
 }
 
-/* Colors for .btn and .btn-two */
-.btn.blue, .btn-two.blue     {background-color: #7fb1bf;}
-.btn.green, .btn-two.green   {background-color: #9abf7f;}
-.btn.red, .btn-two.red       {background-color: #fa5a5a;}
-.btn.purple, .btn-two.purple {background-color: #cb99c5;}
-.btn.cyan, .btn-two.cyan     {background-color: #7fccde;}
-.btn.yellow, .btn-two.yellow {background-color: #f0d264;}
-
-.rounded {
-  border-radius: 10px;
+	.transparency{
+		background-color: rgba(256,256,256,0.3);
+		width:100%;
+		height: 100%;
+		margin: 0 auto;
+	}
+		.item {
+    justify-content: center;
+    align-items: center;
+	width:100%;
+	}
+.addProduct-submit:hover {
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
 }
 
-/* default button style */
-.btn {
-  position: relative;
-  border: 0;
-  padding: 15px 25px;
-  display: inline-block;
-  text-align: center;
+.addProduct-submit {
+  border-radius: 20px;
+  background-color: #E0F7E7;
   color: white;
-}
-.btn:active {
-  top: 4px; 
-}
-
-/* color classes for .btn */
-.btn.blue {box-shadow: 0px 4px #74a3b0;}
-.btn.blue:active {box-shadow: 0 0 #74a3b0; background-color: #709CA8;}
-
-.btn.green {box-shadow: 0px 4px 0px #87a86f;}
-.btn.green:active {box-shadow: 0 0 #87a86f; background-color: #87a86f;}
-
-.btn.red {box-shadow:0px 4px 0px #E04342;}
-.btn.red:active {box-shadow: 0 0 #ff4c4b; background-color: #ff4c4b;}
-
-.btn.purple {box-shadow:0px 4px 0px #AD83A8;}
-.btn.purple:active {box-shadow: 0 0 #BA8CB5; background-color: #BA8CB5;}
-
-.btn.cyan {box-shadow:0px 4px 0px #73B9C9;}
-.btn.cyan:active {box-shadow: 0 0 #73B9C9; background-color: #70B4C4;}
-
-.btn.yellow {box-shadow:0px 4px 0px #D1B757;}
-.btn.yellow:active {box-shadow: 0 0 #ff4c4b; background-color: #D6BB59;}
-
-
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  color: #000000; /* 글자색 설정 */
+}	
 </style>
 
 
 <body>
 
-<br><br>
-<div class="container">
-	<div class="col-md-12">
-	
-	<h3 style="font-family: 'Open Sans', sans-serif;">상품등록이 완료되었습니다</h3>
-
+  <div class="row">
+	 <div class="col-md-12">
+		  <div id="back-img"></div>
+		      </div>
+		    </div>
+	<section class="hockey-stats">	    
+			<div class="container">
+				<div class="transparency col-md-12"  >
+					<h3 style="font-family: 'Open Sans', sans-serif;">상품등록이 완료되었습니다</h3>
 
 	<hr style="border: none; border-top: 1px solid #000; margin-top: 10px;">
 
@@ -390,16 +224,19 @@ button[class*="btn"] {border: 0;}
 	</td>
 </tr>
 
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-<div class="text-center" style="margin-top: 10px;">
-	<div class="col-md-12 d-flex justify-content-center">
-		<a href="#" class="btn cyan rounded" id="addProduct">확인</a>
-		<a href="#" class="btn yellow rounded" id="addProductPlus">추가등록</a>
-	</div>
-</div>
 </table>
+</div>
+</div>
+
+	<div class="col-md-12 text-center">
+		<br>
+	    <button class="addProduct-submit" type="button"> 등록 </button>
+		<button class="addProduct-submit" type="button"> 취소 </button>
+	</div>
+
+
+
+</section>
 
 </body>
 </html>

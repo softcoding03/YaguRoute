@@ -243,6 +243,7 @@ public class TransactionController {
 		return "forward:/transaction/dlvyTranList.jsp";
 	}
 	
+		
 	
 	@RequestMapping("updateTranStatusCode")
 	public ModelAndView updateTranStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {

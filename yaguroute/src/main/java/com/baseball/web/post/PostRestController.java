@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baseball.common.util.S3Uploader;
 import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
 import com.baseball.service.post.PostService;
@@ -69,6 +70,13 @@ public class PostRestController {
 		@Qualifier("userServiceImpl")
 		private UserService userService;
 		
+	    private S3Uploader s3Uploader;
+	    
+	    @Autowired
+	    public void setS3Uploader(S3Uploader s3Uploader) {
+	        this.s3Uploader = s3Uploader;
+	    }
+		
 		public PostRestController(){
 			System.out.println(this.getClass());
 		}
@@ -100,36 +108,36 @@ public class PostRestController {
 		
 		@RequestMapping(value="uploadSummernoteImageFile", produces = "application/json; charset=utf8")
 		@ResponseBody
-		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request )  {
-			JsonObject jsonObject = new JsonObject();
-			
-	        /*
+		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request ) throws Exception  {
+			/*
 			 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
-			 */
-			
 			// 내부경로로 저장
-			String contextRoot = request.getServletContext().getRealPath("/");
-			System.out.println("contextRoot ?? "+contextRoot);
-			String fileRoot = contextRoot+"/images/fileupload/";
-			
+			 * String contextRoot = request.getServletContext().getRealPath("/");
+			 * System.out.println("contextRoot ?? "+contextRoot); String fileRoot =
+			 * contextRoot+"/images/fileupload/";
+			 * File targetFile = new File(fileRoot + savedFileName); try { InputStream
+			 * fileStream = multipartFile.getInputStream();
+			 * FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+			 * contextroot + resources + 저장할 내부 폴더명 jsonObject.addProperty("responseCode",
+			 * "success");
+			 * } catch (IOException e) { FileUtils.deleteQuietly(targetFile); //저장된 파일 삭제
+			 * jsonObject.addProperty("responseCode", "error"); e.printStackTrace(); }
+			 */
+			JsonObject jsonObject = new JsonObject();
+
+			System.out.println("uploadSummernoteImageFile 시작 ");
 			String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-			String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+			String savedFileName = UUID.randomUUID().toString() + extension;	//저장될 파일 명
+			System.out.println("savedFileName ?"+savedFileName);
 			
-			File targetFile = new File(fileRoot + savedFileName);	
-			try {
-				InputStream fileStream = multipartFile.getInputStream();
-				FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-				jsonObject.addProperty("url", "/images/fileupload/"+savedFileName); // contextroot + resources + 저장할 내부 폴더명
-				jsonObject.addProperty("responseCode", "success");
-					
-			} catch (IOException e) {
-				FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-				jsonObject.addProperty("responseCode", "error");
-				e.printStackTrace();
-			}
-			String a = jsonObject.toString();
-			return a;
+			String fileName = "postimage/"+savedFileName;
+			String resultURL = s3Uploader.uploadFiles(multipartFile, fileName);
+			System.out.println("resultURL ? "+resultURL); //오브젝트스토리지 올라간 파일 총 경로
+	        
+			jsonObject.addProperty("url", resultURL);
+			String result = jsonObject.toString();
+			return result;
 		}
 		
 		//새 창 띄우고 끄기 위해 ajax로 동작

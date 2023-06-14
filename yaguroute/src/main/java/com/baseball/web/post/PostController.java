@@ -162,7 +162,7 @@ public class PostController {
 			//Best 3 게시물 조회
 			List<Post> bestList = postService.getPostBestList(teamCode);
 			for(Post post:bestList) {
-				System.out.println("bestPost ?"+post);
+				//System.out.println("bestPost ?"+post);
 			}
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
@@ -183,7 +183,7 @@ public class PostController {
 			//공지사항 조회
 			List<Post> noticeList = postService.getNoticeList(teamCode);
 			for(Post post:noticeList) {
-				System.out.println("noticePost ?"+post);
+				//System.out.println("noticePost ?"+post);
 			}
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
