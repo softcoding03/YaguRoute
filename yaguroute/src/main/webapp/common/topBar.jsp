@@ -76,11 +76,20 @@ img.logo{
                             <li><a href="/player/listBestPlayer"><span class="topbar">이 주의 선수</span></a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span class="topbar">티켓 예매</span></a>
+                    <li><a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span class="topbar">티켓 예매</span></a>
+                        <ul>
+                        	<li><a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span class="topbar">티켓 예매</span></a></li>
+                        	<li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span class="topbar">티켓 예매내역 조회</span></a></li>
+                        </ul>
                     </li>
                     <li><a href="/product/salesProdList?prodTeamCode=ALL"><span class="topbar">상점</span></a></li>
-                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span class="topbar">커뮤니티 게시판</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span class="topbar">커뮤니티 게시판</span></a>
+                    		<ul>
+                        	<li><a href="/post/getPostList?teamCode=${user.teamCode}"><span class="topbar">내 팀 게시판</span></a></li>
+                        	<li><a href="/post/getMyPostList"><span class="topbar">내가 작성한 게시물</span></a></li>
+                        	<li><a href="/post/getNoticeList?teamCode=${user.teamCode}"><span class="topbar">공지사항</span></a></li>
+                        </ul>
+                    </li>
                     <c:if test="${user.role eq 'admin'}">
 	                    <li><a href="/admin/getAdmin.jsp"><span class="topbar">관리자페이지</span></a>
 	                        <ul>
@@ -97,7 +106,7 @@ img.logo{
                         <ul>
                         	<li><a href="/users/getUser"><span class="topbar">내 정보 보기</span></a></li>
                             <li><a href="/transaction/listTransaction"><span class="topbar">상품구매목록조회</span></a></li>
-                            <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span class="topbar">티켓예매내역조회</span></a></li>
+                            
                         </ul>
                     </li>
                     <li class="cart full">

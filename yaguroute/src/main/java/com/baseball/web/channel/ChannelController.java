@@ -126,28 +126,20 @@ public class ChannelController {
 	
 	//getChannel => 스트리밍 리스트에서 들어올 때
 	@GetMapping("getChannel")
-	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID,
-			HttpSession session) throws Exception{
+	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID) throws Exception{
 		System.out.println("getChannel Start...");
-		
-		User user = (User)session.getAttribute("user");
 		Channel channel = channelService.getChannel(channelID);
 		
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
-		if(user.getRole().equals("user")) {
-			Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
-			GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
+
+		Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
+		GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
 			
-			modelAndView.addObject("channel", channel);
-			modelAndView.addObject("lineUp", lineUp);
-			modelAndView.addObject("gameRecord", gameRecord);
-			modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
-		} else {
-			modelAndView.addObject("channel", channel);
-			modelAndView.setViewName("forward:/channel/getChannel.jsp");
-		}
+		modelAndView.addObject("channel", channel);
+		modelAndView.addObject("lineUp", lineUp);
+		modelAndView.addObject("gameRecord", gameRecord);
+		modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
+
 		
 		System.out.println("getChannel End...");
 		return modelAndView;

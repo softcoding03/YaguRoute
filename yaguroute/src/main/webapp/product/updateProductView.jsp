@@ -93,6 +93,87 @@
 
 <script type="text/javascript">
 
+$(function() {
+	
+	//유효성 체크 시작
+	$("input[name='prodName']").keyup(function(){
+		
+		var value = $(this).val();
+		var specialChars = /[~`!@#$%^&*()\-=+|<>?]/g;  //거르고 싶은 특수문자
+			
+		 if(value.length < 1 || value == null){
+				$("#prodName").html("최소글자(1)이상을 입력하여야합니다.");
+				//alert("최소글자(1)이상을 입력하여야합니다.");
+				$("#prodName").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (value.length > 100) {
+				$("#prodName").html("최대글자(100)을 초과하였습니다.");
+				$("#prodName").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (specialChars.test(value)) {
+				$("#prodName").html("특수문자는 입력할 수 없습니다.");
+				$("#prodName").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화		
+		 } else {
+				$("#prodName").html("성공");
+				$("#prodName").attr("color", "#4caf50");
+				$(".addProduct-submit:contains('수정')").prop('disabled', false);  
+			 
+			}
+	});
+	
+	$("input[name='prodPrice']").keyup(function(){
+		
+		var value = $(this).val();
+		var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+			
+		 if(value.length < 1 || value == null){
+				$("#prodPrice").html("최소글자(1)이상을 입력하여야합니다.");
+				alert("최소글자(1)이상을 입력하여야합니다.");
+				$("#prodPrice").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (value.length > 11) {
+				$("#prodPrice").html("최대글자(11)을 초과하였습니다.");
+				$("#prodPrice").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (specialChars.test(value)) {
+				$("#prodPrice").html("특수문자는 입력할 수 없습니다.");
+				$("#prodPrice").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화		
+		 } else {
+				$("#prodPrice").html("성공");
+				$("#prodPrice").attr("color", "#4caf50");
+				$(".addProduct-submit:contains('수정')").prop('disabled', false);  
+
+			}
+	});
+
+	$("input[name='prodStock']").keyup(function(){
+		
+		var value = $(this).val();
+		var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+			
+		 if(value.length < 1 || value == null){
+				$("#prodStock").html("최소글자(1)이상을 입력하여야합니다.");
+				alert("최소글자(1)이상을 입력하여야합니다.");
+				$("#prodStock").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (value.length > 11) {
+				$("#prodStock").html("최대글자(11)을 초과하였습니다.");
+				$("#prodStock").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화
+		 } else if (specialChars.test(value)) {
+				$("#prodStock").html("특수문자는 입력할 수 없습니다.");
+				$("#prodStock").attr("color", "#dc3545");
+				$(".addProduct-submit:contains('수정')").prop('disabled', true); // 버튼 비활성화		
+		 } else {
+				$("#prodStock").html("성공");
+				$("#prodStock").attr("color", "#4caf50");
+				$(".addProduct-submit:contains('수정')").prop('disabled', false);  
+			 
+			}
+
+	});
 	
 	function fncUpdateProduct(prodNo) {
 
@@ -124,20 +205,21 @@
 			return;
 		}
 
-		console.log(prodNo);
+
  		$("form").attr("enctype", "multipart/form-data").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
-		}
+
+	}
 		
 	$(function() {
 		  // 수정 버튼 클릭 이벤트 처리
 		  $("#updateProduct").on("click", function() {
 			  var prodNo = $("#prodNo").val();
-			  console.log(prodNo);
 		    fncUpdateProduct(prodNo);
 		  });
+		  
 		});
 
-	
+});
 
 </script>
 

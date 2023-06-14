@@ -1,6 +1,9 @@
 package com.baseball.service.channel.impl;
 
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.json.simple.JSONObject;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.baseball.service.channel.ChannelDao;
 import com.baseball.service.channel.ChannelRestDao;
 import com.baseball.service.channel.ChannelRestService;
 import com.baseball.service.domain.Channel;
@@ -19,6 +23,10 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 	@Autowired
 	@Qualifier("channelRestDaoImpl")
 	private ChannelRestDao channelRestDao;
+	
+	@Autowired
+	@Qualifier("channelDao")
+	private ChannelDao channelDao;
 	
 	//Constructor
 	public ChannelRestServiceImpl() {
@@ -38,18 +46,36 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 		Channel returnData = channelRestDao.addChannel(channel);
 		
 		Map<String, Object> map = channelRestDao.getChannel(returnData.getChannelID());
-		
 		String streamKey = map.get("streamKey").toString();
 		String streamURL = map.get("streamURL").toString();
 		returnData.setStreamKey(streamKey);
 		returnData.setStreamURL(streamURL);
 		
+		//채널 상태 확인				
+		//String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());	
+		//returnData.setChannelCDN(data);
+		
+		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+		executorService.scheduleAtFixedRate(() -> {
+		    try {
+				if (channelRestDao.getChannelStatus(returnData.getChannelID()).get("cdnStatus").equals("running")) {
+				    String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());
+				    returnData.setChannelCDN(data);
+				    channelDao.updateChannelCdn(returnData);
+				    executorService.shutdown();  // 작업이 완료되면 executorService 종료
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}, 0, 1, TimeUnit.MINUTES);
+		
+		//Thread.sleep(360000);
+		//String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());
+		//returnData.setChannelCDN(data);
+		
 		System.out.println("returnData Info : "+returnData.toString());
-		
-		Thread.sleep(360000);
-		String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());	
-		returnData.setChannelCDN(data);
-		
 		return returnData;
 	}
 
@@ -79,8 +105,8 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 	}
 	
 	@Override
-	public String getChannelStatus(String ChannelID) throws Exception{
-		String channelStatus = channelRestDao.getChannelStatus(ChannelID);
+	public Map<String, Object> getChannelStatus(String ChannelID) throws Exception{
+		Map<String, Object> channelStatus = channelRestDao.getChannelStatus(ChannelID);
 		return channelStatus;
 	}
 	

@@ -21,5 +21,7 @@ public interface ChannelDao {
 	
 	public void updateChannelGameCode (Channel channel) throws Exception;
 	
+	public void updateChannelCdn (Channel channel) throws Exception;
+	
 	public Channel getChannelGameCode(String gameCode) throws Exception;
 }

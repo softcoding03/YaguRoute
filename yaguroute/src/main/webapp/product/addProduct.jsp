@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		$("#addProduct").on('click', function() {
+		$("#addProduct-submit").on('click', function() {
 			self.location = "/product/listProduct?prodTeamCode="+$("#prodTeamCode").val();
 		})
 
@@ -116,8 +117,8 @@
 		<tr>
 			<td width="104" class="ct_write">가격 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
 			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">${product.prodPrice}&nbsp;원</td>
+			<td bgcolor="D6D6D6" width="1"></td>       			
+			<td class="ct_write01"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</td>
 		</tr>
 
 <%-- 
@@ -230,8 +231,7 @@
 
 	<div class="col-md-12 text-center">
 		<br>
-	    <button class="addProduct-submit" type="button"> 등록 </button>
-		<button class="addProduct-submit" type="button"> 취소 </button>
+	    <button class="addProduct-submit" id="addProduct-submit"type="button"> 확인 </button>
 	</div>
 
 

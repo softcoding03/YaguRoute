@@ -46,19 +46,23 @@
 		  display: inline-block;
 		  width: 100%;
 		}
+		section.h1{
+			display:flex;
+			justify-content:center;
+		}		
 		h1{
 		color: white;
+		position: relative;
+  		z-index: 9900;
+		font-family:"Gwangyang";
 		}
-	  /*row 내부 속성 가운데 정렬 */
-	  .row { 
-	  	display:flex;
-	  	justify-content:right;
+	  	.row-align {
+	    display: flex;
+	    align-items: center;
 	  }
-	  
 	  div.emote{
 	  	text-align: center;
 	  }
-	  
 	  button.thumbs-btn{
 	  		width:30px;
 	  }
@@ -70,8 +74,19 @@
 		  overflow: hidden;
 		}
 	  .row-offcanvas {
-	    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경과 투명도 조절 */
+	    background-color: rgba(217, 217, 217, 0.8); /* 흰색 배경과 투명도 조절 */
 	  }
+	  //따라다니는 퀵메뉴
+		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+		a {text-decoration:none;}
+		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
+		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
+		.quickmenu ul li a:hover {color:#000;}
+		.quickmenu ul li:last-child {border-bottom:0;}
+		.content {position:relative;min-height:1000px;}		
+		.quickmenu .submenu {display: none;}
 	 </style>
     
     <script type="text/javascript">
@@ -210,9 +225,23 @@ var postNo;
 	 		}
 		});
 	});
-	
-    
-   
+    //따라다니는 퀵메뉴
+	$(document).ready(function(){
+		var currentPosition = parseInt($(".quickmenu").css("top"));
+		$(window).scroll(function() {
+	   	var position = $(window).scrollTop(); 
+	   	$(".quickmenu").stop().animate({"top":position+currentPosition+"px"},700);
+	  	});
+		
+	  	$('.quickmenu li a[href="#back"]').click(function(e) {
+			history.back();
+	 	});
+	  	
+	  	$('.quickmenu li a[href="#forward"]').click(function(e) {
+		   history.forward();
+	 	});
+	});
+	//따라다니는 퀵메뉴 끝	
    </script>
    <!-- include summernote css/js-->
 	
@@ -227,35 +256,22 @@ var postNo;
 </script>
 <body>
 
-
 <jsp:include page="/common/topBar.jsp"/>
 
-<section class="image-header" style="min-height: 150px;height: 150px;">
+<a type="hidden" id="top"/>
+
+<section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
 		<div class="col-md-12" >
            	<img id="back-img" src="/images/background/background1.jpg" alt="img">
         </div>	
 	</div>
-</section>  
-<!-- 팀 구분 툴바 -->
-<div class="mathc-live-broadcasts background">
-	<div class="broadcast-tabs-wrapper">
-       <ul class="nav nav-tabs" role="tablist">
-       <c:forEach var="team" items="${allTeam}">
-            
-            <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
-            <a href="teamCodeHref" role="tab" data-toggle="tab">
-             <img alt="img" src="${team.teamEmblem}">
-             <span class="info">
-             	<span class="title">${team.teamNickName}</span>
-             </span>
-             <input type="hidden" name="foreachTeamCode" value="${team.teamCode}"/> 
-            </a>
-            </li>
-       </c:forEach>
-       </ul>
-    </div>
-</div>	
+</section>
+
+<section class="h1">
+	<h1>커뮤니티 게시판</h1>
+</section>
+
 	
 	
 <!--CONTENT BEGIN-->
@@ -339,7 +355,10 @@ var postNo;
 
 
 <!--NEWS SINGLE BEGIN-->
-<section class="news-single col-xs-12 col-sm-12 col-md-9">
+<section class="news-single col-xs-12 col-md-9">
+		<p class="hidden-md hidden-lg">
+        <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
+    </p>
     <div class="item">
         <div class="top-info">
             <h3>
@@ -408,46 +427,6 @@ var postNo;
 			<div class="col-xs-8 col-md-1 emote" id="likes">${post.postLikes}</div>
 			<div class="col-xs-8 col-md-1 emote" id="disLikes">${post.postDislikes}</div>
 		</div>
-		<!-- 좋아요 싫어요 끝-->
-      
-		<!-- 좋아요 싫어요 -->
-		<!--  <div class="row">
-	  		<input type="hidden" name="type" value="Like"/>
-	  		<div class="col-xs-4 col-md-2"><strong>좋아요</strong></div>
-	  		<button type="button" class="btn btn-default btn-lg thumbs-btn liked">
-		  		<div class="col-xs-4 col-md-1 check1">
-						<c:choose>
-					        <c:when test="${emote.like == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
-					        </c:when>
-					        <c:otherwise>
-					            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-					        </c:otherwise>
-					    </c:choose>
-				</div>
-			</button>
-			<div class="col-xs-8 col-md-4" id="likes">${post.postLikes}</div>
-		</div>
-		<hr/>
-		<div class="row">
-	  		<input type="hidden" name="type" value="DisLike"/>
-	  		<div class="col-xs-4 col-md-2"><strong>싫어요</strong></div>
-	  		<button type="button" class="btn btn-default btn-lg thumbs-btn disliked">
-			  	<div class="col-xs-4 col-md-1 check2">
-						<c:choose>
-					        <c:when test="${emote.disLike == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
-					        </c:when>
-					        <c:otherwise>
-					            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-					        </c:otherwise>
-					    </c:choose>
-				</div>
-			</button>
-			<div class="col-xs-8 col-md-4" id="disLikes">${post.postDislikes}</div>
-		</div>     -->
-		<!-- 좋아요 싫어요 끝-->
-		    
 			<!-- Comment Start... -->
 			<jsp:include page="../comment/listComment.jsp"/>
 			<!-- Comment End... -->
@@ -461,9 +440,18 @@ var postNo;
 </div>
 <!--CONTENT END-->
       
+<!-- 퀵메뉴 -->
+<div class="quickmenu">
+  <ul>
+    <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
+    <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
+    <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>
+    <li><a href="#forward"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>
+  </ul>
+</div>   
 
+<a type="hidden" id="bottom"/> 	
 
- 	
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

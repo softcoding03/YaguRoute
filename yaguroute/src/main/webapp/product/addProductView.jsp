@@ -16,14 +16,94 @@
 		<title>상품 등록</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
     
 <script type="text/javascript">
 	$(function() {
-		function fncAddProduct() {
+		
+		//유효성 체크 시작
+		$("input[name='prodName']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()\-=+|<>?]/g;  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodName").html("최소글자(1)이상을 입력하여야합니다.");
+					//alert("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 100) {
+					$("#prodName").html("최대글자(100)을 초과하였습니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodName").html("특수문자는 입력할 수 없습니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodName").html("성공");
+					$("#prodName").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+				 
+				}
+		});
+		
+		$("input[name='prodPrice']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodPrice").html("최소글자(1)이상을 입력하여야합니다.");
+					alert("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 11) {
+					$("#prodPrice").html("최대글자(11)을 초과하였습니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodPrice").html("특수문자는 입력할 수 없습니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodPrice").html("성공");
+					$("#prodPrice").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
 
+				}
+		});
+
+		$("input[name='prodStock']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodStock").html("최소글자(1)이상을 입력하여야합니다.");
+					alert("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 11) {
+					$("#prodStock").html("최대글자(11)을 초과하였습니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodStock").html("특수문자는 입력할 수 없습니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodStock").html("성공");
+					$("#prodStock").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+				 
+				}
+
+		});
+		
+		function fncAddProduct() {
+		
 			//Form 유효성 검증  	
 			var name = $("input[name='prodName']").val();
 			var price = $("input[name='prodPrice']").val();
@@ -51,15 +131,20 @@
 				alert("팀 코드는 반드시 입력하셔야 합니다.");
 				return;
 			}
+		
 			// 폼 제출
 			$("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action", "/product/addProduct").submit();
 		}
+		
+		
+		$(function() {
 
-		$(".addProduct-submit:contains('등록')").on('click', function() {
-			fncAddProduct();
-		});
-		$(".addProduct-submit:contains('취소')").on('click', function() {
-			self.location = "../algudgodmain.jsp";
+			$(".addProduct-submit:contains('등록')").on('click', function() {
+				fncAddProduct();
+			});
+			$(".addProduct-submit:contains('취소')").on('click', function() {
+				self.location = "../product/listProduct?prodTeamCode=ALL";
+			});
 		});
 	});
 
