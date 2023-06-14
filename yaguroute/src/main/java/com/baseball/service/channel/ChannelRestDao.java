@@ -24,7 +24,7 @@ public interface ChannelRestDao {
 	
 	public String geteVideo(Channel channel, String videoName) throws Exception;
 	
-	public String getChannelStatus(String channelID) throws Exception;
+	public Map<String, Object> getChannelStatus(String channelID) throws Exception;
 	
 	public String getChannelRecordStatus(String channelID) throws Exception;
 	

@@ -468,7 +468,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		return videoLink;
 	}
 	
-	public String getChannelStatus(String channelID) throws Exception{
+	public Map<String, Object> getChannelStatus(String channelID) throws Exception{
 		//System.out.println("getChannelStatus() start");
 		
 		String jsonData = "";
@@ -516,7 +516,16 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		//System.out.println((String)(((JSONObject)data.get("content")).get("channelStatus")));
 		
 		String channelStatus = (String)(((JSONObject)data.get("content")).get("channelStatus"));
-		return channelStatus;
+		JSONObject contentData = ((JSONObject)data.get("content"));
+		JSONObject cdnData = (JSONObject)contentData.get("cdn");
+		String cdnStatus = (String)(cdnData.get("statusName"));
+		System.out.println(cdnStatus);
+		
+		Map<String, Object> channelInfo = new HashMap();
+		channelInfo.put("channelStatus", channelStatus);
+		channelInfo.put("cdnStatus", cdnStatus);
+		
+		return channelInfo;
 	}
 	
 	@Override
