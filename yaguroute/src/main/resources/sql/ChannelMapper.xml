@@ -115,6 +115,14 @@
 		WHERE channel_id = #{channelID}
 	</update>
 	
+	<update id="updateChannelCdn" parameterType="channel">
+		UPDATE channel
+		<set>
+			channel_cdn = #{channelCDN},
+		</set>
+		WHERE channel_id = #{channelID}
+	</update>
+	
 	<!-- SQL : delete -->
 	<delete id="deleteChannel" parameterType="string">
 		DELETE FROM channel WHERE channel_id = #{value}

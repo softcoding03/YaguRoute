@@ -127,7 +127,7 @@ public class ChannelRestTest {
 		
 		System.out.println("streamKey : "+streamKey+" streamURL : "+streamURL);
 		
-		String channelStatus = channelRestDao.getChannelStatus(ChannelID);
+		Map channelStatus = channelRestDao.getChannelStatus(ChannelID);
 		System.out.println("channelStatus : "+channelStatus);
 		
 	}
