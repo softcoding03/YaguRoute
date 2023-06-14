@@ -70,30 +70,27 @@ public class ChannelRestController {
 			if (!(test.getGameInfo() == null)) {
 				String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
 				Game game = test.getGameInfo();
-				
-				if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).get("channelStatus").equals("PUBLISHING")) {
+				String channelStatus = (String)channelRestService.getChannelStatus(test.getChannelID()).get("channelStatus");
+				if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelStatus.equals("PUBLISHING")) {
 					System.out.println(channelRestService.getChannelRecordStatus(test.getChannelID()));
 					if(gameStatus.equals("2") || gameStatus.equals("4")) {
-						//System.out.println("영상 녹화 종료");
-						//System.out.println(test);
-						//System.out.println(game);
-						
+						System.out.println("영상 녹화 종료");
+
 						String videoName = channelRestService.stopChannel(test.getChannelID());
 						game.setVideoName(videoName);
 						
 						String videoLink = channelRestService.getVideo(test, videoName);
 						game.setVideoLink(videoLink);
 						
-						game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/images/60d320a4-e816-4487-8e2d-8e1ccc1b83d6hani.jpg");
+						game.setVideoThumbNail("https://kr.object.ncloudstorage.com/mainpjt/Imogi/stadium.jpg");
 						
-						//System.out.println("setting된 game : "+game);
 						gameService.updateGameVideo(game);
 					} else {
-						System.out.println("안됐지롱~");
+						System.out.println("경기 진행 중");
 					}
 					
 				} else {
-					System.out.println("채널 송출 전 입니다.");
+					//System.out.println("채널 송출 전 입니다.");
 				}
 			} else {
 				//System.out.println("오늘은 경기가 없습니다.");
