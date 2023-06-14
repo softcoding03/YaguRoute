@@ -369,6 +369,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 </script>
 
 <style>
+.naverid {
+    width: 2000px !important;
+}
 .naverid .header {
     width: 230px !important;
 }
@@ -436,7 +439,11 @@ a {
 </style>
 
 <script type="text/javascript">
-	
+	$("a.getSalesList").on("click", function() {
+		var currentDate = new Date();
+		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
+		self.location = "/ticket/getSalesList?month=" + currentMonth;
+	});
 	
 </script>
 
@@ -451,29 +458,29 @@ a {
         <ul class="left_menu" role="menu">
 	        <ul class="left_link"></ul>	
 	       		<li>
-	               <a href="#" class="left_item" role="menuitem" onclick="getUserFunction()" aria-current="">
+	               <a href="/users/listUser" class="left_item" aria-current="">
 	                   <div class="menu_text "><b>회원목록조회</b></div>
 	               </a>
 	            </li>
 	        <ul class="left_link"></ul>
 	            <li>
-	                <a href="#" class="left_item" role="menuitem" onclick="updateUserFunction()" aria-current="">
+	                <a href="/product/addProductView.jsp" class="left_item" role="menuitem" aria-current="">
 	                    <div class="menu_text "><b>상품 등록</b></div>
 	                </a>
 	            </li>
 	            <li>
-	                <a href="#" class="left_item" role="menuitem" onclick="withDrawFunction()" aria-current="">
+	                <a href="/product/listProduct?prodTeamCode=ALL" class="left_item" role="menuitem" aria-current="">
 	                    <div class="menu_text "><b>판매상품관리</b></div>
 	                </a>
 	            </li>
 	            <li>
-	                <a href="#" class="left_item" role="menuitem" onclick="withDrawFunction()" aria-current="">
+	                <a href="/transaction/dlvyTranList" class="left_item" role="menuitem" aria-current="">
 	                    <div class="menu_text "><b>상품배송관리</b></div>
 	                </a>
 	            </li>
 	        <ul class="left_link"></ul>    
 	            <li>
-	            	<a href="#" class="left_item" role="menuitem" onclick="mainGoFunction()" aria-current="">
+	            	<a href="/ticket/getSalesList?month=6" class="left_item getSalesList" role="menuitem" aria-current="">
 	                    <div class="menu_text "><b>티켓매출내역</b></div>
 	                </a>
 	            </li>

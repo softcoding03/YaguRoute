@@ -175,9 +175,10 @@
 </script>
 
 <body>
+<a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
-<a type="hidden" id="top"/>
+
 
 <section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
@@ -225,16 +226,6 @@
             <li>
                 <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
             </li>
-            <!-- <li> 추후에 사용할지 ..?
-                <a href="#"><span class="count">22</span>Competitions & Reviews</a>
-                <ul>
-                    <li><a href="#"><span class="count">12</span></a></li>
-                    <li><a href="#"><span class="count">10</span>Competitions & Reviews</a></li>
-                    <li><a href="#"><span class="count">9</span></a></li>
-                    <li><a href="#"><span class="count">8</span></a></li>
-                    <li><a href="#"><span class="count">7</span>Other</a></li>	
-                </ul>
-            </li> -->
             <li>
                 <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
             </li>
