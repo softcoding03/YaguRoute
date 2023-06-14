@@ -67,7 +67,7 @@ public class TicketController {
 	public String getGameList2w(@RequestParam("teamCode") String teamCode,Model model) throws Exception{
 		System.out.println("/ticket/getGameList2w : GET START");
 		System.out.println("넘어온 데이터?"+teamCode);
-		if(teamCode == null) {
+		if(teamCode == null || teamCode.equals("ALL")) {
 			teamCode ="HH";
 		}
 		List<Game> list = gameService.getGameListTwoWeeks(teamCode); //현재시간부터 14일이내 경기 리스트 가져옴.
@@ -115,48 +115,7 @@ public class TicketController {
 		return "forward:/ticket/getSeats.jsp";
 	}
 	
-	//티켓 결제 후 해당 정보(transaction add + ticket update)
-	@PostMapping("addTicketPurchase")
-	public String addTicketPurchase(@ModelAttribute("transaction") Transaction transaction,
-									@ModelAttribute("ticket") Ticket ticket,
-									Model model,HttpSession session) throws Exception{
-		System.out.println("/ticket/addTicketPurchase : POST START");
-		System.out.println("넘어온 데이터?"+transaction+"//"+ticket);
-		String tickets = ticket.getTicketNo(); //ticketNo가 하나의 객체안에 No만 여러개로 담겨옴
-		String[] split = tickets.split(",");
-		User user = (User)session.getAttribute("user");
-		transaction.setBuyer(user);
-		transaction.setTranType("T");
-		//refundableDate -> 전날 23시로 세팅
-		String dateString = ticketService.getTicketInfo(split[0]).getGame().getGameDate();//ticketNo로 해당 티켓 정보가져옴(gameDate get위함)// 기존 날짜 및 시간
-		System.out.println("dateString"+dateString);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate localDate = LocalDate.parse(dateString, formatter);
-		LocalDate refundDate = localDate.minusDays(1);
-		LocalDateTime refundDateTime = refundDate.atTime(23, 0, 0);
-		System.out.println("refundDateTime??"+refundDateTime); 
-		transaction.setRefundableDate(refundDateTime);
-		
-		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
-		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌
-		
-		List<String> list = new ArrayList<>(); //각 ticketNo를 list에 넣어주기
-		for(String splitTicket:split) {
-			list.add(splitTicket);
-		}
-		Map<String, Object> map = new HashMap<>(); // Mapper에 map 객체 보내주기 위함
-		map.put("tranNo", tranNo);
-		map.put("list", list);
-		ticketService.addTicketPurchase(map); //각 ticket에 tranNo 업데이트해줌
-		
-		Transaction transaction2 = transactionService.getTransaction(tranNo);//결제번호로 해당 결제정보 가져옴
-		List<Ticket> listTicket = ticketService.getTicketPurchaseList(tranNo); //결제번호로 해당 티켓 정보들 가져옴+티켓에 game 정보도 있음
-		System.out.println("보내주는 listTicket?"+listTicket);
-		System.out.println("보내주는 transaction2"+transaction2);
-		model.addAttribute("ticketList", listTicket);//티켓정보+게임정보
-		model.addAttribute("transaction", transaction2); //결제정보+유저정보
-		return "forward:/ticket/getTicket.jsp";
-	}
+	
 	
 	//tranNo로 티켓 결제 내역 출력
 	@GetMapping("getTicketPurchaseDetail")
@@ -176,11 +135,16 @@ public class TicketController {
 	
 	//userId로 ticket 결제내역 List get
 	@GetMapping("getTicketPurchaseList")
-	public String getTicketPurchaseList(@RequestParam("userId") String userId,
+	public String getTicketPurchaseList(@RequestParam(value="userId", required = false) String userId,
 										@RequestParam(value="currentPage", required = false) Integer currentPage ,
 										@RequestParam(value="daysValue", required = false) Integer daysValue,
 										Model model,HttpSession session) throws Exception{
 		System.out.println("/ticket/getTicketPurchaseList : GET START");
+		User user = (User)session.getAttribute("user");
+		if (userId == null) { 
+			userId = user.getUserId();
+		}
+		
 		//7or15or1month
 		int days = 0; 
 		if(daysValue != null) {
@@ -213,7 +177,6 @@ public class TicketController {
 		}
 		System.out.println("game정보 불러온 것 :: " +gamelist);
 		
-		User user= (User)session.getAttribute("user");
 		Team team = gameService.getTeamInfo(user.getTeamCode()); //상단바 출력위한 팀정보
 		//모든Team 정보 조회
 		List<Team> allTeam = gameService.getAllTeam();

@@ -48,6 +48,7 @@
 								success : function(Data, status) {
 									if(Data = "success"){
 										alert("결제취소가 완료되었습니다.")
+										location.reload();
 									}else{
 										alert("결제취소에 실패했습니다.")
 									}
