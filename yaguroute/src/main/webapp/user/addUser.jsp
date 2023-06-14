@@ -15,8 +15,6 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 	
     <style>
     .grid-container {
@@ -100,6 +98,16 @@
     line-height: normal;
     outline: 0
     } 
+    .dropp {
+	    position: relative;
+	    padding: 66px;
+	    border: 2px dashed #ccc;
+	    border-radius: 15px;
+	    top: 6px;
+	    width: 256px;
+	    left: 76px;
+	    margin-bottom: 20px;
+	}
     </style>
     
     <!-- 옆(좌,우)으로 이동시키기 위함. -->
@@ -175,127 +183,35 @@
 	    display: block;
 	    margin-top: 5px;
 	}
-	
-/* 	.parent-container {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	} */
-	
-		/* Dropzone 스타일 */
-	.dropzone {
-	  border: 5px dashed #bbb ;
-	  border-radius: 5px ;
-	  background: #f9f9f9 ;
-	  padding: 5px ;
-	  text-align: center ;
-	  width: 200px;
-	  height: 40px;
-	  margin-right: 20px;
-	}
-	
-	.dropzone, .dropzone * {
-    	box-sizing: border-box !important;
-    	margin: 0px !important;
-	}
-	
-	/* 파일 드랍 영역 */
-	.dropzone .dz-message {
-	  /* font-size: 1.5em !important; */
-	  /* color: #888 !important; */
-	}
-	
-	/* 미리보기 영역 */
-	.dropzone .dz-preview {
-	  margin: 10px !important;
-	  display: inline-block !important;
-	  vertical-align: top !important;
-	  position: relative !important;
-	  width: 120px !important;
-	}
-	
-	.dropzone .dz-preview.dz-error:hover .dz-error-message {
-    	opacity: 0 !important;
-    	pointer-events: auto;
-	}
-	
-	.dropzone .dz-remove {
-    /* position: absolute !important; */
-    top: 5px !important;
-    /* right: 5px !important; */
-    /* width: 20px !important; */
-    height: 20px !important;
-    border-radius: 50% !important;
-    background-color: #fff !important;
-    color: #888 !important;
-    font-size: 14px !important;
-    text-align: center !important;
-    line-height: 20px !important;
-    cursor: pointer !important;
-    z-index: 10 !important;
-}
-	
-	.dropzone, .dropzone * {
-	    box-sizing: border-box !important;
-	    margin: 0px !important;
-	}
-	
-	.dropzone .dz-preview .dz-image {
-	  position: relative !important;
-	}
-	
-	
-	.dropzone .dz-remove {
-  position: absolute !important;
-  top: 5px !important;
-  right: 5px !important;
-  width: 50px !important;
-  height: 20px !important;
-  border-radius: 50% !important;
-  background-color: #fff !important;
-  color: #888 !important;
-  font-size: 14px !important;
-  text-align: center !important;
-  line-height: 20px !important;
-  cursor: pointer !important;
-  z-index: 999 !important;
-}
-	
-	
-	.dropzone .dz-remove:hover {
-	  background-color: #f00 !important;
-	  color: #fff !important;
-	}	
-	
-	.dropzone .dz-preview .dz-remove-image {
-	  position: absolute !important;
-	  top: 5px !important;
-	  right: -20px !important;
-	  width: 20px !important;
-	  height: 20px;
-	  background-color: #f00 !important;
-	  color: #fff !important;
-	  font-size: 14px !important;
-	  text-align: center !important;
-	  line-height: 20px !important;
-	  cursor: pointer !important;
-	  z-index: 999 !important;
+	.drop-area {
+	    display: block;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    /* border: 1px solid #355ed3; */
+	    left: -18px;
 	}
 
-	.dropzone .dz-preview .dz-image img {
-	  width: 100% !important;
-	  height: auto !important;
+	.drop-area.active {
+		display: block !important;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    border: 1px solid #355ed3;
+	    left: -18px;
 	}
-	
-	.dropzone .dz-preview .dz-details {
-	  font-size: 0.9em !important;
-	  text-align: center !important;
-	  margin-top: 10px !important;
+	img {
+	    vertical-align: middle;
+	    width: 148px;
+	    height: 119px;
+	    border: none !important;
 	}
-	.col-md-6 {
-	    width: 100%;
-	}
-	
     </style>
     <!-- 구단코드 이미지 적용 -->
     
@@ -548,16 +464,107 @@
 	}
 	
 	 
-/* 	// 가입 버튼
+	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#signup" ).on("click" , function() {
 			fncAddUser();
 		});
-	}); */
+	});
  		
+	$(function(){
+		
+	//drag & drop
+	var dropZone = $('#drop-area');
+	//dropZone.hide();
 	
+	$(document).on('dragenter', function(event) {
+		dropZone.addClass('active');
+		console.log("작동중");
+		dropZone.show();
+	});
 	
+	dropZone.on('dragover', function(event) {
+		console.log("작동중 11111");
+		event.preventDefault();
+	});
+	
+	dropZone.on('drop', function(event){
+		event.preventDefault();
+ 		handleFileSelect(event.originalEvent);
+ 		//dropZone.hide();
+ 	});
+ 	
+	$(document).on('dragleave', function(event) {
+		if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+			event.preventDefault();
+			dropZone.removeClass('active');
+			dropZone.hide();
+		}
+	});
+	 
+	function handleFileSelect(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    dropZone.removeClass('active');
+		    
+		    var files = event.target.files || event.dataTransfer.files;
+		    // 파일 업로드 처리 로직을 여기에 구현하세요.
+		    if (files.length > 0) {
+		    	var formData = new FormData();
+		        formData.append('image', files[0]);
+		        $.ajax({
+		            url: "http://192.168.0.36:3000/image/user",
+		            type: "POST",
+		            processData: false,
+		            contentType: false,
+		            data: formData,
+		            dataType: "json",
+		            success: function(data, status) {
+		            	
+		            	if(data == null){
+			            	alert("다시 드롭 해 주세요.");
+		            	}else{
+		            		console.log(data.image_path);
+		            		
+		            		
+		            		// hidden 속성 추가
+		            		var newDiv = document.createElement("div");
+		            		var hiddenDiv = document.createElement('input');
+		               		hiddenDiv.type = "hidden";
+		            		hiddenDiv.value = data.image_path;
+		            		hiddenDiv.id = 'userImage';
+		            		hiddenDiv.name = 'userImage';
+		            		newDiv.appendChild(hiddenDiv);
+		            		document.body.appendChild(newDiv);
+		            		
+		            		var previewImage = data.image_path;
+		            		
+		            		var img = document.createElement("img");
+		            		img.src = previewImage;
+		            		img.alt = "이미지 미리보기";
+		            		img.style.border = "none";
+		            		
+		            		
+		            		
+		            		// 이미지 미리보기 컨테이너 exampleText 자식으로 생성
+		            		var previewContainer = document.getElementById("drop-area");
+		            		previewContainer.appendChild(img);
+		            		
+		            		
+		            		// 이미지 미리보기
+		            		$("#previewImage").empty();
+		            		var imgElement = $("#previewImage");
+		            		imgElement.attr('src', previewImage);
+		            		$("#exampleText").text('');
+		            			
+		            	}
+		            }
+		          });
+		    }
+		}
+	
+	});
  		// addUser
 		function fncAddUser() {
 
@@ -583,9 +590,6 @@
 						}else if(!pattern.test(userId)){
 							alert("아이디는 영문이나 영문 숫자 조합만 가능합니다.");
 							return; 
-						}else{
-							alert("1. 아이디 통과");
-							return;
 						}
 					},
 					error : function(){
@@ -609,9 +613,6 @@
 				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
 				return;
 			}
-			else{
-				alert("2. password 통과");
-			}
 			
 			var passwordCheck = $("#passwordCheck").val();
 			alert("password : "+password);
@@ -623,8 +624,6 @@
 			}else if(password !== passwordCheck){
 				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
 				return;
-			}else{
-				alert("패스워드 체크 통과");
 			}
 			
 			// 3. userName 유효성 검증
@@ -637,9 +636,6 @@
 			}else if(userName.length < 1){
 				alert("최소 1자 이상 입력해주세요.");
 				return;
-			}
-			else {
-				alert("3. userName 통과");
 			}
 			
 			// 6. userNickName 유효성 검증
@@ -661,8 +657,6 @@
 					}else if(userNickName > 20){
 						alert("닉네임은 최대 20자리까지 가능합니다.");
 						return;
-					}else{
-						alert("6. userNickName 통과");
 					}
 				},
 				error : function(){
@@ -673,17 +667,13 @@
 			// 4. userPhone 유효성 검증
 			var userPhone = $("#userPhone").val();
 			
-			if(userPhone.length == 11){
-				alert("4. userPhone 통과");
-			}else{
+			if(userPhone.length != 11){
 				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
 				return;
 			}
 			
 			var phoneCheck = $("#phoneCheck").val();
-			if(phoneCheck.length == 5){
-				alert("phoneCheck 통과");
-			}else{
+			if(phoneCheck.length != 5){
 				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
 				return;
 			}
@@ -696,7 +686,6 @@
 				return;
 				
 			}else{
-				alert("5. userBirth 통과");
 				var value = userBirth.replace(/-/g, "");
 				$("#userBirth").val(value);
 			}
@@ -714,8 +703,6 @@
 			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
-			}else{
-				alert("7. userAddr 통과");
 			}
 			
 			
@@ -725,13 +712,11 @@
 			alert("userEmail : "+userEmail);
 			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
-			if(emailCheck.test(userEmail)){
-				alert("9. 이메일 통과");
+			if(!emailCheck.test(userEmail)){
+				alert("유효하지 않은 이메일입니다.");
+				return;
 			}else if(userEmail.length > 40 ){
 				alert("이메일은 최대 40자 까지 입력 가능합니다.");
-				return;
-			}else{
-				alert("유효하지 않은 이메일입니다.");
 				return;
 			}
 			
@@ -753,7 +738,8 @@
 				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
-				teamCode : $("#teamCode").val()
+				teamCode : $("#teamCode").val(),
+				userImage : $("#userImage").val()
 			};
 
 			$.ajax({
@@ -762,7 +748,6 @@
 				data: JSON.stringify(user),
 				contentType: "application/json",
   				success: function(response) {
-    				alert("컨트롤러 전송 완료!");
     				window.close();
     				window.opener.location.reload();
   				},
@@ -774,6 +759,7 @@
 		};
 
 	
+		
 /* 	// 뒤로 가기 버튼
 	$(function(){
 		
@@ -880,10 +866,10 @@
 		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 405px; height: 35px;">
 		    						</label>
                             	</div>
-                            	<b>선호구단</b>
+                            	<span style="font-weight: 600;">선호구단</span>
                             	<div class="form-inline">
                             	<label>
-                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px;">
+                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; margin-bottom: 10px;">
                             			<option value="ALL">선택하지 않음</option>
       									<option value="LG">LG 트윈스</option>
       									<option value="SS">삼성 라이온즈</option>
@@ -901,13 +887,18 @@
                                     
                                     <b>프로필 사진</b>  
                             	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone"></div> 
-     								<!-- <button id="btn-upload-file">서버전송</button> -->
- 								</div>
- 								
+								  <div class="dropp">
+								    <div class="drop-area" id="drop-area" style="display: block !important;">
+								      <!-- <img src="" id="previewImage"> -->
+								      <p class="text" id="exampleText" style="font-size: 15px; font-weight: 500">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;png, jpg, jpeg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1MB이하 첨부</p>
+								    </div>
+								  </div>
+								  <!-- <button id="btn-upload-file">서버전송</button> -->
+								</div>
+
                             	<div class="form-group">
                             	<label>
-                                <button type="button" class="btn-upload-file" id="signup" >가입</button>
+                                <button type="button" class="btn-upload-file" id="signup">가입</button>
                                 </label>
                                 </div>
                     			

@@ -58,7 +58,7 @@
 	    color: #fff;
 	    height: 32px;
 	    text-align: center;
-	    background: #337ab7 !important;
+	    background: #000000 !important;
 	}
 	table tr td {
 	    padding: 10px 20px;

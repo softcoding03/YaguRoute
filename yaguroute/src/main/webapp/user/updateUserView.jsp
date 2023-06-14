@@ -486,6 +486,30 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     box-shadow: 2px 6px 8px 0 rgba(30,30,35,.08);
     box-sizing: border-box;
 }
+
+	.drop-area {
+	    display: block;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    /* border: 1px solid #355ed3; */
+	    left: -18px;
+	}
+
+	.drop-area.active {
+		display: block !important;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    border: 1px solid #355ed3;
+	    left: -18px;
+	}
     </style>
     
     <!-- 옆(좌,우)으로 이동시키기 위함. -->
@@ -632,6 +656,26 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	  /* 라디오 버튼과 라벨 간의 여백 조정 */
 	  margin-right: 10px;
 	}
+	.dropdown {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    .dropp {
+	    position: relative;
+	    padding: 66px;
+	    border: 2px dashed #ccc;
+	    border-radius: 15px;
+	    top: 6px;
+	    width: 256px;
+	    left: 76px;
+	    margin-bottom: 20px;
+	}
 	
     </style>
 
@@ -728,6 +772,15 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			
 			var profileElement = document.querySelector(".profile");
 		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
+		    
+		    /* $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
+		    $("#passwordNone").css("display", "none");
+		    $("#passwordCheckNone").css("display", "none");
+		    $("#birthdayNone").css("display", "none");
+		    $("#genderNone").css("display", "none");
+		    $("#phoneNone").css("display", "none");
+		    $("#emailNone").css("display", "none");
+		    $("#userNameNone").css("display", "none"); */
 		}
 	});
  
@@ -944,86 +997,22 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     }).open();
 	}
 	
-	//fileDropzone dropzone 설정할 태그의 id로 지정
-    Dropzone.options.fileDropzone = {
-        url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-        clickable: true, // 클릭가능여부
-        thumbnailHeight: 90, // Upload icon size
-        thumbnailWidth: 90, // Upload icon size
-        maxFiles: 1, // 업로드 파일수
-        maxFilesize: 1, // 최대업로드용량 : 1MB
-        parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-        addRemoveLinks: true, // 삭제버튼 표시 여부
-        dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-        uploadMultiple: false, // 다중업로드 기능
-        dictDefaultMessage: "사진 업로드 (최대1MB)", // 메시지 변경
-        init: function() {
-            
-        	var myDropzone = this;
-			var maxFiles = this.options.maxFiles;
-            
-            // 파일 업로드 제한에 도달했을 때 알림 표시
-            this.on("maxfilesexceeded", function(file) {
-                // 알림을 표시하는 로직을 추가
-                
-                if(myDropzone.files.length > maxFiles){
-                    myDropzone.removeFile(file);
-                    alert("최대 1개의 파일만 업로드할 수 있습니다.");
-                }
-                
-            });
-
-            // 서버로 파일 업로드를 진행하는 함수
-            document.querySelector("#btn-upload-file").addEventListener("click", function() {
-                myDropzone.processQueue();
-            });
-        }
-        
-    };
+	
 
 		// updateUser
 		function fncUpdateUser() {
-
-			var userId = $("#userId").val();
-			alert(userId);
-			
-			// 1. userId 유효성 검증
-			 $.ajax({
-					url : "/user/userIdCheck", // 해당 url의 Controller로 진입
-					type : "POST", // POST방식으로 전달
-					data : {userId : userId}, // data는 Key[userId], value[mb_id](위의 value)...
-					dataType : 'json', // json데이터형식으로 보낸다.
-					success : function(result){ // 서버에서 response(result값)가 전송된다.
-					
-						var pattern = /^(?=.*[a-zA-Z])[a-zA-Z\d]+$/;
-						
-						if(result == 1){
-							alert("아이디를 중복해서 사용할 수 없습니다.");
-							return;
-						}else if(userId.length > 20 && userId.length < 10 ){
-							alert("아이디는 10 ~ 20자까지 가능합니다.");
-							return;
-						}else if(!pattern.test(userId)){
-							alert("아이디는 영문이나 영문 숫자 조합만 가능합니다.");
-							return; 
-						}else{
-							alert("1. 아이디 통과");
-							return;
-						}
-					},
-					error : function(){
-						alert("서버요청실패");
-					}
-				});
 			
 			// 2. password 유효성 검증
+			var userId = $("#userId").val();
 			var password = $("#password").val();
 			alert(password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
-			if(password.length > 50){
+			if(password === userId){
+				alert("아마 카카오나 네이버 유저 ");
+			}
+			else if(password.length > 50){
 				alert("패스워드는 50자 까지 가능합니다.");
 				return;
 			}else if(password.length < 10){
@@ -1103,15 +1092,34 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
 				return;
 			}
-			
+			// phoneCheck 유효성 검증
 			var phoneCheck = $("#phoneCheck").val();
-			if(phoneCheck.length == 5){
-				alert("phoneCheck 통과");
-			}else{
-				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
-				return;
-			}
 			
+			$.ajax({
+				url : "/user/userPhoneCheck",
+				method : "POST",
+				data : {userPhone : userPhone},
+				dataType : 'json',
+				success : function(result){
+					
+					if(result == 0){
+					alert("당신의 휴대폰입니다.");
+					}
+					else{
+						alert("휴대폰이 다른 상태...");
+						if(phoneCheck.length == 5){
+							alert("phoneCheck 통과");
+						}else{
+							alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+							return;
+						}
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+				
 			// 5. userBirth 유효성 검증
 			var userBirth=$("#birthday").val();
 			
@@ -1177,7 +1185,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
-				teamCode : $("#teamCode").val()
+				teamCode : $("#teamCode").val(),
+				userImage : $("#userImage").val()
 			};
 
 			$.ajax({
@@ -1187,8 +1196,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				contentType: "application/json",
   				success: function(response) {
     				alert("컨트롤러 전송 완료!");
-    				window.close();
-    				window.opener.location.reload();
+    				window.location.href="/users/getUser";
   				},
   				error: function(xhr, status, error) {
     			// 요청 처리 중 에러가 발생한 경우 실행할 로직
@@ -1197,7 +1205,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			});
 		};
 	 
-	// 가입 버튼
+	// 업데이트 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#userUpdate" ).on("click" , function() {
@@ -1215,6 +1223,100 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			
 		});
 	}); */
+	
+	$(function(){
+		
+		//drag & drop
+		var dropZone = $('#drop-area');
+		//dropZone.hide();
+		
+		$(document).on('dragenter', function(event) {
+			dropZone.addClass('active');
+			console.log("작동중");
+			dropZone.show();
+		});
+		
+		dropZone.on('dragover', function(event) {
+			console.log("작동중 11111");
+			event.preventDefault();
+		});
+		
+		dropZone.on('drop', function(event){
+			event.preventDefault();
+	 		handleFileSelect(event.originalEvent);
+	 		//dropZone.hide();
+	 	});
+	 	
+		$(document).on('dragleave', function(event) {
+			if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+				event.preventDefault();
+				dropZone.removeClass('active');
+				dropZone.hide();
+			}
+		});
+		 
+		function handleFileSelect(event) {
+			    event.stopPropagation();
+			    event.preventDefault();
+			    dropZone.removeClass('active');
+			    
+			    var files = event.target.files || event.dataTransfer.files;
+			    // 파일 업로드 처리 로직을 여기에 구현하세요.
+			    if (files.length > 0) {
+			    	var formData = new FormData();
+			        formData.append('image', files[0]);
+			        $.ajax({
+			            url: "http://192.168.0.36:3000/image/user",
+			            type: "POST",
+			            processData: false,
+			            contentType: false,
+			            data: formData,
+			            dataType: "json",
+			            success: function(data, status) {
+			            	
+			            	if(data == null){
+				            	alert("다시 드롭 해 주세요.");
+			            	}else{
+			            		console.log(data.image_path);
+			            		
+			            		
+			            		// hidden 속성 추가
+			            		var newDiv = document.createElement("div");
+			            		var hiddenDiv = document.createElement('input');
+			               		hiddenDiv.type = "hidden";
+			            		hiddenDiv.value = data.image_path;
+			            		hiddenDiv.id = 'userImage';
+			            		hiddenDiv.name = 'userImage';
+			            		newDiv.appendChild(hiddenDiv);
+			            		document.body.appendChild(newDiv);
+			            		
+			            		var previewImage = data.image_path;
+			            		
+			            		var img = document.createElement("img");
+			            		img.src = previewImage;
+			            		img.alt = "이미지 미리보기";
+			            		img.style.border = "none";
+			            		
+			            		
+			            		
+			            		// 이미지 미리보기 컨테이너 exampleText 자식으로 생성
+			            		var previewContainer = document.getElementById("drop-area");
+			            		previewContainer.appendChild(img);
+			            		
+			            		
+			            		// 이미지 미리보기
+			            		$("#previewImage").empty();
+			            		var imgElement = $("#previewImage");
+			            		imgElement.attr('src', previewImage);
+			            		$("#exampleText").text('');
+			            			
+			            	}
+			            }
+			          });
+			    }
+			}
+		
+		});
 	
 	</script>
 <jsp:include page="/common/topBar.jsp"></jsp:include>
@@ -1238,7 +1340,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -1440,6 +1542,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
 		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
 		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: #2c74bb; border-radius: 21px;">주소&nbsp;선택</button>
+		    						<input type ="hidden" id="userAddr" name="userAddr"> 
 									</a>
 		    						</label>
                             	</div>
@@ -1468,11 +1571,14 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                                     </div>
                                     </a>
                                     
-                                <a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">프로필 사진<br> 
-                            	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px; border: 1px solid #0e55c6; border-radius: 39px;"></div> 
-     								<!-- <button id="btn-upload-file">서버전송</button> -->
- 								</div>
+                                <a style="font-weight: 600">프로필 사진<br> </a>
+								  <div class="dropp">
+								    <div class="drop-area" id="drop-area" style="display: block !important;">
+								      <!-- <img src="" id="previewImage"> -->
+								      <p class="text" id="exampleText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;png, jpg, jpeg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1MB이하 첨부</p>
+								    </div>
+								  </div>
+								  <!-- <button id="btn-upload-file">서버전송</button> -->
  								
  								<input type="hidden" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
  								
@@ -1480,8 +1586,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                             	<label>
                                 <button type="button" class="btn-upload-file" id="userUpdate">수정</button>
                                 </label>
-                                </div>        
-                                </a>
+                                </div>
                                </form>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
