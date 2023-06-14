@@ -125,16 +125,6 @@
 	
 	</update>
 	
-
-	<select id="getDlvyTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
-	
-		SELECT td.*
-		FROM tranDetail td
-		ORDER BY tran_detail_no
-
-		
-	</select>
-	
 	<select id="getTranDetailList" parameterType="java.util.Map"	resultMap="tranDetailSelectMap">
 	
 		SELECT td.*
@@ -144,7 +134,24 @@
 		WHERE t.user_id = #{userId}
 		
 	</select>
+
+	<select id="getDlvyTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
 	
+		SELECT td.*
+		FROM tranDetail td
+		ORDER BY tran_detail_no
+		
+	</select>
+
+	<select id="getBestTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	
+		SELECT td.*
+		FROM tranDetail td
+		ORDER BY td.tran_quantity DESC
+		
+	</select>
+
+
 	<select id="getTotalCount" parameterType="java.util.Map" resultType="int">
 	    SELECT COUNT(*) 
 	    FROM (

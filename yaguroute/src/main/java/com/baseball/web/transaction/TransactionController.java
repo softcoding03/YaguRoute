@@ -243,6 +243,32 @@ public class TransactionController {
 		return "forward:/transaction/dlvyTranList.jsp";
 	}
 	
+	@GetMapping("bestTranList")
+	public String getBestTranList (@ModelAttribute("search")Search search, Model model) throws Exception {
+		
+		System.out.println("search" +search); //당연히 값 없음
+		System.out.println("/transaction/getBestTranList 작동 시작");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		System.out.println("데이터가 들어간" + search);		
+		
+		Map<String, Object> map = tranDetailService.getBestTranList(search);
+		
+		List<TranDetail> list = (List<TranDetail>)map.get("bestList");
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		model.addAttribute("list", map.get("bestList"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/transaction/main.jsp";
+	}
+		
 	
 	@RequestMapping("updateTranStatusCode")
 	public ModelAndView updateTranStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {

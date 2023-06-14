@@ -85,4 +85,17 @@ public class TranDetailServiceImpl implements TranDetailService {
 	}
 
 
+	@Override
+	public Map<String, Object> getBestTranList(Search search) throws Exception {
+		List<TranDetail> list = tranDetailDao.getBestTranList(search);
+		int totalCount = tranDetailDao.getTotalCount(search, null);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("bestList", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+
 }

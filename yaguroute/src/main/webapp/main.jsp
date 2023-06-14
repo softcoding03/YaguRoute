@@ -1297,14 +1297,13 @@
         </div>	
         <div class="col-md-10 col-xs-9">
             <ul class="tab-filters">
-                <li class="active"><a data-toggle="tab" href="#new">New</a></li>
-                <li><a data-toggle="tab" href="#hotdeals">hot deals</a></li>
+                <li class="active"><a data-toggle="tab" href="#hotdeals">인기 판매 상품</a></li>
                 <li><a data-toggle="tab" href="#officialapparel">Official apparel</a></li>
             </ul>
         </div>
         <div class="col-md-2 col-xs-3 text-right">
             
-                <a id="show-all-link" href="store.html">Show all</a>
+                <a id="show-all-link" href="/product/salesProdList?prodTeamCode=ALL">Show all</a>
             	
         </div>
     </div>
