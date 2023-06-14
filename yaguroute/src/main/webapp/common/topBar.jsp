@@ -91,15 +91,15 @@ img.logo{
                         </ul>
                     </li>
                     <c:if test="${user.role eq 'admin'}">
-	                    <li><a href="/admin/getAdmin.jsp"><span class="topbar">관리자페이지</span></a>
-	                        <ul>
+	                    <li><a href="/users/listUser"><span class="topbar">관리자페이지</span></a>
+	                        <!-- <ul>
 	                        	<li><a href="/users/listUser"><span class="topbar">회원 목록 조회</span></a></li>
 	                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span class="topbar">판매상품관리</span></a></li>
 	                            <li><a href="/transaction/dlvyTranList"><span class="topbar">상품배송관리</span></a></li>                                
 	                            <li><a href="/product/addProductView.jsp"><span class="topbar">상품등록</span></a></li>
 	                            <li><a href="javascript:;" class="getSalesList"><span class="topbar">티켓판매내역조회</span></a></li>
 	                            <li><a href="/channel/listChannel"><span class="topbar">채널 관리</span></a></li>                        
-	                        </ul>
+	                        </ul> -->
 	                    </li>
                     </c:if>
                	  <li><a href="#other"><span class="topbar">마이페이지</span></a>
