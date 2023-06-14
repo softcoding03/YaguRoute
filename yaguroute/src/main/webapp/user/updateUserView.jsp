@@ -728,6 +728,18 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
  <script type="text/javascript">
  
+ 	// 처음에 userBirth 있는 값 출력하기
+ 	$(function(){
+ 		
+ 		var userBirth = "${user.userBirth}";
+ 		var year = userBirth.substr(0, 4);
+ 		var month = userBirth.substr(4, 2);
+ 		var day = userBirth.substr(6, 2);
+ 		userBirth = year + "-" + month + "-" + day;
+ 		document.getElementById("birthday").value = userBirth;
+ 		
+ 	});
+ 
 	 $(document).ready(function() {
 		  setTimeout(function() {
 		    // 1초 후에 실행되는 코드
@@ -773,14 +785,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			var profileElement = document.querySelector(".profile");
 		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
 		    
-		    /* $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
+		    $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
 		    $("#passwordNone").css("display", "none");
 		    $("#passwordCheckNone").css("display", "none");
 		    $("#birthdayNone").css("display", "none");
 		    $("#genderNone").css("display", "none");
-		    $("#phoneNone").css("display", "none");
-		    $("#emailNone").css("display", "none");
-		    $("#userNameNone").css("display", "none"); */
+		    $("#userNameNone").css("display", "none");
 		}
 	});
  
@@ -1296,8 +1306,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			            		img.src = previewImage;
 			            		img.alt = "이미지 미리보기";
 			            		img.style.border = "none";
-			            		
-			            		
+			            		img.style.width = "157px";
+			            		img.style.height = "103px";
 			            		
 			            		// 이미지 미리보기 컨테이너 exampleText 자식으로 생성
 			            		var previewContainer = document.getElementById("drop-area");
@@ -1498,11 +1508,10 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                                 <div class="form-inline" style="color: #1a146f; font-size: medium; font-weight: bold;">
                                 		<label for="userBirth" id="birthdayNone" style="display: block">
                                     	생년월일&nbsp;
-                                        <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px; border: groove;" placeholder="생년월일" value="${user.userBirth}">
+                                        <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px; border: groove;" placeholder="생년월일" value="">
                                         <input type="hidden" name="userBirth" id="userBirth">
                                         &nbsp;&nbsp;
                                         </label>
-                                        
                                         <label for="gender" id="genderNone" style="display: block">
                                         <a class="sungbyul">
                                         <label class="byul">남성

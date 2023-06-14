@@ -544,6 +544,8 @@
 		            		img.src = previewImage;
 		            		img.alt = "이미지 미리보기";
 		            		img.style.border = "none";
+		            		img.style.width = "157px";
+		            		img.style.height = "103px";
 		            		
 		            		
 		            		
@@ -704,8 +706,6 @@
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
 			}
-			
-			
 			
 			// 9. userEmail 유효성 검증
 			var userEmail = $("#userEmail").val();
