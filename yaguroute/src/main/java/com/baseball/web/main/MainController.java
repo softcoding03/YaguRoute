@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -73,20 +74,33 @@ public class MainController {
 			//공지사항 출력
 			List<String> postDateList = new ArrayList<>();
 			List<Post> noticeList = postService.getNoticeList("all"); //공지사항 리스트
-			System.out.println("noticeList ? "+noticeList);
+			/* System.out.println("noticeList ? "+noticeList); */
 			for(Post post:noticeList) { //postDate 형식 변경 2023-06-13T00:31:03 -> 2023년 6월 13일
 				LocalDate postDate = post.getPostDate().toLocalDate();
 				DateTimeFormatter koreanFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일");
 				String postDateKorean = postDate.format(koreanFormatter);
 				postDateList.add(postDateKorean);
 			}
-			System.out.println("postDateList ? "+postDateList); // End
+			/*
+			 * System.out.println("postDateList ? "+postDateList); // End
+			 */
 			
+			//loading_img session에 추가
+			String[] imgList = {
+					"/images/baseball/loading_img_01.png",
+	                "/images/baseball/loading_img_02.png",
+	                "/images/baseball/loading_img_03.jpg"
+			};
+			int randonIndex = new Random().nextInt(3);
+			String img = imgList[randonIndex];
+			
+			session.setAttribute("loadingImg", img);
 			
 			//BEST 게시물 5개 출력
 			List<Post> bestPostList = postService.getPostBestList("all");
-			System.out.println("bestPostList ? "+bestPostList); // End 
-			
+			/*
+			 * System.out.println("bestPostList ? "+bestPostList); // End
+			 */			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("postDateList", postDateList);
 			model.addAttribute("bestPostList", bestPostList);
