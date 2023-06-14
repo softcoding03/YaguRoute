@@ -99,50 +99,47 @@ public class ChannelController {
 	
 	//getChannelList
 	@GetMapping("listChannel")
-	public ModelAndView getChannelList(HttpSession session) throws Exception{
+	public ModelAndView getChannelList() throws Exception{
 		//채널 리스트 불러오기
 		List<Channel> list = channelService.getChannelList();
-		//로그인한 유저 정보
-		User user = (User)session.getAttribute("user");
+		//로그인한 유저 정보		
+		ModelAndView modelAndView = new ModelAndView();		
+
+		modelAndView.addObject("list", list);
+		modelAndView.setViewName("forward:/channel/listChannel.jsp");
+		return modelAndView;
+	}
+	
+	//getStreamingList
+	@GetMapping("listStreaming")
+	public ModelAndView getStreamingList() throws Exception{
+		//채널 리스트 불러오기
+		List<Channel> list = channelService.getChannelList();
 		ModelAndView modelAndView = new ModelAndView();		
 		
-		if(user.getRole().equals("user")) {
-			modelAndView.addObject("list", list);
-			modelAndView.setViewName("forward:/channel/listStreaming.jsp");
-		} else {
-			modelAndView.addObject("list", list);
-			modelAndView.setViewName("forward:/channel/listChannel.jsp");
-		}
-		
-		
-	
+
+		modelAndView.addObject("list", list);
+		modelAndView.setViewName("forward:/channel/listStreaming.jsp");
+
 		return modelAndView;
 	}
 	
 	//getChannel => 스트리밍 리스트에서 들어올 때
 	@GetMapping("getChannel")
-	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID,
-			HttpSession session) throws Exception{
+	public ModelAndView getChannel(@RequestParam(value="channelID") String channelID) throws Exception{
 		System.out.println("getChannel Start...");
-		
-		User user = (User)session.getAttribute("user");
 		Channel channel = channelService.getChannel(channelID);
 		
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
-		if(user.getRole().equals("user")) {
-			Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
-			GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
+
+		Map<String, List<Player>> lineUp = gameService.getGameCrawlingLineup(channel.getGameInfo());
+		GameRecord gameRecord = gameService.getGameRecord(channel.getGameInfo());
 			
-			modelAndView.addObject("channel", channel);
-			modelAndView.addObject("lineUp", lineUp);
-			modelAndView.addObject("gameRecord", gameRecord);
-			modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
-		} else {
-			modelAndView.addObject("channel", channel);
-			modelAndView.setViewName("forward:/channel/getChannel.jsp");
-		}
+		modelAndView.addObject("channel", channel);
+		modelAndView.addObject("lineUp", lineUp);
+		modelAndView.addObject("gameRecord", gameRecord);
+		modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
+
 		
 		System.out.println("getChannel End...");
 		return modelAndView;

@@ -50,7 +50,9 @@ public class ChannelRestController {
 	public Map getChannelStatus(@RequestParam("channelID") String ChannelID) throws Exception {
 		System.out.println("채널 상태 조회");
 		
-		String channelStatus = channelRestService.getChannelStatus(ChannelID);
+		Map<String, Object> channelInfo = channelRestService.getChannelStatus(ChannelID);
+				
+		String channelStatus = (String)channelInfo.get("channelStatus");
 		System.out.println("channel 현재 상태 : "+channelStatus);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -69,7 +71,7 @@ public class ChannelRestController {
 				String gameStatus = gameService.getGameInfo(test.getGameInfo().getGameCode()).getGameStatusCode();
 				Game game = test.getGameInfo();
 				
-				if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).equals("PUBLISHING")) {
+				if(channelRestService.getChannelRecordStatus(test.getChannelID()).equals("RECORDING") && channelRestService.getChannelStatus(test.getChannelID()).get("channelStatus").equals("PUBLISHING")) {
 					System.out.println(channelRestService.getChannelRecordStatus(test.getChannelID()));
 					if(gameStatus.equals("2") || gameStatus.equals("4")) {
 						//System.out.println("영상 녹화 종료");
