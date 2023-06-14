@@ -9,7 +9,9 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
    <style type="text/css">
     	.background {
 		  display: flex;
@@ -30,6 +32,11 @@
 	    margin-top: 5px;
 	    display: inline-block;
 	  }	 
+	  	.sidebar{
+			position: sticky;
+		    top: 100px;
+		    right: 300px;
+		}
 	  .teamTopBar {
 		  width: 100%;
 		  height: auto;
@@ -42,22 +49,28 @@
 		h1{
 		color: white;
 		}
-		.text-overlay {
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  
-		  font-size: 18px;
-		  margin-left:300px;
-		  /* 기타 스타일 속성 설정 */
-		}
-	  .row-align {
-	    display: flex;
-	    align-items: center;
-	  } 
+	  /*row 내부 속성 가운데 정렬 */
+	  .row { 
+	  	display:flex;
+	  	justify-content:right;
+	  }
+	  
+	  div.emote{
+	  	text-align: center;
+	  }
+	  
 	  button.thumbs-btn{
 	  		width:30px;
+	  }
+	  
+	  #back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
+	  .row-offcanvas {
+	    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경과 투명도 조절 */
 	  }
 	 </style>
     
@@ -127,18 +140,20 @@ var postNo;
 	
 	$(function(){
 		//addLike or addDislike 시작
-	 	$(".thumbs-btn").on("click" , function() {
-	 		var type = $(this).closest('.row').find("input[name='type']").val().trim();
+	 	$("a.emote").on("click" , function() {
+	 		var type = $(this).closest("div.emote").siblings("input").val();
 	 		var isLiked = false;
 	 		var isDisliked = false;
 	 		var likes = parseInt($('#likes').text().trim());
 	 		var disLikes = parseInt($('#disLikes').text().trim());
-	 		console.log("check용"+likes,disLikes);
-	 		
-	 		if($(this).hasClass("liked")){
+	 		console.log("현재 L/D ??"+likes,disLikes);
+	 		console.log("type ??"+type)
+	 		if($(this).hasClass("like")){
+	 			console.log("like클릭")
 	 			isLiked = true;
-	 		} else if ($(this).hasClass("disliked")){
+	 		} else if ($(this).hasClass("disLike")){
 	 			isDisliked = true;
+	 			console.log("dislike클릭")
 	 		}
 			
 	 		$.ajax({
@@ -156,25 +171,25 @@ var postNo;
 		            	$('#likes').html(JSONData.likes);
 		            	$('#disLikes').html(JSONData.disLikes);
 		            	if(likes < JSONData.likes){
-		            		$('.check1').html("<span class=\"glyphicon glyphicon-heart\""
-		            							+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
-		            		$('.check2').html("<span class=\"glyphicon glyphicon-thumbs-down\""
-		            							+"aria-hidden=\"true\"></span>");
+		            		console.log("?1");
+		            		$('a.like').html("<i class=\"fi fi-sr-heart fa-2x\"></i>");
+		            		$('a.disLike').html("<i class=\"fi fi-rr-face-confused fa-2x\"></i>");
 		            	} else {
-		            		$('.check1').html("<span class=\"glyphicon glyphicon-thumbs-up\""
-		            							+"aria-hidden=\"true\"></span>");
+		            		console.log("?2");
+		            		$('a.like').html("<i class=\"fi fi-rr-heart fa-2x\"></i>");
+		            		$('a.disLike').html("<i class=\"fi fi-rr-face-confused fa-2x\"></i>");
 		            	}
 		            } else if (isDisliked) {
 		            	$('#likes').html(JSONData.likes);
 		            	$('#disLikes').html(JSONData.disLikes);
 		                if(disLikes < JSONData.disLikes){
-		                	$('.check2').html("<span class=\"glyphicon glyphicon-heart\"" 
-		                						+"aria-hidden=\"true\" style=\"color: red; font-size: 20px;\"/>");
-		            		$('.check1').html("<span class=\"glyphicon glyphicon-thumbs-up\""
-		            							+"aria-hidden=\"true\"></span>");
+		                	console.log("?3");
+		            		$('a.like').html("<i class=\"fi fi-rr-heart fa-2x\"></i>");
+		            		$('a.disLike').html("<i class=\"fi fi-sr-face-confused fa-2x\"></i>");
 		                } else {
-		                	$('.check2').html("<span class=\"glyphicon glyphicon-thumbs-down\""
-		                						+"aria-hidden=\"true\"></span>");
+		                	console.log("?4");
+		                	$('a.like').html("<i class=\"fi fi-rr-heart fa-2x\"></i>");
+		                	$('a.disLike').html("<i class=\"fi fi-rr-face-confused fa-2x\"></i>");
 		            	}
 		            }
 				}
@@ -208,17 +223,20 @@ var postNo;
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 <body>
 
 
 <jsp:include page="/common/topBar.jsp"/>
-<div class="image-container">
-  <img class="teamTopBar" src="${team.teamTopBar}">
-  <div class="text-overlay"><h1>커뮤니티 게시판</h1></div>
-</div>
+
+<section class="image-header" style="min-height: 150px;height: 150px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/background/background1.jpg" alt="img">
+        </div>	
+	</div>
+</section>  
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
 	<div class="broadcast-tabs-wrapper">
@@ -298,7 +316,15 @@ var postNo;
 		  </form>
 		</div>
 		<!-- Search -->
-    
+    <div class="recent-news">
+          <h6>Notice</h6>
+          <c:forEach var="notice" items="${noticeList}">
+	          <div class="item">
+	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
+	              <a href="javascript:;" class="getNotice">${notice.postTitle }</a>
+	          </div>
+			 </c:forEach>
+      </div>
     <div class="sidebar-tags-wrap">
         <h6>Tags</h6>
         <div class="tags">
@@ -347,36 +373,40 @@ var postNo;
         
       <!-- 좋아요 싫어요 -->
 		<div class="row">
-	  		<input type="hidden" name="type" value="Like"/>
-	  		<div class="col-xs-4 col-md-2"><strong>좋아요</strong></div>
-	  			<a href="javascript:;" class="like">
-		  		<div class="col-xs-4 col-md-1 check1">
+			<div class="emote">
+	  			<input type="hidden" value="Like"/>
+	  			<div class="col-xs-8 col-md-1 check1 emote">
+		  			<a href="javascript:;" class="emote like">
 						<c:choose>
 					        <c:when test="${emote.like == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
+					            <i class="fi fi-sr-heart fa-2x" style=""></i>
 					        </c:when>
 					        <c:otherwise>
-					            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					            <i class="fi fi-rr-heart fa-2x"></i>
 					        </c:otherwise>
 					    </c:choose>
+					</a>
 				</div>
-				</a>
-			<div class="col-xs-8 col-md-4" id="likes">${post.postLikes}</div>
-	  		<input type="hidden" name="type" value="DisLike"/>
-	  		<div class="col-xs-4 col-md-2"><strong>싫어요</strong></div>
-	  			<a href="javascript:;" class="disLike">
-			  	<div class="col-xs-4 col-md-1 check2">
+			</div>				
+			<div class="emote">
+	  			<input type="hidden" value="DisLike"/>
+				<div class="col-xs-8 col-md-1 check2 emote">	  			
+	  				<a href="javascript:;" class="emote disLike">
 						<c:choose>
 					        <c:when test="${emote.disLike == 1}">
-					            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red; font-size: 20px;"></span>
+					            <i class="fi fi-sr-face-confused fa-2x"></i>
 					        </c:when>
 					        <c:otherwise>
-					            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					            <i class="fi fi-rr-face-confused fa-2x"></i>
 					        </c:otherwise>
 					    </c:choose>
+					</a>
 				</div>
-				</a>
-			<div class="col-xs-8 col-md-4" id="disLikes">${post.postDislikes}</div>
+			</div>				
+		</div>
+		<div class="row">
+			<div class="col-xs-8 col-md-1 emote" id="likes">${post.postLikes}</div>
+			<div class="col-xs-8 col-md-1 emote" id="disLikes">${post.postDislikes}</div>
 		</div>
 		<!-- 좋아요 싫어요 끝-->
       

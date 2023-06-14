@@ -25,7 +25,6 @@
 			self.location = "/ticket/getSalesDetail?gameCode="+gameCode;
 		});
 	});
-		
     </script>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -34,39 +33,17 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 <body>
 
-<jsp:include page="/common/topBar.jsp"/>
-
-    <!--BREADCRUMBS BEGIN-->
-<section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Category</li>
-                        </ul>
-                        <h1>Game Tickets</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
-</section>
-<!--BREADCRUMBS END-->
+<jsp:include page="/admin/getAdmin.jsp"/>
 
 <div class="broadcast-wrap">
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-             <h4>Upcoming matches</h4>
-             <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>                
+             <h4>티켓 매출 내역</h4>
          </div>
          <div class="col-md-12">
          <!-- 게임코드 반복문 시작 -->

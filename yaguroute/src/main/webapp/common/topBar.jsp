@@ -19,8 +19,8 @@ img.logo{
 	font-family:"Gwangyang";
 	src:url("/fonts/Gwangyang.ttf") format("TrueType");
 }
-.navbar a,
-span{
+
+.navbar a,span.topbar{
 	font-family:"Gwangyang";
 	font-size: 16px;
 	color:white;
@@ -59,44 +59,44 @@ span{
             <div class="collapse navbar-collapse" id="team-menu">
                 <ul class="main-menu nav">
                     <li>
-                        <a href="javascript:;" class="getMain"><span>홈</span></a>
+                        <a href="javascript:;" class="getMain"><span class="topbar">홈</span></a>
                     </li>
                     <li>
-	                    	<a href="/game/getGameList"><span>경기 스케줄</span></a>
+	                    	<a href="/game/getGameList"><span class="topbar">경기 스케줄</span></a>
 	                    	<ul>
-                    		<li><a href="/game/getGameList"><span>경기 일정</span></a></li>
-                    		<li><a href="/game/getTeam?teamCode=${user.teamCode}"><span>팀 정보</span></a></li>
-                    		<li><a href="/predict/getUserPredict"><span>게임 예측</span></a></li>
+                    		<li><a href="/game/getGameList"><span class="topbar">경기 일정</span></a></li>
+                    		<li><a href="/game/getTeam?teamCode=${user.teamCode}"><span class="topbar">팀 정보</span></a></li>
+                    		<li><a href="/predict/getUserPredict"><span class="topbar">게임 예측</span></a></li>
                     		</ul>
                     </li>
-                    <li><a href="/channel/listChannel"><span>실시간 중계</span></a></li>
-                    <li>  <a href="#other"><span>선수 조회</span></a>
+                    <li><a href="/channel/listChannel"><span class="topbar">실시간 중계</span></a></li>
+                    <li>  <a href="#other"><span class="topbar">선수 조회</span></a>
                         <ul>
-                        	 <li><a href="/player/listPlayer"><span>선수 리스트</span></a></li>
-                            <li><a href="/player/listBestPlayer"><span>이 주의 선수</span></a></li>
+                        	 <li><a href="/player/listPlayer"><span class="topbar">선수 리스트</span></a></li>
+                            <li><a href="/player/listBestPlayer"><span class="topbar">이 주의 선수</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span>티켓 예매</span></a>
+                        <a href="/ticket/getGameList2w?teamCode=${user.teamCode}"><span class="topbar">티켓 예매</span></a>
                     </li>
-                    <li><a href="/product/salesProdList?prodTeamCode=ALL"><span>상점</span></a></li>
-                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span>커뮤니티 게시판</span></a></li>
+                    <li><a href="/product/salesProdList?prodTeamCode=ALL"><span class="topbar">상점</span></a></li>
+                    <li><a href="/post/getPostList?teamCode=${user.teamCode}"><span class="topbar">커뮤니티 게시판</span></a></li>
                     <c:if test="${user.role eq 'admin'}">
-	                    <li><a href="#other"><span>관리자페이지</span></a>
+	                    <li><a href="/admin/getAdmin.jsp"><span class="topbar">관리자페이지</span></a>
 	                        <ul>
-	                        	 <li><a href="/users/listUser"><span>회원 목록 조회</span></a></li>
-	                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span>판매상품관리</span></a></li>
-	                            <li><a href="/transaction/dlvyTranList"><span>상품배송관리</span></a></li>                                
-	                            <li><a href="/product/addProductView.jsp"><span>상품등록</span></a></li>
-	                            <li><a href="javascript:;" class="getSalesList"><span>티켓판매내역조회</span></a></li>                        
+	                        	 <li><a href="/users/listUser"><span class="topbar">회원 목록 조회</span></a></li>
+	                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span class="topbar">판매상품관리</span></a></li>
+	                            <li><a href="/transaction/dlvyTranList"><span class="topbar">상품배송관리</span></a></li>                                
+	                            <li><a href="/product/addProductView.jsp"><span class="topbar">상품등록</span></a></li>
+	                            <li><a href="javascript:;" class="getSalesList"><span class="topbar">티켓판매내역조회</span></a></li>                        
 	                        </ul>
 	                    </li>
                     </c:if>
-               	  <li><a href="#other"><span>마이페이지</span></a>
+               	  <li><a href="#other"><span class="topbar">마이페이지</span></a>
                         <ul>
-                        	<li><a href="/users/getUser"><span>내 정보 보기</span></a></li>
-                            <li><a href="/transaction/listTransaction"><span>상품구매목록조회</span></a></li>
-                            <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span>티켓예매내역조회</span></a></li>
+                        	<li><a href="/users/getUser"><span class="topbar">내 정보 보기</span></a></li>
+                            <li><a href="/transaction/listTransaction"><span class="topbar">상품구매목록조회</span></a></li>
+                            <li><a href="/ticket/getTicketPurchaseList?userId=${user.userId}"><span class="topbar">티켓예매내역조회</span></a></li>
                         </ul>
                     </li>
                     <li class="cart full">
@@ -114,12 +114,12 @@ span{
 				</a>
 				<c:if test="${empty sessionScope.user}">
 					<a href="/users/login">
-						<span>로그인</span><br>
+						<span class="topbar">로그인</span><br>
 					</a>
 				</c:if>
 				<c:if test="${not empty sessionScope.user}">
 					<a href="/users/logout">
-						<span>로그아웃</span>
+						<span class="topbar">로그아웃</span>
 					</a>
 				</c:if>
 			</div>

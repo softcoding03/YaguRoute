@@ -446,13 +446,13 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		
 		
 		List<String> recordKey = new ArrayList<>(recordList.keySet());
-		//System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
+		System.out.println(((Map)recordList.get(recordKey.get(4))).get("recordType"));
 		String videoName="";
 		
 		for(int i=0 ; i < recordKey.size(); i++) {
 			if(((String)((Map)recordList.get(recordKey.get(i))).get("recordType")).equals("MP4")){
 				videoName = (String)((Map)recordList.get(recordKey.get(i))).get("fileName");
-				//System.out.println("video의 fileName : "+videoName);
+				System.out.println("video의 fileName : "+videoName);
 			}
 		}
 		
@@ -470,7 +470,7 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 	}
 	
 	public String getChannelStatus(String channelID) throws Exception{
-		System.out.println("getChannelStatus() start");
+		//System.out.println("getChannelStatus() start");
 		
 		String jsonData = "";
 		StringBuffer response = new StringBuffer();

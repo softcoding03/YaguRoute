@@ -175,25 +175,30 @@
 		          </tr>
 		        </thead>
 				  <tbody>
-				  		<c:set var="size" value="${transaction.size()}"/>
-						<c:forEach var="i" begin="0" end="${size -1}" step="1">
-						<tr>
-						  <td align="left">${transaction[i].tranNo}</td>
-						  <td align="left"><img src="${game[i].homeTeam.teamEmblem}" style="width:50px;"> vs <img src="${game[i].awayTeam.teamEmblem}" style="width:50px;"></td>
-						  <td align="left">${game[i].gameDate} ${game[i].gameTime}</td>
-						  <td align="left">${transaction[i].tranDate}</td>
-						  <c:if test="${transaction[i].refundStatus ==1}">
-						  		<td align="left">결제 취소</td>
-						  </c:if>
-						  <c:if test="${transaction[i].refundStatus ==0}">
-						  		<td align="left">${transaction[i].refundableDate}이전까지</td>
-						  </c:if>
-						  <td align="left">
-						  		<input type="hidden" name="tranNo" value="${transaction[i].tranNo}">
-						  		<button type="button" class="getTicketPurchaseDetail">예매 상세</button>
-						  </td>
-						</tr>
-			        	</c:forEach>
+				  	  <c:if test="${empty transaction}">
+				  	  		예매 내역이 없습니다.
+				  	  </c:if>
+					  <c:if test="${not empty transaction}">
+					  		<c:set var="size" value="${transaction.size()}"/>
+							<c:forEach var="i" begin="0" end="${size -1}" step="1">
+							<tr>
+							  <td align="left">${transaction[i].tranNo}</td>
+							  <td align="left"><img src="${game[i].homeTeam.teamEmblem}" style="width:50px;"> vs <img src="${game[i].awayTeam.teamEmblem}" style="width:50px;"></td>
+							  <td align="left">${game[i].gameDate} ${game[i].gameTime}</td>
+							  <td align="left">${transaction[i].tranDate}</td>
+							  <c:if test="${transaction[i].refundStatus ==1}">
+							  		<td align="left">결제 취소</td>
+							  </c:if>
+							  <c:if test="${transaction[i].refundStatus ==0}">
+							  		<td align="left">${transaction[i].refundableDate}이전까지</td>
+							  </c:if>
+							  <td align="left">
+							  		<input type="hidden" name="tranNo" value="${transaction[i].tranNo}">
+							  		<button type="button" class="getTicketPurchaseDetail">예매 상세</button>
+							  </td>
+							</tr>
+				        	</c:forEach>
+				     </c:if>
 		        </tbody>
 		      </table>
 	      </div>
