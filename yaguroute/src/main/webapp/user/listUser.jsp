@@ -18,7 +18,9 @@
     <style>
     .text-primary {
     	color: #c313ac !important;
-    	font-size: 15px;
+    	font-size: 13px;
+    	text-align: center;
+    	margin-block: revert;
 	}
 	
 	button, input, select, textarea {
@@ -51,12 +53,22 @@
 	    border-radius: 14px;
 	}
 	table tr th {
-	    background: #2db785 !important;
 	    font-size: 10px;
 	    text-transform: uppercase;
 	    color: #fff;
 	    height: 32px;
 	    text-align: center;
+	    background: #000000 !important;
+	}
+	table tr td {
+	    padding: 10px 20px;
+	    /* height: 50px; */
+	    /* line-height: normal; */
+	    border-bottom: 1px solid #3a8db9 !important;
+	    font-size: 12px;
+	    color: #141414;
+	    text-align: center;
+	    background: #fcfcfc;
 	}
 	.col-md-6 {
 	    width: 44% !important;
@@ -156,8 +168,8 @@
     <div class="row">
         <div class="col-md-12 overflow-scroll">
         	
-            <h4 style="font-family: 'Gwangyang'; margin-bottom: 45px;">회원 목록 조회</h4>
-            <form>
+            <h4 style="font-family: 'Gwangyang'; margin-bottom: 45px; text-align: center;">회원 목록 조회</h4>
+            <form style="text-align: -webkit-center;">
             	<!-- <button type="button" id="playerList">선수 리스트</button>
 	            <button type="button" id="getBestPlayerList">이주의 선수 조회</button> -->
             <div class="form-group" hidden="hidden">
@@ -165,20 +177,18 @@
 						<option hidden="hidden"  value="1"  ${ ! empty search.searchCondition ? "selected" : "" }>회원명</option>
 					</select>
 			</div>
-            <div class="col-md-6">
-            <label class="sr-only" for="searchKeyword">검색어</label>
-            <input type="text" id="searchKeyword" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-       		</div>
-       		
-       		<button type="button" id="searching" class="btn btn-default" style="border-radius: 13px; border: none; background: #2e25a1; font-size: 16px; color: #FFFFFF; position: relative; top: -5px; width: auto;">검 색</button>
-       		
+			<div class="search" style="width: 500px; height: 60px;">
+            <input type="text" id="searchKeyword" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  placeholder="회원명을 입력 해 주세요.">
+       		<button type="button" id="searching" class="btn btn-default" style="border-radius: 13px; border: none; background: #19376D; top: 0px; width: 92px; left: -44px; font-family: 'Gwangyang'; font-size: 16px; color: #FFFFFF; position: relative;">검 색</button>
        		<input type="hidden" id="currentPage" name="currentPage" value=""/>
+       		</div>
        		</form>
        		
        		<p class="text-primary">
        		
+       		<span style="font-family: 'Gwangyang';">
        		전체 ${resultPage.totalCount } 명의 회원이 조회되었습니다.
-       		
+       		</span>
        		<!-- <button type="button" id="withDrawsun">탈퇴 유무 순</button>
        		<button type="button" id="pointsun">포인트 많은 순</button> -->
        		</p>
@@ -206,9 +216,6 @@
 						  <td align="left">${user.userAddr}</td>
 						  <td align="left">${user.withDraw}</td>
 						  <td align="left">${user.userPoint}</td>
-						  <td align="left">
-						  <%-- <i class="glyphicon glyphicon-ok" id= "${user.userId}"></i> --%>
-						  </td>
 					    </tr>
           			</c:forEach>
                 </tr>

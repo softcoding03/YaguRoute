@@ -486,6 +486,30 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     box-shadow: 2px 6px 8px 0 rgba(30,30,35,.08);
     box-sizing: border-box;
 }
+
+	.drop-area {
+	    display: block;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    /* border: 1px solid #355ed3; */
+	    left: -18px;
+	}
+
+	.drop-area.active {
+		display: block !important;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    border: 1px solid #355ed3;
+	    left: -18px;
+	}
     </style>
     
     <!-- 옆(좌,우)으로 이동시키기 위함. -->
@@ -568,14 +592,15 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	}
 	
 	input[type=text] {
+	border: 1px solid #4d5da4;
     padding: 15px 10px;
-    border: 1mm solid lightgrey;
     width: 100%;
     background: #fff;
     font-size: 14px;
     color: #666;
     line-height: normal;
     outline: 0;
+    
 }
 	
 	input[type="radio"] {
@@ -606,30 +631,50 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	    color: #fff;
 	}
 
-/* 버튼 호버 스타일 */
-button[type="button"]:hover {
-  background-color: #0056b3;
-}
-
-/* 버튼 클릭 스타일 */
-button[type="button"]:active {
-  background-color: #003580;
-}
-
-/* 예시를 위한 스타일 */
-.container {
-  margin-bottom: 10px;
-}
+	/* 버튼 호버 스타일 */
+	button[type="button"]:hover {
+	  background-color: #0056b3;
+	}
+	
+	/* 버튼 클릭 스타일 */
+	button[type="button"]:active {
+	  background-color: #003580;
+	}
+		
+	/* 예시를 위한 스타일 */
+	.container {
+	  margin-bottom: 10px;
+	}
 	
 	/* 선택된 라디오 버튼 스타일 */
 	input[type="radio"]:checked {
-	  background-color: #ccc;
+	  background-color: #212fd6;
 	}
 	
 	/* 라디오 버튼 라벨 스타일 */
 	.radio-label {
 	  /* 라디오 버튼과 라벨 간의 여백 조정 */
 	  margin-right: 10px;
+	}
+	.dropdown {
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: normal;
+    outline: 0
+    } 
+    .dropp {
+	    position: relative;
+	    padding: 66px;
+	    border: 2px dashed #ccc;
+	    border-radius: 15px;
+	    top: 6px;
+	    width: 256px;
+	    left: 76px;
+	    margin-bottom: 20px;
 	}
 	
     </style>
@@ -673,15 +718,26 @@ button[type="button"]:active {
 		
 		window.location.href="/main.jsp";
 	}
+	
 	function getUserFunction() {
+		
 		window.location.href="/users/getUser";
 	}
+	
 </script>
 
  <script type="text/javascript">
  
+	 $(document).ready(function() {
+		  setTimeout(function() {
+		    // 1초 후에 실행되는 코드
+		    console.log('1초가 지났습니다.');
+		  }, 10000);
+		});
+ 
  	$(function(){
 		
+ 		
 		var userId = document.getElementById("userId");
 		var userIdText = userId.innerText; // 아이디 텍스트 가져오기
 		
@@ -695,6 +751,16 @@ button[type="button"]:active {
 
 		    var profileElement = document.querySelector(".profile");
 		    profileElement.appendChild(naverLoginElement); // 네이버 로그인 요소 추가
+		    
+		    $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
+		    $("#passwordNone").css("display", "none");
+		    $("#passwordCheckNone").css("display", "none");
+		    $("#birthdayNone").css("display", "none");
+		    $("#genderNone").css("display", "none");
+		    $("#phoneNone").css("display", "none");
+		    $("#emailNone").css("display", "none");
+		    $("#userNameNone").css("display", "none");
+		    
 		}
 		else if(/^\d+$/.test(userIdText)) {
 		
@@ -706,6 +772,15 @@ button[type="button"]:active {
 			
 			var profileElement = document.querySelector(".profile");
 		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
+		    
+		    /* $("#userIdNone").css("display", "none"); // 디스플레이 속성을 block으로 변경합니다.
+		    $("#passwordNone").css("display", "none");
+		    $("#passwordCheckNone").css("display", "none");
+		    $("#birthdayNone").css("display", "none");
+		    $("#genderNone").css("display", "none");
+		    $("#phoneNone").css("display", "none");
+		    $("#emailNone").css("display", "none");
+		    $("#userNameNone").css("display", "none"); */
 		}
 	});
  
@@ -715,8 +790,8 @@ button[type="button"]:active {
 			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
 			$("#id_use").html('아이디는 수정할 수 없습니다.');
 			$("#id_use").attr('color','#dc3545');
-		})
-	})
+		});
+	});
     
 	// 패스워드 체크
 	$(function(){
@@ -724,29 +799,61 @@ button[type="button"]:active {
 		$("#password").keyup(function(){
 			
 			var password = $("#password").val();
-			console.log(password);
-			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			if(password.length < 10){
 				$("#password_use").html('비밀번호는 10자 이상입니다.');
 				$("#password_use").attr('color','#dc3545');
 			} 
-			else if(password.length >= 10 && password.length <= 20){
-				$("#password_use").html('');
+			else if(!pattern.test(password)){
+				$("#password_use").html('비밀번호는 영문과 숫자 조합 10자 이상 가능합니다.');
+				$("#password_use").attr('color','#dc3545');
 			}
 			else if(password.length > 20){
 				$("#password_use").html('비밀번호는 20자 이하만 가능합니다.');
 				$("#password_use").attr('color','#dc3545');
 			}
+			else{
+				$("#password_use").html('적절한 비밀번호입니다.');
+				$("#password_use").attr('color','#2fb380');
+				// 비밀번호 변경 위한 체크 버튼 출력
+				$("#passwordCheck").val('');
+				$('#passwordCheck').prop('disabled', false);
+			}
 		});
 	});
 	
-    // 닉네임 체크
+	// 패스워드 더블체크
+	$(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		
+		$( "#passwordCheck" ).keyup(function() {
+			
+			var passwordCheck = $("#passwordCheck").val();
+			var password = $("#password").val();
+			
+			if(password.length < 2 ){
+				$('#passwordCheck_use').html('먼저 비밀번호를 확인해 주시기 바랍니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+			else if(password == passwordCheck){
+				$('#passwordCheck_use').html('입력한 비밀번호와 같습니다.');
+				$('#passwordCheck_use').attr('color', '#2fb380');
+			}
+			else{
+				$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+		});
+	});	
+	
+	// 닉네임 체크
 	$(function(){
 		
 		$('#nicknameCheck').keyup(function(){
 			
 			var nickname = $('#nicknameCheck').val();
 			console.log(nickname);
+			
 			$.ajax({
 				url : "/user/userNickNameCheck",
 				method : "POST",
@@ -772,31 +879,10 @@ button[type="button"]:active {
 				error : function(){
 					alert("서버 요청 실패");
 				}
-			})
-		})
+			});
+		});
 	});
 	
-    // 패스워드 더블체크
-	$(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		
-		$( "#passwordCheck" ).keyup(function() {
-			
-			var passwordCheck = $("#passwordCheck").val();
-			var password = $("#password").val();
-			console.log(passwordCheck);
-			
-			if(password == passwordCheck){
-				$('#passwordCheck_use').html('비밀번호가 같아용');
-				$('#passwordCheck_use').attr('color', '#2fb380');
-			}
-			else{
-				$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
-				$("#passwordCheck_use").attr('color', '#dc3545');
-			}
-		});
-	});	
-    
 	// 이름 체크
 	$(function(){
 		
@@ -911,134 +997,181 @@ button[type="button"]:active {
     }).open();
 	}
 	
-	//fileDropzone dropzone 설정할 태그의 id로 지정
-    Dropzone.options.fileDropzone = {
-        url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-        clickable: true, // 클릭가능여부
-        thumbnailHeight: 90, // Upload icon size
-        thumbnailWidth: 90, // Upload icon size
-        maxFiles: 1, // 업로드 파일수
-        maxFilesize: 1, // 최대업로드용량 : 1MB
-        parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-        addRemoveLinks: true, // 삭제버튼 표시 여부
-        dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-        uploadMultiple: false, // 다중업로드 기능
-        dictDefaultMessage: "사진 업로드 (최대1MB)", // 메시지 변경
-        init: function() {
-            
-        	var myDropzone = this;
-			var maxFiles = this.options.maxFiles;
-            
-            // 파일 업로드 제한에 도달했을 때 알림 표시
-            this.on("maxfilesexceeded", function(file) {
-                // 알림을 표시하는 로직을 추가
-                
-                if(myDropzone.files.length > maxFiles){
-                    myDropzone.removeFile(file);
-                    alert("최대 1개의 파일만 업로드할 수 있습니다.");
-                }
-                
-            });
-
-            // 서버로 파일 업로드를 진행하는 함수
-            document.querySelector("#btn-upload-file").addEventListener("click", function() {
-                myDropzone.processQueue();
-            });
-        }
-        
-    };
 	
- 	// 수정 버튼 클릭
-	/* $(function(){
-		
-		$('#userUpdate').on("click", function(){
-			
-			var userName = $('#userName').val();
-			alert(userName);
-			
-			alert("수정이 완료되었습니다.");
-			$('form').attr("method", "POST").attr("action", "/users/updateUser").submit();
-		});
-	}); */
- 	
-	 // form에 입력값 제출
-	 
- 	// function fncAddUser() {		
-	// 	 	// 11개여야함.
-	// 		var userId=$("input[name='userId']").val();
-	// 		var password=$("#password").val();
-	// 		var userName=$("#userName").val();
-	// 		var userPhone=$("#userPhone").val();
-	// 		var phoneCheck=$("#phoneCheck").val();
-	// 		var userBirth=$("#birthday").val();
-			
-	// 		// userBirth logic
-	// 		var value = userBirth.replace(/-/g, "");
-	// 		$("#userBirth").val(value);
-			
-	// 		// addr1 + addr2 (주소 + 상세주소)
-	// 		var addr1 = $("input[name='addr1']").val();
-	// 		var addr2 = $("input[name='addr2']").val();
-	// 		var userAddr = addr1+addr2;
-			
-	// 		var gender=$("#gender").val();
-	// 		var userEmail=$("#userEmail").val();
-	// 		var userNickName=$("input[name='userNickName']").val();
-	// 		var teamCode=$("#teamCode").val();
-			
-	// 		alert($("#userBirth").val());
-			
-	// 		if(userId == null || userId.length <1){
-	// 			alert("아이디는 반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(password == null || password.length <1){
-	// 			alert("패스워드는  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userName == null || userName.length <1){
-	// 			alert("이름은  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userPhone == null || userPhone < 1){
-	// 			alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-	// 			return;
-	// 		} 
-			
-	// 		$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
-	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
-	// 		window.close();
-	// 	} 
 
-	// 수정 버튼 클릭
+		// updateUser
 		function fncUpdateUser() {
-
-			alert("ㅎㅇ");
 			
-			var userId=$("#userId").val();
-			alert(userId);
+			// 2. password 유효성 검증
+			var userId = $("#userId").val();
+			var password = $("#password").val();
+			alert(password);
 			
-			// userBirth logic...
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+			
+			if(password === userId){
+				alert("아마 카카오나 네이버 유저 ");
+			}
+			else if(password.length > 50){
+				alert("패스워드는 50자 까지 가능합니다.");
+				return;
+			}else if(password.length < 10){
+				alert("패스워드는 10자 이상 가능합니다.");
+				return;
+			}else if(!pattern.test(password)){
+				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
+				return;
+			}
+			else{
+				alert("2. password 통과");
+			}
+			
+			var passwordCheck = $("#passwordCheck").val();
+			alert("password : "+password);
+			alert("passwordCheck : "+passwordCheck);
+			
+			if(passwordCheck == null){
+				alert("패스워드 확인을 해 주세요.");
+				return;
+			}else if(password !== passwordCheck){
+				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
+				return;
+			}else{
+				alert("패스워드 체크 통과");
+			}
+			
+			// 3. userName 유효성 검증
+			var userName = $("#userName").val();
+			alert("3. userName : "+userName);
+			
+			if(userName.length > 10){
+				alert("이름은 10자까지 가능합니다.");
+				return;
+			}else if(userName.length < 1){
+				alert("최소 1자 이상 입력해주세요.");
+				return;
+			}
+			else {
+				alert("3. userName 통과");
+			}
+			
+			// 6. userNickName 유효성 검증
+			var userNickName = $("input[name='userNickName']").val();
+			alert("userNickName : "+userNickName);
+			
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : userNickName},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						alert("이미 사용중인 닉네임입니다. 다시 입력 해 주세요.");
+						return;
+					}else if(userNickName < 1){
+						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(userNickName > 20){
+						alert("닉네임은 최대 20자리까지 가능합니다.");
+						return;
+					}else{
+						alert("6. userNickName 통과");
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+			
+			// 4. userPhone 유효성 검증
+			var userPhone = $("#userPhone").val();
+			
+			if(userPhone.length == 11){
+				alert("4. userPhone 통과");
+			}else{
+				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
+				return;
+			}
+			// phoneCheck 유효성 검증
+			var phoneCheck = $("#phoneCheck").val();
+			
+			$.ajax({
+				url : "/user/userPhoneCheck",
+				method : "POST",
+				data : {userPhone : userPhone},
+				dataType : 'json',
+				success : function(result){
+					
+					if(result == 0){
+					alert("당신의 휴대폰입니다.");
+					}
+					else{
+						alert("휴대폰이 다른 상태...");
+						if(phoneCheck.length == 5){
+							alert("phoneCheck 통과");
+						}else{
+							alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+							return;
+						}
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+				
+			// 5. userBirth 유효성 검증
 			var userBirth=$("#birthday").val();
-			var value = userBirth.replace(/-/g, "");
-			$("#userBirth").val(value);
-			alert(userBirth);
 			
-			// userAddr logic...
+			if(userBirth == null){
+				alert("생일을 입력 해 주세요.");
+				return;
+				
+			}else{
+				alert("5. userBirth 통과");
+				var value = userBirth.replace(/-/g, "");
+				$("#userBirth").val(value);
+			}
+			
+			// 8. gender 유효성 검증
+			// PATH!!
+			
+			// 7. userAddr 유효성 검증
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();
-	 		var addr = '';
-	 		if(addr1 != null || addr2 != null){
-	 			addr = addr1+addr2;
-	 			$("#userAddr").val(addr);
-	 		}
-	 		
+			var addr = addr1+"   "+addr2;
+			$("#userAddr").val(addr);
+			alert(addr);
+			
+			if(addr.length < 2){
+				alert("주소를 입력해 주시기 바랍니다.");
+				return;
+			}else{
+				alert("7. userAddr 통과");
+			}
 			
 			
-			alert($("userAddr").val());
 			
+			// 9. userEmail 유효성 검증
+			var userEmail = $("#userEmail").val();
+			alert("userEmail : "+userEmail);
+			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
+			if(emailCheck.test(userEmail)){
+				alert("9. 이메일 통과");
+			}else if(userEmail.length > 40 ){
+				alert("이메일은 최대 40자 까지 입력 가능합니다.");
+				return;
+			}else{
+				alert("유효하지 않은 이메일입니다.");
+				return;
+			}
+			
+			// 10. 구단코드 유효성 검증
+			// PATH!!!
+			
+			// 11. 프로필 사진 유효성 검증
+			// PATH!!!
 			
 			// ajax(User) -> Controller
 			var user = {
@@ -1049,13 +1182,12 @@ button[type="button"]:active {
 				phoneCheck : $("#phoneCheck").val(),
 				userBirth : $("#userBirth").val(),
 				userAddr : $("#userAddr").val(),
-				gender : $("input[name='gender']").val(),
-				userPoint : $("#userPoiont").val(),
+				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
-				teamCode : $("#teamCode").val()
+				teamCode : $("#teamCode").val(),
+				userImage : $("#userImage").val()
 			};
-			alert(user);
 
 			$.ajax({
 				url:"/users/updateUser",
@@ -1073,7 +1205,7 @@ button[type="button"]:active {
 			});
 		};
 	 
-	// 가입 버튼
+	// 업데이트 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#userUpdate" ).on("click" , function() {
@@ -1091,6 +1223,100 @@ button[type="button"]:active {
 			
 		});
 	}); */
+	
+	$(function(){
+		
+		//drag & drop
+		var dropZone = $('#drop-area');
+		//dropZone.hide();
+		
+		$(document).on('dragenter', function(event) {
+			dropZone.addClass('active');
+			console.log("작동중");
+			dropZone.show();
+		});
+		
+		dropZone.on('dragover', function(event) {
+			console.log("작동중 11111");
+			event.preventDefault();
+		});
+		
+		dropZone.on('drop', function(event){
+			event.preventDefault();
+	 		handleFileSelect(event.originalEvent);
+	 		//dropZone.hide();
+	 	});
+	 	
+		$(document).on('dragleave', function(event) {
+			if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+				event.preventDefault();
+				dropZone.removeClass('active');
+				dropZone.hide();
+			}
+		});
+		 
+		function handleFileSelect(event) {
+			    event.stopPropagation();
+			    event.preventDefault();
+			    dropZone.removeClass('active');
+			    
+			    var files = event.target.files || event.dataTransfer.files;
+			    // 파일 업로드 처리 로직을 여기에 구현하세요.
+			    if (files.length > 0) {
+			    	var formData = new FormData();
+			        formData.append('image', files[0]);
+			        $.ajax({
+			            url: "http://192.168.0.36:3000/image/user",
+			            type: "POST",
+			            processData: false,
+			            contentType: false,
+			            data: formData,
+			            dataType: "json",
+			            success: function(data, status) {
+			            	
+			            	if(data == null){
+				            	alert("다시 드롭 해 주세요.");
+			            	}else{
+			            		console.log(data.image_path);
+			            		
+			            		
+			            		// hidden 속성 추가
+			            		var newDiv = document.createElement("div");
+			            		var hiddenDiv = document.createElement('input');
+			               		hiddenDiv.type = "hidden";
+			            		hiddenDiv.value = data.image_path;
+			            		hiddenDiv.id = 'userImage';
+			            		hiddenDiv.name = 'userImage';
+			            		newDiv.appendChild(hiddenDiv);
+			            		document.body.appendChild(newDiv);
+			            		
+			            		var previewImage = data.image_path;
+			            		
+			            		var img = document.createElement("img");
+			            		img.src = previewImage;
+			            		img.alt = "이미지 미리보기";
+			            		img.style.border = "none";
+			            		
+			            		
+			            		
+			            		// 이미지 미리보기 컨테이너 exampleText 자식으로 생성
+			            		var previewContainer = document.getElementById("drop-area");
+			            		previewContainer.appendChild(img);
+			            		
+			            		
+			            		// 이미지 미리보기
+			            		$("#previewImage").empty();
+			            		var imgElement = $("#previewImage");
+			            		imgElement.attr('src', previewImage);
+			            		$("#exampleText").text('');
+			            			
+			            	}
+			            }
+			          });
+			    }
+			}
+		
+		});
 	
 	</script>
 <jsp:include page="/common/topBar.jsp"></jsp:include>
@@ -1114,7 +1340,7 @@ button[type="button"]:active {
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -1229,30 +1455,32 @@ button[type="button"]:active {
         	<div class="row">
                     		<form>
                                 <div class="form-inline">
-                                    <label for="userId">
-                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">아이디 <br>
-                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 35px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
+                                    <label for="userId" id="userIdNone" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">아이디 <br>
+                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 40px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
                                         </a>
                                     </label>
                                     	<font id="id_use" size="2"></font>
                                 </div>
-                                <div class="form-inline">
+                                <div class="form-inline" id="passwordNone" style="display: block">
 								<label for="password">
 									<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">패스워드 <br>
-									<input type="password" name="password" id="password" style="width: 405px; height: 35px; border: 1mm solid lightgrey;" placeholder="패스워드" value="${user.password}">
+									<input type="password" name="password" id="password" style="border: 1px solid #0e55c6; width: 405px; height: 40px; "  placeholder="패스워드" value="${user.password}">
 									</a>
 								</label>
 									<font id="password_use" size="2"></font>
 								</div>
-								<!-- <div class="form-inline">
-                                    <label for="passwordCheck">
-                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 35px; border: 1mm solid lightgrey;" placeholder="패스워드 확인">
+								<div class="form-inline" id="passwordCheckNone" style="display: block">
+                                    <label for="passwordCheck" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">패스워드 체크<br>
+                                        <input type="password" name="passwordCheck" id="passwordCheck" style="width: 405px; height: 40px; border: 1px solid #0e55c6;" disabled placeholder="패스워드 확인" value="${user.password }">
+                                        </a>
                                     </label>
                                     	<font id="passwordCheck_use" size="2"></font>
-                                </div> -->
+                                </div> 
                             	<div class="form-inline">
-                                    <label>
-                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이름<br>
+                                    <label for="passwordCheck" id="userNameNone" style="display: block">
+                                    	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; height: 40px;">이름<br>
                                         <input type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름" value="${user.userName}">
                                         </a>
                                     </label>
@@ -1260,19 +1488,22 @@ button[type="button"]:active {
                             	</div>
 								
 								<div class="form-inline">
-                                    <label>
+                                    <label for="nickname">
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">닉네임<br>
                                         <input type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임" value="${user.userNickName}"/>
                                         </a>
                                     </label>
                                     	<font id="nickname_use" size="2"></font>
                             	</div>	
-                                <div class="form-inline">
+                                <div class="form-inline" style="color: #1a146f; font-size: medium; font-weight: bold;">
+                                		<label for="userBirth" id="birthdayNone" style="display: block">
                                     	생년월일&nbsp;
                                         <input type="date" name="birthday" id="birthday" style="width: 200px; height: 35px; border: groove;" placeholder="생년월일" value="${user.userBirth}">
                                         <input type="hidden" name="userBirth" id="userBirth">
                                         &nbsp;&nbsp;
+                                        </label>
                                         
+                                        <label for="gender" id="genderNone" style="display: block">
                                         <a class="sungbyul">
                                         <label class="byul">남성
                                         <input type="radio" name="gender" value="M" ${user.gender == 'M' ? 'checked' : ''}>
@@ -1281,13 +1512,14 @@ button[type="button"]:active {
                                         <input type="radio" name="gender" value="W" ${user.gender == 'W' ? 'checked' : ''}>
                                         </label>
                                         </a>
+                                        </label>
                                 </div>
                                 <div class="form-inline">
-                            		<label>
+                            		<label for="userPhone" id="phoneNone" style="display: block;">
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">휴대폰 번호<br>
 		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" placeholder="휴대폰 번호" value="${user.userPhone}"/>&nbsp;&nbsp;
 		    						</a>
-		    						<button type="button" id="phoneButton" style="background-color: slategray;" >인증번호 발송</button>
+		    						<button type="button" id="phoneButton" style=" background-color: #2c74bb; border-radius: 21px;" >인증번호 발송</button>
 		    						</label>
                             	</div>
                             	<div class="form-inline">
@@ -1299,7 +1531,7 @@ button[type="button"]:active {
 		    						</label>
                             	</div>
                             	<div class="form-inline">
-                            		<label>
+                            		<label for="email" id="emailNone" style="display: block;">
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이메일<br>
 		    						<input type="text" name="userEmail" id="userEmail" style="width: 405px; height: 35px; margin-bottom: 10px;" placeholder="이메일" value="${user.userEmail}"/>
 		    						</a>
@@ -1309,7 +1541,8 @@ button[type="button"]:active {
                             		<label>
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
 		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
-		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: slategray;">주소&nbsp;선택</button>
+		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: #2c74bb; border-radius: 21px;">주소&nbsp;선택</button>
+		    						<input type ="hidden" id="userAddr" name="userAddr"> 
 									</a>
 		    						</label>
                             	</div>
@@ -1321,7 +1554,7 @@ button[type="button"]:active {
                             	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">선호구단<br>
                             	<div class="form-inline">
                             	<label>
-                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; border: 2px solid grey;">
+                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; border: 1px solid #0e55c6;">
                             			<option value="NN" ${user.teamCode == 'NN' ? 'selected' : ''}>선택하지 않음</option>
       									<option value="LG" ${user.teamCode == 'LG' ? 'selected' : ''}>LG 트윈스</option>
       									<option value="SS" ${user.teamCode == 'SS' ? 'selected' : ''}>삼성 라이온즈</option>
@@ -1338,11 +1571,14 @@ button[type="button"]:active {
                                     </div>
                                     </a>
                                     
-                                <a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">프로필 사진<br> 
-                            	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone" style="margin-bottom: 10px;"></div> 
-     								<!-- <button id="btn-upload-file">서버전송</button> -->
- 								</div>
+                                <a style="font-weight: 600">프로필 사진<br> </a>
+								  <div class="dropp">
+								    <div class="drop-area" id="drop-area" style="display: block !important;">
+								      <!-- <img src="" id="previewImage"> -->
+								      <p class="text" id="exampleText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;png, jpg, jpeg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1MB이하 첨부</p>
+								    </div>
+								  </div>
+								  <!-- <button id="btn-upload-file">서버전송</button> -->
  								
  								<input type="hidden" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
  								
@@ -1350,8 +1586,7 @@ button[type="button"]:active {
                             	<label>
                                 <button type="button" class="btn-upload-file" id="userUpdate">수정</button>
                                 </label>
-                                </div>        
-                                </a>
+                                </div>
                                </form>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

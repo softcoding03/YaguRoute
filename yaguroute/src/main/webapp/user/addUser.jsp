@@ -15,8 +15,6 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 	
     <style>
     .grid-container {
@@ -100,6 +98,16 @@
     line-height: normal;
     outline: 0
     } 
+    .dropp {
+	    position: relative;
+	    padding: 66px;
+	    border: 2px dashed #ccc;
+	    border-radius: 15px;
+	    top: 6px;
+	    width: 256px;
+	    left: 76px;
+	    margin-bottom: 20px;
+	}
     </style>
     
     <!-- 옆(좌,우)으로 이동시키기 위함. -->
@@ -175,124 +183,35 @@
 	    display: block;
 	    margin-top: 5px;
 	}
-	
-/* 	.parent-container {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	} */
-	
-		/* Dropzone 스타일 */
-	.dropzone {
-	  border: 5px dashed #bbb ;
-	  border-radius: 5px ;
-	  background: #f9f9f9 ;
-	  padding: 5px ;
-	  text-align: center ;
-	  width: 200px;
-	  height: 40px;
-	  margin-right: 20px;
-	}
-	
-	.dropzone, .dropzone * {
-    	box-sizing: border-box !important;
-    	margin: 0px !important;
-	}
-	
-	/* 파일 드랍 영역 */
-	.dropzone .dz-message {
-	  /* font-size: 1.5em !important; */
-	  /* color: #888 !important; */
-	}
-	
-	/* 미리보기 영역 */
-	.dropzone .dz-preview {
-	  margin: 10px !important;
-	  display: inline-block !important;
-	  vertical-align: top !important;
-	  position: relative !important;
-	  width: 120px !important;
-	}
-	
-	.dropzone .dz-preview.dz-error:hover .dz-error-message {
-    	opacity: 0 !important;
-    	pointer-events: auto;
-	}
-	
-	.dropzone .dz-remove {
-    /* position: absolute !important; */
-    top: 5px !important;
-    /* right: 5px !important; */
-    /* width: 20px !important; */
-    height: 20px !important;
-    border-radius: 50% !important;
-    background-color: #fff !important;
-    color: #888 !important;
-    font-size: 14px !important;
-    text-align: center !important;
-    line-height: 20px !important;
-    cursor: pointer !important;
-    z-index: 10 !important;
-}
-	
-	.dropzone, .dropzone * {
-	    box-sizing: border-box !important;
-	    margin: 0px !important;
-	}
-	
-	.dropzone .dz-preview .dz-image {
-	  position: relative !important;
-	}
-	
-	
-	.dropzone .dz-remove {
-  position: absolute !important;
-  top: 5px !important;
-  right: 5px !important;
-  width: 50px !important;
-  height: 20px !important;
-  border-radius: 50% !important;
-  background-color: #fff !important;
-  color: #888 !important;
-  font-size: 14px !important;
-  text-align: center !important;
-  line-height: 20px !important;
-  cursor: pointer !important;
-  z-index: 999 !important;
-}
-	
-	
-	.dropzone .dz-remove:hover {
-	  background-color: #f00 !important;
-	  color: #fff !important;
-	}	
-	
-	.dropzone .dz-preview .dz-remove-image {
-	  position: absolute !important;
-	  top: 5px !important;
-	  right: -20px !important;
-	  width: 20px !important;
-	  height: 20px;
-	  background-color: #f00 !important;
-	  color: #fff !important;
-	  font-size: 14px !important;
-	  text-align: center !important;
-	  line-height: 20px !important;
-	  cursor: pointer !important;
-	  z-index: 999 !important;
+	.drop-area {
+	    display: block;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    /* border: 1px solid #355ed3; */
+	    left: -18px;
 	}
 
-	.dropzone .dz-preview .dz-image img {
-	  width: 100% !important;
-	  height: auto !important;
+	.drop-area.active {
+		display: block !important;
+	    width: 119%;
+	    /* height: 40px; */
+	    position: relative;
+	    top: -1px;
+	    /* z-index: 999; */
+	    /* border-radius: 20px; */
+	    border: 1px solid #355ed3;
+	    left: -18px;
 	}
-	
-	.dropzone .dz-preview .dz-details {
-	  font-size: 0.9em !important;
-	  text-align: center !important;
-	  margin-top: 10px !important;
+	img {
+	    vertical-align: middle;
+	    width: 148px;
+	    height: 119px;
+	    border: none !important;
 	}
-	
     </style>
     <!-- 구단코드 이미지 적용 -->
     
@@ -303,19 +222,17 @@
 			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
 			//console.log(id); // 현재 가져오는 id를 log로 출력해봄.
 				//alert("여기까지 옴!");
+			
 			 $.ajax({
 				url : "/user/userIdCheck", // 해당 url의 Controller로 진입
 				type : "POST", // POST방식으로 전달
 				data : {userId : id}, // data는 Key[userId], value[mb_id](위의 value)...
 				dataType : 'json', // json데이터형식으로 보낸다.
 				success : function(result){ // 서버에서 response(result값)가 전송된다.
+					var pattern = /^(?=.*[a-zA-Z])[a-zA-Z\d]+$/; // 영문 & 숫자 조합
 					if(result == 1){ // 위 result가 1과 같으면 이미 사용중...
 						$("#id_use").html('이미 사용중인 아이디입니다.');
 						$("#id_use").attr('color','#dc3545');
-					} 
-					else if(result == 0 && id.length >= 5 && id.length <= 20){
-						$("#id_use").html('사용할 수 있는 아이디입니다.');
-						$("#id_use").attr('color','#2fb380');
 					} 
 					else if(id.length < 5){
 						$("#id_use").html('최소 아이디 길이는 5자 입니다.');
@@ -325,6 +242,15 @@
 						$("#id_use").html('아이디는 20자를 넘길 수 없습니다.');
 						$("#id_use").attr('color','#dc3545');
 					}
+					else if(!pattern.test(id)){
+						$("#id_use").html('영문&숫자 조합하여 5자 이상 입력 바랍니다.');
+						$("#id_use").attr('color','#dc3545');
+					}
+					else{
+						$("#id_use").html('사용할 수 있는 아이디입니다.');
+						$("#id_use").attr('color','#2fb380');
+					} 
+
 				},
 				error : function(){
 					alert("서버요청실패");
@@ -339,18 +265,24 @@
 		$("#password").keyup(function(){
 			
 			var password = $("#password").val();
-			console.log(password);
+			
+			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
 			if(password.length < 10){
 				$("#password_use").html('비밀번호는 10자 이상입니다.');
 				$("#password_use").attr('color','#dc3545');
 			} 
-			else if(password.length >= 10 && password.length <= 20){
-				$("#password_use").html('');
+			else if(!pattern.test(password)){
+				$("#password_use").html('비밀번호는 영문과 숫자 조합 10자 이상 가능합니다.');
+				$("#password_use").attr('color','#dc3545');
 			}
 			else if(password.length > 20){
 				$("#password_use").html('비밀번호는 20자 이하만 가능합니다.');
 				$("#password_use").attr('color','#dc3545');
+			}
+			else{
+				$("#password_use").html('적절한 비밀번호입니다.');
+				$("#password_use").attr('color','#2fb380');
 			}
 		});
 	});
@@ -400,10 +332,13 @@
 			
 			var passwordCheck = $("#passwordCheck").val();
 			var password = $("#password").val();
-			console.log(passwordCheck);
 			
-			if(password == passwordCheck){
-				$('#passwordCheck_use').html('비밀번호가 같아용');
+			if(password.length < 2 ){
+				$('#passwordCheck_use').html('먼저 비밀번호를 확인해 주시기 바랍니다.');
+				$("#passwordCheck_use").attr('color', '#dc3545');
+			}
+			else if(password == passwordCheck){
+				$('#passwordCheck_use').html('입력한 비밀번호와 같습니다.');
 				$('#passwordCheck_use').attr('color', '#2fb380');
 			}
 			else{
@@ -436,7 +371,6 @@
 		$("#userBirth").on("click", function(){
 			
 			var userBirth = $("#userBirth").val();
-			console.log(userBirth);
 			
 		});
 	});
@@ -464,26 +398,26 @@
 			alert("인증번호를 발송하였습니다.");
 			document.getElementById('phoneCheckId').style.display = 'block';
 			$("#userPhone").prop("disabled", true);
+			
+	   		$.ajax({
+	               url: "/users/phoneCheck/",
+	               method: "POST",
+	               dataType: "json",
+	               data: {userPhone : userPhone,
+	               		rnd : rnd}, // 수정: userId로 변경
+	               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+	               success: function(result) {
+	               },
+	               error: function() {
+	               	alert("서버 오류 발생");
+	                   return;
+	           }
+	   		});
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
 			return;
 		}
-		
-   		$.ajax({
-               url: "/users/phoneCheck/",
-               method: "POST",
-               dataType: "json",
-               data: {userPhone : userPhone,
-               		rnd : rnd}, // 수정: userId로 변경
-               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-               success: function(result) {
-               },
-               error: function() {
-               	alert("서버 오류 발생");
-                   return;
-           }
-   		});
    	  });
    	});
 	
@@ -530,105 +464,107 @@
 	}
 	
 	 
-/* 	// 가입 버튼
+	// 가입 버튼
     $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#signup" ).on("click" , function() {
 			fncAddUser();
 		});
-	}); */
-	
-	
-	//fileDropzone dropzone 설정할 태그의 id로 지정
-    Dropzone.options.fileDropzone = {
-		
-		acceptedFiles: "image/jpeg, image/png, image/jpg", // 이 파일들만 업로드 가능
-        url: '/users/userImage', //업로드할 url (ex)컨트롤러)
-        autoProcessQueue: true, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-        clickable: true, // 클릭가능여부
-        thumbnailHeight: 90, // Upload icon size
-        thumbnailWidth: 90, // Upload icon size
-        maxFiles: 1, // 업로드 파일수
-        maxFilesize: 1, // 최대업로드용량 : 1MB
-        parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-        addRemoveLinks: true, // 삭제버튼 표시 여부
-        dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-        uploadMultiple: false, // 다중업로드 기능
-        dictDefaultMessage: "사진 업로드 (최대 1MB)<br>jpeg, jpg, png 파일", // 줄바꿈 추가
-        dictInvalidFileType: "유효하지 않은 파일 형식입니다.",	
-        init: function() {
-            
-        	var myDropzone = this;
-			var maxFiles = this.options.maxFiles;
-			
-            // 파일 업로드 제한에 도달했을 때 알림 표시
-            this.on("maxfilesexceeded", function(file) {
-                
-            	// 알림을 표시하는 로직을 추가
-                if(myDropzone.files.length > maxFiles){
-                    myDropzone.removeFile(file);
-                    alert("최대 1개의 파일만 업로드할 수 있습니다.");
-                }
-                
-            });
-
-            // 서버로 파일 업로드를 진행하는 함수
-            document.querySelector("#signup").addEventListener("click", function() {
-            	alert("ㅎㅇㅎㅇ");
-                myDropzone.processQueue();
-                fncAddUser();
-            });
-        }
-        
-    };
-
- 	// function fncAddUser() {		
-	// 	 	// 11개여야함.
-	// 		var userId=$("input[name='userId']").val();
-	// 		var password=$("#password").val();
-	// 		var userName=$("#userName").val();
-	// 		var userPhone=$("#userPhone").val();
-	// 		var phoneCheck=$("#phoneCheck").val();
-	// 		var userBirth=$("#birthday").val();
-			
-	// 		// userBirth logic
-	// 		var value = userBirth.replace(/-/g, "");
-	// 		$("#userBirth").val(value);
-			
-	// 		// addr1 + addr2 (주소 + 상세주소)
-	// 		var addr1 = $("input[name='addr1']").val();
-	// 		var addr2 = $("input[name='addr2']").val();
-	// 		var userAddr = addr1+addr2;
-			
-	// 		var gender=$("#gender").val();
-	// 		var userEmail=$("#userEmail").val();
-	// 		var userNickName=$("input[name='userNickName']").val();
-	// 		var teamCode=$("#teamCode").val();
-			
-	// 		alert($("#userBirth").val());
-			
-	// 		if(userId == null || userId.length <1){
-	// 			alert("아이디는 반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(password == null || password.length <1){
-	// 			alert("패스워드는  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userName == null || userName.length <1){
-	// 			alert("이름은  반드시 입력하셔야 합니다.");
-	// 			return;
-	// 		}
-	// 		if(userPhone == null || userPhone < 1){
-	// 			alert("휴대폰 번호는 반드시 입력하셔야 합니다. ");
-	// 			return;
-	// 		} 
-			
-	// 		$("form").attr("method", "POST").attr("action" , "/users/addUser").submit();
-	// 		alert("가입이 완료되었습니다. 로그인 해 주시기 바랍니다.");
-	// 		window.close();
-	// 	} 
+	});
  		
+	$(function(){
+		
+	//drag & drop
+	var dropZone = $('#drop-area');
+	//dropZone.hide();
+	
+	$(document).on('dragenter', function(event) {
+		dropZone.addClass('active');
+		console.log("작동중");
+		dropZone.show();
+	});
+	
+	dropZone.on('dragover', function(event) {
+		console.log("작동중 11111");
+		event.preventDefault();
+	});
+	
+	dropZone.on('drop', function(event){
+		event.preventDefault();
+ 		handleFileSelect(event.originalEvent);
+ 		//dropZone.hide();
+ 	});
+ 	
+	$(document).on('dragleave', function(event) {
+		if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+			event.preventDefault();
+			dropZone.removeClass('active');
+			dropZone.hide();
+		}
+	});
+	 
+	function handleFileSelect(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    dropZone.removeClass('active');
+		    
+		    var files = event.target.files || event.dataTransfer.files;
+		    // 파일 업로드 처리 로직을 여기에 구현하세요.
+		    if (files.length > 0) {
+		    	var formData = new FormData();
+		        formData.append('image', files[0]);
+		        $.ajax({
+		            url: "http://192.168.0.36:3000/image/user",
+		            type: "POST",
+		            processData: false,
+		            contentType: false,
+		            data: formData,
+		            dataType: "json",
+		            success: function(data, status) {
+		            	
+		            	if(data == null){
+			            	alert("다시 드롭 해 주세요.");
+		            	}else{
+		            		console.log(data.image_path);
+		            		
+		            		
+		            		// hidden 속성 추가
+		            		var newDiv = document.createElement("div");
+		            		var hiddenDiv = document.createElement('input');
+		               		hiddenDiv.type = "hidden";
+		            		hiddenDiv.value = data.image_path;
+		            		hiddenDiv.id = 'userImage';
+		            		hiddenDiv.name = 'userImage';
+		            		newDiv.appendChild(hiddenDiv);
+		            		document.body.appendChild(newDiv);
+		            		
+		            		var previewImage = data.image_path;
+		            		
+		            		var img = document.createElement("img");
+		            		img.src = previewImage;
+		            		img.alt = "이미지 미리보기";
+		            		img.style.border = "none";
+		            		
+		            		
+		            		
+		            		// 이미지 미리보기 컨테이너 exampleText 자식으로 생성
+		            		var previewContainer = document.getElementById("drop-area");
+		            		previewContainer.appendChild(img);
+		            		
+		            		
+		            		// 이미지 미리보기
+		            		$("#previewImage").empty();
+		            		var imgElement = $("#previewImage");
+		            		imgElement.attr('src', previewImage);
+		            		$("#exampleText").text('');
+		            			
+		            	}
+		            }
+		          });
+		    }
+		}
+	
+	});
  		// addUser
 		function fncAddUser() {
 
@@ -654,9 +590,6 @@
 						}else if(!pattern.test(userId)){
 							alert("아이디는 영문이나 영문 숫자 조합만 가능합니다.");
 							return; 
-						}else{
-							alert("1. 아이디 통과");
-							return;
 						}
 					},
 					error : function(){
@@ -680,9 +613,6 @@
 				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
 				return;
 			}
-			else{
-				alert("2. password 통과");
-			}
 			
 			var passwordCheck = $("#passwordCheck").val();
 			alert("password : "+password);
@@ -694,8 +624,6 @@
 			}else if(password !== passwordCheck){
 				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
 				return;
-			}else{
-				alert("패스워드 체크 통과");
 			}
 			
 			// 3. userName 유효성 검증
@@ -708,9 +636,6 @@
 			}else if(userName.length < 1){
 				alert("최소 1자 이상 입력해주세요.");
 				return;
-			}
-			else {
-				alert("3. userName 통과");
 			}
 			
 			// 6. userNickName 유효성 검증
@@ -732,8 +657,6 @@
 					}else if(userNickName > 20){
 						alert("닉네임은 최대 20자리까지 가능합니다.");
 						return;
-					}else{
-						alert("6. userNickName 통과");
 					}
 				},
 				error : function(){
@@ -744,17 +667,13 @@
 			// 4. userPhone 유효성 검증
 			var userPhone = $("#userPhone").val();
 			
-			if(userPhone.length == 11){
-				alert("4. userPhone 통과");
-			}else{
+			if(userPhone.length != 11){
 				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
 				return;
 			}
 			
 			var phoneCheck = $("#phoneCheck").val();
-			if(phoneCheck.length == 5){
-				alert("phoneCheck 통과");
-			}else{
+			if(phoneCheck.length != 5){
 				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
 				return;
 			}
@@ -763,12 +682,12 @@
 			var userBirth=$("#birthday").val();
 			
 			if(userBirth == null){
-				alert("5. userBirth 통과");
-				var value = userBirth.replace(/-/g, "");
-				$("#userBirth").val(value);
-			}else{
 				alert("생일을 입력 해 주세요.");
 				return;
+				
+			}else{
+				var value = userBirth.replace(/-/g, "");
+				$("#userBirth").val(value);
 			}
 			
 			// 8. gender 유효성 검증
@@ -781,11 +700,9 @@
 			$("#userAddr").val(addr);
 			alert(addr);
 			
-			if(addr == null){
+			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
-			}else{
-				alert("7. userAddr 통과");
 			}
 			
 			
@@ -795,13 +712,11 @@
 			alert("userEmail : "+userEmail);
 			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
-			if(emailCheck.test(userEmail)){
-				alert("9. 이메일 통과");
+			if(!emailCheck.test(userEmail)){
+				alert("유효하지 않은 이메일입니다.");
+				return;
 			}else if(userEmail.length > 40 ){
 				alert("이메일은 최대 40자 까지 입력 가능합니다.");
-				return;
-			}else{
-				alert("유효하지 않은 이메일입니다.");
 				return;
 			}
 			
@@ -823,7 +738,8 @@
 				gender : $("input[name='gender']:checked").val(),
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
-				teamCode : $("#teamCode").val()
+				teamCode : $("#teamCode").val(),
+				userImage : $("#userImage").val()
 			};
 
 			$.ajax({
@@ -832,7 +748,6 @@
 				data: JSON.stringify(user),
 				contentType: "application/json",
   				success: function(response) {
-    				alert("컨트롤러 전송 완료!");
     				window.close();
     				window.opener.location.reload();
   				},
@@ -844,6 +759,7 @@
 		};
 
 	
+		
 /* 	// 뒤로 가기 버튼
 	$(function(){
 		
@@ -950,10 +866,10 @@
 		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 405px; height: 35px;">
 		    						</label>
                             	</div>
-                            	<b>선호구단</b>
+                            	<span style="font-weight: 600;">선호구단</span>
                             	<div class="form-inline">
                             	<label>
-                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px;">
+                            		<select class="dropdown" id="teamCode" name="teamCode" style="width: 400px; margin-bottom: 10px;">
                             			<option value="ALL">선택하지 않음</option>
       									<option value="LG">LG 트윈스</option>
       									<option value="SS">삼성 라이온즈</option>
@@ -971,13 +887,18 @@
                                     
                                     <b>프로필 사진</b>  
                             	<div class="form-inline">
-     								<div class="dropzone" id="fileDropzone"></div> 
-     								<!-- <button id="btn-upload-file">서버전송</button> -->
- 								</div>
- 								
+								  <div class="dropp">
+								    <div class="drop-area" id="drop-area" style="display: block !important;">
+								      <!-- <img src="" id="previewImage"> -->
+								      <p class="text" id="exampleText" style="font-size: 15px; font-weight: 500">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;png, jpg, jpeg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1MB이하 첨부</p>
+								    </div>
+								  </div>
+								  <!-- <button id="btn-upload-file">서버전송</button> -->
+								</div>
+
                             	<div class="form-group">
                             	<label>
-                                <button type="button" class="btn-upload-file" id="signup" >가입</button>
+                                <button type="button" class="btn-upload-file" id="signup">가입</button>
                                 </label>
                                 </div>
                     			

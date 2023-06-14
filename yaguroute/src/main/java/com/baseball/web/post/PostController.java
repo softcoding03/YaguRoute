@@ -140,6 +140,7 @@ public class PostController {
 			
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
+			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			//사이드바에 noticeList 위함
@@ -166,6 +167,7 @@ public class PostController {
 			}
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
+			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("list",bestList);
@@ -187,6 +189,7 @@ public class PostController {
 			}
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
+			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("list",noticeList);
@@ -221,6 +224,7 @@ public class PostController {
 			
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
+			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			Integer totalCount = ((Integer)map.get("totalCount")).intValue();

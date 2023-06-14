@@ -560,7 +560,7 @@ a {
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
