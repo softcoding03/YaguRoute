@@ -48,6 +48,28 @@
        border: 1px solid #888;
        width: 80%;
    }
+   
+   .modal-button{
+   		background-color:#f2f2f2;
+   		margin-top: 10px;
+   		padding:10px;
+   		font-family:"Gwangyang" !important;
+   		border-radius: 10px;
+   }
+   
+   .input-style{
+	   	background: #f2f2f2;
+		font-size: 14px;
+		color: #666 !important;
+		line-height: normal ;
+		outline: auto !important;
+   }
+   
+   .text{
+   		font-weight: bold;
+   		font-family:"Gwangyang";
+		font-size : 20px;
+   }
 
 </style>
 
@@ -64,8 +86,7 @@
 				$("button:contains('수정')").on("click", function(){
 					var text = $(this).children("input[name='channelID']").val();
 					var url = "/channel/updateChannel?channelID="+text;
-					//self.location="/channel/updateChannel?channelID="+text;
-					window.open(url, "채널 수정" ,"width=1000, height=700");
+					window.open(url, "채널 수정" ,"width=800, height=700");
 					
 				})
 				
@@ -87,7 +108,7 @@
 				})
 				
 				$("button:contains('채널 생성')").on("click", function(){
-					window.open("/channel/addChannel", "채널 생성" ,"width=1000, height=700");
+					window.open("/channel/addChannel", "채널 생성" ,"width=800, height=700");
 				});
 				
 				function openModal(data) {
@@ -153,44 +174,23 @@
 </head>
 
 <body>
-	<!-- Toolbar start -->
-	<jsp:include page="/common/topBar.jsp" />
-	<!-- Toolbar End -->
+<jsp:include page="/admin/getAdmin.jsp"/>
 
-	<!-- Header start -->
-	<section class="image-header">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="info">
-						<div class="wrap">
-							<ul class="breadcrumbs">
-								<li><a href="index.html">Main</a>/</li>
-								<li>Streaming Match</li>
-							</ul>
-							<h1>채널 목록</h1>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- header end -->
-	
 	<div id="deleteModal" class="modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<div>
-				<h4>삭제하시겠습니까?</h4>
-				<h6>채널 이름을 입력해주세요</h6>
+				<h2 class="text-center text">삭제하시겠습니까?</h2>
+				<font size="2" color="red">* 삭제하기 전 채널 이름을 입력해주세요</font>
 			</div>
 			
 			<label for="channelNameInput">채널 이름:</label> 
-			<input type="text" id="channelNameInput"/>
+			<input class="input-style" type="text" id="channelNameInput"/>
 			<font id="channelName" size="2"></font>
+			
 			<div>
-				<button id="confirmButton">삭제</button>
-				<button id="cancelButton">취소</button>
+				<button class="modal-button" id="confirmButton">삭제</button>
+				<button class="modal-button" id="cancelButton">취소</button>
 			</div>
 		</div>
 	</div>
@@ -205,7 +205,7 @@
 	            </div>
 	            
 				<div class="basic col-md-12 text-right">
-					<button>채널 생성</button>
+					<button class="modal-button">채널 생성</button>
 				</div>
 				
 				<c:set var="i" value="0"/>

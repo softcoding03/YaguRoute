@@ -16,8 +16,79 @@
     
     <script type="text/javascript">
     	$(function() {
+    		
+    		$('input[name="channelName"]').keyup(function(){
+    			var value = $(this).val();
+    			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+    			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+    			
+    			if(value.length < 3){
+    				$("#channelName").html("3문자 미만입니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else if (value.length > 20){
+    				$("#channelName").html("20문자 초과입니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else if (!regex.test(value) || specialChars.test(value)){
+    				$("#channelName").html("특수 문자는 불가합니다.");
+					$("#channelName").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else {
+    				$("#channelName").html("성공");
+					$("#channelName").attr("color", "#4caf50");
+					$('button:contains("추가")').prop('disabled', false); // 버튼 활성화
+    			}
+    		});
+    		
+    		$('input[name="uploadPath"]').keyup(function(){
+    			var value = $(this).val();
+    			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+    			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+    			
+    			if(value.length < 3){
+    				$("#uploadPath").html("3문자 미만입니다.");
+					$("#uploadPath").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else if (value.length > 20){
+    				$("#uploadPath").html("20문자 초과입니다.");
+					$("#uploadPath").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else if (!regex.test(value) || specialChars.test(value)){
+    				$("#uploadPath").html("특수 문자나 대문자는 불가합니다.");
+					$("#uploadPath").attr("color", "#dc3545");
+					$('button:contains("추가")').prop('disabled', true); // 버튼 비활성화
+    			} else {
+    				$("#uploadPath").html("성공");
+					$("#uploadPath").attr("color", "#4caf50");
+					$('button:contains("추가")').prop('disabled', false); // 버튼 활성화
+    			}
+    		});
+    		
+    		
+    		
+    		
     		$('button:contains("추가")').on('click', function(){
     			console.log("추가 버튼 클릭 성공");
+    			
+    			var channelName = $('input[name="channelName"]').val();
+    	        var bucketName = $('input[name="bucketName"]').val();
+    	        var uploadPath = $('input[name="uploadPath"]').val();
+    	        
+    	        if(!channelName || !bucketName || !uploadPath){
+    	        	console.log("내용을 입력해 주세요");
+    	        	
+    	        	if(!channelName){
+    	        		$("#channelName").html("채널 이름을 입력바랍니다.");
+						$("#channelName").attr("color", "#dc3545");
+    	        	}
+    	        	
+    	        	if(!uploadPath){
+    	        		$("#uploadPath").html("저장될 경로의 이름을 입력바랍니다.");
+						$("#uploadPath").attr("color", "#dc3545");
+    	        	}
+    	        	return; //submit 중지
+    	        }
     			$('form[name="detailForm"]').attr("method", "post").attr("action", "/channel/addChannel").submit();
     		})
     	});
@@ -56,6 +127,14 @@ body{
     transition: all 240ms ease-out;
     -webkit-transition: all 240ms ease-out; 
 }
+
+.modal-button{
+   	background-color:#19376D !important;
+   	color: white !important;
+   	padding:10px 50px !important;
+   	border-radius: 10px !important;
+   	text-align: center !important;
+}
 </style>
 
 
@@ -80,6 +159,7 @@ body{
 												채널 이름 <i>*</i>
 											</span>
 											<input type="text" name="channelName" class="form-control" style="width:400px;"/>
+											<font id="channelName" size="2" color="black">채널명은 최소 3글자이상 최대 20문자까지 허용, 특수문자는 불가합니다.</font>
 										</lable>
 									</div>
 									
@@ -88,7 +168,8 @@ body{
 											<span>
 												버켓 이름 <i>*</i>									
 											</span>
-											<input type="text" name="bucketName" class="form-control" style="width:400px;"/>
+											<input type="text" name="bucketName" class="form-control" value="mainpjt" style="width:400px;" readonly/>
+											<font id="bucketName" size="2" color="#4caf50">버켓 이름은 고정입니다.</font>
 										</lable>
 									</div>
 									
@@ -96,6 +177,7 @@ body{
 										<lable>
 											<span>저장 경로</span>
 											<input type="text" name="uploadPath" class="form-control" style="width:400px;"/>
+											<font id="uploadPath" size="2"></font>
 										</lable>
 									</div>
 									
@@ -132,14 +214,16 @@ body{
 								</div>
 							</div>
 						</form>
-						<button type="button" id="submit">추가</button>
+						<div class="text-center">
+							<button class="modal-button">추가</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>		
 		
-
+<jsp:include page="/common/addLoading.jsp"/>
 
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>

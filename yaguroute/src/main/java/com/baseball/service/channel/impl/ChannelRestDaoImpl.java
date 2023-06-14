@@ -214,7 +214,6 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		JSONObject objectData = (JSONObject) parser.parse(response.toString());
 		JSONArray arrayData = (JSONArray) objectData.get("content");
 		JSONObject firstObj = (JSONObject) arrayData.get(0);
-		
 		String serviceURL = (String) firstObj.get("url");
 		System.out.println("Service URL : "+serviceURL);
 		

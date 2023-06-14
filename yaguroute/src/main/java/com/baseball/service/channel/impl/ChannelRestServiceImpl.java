@@ -46,7 +46,7 @@ public class ChannelRestServiceImpl implements ChannelRestService {
 		
 		System.out.println("returnData Info : "+returnData.toString());
 		
-		Thread.sleep(300000);
+		Thread.sleep(360000);
 		String data = channelRestDao.getChannelServiceURL(returnData.getChannelID());	
 		returnData.setChannelCDN(data);
 		
