@@ -137,9 +137,13 @@
 	<td width="104" class="ct_write">상품 이미지 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
 	<td bgcolor="D6D6D6" width="1"></td>
 	<td class="ct_write01">
-		<img src="/images/product/${product.prodImageFirst}"  style="width: 120px;" onerror="this.style.display='none'"/>
-		<img src="/images/product/${product.prodImageSecond}"  style="width: 120px;" onerror="this.style.display='none'"/>
-		<img src="/images/product/${product.prodImageThird}"style="width: 120px;" onerror="this.style.display='none'"/>
+		<img src="${product.prodImageFirst}"  style="width: 120px;" onerror="this.style.display='none'"/>
+		<c:if test="${!product.prodImageSecond eq null}">
+			<img src="${product.prodImageSecond}"  style="width: 120px;" onerror="this.style.display='none'"/>
+		</c:if>
+		<c:if test="${!product.prodImageThird eq null}">
+			<img src="${product.prodImageThird}"  style="width: 120px;" onerror="this.style.display='none'"/>
+		</c:if>
 	</td>
 </tr>
 		<%--  단일 상품 업로드 

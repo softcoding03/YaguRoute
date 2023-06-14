@@ -20,15 +20,14 @@
 
 <!--  ///////////////////////// CSS ////////////////////////// -->
 <style>
-	body {
-		padding-top: 50px;
+/* 화면 비율 맞추기*/
+	.broadcast-wrap {
+		display: flex !important;
+		overflow: hidden !important;
+		flex-wrap: wrap !important;
+        justify-content: center !important;
 	}
-	
-	#button{
-		background-color : #f2f2f2;
-		margin-top: 20%;
-	}
-	
+
     .modal {
        display: none; /* 초기에는 숨겨진 상태로 설정 */
        position: fixed;
@@ -83,14 +82,14 @@
 					self.location="/channel/getChannel?channelID="+text;
 				});
 				
-				$("button:contains('수정')").on("click", function(){
+				$("button:contains('수    정')").on("click", function(){
 					var text = $(this).children("input[name='channelID']").val();
 					var url = "/channel/updateChannel?channelID="+text;
 					window.open(url, "채널 수정" ,"width=800, height=700");
 					
 				})
 				
-				$("button:contains('삭제')").on("click", function(){
+				$("button:contains('삭    제')").on("click", function(){
 					console.log("삭제하기");
 					var channelID = $(this).children("input[name='channelID']").val();
 					var channelName = $(this).children("input[name='channelName']").val();
@@ -200,18 +199,18 @@
 	<div class="broadcast-wrap">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-9">
 	            	<h4>Channel Management</h4>                
 	            </div>
 	            
-				<div class="basic col-md-12 text-right">
+				<div class="basic col-md-9">
 					<button class="modal-button">채널 생성</button>
 				</div>
 				
 				<c:set var="i" value="0"/>
 				<c:forEach var="channel" items="${list}">
 					<c:set var="i" value="${i+1}"/>
-					<div class="col-md-12">
+					<div class="col-md-9">
 						<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
 							<div class="broadcast-item">
 								<div class="item-header" id="headingOne">
@@ -220,28 +219,28 @@
 				                    		<a data-toggle="collapse" data-parent="#accordion" href="#${channel.channelName}" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
 				               			</div>
 				               			
-				               			<div class="col-md-7 col-sm-7">
+				               			<div class="col-md-8 col-sm-7">
 				               				<div class="item-head-body">
 				               					${channel.channelName}
 				               				</div>				       
 				               			</div>
 				               			
-				               			<div class="col-md-4 col-sm-4">
+				               			<div class="col-md-3 col-sm-4">
 					               			<div class="row">
-					               				<div class="col-md-6 col-sm-6">
-					               					<button type="button" class="btn btn-outline-dark" id=button>
-					               						수정
+					               				
+					               					<button type="button" class="modal-button">
+					               						수    정
 					               						<input type="hidden" name="channelID" value="${channel.channelID}"/>
 					               					</button>
-					               				</div>
 					               				
-					               				<div class="col-md-6 col-sm-6">
-					               					<button class="btn btn-outline-dark" id=button>
-					               						삭제
+					               				
+					               				
+					               					<button class="modal-button">
+					               						삭    제
 					               						<input type="hidden" name="channelID" value="${channel.channelID}"/>
 					               						<input type="hidden" name="channelName" value="${channel.channelName}"/>
 					               					</button>
-					               				</div>
+					               				
 											</div>
 				               			</div>
 									</div>
