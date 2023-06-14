@@ -480,10 +480,10 @@
                 </div>
 	                <div class="corp_area">
 	                <ul class="list_corp">
-		                <li class="corp_item"><a target="_blank" href="https://www.navercorp.com/naver/proposalGuide">제휴제안 </a></li>
-		                <li class="corp_item"><a target="_blank" href="https://www.naver.com/policy/service.html">이용약관</a></li>
+		                <li class="corp_item"><a target="_blank" href="/user/PartnershipProposal.html">제휴제안</a></li>
+		                <li class="corp_item"><a target="_blank" href="192.168.0.116:8080/user/TermsofUse.html">이용약관</a></li>
 		                <li class="corp_item"><a target="_blank" href="https://www.naver.com/policy/privacy.html">개인정보처리방침 </a></li>
-		                <li class="corp_item"><a target="_blank" href="https://policy.naver.com/policy/service_group.html">네이버 정책 </a></li>
+		                <li class="corp_item"><a target="_blank" href="https://policy.naver.com/policy/service_group.html">야구Route 정책 </a></li>
 		                <li class="corp_item"><a target="_blank" href="/images/user/rockseongface.jpg"><strong>야구Route CEO 소개</strong></a></li>
 	                </ul>
 	                </div>

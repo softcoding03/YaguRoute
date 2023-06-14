@@ -150,6 +150,7 @@ public class UserController {
 				return "redirect:/user/index.jsp";
 			} else {
 				System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
+				
 				return "redirect:/user/index.jsp";
 			}
 		} else {
@@ -211,15 +212,6 @@ public class UserController {
 		
 		System.out.println("원래 값 : " + session.getAttribute("user"));
 		System.out.println("새로 바꿀 값 : " + user);
-		
-		
-		// 만약 userImage 가 Null 값이라면?
-		if(user.getUserImage() == null) {
-			if(sessionUser.getUserImage() != null) {
-				
-				user.setUserImage(sessionUser.getUserImage());
-			}
-		}
 		
 		userService.updateUser(user);
 

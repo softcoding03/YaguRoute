@@ -519,12 +519,10 @@ public class ChannelRestDaoImpl implements ChannelRestDao {
 		JSONObject contentData = ((JSONObject)data.get("content"));
 		JSONObject cdnData = (JSONObject)contentData.get("cdn");
 		String cdnStatus = (String)(cdnData.get("statusName"));
-		System.out.println(cdnStatus);
 		
-		Map<String, Object> channelInfo = new HashMap();
+		Map<String, Object> channelInfo = new HashMap<>();
 		channelInfo.put("channelStatus", channelStatus);
 		channelInfo.put("cdnStatus", cdnStatus);
-		
 		return channelInfo;
 	}
 	

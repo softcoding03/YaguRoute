@@ -201,13 +201,14 @@
 		    };
 	});
     
-    // 닉네임 체크
+	// 닉네임 체크
 	$(function(){
 		
 		$('#nicknameCheck').keyup(function(){
 			
 			var nickname = $('#nicknameCheck').val();
 			console.log(nickname);
+			
 			$.ajax({
 				url : "/user/userNickNameCheck",
 				method : "POST",
@@ -233,8 +234,8 @@
 				error : function(){
 					alert("서버 요청 실패");
 				}
-			})
-		})
+			});
+		});
 	});
     
 	// 주소선택 버튼 클릭
@@ -260,8 +261,44 @@
 	
 	// 애드 유저
 		function fncAddUser() {
-
-			alert("ㅎㅇ");
+			
+			// 6. userNickName 유효성 검증
+			var userNickName = $("input[name='userNickName']").val();
+			alert("userNickName : "+userNickName);
+			
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : userNickName},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						alert("이미 사용중인 닉네임입니다. 다시 입력 해 주세요.");
+						return;
+					}else if(userNickName < 1){
+						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(userNickName > 20){
+						alert("닉네임은 최대 20자리까지 가능합니다.");
+						return;
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+		
+			// 7. userAddr 유효성 검증
+			var addr1 = $("input[name='addr1']").val();
+	 		var addr2 = $("input[name='addr2']").val();
+			var addr = addr1+"   "+addr2;
+			$("#userAddr").val(addr);
+			alert(addr);
+			
+			if(addr.length < 2){
+				alert("주소를 입력해 주시기 바랍니다.");
+				return;
+			}
 			
 			var userId = "${user.userId}";
 			var userName = "${user.userName}";
