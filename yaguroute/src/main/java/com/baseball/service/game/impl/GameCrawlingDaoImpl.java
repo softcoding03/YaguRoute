@@ -74,22 +74,21 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
 //			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div:nth-child()"));
 			if(!todayGame.getAttribute("class").contains("nogame")) {
-				String date = todayGame.findElement(By.cssSelector(".td_date strong")).getText();
-		
+				String date = todayGame.findElement(By.cssSelector("table > tbody > tr:nth-child(1) > td:nth-child(1) > span.td_date > strong")).getText();
+				
 				int state = 0;
 				
 				String nowYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
 				
-				for(WebElement oneGame : todayGame.findElements(By.cssSelector("tr"))) {
+				for(WebElement oneGame : todayGame.findElements(By.cssSelector("table > tbody > tr"))) {
 					
 					Game game = new Game();
 					
 					game.setGameDate(nowYear+"."+date);
 					
-					if(oneGame.findElement(By.cssSelector("td:nth-child(3) span")).getAttribute("class").contains("cancel") 
-							|| oneGame.findElement(By.cssSelector("td:nth-child(4) span")).getAttribute("class").contains("cancel") 
-							|| oneGame.findElement(By.cssSelector("td:nth-child(2)")).getAttribute("class").contains("add_state")
-							|| oneGame.findElement(By.cssSelector("td:nth-child(3)")).getAttribute("class").contains("add_state")) {
+					if(oneGame.findElement(By.cssSelector("td:nth-child(3) span,td:nth-child(4) span")).getAttribute("class").contains("cancel") 
+							|| oneGame.findElement(By.cssSelector("td:nth-child(2),td:nth-child(3)")).getAttribute("class").contains("add_state")) 
+					{
 						state = 3;
 					}else {
 						if(oneGame.findElement(By.cssSelector("td a")).getAttribute("href").contains("record")) {
@@ -300,46 +299,39 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 		WebDriver driver = null;
 		try{
 			driver = chromeDriverPool.acquireWebDriver();
-			/*String WEB_DRIVER_ID = "webdriver.chrome.driver";
-			String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 			
-			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-			
-			ChromeOptions ops = new ChromeOptions();
-			ops.setCapability("ignoreProtectedModeSettings", true);
-			ops.addArguments("--remote-allow-origins=*");
-			ops.addArguments("headless");
-			ops.addArguments("--no-sandbox");
-			ops.addArguments("--disable-dev-shm-usage");
-			ops.addArguments("ignore-certificate-errors");
-			
-			
-			WebDriver driver = new ChromeDriver(ops);*/
-			
+			//#content > div > aside > div > div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > button.MyTicket_button_tooltip__LNiRW
+			//#content > div > aside > div > div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > button
+			//#content > div > aside > div > div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > div.MyTicketTooltip_comp_myticket_tooltip__1VKqf > div > button
 			String base_url = "https://m.sports.naver.com/game/"+game.getGameCode()+"/record";
+			
 			driver.get(base_url);
-			Thread.sleep(600);
-			if(driver.findElements(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).size()!=0) {
-				if(driver.findElement(By.cssSelector(".MyTicket_title_area__835u5 .MyTicket_button_tooltip__LNiRW")).getAttribute("aria-pressed").equals("true")) {
-					driver.findElement(By.cssSelector(".MyTicketTooltip_button_close__1PV-1")).click();
+			Thread.sleep(500);
+			//#content > div > div > div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > button
+			WebElement tooltipTmp = driver.findElement(By.cssSelector("#content > div > div"));
+			if(tooltipTmp.findElements(By.cssSelector("div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket")).size()!=0) {
+				if(tooltipTmp.findElement(By.cssSelector("div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > button.MyTicket_button_tooltip__LNiRW")).getAttribute("aria-pressed").equals("true")) {
+					//#content > div > aside > div > div.MyTicket_comp_my_ticket__1NhMv.is_unfold.is_get_ticket > div > div.MyTicket_title_area__835u5 > div.MyTicketTooltip_comp_myticket_tooltip__1VKqf > div > button
+					tooltipTmp.findElement(By.cssSelector("div.MyTicket_comp_my_ticket__1NhMv > div > div.MyTicket_title_area__835u5 > div.MyTicketTooltip_comp_myticket_tooltip__1VKqf > div > button")).click();
 				}
 			}
-			
-			
-			
 			//경기 이닝
-			WebElement gameScoreInfo = driver.findElement(By.className("ScoreBox_round__1sOLq"));//스코어보드
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_round__1sOLq > table
+			WebElement scoreTmp = driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ"));
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_round__1sOLq > table
+			WebElement gameScoreInfo = scoreTmp.findElement(By.cssSelector("div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_round__1sOLq > table"));//스코어보드
 			List<WebElement> scoreInnings = gameScoreInfo.findElements(By.cssSelector("thead th"));
+			
 			for(int i =1; i<scoreInnings.size();i++) {
 				innings.add(scoreInnings.get(i).getText());
 			}
 			gameRecord.setInnings(innings);
-			
 			//실시간 경기 스코어
-			game.setGameScore(driver.findElement(By.cssSelector(".MatchBox_home__MPL6D .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
-			+driver.findElement(By.cssSelector(".MatchBox_away__1rDsC .MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_home__MPL6D > div.MatchBox_score_area__2bf1P
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_away__1rDsC > div.MatchBox_score_area__2bf1P
+			game.setGameScore(scoreTmp.findElement(By.cssSelector("div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_home__MPL6D > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
+			+scoreTmp.findElement(By.cssSelector("div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_away__1rDsC > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
 	
-			
 			// 경기 스코어
 			List<WebElement> homeAwayScore = gameScoreInfo.findElements(By.cssSelector("tbody td"));
 			
@@ -349,14 +341,13 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			for(int i=homeAwayScore.size()/2; i<homeAwayScore.size();i++) {
 				homeScoreList.add(homeAwayScore.get(i).getText());
 			}
-			System.out.println(innings+"\n"+awayScoreList+"\n"+homeScoreList);
 			gameRecord.setAwayScoreList(awayScoreList);
 			gameRecord.setHomeScoreList(homeScoreList);
-			
 			//팀 경기 기록 조회
-			WebElement gameScoreResultInfo = driver.findElement(By.className("ScoreBox_result__3atD0"));
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_result__3atD0
+			WebElement gameScoreResultInfo = scoreTmp.findElement(By.cssSelector("div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_result__3atD0"));
 			
-			List<WebElement> homeAwayResultScore = gameScoreResultInfo.findElements(By.cssSelector("tbody td"));
+			List<WebElement> homeAwayResultScore = gameScoreResultInfo.findElements(By.cssSelector("table > tbody > tr > td"));
 			
 			for(int i=0; i<homeAwayResultScore.size()/2;i++) {
 				awayRecord.add(homeAwayResultScore.get(i).getText());
@@ -364,19 +355,22 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			for(int i=homeAwayResultScore.size()/2; i<homeAwayResultScore.size();i++) {
 				homeRecord.add(homeAwayResultScore.get(i).getText());
 			}
-			System.out.println(awayRecord+"\n"+homeRecord);
 			gameRecord.setAwayRecord(awayRecord);
 			gameRecord.setHomeRecord(homeRecord);
 			
+			WebElement homeGamePanel = driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT"));
 			if(game.getGameStatusCode().equals("2")) {
 				//승리, 세이브 등 타이틀을 가지는 투수
-				List<WebElement> indexLi = driver.findElements(By.cssSelector("div.PitcherList_comp_pitcher_list__3XCW2 li.PitcherList_pitcher_area__2By9l"));
+				// > div > div.PitcherList_comp_pitcher_list__3XCW2 > div > div > ul > li.PitcherList_pitcher_area__2By9l
+				List<WebElement> indexLi = homeGamePanel.findElements(By.cssSelector("div > div.PitcherList_comp_pitcher_list__3XCW2 > div > div > ul > li.PitcherList_pitcher_area__2By9l"));
 				for(WebElement titleIndex :indexLi) {
 					Pitcher titlePitcher = new Pitcher();
-					if(titleIndex.findElements(By.tagName("img")).size() != 0) {
-						titlePitcher.setPitcherImage(titleIndex.findElement(By.tagName("img")).getAttribute("src").split("[?]")[0]);
+					//#content > div > div.Home_main_section__y9jR4 > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.PitcherList_comp_pitcher_list__3XCW2 > div > div > ul > li:nth-child(1) > 
+					List<WebElement> imgTmp = titleIndex.findElements(By.tagName("img"));
+					if(imgTmp.size() != 0) {
+						titlePitcher.setPitcherImage(imgTmp.get(0).getAttribute("src").split("[?]")[0]);
 					}else {
-						titlePitcher.setPitcherImage("emptyPlayerImage.png");
+						titlePitcher.setPitcherImage("/images/game/emptyPlayerImage.png");
 					}
 					String[] titleSplit = titleIndex.getText().split("[\n]");
 					titlePitcher.setTitle(titleSplit[0]);
@@ -389,7 +383,11 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 				gameRecord.setTitlePitcher(titlePitcherList);
 			}
 			
-			List<WebElement> teamRecord = driver.findElements(By.cssSelector("table.TeamVS_power_info_table__2I4zy tbody tr"));
+			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.TeamVS_comp_team_vs__fpu3N > div.TeamVS_detail_area__1Owqz > table > tbody > tr:nth-child(1)
+			/*
+			List<WebElement> teamRecord = homeGamePanel.findElements(By.cssSelector("div.Home_game_contents__35IMT > div > div.TeamVS_comp_team_vs__fpu3N > div.TeamVS_detail_area__1Owqz > table > tbody > tr"));
+
+			
 			game.getAwayTeam().setHit(teamRecord.get(0).findElements(By.cssSelector("td")).get(0).getText());
 			game.getAwayTeam().setHomerun(teamRecord.get(1).findElements(By.cssSelector("td")).get(0).getText());
 			game.getAwayTeam().setSteal(teamRecord.get(2).findElements(By.cssSelector("td")).get(0).getText());
@@ -403,10 +401,14 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			game.getHomeTeam().setStrikeOut(teamRecord.get(3).findElements(By.cssSelector("td")).get(1).getText());
 			game.getHomeTeam().setDoubleLife(teamRecord.get(4).findElements(By.cssSelector("td")).get(1).getText());
 			game.getHomeTeam().setError(teamRecord.get(5).findElements(By.cssSelector("td")).get(1).getText());
+			*/
 			
+			//#content > div > div > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9 > div:nth-child(1) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr
+			//#content > div > div > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9 > div:nth-child(1) > div.PlayerRecord_player_list_area__gbho3 > ul > li > a > span.PlayerRecord_name__1W_c0
 			//선수기록
-			List<WebElement> homeHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
-			List<WebElement> homeHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
+			WebElement palyerTmp = homeGamePanel.findElement(By.cssSelector("div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9"));
+			List<WebElement> homeHitterRecord = palyerTmp.findElements(By.cssSelector("div:nth-child(1) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr"));
+			List<WebElement> homeHitterName = palyerTmp.findElements(By.cssSelector("div:nth-child(1) > div.PlayerRecord_player_list_area__gbho3 > ul > li > a > span.PlayerRecord_name__1W_c0"));
 			
 			for(int i=0;i<homeHitterRecord.size();i++) {
 				if(homeHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
@@ -431,8 +433,10 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			}
 			gameRecord.setHomeHitterList(homeHitterList);
 			
-			List<WebElement> homePitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
-			List<WebElement> homePitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
+			//#content > div > div > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9 > div:nth-child(2) > div.PlayerRecord_player_list_area__gbho3 > ul > li:nth-child(1) > a > span
+			//#content > div > div > section.Home_game_panel__97L_8 > div.Home_game_contents__35IMT > div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9 > div:nth-child(2) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr:nth-child(1)
+			List<WebElement> homePitcherRecord = palyerTmp.findElements(By.cssSelector("div:nth-child(2) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr"));
+			List<WebElement> homePitcherName = palyerTmp.findElements(By.cssSelector("div:nth-child(2) > div.PlayerRecord_player_list_area__gbho3 > ul > li > a > span"));
 			
 			for(int i=0;i<homePitcherRecord.size();i++) {
 				if(homePitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
@@ -462,8 +466,9 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			
 			driver.findElement(By.cssSelector(".PlayerRecord_tab__3DKLH[aria-selected=\"false\"]")).click();
 			
-			List<WebElement> awayHitterRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_batter__1rHnm tbody tr"));
-			List<WebElement> awayHitterName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_batter__1rHnm li .PlayerRecord_name__1W_c0"));
+			palyerTmp = homeGamePanel.findElement(By.cssSelector("div > div.PlayerRecord_comp_player_record__1tI5G.type_kbo > div.PlayerRecord_tabpanel__3GYt9"));
+			List<WebElement> awayHitterRecord = palyerTmp.findElements(By.cssSelector("div:nth-child(1) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr"));
+			List<WebElement> awayHitterName = palyerTmp.findElements(By.cssSelector("div:nth-child(1) > div.PlayerRecord_player_list_area__gbho3 > ul > li > a > span.PlayerRecord_name__1W_c0"));
 			
 			for(int i=0;i<awayHitterRecord.size();i++) {
 				if(awayHitterRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {
@@ -488,8 +493,8 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			}
 			gameRecord.setAwayHitterList(awayHitterList);
 			
-			List<WebElement> awayPitcherRecord = driver.findElements(By.cssSelector(".PlayerRecord_record_table__19F6_.PlayerRecord_type_pitcher__1TYaz tbody tr"));
-			List<WebElement> awayPitcherName = driver.findElements(By.cssSelector(".PlayerRecord_player_list__2-BCl.PlayerRecord_type_pitcher__1TYaz li .PlayerRecord_name__1W_c0"));
+			List<WebElement> awayPitcherRecord = palyerTmp.findElements(By.cssSelector("div:nth-child(2) > div.PlayerRecord_scroll_area__2KZOU > div > div > table > tbody > tr"));
+			List<WebElement> awayPitcherName = palyerTmp.findElements(By.cssSelector("div:nth-child(2) > div.PlayerRecord_player_list_area__gbho3 > ul > li > a > span"));
 			
 			for(int i=0;i<awayPitcherRecord.size();i++) {
 				if(awayPitcherRecord.get(i).getAttribute("class").equals("PlayerRecord_type_sum__bKbUH")) {

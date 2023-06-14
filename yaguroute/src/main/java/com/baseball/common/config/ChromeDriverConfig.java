@@ -50,12 +50,14 @@ public class ChromeDriverConfig {
 			
 			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 			ChromeOptions ops = new ChromeOptions();
-			ops.setCapability("ignoreProtectedModeSettings", true);
 			ops.addArguments("--remote-allow-origins=*");
 			ops.addArguments("headless");
 			ops.addArguments("--no-sandbox");
 			ops.addArguments("--disable-dev-shm-usage");
 			ops.addArguments("ignore-certificate-errors");
+			ops.addArguments("disable-gpu");
+			ops.addArguments("disable-infobars");
+			ops.addArguments("--disable-extensions");
 			return new ChromeDriver(ops);
 		}
 		
