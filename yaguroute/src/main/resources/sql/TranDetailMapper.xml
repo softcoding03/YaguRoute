@@ -21,16 +21,18 @@
 	<!--  product Association  -->
 	<resultMap id="productSelectMap" type="product">
 	
-		<result property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
-		<result property="prodName" 		column="prod_name" 			jdbcType="VARCHAR"/>
-		<result property="prodPrice" 		column="prod_price"			jdbcType="NUMERIC"/>
-		<result property="prodRegDate" 		column="prod_regdate" 		jdbcType="DATE"/>
-		<result property="prodStock"		column="prod_stock"			jdbcType="NUMERIC"/>
-		<result property="prodCategory"		column="prod_category"		jdbcType="VARCHAR"/>
-		<result property="prodImage"		column="prod_image"			jdbcType="VARCHAR"/>
-		<result property="prodTranCode"		column="prod_tran_code"		jdbcType="VARCHAR"/>
-		<result property="prodRefundCode"	column="prod_refund_code"	jdbcType="VARCHAR"/>
-		<result property="prodTeamCode"		column="team_code"			jdbcType="VARCHAR"/>
+		<result property="prodNo" column="prod_no" jdbcType="NUMERIC" />
+		<result property="prodName" column="prod_name" jdbcType="VARCHAR" />
+		<result property="prodPrice" column="prod_price" jdbcType="NUMERIC" />
+		<result property="prodRegDate" column="prod_regdate" jdbcType="DATE" />
+		<result property="prodStock" column="prod_stock" jdbcType="NUMERIC" />
+		<result property="prodCategory" column="prod_category" jdbcType="NUMERIC" />
+		<result property="prodTranCode" column="prod_tran_code" jdbcType="VARCHAR" />
+		<result property="prodRefundCode" column="prod_refund_code" jdbcType="VARCHAR" />
+		<result property="prodTeamCode" column="prod_team_code" jdbcType="VARCHAR" />
+		<result property="prodImageFirst" column="prod_image_first" jdbcType="VARCHAR" />
+		<result property="prodImageSecond" column="prod_image_second" jdbcType="VARCHAR" />
+		<result property="prodImageThird" column="prod_image_third" jdbcType="VARCHAR" />
 	
 	</resultMap>
 
@@ -143,12 +145,18 @@
 		
 	</select>
 
-	<select id="getBestTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	<select id="getBestTranList" parameterType="search" resultMap="tranDetailSelectMap">
 	
 		SELECT td.*
 		FROM tranDetail td
+		WHERE td.prod_no NOT IN (
+		    SELECT prod_no
+		    FROM tranDetail
+		    GROUP BY prod_no
+		    HAVING COUNT(*) > 1
+		)
 		ORDER BY td.tran_quantity DESC
-		
+		LIMIT 8;
 	</select>
 
 

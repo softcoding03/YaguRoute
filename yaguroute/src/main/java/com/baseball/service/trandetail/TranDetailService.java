@@ -21,5 +21,5 @@ public interface TranDetailService {
 
 	public Map<String, Object> getDlvyTranList(Search search) throws Exception;
 	
-	public Map<String, Object> getBestTranList(Search search) throws Exception;
+	public List<TranDetail> getBestTranList() throws Exception;
 }

@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1297,14 +1298,11 @@
         </div>	
         <div class="col-md-10 col-xs-9">
             <ul class="tab-filters">
-                <li class="active"><a data-toggle="tab" href="#hotdeals">인기 판매 상품</a></li>
-                <li><a data-toggle="tab" href="#officialapparel">Official apparel</a></li>
+                <li class="active"><a data-toggle="tab" href="#hotdeals">판매인기상품</a></li>
             </ul>
         </div>
-        <div class="col-md-2 col-xs-3 text-right">
-            
-                <a id="show-all-link" href="/product/salesProdList?prodTeamCode=ALL">Show all</a>
-            	
+        <div class="col-md-2 col-xs-3 text-right">        
+                <a id="show-all-link" href="/product/salesProdList?prodTeamCode=ALL">Show all</a>   	
         </div>
     </div>
 </div>
@@ -1314,231 +1312,35 @@
 <div class="main-store-list">
     <div class="container">
         <div class="tab-content">
-            <div id="new" class="tab-pane fade in active">
+            <div id="hotdeal" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="/images/common/store-item-img.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt Elite</span>
-                                    <span class="price">Â£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
+                    <c:forEach var="bestTran" items="${bestTranList}">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="store-list-item">
+                                <div>
+                                    <a href="product.html">
+                                        <span class="store-badge hot">hot</span>
+                                        <img src="/images/product/${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
+                                    </a>
+                                    <div class="info">
+                                        <span class="name">${bestTran.tranDetailProd.prodName}</span>
+                                        <span class="price"><input type="hidden" value="${bestTran.tranDetailProd.prodPrice}">
+                                        <fmt:formatNumber value="${bestTran.tranDetailProd.prodPrice}" pattern="###,###"/>원 </span>	 
+                                        <div class="btn-wrap">
+                                 	       <a class="btn btn-detail">${bestTran.tranQuantity }개</a>
+                                             <a href="/product/getProduct?prodNo=${bestTran.tranDetailProd.prodNo}" class="btn btn-detail">상세보기</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>   
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge new">new</span>
-                                    <img src="/images/common/product-3.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-2.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-4.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="hotdeals" class="tab-pane fade">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="/images/common/store-item-img.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt Elite</span>
-                                    <span class="price">Â£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>   
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge new">new</span>
-                                    <img src="/images/common/product-3.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-2.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-4.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="officialapparel" class="tab-pane fade">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge hot">hot</span>
-                                    <img src="/images/common/store-item-img.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt Elite</span>
-                                    <span class="price">Â£ 80</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>   
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <span class="store-badge new">new</span>
-                                    <img src="/images/common/product-3.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-2.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's T-Shirt </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="store-list-item">
-                            <div>
-                                <a href="product.html">
-                                    <img src="/images/common/product-4.jpg" alt="product-image">
-                                </a>
-                                <div class="info">
-                                    <span class="name">Men's Long-Sleeve Running </span>
-                                    <span class="price">Â£ 155</span>	
-                                    <div class="btn-wrap">
-                                        <button class="btn small">add to cart</button>
-                                        <button class="btn small">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </div>   
+                    </c:forEach>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<br>
 <!--MAIN TEAM STORE LIST END-->
 
         <!--MAIN SPONSOR SLIDER BEGIN-->
