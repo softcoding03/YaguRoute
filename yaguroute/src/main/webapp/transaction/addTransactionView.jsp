@@ -29,10 +29,10 @@ function fncAddTransaction() {
 	// 아임포트 구매 시작 
 	$(function() {
 	//$("#productTransaction").on("click" , function() {
-	$("#goAddTran").on("click" , function() {
-	  alert("결제를 시작한다.");
-	
-	  requestPay(tranTotalPrice);
+		$("#goAddTran").on("click" , function() {
+		  alert("결제를 시작한다.");
+		
+		  requestPay(tranTotalPrice);
 	});
  
 	//아임포트 변수 선언
@@ -115,27 +115,91 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
  		}; 
 
 });	 //아임포트 End
+
+
+	function validPoint(tranUsePoint,userPoint,tranTotalPrice){
+		console.log(tranUsePoint)
+		console.log(userPoint)
+		console.log(tranTotalPrice)
+	if(parseInt(userPoint)<parseInt(tranUsePoint)){
+	  	  alert("보유한 포인트를 넘어섰습니다.")
+	  	  return false
+	    }else if(parseInt(tranTotalPrice)<parseInt(tranUsePoint)){
+	    	alert("상품가격보다 많은 포인트를 사용 하셨습니다.")
+	    	return false
+	    }
+		return true;
+	}
 // 사용할 포인트 - 총가격  하여 결제 가격 지정하는 코드
   $(document).ready(function() {
     $('#applyPointButton').click(function() {
-      var tranUsePoint = $('input[name="tranUsePoint"]').val();      
-      //alert(tranUsePoint);
-      
-      var tranTotalPrice = ${totalPrice};
-      tranTotalPrice -= tranUsePoint;    	 
-      //alert("2번쨰알림 "+tranTotalPrice)
-      $("#tranTotalPrice").val(tranTotalPrice);
-      
+      var tranUsePoint = $('input[name="tranUsePoint"]').val();  
+      var userPoint = $('.userPoint').val();
+      var tranTotalPrice = $("#tranTotalPrice").val();
+      console.log(tranUsePoint)
+      console.log(userPoint)
+      console.log(tranTotalPrice)
+      if(validPoint(tranUsePoint,userPoint,tranTotalPrice)){
+          //alert("2번쨰알림 "+tranTotalPrice)
+          $(".userPoint").val(userPoint-tranUsePoint);
+          $(".userPointText").text(userPoint-tranUsePoint);
+          $("#tranTotalPrice").val(tranTotalPrice-tranUsePoint);
+      }
     });
   });
 
 
 
+function removeBlock(elem){
+	elem.one("click",function(){
+		$(this).find(".prodDetailBack").removeClass("element")
+		addBlock($(this))
+	})
+}
+
+function addBlock(elem){
+	elem.one("click",function(){
+		$(this).find(".prodDetailBack").addClass("element")
+		removeBlock($(this))
+	})
+}
+
+$(function(){
+	removeBlock($("div.delivery-list"));
+})
+
 </script>
 </head>
 <style>
+	.prodDetailBack{
+		display: block;
+		
+	}
+	.item.img{
+		background-color: white !important;
+		display: inline-flex;
+		align-items: center;
+		width: 100%;
+		border-top: solid black 1px !important;
+		text-align: center;
+		padding-top: 0px;
+		padding-bottom: 0px
+	}
+	
+	.span-left{
+		width: 40% !important;
+	}
+	
+	.span-right{
+		width: 60% !important;
+	}
 
-
+	.element {
+      opacity: 0;
+      display: none;
+      transform: translateY(-20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
 </style>
 <body>
 
@@ -154,38 +218,41 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
 <section class="checkout-wrap">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-7">
-                <h4>주문/결제</h4>
-                <div class="customer-info">
-           
-                        <div class="row">
-                        
-                            <div class="col-md-6">
+			<h4>주문/결제</h4>
+               			<div class="col-md-7 customer-info">
+               				<div class="col-md-12">
+                            	<h6>구매자 정보</h6>
+                            	<hr style="border: solid 1px;">
+                            </div>
+                            <div class="col-md-4">
                                 <div class="item">
                                     <label>
                                         <span>구매자 아이디 <i>*</i></span>
-                                        <input type="text"  value="${user.userId}" >
+                                        <input disabled="disabled" type="text"  value="${user.userId}" >
                                     </label>
                                 </div>
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="item">
                                     <label>
                                         <span>구매자 이름 <i>*</i></span>
-                                        <input type="text" value="${user.userName}" >
+                                        <input disabled="disabled" type="text" value="${user.userName}" >
                                     </label>
                                 </div>
                             </div>
                             
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <div class="item">
                                     <label>
                                         <span>구매자 이메일</span>
-                                        <input type="text" value="${user.userEmail}" >
+                                        <input disabled="disabled" type="text" value="${user.userEmail}" >
                                     </label>
                                 </div>
+                            </div>
+                            <div class="col-md-12">
+                            	<h6>배송 정보 입력</h6>
+                            	<hr style="border: solid 1px;">
                             </div>
                             
                             <div class="col-md-6">
@@ -216,7 +283,7 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
                                 <div class="item">
                                     <label>
                                         <span>받는사람 주소 <i>*</i></span>
-                                        <input type="text" id="receiverAddr" name="receiverAddr" value="${user.userAddr}"  > 
+                                        <input type="text" id="receiverAddr" name="receiverAddr" value="${user.userAddr}" > 
                                     </label>
                                 </div>
                             </div>
@@ -229,68 +296,128 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
                                 </div>
                             </div>                
                         </div>
-                  </div>
-            </div>
             <div class="col-md-5">
-                <h4>결제 정보</h4>
-              	  <table class="cart-table">
-              	  
-              	  		<form name="detailForm">
-
-					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-					<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
-					<input type="hidden" id="impNo" name="impNo" value="" /> 
-					<input type="hidden" id="merchantNo" name="merchantNo" value=""/> 
-					<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
-					<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity[0]}" />
-					<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
-                	<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
-                      <tbody><tr>
-                            <th class="product">구매할 상품 정보</th>
-                            <th class="total"></th>
-                        </tr>
-                      	<input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" />   
-                	    <tr>
-                            <td>상품번호</td>
-                            <td class="prodNo" style="text-align: right;">${tranDetail.tranDetailProd.prodNo}</td>
-                        </tr>                        
-                	    <tr>
-                            <td>상품명</td>
-                            <td class="prodName" style="text-align: right;">${tranDetail.tranDetailProd.prodName}</td>
-                        </tr>
-                        <tr>
-                            <td>상품 수량</td>
-                            <td class="prodQuantity" style="text-align: right;">${prodQuantity[tranStatus.index]}개</td>
-                        </tr>
-                         <tr>
-                            <td>상품 가격</td>
-                            <td class="prodPrice" style="text-align: right;">${tranDetail.tranDetailProd.prodPrice}원</td>
-                        </tr>    
-							<tr>
-							  <td>할인</td>
-							  <td class="ct_write01">
-							    <div>
-							      <input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 100px;">
-							     <span style="display: inline-block; width: 150px; background-color: #F0F0F0; padding: 5px; border-radius: 3px; font-weight: bold;">${user.userPoint}포인트</span>
-							      <a id="applyPointButton" class="btn small">적용</a>
-							    </div>
-							  </td>
-							</tr>                                         
-                        <tr>
-                            <td><strong>Total</strong></td>
-                            <td class="total"><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}" /></td>
-                        </tr>
-                        </tbody>
-               </c:forEach>
-            </form>
-          </table>
-
-                <div class="cart-total">
-                <button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
-                </div>
-            </div>
+	            <div class="col-md-12">
+	                <h6>결제 정보</h6>
+	            </div>
+	            <div class="col-md-12">
+	            	<div class="col-md-12">
+		              	<table class="cart-table">
+			              	<tr>
+		                    	<th style="text-align: center;font-size: 14px;">상품 정보</th>
+	                    	</tr>
+	              	  	</table>
+	              	 	
+						<form name="detailForm">
+						<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
+						<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
+						<input type="hidden" id="impNo" name="impNo" value="" /> 
+						<input type="hidden" id="merchantNo" name="merchantNo" value=""/> 
+						<input type="hidden" id="payOption" name="tranPaymentOption" value="" />
+						<input type="hidden" id="prodQuantity" name="prodQuantity" value="${prodQuantity[0]}" />
+						<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
+						
+						<!-- <div class="cart-total" style="display: none;">
+				                    <div class="delivery-list">
+				                        <label class="item">
+				                            <input name="del-check" type="radio">
+				                            <span class="name">Cheque Payment</span>	
+				                        </label>
+				                        <label class="item">
+				                            <input name="del-check" type="radio">
+				                            <span class="name">Direct Bank Transfer</span>	
+				                            <span class="delivery-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span>
+				                        </label>
+				                        <label class="item">
+				                            <input name="del-check" type="radio">
+				                            <span class="name">PayPal <a href="#">What is PayPal?</a></span>
+				                            <span class="price"><img src="images/common/card-img.jpg" alt="card"></span>	
+				                        </label>
+				                        <label class="item">
+				                            <input name="del-check" type="radio">
+				                            <span class="name">Cash on Delivery</span>	
+				                        </label>
+				                        <button class="proceed">Place order<i class="fa fa-check" aria-hidden="true"></i></button>
+				                    </div>
+				                </div> -->
+						
+						<div class="cart-total">
+	                	<c:forEach var="tranDetail" items="${tranDetailList}"  varStatus="tranStatus">
+	                    <input type="hidden" id="prodNo" name="prodNo" value="${tranDetail.tranDetailProd.prodNo}" />   
+	                	    <%-- <tr>
+	                            <td>상품번호</td>
+	                            <td class="prodNo" style="text-align: right;">${tranDetail.tranDetailProd.prodNo}</td>
+	                            <td></td>
+	                            <td></td>
+	                        </tr>     --%>
+	                        <div class="delivery-list" id="${tranDetail.tranDetailProd.prodNo}">
+	                        	<label class="item" style="text-align: center;">
+				                	<span class="name" >${tranDetail.tranDetailProd.prodName}</span><span><i role="button" class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="margin-left: 10px;size: 15px;text-align: left"></i></span>	
+				                </label>
+				                <div class="prodDetailBack element">
+				               			 <label class="item img">
+				               			 	<span class="span-left">이미지</span><span class="span-right"><img style="width: 100px;height: auto;" src="/images/product/${tranDetail.tranDetailProd.prodImageFirst}" alt="card"></span>	
+				               			 </label>
+				                        <label class="item img">
+				                            <span class="span-left">가격</span><span class="span-right">${tranDetail.tranDetailProd.prodPrice}</span>	
+				                        </label>
+				                        <label class="item img">
+				                            <span class="span-left">상품 수량</span><span class="span-right">${prodQuantity[tranStatus.index]}</span>	
+				                        </label>
+				                 </div>
+	                            <!-- <div ><i class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="margin-left: 10px;"></i></div> -->
+	                        </div>  
+	                            <%-- <td class="prodName" style="text-align: right;">${tranDetail.tranDetailProd.prodName}</td>
+	                            <td></td> --%>
+	                        
+	                        <%-- <tr>
+	                            <td>상품 수량</td>
+	                            <td class="prodQuantity" style="text-align: right;">${prodQuantity[tranStatus.index]}개</td>
+	                            <td></td>
+	                            <td></td>
+	                        </tr> --%>
+	                         <%-- <tr>
+	                            <td>상품 가격</td>
+	                            <td class="prodPrice" style="text-align: right;">${tranDetail.tranDetailProd.prodPrice}원</td>
+	                            <td></td>
+	                            <td></td>
+	                        </tr>  --%>   
+								<%-- <tr>
+								  <td>할인</td>
+								  <td class="ct_write01">
+								    <div>
+								      <input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 100px;">
+								     <span style="display: inline-block; width: 150px; background-color: #F0F0F0; padding: 5px; border-radius: 3px; font-weight: bold;">${user.userPoint}포인트</span>
+								      <a id="applyPointButton" class="btn small">적용</a>
+								    </div>
+								  </td>
+								</tr>  --%>                                        
+	                        <%-- <tr>
+	                            <td class="total"><strong>Total</strong><input type="" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}" /></td>
+	                        </tr> --%>
+	               </c:forEach>
+	               		<div class="delivery-list">
+	               			<label class="item" style="text-align: center;">
+	               				<div><span>보유 포인트 : </span><span class="userPointText">${user.userPoint}</span><input class="userPoint" type="hidden" value="${user.userPoint}"/></div>
+								<span><input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 100px;"><a id="applyPointButton" class="btn small">적용</a></span>    
+				            </label>
+				            <label class="item" style="text-align: center;">
+				            	<span class="span-left">총 가격</span><span class="span-right"><input style="text-align: center;border: 0px;" type="" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}" disabled="disabled"/></span>
+				            </label>
+	               		</div>
+	               </div>
+	          </form>
+			</div>
+			<div class="col-md-12">
+	                <div class="cart-total">
+	                <button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
+	                </div>
+	         </div>
+	         </div>
+	            </div>
+           	</div>
+           	</div>
         </div>
-    </div>
 </section>
      
 <!--CHECKOUT WRAP END-->

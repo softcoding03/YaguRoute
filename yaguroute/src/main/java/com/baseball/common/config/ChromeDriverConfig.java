@@ -16,7 +16,7 @@ import com.mysql.cj.jdbc.Driver;
 @Configuration
 public class ChromeDriverConfig {
 	
-	private final int poolSize = 20; // 풀의 크기를 설정합니다.
+	private final int poolSize = 100; // 풀의 크기를 설정합니다.
 	private final Semaphore semaphore = new Semaphore(poolSize);
 	private final Queue<WebDriver> availableDrivers = new ConcurrentLinkedQueue<>();
 

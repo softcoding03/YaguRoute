@@ -5,18 +5,21 @@
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry; 
  import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
- import com.baseball.common.interceptor.LogonCheckInterceptor;
+
+import com.baseball.common.interceptor.LoadingImageInterceptor;
+import com.baseball.common.interceptor.LogonCheckInterceptor;
  
  @Configuration public class WebMvcConfig implements WebMvcConfigurer {
  
  private final LogonCheckInterceptor logonCheckInterceptor;
+ private final LoadingImageInterceptor loadingImageInterceptor;
  
- @Autowired public WebMvcConfig(LogonCheckInterceptor logonCheckInterceptor) {
+ @Autowired public WebMvcConfig(LogonCheckInterceptor logonCheckInterceptor,LoadingImageInterceptor loadingImageInterceptor) {
 	 
  System.out.println("Hello, World!"); 
  
  this.logonCheckInterceptor = logonCheckInterceptor; 
- 
+ this.loadingImageInterceptor = loadingImageInterceptor;
  }
  
  @Override public void addInterceptors(InterceptorRegistry registry) { 
@@ -30,5 +33,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 	 "/users/findPassword","/users/findUserId", "/user/addUser.jsp") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
 	 .excludePathPatterns("/js/**", "/css/**", "/images/**"); // 정적 파일 경로 패턴 추가 
 	 
+	 registry.addInterceptor((HandlerInterceptor)loadingImageInterceptor).addPathPatterns("/main/**","/game/**")
+	 .excludePathPatterns("/js/**", "/css/**", "/images/**");
  	}
  }

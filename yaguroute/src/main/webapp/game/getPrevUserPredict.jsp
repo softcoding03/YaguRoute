@@ -77,6 +77,7 @@
 		}
 </style>
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header" style="min-height: 150px;height: 150px;">
 	<div class="row">

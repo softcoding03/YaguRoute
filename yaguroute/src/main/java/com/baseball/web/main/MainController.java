@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,21 +90,22 @@ public class MainController {
 				postDateList.add(postDateKorean);
 			}
 			
-		
-			/*
-			 * System.out.println("postDateList ? "+postDateList); // End
-			 */
-			
 			//loading_img session에 추가
 			String[] imgList = {
 					"/images/baseball/loading_img_01.png",
 	                "/images/baseball/loading_img_02.png",
-	                "/images/baseball/loading_img_03.jpg"
+	                "/images/baseball/loading_img_03.jpg",
+	                "/images/baseball/loading_img_04.png"
 			};
-			int randonIndex = new Random().nextInt(3);
+			int randonIndex = new Random().nextInt(4);
 			String img = imgList[randonIndex];
 			
 			session.setAttribute("loadingImg", img);
+			
+		
+			/*
+			 * System.out.println("postDateList ? "+postDateList); // End
+			 */
 			
 			//BEST 게시물 5개 출력
 			List<Post> bestPostList = postService.getPostBestList("all");
@@ -115,9 +117,7 @@ public class MainController {
 			List<TranDetail> bestTranList = tranDetailService.getBestTranList();
 			for(TranDetail bestList : bestTranList) {
 				System.out.println(bestList);
-			}	
-			
-			
+			}
 			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("postDateList", postDateList);
@@ -126,4 +126,5 @@ public class MainController {
 			
 			return "forward:/main.jsp";
 	}
+	
 } 
