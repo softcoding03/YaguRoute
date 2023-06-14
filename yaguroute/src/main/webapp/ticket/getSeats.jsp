@@ -195,7 +195,31 @@ var ticketNoList="";
 //아임포트 + NAVER SENS 끝
 
 	function fncAddPurchase() {
-		$("form").attr("method" ,"POST").attr("action" , "/ticket/addTicketPurchase").submit();
+		var post ={
+				tranTotalPrice: $("#tranTotalPrice").val(),
+				tranPaymentOption: $("#payMethod").val(),
+				impNo: $("#impNo").val(),
+				merchantNo: $("#merchantNo").val(),
+				ticket: ticketNoList
+		}
+		console.log("ticket ? " +ticketNoList);
+		
+      $.ajax({
+	        type: 'POST',
+	        url: '/ticket/rest/addTicketPurchase',
+	        data: post,
+	        dataType: "text",
+	        success: function(Data, status) {
+	        	alert(status);
+	        	alert("결제결과 ? " + Data);
+		         if(Data == "success"){
+		        		window.close();
+		        		window.opener.location.href="/ticket/getTicketPurchaseList";
+		         } else {
+		        	   alert("로그인 세션이 만료되었습니다.")
+		         }
+	        }
+      });
 	} 
 	
     </script>
@@ -247,6 +271,7 @@ var ticketNoList="";
        	width: 50%;
        	height: 30px;
        }
+
 		
     </style>
 </head>
