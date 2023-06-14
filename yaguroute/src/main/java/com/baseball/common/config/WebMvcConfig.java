@@ -34,7 +34,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 	 "/user/userNickNameCheck","/users/phoneCheck/", "/users/addNaverUser", "/users/addKakaoUser",
 	 "https://sens.apigw.ntruss.com/sms/v2/services/",
 	 "/users/findUserId/","/users/findPassword","/user/userIdCheck/", "/users/userImage", "/user/userIdCheck",
-	 "/users/addUser", "/user/userNickNameCheck", "/user/userNickNameCheck") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
+	 "/users/addUser", "/user/userNickNameCheck", "/user/userNickNameCheck", "/user/PartnershipProposal.html", "/user/TermsofUse.html",
+	 "/user/private.html", "/user/manage.html") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
 	 .excludePathPatterns("/js/**", "/css/**", "/images/**"); // 정적 파일 경로 패턴 추가 
 	 
  	}

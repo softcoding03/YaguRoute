@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
@@ -21,6 +22,7 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.ClientProtocolException;
@@ -130,7 +132,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "login")
-	public String login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request)
+	public String login(@ModelAttribute("user") User user, HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		if (userService.getUser(user.getUserId()) != null) {
@@ -147,14 +149,35 @@ public class UserController {
 
 				//session.setMaxInactiveInterval(6);
 
-				return "redirect:/user/index.jsp";
+				return "redirect:/main/getMain";
 			} else {
 				System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
+				
+				try {
+			        response.setContentType("text/html; charset=utf-8");
+			        PrintWriter w = response.getWriter();
+			        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/loginTest(new).jsp';</script>");
+			        w.flush();
+			        w.close();
+			    } catch(Exception e) {
+			        e.printStackTrace();
+			    }
 				
 				return "redirect:/user/index.jsp";
 			}
 		} else {
 			System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
+			
+			try {
+		        response.setContentType("text/html; charset=utf-8");
+		        PrintWriter w = response.getWriter();
+		        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/loginTest(new).jsp';</script>");
+		        w.flush();
+		        w.close();
+		    } catch(Exception e) {
+		        e.printStackTrace();
+		    }
+			
 			return "redirect:/user/index.jsp";
 		}
 	}
