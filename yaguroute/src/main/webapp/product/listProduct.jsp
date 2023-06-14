@@ -165,7 +165,7 @@
 									<c:set var="i" value="${ i+1 }" />
 									<tr class="ct_list_pop">
 										<td align="center">${ i }</td>
-										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>
+										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>							
 										<td align="left">${product.prodPrice}</td>
 										<td align="left">${product.prodRegDate}</td>
 										<td align="left">${product.prodStock}</td>

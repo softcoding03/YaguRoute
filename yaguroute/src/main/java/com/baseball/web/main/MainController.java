@@ -30,9 +30,12 @@ import com.baseball.service.comment.CommentService;
 import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Emote;
 import com.baseball.service.domain.Post;
+import com.baseball.service.domain.Product;
+import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
 import com.baseball.service.post.PostService;
+import com.baseball.service.trandetail.TranDetailService;
 import com.baseball.service.user.UserService;
 
 
@@ -57,6 +60,10 @@ public class MainController {
 	@Autowired
 	@Qualifier("commentServiceImpl")
 	private CommentService commentService;
+	
+	@Autowired
+	@Qualifier("tranDetailServiceImpl")
+	private TranDetailService tranDetailService;
 
 	@Value("${commonProperties.pageUnit}")
 	int pageUnit;
@@ -69,7 +76,7 @@ public class MainController {
 	}
 	
 	@GetMapping("getMain")
-	public String getMain(Model model,HttpSession session) throws Exception {
+	public String getMain(Model model, HttpSession session) throws Exception {
 			System.out.println("/main/getMain : GET START");
 			//공지사항 출력
 			List<String> postDateList = new ArrayList<>();
@@ -81,6 +88,8 @@ public class MainController {
 				String postDateKorean = postDate.format(koreanFormatter);
 				postDateList.add(postDateKorean);
 			}
+			
+		
 			/*
 			 * System.out.println("postDateList ? "+postDateList); // End
 			 */
@@ -100,10 +109,21 @@ public class MainController {
 			List<Post> bestPostList = postService.getPostBestList("all");
 			/*
 			 * System.out.println("bestPostList ? "+bestPostList); // End
-			 */			
+			 */	
+			
+			//판매인기상품 출력
+			List<TranDetail> bestTranList = tranDetailService.getBestTranList();
+			for(TranDetail bestList : bestTranList) {
+				System.out.println(bestList);
+			}	
+			
+			
+			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("postDateList", postDateList);
 			model.addAttribute("bestPostList", bestPostList);
+			model.addAttribute("bestTranList", bestTranList);	
+			
 			return "forward:/main.jsp";
 	}
 } 

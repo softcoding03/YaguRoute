@@ -138,7 +138,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(pageSize);
+		search.setPageSize(15);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -185,7 +185,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(pageSize);
+		search.setPageSize(6);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행

@@ -67,6 +67,62 @@
 </script>
 </head>
 
+<style>
+
+#back-img {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('https://cdn.pixabay.com/photo/2018/10/28/13/22/baseball-3778774_1280.png');
+  background-size: 1100px;
+  background-repeat: no-repeat;
+  background-position:  left;
+  opacity: 0.7;
+  }
+  .ui-autocomplete {
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+  padding: 3px 20px;
+}
+.ui-autocomplete > li.ui-state-focus {
+  background-color: #DDD;
+}
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+
+#searchButton:hover {
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
+}
+
+#searchButton {
+  border-radius: 20px;
+  background-color: #E0F7E7;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  color: #000000; /* 글자색 설정 */
+}
+</style>
+
+
 <body>
 
 		<!-- ToolBar Start /////////////////////////////////////-->
@@ -93,13 +149,14 @@
 			    </div>
 			</div>
 
+
 	<div class="container">
 		<div class="page-header text-info">
 			<div class="row">
 			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
 			
 			        <!-- Search -->
-					<div class="search-container">
+					<div class="search-container"style="display: flex; justify-content: flex-end;">
 						<div class="form-group" style="width: 100px;">
 							<select class="form-control" name="searchCondition">
 								<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
@@ -109,13 +166,16 @@
 							<input type="text" class="form-control"  id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
 								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
 
-						<button type="button" class="btn btn-default">검색</button>
-						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
+						<button type="button" class="btn btn-default" id="searchButton">검색</button>
+				
 					</div>
 				<!-- Search -->
 
 						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
 						<input type="hidden" id="currentPage" name="currentPage" value="" />				
+	      <div class="col-md-12">
+	        <div id="back-img"></div>
+	      </div>
     <!--STORE WRAP BEGIN-->
 		    <div class="store-wrap">
 		        <div class="container">
@@ -131,10 +191,23 @@
 		                        <div class="col-md-4 col-sm-6">
 		                            <div class="store-list-item">         
 		                                <div>
-		                                    <a href="/product/getProduct?prodNo=${product.prodNo}">
-		                                        <img src="/images/product/${product.prodImageFirst}"  alt="product"> </a>
+		                                        <img src="/images/product/${product.prodImageFirst}"  alt="product">
 		                                    <div class="info">
-		                                        <span class="name">${product.prodName} </span>
+		                                        <span class="name">
+														  <c:choose>
+														    <c:when test="${product.prodTeamCode eq 'HH'}">[한화 이글스]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'SS'}">[삼성 라이온스]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'HT'}">[기아 타이거즈]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'SK'}">[SSG 랜더스]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'LG'}">[LG 트윈스]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'OB'}">[두산 베어스]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'KT'}">[KT 위즈]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'LT'}">[롯데 자이언츠]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'WO'}">[키움 히어로즈]</c:when>
+														    <c:when test="${product.prodTeamCode eq 'NC'}">[NC 다이노스]</c:when>
+														    <c:otherwise>팀 정보 없음</c:otherwise>
+														  </c:choose><br>
+														${product.prodName }</span> 
 		                                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
 		                                        
 		                                        <div class="btn-wrap">
