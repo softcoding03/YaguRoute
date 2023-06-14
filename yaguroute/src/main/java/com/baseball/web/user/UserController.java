@@ -143,7 +143,7 @@ public class UserController {
 				System.out.println("일치합니다.");
 				session.setAttribute("user", dbUser);
 
-				System.out.println("user : " + session.getAttribute("user"));
+				System.out.println("user : " + session.getAttribute("user")); 
 
 				//session.setMaxInactiveInterval(6);
 
