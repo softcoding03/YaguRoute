@@ -44,8 +44,15 @@
 		  display: inline-block;
 		  width: 100%;
 		}
+		section.h1{
+			display:flex;
+			justify-content:center;
+		}
 		h1{
 		color: white;
+		position: relative;
+  		z-index: 9900;
+		font-family:"Gwangyang";
 		}
 		.row-align {
 	    display: flex;
@@ -71,8 +78,10 @@
 		}
 	  
 	  .row-offcanvas {
-	    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경과 투명도 조절 */
+	    background-color: rgba(217, 217, 217, 0.8); /* 흰색 배경과 투명도 조절 */
 	  }
+	  
+	  
 	 </style>
     
     <script type="text/javascript">
@@ -83,11 +92,6 @@
 	   	var position = $(window).scrollTop(); 
 	   	$(".quickmenu").stop().animate({"top":position+currentPosition+"px"},700);
 	  	});
-		
-		$('.quickmenu li a[href="#team"]').click(function(e) {
-	   	e.preventDefault();
-	   	$(this).siblings('.submenu').slideToggle();
-	   });
 		
 	  	$('.quickmenu li a[href="#back"]').click(function(e) {
 			history.back();
@@ -174,7 +178,9 @@
 <a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
-<section class="image-header" style="min-height: 150px;height: 150px;">
+
+
+<section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
 		<div class="col-md-12" >
            	<img id="back-img" src="/images/background/background1.jpg" alt="img">
@@ -182,6 +188,9 @@
 	</div>
 </section>
 
+<section class="h1">
+	<h1>커뮤니티 게시판</h1>
+</section>
 <!-- 새로운 툴바 -->
 <!-- 팀 구분 툴바 -->
 <div class="mathc-live-broadcasts background">
@@ -217,16 +226,6 @@
             <li>
                 <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
             </li>
-            <!-- <li> 추후에 사용할지 ..?
-                <a href="#"><span class="count">22</span>Competitions & Reviews</a>
-                <ul>
-                    <li><a href="#"><span class="count">12</span></a></li>
-                    <li><a href="#"><span class="count">10</span>Competitions & Reviews</a></li>
-                    <li><a href="#"><span class="count">9</span></a></li>
-                    <li><a href="#"><span class="count">8</span></a></li>
-                    <li><a href="#"><span class="count">7</span>Other</a></li>	
-                </ul>
-            </li> -->
             <li>
                 <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
             </li>
@@ -340,19 +339,6 @@
 <!-- 퀵메뉴 -->
 <div class="quickmenu">
   <ul>
-  	 <li>
-  	 	<ul class="submenu">
-       <c:forEach var="team" items="${allTeam}">
-            <li class="${team.teamCode eq teamCode ?'active':''}">
-            <a href="submenuTeamCode">
-             <img alt="img" src="${team.teamEmblem}" style="width:45px;">
-             <input type="hidden" class="submenuTeamCode" value="${team.teamCode}"/> 
-            </a>
-            </li>
-       </c:forEach>
-  	 	</ul>
-  	 	<a href="#team">구단</a>
-  	 </li>
     <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
     <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
     <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>

@@ -194,8 +194,9 @@ hr {
 									<li>
 									    <span>적립: </span>
 									    <c:set var="accumulation" value="${product.prodPrice * 0.01}" />
-									    ${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation} 포인트 </li> 
+										<fmt:formatNumber value="${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation}" pattern="###,###"/> 포인트 </li> 
 									    <li style="font-size: 12px;"><span style="font-size: 12px;">구매금액의 1%가 포인트로 적립됩니다. </span></li>
+
 						    </ul>
 						</div>
 					</div>
@@ -210,13 +211,6 @@ hr {
    <br>
       <br>
 
-                      <ul class="socials">
-                            <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
 
         <div class="product-tab-wrap">
             <div class="tab-top">
@@ -224,101 +218,19 @@ hr {
                     <div class="row">
                         <div class="col-md-12">
                             <ul>
-                                <li><a href="#description">상품 정보</a></li>
-                                <li class="active"><a href="#reviews">상품평 (-)</a></li>
+                                <li><a href="#description"></a></li>
+                                <li ><a href="#reviews"></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-item">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="comments-wrap">
-                                <h6>Reviews</h6>
-                                <div class="comment-item">
-                                    <div class="avatar"><img src="images/common/author-avatar.jpg" alt="author-avatar"></div>
-                                    <div class="info">
-                                        <div class="date">
-                                            <a href="#">25 Sep 2016</a> by <a href="#">Ian Finch</a>
-                                            <a href="#" class="quote">#</a>
-                                        </div>
-                                        <div class="rating four"></div>
-                                        <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>
-                                    </div>
-                                </div>
-                                <div class="comment-item">
-                                    <div class="avatar"><img src="images/common/author-avatar.jpg" alt="author-avatar"></div>
-                                    <div class="info">
-                                        <div class="date">
-                                            <a href="#">25 Sep 2016</a> by <a href="#">Ian Finch</a>
-                                            <a href="#" class="quote">#</a>
-                                        </div>
-                                        <div class="rating two"></div>
-                                        <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>
-                                    </div>
-                                </div>
-                                <div class="comment-item">
-                                    <div class="avatar"><img src="images/common/author-avatar.jpg" alt="author-avatar"></div>
-                                    <div class="info">
-                                        <div class="date">
-                                            <a href="#">25 Sep 2016</a> by <a href="#">Ian Finch</a>
-                                            <a href="#" class="quote">#</a>
-                                        </div>
-                                        <div class="rating five"></div>
-                                        <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch.</p>
-                                    </div>
-                                </div>
-                            </div>	
-                        </div>
-                        <div class="col-md-5">
-                            <div class="leave-comment-wrap">
-                                <h6>Add a review </h6>	
-                                <form>								
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="item">
-                                                <label>
-                                                    <span>Name <i>*</i></span>
-                                                    <input type="text" name="text">
-                                                </label>
-                                            </div>	
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="item">
-                                                <label>
-                                                    <span>Email <i>*</i></span>
-                                                    <input type="email" name="email">
-                                                </label>
-                                            </div>	
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="item">
-                                                <label>
-                                                    <span>Your comment</span>
-                                                    <textarea></textarea>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="comment-submit">post a review</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-            </div>
         </div>
 
         <!--STORE BANNER BEGIN-->
    
-   </div>
-   </div>
-   
+
    
 </body>
 

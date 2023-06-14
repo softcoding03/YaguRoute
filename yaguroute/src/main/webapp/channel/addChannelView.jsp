@@ -90,7 +90,66 @@
     	        	return; //submit 중지
     	        }
     			$('form[name="detailForm"]').attr("method", "post").attr("action", "/channel/addChannel").submit();
-    		})
+    		});
+    		
+    		
+    		//drag & drop
+			var dropZone = $('#drop-area');
+			dropZone.hide();
+			
+			$(document).on('dragenter', function(event) {
+				dropZone.addClass('active');
+				dropZone.show();
+			});
+			
+			dropZone.on('dragover', function(event) {
+				event.preventDefault();
+			});
+			
+			dropZone.on('drop', function(event){
+				event.preventDefault();
+		 		handleFileSelect(event.originalEvent);
+		 		dropZone.hide();
+		 	});
+		 	
+			$(document).on('dragleave', function(event) {
+				if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+					event.preventDefault();
+					dropZone.removeClass('active');
+					dropZone.hide();
+				}
+			});
+			 
+			function handleFileSelect(event) {
+				    event.stopPropagation();
+				    event.preventDefault();
+				    dropZone.removeClass('active');
+				    
+				    var files = event.target.files || event.dataTransfer.files;
+				    // 파일 업로드 처리 로직을 여기에 구현하세요.
+				    if (files.length > 0) {
+				    	var formData = new FormData();
+				        formData.append('image', files[0]);
+				        $.ajax({
+				            url: "http://127.0.0.1:3000/image/channel",
+				            type: "POST",
+				            processData: false,
+				            contentType: false,
+				            data: formData,
+				            dataType: "json",
+				            success: function(data, status) {
+				              console.log(data);
+				              var thumbnail = $("<img>").attr("src", data.image_path).attr("width", "400px").attr("height", "200px");
+				              var input = $("<input>").attr("type", "hidden").attr("name", "thumbNail").attr("value", data.image_path);
+				              $("#image-result").empty();
+				              $("#image-result").append(thumbnail);
+				              $("form").append(input);
+				              
+				            }
+				          });
+				    	
+				    }
+			}
     	});
     </script>
 
@@ -134,6 +193,34 @@ body{
    	padding:10px 50px !important;
    	border-radius: 10px !important;
    	text-align: center !important;
+}
+
+.drop-area {
+	display: none;
+	width: 100%;
+	height: 100%;
+ 	position: absolute;
+ 	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+ 	z-index: 999;
+}
+
+.drop-area.active {
+	display: block;
+	border-radius: 10px;
+}
+
+.thumbnail-area{
+	/* position: relative; */
+}
+
+#image-drop{
+	position: relative;
+	padding : 50px;
+	border: 2px dashed #ccc;
+	border-radius: 10px;
+	text-align: center;
 }
 </style>
 
@@ -209,6 +296,14 @@ body{
 									<div class="item">
 										<label>
 											<span>thumbnail</span>
+											<div id="image-drop">
+																					
+												<div class="thumbnail-area" id="image-result">
+													<caption>이미지를 드랍해 주세요</caption>													
+												</div>	
+																				
+												<div class="drop-area" id="drop-area">,</div>		
+											</div>
 										</label>
 									</div>
 								</div>

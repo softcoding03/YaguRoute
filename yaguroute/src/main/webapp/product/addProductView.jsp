@@ -16,14 +16,90 @@
 		<title>상품 등록</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
     
 <script type="text/javascript">
 	$(function() {
-		function fncAddProduct() {
+		
+		//유효성 체크 시작
+		$("input[name='prodName']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()\-=+|<>?]/g;  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodName").html("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 100) {
+					$("#prodName").html("최대글자(100)을 초과하였습니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodName").html("특수문자는 입력할 수 없습니다.");
+					$("#prodName").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodName").html("성공");
+					$("#prodName").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+				 
+				}
+		});
+		
+		$("input[name='prodPrice']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodPrice").html("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 11) {
+					$("#prodPrice").html("최대글자(11)을 초과하였습니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodPrice").html("특수문자는 입력할 수 없습니다.");
+					$("#prodPrice").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodPrice").html("성공");
+					$("#prodPrice").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+				}
+		});
 
+		$("input[name='prodStock']").keyup(function(){
+			
+			var value = $(this).val();
+			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;	  //거르고 싶은 특수문자
+				
+			 if(value.length < 1 || value == null){
+					$("#prodStock").html("최소글자(1)이상을 입력하여야합니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (value.length > 11) {
+					$("#prodStock").html("최대글자(11)을 초과하였습니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화
+			 } else if (specialChars.test(value)) {
+					$("#prodStock").html("특수문자는 입력할 수 없습니다.");
+					$("#prodStock").attr("color", "#dc3545");
+					$(".addProduct-submit:contains('등록')").prop('disabled', true); // 버튼 비활성화		
+			 } else {
+					$("#prodStock").html("성공");
+					$("#prodStock").attr("color", "#4caf50");
+					$(".addProduct-submit:contains('등록')").prop('disabled', false);  
+				 
+				}
+
+		});
+		
+		function fncAddProduct() {
+		
 			//Form 유효성 검증  	
 			var name = $("input[name='prodName']").val();
 			var price = $("input[name='prodPrice']").val();
@@ -51,15 +127,96 @@
 				alert("팀 코드는 반드시 입력하셔야 합니다.");
 				return;
 			}
+		
 			// 폼 제출
-			$("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action", "/product/addProduct").submit();
+			$("form").attr("method", "POST").attr("action", "/product/addProduct").submit();
 		}
+		
+		
+		$(function() {
 
-		$(".addProduct-submit:contains('등록')").on('click', function() {
-			fncAddProduct();
+			$(".addProduct-submit:contains('등록')").on('click', function() {
+				fncAddProduct();
+			});
+			$(".addProduct-submit:contains('취소')").on('click', function() {
+				self.location = "../product/listProduct?prodTeamCode=ALL";
+			});
 		});
-		$(".addProduct-submit:contains('취소')").on('click', function() {
-			self.location = "../algudgodmain.jsp";
+		
+		//drag&drop용
+		$(function(){
+			var dropZone = $('#drop-area');
+			dropZone.hide();
+			
+			$(document).on('dragenter', function(event) {
+				dropZone.addClass('active');
+				dropZone.show();
+			});
+			
+			dropZone.on('dragover', function(event) {
+				event.preventDefault();
+			});
+			
+			dropZone.on('drop', function(event){
+				event.preventDefault();
+		 		handleFileSelect(event.originalEvent);
+		 		dropZone.hide();
+		 	});
+		 	
+			$(document).on('dragleave', function(event) {
+				if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+					event.preventDefault();
+					dropZone.removeClass('active');
+					dropZone.hide();
+				}
+			});
+			 
+			function handleFileSelect(event) {
+				    event.stopPropagation();
+				    event.preventDefault();
+				    dropZone.removeClass('active');
+				    
+				    var files = event.target.files || event.dataTransfer.files;
+				    // 파일 업로드 처리 로직을 여기에 구현하세요.
+				    if (files.length > 0) {
+				    	
+				    	var formData = new FormData();
+				    	
+				    	for (var i = 0; i < files.length; i++) {
+				    	    formData.append('images', files[i]);
+				    	 }
+				    	
+				        $.ajax({
+				            url: "http://127.0.0.1:3000/image/product",
+				            type: "POST",
+				            processData: false,
+				            contentType: false,
+				            data: formData,
+				            dataType: "json",
+				            success: function(data, status) {
+				              console.log(data);
+				              $("#image-result").empty();
+				              for(var j=0; j < data.image_path.length; j++){
+				            	  var thumbnail = $("<img>").attr("src", data.image_path[j]).attr("width", "400px").attr("height", "200px").attr("class", "thumbnail");
+				            	  $("#image-result").append(thumbnail);
+				              }
+				              
+				              var prodImageFirst = $("<input>").attr("type", "hidden").attr("name", "prodImageFirst").attr("value", data.image_path[0]);
+				              $("form").append(prodImageFirst);  
+				              if(data.image_path.length == 2){
+				            	  var prodImageSecond = $("<input>").attr("type", "hidden").attr("name", "prodImageSecond").attr("value", data.image_path[1]);
+				            	  $("form").append(prodImageSecond);
+				              } else if (data.image_path.length == 3){
+				            	  var prodImageSecond = $("<input>").attr("type", "hidden").attr("name", "prodImageSecond").attr("value", data.image_path[1]);
+				            	  var prodImageThird = $("<input>").attr("type", "hidden").attr("name", "prodImageThird").attr("value", data.image_path[2]);
+				            	  $("form").append(prodImageSecond).append(prodImageThird);
+				              }
+				            }
+				          });
+				    	
+				    }
+			}
+			
 		});
 	});
 
@@ -67,7 +224,38 @@
 </head>
 
 <style>
+/* 이미지 드래그 드랍 CSS 시작*/
+.drop-area {
+	display: none;
+	width: 100%;
+	height: 100%;
+ 	position: absolute;
+ 	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+ 	z-index: 999;
+}
 
+.drop-area.active {
+	display: block;
+	border-radius: 10px;
+}
+
+.thumbnail-area{
+	/* position: relative; */
+}
+
+.thumbnail{
+	padding: 10px;
+}
+#image-drop{
+	position: relative;
+	padding : 50px;
+	border: 2px dashed #ccc;
+	border-radius: 10px;
+	text-align: center;
+}
+/* 이미지 드래그 드랍 CSS 종료*/
 
 .addProduct-submit:hover {
 	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
@@ -142,7 +330,10 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="item">
-													<label> <span>상품명<i>*</i></span> <input type="text" placeholder="상품명을 입력하세요" name="prodName">
+													<label> 
+														<span>상품명<i>*</i></span> 
+														<input type="text" placeholder="상품명을 입력하세요" name="prodName"/>
+														<font id="prodName" size="2"></font>
 													</label>
 												</div>
 											</div>
@@ -151,14 +342,23 @@
 											<div class="item">
 											<label>
 											  <span>상품 이미지</span>
-											  <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; ">
+											  <!-- <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; "> -->
+											  	<div id="image-drop">								
+													<div class="thumbnail-area" id="image-result">
+														<caption>이미지를 드랍해 주세요</caption>													
+													</div>									
+													<div class="drop-area" id="drop-area">,</div>		
+												</div>
 											</label>
 										</div>
 									</div>
 								
 										<div class="col-md-12">
 											<div class="item">
-												<label> <span>가격 <i>*</i></span> <input type="text" placeholder="가격을 입력하세요" name="prodPrice">
+												<label> 
+													<span>가격 <i>*</i></span> 
+													<input type="text" placeholder="가격을 입력하세요" name="prodPrice"/>
+													<font id="prodPrice" size="2"></font>
 												</label>
 											</div>
 										</div>
@@ -212,7 +412,10 @@
 											</div>
 											<div class="col-md-9">
 												<div class="item">
-													<label> <span>상품재고 <i>*</i></span> <input type="text" placeholder="수량을 입력하세요" name="prodStock">
+													<label> 
+														<span>상품재고 <i>*</i></span> 
+														<input type="text" placeholder="수량을 입력하세요" name="prodStock">
+														<font id="prodStock" size="2"></font>
 													</label>
 												</div>
 											</div>

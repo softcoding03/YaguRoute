@@ -23,9 +23,72 @@
 		  left: 30%;
 		  transform: translate(-30%, -30%);
     }
+.disabled-button {
+  opacity: 0.5; /* 비활성화 효과를 주기 위한 투명도 설정 */
+  cursor: not-allowed; /* 마우스 커서 모양 변경 */
+  pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+}
+    
  </style>
   <script type="text/javascript">
+  
+
+  
     	$(function() {
+    		//유효성 검사
+    		
+    	var title=false;
+    	var contents=false;
+    		
+ 			$('input[name="postTitle"]').keyup(function(){
+    			var value = $(this).val();
+    			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+    			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+    			
+    			if(value.length < 3){
+    				$("#postTitle").html("제목은 최소 3자 이상 입력해야합니다.");
+					$("#postTitle").attr("color", "#dc3545");
+					$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+    			} else if (value.length > 20){
+    				$("#postTitle").html("제목은 최대 20자까지 입력 가능합니다.");
+					$("#postTitle").attr("color", "#dc3545");
+					$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+    			} else {
+    				$("#postTitle").html("작성 가능");
+					$("#postTitle").attr("color", "#4caf50");
+					title = true;
+    			}
+    			
+    			if(title && contents){
+        			$('button:contains("작성하기")').prop('disabled', false); // 버튼 활성화	
+        		}
+    		});
+ 			
+ 			$('#summernote').on('summernote.change', function() {
+ 				var text = $(this).summernote('code');
+    			console.log(text);
+    			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+    			
+    			if(text.length < 10){
+    				$("#postContents").html("내용은 최소 10자 이상 입력해야합니다.");
+					$("#postContents").attr("color", "#dc3545");
+					$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+    			} else if (text.length > 5000){
+    				$("#postContents").html("내용은 최대 500자까지 입력 가능합니다.");
+					$("#postContents").attr("color", "#dc3545");
+					$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+    			} else {
+    				$("#postContents").html("작성 가능");
+					$("#postContents").attr("color", "#4caf50");
+					contents = true;
+    			}
+    			
+    			if(title && contents){
+        			$('button:contains("작성하기")').prop('disabled', false); // 버튼 활성화	
+        		}
+    		});
+ 			
+    		
     		$( "button.btn.btn-default").on("click" , function() {
     			event.preventDefault();
     			var post ={
@@ -61,11 +124,7 @@
     		    // 글머리 기호, 번호매기기, 문단정렬
     		    ['para', ['ul', 'ol', 'paragraph']],
     		    // 줄간격
-    		    ['height', ['height']],
-    		    // 그림첨부, 링크만들기, 동영상첨부
-    		    ['insert',['picture','link','video']],
-    		    // 코드보기, 확대해서보기, 도움말
-    		    ['view', ['codeview','fullscreen', 'help']]
+    		    ['height', ['height']]
     		  ];
     		
   			var setting = {
@@ -134,22 +193,23 @@
 			    </div>
 			  </div>		
 			  <div class="form-group">
-			    <label class="col-sm-2 control-label">게시물 제목</label>
+			    <label class="col-sm-2 control-label">게시물 제목<i>*</i></label>
 			    <div class="col-sm-10">
-			    	<p>게시물 제목은 50자 이내로만 작성 가능합니다.</p>
 			      <input type="text" class="form-control" name="postTitle" placeholder="게시물 제목을 입력해주세요.">
+			    	<font id="postTitle" size="2" color="red">제목은 최소 3자 이상 최대 20자까지 허용됩니다.</font>
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">게시물 내용</label>
 			    <div class="col-sm-10">
 			    	<textarea id="summernote" name="postContents"></textarea>
+			    	<font id="postContents" size="2" color="red">내용은 최소 10자 이상 최대 500자까지 허용됩니다.</font>
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
 			   	 <a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
-			      <button type="submit" class="btn btn-default">작성하기</button>
+			      <button disabled type="submit" class="btn btn-default">작성하기</button>
 			    </div>
 			  </div>
 		</form>	

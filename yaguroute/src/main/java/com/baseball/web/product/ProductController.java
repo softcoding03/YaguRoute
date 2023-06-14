@@ -53,58 +53,45 @@ public class ProductController {
 
 	@PostMapping(value = "addProduct")
 	public String addProduct(@ModelAttribute("product") Product product,
-			@RequestParam("prodImages") List<MultipartFile> multipartFile, Model model) throws Exception {
-
-		System.out.println("MultipartFile 	::" + product);
-		System.out.println("MultipartFile22 ::" + multipartFile);
+							Model model) throws Exception {
+		
 		System.out.println("/product/addProduct 작동 시작.");
-
+		
+		System.out.println(product);
+		productService.addProduct(product);
 		
 		
 		
-		String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
+		//String path = "C:\\mainPJT\\yaguroute\\src\\main\\webapp\\images\\product";
 
 		// 업로드로 인한 추가
 //		List<String> prodImages = new ArrayList<>();
-
-		String prodTemp = "";
-		long listSize = multipartFile.size();
-		int temp = 1;
-
-		for (MultipartFile mf : multipartFile) {
-			String originalFileName = mf.getOriginalFilename();
-			long size = mf.getSize();
-
-			System.out.println("originalFileName: " + originalFileName);
-			System.out.println("fileSize: " + size);
-
-			//유니크한 이름 생성, 저장
-			String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-			
-			if(temp == 1 ) { 
-				product.setProdImageFirst(uniqueFileName);
-			} else if (temp == 2){
-				product.setProdImageSecond(uniqueFileName);				
-			} else {
-				product.setProdImageThird(uniqueFileName);
-			}
-//			prodTemp = prodTemp + uniqueFileName + ((temp < listSize) ? "," : "");
-			temp++;
-						
-//	        prodImages.add(uniqueFileName);
-
-			try {
-				mf.transferTo(new File(path + "\\" + uniqueFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		/*
+		 * String prodTemp = ""; long listSize = multipartFile.size(); int temp = 1;
+		 * 
+		 * for (MultipartFile mf : multipartFile) { String originalFileName =
+		 * mf.getOriginalFilename(); long size = mf.getSize();
+		 * 
+		 * System.out.println("originalFileName: " + originalFileName);
+		 * System.out.println("fileSize: " + size);
+		 * 
+		 * //유니크한 이름 생성, 저장 String uniqueFileName = System.currentTimeMillis() + "_" +
+		 * originalFileName;
+		 * 
+		 * if(temp == 1 ) { product.setProdImageFirst(uniqueFileName); } else if (temp
+		 * == 2){ product.setProdImageSecond(uniqueFileName); } else {
+		 * product.setProdImageThird(uniqueFileName); } // prodTemp = prodTemp +
+		 * uniqueFileName + ((temp < listSize) ? "," : ""); temp++;
+		 * 
+		 * // prodImages.add(uniqueFileName);
+		 * 
+		 * try { mf.transferTo(new File(path + "\\" + uniqueFileName)); } catch
+		 * (Exception e) { e.printStackTrace(); } }
+		 */
 
 		
 //	    product.setProdImage(prodImages);
-		System.out.println(product);
-
-		productService.addProduct(product);
+		
 
 		//String[] fileNames = prodTemp.split(",");
 		//model.addAttribute("fileNames", fileNames);
@@ -138,7 +125,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(pageSize);
+		search.setPageSize(15);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -185,7 +172,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(pageSize);
+		search.setPageSize(6);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행

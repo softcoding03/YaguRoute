@@ -35,17 +35,23 @@
     display: grid !important;
     place-items: center !important;
     } 
+    ul {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none !important;
+	    font-size: 18px !important;
+	}
     </style>
     <style>
     	body {
             /* background-color: #6c9900; */
             /* background-color: #ddd; */
+            background-image: url('/images/background/playGround.png');
             background-size: cover;
             font-family: Arial, sans-serif;
         }
 		footer {
-			border-top: 2px solid #d3d5db;
-			
+			/* border-top: 2px solid #d3d5db; */
 		}
 		.login-wrapper {
 		
@@ -57,19 +63,22 @@
     	}
 
         .login-container {
-            width: 550px;
-            height: 800px;
-            padding: 20px;
-            border-radius: 7px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            margin: 0 auto;
-            background-color: #ffffff;
-            
-        }
+		    width: 550px;
+		    height: 800px;
+		    padding: 40px;
+		    border-radius: 30px;
+		    box-shadow: 0 0 20px rgb(72 92 214 / 30%);
+		    margin: 0 auto;
+		    background-color: #ffffff;
+		    opacity: 95%;
+		    
+		}
 	
         .login-container h3 {
             text-align: center;
             color: #19376D;
+            box-shadow: 1px 1px 6px rgb(73 69 136 / 100%);
+    		border-radius: 15px;
         }
 		
 		.login-message {
@@ -114,6 +123,7 @@
 		    outline: 0;
 		    transition: all .4s;
 		    font-weight: bold;
+		    color: antiquewhite;
 		}
 		
         .login-container button[type="button"] {
@@ -248,11 +258,11 @@
 		    font-size: 10px;
 		}
 		.corp_area {
-			color: #FFFF;
-		    width: 1000px;
-		    margin: 0 auto;
-		    padding-top: 15px;
-		    line-height: 10px;
+		    color: #FFFF;
+		    /* width: 1000px; */
+		    /* margin: 0 auto; */
+		    padding-top: 63px;
+		    line-height: 12px;
 		    text-align: center;
 		}
 		.middle {
@@ -416,7 +426,9 @@
 <!--CONTACT WRAP BEGIN-->
 <div class="login-wrapper">
 	<div class="container">
+	<div class="row">
 	<footer style="margin-bottom: 40px;"></footer>
+	<div class="row">
         <div class="login-container">
                 <h3>야구 ROUTE</h3>
                 <span class="login-message">야구 ROUTE 페이지를 방문해 주셔서 감사합니다.</span>
@@ -452,7 +464,7 @@
 							    <img src="/images/user/naverTitle.png" alt="네이버" /> 네이버로 로그인
 							  </a>
 							  <!-- 카카오 로그인 버튼 -->
-							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.55.116:8080/users/kakaoLogin" class="kakao-login">
+							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin" class="kakao-login">
 							    <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
 							      <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
 							    </svg>
@@ -477,7 +489,8 @@
 	                </div>
                 </div>
 		 </div>
-
+	  </div>
+</div>
 <!--CONTACT WRAP END-->
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>

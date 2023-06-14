@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -32,6 +32,56 @@
     .search-container {
         text-align: right;
     }
+    
+    #searchButton:hover {
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
+}
+
+#searchButton {
+  border-radius: 20px;
+  background-color: #E0F7E7;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  color: #000000; /* 글자색 설정 */
+}
+  .ui-autocomplete {
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+  padding: 3px 20px;
+}
+.ui-autocomplete > li.ui-state-focus {
+  background-color: #DDD;
+}
+.ui-helper-hidden-accessible {
+  display: none;
+}
+#back-img {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url("/images/product/baseballStadium.png");
+  background-size: 1100px;
+  background-repeat: no-repeat;
+  background-position:  left;
+  opacity: 0.5;
+  }
 </style>
 
 
@@ -93,18 +143,17 @@
 
 </head>
 
-
-
 <body bgcolor="#ffffff" text="#000000">
+
 	<!-- ToolBar Start /////////////////////////////////////-->
-<jsp:include page="/common/topBar.jsp"/>
+  <jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 				
 	<form name="detailForm">
 			
-			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
+			<div class="mathc-live-broadcasts background col-md-12" style="display: flex; justify-content: center; margin-left:30px; ">
 			    <div class="broadcast-tabs-wrapper">
 			        <ul class="nav nav-tabs" role="tablist">
 			            <c:forEach var="team" items="${allTeam}">
@@ -121,7 +170,7 @@
 			        </ul>
 			    </div>
 			</div>
-		<div class="container">
+		<div class="container col-md-12">
 		<div class="page-header text-info">
 			<div class="row">
 			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
@@ -139,7 +188,7 @@
 							<input type="text" class="form-control"  id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
 								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
 
-						<button type="button" class="btn btn-default">검색</button>
+						<button type="button" class="btn btn-default" id="searchButton">검색</button>
 						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
 					</div>
 					
@@ -165,11 +214,19 @@
 									<c:set var="i" value="${ i+1 }" />
 									<tr class="ct_list_pop">
 										<td align="center">${ i }</td>
-										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>
-										<td align="left">${product.prodPrice}</td>
+										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>							
+										<td align="left"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/></td>
 										<td align="left">${product.prodRegDate}</td>
 										<td align="left">${product.prodStock}</td>
-										<td align="left">${product.prodCategory}</td>
+										<td align="left">		  
+														<c:choose>
+															    <c:when test="${product.prodCategory eq 1}">유니폼</c:when>
+															    <c:when test="${product.prodCategory eq 2}">모자</c:when>
+															    <c:when test="${product.prodCategory eq 3}">야구용품</c:when>
+															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>
+															  </c:choose>
+															</td>
+										
 										<td align="left">${product.prodTeamCode}</td>
 										<td>${product.prodTranCode eq 'hidden' ? '숨김' : '판매중'}</td>
 									</tr>
