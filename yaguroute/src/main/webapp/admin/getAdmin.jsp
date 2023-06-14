@@ -479,7 +479,7 @@ a {
 	            </li>
 	        <ul class="left_link"></ul>    
 	            <li>
-	            	<a href="/ticket/getTicketPurchaseList?userId=${user.userId}" class="left_item" role="menuitem">
+	            	<a href="/channel/listChannel" class="left_item" role="menuitem">
 	                    <div class="menu_text "><b>채널 관리</b></div>
 	                </a>
 	            </li>

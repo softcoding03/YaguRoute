@@ -69,7 +69,7 @@ img.logo{
                     		<li><a href="/predict/getUserPredict"><span class="topbar">게임 예측</span></a></li>
                     		</ul>
                     </li>
-                    <li><a href="/channel/listChannel"><span class="topbar">실시간 중계</span></a></li>
+                    <li><a href="/channel/listStreaming"><span class="topbar">실시간 중계</span></a></li>
                     <li>  <a href="#other"><span class="topbar">선수 조회</span></a>
                         <ul>
                         	 <li><a href="/player/listPlayer"><span class="topbar">선수 리스트</span></a></li>
@@ -84,11 +84,12 @@ img.logo{
                     <c:if test="${user.role eq 'admin'}">
 	                    <li><a href="/admin/getAdmin.jsp"><span class="topbar">관리자페이지</span></a>
 	                        <ul>
-	                        	 <li><a href="/users/listUser"><span class="topbar">회원 목록 조회</span></a></li>
+	                        	<li><a href="/users/listUser"><span class="topbar">회원 목록 조회</span></a></li>
 	                            <li><a href="/product/listProduct?prodTeamCode=ALL"><span class="topbar">판매상품관리</span></a></li>
 	                            <li><a href="/transaction/dlvyTranList"><span class="topbar">상품배송관리</span></a></li>                                
 	                            <li><a href="/product/addProductView.jsp"><span class="topbar">상품등록</span></a></li>
-	                            <li><a href="javascript:;" class="getSalesList"><span class="topbar">티켓판매내역조회</span></a></li>                        
+	                            <li><a href="javascript:;" class="getSalesList"><span class="topbar">티켓판매내역조회</span></a></li>
+	                            <li><a href="/channel/listChannel"><span class="topbar">채널 관리</span></a></li>                        
 	                        </ul>
 	                    </li>
                     </c:if>
