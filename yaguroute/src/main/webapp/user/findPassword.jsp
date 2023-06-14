@@ -256,7 +256,7 @@
 	   		var userId = $("#userId").val();
 	   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
 	   		
-	   		var rnd = Math.floor(Math.random() * 9000) + 1000; //랜덤 수
+	   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
 	   		alert(rnd);
 	   		alert(userId);
 	   		// rnd에 대한 HTML 요소 생성

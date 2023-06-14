@@ -170,12 +170,12 @@ public class UserController {
 
 		System.out.println("회원가입 대상 : " + user.getUserId());
 		
-		if(userImage == null) {
-			user.setUserImage("/images/user/defaultProfile.png");
-		}
-		else {
-			user.setUserImage(userImage);
-		}
+//		if(userImage == null) {
+//			user.setUserImage("/images/user/defaultProfile.png");
+//		}
+//		else {
+//			user.setUserImage(userImage);
+//		}
 		
 		userService.addUser(user);
 
@@ -190,11 +190,12 @@ public class UserController {
 	public String updateUserView(User user, HttpSession session, Model model) throws Exception {
 
 		user = (User) session.getAttribute("user");
+		
 		if (user != null) {
 
 			System.out.println("정보 수정 대상 아이디 : " + user.getUserId());
 			model.addAttribute("user");
-
+			
 			return "redirect:/user/updateUserView.jsp";
 
 		} else {
@@ -206,9 +207,20 @@ public class UserController {
 	@PostMapping(value = "updateUser")
 	public @ResponseBody  ResponseEntity<String> updateUser(@RequestBody User user, Model model, HttpSession session) throws Exception {
 
+		User sessionUser = (User) session.getAttribute("user");
+		
 		System.out.println("원래 값 : " + session.getAttribute("user"));
 		System.out.println("새로 바꿀 값 : " + user);
-
+		
+		
+		// 만약 userImage 가 Null 값이라면?
+		if(user.getUserImage() == null) {
+			if(sessionUser.getUserImage() != null) {
+				
+				user.setUserImage(sessionUser.getUserImage());
+			}
+		}
+		
 		userService.updateUser(user);
 
 		System.out.println("여긴 updateUser/POST ");
@@ -620,13 +632,13 @@ public class UserController {
 		return "redirect:/main/getMain";
 	}
 	
-	@PostMapping("userImage")
-	public String addUserImage(@ModelAttribute("file") MultipartFile file, User user) throws Exception {
-
-		System.out.println("userImage ㅎㅇ");
-		
-		userImage = userRestDao.getUserImage(file);
-		
-		return userImage;
-	}	
+//	@PostMapping("userImage")
+//	public String addUserImage(@ModelAttribute("file") MultipartFile file, User user) throws Exception {
+//
+//		System.out.println("userImage ㅎㅇ");
+//		
+//		userImage = userRestDao.getUserImage(file);
+//		
+//		return userImage;
+//	}	
 }

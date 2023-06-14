@@ -36,7 +36,7 @@ public class PlayerServiceImpl implements PlayerService{
 	@Override
 	public void addPlayer(Player player) throws Exception {
 		// TODO Auto-generated method stub
-		playerDao.addPlayer(player);
+		playerDao.addPlayer(player); 
 	}
 	
 	@Override

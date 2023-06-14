@@ -55,20 +55,68 @@ public class UserRestController {
 	
 	// 아이디 중복체크
 	@RequestMapping("/userIdCheck")
-	public @ResponseBody int mbidCheck(String userId) throws Exception {
+	public @ResponseBody int mbidCheck(String userId, HttpSession session) throws Exception {
 		
-		System.out.println(userId);
-		int result = userDao.userIdCheck(userId);
+		int result;
+		
+		System.out.println("Check 할 사용자"+userId);
+		
+		User user = (User) session.getAttribute("user");
+		
+		System.out.println("세션의 유저 : "+user);
+		
+		if(user.getUserId().equals(userId)) {
+			result = 0;
+			return result;
+		}
+		
+		result = userDao.userIdCheck(userId);
+		
 		System.out.println("result : "+result);
 		return result;
 	}
 	
 	// 닉네임 중복체크	
 	@RequestMapping("/userNickNameCheck")
-	public @ResponseBody int userNickNameCheck(String userNickName) throws Exception {
+	public @ResponseBody int userNickNameCheck(String userNickName, HttpSession session) throws Exception {
 		
-		System.out.println(userNickName);
-		int result = userDao.userNickNameCheck(userNickName);
+		int result;
+		
+		System.out.println("Check 할 닉네임 : "+userNickName);
+		
+		User user = (User) session.getAttribute("user");
+		
+		System.out.println("세션의 유저 : "+user);
+		
+		if(user.getUserNickName() != null) {
+			
+			if(user.getUserNickName().equals(userNickName)) {
+				result = 0;
+				return result;
+			}
+		}
+		result = userDao.userNickNameCheck(userNickName);
+		System.out.println("result : "+result);
+		return result;
+	}
+	
+	@RequestMapping("/userPhoneCheck")
+	public @ResponseBody int userPhoneCheck(String userPhone, HttpSession session) throws Exception {
+		
+		int result;
+		
+		System.out.println("Check 할 닉네임 : "+userPhone);
+		
+		User user = (User) session.getAttribute("user");
+		
+		System.out.println("세션의 유저 : "+user);
+		
+		if(user.getUserPhone().equals(userPhone)) {
+			result = 0;
+			return result;
+		}
+		
+		result = userDao.userNickNameCheck(userPhone);
 		System.out.println("result : "+result);
 		return result;
 	}
