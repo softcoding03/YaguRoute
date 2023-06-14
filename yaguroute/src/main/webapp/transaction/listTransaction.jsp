@@ -25,11 +25,6 @@
 <style>
 
 
-a.refund-link {
-  color: blue;
-}
-
-
 </style>
 
 
@@ -49,18 +44,16 @@ function fncGetTransactionList() {
 
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body >
 	<!-- ToolBar Start /////////////////////////////////////-->
-<jsp:include page="/common/topBar.jsp"/>
+  <jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
 
 				<!--BREADCRUMBS BEGIN-->
-						<section class="image-header" style="height: 200px;">
-						  <div class="container">
-						    <div class="row">
-						      <div class="col-md-8">
+
+						      <div class="col-md-8" style="margin-top: 120px; margin-left:30px;">
 						        <div class="info">
 						          <div class="wrap">
 						            <h1>구매목록조회</h1>
@@ -68,9 +61,7 @@ function fncGetTransactionList() {
 						          </div>
 						        </div>
 						      </div>
-						    </div>
-						  </div>
-						</section>
+
 
 				<!--BREADCRUMBS END-->
 
@@ -101,7 +92,7 @@ function fncGetTransactionList() {
 		<td class="ct_list_b">배송</td>
 		<td class="ct_list_b">결제수단</td>
 		<td class="ct_list_b">환불상태</td>	
-		<td class="ct_list_b">후기등록(x)</td>			
+		
 	</tr>
 
 	<c:set var="i" value="0"/>
@@ -112,20 +103,20 @@ function fncGetTransactionList() {
 		<tr class="ct_list_pop">
 			<td align="center">${tranDetail.tranDetailNo}</td>	
 			<td align="center">
-  <c:choose>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
-    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
-    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
-  </c:choose>
-</td>
+					  <c:choose>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
+					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
+					    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
+					  </c:choose>
+					</td>
 			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
 			<td align="left">${tranDetail.tranDetailProd.prodPrice}</td>
 			<td align="left">${tranDetail.tranQuantity}</td>
@@ -163,13 +154,7 @@ function fncGetTransactionList() {
 			    </c:when>
 			  </c:choose>
 			</td>
-		<td align="left">
-					  <c:choose>
-			    <c:when test="${tranDetail.tranStatusCode eq 3}">
-			      <a href="addComment?prodNo="${tranDetail.tranDetailProd.prodNo}  class="refund-link">등록</a>
-			    </c:when>
-			  </c:choose>
-		</td>
+
 	</tr>
 	</c:forEach>
 </table>
@@ -178,8 +163,7 @@ function fncGetTransactionList() {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-	   
-	
+
 			  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 			
 					<!-- PageNavigation Start... -->
@@ -188,7 +172,6 @@ function fncGetTransactionList() {
 				</jsp:include>
 				<!-- PageNavigation End... -->
 						
-	
     	</td>
 	</tr>
 </table>

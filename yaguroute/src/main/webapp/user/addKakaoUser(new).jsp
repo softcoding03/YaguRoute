@@ -242,26 +242,26 @@
 		
 		if(userPhone.length == 11){
 			alert("인증번호를 발송하였습니다.");
+			
+	   		$.ajax({
+	               url: "/users/phoneCheck/",
+	               method: "POST",
+	               dataType: "json",
+	               data: {userPhone : userPhone,
+	               		rnd : rnd}, // 수정: userId로 변경
+	               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+	               success: function(result) {
+	               },
+	               error: function() {
+	               	alert("서버 오류 발생");
+	                   return;
+	           }
+	   		});
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
 			return;
 		}
-		
-   		$.ajax({
-               url: "/users/phoneCheck/",
-               method: "POST",
-               dataType: "json",
-               data: {userPhone : userPhone,
-               		rnd : rnd}, // 수정: userId로 변경
-               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-               success: function(result) {
-               },
-               error: function() {
-               	alert("서버 오류 발생");
-                   return;
-           }
-   		});
    	  });
    	});
 	
