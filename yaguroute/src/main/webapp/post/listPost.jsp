@@ -179,7 +179,6 @@
 <jsp:include page="/common/topBar.jsp"/>
 
 
-
 <section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
 		<div class="col-md-12" >

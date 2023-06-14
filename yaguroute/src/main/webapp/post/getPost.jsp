@@ -14,67 +14,63 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
    <style type="text/css">
     	.background {
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  margin-top: 50px;
+		  display: flex !important;
+		  justify-content: center !important;
+		  align-items: center !important;
+		  margin-top: 50px !important;
 		}
 	  .wrap {
-	    display: flex;
-	    align-items: center;
+	    display: flex !important;
+	    align-items: center !important;
 	  }
 	  .wrap > * {
-	    margin-right: 10px;
+	    margin-right: 10px !important;
 	  }		
 	  .wrap label {
-	    width: 70px; /* 원하는 크기로 지정 */
-	    height: 50px;
-	    margin-top: 5px;
-	    display: inline-block;
+	    width: 70px !important; /* 원하는 크기로 지정 */
+	    height: 50px !important;
+	    margin-top: 5px !important;
+	    display: inline-block !important;
 	  }	 
 	  	.sidebar{
-			position: sticky;
-		    top: 100px;
-		    right: 300px;
-		}
-	  .teamTopBar {
-		  width: 100%;
-		  height: auto;
+			position: sticky !important;
+		    top: 100px !important;
+		    right: 300px !important;
 		}
 		.image-container {
-		  position: relative;
-		  display: inline-block;
-		  width: 100%;
+		  position: relative !important;
+		  display: inline-block !important;
+		  width: 100% !important;
 		}
 		section.h1{
-			display:flex;
-			justify-content:center;
+			display:flex !important;
+			justify-content:center !important;
 		}		
 		h1{
-		color: white;
-		position: relative;
-  		z-index: 9900;
-		font-family:"Gwangyang";
+		color: white !important;
+		position: relative !important;
+  		z-index: 9900 !important;
+		font-family:"Gwangyang" !important;
 		}
 	  	.row-align {
-	    display: flex;
-	    align-items: center;
+	    display: flex !important;
+	    align-items: center !important;
 	  }
 	  div.emote{
-	  	text-align: center;
+	  	text-align: center !important;
 	  }
 	  button.thumbs-btn{
-	  		width:30px;
+	  		width:30px !important;
 	  }
 	  
 	  #back-img {
-		  position: fixed;
-		  width: 100%;
-		  height: 100vh;
-		  overflow: hidden;
+		  position: fixed !important;
+		  width: 100% !important;
+		  height: 100vh !important;
+		  overflow: hidden !important;
 		}
 	  .row-offcanvas {
-	    background-color: rgba(217, 217, 217, 0.8); /* 흰색 배경과 투명도 조절 */
+	    background-color: rgba(217, 217, 217, 0.8) !important; /* 흰색 배경과 투명도 조절 */
 	  }
 	  //따라다니는 퀵메뉴
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
@@ -255,10 +251,8 @@ var postNo;
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 <body>
-
-<jsp:include page="/common/topBar.jsp"/>
-
 <a type="hidden" id="top"/>
+<jsp:include page="/common/topBar.jsp"/>
 
 <section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">

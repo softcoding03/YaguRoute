@@ -193,7 +193,7 @@
 			    </div>
 			  </div>		
 			  <div class="form-group">
-			    <label class="col-sm-2 control-label">게시물 제목<i>*</i></label>
+			    <label class="col-sm-2 control-label">게시물 제목</label>
 			    <div class="col-sm-10">
 			      <input type="text" class="form-control" name="postTitle" placeholder="게시물 제목을 입력해주세요.">
 			    	<font id="postTitle" size="2" color="red">제목은 최소 3자 이상 최대 20자까지 허용됩니다.</font>
@@ -208,6 +208,7 @@
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
+			   	 <a> 본 게시물은 본인 선호구단 게시판에 업로드됩니다.</a><br>
 			   	 <a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
 			      <button disabled type="submit" class="btn btn-default">작성하기</button>
 			    </div>

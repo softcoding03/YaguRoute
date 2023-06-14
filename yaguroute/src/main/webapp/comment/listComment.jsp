@@ -4,11 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <style>
@@ -193,9 +188,6 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 				})
 	 		}
 		});
-		
-		
-		
 	});
 	
 	</script>
