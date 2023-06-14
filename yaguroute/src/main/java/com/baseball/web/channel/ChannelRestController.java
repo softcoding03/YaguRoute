@@ -60,7 +60,7 @@ public class ChannelRestController {
 		return map;
 	}
 	
-	//@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = "0 */1 * * * ?")
 	public void stopRecord() throws Exception{
 		System.out.println("실행");
 		List<Channel> channelList = channelService.getChannelList();
