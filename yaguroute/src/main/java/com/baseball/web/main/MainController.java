@@ -80,7 +80,7 @@ public class MainController {
 			System.out.println("/main/getMain : GET START");
 			//공지사항 출력
 			List<String> postDateList = new ArrayList<>();
-			List<Post> noticeList = postService.getNoticeList("all"); //공지사항 리스트
+			List<Post> noticeList = postService.getNoticeList(); //공지사항 리스트
 			/* System.out.println("noticeList ? "+noticeList); */
 			for(Post post:noticeList) { //postDate 형식 변경 2023-06-13T00:31:03 -> 2023년 6월 13일
 				LocalDate postDate = post.getPostDate().toLocalDate();

@@ -14,9 +14,6 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
    <style type="text/css">
-   	div, a{
-   		font-family:"Gwangyang" !important;
-   	}
     	.background {
 		  display: flex;
 		  justify-content: center;
@@ -90,8 +87,9 @@
 	  		color:#ff0000;
 	  }
 	  .fa-2x,div.comment-quantity{
-	  		font-size:15px !important;
-	  }
+	  		font-size:17px !important;
+	  }	  
+	  
 	 </style>
     
     <script type="text/javascript">
@@ -114,9 +112,8 @@
 	//따라다니는 퀵메뉴 끝
 	
     function fncGetPostList(currentPage){
-    		var teamCode = $("#teamCode");
 			$("#currentPage").val(currentPage);
-			$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
+			$("form").attr("method" ,"GET").attr("action" , "/post/getMyPostList").submit();
 	 }
     
     $(function(){
@@ -162,11 +159,7 @@
 			   self.location = "/post/getBestList?teamCode="+teamCode;
 		   });
 		   $("a.getNoticeList").on('click',function(){
-			   self.location = "/post/getNoticeList";
-		   });
-		   $("a.getNotice").on('click',function(){
-			   var postNo = $(this).siblings("input.notice").val();
-			   self.location = "/post/getNotice?postNo="+postNo;
+			   self.location = "/post/getNoticeList?teamCode="+teamCode;
 		   });
     })
     
@@ -202,121 +195,18 @@
 </section>
 
 <section class="h1">
-	<h1>커뮤니티 게시판</h1>
+	<h1>내가 쓴 게시물</h1>
 </section>
-<!-- 새로운 툴바 -->
-<!-- 팀 구분 툴바 -->
-<div class="mathc-live-broadcasts background">
-	<div class="broadcast-tabs-wrapper">
-       <ul class="nav nav-tabs" role="tablist">
-       <c:forEach var="team" items="${allTeam}">
-            <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
-            <a href="teamCodeHref" role="tab" data-toggle="tab">
-             <img alt="img" src="${team.teamEmblem}">
-             <span class="info">
-             	<span class="title">${team.teamNickName}</span>
-             </span>
-             <input type="hidden" name="foreachTeamCode" value="${team.teamCode}"/> 
-            </a>
-            </li>
-       </c:forEach>
-       </ul>
-    </div>
-</div>	
 <!--CONTENT BEGIN-->
 <div class="content">
     <div class="container">
         <div class="row row-offcanvas row-offcanvas-left">
 
-                <!--SIDEBAR BEGIN-->
-<section class="sidebar col-xs-6 col-md-3 sidebar-offcanvas" id="sidebar">
-    <div class="sidebar-menu-wrap">
-        <h6>Categories</h6>
-        <ul class="categories-list">
-        <c:if test="${user.teamCode eq teamCode}">
-            <li>
-                <a href="javascript:;" class="addPostView"><span class="count 1">-</span>게시물 작성하기</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="getMyPostList"><span class="count 2">-</span>내가 작성한 게시글 보기</a>
-            </li>
-        </c:if>    
-            <li>
-                <a href="javascript:;" class="getPostList"><span class="count 3">-</span>전체 게시글 보기</a>
-            </li>
-            
-            <li>
-                <a href="javascript:;" class="getBestList"><span class="count 4">-</span>Best5 게시글 보기</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="getNoticeList"><span class="count 5">-</span>공지사항 보기</a>
-            </li>
-        </ul>
-    </div>
-	   <!-- Search -->
-		<div class="sidebar-search-wrap">
-		  <h6>Search</h6>
-		  <form>
-		    <div class="wrap">
-		      <label>
-		        <select class="year basic" name="searchCondition">
-		          <option value="0" ${!empty search.searchCondition && search.searchCondition==0 ? "selected" : ""}>ID</option>
-		          <option value="1" ${!empty search.searchCondition && search.searchCondition==1 ? "selected" : ""}>제목</option>
-		        </select>
-		      </label>
-		      <label class="sr-only" for="searchKeyword">검색어</label>
-		      <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="검색어" value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
-		    	<button><i class="fa fa-search" aria-hidden="true"></i></button>
-		    <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-		    <input type="hidden" id="currentPage" name="currentPage" value="" />
-		    <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}" />
-		    </div>
-		  </form>
-		</div>
-		<!-- Search -->
-		<!-- Recent News -->
-     	<div class="recent-news">
-          <h6>Notice</h6>
-          <c:forEach var="notice" items="${noticeList}">
-	          <div class="item">
-	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
-	              <input type="hidden" class="notice" value="${notice.postNo}">
-	              <a href="javascript:;" class="getNotice">${notice.postTitle}</a>
-	          </div>
-			 </c:forEach>
-      </div>
-      <!-- Recent News -->              
-	    <div class="sidebar-tags-wrap">
-	        <h6>Tags</h6>
-	        <div class="tags">
-	            <a href="javascript:;" class="talk">잡담</a>
-	            <a href="javascript:;" class="cheer">응원</a>
-	            <a href="javascript:;" class="buy">중고구매</a>
-	            <a href="javascript:;" class="sell">중고판매</a>
-	        </div>
-	    </div>
-</section>	
-<!--SIEDBAR END-->
 <!--NEWS LIST BEGIN-->
-<div class="news-list col-xs-12 col-md-9">
+<div class="news-list col-xs-12 col-md-12">
     <p class="hidden-md hidden-lg">
         <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
     </p>
-    <c:if test="${empty list && teamCode eq user.teamCode}">
-    		<div class="item">
-    			<div class="info" style="text-align:center;">
-    				<h4>"현재 업로드 된 게시물이 없습니다."</h4><br>
-    				<h3>'${user.userNickName}'님께서 첫 게시물을 작성해보세요 !</h3>
-    			</div>
-    		</div>
-    </c:if>
-    <c:if test="${empty list && teamCode ne user.teamCode}">
-    		<div class="item">
-    			<div class="info" style="text-align:center;">
-    				<h4>"현재 업로드 된 게시물이 없습니다."</h4><br>
-    			</div>
-    		</div>
-    </c:if>
     <c:forEach var="post" items="${list}">
 	    <div class="item">
 	        <div class="info">
@@ -377,6 +267,10 @@
     <li><a href="#forward"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>
   </ul>
 </div>     
+
+<form>
+    <input type="hidden" id="currentPage" name="currentPage" value="" />
+ </form>
 
 <a type="hidden" id="bottom"/>
  	

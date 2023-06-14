@@ -13,77 +13,174 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
    <style type="text/css">
-    	.background {
-		  display: flex !important;
-		  justify-content: center !important;
-		  align-items: center !important;
-		  margin-top: 50px !important;
-		}
-	  .wrap {
-	    display: flex !important;
-	    align-items: center !important;
-	  }
-	  .wrap > * {
-	    margin-right: 10px !important;
-	  }		
-	  .wrap label {
-	    width: 70px !important; /* 원하는 크기로 지정 */
-	    height: 50px !important;
-	    margin-top: 5px !important;
-	    display: inline-block !important;
-	  }	 
-	  	.sidebar{
-			position: sticky !important;
-		    top: 100px !important;
-		    right: 300px !important;
-		}
-		.image-container {
-		  position: relative !important;
-		  display: inline-block !important;
-		  width: 100% !important;
-		}
-		section.h1{
-			display:flex !important;
-			justify-content:center !important;
-		}		
-		h1{
-		color: white !important;
-		position: relative !important;
-  		z-index: 9900 !important;
-		font-family:"Gwangyang" !important;
-		}
-	  	.row-align {
-	    display: flex !important;
-	    align-items: center !important;
-	  }
-	  div.emote{
-	  	text-align: center !important;
-	  }
-	  button.thumbs-btn{
-	  		width:30px !important;
-	  }
-	  
-	  #back-img {
-		  position: fixed !important;
-		  width: 100% !important;
-		  height: 100vh !important;
-		  overflow: hidden !important;
-		}
-	  .row-offcanvas {
-	    background-color: rgba(217, 217, 217, 0.8) !important; /* 흰색 배경과 투명도 조절 */
-	  }
-	  //따라다니는 퀵메뉴
-		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
-		a {text-decoration:none;}
-		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
-		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
-		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
-		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
-		.quickmenu ul li a:hover {color:#000;}
-		.quickmenu ul li:last-child {border-bottom:0;}
-		.content {position:relative;min-height:1000px;}		
-		.quickmenu .submenu {display: none;}
-	 </style>
+.main-menu-wrap {
+	position: sticky !important;
+}
+
+div, a {
+	font-family: "Gwangyang" !important;
+}
+
+.background {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	margin-top: 50px !important;
+}
+
+.wrap {
+	display: flex !important;
+	align-items: center !important;
+}
+
+.wrap>* {
+	margin-right: 10px !important;
+}
+
+.wrap label {
+	width: 70px !important; /* 원하는 크기로 지정 */
+	height: 50px !important;
+	margin-top: 5px !important;
+	display: inline-block !important;
+}
+
+.sidebar {
+	position: sticky !important;
+	top: 100px !important;
+	right: 300px !important;
+}
+
+.image-container {
+	position: relative !important;
+	display: inline-block !important;
+	width: 100% !important;
+}
+
+section.h1 {
+	display: flex !important;
+	justify-content: center !important;
+}
+
+h1 {
+	color: white !important;
+	position: relative !important;
+	z-index: 9900 !important;
+	font-family: "Gwangyang" !important;
+}
+
+.row-align {
+	display: flex !important;
+	align-items: center !important;
+}
+
+div.emote {
+	text-align: center !important;
+}
+
+button.thumbs-btn {
+	width: 30px !important;
+}
+
+#back-img {
+	position: fixed !important;
+	width: 100% !important;
+	height: 100vh !important;
+	overflow: hidden !important;
+}
+
+.row-offcanvas {
+	background-color: rgba(217, 217, 217, 0.8) !important;
+	/* 흰색 배경과 투명도 조절 */
+}
+
+.name {
+	font-family: "Gwangyang" !important;
+	font-size: 13px !important;
+}
+
+.row.emote, div.emote {
+	font-family: "Gwangyang" !important;
+	font-size: 13px !important;
+	display: flex;
+	justify-content: center;
+}
+
+a.emote.like {
+	color: #ff0000;
+}
+
+a.emote.disLike {
+	color: #337ab7;
+}
+
+/* 따라다니는 퀵메뉴 */
+div, ul, li {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0
+}
+
+a {
+	text-decoration: none;
+}
+
+.quickmenu {
+	position: absolute;
+	width: 50px;
+	top: 70%;
+	margin-top: -70px;
+	right: 10px;
+	background: #fff;
+}
+
+.quickmenu ul {
+	position: relative;
+	float: left;
+	width: 100%;
+	display: inline-block;
+	*display: inline;
+	border: 1px solid #ddd;
+}
+
+.quickmenu ul li {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+	display: inline-block;
+	*display: inline;
+}
+
+.quickmenu ul li a {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #999;
+	font-size: 9.5pt;
+}
+
+.quickmenu ul li a:hover {
+	color: #000;
+}
+
+.quickmenu ul li:last-child {
+	border-bottom: 0;
+}
+
+.content {
+	position: relative;
+	min-height: 1000px;
+}
+
+.quickmenu .submenu {
+	display: none;
+}
+</style>
     
     <script type="text/javascript">
 	
@@ -262,18 +359,24 @@ var postNo;
 	</div>
 </section>
 
-<section class="h1">
-	<h1>커뮤니티 게시판</h1>
-</section>
-
-	
+<c:if test="${post.postType ne '4'}">
+	<section class="h1">
+		<h1>커뮤니티 게시판</h1>
+	</section>
+</c:if>
+<c:if test="${post.postType eq '4'}">
+	<section class="h1">
+		<h1>공지사항</h1>
+	</section>
+</c:if>	
 	
 <!--CONTENT BEGIN-->
 <div class="content">
     <div class="container">
         <div class="row row-offcanvas row-offcanvas-left">
 
-                <!--SIDEBAR BEGIN-->
+<c:if test="${post.postType ne '4'}">
+<!--SIDEBAR BEGIN-->
 <section class="sidebar col-xs-6 col-md-3 sidebar-offcanvas" id="sidebar">
     <div class="sidebar-menu-wrap">
         <h6>Categories</h6>
@@ -336,10 +439,15 @@ var postNo;
     </div>
 </section>	
 <!--SIEDBAR END-->
-
+</c:if>
 
 <!--NEWS SINGLE BEGIN-->
-<section class="news-single col-xs-12 col-md-9">
+<c:if test="${post.postType eq '4'}">
+	<section class="news-single col-xs-12 col-md-12">
+</c:if>
+<c:if test="${post.postType ne '4'}">
+	<section class="news-single col-xs-12 col-md-9">
+</c:if>
 		<p class="hidden-md hidden-lg">
         <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
     </p>
@@ -370,19 +478,21 @@ var postNo;
                 <div class="avatar"><img src="${post.user.userImage}" alt="author-avatar"></div>
                 <div class="info">
                     <div class="name">${post.user.userNickName}</div>
+                    <div class="name">${post.user.userEmail}</div>
                 </div>
             </div>
         </div>
-        
+       <hr>
       <!-- 좋아요 싫어요 -->
-		<div class="row">
+		<div class="row emote">
+		<div class="col-md-1">
 			<div class="emote">
 	  			<input type="hidden" value="Like"/>
 	  			<div class="col-xs-8 col-md-1 check1 emote">
 		  			<a href="javascript:;" class="emote like">
 						<c:choose>
 					        <c:when test="${emote.like == 1}">
-					            <i class="fi fi-sr-heart fa-2x" style=""></i>
+					            <i class="fi fi-sr-heart fa-2x"></i>
 					        </c:when>
 					        <c:otherwise>
 					            <i class="fi fi-rr-heart fa-2x"></i>
@@ -390,7 +500,9 @@ var postNo;
 					    </c:choose>
 					</a>
 				</div>
-			</div>				
+			</div>		
+		</div>
+		<div class="col-md-1">			
 			<div class="emote">
 	  			<input type="hidden" value="DisLike"/>
 				<div class="col-xs-8 col-md-1 check2 emote">	  			
@@ -405,16 +517,16 @@ var postNo;
 					    </c:choose>
 					</a>
 				</div>
-			</div>				
+			</div>	
+		</div>				
 		</div>
-		<div class="row">
+		<div class="row emote">
 			<div class="col-xs-8 col-md-1 emote" id="likes">${post.postLikes}</div>
 			<div class="col-xs-8 col-md-1 emote" id="disLikes">${post.postDislikes}</div>
 		</div>
 			<!-- Comment Start... -->
 			<jsp:include page="../comment/listComment.jsp"/>
 			<!-- Comment End... -->
-		
     </div>
 </section>
 <!--NEWS SINGLE END-->
