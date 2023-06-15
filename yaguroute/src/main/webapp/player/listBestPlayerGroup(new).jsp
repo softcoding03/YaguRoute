@@ -115,7 +115,7 @@
 		    background-size: 188px;
 		    opacity: 1.0;
 		    filter: blur(0.6px);
-		    filter: brightness(95%);
+		    filter: brightness(85%);
 		}
 
         .player-image {

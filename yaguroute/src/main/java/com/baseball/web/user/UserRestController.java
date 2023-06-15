@@ -65,7 +65,13 @@ public class UserRestController {
 		
 		System.out.println("세션의 유저 : "+user);
 		
-		if(user.getUserId().equals(userId)) {
+		if(user == null) {
+			result = userDao.userIdCheck(userId);
+			System.out.println("result : "+result);
+			return result;
+		}
+		
+		else if(user.getUserId().equals(userId)) {
 			result = 0;
 			return result;
 		}
@@ -88,13 +94,17 @@ public class UserRestController {
 		
 		System.out.println("세션의 유저 : "+user);
 		
-		if(user.getUserNickName() != null) {
+		if(user == null) {
 			
-			if(user.getUserNickName().equals(userNickName)) {
-				result = 0;
-				return result;
-			}
+			result = userDao.userNickNameCheck(userNickName);
+			System.out.println("result : "+result);
+			return result;
 		}
+		else if(user.getUserNickName().equals(userNickName)) {
+			result = 0;
+			return result;
+		}
+		
 		result = userDao.userNickNameCheck(userNickName);
 		System.out.println("result : "+result);
 		return result;

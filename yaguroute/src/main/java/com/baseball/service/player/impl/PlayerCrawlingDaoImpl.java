@@ -47,11 +47,15 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 		Player player = new Player(); // 선수 인스턴스 생성
 		
 		/* 1. 셀레니움 사용 위한 인스턴스 생성하기 */
+		//String WEB_DRIVER_ID = "webdriver.chrome.driver";
+		//String WEB_DRIVER_PATH = "C:\\chromeDriver\\chromedriver.exe";
+		
+		
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "C:\\chromeDriver\\chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
+		String WEB_DRIVER_LINUX_PATH ="/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/chromedriver_linux64/chromedriver";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-		
 		ChromeOptions ops = new ChromeOptions();
 		ops.setCapability("ignoreProtectedModeSettings", true);
 		ops.addArguments("--remote-allow-origins=*");
@@ -59,6 +63,17 @@ public class PlayerCrawlingDaoImpl implements PlayerCrawlingDao{
 		ops.addArguments("--no-sandbox");
 		ops.addArguments("--disable-dev-shm-usage");
 		ops.addArguments("ignore-certificate-errors");
+		
+		
+		//System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+		
+		//ChromeOptions ops = new ChromeOptions();
+		//ops.setCapability("ignoreProtectedModeSettings", true);
+		/*ops.addArguments("--remote-allow-origins=*");
+		ops.addArguments("headless");
+		ops.addArguments("--no-sandbox");
+		ops.addArguments("--disable-dev-shm-usage");
+		ops.addArguments("ignore-certificate-errors");*/
 		
 		WebDriver driver = new ChromeDriver(ops);
 		Actions actions = new Actions(driver);

@@ -221,7 +221,7 @@
 		    };
 	});
     
-	 // 휴대폰 버튼 클릭
+	// 휴대폰 인증 클릭
 	$(function(){
    		$('#phoneButton').on("click", function(){
    		
@@ -242,6 +242,8 @@
 		
 		if(userPhone.length == 11){
 			alert("인증번호를 발송하였습니다.");
+			document.getElementById('phoneCheckId').style.display = 'block';
+			$("#userPhone").prop("disabled", true);
 			
 	   		$.ajax({
 	               url: "/users/phoneCheck/",
@@ -265,7 +267,7 @@
    	  });
    	});
 	
-    // 인증번호 확인
+	// 인증번호 확인
 	$(function(){
     	
     	$("#phoneCheckButton").on("click", function(){
@@ -277,6 +279,7 @@
         	
         	if(verify == rnd){
         		alert("인증이 완료되었습니다.");
+        		$("#phoneCheck").prop("disabled", true);
         	}
         	else{
         		alert("인증에 실패하였습니다.");
@@ -292,6 +295,7 @@
 			
 			var nickname = $('#nicknameCheck').val();
 			console.log(nickname);
+			
 			$.ajax({
 				url : "/user/userNickNameCheck",
 				method : "POST",
@@ -317,8 +321,8 @@
 				error : function(){
 					alert("서버 요청 실패");
 				}
-			})
-		})
+			});
+		});
 	});
     
 	// 주소선택 버튼 클릭
@@ -345,7 +349,70 @@
 	// 애드 유저
 		function fncAddUser() {
 
-			alert("ㅎㅇ");
+			
+			// 6. userNickName 유효성 검증
+			var userNickName = $("input[name='userNickName']").val();
+			alert("userNickName : "+userNickName);
+			
+			$.ajax({
+				url : "/user/userNickNameCheck",
+				method : "POST",
+				data : {userNickName : userNickName},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						alert("이미 사용중인 닉네임입니다. 다시 입력 해 주세요.");
+						return;
+					}else if(userNickName < 1){
+						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(userNickName > 20){
+						alert("닉네임은 최대 20자리까지 가능합니다.");
+						return;
+					}
+				},
+				error : function(){
+					alert("서버 요청 실패");
+				}
+			});
+		
+			// 4. userPhone 유효성 검증
+			var userPhone = $("#userPhone").val();
+			
+			if(userPhone.length != 11){
+				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
+				return;
+			}
+			
+			var phoneCheck = $("#phoneCheck").val();
+			if(phoneCheck.length != 5){
+				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+				return;
+			}
+			
+			// 5. userBirth 유효성 검증
+			var userBirth=$("#birthday").val();
+			
+			if(userBirth == null){
+				alert("생일을 입력 해 주세요.");
+				return;
+				
+			}else{
+				var value = userBirth.replace(/-/g, "");
+				$("#userBirth").val(value);
+			}
+			
+			// 7. userAddr 유효성 검증
+			var addr1 = $("input[name='addr1']").val();
+	 		var addr2 = $("input[name='addr2']").val();
+			var addr = addr1+"   "+addr2;
+			$("#userAddr").val(addr);
+			alert(addr);
+			
+			if(addr.length < 2){
+				alert("주소를 입력해 주시기 바랍니다.");
+				return;
+			}
 			
 			var userId = "${user.userId}";
 			var userName = "${user.userName}";

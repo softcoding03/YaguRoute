@@ -4833,7 +4833,13 @@
         .ot-floating-button__front {
             background-image: url('https://cdn.cookielaw.org/logos/a22264f8-9d14-4ab8-ab4b-a61925d0e901/30ec2278-5802-4bca-ae91-2b77e8415f8b/c6cc79f0-3096-41c0-bdd1-2929620dc160/FIFA_Icons_Library_rgbf_bl_Football.jpg')
         }
-        
+        .carousel-banner-one-item_container__zdlFQ {
+		    position: relative !important;
+		    width: 1823px !important;
+		    left: -242px !important;
+		}
+	
+	
         
     </style>
     
@@ -4912,19 +4918,19 @@
                                                         <picture class=""
                                                             style="width: 100%; height: 100%; object-fit: cover; background-position: center center;">
                                                             <source
-                                                                srcset="https://digitalhub.fifa.com/transform/bb7de943-7572-4e30-ae30-d020cd7c11ef/The-Best-FIFA-Football-Awards-2022-Show?io=transform:fill,height:1024,width:1920&amp;quality=100"
+                                                                srcset="/images/player/project.png"
                                                                 media="(min-width: 1920px)">
                                                             <source
-                                                                srcset="https://digitalhub.fifa.com/transform/bb7de943-7572-4e30-ae30-d020cd7c11ef/The-Best-FIFA-Football-Awards-2022-Show?io=transform:fill,height:768,width:1440&amp;quality=100"
+                                                                srcset="/images/player/second.png"
                                                                 media="(min-width: 1440px)">
                                                             <source
-                                                                srcset="https://digitalhub.fifa.com/transform/bb7de943-7572-4e30-ae30-d020cd7c11ef/The-Best-FIFA-Football-Awards-2022-Show?io=transform:fill,height:868,width:1366&amp;quality=100"
+                                                                srcset="/images/player/third.png"
                                                                 media="(min-width: 1024px)">
                                                             <source
-                                                                srcset="https://digitalhub.fifa.com/transform/bb7de943-7572-4e30-ae30-d020cd7c11ef/The-Best-FIFA-Football-Awards-2022-Show?io=transform:fill,height:868,width:1536&amp;quality=100"
+                                                                srcset="/images/player/forth.png"
                                                                 media="(min-width: 768px)">
                                                             <source
-                                                                srcset="https://digitalhub.fifa.com/transform/bb7de943-7572-4e30-ae30-d020cd7c11ef/The-Best-FIFA-Football-Awards-2022-Show?io=transform:fill,height:868,width:750&amp;quality=100"
+                                                                srcset="/images/player/fifth.png"
                                                                 media="(max-width: 767px)"><img
                                                                 src="./The Best FIFA Football Awards™_files/The-Best-FIFA-Football-Awards-2022-Show.jpg"
                                                                 title="The Best FIFA Football Awards 2022 - Show"
@@ -4937,53 +4943,6 @@
                                                 </a></div>
                                             <div class="carousel-banner_carouselItem__1EaFT d-flex"><a
                                                     class="carousel-banner-one-item_Link__3aDE4">
-                                                    <div
-                                                        class="carousel-banner-one-item_container__zdlFQ col-12 ff-px-0 h-100">
-                                                        <div class="carousel-banner-one-item_gradientBox__1plkY"></div>
-                                                        <picture class=""
-                                                            style="width: 100%; height: 100%; object-fit: cover; background-position: center center;">
-                                                            <source
-                                                                srcset="https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,height:1024,width:1920&amp;quality=100"
-                                                                media="(min-width: 1920px)">
-                                                            <source
-                                                                srcset="https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,height:768,width:1440&amp;quality=100"
-                                                                media="(min-width: 1440px)">
-                                                            <source
-                                                                srcset="https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,height:868,width:1366&amp;quality=100"
-                                                                media="(min-width: 1024px)">
-                                                            <source
-                                                                srcset="https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,height:868,width:1536&amp;quality=100"
-                                                                media="(min-width: 768px)">
-                                                            <source
-                                                                srcset="https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,height:868,width:750&amp;quality=100"
-                                                                media="(max-width: 767px)"><img
-                                                                src="./The Best FIFA Football Awards™_files/FIFA_TBFFA22_Men-s-Player_16x9.jpg"
-                                                                title=" " alt="FIFA"
-                                                                style="display: block; width: 100%; height: 100%; object-fit: cover; background-position: center center;">
-                                                        </picture>
-                                                        <div class="carousel-banner-one-item_carouselItemHeader__PMGV2">
-                                                            <div
-                                                                class="hero-module-carousel-header_headerWrapper__28VXX carousel-banner-one-item_CarouselHeader__2wSXu ff-p-24 ff-p-md-1024-32 ff-p-lg-40">
-                                                                <p class="text-md text-uppercase ff-mb-8 hero-module-carousel-header_label__VovDY"
-                                                                    style="color: rgb(255, 255, 255);">Messi crowned The
-                                                                    Best</p>
-                                                                <h2 class="ff-mb-8" style="color: rgb(255, 255, 255);">
-                                                                    <span class="d-md-none"><span title=""
-                                                                            style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Argentina
-                                                                            hero secures 2022 award</span></span><span
-                                                                        class="d-none d-md-block"><span title=""
-                                                                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Argentina
-                                                                            hero secures 2022 award</span></span></h2>
-                                                                <div
-                                                                    class="d-none d-md-block ff-mb-md-16 ff-mb-md-1024-0">
-                                                                    <p class="text-regular ff-mb-0 hero-module-carousel-header_description__3K4XP"
-                                                                        style="color: rgb(255, 255, 255);">Argentina
-                                                                        captain wins prestigious prize ahead of fellow
-                                                                        finalists Benzema and Mbappe </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </a></div>
                                             <div class="carousel-banner_carouselItem__1EaFT d-flex"><a
                                                     class="carousel-banner-one-item_Link__3aDE4">
@@ -5093,12 +5052,16 @@
                                         <a class="date" href="#" onclick="playerGroup(${i})">
                                             <div class="ff-mr-16 ff-mr-md-24 thumbnail-medium-16-9_imageContainer__t4n3u">
                                                 <div class="ratio background-image image_backgroundImage__37S5w" style="--aspect-ratio: calc(9 / 16 * 100%);">
-                                                    <div class="d-block d-sm-none bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,aspectratio:16x9,width:190&amp;quality=75&quot;);"></div>
+                                                    <div class="d-block d-sm-none bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;/images/player/gamsung.jpg;);"></div>
                                                     <div class="d-none d-sm-block d-md-none bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,aspectratio:16x9,width:394&amp;quality=75&quot;);"></div>
                                                     <div class="d-none d-md-block d-lg-none bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,aspectratio:16x9,width:554&amp;quality=100&quot;);"></div>
-                                                    <div class="d-none d-lg-block bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;https://digitalhub.fifa.com/transform/8765c9df-0e09-4942-bada-dc603d50aa4d/FIFA_TBFFA22_Men-s-Player_16x9?io=transform:fill,aspectratio:16x9,width:820&amp;quality=100&quot;);"></div>
+                                                    <div class="d-none d-lg-block bgLazy image_backgroundImage__37S5w" style="background-image: url(&quot;/images/player/gamsung.jpg&quot;); width: 638px;
+    left: 43px;
+    border-radius: 24px; filter: brightness(80%);"></div>
                                                     <p class="thumbnail-medium-16-9_thumbnailTextContainer__2BV6p ff-mb-0 ff-pt-8 ff-pt-md-16 ff-mr-16 ff-mr-md-24" style="font-size: 25px; font-size: 25px; font-family: 'Gwangyang'; color: aqua;">
-                                                        <span title="" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;" >${bestplayer.bestDate}</span>
+                                                        <span title="" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 29px;
+    font-family: 'Gwangyang';
+    color: #d73e19db;" >${bestplayer.bestDate}</span>
                                                     </p>
                                                 </div>
                                             </div>

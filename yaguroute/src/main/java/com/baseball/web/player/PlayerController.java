@@ -84,6 +84,9 @@ public class PlayerController {
 		System.out.println("search" + search);
 		System.out.println("/player/listPlayer : GET ");
 
+		search.setTeamCode(teamCode);
+		
+		System.out.println(teamCode);
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -123,6 +126,8 @@ public class PlayerController {
 	public @ResponseBody Player getPlayer(@RequestParam("playerId") String playerId, Model model) throws Exception{
 		
 		System.out.println("getPlayer : GET ");
+		
+		
 		
 		Player player = playerService.getPlayer(playerId);
 		

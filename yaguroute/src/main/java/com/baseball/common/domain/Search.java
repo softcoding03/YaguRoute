@@ -12,6 +12,8 @@ public class Search {
 	private int endRowNum;
 	private int startRowNum;
 	private int days;
+	private String playerId;
+	private String teamCode;
 	
 	//Constructor
 	public Search() {
@@ -90,12 +92,31 @@ public class Search {
 	public int getStartRowNum() {
 		return (getCurrentPage()-1)*getPageSize();
 	}
+	public String getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
+	}
+	
+	public String getTeamCode() {
+		return teamCode;
+	}
+
+	public void setTeamCode(String teamCode) {
+		this.teamCode = teamCode;
+	}
 
 	@Override
 	public String toString() {
 		return "Search [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", standard="
 				+ standard + ", category=" + category + ", teamCondition=" + teamCondition + ", currentPage="
 				+ currentPage + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", days=" + days + "]";
+				+ ", days=" + days + ", playerId=" + playerId + ", teamCode=" + teamCode + "]";
 	}
+
+	
+
+
 }
