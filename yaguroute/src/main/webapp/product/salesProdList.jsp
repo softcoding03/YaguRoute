@@ -69,17 +69,6 @@
 
 <style>
 
-#back-img {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url('https://cdn.pixabay.com/photo/2018/10/28/13/22/baseball-3778774_1280.png');
-  background-size: 1100px;
-  background-repeat: no-repeat;
-  background-position:  left;
-  opacity: 0.7;
-  }
   .ui-autocomplete {
     position: absolute;
     z-index: 1000;
@@ -119,6 +108,13 @@
   padding: 10px 20px; /* 안쪽 여백 설정 */
   color: #000000; /* 글자색 설정 */
 }
+
+    body {
+        background-image: url('/images/product/gettyimages.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+    }	
 </style>
 
 
@@ -130,7 +126,7 @@
 
 		<form name="detailForm">
 
-			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center;">
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; ">
 			    <div class="broadcast-tabs-wrapper">
 			        <ul class="nav nav-tabs" role="tablist">
 			            <c:forEach var="team" items="${allTeam}">
@@ -155,26 +151,22 @@
 			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
 			
 			        <!-- Search -->
-					<div class="search-container"style="display: flex; justify-content: flex-end;">
-						<div class="form-group" style="width: 100px;">
-							<select class="form-control" name="searchCondition">
-								<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
-							</select>
-						</div>
-						<div class="form-group" style="width: 230px;">
-							<input type="text" class="form-control"  id="autoComplete" 	name="searchKeyword" placeholder="상품명으로 검색하세요"
-								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
-
-						<button type="button" class="btn btn-default" id="searchButton">검색</button>
-				
-					</div>
+				<div class="search-container" style="display: flex; justify-content: flex-end; align-items: center;">
+				    <div class="form-group" >
+				        <select class="form-control" name="searchCondition">
+				            <option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+				        </select>
+				    </div>
+				    <div class="form-group" >
+				        <input type="text" class="form-control" id="autoComplete" name="searchKeyword" placeholder="상품명으로 검색하세요" value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
+				    </div>
+				    <button type="button" class="btn btn-default" id="searchButton">검색</button>
+				</div>
 				<!-- Search -->
 
 						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
 						<input type="hidden" id="currentPage" name="currentPage" value="" />				
-	      <div class="col-md-12">
-	        <div id="back-img"></div>
-	      </div>
+
     <!--STORE WRAP BEGIN-->
 		    <div class="store-wrap">
 		        <div class="container">

@@ -39,35 +39,7 @@ function fncGetDlvyTranList(currentPage) {
 	.submit();
 }
 	
-	$(function() {
-		  $(".refund").on("click", function() {
-		    var tranDetailNo = $(this).attr("id"); // 환불 대상 거래번호 가져오기
-	
-		    var confirmation = confirm("구매를 취소하시겠습니까?");
-	
-		    if (confirmation) {
-		      $.ajax({
-		        url: "/transaction/rest/refund/" + tranDetailNo,
-		        method: "GET",
-		        dataType: "text",
-		        headers: {
-		          "Accept": "application/json",
-		          "Content-Type": "application/json"
-		        },
-		        success: function(data, status) {
-		          if (data === "success") {
-		            alert("결제 취소가 완료되었습니다.");
-		          } else {
-		            alert("결제 취소에 실패했습니다.");
-		          }
-		        },
-		        error: function(xhr, status, error) {
-		          alert("환불 요청 중 오류가 발생했습니다.");
-		        }
-		      });
-		    }
-		  });
-		});
+
 
 </script>
 
@@ -118,7 +90,7 @@ function fncGetDlvyTranList(currentPage) {
 	<c:set var="i" value="0"/>
 		<c:forEach var="tranDetail" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
+			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/> <!--  c:set => 페이지스코프 -->
 			<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>	
 	
 		<tr class="ct_list_pop">
@@ -144,35 +116,26 @@ function fncGetDlvyTranList(currentPage) {
 					<c:if test="${tranCode eq 1 && refundStatusCode eq 1 }">
 						구매완료
 					</c:if>
-					<c:if test="${refundStatusCode eq 2}">
-						배송중
-					</c:if>
 					<c:if test="${tranCode eq 2}">
 						배송완료
 					</c:if>
-					<c:if test="${tranCode eq 3}">
-						환불요청 진행
-					</c:if>	
-					<c:if test="${refundStatusCode eq 3}">
+					<c:if test="${refundStatusCode eq 2}">
 						환불 완료
 					</c:if>													
 						상태 입니다.</td>
 				<td align="left">
 				  <c:if test="${tranCode eq 1 and tranDetail.refundStatusCode eq 1}">
-	<%--			    <a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=2">배송시작</a> --%>
-				 	    <a href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2">배송시작</a>
+			    <a href="/transaction/updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a> 
 				  </c:if>
 				</td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>	
-		<td align="left">
-				<c:choose>
-			    <c:when test="${tranCode eq 4}">
-			        <a class="refund" id="${tranDetail.tranDetailNo}"  href="updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=3" >환불</a>
-			    </c:when>
-			    <c:when test="${tranDetail.refundStatusCode eq 3}">환불완료
-			    </c:when>
-			</c:choose>
-		</td>	
+				<td align="left">
+				  <c:choose>
+				    <c:when test="${refundStatusCode eq 2}">
+				      환불 완료
+				    </c:when>
+				  </c:choose>
+				</td>
 	</tr>
 	</c:forEach>
 </table>
