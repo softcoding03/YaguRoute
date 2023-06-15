@@ -119,9 +119,9 @@
 	<td width="104" class="ct_write"style="font-size: 16px;">상품 이미지 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
 	<td bgcolor="D6D6D6" width="1"></td>
 	<td class="ct_write01"style="font-size: 16px;">
-		<img src="${product.prodImageFirst}"  style="width: 10px;" onerror="this.style.display='none'"/>
-		<img src="${product.prodImageSecond}"  style="width: 10px;" onerror="this.style.display='none'"/>
-		<img src="${product.prodImageThird}"style="width: 10px;" onerror="this.style.display='none'"/>
+		<img src="${product.prodImageFirst}"  style="width: 100px;" onerror="this.style.display='none'"/>
+		<img src="${product.prodImageSecond}"  style="width: 100px;" onerror="this.style.display='none'"/>
+		<img src="${product.prodImageThird}"style="width: 100px;" onerror="this.style.display='none'"/>
 	</td>
 </tr>
 

@@ -425,8 +425,8 @@
 	$(function(){
     	
     	$("#phoneCheckButton").on("click", function(){
-    		
-    		alert("인증버튼 클릭");
+    		/* 
+    		alert("인증버튼 클릭"); */
     		
     		var verify = $("#phoneCheck").val();
         	var rnd = $("#rnd").val();
@@ -514,7 +514,7 @@
 		    	var formData = new FormData();
 		        formData.append('image', files[0]);
 		        $.ajax({
-		            url: "http://192.168.0.36:3000/image/user",
+		            url: "http://223.130.133.54:3000/image/user",
 		            type: "POST",
 		            processData: false,
 		            contentType: false,
