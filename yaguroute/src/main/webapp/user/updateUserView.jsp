@@ -971,7 +971,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     	
     	$("#phoneCheckButton").on("click", function(){
     		
-    		alert("인증버튼 클릭");
+    		//alert("인증버튼 클릭");
     		
     		var verify = $("#phoneCheck").val();
         	var rnd = $("#rnd").val();
@@ -1015,12 +1015,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			// 2. password 유효성 검증
 			var userId = $("#userId").val();
 			var password = $("#password").val();
-			alert(password);
+			//alert(password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
 			if(password === userId){
-				alert("아마 카카오나 네이버 유저 ");
+				//alert("아마 카카오나 네이버 유저 ");
 			}
 			else if(password.length > 50){
 				alert("패스워드는 50자 까지 가능합니다.");

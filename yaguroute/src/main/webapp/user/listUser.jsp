@@ -82,7 +82,6 @@
 	function fncGetUserList(currentPage) {
 		
 		$("#currentPage").val(currentPage);
-		alert(currentPage);
 		$("form").attr("method" , "POST").attr("action" , "/users/listUser").submit();
 		}
 	
@@ -94,21 +93,12 @@
 	 });
 	
 	$(function(){
-		
-		$("#withDrawsun").on("click", function(){
-			
-			alert("탈퇴 유무 순 클릭");
-			
-			
-		});
-	});
 	
 	$(function(){
 		
 		$("td:nth-child(2)").on("click", function(){
 			
 			var recent = $(this).text().trim();
-			alert(recent);
 			
 			window.location.href="/users/getUsers?userId="+recent;
 			
@@ -117,18 +107,13 @@
 
 	$(function(){
 	$("#playerList").on("click", function(){
-		
-		alert("playerList");
-		
 		window.location.href="/player/listPlayer";
 	});
 	});
 	
 	$(function(){
     $("#getBestPlayerList").on("click", function(){
-		
-		alert("bestPlayerList");
-		
+
 		window.location.href="/player/listBestPlayer";
 	});
 	});
@@ -139,8 +124,7 @@
 			  
 		      // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
 		      var searchKeyword = $("#searchKeyword").val();
-		      alert(searchKeyword);
-		      
+
 		      if(searchKeyword < 2){
 		    	  alert("최소 두 자 이상 입력 해 주세요.");  
 		    	  return;
