@@ -269,7 +269,7 @@
 	                                 </li>
                                  </div>
                             </c:forEach>
-                            </ul>
+                           	</ul>
   		</div>
 	</div>
 </div>

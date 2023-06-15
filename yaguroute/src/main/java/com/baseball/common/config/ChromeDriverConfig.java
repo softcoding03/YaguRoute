@@ -16,7 +16,7 @@ import com.mysql.cj.jdbc.Driver;
 @Configuration
 public class ChromeDriverConfig {
 	
-	private final int poolSize = 20; // 풀의 크기를 설정합니다.
+	private final int poolSize = 100; // 풀의 크기를 설정합니다.
 	private final Semaphore semaphore = new Semaphore(poolSize);
 	private final Queue<WebDriver> availableDrivers = new ConcurrentLinkedQueue<>();
 
@@ -50,12 +50,14 @@ public class ChromeDriverConfig {
 			
 			System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 			ChromeOptions ops = new ChromeOptions();
-			ops.setCapability("ignoreProtectedModeSettings", true);
 			ops.addArguments("--remote-allow-origins=*");
 			ops.addArguments("headless");
 			ops.addArguments("--no-sandbox");
 			ops.addArguments("--disable-dev-shm-usage");
 			ops.addArguments("ignore-certificate-errors");
+			ops.addArguments("disable-gpu");
+			ops.addArguments("disable-infobars");
+			ops.addArguments("--disable-extensions");
 			return new ChromeDriver(ops);
 		}
 		

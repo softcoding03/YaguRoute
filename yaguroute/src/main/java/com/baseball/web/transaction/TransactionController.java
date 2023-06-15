@@ -191,7 +191,7 @@ public class TransactionController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(8);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 		
 		User user = (User)session.getAttribute("user");
@@ -251,7 +251,7 @@ public class TransactionController {
 		tranDetailService.updateTranStatusCode(tranDetail);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/transaction/dlvyTranList");
+		modelAndView.setViewName("forward:/transaction/listTransaction");
 
 		return modelAndView;
 		

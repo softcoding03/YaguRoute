@@ -15,9 +15,9 @@
 		<result property="prodTranCode" column="prod_tran_code" jdbcType="VARCHAR" />
 		<result property="prodRefundCode" column="prod_refund_code" jdbcType="VARCHAR" />
 		<result property="prodTeamCode" column="prod_team_code" jdbcType="VARCHAR" />
-		<result property="prodImageFirst" column="prod_image_first" jdbcType="VARCHAR" />
-		<result property="prodImageSecond" column="prod_image_second" jdbcType="VARCHAR" />
-		<result property="prodImageThird" column="prod_image_third" jdbcType="VARCHAR" />
+		<result property="prodImageFirst" column="prod_image_first" jdbcType="LONGVARCHAR" />
+		<result property="prodImageSecond" column="prod_image_second" jdbcType="LONGVARCHAR" />
+		<result property="prodImageThird" column="prod_image_third" jdbcType="LONGVARCHAR" />
 	</resultMap>
 
 

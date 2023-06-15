@@ -57,6 +57,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header">
     <div class="image-container">

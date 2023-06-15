@@ -393,6 +393,17 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		    profileElement.appendChild(kakaoLoginElement); // 네이버 로그인 요소 추가
 		}
 	});
+	
+	$(function(){
+		
+		var gender = "${user.gender}";
+		
+		if(gender === 'M'){
+			document.getElementById('genderSetting').textContent = '남성';
+		}else{
+			document.getElementById('genderSetting').textContent = '여성';
+		}
+	});
 
 </script>
 
@@ -510,7 +521,7 @@ a {
 	});
 	
 	// 생일 년도(yyyy) 자르고 mm월 dd일로 출력하기
-	$(function(){
+	/* $(function(){
 		
 		var userBirth = "${user.userBirth}";
 		
@@ -535,7 +546,52 @@ a {
 	    
 	    $(".youBirth").text(formattedBirth);
 	   	$("#dDay").text(dDayComment);
+	}); */
+	
+	$(function(){
+	    var userBirth = "${user.userBirth}";
+	    
+	    var year = userBirth.slice(0, 4);
+	    var month = userBirth.slice(4, 6) - 1;
+	    var day = userBirth.slice(6, 8);
+	    
+	    var birthDate = new Date(year, month, day);
+	    var formattedBirth = month+1 + "월 " + day + "일";
+	    
+	    // D-day를 계산하기 위한 변수 선언
+	    var currentYear = new Date().getFullYear();
+	    var currentMonth = new Date().getMonth();
+	    var currentDate = new Date().getDate();
+	    
+	    var dDay = new Date(currentYear, month, day);
+	    
+	    // 올해 생일이 지난 경우 내년 생일로 설정
+	    if (currentMonth > month || (currentMonth === month && currentDate > day)) {
+	        dDay.setFullYear(currentYear + 1);
+	    }
+	    
+	    // D-day 계산
+	    var timeDiff = dDay.getTime() - new Date().getTime();
+	    var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));  // 남은 시간을 일 단위로 변환
+	    
+	    var dDayComment = "D-" + daysDiff;
+	    
+	    $(".youBirth").text(formattedBirth);
+	    $("#dDay").text(dDayComment);
 	});
+	
+	$(function(){
+		
+		 var point = "${user.userPoint}";
+		 var formatPoint = addCommas(point);
+		 
+		 document.getElementById('point').textContent = formatPoint;
+		 
+	});
+	
+	function addCommas(point) {
+		  return point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 	
 </script>
 
@@ -691,7 +747,7 @@ a {
                     <div class="myaccount">
                         <div class="myname">
                             <div class="name_text">${user.userName}</div>
-                            <div style="text-align: left;">${user.gender} </div>
+                            <div style="text-align: left;" id="genderSetting"></div>
                             <button type="button" class="btn_edit" onclick="updateUserFunction()">
                                 <span class="text">내 정보 수정</span>
                             </button>
@@ -740,7 +796,7 @@ a {
             <li>
                 <div class="row_item phone">
                     <span class="item_text">포인트</span>
-                    <a style="font-size: 17px; font-weight: bolder;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;${user.userPoint}</a>&nbsp;Point
+                    <a style="font-size: 17px; font-weight: bolder;" id="point"><%-- ${user.userPoint} --%></a>&nbsp;Point
                     <div class="btn_switch">
                         <input type="checkbox" id="adMobileCheck" class="switch_checkbox">
                         <!-- <label for="adMobileCheck" class="switch_btn">
