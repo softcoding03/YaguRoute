@@ -24,7 +24,7 @@
 
 	function fncAddTransaction() { 
 		console.log("AddTransaction 시작")
-		$("form").attr("method" ,"POST").attr("action" , "/transaction/listTransaction").submit();
+		$("form").attr("method" ,"POST").attr("action" , "/transaction/addTransaction").submit();
 	}
 	
 	// 아임포트 구매 시작 
