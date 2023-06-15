@@ -404,7 +404,7 @@ $(function(){
                            <div class="col-md-12">
                                 <div class="item">
                                     <label>
-                                        <span>받는사람 주소 (정확한 정보를 기제해 주세요)<i> * </i></span>
+                                        <span>받는사람 주소 (정확한 정보를 기재해 주세요)<i> * </i></span>
                                         <div>
 	                                        <input type="text" id="receiverAddr" name="receiverAddr" value="${user.userAddr}" > 
 	                                    	<p></p>
@@ -458,7 +458,7 @@ $(function(){
 				                </label>
 				                <div class="prodDetailBack element">
 				               			 <label class="item img">
-				               			 	<span class="span-left">이미지</span><span class="span-right"><img style="width: 100px;height: auto;" src="/images/product/${tranDetail.tranDetailProd.prodImageFirst}" alt="card"></span>	
+				               			 	<span class="span-left">이미지</span><span class="span-right"><img style="width: 100px;height: auto;" src="${tranDetail.tranDetailProd.prodImageFirst}" alt="card"></span>	
 				               			 </label>
 				                        <label class="item img">
 				                            <span class="span-left">가격</span><span class="span-right"><fmt:formatNumber value="${tranDetail.tranDetailProd.prodPrice}" pattern="###,###"/>원</span>	
@@ -489,8 +489,9 @@ $(function(){
 								<div class="input-wrapper"><input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 60%;margin-right:20px;text-align: center;border:solid 1px;background-color: #D4D8DA;"><span class="input-text">point</span><a id="applyPointButton" class="btn small">적용</a>  </div> 
 				            </label>
 				            <label class="item" style="text-align: center;">
-				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원<input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/></span>
+				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</span>
 				            </label>
+				            <input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
 	               		</div>
 	                	<button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
 	                </div>

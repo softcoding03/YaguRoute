@@ -190,7 +190,7 @@
 		                        <div class="col-md-4 col-sm-6">
 		                            <div class="store-list-item">         
 		                                <div>
-		                                        <img src="/images/product/${product.prodImageFirst}"  alt="product">
+		                                        <img src="${product.prodImageFirst}"  alt="product">
 		                                    <div class="info">
 		                                        <span class="name">
 														  <c:choose>

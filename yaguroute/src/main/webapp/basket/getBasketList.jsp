@@ -76,7 +76,7 @@
                    			<input type="hidden" value="${basket.prodQuantity}" id="prodQuantity" name="prodQuantity"/>
                    			<input type="hidden" value="${basket.product.prodPrice}" id="prodPrice" name="prodPrice"/>
 	                        <td class="delete"><a href="#"><i class="fa fa-close" aria-hidden="true"></i></a></td>
-	                        <td class="name"><img class="product-image" src="/images/product/${basket.product.prodImageFirst}" alt="cart-product">${basket.product.prodName}</td>
+	                        <td class="name"><img class="product-image" src="${basket.product.prodImageFirst}" alt="cart-product">${basket.product.prodName}</td>
 	                        <td class="cost"><fmt:formatNumber value="${basket.product.prodPrice}" pattern="###,###"/></td>
 	                        <td class="quantity center-wrapper"><input type="number" value="${basket.prodQuantity}" pattern="[0-9]+"><div id="confirmQuan"><a style="display: none;" class="btn">수량확정</a></div></td>
 	                        <td class="total"><input type="hidden" value="${basket.product.prodPrice*basket.prodQuantity}">

@@ -166,7 +166,7 @@ public class TransactionController {
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
 		
-			    return "forward:/transaction/addTransaction.jsp";
+			    return "forward:/transaction/listTransaction.jsp";
 	}
 	
 	@RequestMapping("getTransaction")
