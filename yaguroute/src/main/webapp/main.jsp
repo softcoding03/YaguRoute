@@ -5,6 +5,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -17,8 +20,31 @@
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
+    	//따라다니는 퀵메뉴
+		$(document).ready(function(){
+			var currentPosition = parseInt($(".quickmenu").css("top"));
+			$(window).scroll(function() {
+		   	var position = $(window).scrollTop(); 
+		   	$(".quickmenu").stop().animate({"top":position+currentPosition+"px"},700);
+		  	});
+			
+		  	$('.quickmenu li a[href="#back"]').click(function(e) {
+				history.back();
+		 	});
+		  	
+		  	$('.quickmenu li a[href="#forward"]').click(function(e) {
+			   history.forward();
+		 	});
+		});
+		//따라다니는 퀵메뉴 끝
+    
     	// 로그아웃 버튼 구현
     	$(function(){
+    		$('a.getNotice').click("onclick", function(){
+    			var postNo = $(this).siblings("input.postNo").val();
+    			self.location="/post/getPost?postNo="+postNo;
+    		})
+    		
     		$('.logout').click("onclick", function(){
     			alert("로그아웃 성공");
     			window.location.href="/users/logout";
@@ -143,28 +169,9 @@
     		
     	});
     	
-    	/* $(function(){
-    		$('#userlist').on("click", function(){
-    			alert("회원 목록 조회로 떠납니다.");
-    			window.location.href="/users"
-    		});
-    	}); */
     </script>
     
-    <!-- <script type="text/javascript">
-    // 잘못된 접근(세션 끝났는데 뒤로가기로 메인페이지 접근할 때...)
-    window.addEventListener('pageshow', function(event) {
-        var historyTraversal = event.persisted || 
-                               (typeof window.performance != 'undefined' && 
-                                window.performance.navigation.type === 2);
-        if (historyTraversal) {
-            // 잘못된 접근 감지됨, index.jsp로 리디렉션
-            alert("잘못된 접근입니다.");
-            window.location.href = '/user/loginTest(new).jsp';
-        }
-    });
     
-</script> -->
 <style type="text/css">
 		#select{
 			 background-color: #5e8208 !important;
@@ -198,18 +205,65 @@
 		.top-css td,.top-css th{
     		font-size: 16px !important;
     		font-weight: 550 !important;
-    		font-family: none !important;
+    		font-family: "Gwangyang" !important;
     	}
 		.table-css td,.table-css th{
     		font-size: 15px !important;
     		font-weight: 500 !important;
-    		font-family: none !important;
+    		font-family: "Gwangyang" !important;
     	}
     	.table-css td:nth-child(2),th:nth-child(2){
     		width: 200px;
     		padding-left: 0px !important;
     	}
 <%-- end of 최성락 css --%>
+/* 따라다니는 퀵메뉴 */
+		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+		a {text-decoration:none;}
+		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
+		.quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+		.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
+		.quickmenu ul li a:hover {color:#000;}
+		.quickmenu ul li:last-child {border-bottom:0;}
+		.content {position:relative;min-height:1000px;}		
+		.quickmenu .submenu {display: none;}
+		
+		div,span,a,h2,td,th,tr{
+			font-family:"Gwangyang" !important;
+		}
+		span{
+			font-size:16px;
+		}
+		span.championship{
+			font-size:14px !important;
+		}
+		.sponsor-icons{
+			width:500px;
+		}
+		#back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+		}
+		
+	/* div.container.bestPost{
+	    background-color: rgba(255, 255, 2, 0.8) !important; /* 흰색 배경과 투명도 조절 */
+	  } */ 
+	  
+	  div.col-md-12{
+	  		display:flex;
+	  		justify-content:center;
+	  		align-items: center;
+	  }
+	  	i.fi-sr-heart {
+	  		color:#ff0000;
+	  }
+	  .fa-2x,div.comment-quantity{
+	  		font-size:16px !important;
+	  }
+	  
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -218,13 +272,23 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 
 <body>
-
+<a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
+
+<!-- <section class="image-header" style="min-height: 0px;height: 0px;  z-index: -1;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/background/ballpark.jpg" alt="img">
+        </div>	
+	</div>
+</section>  -->
+
+
+
 <!-- 공지사항 -->
 <div class="main-breaking-news">
     <div class="container">
@@ -238,6 +302,7 @@
                 <div id="main-breaking-list" class="carousel slide main-breaking-list" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
                     		<div class="item active">
+                    			 <input type="hidden" class="postNo" value="${noticeList[0].postNo}">
                             <a href="javascript:;" class="getNotice">
                                 <span class="date notice">${postDateList[0]}<span>/</span>
                                 </span>	
@@ -247,6 +312,7 @@
                     		<c:set var="size" value="${noticeList.size()}"/>
 								<c:forEach var="i" begin="1" end="${size -1}" step="1">
 	                        <div class="item">
+	                        	 <input type="hidden" class="postNo" value="${noticeList[i].postNo}">
 	                            <a href="javascript:;" class="getNotice">
 	                                <span class="date notice">${postDateList[i]}<span>/</span>
 	                                </span>	
@@ -271,1049 +337,170 @@
         </div>
     </div>
 </div>
-<!-- 공지사항 END -->
-<!-- <div class="main-slider-section">
-    <div class="main-slider">
-        <div id="main-slider" class="carousel slide" data-ride="carousel" data-interval="4000" style="position: relative;display: flex;">
-	        	<img alt="img" src="/images/teamTopBar/WO.jpg" style="width:100%;height: auto;">
-	        	<img alt="img" src="/images/teamTopBar/HH.jpg" style="width:100%;height: auto;">
-            <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <div class="main-slider-caption">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="match-date">26 Sep 2016 / 9:30 PM / city arena</div>
-                                    <div class="team"> Team Name 1
-                                        <div class="big-count">
-                                            2:0
-                                        </div>
-                                        Team Name 2
-                                    </div>                                    
-                                    <div class="booking">
-                                        <a href="matches-list.html">
-                                            Match Page
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="main-slider-caption">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="match-date">26 Sep 2016 / 9:30 PM / city arena</div>
-                                    <div class="team"> Team Name 1 - Team Name 2
-                                    </div>                                        
-                                    <div class="counter" data-date="1534185200000">
-                                        <ul>
-                                            <li>
-                                                <div class="digit days"></div>
-                                                <div class="descr">Days</div>
-                                            </li>
-                                            <li>
-                                                <div class="digit hours"></div>
-                                                <div class="descr">Hours</div>
-                                            </li>
-                                            <li>
-                                                <div class="digit minutes"></div>
-                                                <div class="descr">Minutes</div>
-                                            </li>
-                                            <li>
-                                                <div class="digit seconds"></div>
-                                                <div class="descr">Seconds</div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="booking">
-                                        <a href="match-live.html">
-                                            Watch live
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="item">
-                    <div class="main-slider-caption">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="match-date">26 Sep 2016 / 9:30 PM / city arena</div>
-                                    <div class="team"> Team Name 1
-                                        <div class="big-count">
-                                            2:0
-                                        </div>
-                                        Team Name 2
-                                    </div>                                                                          
-                                    <div class="booking">
-                                        <a href="match-live.html">
-                                            Watch live
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            Controls
-            <a class="nav-arrow left-arrow" href="#main-slider" role="button" data-slide="prev">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-                <span class="sr-only"></span>
-            </a>
-            <a class="nav-arrow right-arrow" href="#main-slider" role="button" data-slide="next">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                <span class="sr-only"></span>
-            </a>
-
-            <div class="event-nav">
-                <div class="container">
-                    <div class="row no-gutter carousel-indicators">
-
-                        <div class="col-sm-4 active" data-slide-to="0" data-target="#main-slider">
-                            <a href="#" class="nav-item">
-                                <span class="championship">National cup - quarterfinal</span>
-                                <span class="teams-wrap">
-                                    <span class="team"><img src="/images/baseball/team-logo1.png" alt="team-logo"></span>
-                                    <span class="score">
-                                        <span>1:0</span>
-                                    </span>
-
-                                    <span class="team1">
-                                        <span><img src="/images/baseball/team-logo2.png" alt="team-logo"></span>
-                                    </span>
-                                </span>
-                                <span class="game-result">(5-4) penalties</span>
-                            </a>
-                        </div>
-
-                        <div class="col-sm-4" data-slide-to="1" data-target="#main-slider">
-                            <a href="#" class="nav-item">
-                                <span class="championship">Team Name 1 - Team Name 2</span>
-                                <span class="teams-wrap">
-
-                                    <span class="team"><img src="/images/baseball/team-logo5.png" alt="team-logo"></span>
-                                    <span class="score countdown" data-date="1534185200000">
-                                        <span class="days"></span>
-                                        <span class="hours"></span>
-                                        <span class="minutes"></span>
-                                        <span class="seconds"></span>
-                                    </span>
-
-                                    <span class="team1">
-                                        <span><img src="/images/baseball/team-logo1.png" alt="team-logo"></span>
-                                    </span>
-
-                                </span>
-                                <span class="game-result">26 Sep 2016 / 9:30 PM / city arena</span>
-                            </a>
-                        </div>
-                        
-                        <div class="col-sm-4" data-slide-to="2" data-target="#main-slider">
-                            <a href="#" class="nav-item">
-                                <span class="championship">National cup - quarterfinal</span>
-                                <span class="teams-wrap">
-                                    <span class="team"><img src="/images/baseball/team-logo3.png" alt="team-logo"></span>
-                                    <span class="score">
-                                        <span>VS</span>
-                                    </span>
-
-                                    <span class="team1">
-                                        <span><img src="/images/baseball/team-logo4.png" alt="team-logo"></span>
-                                    </span>
-                                </span>
-                                <span class="game-result">(5-4) penalties</span>
-                            </a>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="main-news-list">
-    <div class="owl-carousel owl-theme match-page-slider">
-        <a href="" class="item">
-            <img src="/images/baseball/news1.jpg" class="img-responsive" alt="">
-            <span class="caption">
-                <span class="date">20 sep 2016</span>
-                <span class="name">Chelsea claims Premier League lead after</span>
-            </span>
-        </a>
-        <a href="" class="item">
-            <img src="/images/baseball/news2.jpg" class="img-responsive" alt="">
-            <span class="caption">
-                <span class="date">20 sep 2016</span>
-                <span class="name">Chelsea claims Premier League lead after</span>
-            </span>
-        </a>
-        <a href="" class="item">
-            <img src="/images/baseball/news3.jpg" class="img-responsive" alt="">
-            <span class="caption">
-                <span class="date">20 sep 2016</span>
-                <span class="name">Chelsea claims Premier League lead after</span>
-            </span>
-        </a>
-    </div>
-</div> -->
-
-    <!--MAIN MACTH SHEDULE BEGIN-->
-
-    <section class="main-match-shedule">
-        <div class="container">
-            <div class="row">
-            	<div class="col-md-12"><h4 style="text-align:center;padding-bottom: 0px;">팀 순위</h4></div>
-            	<div class="col-md-12">
+<!-- 팀 순위 -->
+	<section class="main-match-shedule">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<h2 style="text-align: center; margin-top: 50px;">Today's Match</h2>
+				</div>
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div id="myCarousel" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div class="main-lates-matches">
+												<!-- <a href="" class="item">
+						        <span class="championship">National cup - quarterfinal</span>
+						        <span class="teams-wrap">
+						                <span class="team">
+						                    <span>
+						                        <img src="/images/common/team-logo4.png" alt="team-image">
+						                    </span>
+						                    <span>Team 1</span>
+						                </span>
+						                <span class="score">
+						                    <span>3:2</span>
+						
+						                </span>
+						                <span class="team1">
+						                    <span>Team 2</span>
+						                    <span><img src="/images/common/team-logo5.png" alt="team-image"></span>
+						                </span>
+						        </span>
+						        <span class="game-result">(5-4) penalties</span>
+						    </a> -->
+					</div>
+				</div>
+				<div class="col-md-12">
+					<h2 style="text-align: center; padding-bottom: 0px;">팀 순위</h2>
+				</div>
+				<div class="col-md-12">
 					<h4 id="nowYear"></h4>
 					<table class="table-standings" id="teamRanking">
-		                        <tr class="table-css">
-		                        	<th>순위</th>
-		                        	<th>팀</th>
-		                        	<th style="width: 50px;padding-right:50px;"></th>
-		                        	<th>경기</th>
-		                        	<th>승리</th>
-		                        	<th>무승부</th>
-		                        	<th>패배</th>
-		                        	<th>승률</th>
-		                        </tr>
-		                    </table>
-				
+						<tr class="table-css">
+							<th>순위</th>
+							<th>팀</th>
+							<th style="width: 50px; padding-right: 50px;"></th>
+							<th>경기</th>
+							<th>승리</th>
+							<th>무승부</th>
+							<th>패배</th>
+							<th>승률</th>
+						</tr>
+					</table>
 				</div>
-				<div class="col-md-12 col-sm-12 col-xs-12"><h4 style="text-align: center;margin-top: 50px;">Today's  Match</h4></div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-    </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">                
-	<div class="main-lates-matches">
-    <!-- <a href="" class="item">
-        <span class="championship">National cup - quarterfinal</span>
-        <span class="teams-wrap">
-                <span class="team">
-                    <span>
-                        <img src="/images/common/team-logo4.png" alt="team-image">
-                    </span>
-                    <span>Team 1</span>
-                </span>
-                <span class="score">
-                    <span>3:2</span>
-
-                </span>
-                <span class="team1">
-                    <span>Team 2</span>
-                    <span><img src="/images/common/team-logo5.png" alt="team-image"></span>
-                </span>
-        </span>
-        <span class="game-result">(5-4) penalties</span>
-    </a> -->
-</div>
-                </div>
-                <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;display: none;">
-                	<h1 id="noGame">안녕하세요</h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!--MAIN PLAYERS STAT BEGIN-->
-
-    <section class="main-players-stat bg-cover">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7">
-                    <h4 class="hockey-stats-h4">Players stats</h4>
-                    
-
-<div class="single-player-stats players_statistic_slider">
-    <ul class="player-filters" role="tablist">        
-        <li class="active">
-            <a href="#goalkeepers" role="tab" data-toggle="tab">
-                goalkeepers
-            </a>
-        </li>
-        <li>
-            <a href="#defenders" role="tab" data-toggle="tab">
-                defenders
-            </a>
-        </li>
-
-    </ul>
-    <div class="player-stat-slider tab-content">      
-        <div id="slider" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner tab-content" role="listbox">
-                <div class="item active tab-pane" id="goalkeepers">
-
-                    <div class="wrap">
-                        <div class="stat">
-                            <div class="top-info with_number">
-                                <div class="number">12</div>
-                                <a href="player-second-page.html" class="name">
-                                    HAYDEN FREEMAN
-                                </a>
-                            </div>
-                            <div class="position">
-                                Goalkeeper
-                            </div>
-                            <div class="progress-wrap">
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">played</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-1" ></div>
-                                    </div>
-                                </div>
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">saves</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-2" ></div>
-                                    </div>
-                                </div>
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">missing</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-3" ></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="image">
-                            <a href="player-second-page.html" title="player-image">
-                                <img src="/images/baseball/player-stat-slider-img.jpg" alt="player-image">
-                            </a>
-                        </div>	
-                    </div>
-                </div>
-                <div class="item tab-pane" id="defenders">
-                    <div class="wrap">
-                        <div class="stat">
-                            <div class="top-info with_number">
-                                <div class="number">1</div>
-                                <a href="player.html" class="name">
-                                    JORG BELAFFSOON
-                                </a>
-                            </div>
-                            <div class="top-info">
-                                <a href="player-second-page.html" class="name">
-                                </a>
-                            </div>
-                            <div class="position">
-                                Defender
-                            </div>
-                            <div class="progress-wrap">
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">played</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-4" ></div>
-                                    </div>
-                                </div>
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">saves</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-5" ></div>
-                                    </div>
-                                </div>
-                                <div class="progress-item">
-                                    <div class="bar-label">
-                                        <div class="achievement">missing</div>
-                                        <div class="score">23</div>
-                                    </div>
-                                    <div class="progress-line">
-                                        <div class="bar bar-6" ></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="image">
-                            <a href="player-second-page.html" title="player-image">
-                                <img src="/images/baseball/player-stat-slider-img.jpg" alt="player-image">
-                            </a>
-                        </div>	
-                    </div>
-                </div>
-
-
-                <div class="arrow-wrap">
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#slider" role="button" data-slide="prev">
-                        <i class="fa fa-caret-left" aria-hidden="true"></i>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#slider" role="button" data-slide="next">
-                        <i class="fa fa-caret-right" aria-hidden="true"></i>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>  
-            </div>
-        </div>
-    </div>
-</div>
-                </div>
-                <div class="col-md-5">
-                    <h4 class = "hockey-stats-h4">Best players</h4>
-                    <div class="team-best-player">
-    <div class="">
-        <ul class="player-filters" role="tablist">
-            <li class="active">
-                <a href="#goals" role="tab" data-toggle="tab">goals</a>
-            </li>
-            <li>
-                <a href="#assist" role="tab" data-toggle="tab">assist</a>
-            </li>
-        </ul>    
-    </div>
-    <div class="tab-content">
-        <div class="best-players-list tab-pane active" id="goals">
-            <a href="player-second-page.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player-second-page.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player-second-page.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>    
-        </div>
-        <div class="best-players-list tab-pane" id="assist">
-            <a href="player.html" class="item">
-                <span class="number">1</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player-second-page.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player-second-page.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-            <a href="player.html" class="item">
-                <span class="number">9</span>
-                <span>Luis Hernandez</span>
-                <span class="achievement">14</span>
-            </a>
-        </div>
-    </div>
-</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--MAIN PLAYERS STAT END-->
-
-<!--인기 게시물 Best 5-->
-<section class="success-story sport">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4>인기 게시물 Best 5</h4>
-                <div class="row">
-                	  <c:forEach var="bestPost" items="${bestPostList}">
-	                    <div class="col-md-2">
-	                        <div class="icon"><img src="${bestPost.user.userImage}" style="width:30px;"alt="succes-icon"></div>
-	                        <div class="title">${bestPost.user.userNickName }</div>
-	                        <p>${bestPost.postTitle}</p>
-	                    </div>
-                    </c:forEach>
-                </div>
-            </div>
-            <div class="col-md-5 position-relative">
-                <blockquote class="coach-quote">
-                    <p>Austin mustache man bun vice helvetica.</p>
-                    <p class="name">Brandon Campbell / head coach</p>
-                </blockquote>
-                <img class="img-responsive" src="/images/baseball/coach.png" alt="coach-image">
-            </div>
-        </div>
-    </div>	
-</section>
-<!--인기 게시물 Best 5-END-->
-
-    <!--SUCCESS STORY BEGIN-->
-<section class="success-story-cybersport">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h4>success story <br>began here</h4>
-                <p>Pabst irony tattooed, synth sriracha selvage pok pok. Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep mixtape semiotics brunch. </p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="icon"><img src="/images/common/success-icon.png" alt="succes-icon"></div>
-                        <div class="title">Legendary</div>
-                        <p>Next level paleo taxidermy, bespoke messenger bag leggings occupy food truck. </p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="icon"><img src="/images/common/success-icon1.png" alt="succes-icon"></div>
-                        <div class="title">Legendary</div>
-                        <p>Wayfarers kinfolk sartorial, helvetica you probably haven't heard of them tumeric venmo deep v mixtape semiotics brunch. </p>
-                    </div>
-                    <div class="col-md-12"><a href="trophies.html" class="booking">trophies</a></div>
-                </div>
-            </div>
-
-            <div class="col-md-5">
-                <div class="wrap position-relative">
-                    <div class="cybersport-slogan">
-                        <div class="title">Welcome to</div>
-                        <div class="big-title">Pubstomps</div>
-                        <p>Hella pop-up flexitarian, semiotics migas humblebrag schlitz literally tofu deep v thundercats skateboard viral cornhole.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-<!--SUCCESS STORY END-->
-
-    <!--AWARD BOX BEGIN-->
-
-    <div class="main-award-box">
-
-        <!--TIMELINE BEGIN-->
-<div class="timeline-bar">
-    <div class="bar">
-        <div class="date date-1" >1990</div>
-        <div class="date date-2" >2001</div>
-        <div class="date date-3" >2002</div>
-        <div class="date date-4" >2007</div>
-        <div class="date date-5" >2010</div>
-        <div class="date date-6 active" >2016</div>
-    </div>
-</div>
-<!--TIMELINE END-->
-
-        
-<div class="main-award-slider">
-    <div id="main-award-slider" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">  
-            <div class="item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup.png" alt="cup-image"></div>
-                                    <div class="name">All-Star Series</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup1.png" alt="cup-image"></div>
-                                    <div class="name">World Class Championship</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup2.png" alt="cup-image"></div>
-                                    <div class="name">Major League Trophy</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup.png" alt="cup-image"></div>
-                                    <div class="name">All-Star Series</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup1.png" alt="cup-image"></div>
-                                    <div class="name">World Class Championship</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <div class="award">
-                                    <div class="image"><img class="img-responsive" src="/images/common/cup2.png" alt="cup-image"></div>
-                                    <div class="name">Major League Trophy</div>
-                                    <div class="year">2016</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-        <!-- Controls -->
-        <a class="nav-arrow left-arrow" href="#main-award-slider" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="nav-arrow right-arrow" href="#main-award-slider" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div>
-
-    </div>
-
-    <!--AWARD BOX END-->
-
-    <!--MAIN CLUB STAFF BEGIN-->
-<section class="main-club-stuff">    
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="soccer-h4">club stuff</h4>  
-                <ul class="player-filters" role="tablist">
-                    <li class="active">
-                        <a href="#managers" role="tab" data-toggle="tab">
-                            Managers                  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#firstteam" role="tab" data-toggle="tab">
-                            First team
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#academy" role="tab" data-toggle="tab">
-                            Academy
-                        </a>
-                    </li>                  
-                </ul>
-            </div>
-        </div>
-    </div>           
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="managers" role="tabpanel">
-            <div id="managers_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marshman</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#managers_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#managers_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="academy" role="tabpanel">
-            <div id="academy_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Vito<br>Palet</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Melet</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marse</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsan</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luscas<br>Mars</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Mafo</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#academy_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#academy_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="firstteam" role="tabpanel">
-            <div id="firstteam_carousel" class="carousel slide main-stuff-slider" data-ride="carousel" >
-                <div class="carousel-inner" role="listbox" >
-                    <div class="item active">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Deshon<br>James</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">James<br>Deshon</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucas<br>Marsh</span>
-                                                <span class="position">Left Forward</span>
-                                                <span class="number">14</span>
-                                            </span>
-                                            <img src="/images/baseball/player-3.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>                    
-                                <div class="col-md-4">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Luca<br>Mas</span>
-                                                <span class="position">Left Midfielder</span>
-                                                <span class="number">8</span>
-                                            </span>
-                                            <img src="/images/baseball/player-2.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="staff-item">
-                                        <a href="staff.html">
-                                            <span class="info">
-                                                <span class="name">Lucasoto<br>Marsh</span>
-                                                <span class="position">Central Attacking Midfielder</span>
-                                                <span class="number">7</span>
-                                            </span>
-                                            <img src="/images/baseball/stuff-person.jpg"  alt="person-slider">
-                                        </a>	
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Controls -->
-                    <a class="nav-arrow left-arrow" href="#firstteam_carousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                    <a class="nav-arrow right-arrow" href="#firstteam_carousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        <span class="sr-only"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--MAIN CLUB STAFF END-->
-
-
-    <!--MAIN CLUB STAFF END-->
-
-    <!--CALL TO ACTION BEGIN-->
-<div class="call-to-action">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-sm-9 col-xs-6">
-                <div class="text">Become part of a great team</div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-6 text-right">
-                <a href="contacts.html" class="join">Join us</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!--CALL TO ACTION END-->
-
-    <!--MAIN TEAM STORE BEGIN-->
-
-    <section class="main-team-store">
-
-        <!--MAIN TEAM STORE CONTAINER BEGIN-->
+				<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center; display: none;">
+					<h1 id="noGame">안녕하세요</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+<!-- 팀 순위 끝 -->
+<hr>
 <div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<a href="/player/listBestPlayer">
+				<img src="/images/player/KBOLEGEND_2.png" style="width:70%;">
+			</a>
+		</div>
+	</div>
+</div>
+<hr>
+        <!--MAIN SPONSOR SLIDER BEGIN-->
+<div id="main-sponsor-slider" class="carousel slide main-sponsor-slider" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                    		<a href="/ticket/getGameList2w?teamCode=NC">
+                        <img class="sponsor-icons" src="/images/ticket/낙동강더비.png" alt="sponsor-image">
+                        </a>	
+                    </div>
+                </div>
+            </div>	
+        </div>
+        <div class="item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                    		<a href="https://allstar.koreabaseball.com/Default.aspx">
+                        <img class="sponsor-icons" src="/images/ticket/올스타전1.png" alt="sponsor-image">
+                        </a>	
+                    </div>
+                </div>
+            </div>	
+        </div>
+        <div class="item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                    		<a href="https://allstar.koreabaseball.com/Default.aspx">
+                        <img class="sponsor-icons" src="/images/ticket/올스타전2.png" alt="sponsor-image">
+                        </a>	
+                    </div>
+                </div>
+            </div>	
+        </div>
+        <!-- Controls -->
+        <a class="nav-arrow left-arrow" href="#main-sponsor-slider" role="button" data-slide="prev">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                <span class="sr-only">Previous</span>
+        </a>
+        <a class="nav-arrow right-arrow" href="#main-sponsor-slider" role="button" data-slide="next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <span class="sr-only">Next</span>
+        </a>
+    </div>	
+</div>
+<!--MAIN SPONSOR SLIDER END-->
+
+
+
+<hr>
+<!--인기 게시물 Best 5-->
+<div class="container bestPost">
     <div class="row">
         <div class="col-md-12">
-            <h4>Team Store</h4>
-        </div>	
-        <div class="col-md-10 col-xs-9">
-            <ul class="tab-filters">
-                <li class="active"><a data-toggle="tab" href="#hotdeals">판매인기상품</a></li>
-            </ul>
-        </div>
-        <div class="col-md-2 col-xs-3 text-right">        
-                <a id="show-all-link" href="/product/salesProdList?prodTeamCode=ALL">Show all</a>   	
+            <h2>
+            	인기 게시물 Best 4
+            </h2>
+            <div class="row">
+            	  <c:forEach var="bestPost" items="${bestPostList}">
+                 <div class="col-md-3">
+                     <div style="display: flex;">
+                     	<img src="${bestPost.user.userImage}" style="width:50px;object-fit: cover; display: block; margin-right: auto; " alt="succes-icon"> 
+                     	<img src="/images/teamEmblem/${bestPost.user.teamCode}.png" style="width:50px; object-fit: cover; display: block;  margin-left: auto;">
+                     </div>
+                     <div class="title">${bestPost.user.userNickName }</div>
+                     <a href="/post/getPost?postNo=${bestPost.postNo}" style="font-size:20px;">${bestPost.postTitle}</a>
+                     <div>
+							<div class="comment-quantity" style="display: inline-block;">Views ${bestPost.postViews} &nbsp;&nbsp;</div>
+							<div class="comment-quantity" style="display: inline-block;"><i class="fi fi-sr-heart fa-2x"> ${bestPost.postLikes}</i> &nbsp;&nbsp;</div>
+							<div class="comment-quantity" style="display: inline-block;"> <i class="fi fi-rr-comment-alt"></i>${bestPost.postComments} </div>
+                 		</div>
+                 </div>
+                </c:forEach>
+            </div>
         </div>
     </div>
-</div>
-<!--MAIN TEAM STORE CONTAINER END-->
+</div>	
+<!--인기 게시물 Best 5-END-->
+<hr>
 
-        <!--MAIN TEAM STORE LIST BEGIN-->
+<!-- 상품 시작 -->
 <div class="main-store-list">
     <div class="container">
         <div class="tab-content">
             <div id="hotdeal" class="tab-pane fade in active">
                 <div class="row">
+                <h2>
+                	인기 상품
+                </h2>
                     <c:forEach var="bestTran" items="${bestTranList}">
                         <div class="col-md-3 col-sm-6">
                             <div class="store-list-item">
@@ -1340,150 +527,26 @@
         </div>
     </div>
 </div>
-<br>
-<!--MAIN TEAM STORE LIST END-->
+<hr>
 
-        <!--MAIN SPONSOR SLIDER BEGIN-->
-<div class="main-sponsor-slider-background">
-<div id="main-sponsor-slider" class="carousel slide main-sponsor-slider" data-ride="carousel">
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-4 text-center">
-                        <img class="sponsor-icons" src="/images/common/sponsor-img.png" alt="sponsor-image">	
-                    </div>
-                    <div class="col-xs-4 text-center">
-                        <img class="sponsor-icons" src="/images/common/sponsor-img1.png" alt="sponsor-image">	
-                    </div>
-                    <div class="col-xs-4 text-center">
-                        <img  class="sponsor-icons dota-csgo-image" src="/images/common/sponsor-img2.png" alt="sponsor-image">	
-                    </div>
-                </div>
-            </div>	
-        </div>
-        <div class="item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-4 text-center">
-                        <img class="sponsor-icons" src="/images/common/sponsor-img.png" alt="sponsor-image">	
-                    </div>
-                    <div class="col-xs-4 text-center">
-                        <img  class="sponsor-icons" src="/images/common/sponsor-img1.png" alt="sponsor-image">	
-                    </div>
-                    <div class="col-xs-4 text-center">
-                        <img class="sponsor-icons dota-csgo-image" src="/images/common/sponsor-img2.png" alt="sponsor-image">
-                    </div>
-                </div>
-            </div>	
-        </div>
-        <!-- Controls -->
-        <a class="nav-arrow left-arrow" href="#main-sponsor-slider" role="button" data-slide="prev">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-                <span class="sr-only">Previous</span>
-        </a>
-        <a class="nav-arrow right-arrow" href="#main-sponsor-slider" role="button" data-slide="next">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                <span class="sr-only">Next</span>
-        </a>
-    </div>	
-</div>
-</div>
-<!--MAIN SPONSOR SLIDER END-->
 
-    </section>
+
 
     <!--MAIN TEAM STORE END-->
 
-    <!--FOOTER BEGIN-->
-<footer class="footer">
-    <div class="wrapper-overfllow">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="footer-left">
-                        <div class="wrap">
-                            <a href="index.html" class="foot-logo"><img src="/images/baseball/footer-logo.png" alt="footer-logo"></a>
-                            <p>Activated charcoal trust fund ugh prism af, beard marfa air plant stumptown gastropub farm-to-table jianbing.</p>
-                            <ul class="foot-left-menu">
-                                <li><a href="staff.html">First team</a></li>
-                                <li><a href="staff.html">Second team</a></li>
-                                <li><a href="amateurs.html">Amateurs</a></li>
-                                <li><a href="donations.html">Donation</a></li>
-                                <li><a href="trophies.html">trophies</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-lg-offset-1">
-                    <div class="foot-news">
-                        <h4>Recent news</h4>
-                        <div class="item">
-                            <a href="news.html" class="image"><img class="img-responsive" src="/images/baseball/foot-news-img.jpg" alt="news-image"></a>
-                            <a href="news.html" class="name">When somersaulting Sanchez shouldered Mexicoâs hopes</a>
-                            <a href="news.html" class="date">25 Sep 2016</a>
-                            <span class="separator">in</span>
-                            <a href="news.html" class="category">Highlights</a>
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-lg-3 col-md-4 col-sm-12">
-                    <div class="foot-contact">
-                        <h4>Contact us</h4>
-                        <ul class="contact-list">
-                            <li><i class="fa fa-flag" aria-hidden="true"></i><span>276 Upper Parliament Street, Liverpool L8, Great Britain</span></li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:team@email.com">team@email.com</a></li>
-                            <li class="phone"><i class="fa fa-phone" aria-hidden="true"></i><span>+61 3 8376 6284</span></li>
-                        </ul>
-                        <ul class="socials">
-                            <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-menu-wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="footer-menu">
-                        <li class="active"><a href="index.html"><span>Home</span></a></li>
-                        <li><a href="matches.html"><span>Matches</span></a></li>
-                        <li><a href="staff.html"><span>Team</span></a></li>
-                        <li><a href="news.html"><span>News</span></a></li>
-                        <li><a href="store.html"><span>Store</span></a></li>
-                        <li><a href="contacts.html"><span>Contact</span></a></li>
-                    </ul>	
-                    <a href="#top" class="foot-up"><span>up <i class="fa fa-caret-up" aria-hidden="true"></i></span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="copyrights">
-                        Â© 2017 Team - Sport club psd template
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="created">
-                        <a href="#">Created by <img src="/images/common/created-icon.png" alt="create-by-image"> torbara</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!--FOOTER END-->
+<!-- 퀵메뉴 -->
+<div class="quickmenu">
+  <ul>
+    <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
+    <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
+    <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>
+    <li><a href="#forward"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>
+  </ul>
+</div>     
 
-    <script type="text/javascript" src="/js/library/jquery.js"></script>
+<a type="hidden" id="bottom"/>
+
+<script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
 <script type="text/javascript" src="/js/library/jquery.sticky.js"></script>

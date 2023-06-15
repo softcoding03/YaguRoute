@@ -87,7 +87,7 @@ img.logo{
                     		<ul>
                         	<li><a href="/post/getPostList?teamCode=${user.teamCode}"><span class="topbar">내 팀 게시판</span></a></li>
                         	<li><a href="/post/getMyPostList"><span class="topbar">내가 작성한 게시물</span></a></li>
-                        	<li><a href="/post/getNoticeList?teamCode=${user.teamCode}"><span class="topbar">공지사항</span></a></li>
+                        	<li><a href="/post/getNoticeList"><span class="topbar">공지사항</span></a></li>
                         </ul>
                     </li>
                     <c:if test="${user.role eq 'admin'}">

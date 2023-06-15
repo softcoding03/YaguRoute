@@ -81,7 +81,7 @@ public class MainController {
 			System.out.println("/main/getMain : GET START");
 			//공지사항 출력
 			List<String> postDateList = new ArrayList<>();
-			List<Post> noticeList = postService.getNoticeList("all"); //공지사항 리스트
+			List<Post> noticeList = postService.getNoticeList(); //공지사항 리스트
 			/* System.out.println("noticeList ? "+noticeList); */
 			for(Post post:noticeList) { //postDate 형식 변경 2023-06-13T00:31:03 -> 2023년 6월 13일
 				LocalDate postDate = post.getPostDate().toLocalDate();
@@ -109,15 +109,14 @@ public class MainController {
 			
 			//BEST 게시물 5개 출력
 			List<Post> bestPostList = postService.getPostBestList("all");
-			/*
-			 * System.out.println("bestPostList ? "+bestPostList); // End
-			 */	
 			
 			//판매인기상품 출력
 			List<TranDetail> bestTranList = tranDetailService.getBestTranList();
 			for(TranDetail bestList : bestTranList) {
 				System.out.println(bestList);
-			}
+			}	
+			
+
 			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("postDateList", postDateList);
