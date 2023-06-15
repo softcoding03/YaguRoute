@@ -1276,7 +1276,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			    	var formData = new FormData();
 			        formData.append('image', files[0]);
 			        $.ajax({
-			            url: "http://192.168.0.36:3000/image/user",
+			            url: "http://223.130.133.54:3000/image/user",
 			            type: "POST",
 			            processData: false,
 			            contentType: false,

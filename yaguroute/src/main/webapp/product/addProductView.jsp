@@ -195,7 +195,7 @@
 				    	 }
 				    	
 				        $.ajax({
-				            url: "http://127.0.0.1:3000/image/product",
+				            url: "http://223.130.133.54:3000/image/product",
 				            type: "POST",
 				            processData: false,
 				            contentType: false,

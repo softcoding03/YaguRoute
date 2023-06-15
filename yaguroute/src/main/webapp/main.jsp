@@ -135,11 +135,11 @@
 					    	tmpItem += '<div id="'+tmpGame.gameCode+'" class="item '+(k===0 ? 'active' : '')+ '">'+
 					    	'<a class="first-slide" href="'+location+'">'+
 						    	'<div style="position: relative;" class="score">'+
-						          	'<img src="'+tmpGame.homeTeam.teamTopBar+'" alt="First slide" style="width: auto;height: 220px;">'+
+						          	'<img src="'+tmpGame.homeTeam.teamTopBar+'" alt="First slide" style="width: auto;height: 245px;">'+
 						          	'<h1 style="position: absolute; top: 20%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.homeTeam.teamNickName+'</h1>'+
 						          	'<h5 class="'+tmpClass+'" style="position: absolute; top: 50%; transform: translateY(-80%); right: 175px;">'+message+'</h5>'+
 						          	'<img class="first-slide" src="/images/ticket/vs.png" alt="vs" style="width: auto;height: 200px; position: absolute; top: 50%; transform: translateY(-55%); right: 0;">'+
-						          	'<img class="first-slide" src="'+tmpGame.awayTeam.teamTopBar+'" alt="Second slide" style="width: auto;height: 220px;">'+
+						          	'<img class="first-slide" src="'+tmpGame.awayTeam.teamTopBar+'" alt="Second slide" style="width: auto;height: 245px;">'+
 						          	'<h1 style="position: absolute; top: 70%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.awayTeam.teamNickName+'</h1>'+
 						        '</div>'+
 					    	'</a>'+
@@ -402,7 +402,7 @@
 <hr>
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12" style="text-align: center; ">
 			<a href="/player/listBestPlayer">
 				<img src="/images/player/KBOLEGEND_2.png" style="width:70%;">
 			</a>
@@ -514,7 +514,6 @@
                                         <span class="price"><input type="hidden" value="${bestTran.tranDetailProd.prodPrice}">
                                         <fmt:formatNumber value="${bestTran.tranDetailProd.prodPrice}" pattern="###,###"/>원 </span>	 
                                         <div class="btn-wrap">
-                                 	       <a class="btn btn-detail">${bestTran.tranQuantity }개</a>
                                              <a href="/product/getProduct?prodNo=${bestTran.tranDetailProd.prodNo}" class="btn btn-detail">상세보기</a>
                                         </div>
                                     </div>
