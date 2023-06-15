@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style ">
