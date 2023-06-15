@@ -200,7 +200,7 @@ $(function() {
 			    	 }
 			    	
 			        $.ajax({
-			            url: "http://127.0.0.1:3000/image/product",
+			            url: "http://192.168.0.36:3000/image/product",
 			            type: "POST",
 			            processData: false,
 			            contentType: false,
