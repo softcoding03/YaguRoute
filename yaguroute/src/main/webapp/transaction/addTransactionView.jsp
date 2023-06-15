@@ -489,7 +489,8 @@ $(function(){
 								<div class="input-wrapper"><input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 60%;margin-right:20px;text-align: center;border:solid 1px;background-color: #D4D8DA;"><span class="input-text">point</span><a id="applyPointButton" class="btn small">적용</a>  </div> 
 				            </label>
 				            <label class="item" style="text-align: center;">
-				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원<input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/></span>
+				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</span>
+				            	<input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
 				            </label>
 	               		</div>
 	                	<button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
