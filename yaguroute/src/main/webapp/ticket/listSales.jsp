@@ -21,7 +21,6 @@
 		});
 		$(".marker.salesDetail").on("click" , function() {
 			var gameCode = $(this).siblings("input[name='gameCode']").val();
-			alert(gameCode);
 			self.location = "/ticket/getSalesDetail?gameCode="+gameCode;
 		});
 	});
