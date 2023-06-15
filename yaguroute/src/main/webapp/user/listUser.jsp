@@ -82,7 +82,6 @@
 	function fncGetUserList(currentPage) {
 		
 		$("#currentPage").val(currentPage);
-		alert(currentPage);
 		$("form").attr("method" , "POST").attr("action" , "/users/listUser").submit();
 		}
 	
