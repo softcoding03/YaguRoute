@@ -106,7 +106,6 @@
   display: none;
 }
 
-
 #searchButton:hover {
 	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
 }

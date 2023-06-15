@@ -61,7 +61,7 @@ public class TransactionRestController {
 		System.out.println("user:: "+tranDetail.getTranDetailTran().getBuyer()); //userId만 존재. algudgod
 		String userId = tranDetail.getTranDetailTran().getBuyer().getUserId(); 
 		User user = userService.getUser(userId);
-		System.out.println("userPhone"+user.getUserPhone()); // null
+		System.out.println("userPhone"+user.getUserPhone()); 
 		String userPhone = user.getUserPhone();
 		String contents;
 		
@@ -72,7 +72,7 @@ public class TransactionRestController {
 			tranDetailService.getTranDetail(tranDetailNo);
 			tranDetailService.updateRefundStatusCode(tranDetail);
 
-			contents = user.getUserPhone()+"님께서 결제하신 상품의 취소가 완료 되었습니다." +
+			contents = user.getUserName()+"님께서 결제하신 상품의 취소가 완료 되었습니다." +
 					"[야구루트 결제 취소내역] \n 결제 취소 금액: "+tranDetail.getTranDetailTran().getTranTotalPrice()+"원"+
 					"\n "+tranDetail.getTranDetailTran().getTranDate();
 			result = importAPIRestService.sendSMS(contents, userPhone);
