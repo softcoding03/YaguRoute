@@ -148,7 +148,7 @@ public class GameController {
 	@GetMapping("getTeam")
 	public String getGameTeam(@RequestParam("teamCode") String teamCode,HttpServletRequest request) throws Exception{
 		
-		if(teamCode == null) {
+		if(teamCode == "ALL") {
 			teamCode = "HH";
 		}
 		List<Team> allTeam = gameService.getAllTeam();

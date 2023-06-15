@@ -119,8 +119,6 @@
 			<td align="left">${tranDetail.tranQuantity}</td>
 			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranUsePoint}" pattern="###,###"/></td>
 			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranTotalPrice}" pattern="###,###"/></td>
-			
-			
 			<td align="left"> 현재	
 					<c:if test="${tranCode eq 1 && refundStatusCode eq 1 }">
 						구매완료
@@ -139,7 +137,6 @@
 					</c:if>													
 						상태 입니다.</td>
 		<td align="left"> 
-		
 		<c:if test="${tranCode eq 2}">
 			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=2">배송도착</a>
 		</c:if>

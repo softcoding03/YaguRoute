@@ -971,7 +971,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     	
     	$("#phoneCheckButton").on("click", function(){
     		
-    		alert("인증버튼 클릭");
+    		//alert("인증버튼 클릭");
     		
     		var verify = $("#phoneCheck").val();
         	var rnd = $("#rnd").val();
@@ -1015,12 +1015,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			// 2. password 유효성 검증
 			var userId = $("#userId").val();
 			var password = $("#password").val();
-			alert(password);
+			//alert(password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
 			if(password === userId){
-				alert("아마 카카오나 네이버 유저 ");
+				//alert("아마 카카오나 네이버 유저 ");
 			}
 			else if(password.length > 50){
 				alert("패스워드는 50자 까지 가능합니다.");
@@ -1032,13 +1032,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
 				return;
 			}
-			else{
-				alert("2. password 통과");
-			}
 			
 			var passwordCheck = $("#passwordCheck").val();
-			alert("password : "+password);
-			alert("passwordCheck : "+passwordCheck);
 			
 			if(passwordCheck == null){
 				alert("패스워드 확인을 해 주세요.");
@@ -1047,12 +1042,10 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
 				return;
 			}else{
-				alert("패스워드 체크 통과");
 			}
 			
 			// 3. userName 유효성 검증
 			var userName = $("#userName").val();
-			alert("3. userName : "+userName);
 			
 			if(userName.length > 10){
 				alert("이름은 10자까지 가능합니다.");
@@ -1062,12 +1055,10 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				return;
 			}
 			else {
-				alert("3. userName 통과");
 			}
 			
 			// 6. userNickName 유효성 검증
 			var userNickName = $("input[name='userNickName']").val();
-			alert("userNickName : "+userNickName);
 			
 			$.ajax({
 				url : "/user/userNickNameCheck",
@@ -1084,8 +1075,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 					}else if(userNickName > 20){
 						alert("닉네임은 최대 20자리까지 가능합니다.");
 						return;
-					}else{
-						alert("6. userNickName 통과");
 					}
 				},
 				error : function(){
@@ -1097,7 +1086,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			var userPhone = $("#userPhone").val();
 			
 			if(userPhone.length == 11){
-				alert("4. userPhone 통과");
+				console.log("검증완료");
 			}else{
 				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
 				return;
@@ -1113,12 +1102,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				success : function(result){
 					
 					if(result == 0){
-					alert("당신의 휴대폰입니다.");
+					console.log("당신의 휴대폰입니다.");
 					}
 					else{
-						alert("휴대폰이 다른 상태...");
+						console.log("휴대폰이 다른 상태...");
 						if(phoneCheck.length == 5){
-							alert("phoneCheck 통과");
+							//alert("phoneCheck 통과");
 						}else{
 							alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
 							return;
@@ -1138,7 +1127,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				return;
 				
 			}else{
-				alert("5. userBirth 통과");
 				var value = userBirth.replace(/-/g, "");
 				$("#userBirth").val(value);
 			}
@@ -1151,24 +1139,21 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	 		var addr2 = $("input[name='addr2']").val();
 			var addr = addr1+"   "+addr2;
 			$("#userAddr").val(addr);
-			alert(addr);
 			
 			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
 			}else{
-				alert("7. userAddr 통과");
+				//alert("7. userAddr 통과");
 			}
 			
 			
 			
 			// 9. userEmail 유효성 검증
 			var userEmail = $("#userEmail").val();
-			alert("userEmail : "+userEmail);
 			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
 			if(emailCheck.test(userEmail)){
-				alert("9. 이메일 통과");
 			}else if(userEmail.length > 40 ){
 				alert("이메일은 최대 40자 까지 입력 가능합니다.");
 				return;
@@ -1205,7 +1190,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				data: JSON.stringify(user),
 				contentType: "application/json",
   				success: function(response) {
-    				alert("컨트롤러 전송 완료!");
     				window.location.href="/users/getUser";
   				},
   				error: function(xhr, status, error) {
@@ -1283,12 +1267,11 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			            data: formData,
 			            dataType: "json",
 			            success: function(data, status) {
-			            	
+			            	console.log(data);
 			            	if(data == null){
-				            	alert("다시 드롭 해 주세요.");
+				            	//alert("다시 드롭 해 주세요.");
 			            	}else{
 			            		console.log(data.image_path);
-			            		
 			            		
 			            		// hidden 속성 추가
 			            		var newDiv = document.createElement("div");
@@ -1350,7 +1333,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지" id="userImage">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -1413,17 +1396,17 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
         <footer class="left_footer" role="contentinfo">
             <ul class="footer_list">
                 <li>
-                    <a href="https://policy.naver.com/rules/privacy.html" class="footer_item" onclick="nclk(this,&#39;fot.privarypolicy&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/user/private.html" class="footer_item" onclick="nclk(this,&#39;fot.privarypolicy&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text bold">개인정보처리방침</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://policy.naver.com/rules/service.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/user/TermsofUse.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text">이용약관</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://policy.naver.com/rules/service.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/images/user/rockseongface.jpg" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text"><b>야구Route CEO소개</b></span>
                     </a>
                 </li>

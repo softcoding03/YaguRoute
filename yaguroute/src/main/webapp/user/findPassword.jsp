@@ -225,8 +225,6 @@
 			
 			var userId = $("#userId").val();
 			
-			alert(userId);
-			
 			$.ajax({
 	               url: "/user/userIdCheck/",
 	               method: "POST",
@@ -235,7 +233,6 @@
 	               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
 	               success: function(result) {
 	            	   if(result == 1){
-	            	   alert("아이디가 확인 완료.");
 	            	   }
 	            	   else{
 	            		   alert("아이디가 존재하지 않습니다.");
@@ -257,8 +254,6 @@
 	   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
 	   		
 	   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
-	   		alert(rnd);
-	   		alert(userId);
 	   		// rnd에 대한 HTML 요소 생성
 	
 	   		var newDiv = document.createElement("div");
@@ -294,14 +289,8 @@
 	    	
 	    	$("#phoneCheckButton").on("click", function(){
 	    		
-	    		alert("인증버튼 클릭");
-	    		
 	    		var verify = $("#phoneCheck").val();
 	        	var rnd = $("#rnd").val();
-	    		
-	        	alert("verify:"+verify);
-	        	alert("rnd"+rnd);
-	        	
 	        	if(verify == rnd){
 	        		alert("인증이 완료되었습니다.");
 	        		openModal();
@@ -346,7 +335,6 @@
         	output += "</table>";
         	idList.innerHTML = output;
         	
-        	totalPassword += "총 " + password.length+"개의 아이디가 검색되었습니다.";
         	var totalCount = document.getElementById("totalCount");
         	totalCount.textContent = totalPassword;
         },

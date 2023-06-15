@@ -635,17 +635,17 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
         <footer class="left_footer" role="contentinfo">
             <ul class="footer_list">
                 <li>
-                    <a href="https://policy.naver.com/rules/privacy.html" class="footer_item" onclick="nclk(this,&#39;fot.privarypolicy&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/user/private.html" class="footer_item" onclick="nclk(this,&#39;fot.privarypolicy&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text bold">개인정보처리방침</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://policy.naver.com/rules/service.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/user/TermsofUse.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text">이용약관</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://policy.naver.com/rules/service.html" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
+                    <a href="/images/user/rockseongface.jpg" class="footer_item" onclick="nclk(this,&#39;fot.termsofuse&#39;,&#39;&#39;,&#39;&#39;,event)">
                         <span class="footer_text"><b>야구Route CEO소개</b></span>
                     </a>
                 </li>

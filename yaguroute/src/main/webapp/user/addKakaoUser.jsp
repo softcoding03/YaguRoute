@@ -284,7 +284,6 @@
    		$('#phoneButton').on("click", function(){
    		
    		var userPhone = $("#userPhone").val(); // 휴대폰 번호
-   		alert(userPhone);
    		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
    		// rnd에 대한 HTML 요소 생성
 
@@ -327,9 +326,6 @@
 	$(function(){
     	
     	$("#phoneCheckButton").on("click", function(){
-    		
-    		alert("인증버튼 클릭");
-    		
     		var verify = $("#phoneCheck").val();
         	var rnd = $("#rnd").val();
         	
@@ -346,11 +342,8 @@
 		// 애드 유저
 		function fncAddUser() {
 
-			alert("ㅎㅇ");
-			
 			// userBirth logic...
 			var userBirth=$("#birthday").val();
-			alert(userBirth);
 			var value = userBirth.replace(/-/g, "");
 			$("#userBirth").val(value);
 			
@@ -368,10 +361,6 @@
 			var userImage = "${user.userImage}";
 			var teamCode = $("select[name='teamCode']").val();
 			var userNickName = $("input[name='userNickName']").val();
-			
-			alert(teamCode);
-			alert(userPhone);
-			
 			// userAddr logic...
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();

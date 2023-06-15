@@ -460,11 +460,11 @@
                             
                            	<div class="cont">
 							  <!-- 네이버 로그인 버튼 -->
-							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://223.130.133.54:80/users/naverLogin" class="link-login">
+							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://kbo.yaguroute.online/users/naverLogin" class="link-login">
 							    <img src="/images/user/naverTitle.png" alt="네이버" /> 네이버로 로그인
 							  </a>
 							  <!-- 카카오 로그인 버튼 -->
-							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://223.130.133.54:80/users/kakaoLogin" class="kakao-login">
+							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://kbo.yaguroute.online/users/kakaoLogin" class="kakao-login">
 							    <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
 							      <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
 							    </svg>

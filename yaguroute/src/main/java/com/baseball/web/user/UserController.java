@@ -399,7 +399,7 @@ public class UserController {
 		System.out.println("22222222222222222222222222");
 		
 		// 난수와 함께 전송
-		toJson.addProperty("content", "Going 본인인증 [" + rnd + "]");
+		toJson.addProperty("content", "YAGUROUTE 본인인증 [" + rnd + "]");
 		toJson.addProperty("to", phone);
 		toArr.add(toJson);
 		System.out.println("33333333333333333333333333");

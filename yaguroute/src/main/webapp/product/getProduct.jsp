@@ -144,13 +144,13 @@ hr {
 		                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
 		                    <ul>
 		                        <li>
-		                            <img src="/images/product/${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                            <img src="${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 		                        </li>
 		                        <li>
-		                            <img src="/images/product/${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                            <img src="${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 		                        </li>
 		                        <li>
-		                            <img src="/images/product/${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+		                            <img src="${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 		                        </li>
 		                    </ul>
 		                </div>

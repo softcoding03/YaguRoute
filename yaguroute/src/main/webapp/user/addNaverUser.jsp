@@ -264,7 +264,6 @@
 			
 			// 6. userNickName 유효성 검증
 			var userNickName = $("input[name='userNickName']").val();
-			alert("userNickName : "+userNickName);
 			
 			$.ajax({
 				url : "/user/userNickNameCheck",
@@ -293,7 +292,6 @@
 	 		var addr2 = $("input[name='addr2']").val();
 			var addr = addr1+"   "+addr2;
 			$("#userAddr").val(addr);
-			alert(addr);
 			
 			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
@@ -310,9 +308,7 @@
 			var userImage = "${user.userImage}"
 			var teamCode = $("select[name='teamCode']").val();
 			var userNickName = $("input[name='userNickName']").val();
-			
-			alert(teamCode);
-			
+
 			// userAddr logic...
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();

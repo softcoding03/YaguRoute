@@ -31,7 +31,6 @@
 	$(function() {
 	//$("#productTransaction").on("click" , function() {
 		$("#goAddTran").on("click" , function() {
-		  alert("결제를 시작한다.");
 		
 		  requestPay(tranTotalPrice);
 		});
@@ -140,7 +139,6 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
 	var payAddr = $("#receiverAddr").val();
 	var payAmount = $("#tranTotalPrice").val(); // 변경된 tranTotalPrice 값 사용
 	var name = "${prodCount}개 상품 결제";
-		alert(payName + "&" + payPhone + "&" + payAddr + "&" + payAmount);
 	
 		IMP.request_pay( //아임포트로 결제 요청 보내기 (아임포트에서 요구하는 값)
 		{ //결제 정보 설정 (***아임포트에서 요구하는 변수명 사용해야한다)
@@ -178,8 +176,7 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
 				 		    	 console.log($("#payOption").val());
 				 		    	 console.log($("#tranUsePoint").val());
 
-				 		    	 if (rsp.paid_amount == payAmount) { 
-				 		            alert("결제가 완료되었습니다. 결제 승인: "+rsp.paid_at);					 		        
+				 		    	 if (rsp.paid_amount == payAmount) { 				 		        
 				 		      			 // sendSMS 발송 ajax 시작
 				 		       		  $.ajax({				
 				 				    	url: "/transaction/rest/sendSMS",
@@ -194,7 +191,7 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
 				 				  });// sendSMS 발송 ajax 끝
 				 		       	   fncAddTransaction(); 
 				 		          } else {
-				 		        	  alert("결제에 실패하였습니다. : 가격이 검증되지 않았습니다...!");
+				 		        	  alert("결제에 실패하였습니다.");
 				 		          }	    	 
 			           } else {
 		 		        	  alert("결제에 실패하였습니다. :"+rsp.error_msg);
@@ -404,7 +401,7 @@ $(function(){
                            <div class="col-md-12">
                                 <div class="item">
                                     <label>
-                                        <span>받는사람 주소 (정확한 정보를 기제해 주세요)<i> * </i></span>
+                                        <span>받는사람 주소 (정확한 정보를 기재해 주세요)<i> * </i></span>
                                         <div>
 	                                        <input type="text" id="receiverAddr" name="receiverAddr" value="${user.userAddr}" > 
 	                                    	<p></p>
@@ -458,7 +455,7 @@ $(function(){
 				                </label>
 				                <div class="prodDetailBack element">
 				               			 <label class="item img">
-				               			 	<span class="span-left">이미지</span><span class="span-right"><img style="width: 100px;height: auto;" src="/images/product/${tranDetail.tranDetailProd.prodImageFirst}" alt="card"></span>	
+				               			 	<span class="span-left">이미지</span><span class="span-right"><img style="width: 100px;height: auto;" src="${tranDetail.tranDetailProd.prodImageFirst}" alt="card"></span>	
 				               			 </label>
 				                        <label class="item img">
 				                            <span class="span-left">가격</span><span class="span-right"><fmt:formatNumber value="${tranDetail.tranDetailProd.prodPrice}" pattern="###,###"/>원</span>	
@@ -491,7 +488,9 @@ $(function(){
 				            <label class="item" style="text-align: center;">
 				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</span>
 				            	<input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
+
 				            </label>
+				            <input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
 	               		</div>
 	                	<button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
 	                </div>

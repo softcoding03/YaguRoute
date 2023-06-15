@@ -44,7 +44,7 @@
 		(user_id, user_name, user_nickname, user_email, user_addr, user_phone, user_birth, user_image, 
 		 user_point, password, gender, role, withdraw, team_code)
 		VALUES 
-		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, 0,
+		(#{userId}, #{userName}, #{userNickName}, #{userEmail}, #{userAddr}, #{userPhone}, #{userBirth}, #{userImage}, 1000,
 		#{password}, #{gender}, 'user', 0, #{teamCode} )
 	</insert>
 	
@@ -105,7 +105,7 @@
 	SELECT *
 	FROM user
 	
-	<if test="searchCondition != null">
+	<if test="searchKeyword !=''">
 		<where> 
  			user_name LIKE  '%${searchKeyword}%'
 		</where>

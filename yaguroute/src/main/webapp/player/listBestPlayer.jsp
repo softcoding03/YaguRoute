@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />

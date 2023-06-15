@@ -159,6 +159,7 @@ public class TicketController {
 		search.setDays(days);
 		String tranType = "t";
 		
+		System.out.println("search??"+search);
 		//transaction 결제정보
 		Map<String, Object> map = transactionService.getTransactionList(search, userId, tranType);
 		List<Transaction> list = (List<Transaction>)map.get("list");

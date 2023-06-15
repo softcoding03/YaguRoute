@@ -292,7 +292,6 @@
             <div class="tab-pane fade in active" role="tabpanel" id="title1">
 	                <iframe class="video" src="${gameRecord.gameInfo.videoLink}" allowfullscreen><p>지원하지 않는 브라우져 입니다.</p></iframe>
 	            </div>
-	            <jsp:include page="/comment/listComment.jsp"/>
             </c:if>
         </div>
     </div>

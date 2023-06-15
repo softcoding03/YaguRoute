@@ -45,7 +45,6 @@ function fncAddTransaction() {
 	    $(function() {
 	    //$("#productTransaction").on("click" , function() {
   	  $("#goAddTran").on("click" , function() {
-  	    alert("결제를 시작한다.");
   	    requestPay(tranTotalPrice);
   	  });
 		 
@@ -66,7 +65,6 @@ function fncAddTransaction() {
 		var payAddr = $("#receiverAddr").val();
 		var payAmount = $("#tranTotalPrice").val(); // 변경된 tranTotalPrice 값 사용
 		var name = "${prodCount}개 상품 결제";
-			alert(payName + "&" + payPhone + "&" + payAddr + "&" + payAmount);
 		
 			IMP.request_pay( //아임포트로 결제 요청 보내기 (아임포트에서 요구하는 값)
 			{ //결제 정보 설정 (***아임포트에서 요구하는 변수명 사용해야한다)

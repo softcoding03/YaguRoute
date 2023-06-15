@@ -130,7 +130,6 @@
 		FROM ( SELECT * 
 				FROM transaction 
 				WHERE user_id = #{userId} AND tran_type=#{tranType}) countTable
-		LIMIT #{search.startRowNum}, #{search.pageSize}		
 	</select>
 	
 	
