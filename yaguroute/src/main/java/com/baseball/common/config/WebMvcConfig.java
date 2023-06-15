@@ -34,6 +34,7 @@ import com.baseball.common.interceptor.LogonCheckInterceptor;
 	 "/users/naverLogin?code=4vyS2vLJzYxTHVCq0x&state=",
 	 "/users/naverLogin", "/users/kakaoLogin", 
 	 "/users/kakaoLogin?code=QNkyEFxhPgHWb_ocx-qgKEZZjm64x1fsTkMgP86ztH8Uq82nm5glkV3mmKXRBkA6jYGZ9Ao9dGkAAAGIt2DqaQ",
+	 "/users/kakaoLogin?code=ilwcYt3Tnu_wUL-x7EMFHmrlT9zACzSUpN_tGl4DXGFJgyljRa4JrXUixr855sdk45ykdQo9dBEAAAGIvKK-5g",
 	 "/user/userNickNameCheck","/users/phoneCheck/", "/users/addNaverUser", "/users/addKakaoUser",
 	 "https://sens.apigw.ntruss.com/sms/v2/services/",
 	 "/users/findUserId/","/users/findPassword","/user/userIdCheck/", "/users/userImage", "/user/userIdCheck",

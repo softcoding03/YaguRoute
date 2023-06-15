@@ -507,7 +507,7 @@
                                 <div>
                                     <a href="product.html">
                                         <span class="store-badge hot">hot</span>
-                                        <img src="/images/product/${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
+                                        <img src="${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
                                     </a>
                                     <div class="info">
                                         <span class="name">${bestTran.tranDetailProd.prodName}</span>
