@@ -70,7 +70,7 @@ img.logo{
                     		</ul>
                     </li>
                     <li><a href="/channel/listStreaming"><span class="topbar">실시간 중계</span></a></li>
-                    <li>  <a href="#other"><span class="topbar">선수 조회</span></a>
+                    <li>  <a href="/player/listPlayer"><span class="topbar">선수 조회</span></a>
                         <ul>
                         	 <li><a href="/player/listPlayer"><span class="topbar">선수 리스트</span></a></li>
                             <li><a href="/player/listBestPlayer"><span class="topbar">이 주의 선수</span></a></li>
