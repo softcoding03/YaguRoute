@@ -108,12 +108,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> getNoticeList(String teamCode) throws Exception {
-		return postDao.getNoticeList(teamCode);
-	}
-	@Override
-	public List<Post> getNoticeList2(String teamCode) throws Exception {
-		return postDao.getNoticeList2(teamCode);
+	public List<Post> getNoticeList() throws Exception {
+		return postDao.getNoticeList();
 	}
 	@Override
 	public Emote getEmote(Emote emote) throws Exception {

@@ -57,7 +57,7 @@ public class PostController {
 	int pageUnit;
 	
 	// @Value("${commonProperties.pageSize}") 
-	int pageSize = 10;
+	int pageSize = 5;
 	
 	public PostController(){
 		System.out.println(this.getClass());
@@ -140,11 +140,10 @@ public class PostController {
 			
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
-			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			//사이드바에 noticeList 위함
-			List<Post> noticeList = postService.getNoticeList2(teamCode);
+			List<Post> noticeList = postService.getNoticeList();
 			
 			model.addAttribute("list", list);
 			model.addAttribute("noticeList", noticeList);
@@ -167,7 +166,6 @@ public class PostController {
 			}
 			//모든Team 정보 조회
 			List<Team> allTeam = gameService.getAllTeam();
-			allTeam.remove(0); //All 팀 삭제
 			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("list",bestList);
@@ -176,28 +174,30 @@ public class PostController {
 			model.addAttribute("team", team);
 			return "forward:/post/listPost.jsp";
 	}
-	//공지사항 조회
+	//공지사항 모든 리스트 조회
 	@GetMapping("getNoticeList")
-	public String getNoticeList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {
+	public String getNoticeList(Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ) throws Exception {
 			System.out.println("/post/getNoticeList : GET START");
-			System.out.println("-- 넘어온 데이터 ? "+teamCode);	
 			
-			//공지사항 조회
-			List<Post> noticeList = postService.getNoticeList(teamCode);
+			List<Post> noticeList = postService.getNoticeList();
 			for(Post post:noticeList) {
-				//System.out.println("noticePost ?"+post);
+				System.out.println("noticePost ?"+post);
 			}
-			//모든Team 정보 조회
-			List<Team> allTeam = gameService.getAllTeam();
-			allTeam.remove(0); //All 팀 삭제
-			Team team = gameService.getTeamInfo(teamCode);
 			
 			model.addAttribute("list",noticeList);
-			model.addAttribute("allTeam", allTeam);
-			model.addAttribute("teamCode", teamCode);
-			model.addAttribute("team", team);
-			return "forward:/post/listPost.jsp";
+			return "forward:/post/listNoticePost.jsp";
 	}
+	/*
+	 * //공지사항 조회
+	 * 
+	 * @GetMapping("getNotice") public String getNotice(Model
+	 * model,@RequestParam(value="postNo", required = false) int postNo) throws
+	 * Exception { System.out.println("/post/getNotice : GET START"); Post post =
+	 * postService.getPost(postNo); System.out.println("결과 noticePost ?  "+post);
+	 * model.addAttribute("post",post); return "forward:/post/getPost.jsp"; }
+	 */
+	
+	
 	//본인작성게시물 조회
 	@GetMapping("getMyPostList")
 	public String getMyPostList(Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search,HttpSession session) throws Exception {
@@ -222,21 +222,13 @@ public class PostController {
 				System.out.println(post);
 			}
 			
-			//모든Team 정보 조회
-			List<Team> allTeam = gameService.getAllTeam();
-			allTeam.remove(0); //All 팀 삭제
-			Team team = gameService.getTeamInfo(teamCode);
-			
 			Integer totalCount = ((Integer)map.get("totalCount")).intValue();
 			Page resultPage = new Page(search.getCurrentPage(),totalCount,pageUnit, pageSize);
 			System.out.println("총 레코드 수? "+totalCount);
 			
 			model.addAttribute("list", list);
 			model.addAttribute("resultPage", resultPage);
-			model.addAttribute("allTeam", allTeam);
-			model.addAttribute("teamCode", teamCode);
-			model.addAttribute("team", team);
-			return "forward:/post/listPost.jsp";
+			return "forward:/post/listMyPost.jsp";
 	}
 	
 	@GetMapping("addPost")

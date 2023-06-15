@@ -1,94 +1,114 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-	 <meta charset="UTF-8">
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <style>
-		.col-md-4{
-		margin-top: 50px;
-			transform: scale(1.2);
-		}
-		h1, h4{
-		color: white;
-		}
-		.text-overlay {
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  
-		  font-size: 18px;
-		  margin-left:300px;
-		  /* 기타 스타일 속성 설정 */
-		}
-    
-    </style>
-    <script type="text/javascript">
-	  	$(function() {
-			$(".getSeats").on("click" , function() {
-				var gameCode = $(this).closest(".container").find("input[name='gameCode']").val();
-				self.location = "/ticket/getSeats?gameCode="+gameCode;
-			});
-		});
-		
-    </script>
+<meta charset="UTF-8">
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<style>
+.col-md-4 {
+	margin-top: 50px;
+	transform: scale(1.2);
+}
+
+h1, h4 {
+	color: white;
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+	/* 기타 스타일 속성 설정 */
+}
+
+button[type="button"]:hover {
+	background-color: #99BEFF;
+}
+
+button[type="button"] {
+	width: 30%;
+	height: 45px;
+	background-color: #ffffff;
+	color: #000000;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 15px;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+		$(".getSeats").on(
+				"click",
+				function() {
+					var gameCode = $(this).closest(".container").find(
+							"input[name='gameCode']").val();
+					self.location = "/ticket/getSeats?gameCode=" + gameCode;
+				});
+	});
+</script>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1DH7W8BRC"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
 
-  gtag('config', 'G-L1DH7W8BRC');
+	gtag('config', 'G-L1DH7W8BRC');
 </script>
 
 <body>
-    <!--PLAYER SINGLE WRAP BEGIN-->
-    <section class="player-single-wrap">
-        <div class="container">
-            <div class="row">
-	             <div class="col-md-12">
-	             <img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
-	             <div class="text-overlay">
-	             	<h1>${game.homeTeam.teamNickName} vs ${game.awayTeam.teamNickName}</h1>
-	             	<h4>${game.gameDate} / ${game.gameTime}</h5>
-	             </div>
-	             </div> 
-                <div class="col-md-7">
-						<div class="player-photo">
-						    <img src="${game.homeTeam.stadiumImageFile}" width="600" height="600" alt="player">
-						</div>
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
-                    <div class="player-info">
-                    		<div class="captain-bage">경기 장소</div>
-                        <p>${game.homeTeam.stadiumName}	</p>
-                        <div class="captain-bage">남은 좌석</div>
-                        <p>${salesTicket} / 60</p>
-                    </div>
-                   	 <button type="button" class="getSeats">경기 예매</button>
-							<input type="hidden" name="gameCode" value="${game.gameCode}"/>
-                </div>
-                <div class="col-md-12">
-                    <!-- <p>경기 예매 규정 안내글 ~sdafasdadfasdffasdafsdasdfasdfsfadfdaaaaaasddddddddddddddddddddddddddd~~~</p> -->
-                </div>
-            </div>
-        </div>
-    </section>
+	<!--PLAYER SINGLE WRAP BEGIN-->
+	<section class="player-single-wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
+					<div class="text-overlay">
+						<h1>${game.homeTeam.teamNickName}vs ${game.awayTeam.teamNickName}</h1>
+						<h4>${game.gameDate}
+							/ ${game.gameTime}
+							</h5>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="player-photo">
+						<img src="${game.homeTeam.stadiumImageFile}" width="600" height="600" alt="player">
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<div class="player-info">
+						<div class="captain-bage">경기 장소</div>
+						<p>${game.homeTeam.stadiumName}</p>
+						<div class="captain-bage">남은 좌석</div>
+						<p>${salesTicket}/ 60</p>
+					</div>
+					<button type="button" class="getSeats">경기 예매</button>
+					<input type="hidden" name="gameCode" value="${game.gameCode}" />
+				</div>
+				<div class="col-md-12">
+					<!-- <p>경기 예매 규정 안내글 ~sdafasdadfasdffasdafsdasdfasdfsfadfdaaaaaasddddddddddddddddddddddddddd~~~</p> -->
+				</div>
+			</div>
+		</div>
+	</section>
 
-    <!--PLAYER SINGLE WRAP END-->
-      
+	<!--PLAYER SINGLE WRAP END-->
+
 
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

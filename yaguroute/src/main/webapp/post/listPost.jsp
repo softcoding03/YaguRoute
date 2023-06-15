@@ -1,16 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
    <style type="text/css">
+   	div, a{
+   		font-family:"Gwangyang" !important;
+   	}
     	.background {
 		  display: flex;
 		  justify-content: center;
@@ -58,7 +65,7 @@
 	    display: flex;
 	    align-items: center;
 	  }
-		//따라다니는 퀵메뉴
+		/* 따라다니는 퀵메뉴 */
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
 		a {text-decoration:none;}
 		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
@@ -80,8 +87,12 @@
 	  .row-offcanvas {
 	    background-color: rgba(217, 217, 217, 0.8); /* 흰색 배경과 투명도 조절 */
 	  }
-	  
-	  
+	  i.fi-sr-heart {
+	  		color:#ff0000;
+	  }
+	  .fa-2x,div.comment-quantity{
+	  		font-size:15px !important;
+	  }
 	 </style>
     
     <script type="text/javascript">
@@ -152,7 +163,11 @@
 			   self.location = "/post/getBestList?teamCode="+teamCode;
 		   });
 		   $("a.getNoticeList").on('click',function(){
-			   self.location = "/post/getNoticeList?teamCode="+teamCode;
+			   self.location = "/post/getNoticeList";
+		   });
+		   $("a.getNotice").on('click',function(){
+			   var postNo = $(this).siblings("input.notice").val();
+			   self.location = "/post/getPost?postNo="+postNo;
 		   });
     })
     
@@ -177,7 +192,6 @@
 <body>
 <a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
-
 
 
 <section class="image-header" style="min-height: 0px;height: 0px;">
@@ -220,20 +234,23 @@
     <div class="sidebar-menu-wrap">
         <h6>Categories</h6>
         <ul class="categories-list">
+        <c:if test="${user.teamCode eq teamCode}">
             <li>
-                <a href="javascript:;" class="addPostView"><span class="count 1">1</span>게시물 작성하기</a>
+                <a href="javascript:;" class="addPostView"><span class="count 1">-</span>게시물 작성하기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getPostList"><span class="count 2">2</span>전체 게시글 보기</a>
+                <a href="javascript:;" class="getMyPostList"><span class="count 2">-</span>내가 작성한 게시글 보기</a>
+            </li>
+        </c:if>    
+            <li>
+                <a href="javascript:;" class="getPostList"><span class="count 3">-</span>전체 게시글 보기</a>
+            </li>
+            
+            <li>
+                <a href="javascript:;" class="getBestList"><span class="count 4">-</span>Best5 게시글 보기</a>
             </li>
             <li>
-                <a href="javascript:;" class="getMyPostList"><span class="count 3">3</span>내가 작성한 게시글 보기</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="getBestList"><span class="count 4">4</span>Best5 게시글 보기</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="getNoticeList"><span class="count 5">5</span>공지사항 보기</a>
+                <a href="javascript:;" class="getNoticeList"><span class="count 5">-</span>공지사항 보기</a>
             </li>
         </ul>
     </div>
@@ -264,7 +281,8 @@
           <c:forEach var="notice" items="${noticeList}">
 	          <div class="item">
 	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
-	              <a href="javascript:;" class="getNotice">${notice.postTitle }</a>
+	              <input type="hidden" class="notice" value="${notice.postNo}">
+	              <a href="javascript:;" class="getNotice">${notice.postTitle}</a>
 	          </div>
 			 </c:forEach>
       </div>
@@ -285,6 +303,21 @@
     <p class="hidden-md hidden-lg">
         <button type="button" class="btn sidebar-btn" data-toggle="offcanvas" title="Toggle sidebar">sidebar</button>
     </p>
+    <c:if test="${empty list && teamCode eq user.teamCode}">
+    		<div class="item">
+    			<div class="info" style="text-align:center;">
+    				<h4>"현재 업로드 된 게시물이 없습니다."</h4><br>
+    				<h3>'${user.userNickName}'님께서 첫 게시물을 작성해보세요 !</h3>
+    			</div>
+    		</div>
+    </c:if>
+    <c:if test="${empty list && teamCode ne user.teamCode}">
+    		<div class="item">
+    			<div class="info" style="text-align:center;">
+    				<h4>"현재 업로드 된 게시물이 없습니다."</h4><br>
+    			</div>
+    		</div>
+    </c:if>
     <c:forEach var="post" items="${list}">
 	    <div class="item">
 	        <div class="info">
@@ -310,14 +343,16 @@
 		         </div>
 		      	</div>
 	            <div class="wrap">
-	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	            <fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 DD일 hh시 mm분" var="DateTime"/>
+	                <a href="news-single.html">${DateTime}</a> by <a href="news-single.html">${post.user.userNickName}</a>
 	        		</div>
 	    			<p>${post.postContents}</p>
 	            <input type="hidden" name="postNo" value="${post.postNo}">
 	            <a href="javascript:;"  class="getPost">Continue Reading</a>
 	            <div class="comment-quantity">${post.postViews} Views</div>
-	            <div class="comment-quantity">${post.postLikes} Likes &nbsp;&nbsp;</div>
-	            <div class="comment-quantity">${post.postComments} Comments &nbsp;&nbsp;</div>
+	            <div class="comment-quantity">${post.postLikes} <i class="fi fi-sr-heart fa-2x"></i> &nbsp;&nbsp;</div>
+	            <div class="comment-quantity">${post.postComments} <i class="fi fi-rr-comment-alt"></i> &nbsp;&nbsp;</div>
 	        </div>
 	    </div>
     </c:forEach>

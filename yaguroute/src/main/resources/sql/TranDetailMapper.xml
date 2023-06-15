@@ -147,16 +147,13 @@
 
 	<select id="getBestTranList" parameterType="search" resultMap="tranDetailSelectMap">
 	
-		SELECT td.*
+		SELECT td.*,
+		       SUM(td.tran_quantity) AS total_quantity
 		FROM tranDetail td
-		WHERE td.prod_no NOT IN (
-		    SELECT prod_no
-		    FROM tranDetail
-		    GROUP BY prod_no
-		    HAVING COUNT(*) > 1
-		)
-		ORDER BY td.tran_quantity DESC
+		GROUP BY td.prod_no
+		ORDER BY total_quantity DESC
 		LIMIT 8;
+		
 	</select>
 
 

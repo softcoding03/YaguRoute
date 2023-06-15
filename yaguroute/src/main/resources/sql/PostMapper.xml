@@ -94,7 +94,7 @@
 		LEFT JOIN
     		 comment c ON c.post_no = p.post_no    
 		WHERE
-		    p.team_code IN (#{teamCode},'ALL') AND p.user_id = #{userId}
+		    p.user_id = #{userId}
 		    <if test="search.searchCondition != null">
 		    	<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
 		    		AND user_id LIKE '%${search.searchKeyword}%'
@@ -138,7 +138,7 @@
 			select last_insert_id()
 	</select>
 	
-	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 4개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, e.post_likes, c.post_comments
 		FROM post p
@@ -160,11 +160,11 @@
 		WHERE p.post_type NOT IN ('4')
 		</if>
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 5
+		LIMIT 4
 	</select>
 	
 	<!-- 공지사항 list -->
-	<select id="getNoticeList" parameterType="string" resultMap="postSelectMap">
+	<select id="getNoticeList" resultMap="postSelectMap">
 		SELECT p.*,
 		    (SELECT COUNT(e.like) FROM emote e WHERE e.post_no = p.post_no AND e.like = 1) AS post_likes,
 		    (SELECT COUNT(e.dislike) FROM emote e WHERE e.post_no = p.post_no AND e.dislike = 1) AS post_dislikes,
@@ -172,22 +172,10 @@
 		FROM post p
 		LEFT JOIN
     		 comment c ON c.post_no = p.post_no
-    	<if test="teamCode == 'all'">
     	WHERE post_type = '4'	 
-    	</if>
-    	<if test="teamCode != 'all'">
-		WHERE p.team_Code = #{value} AND post_type = '4'
-		</if>
 		GROUP BY
     		 p.post_no
 		ORDER by post_no DESC
-	</select>
-	<!-- 공지사항 제목만 출력 위한 2개 list -->
-	<select id="getNoticeList2" parameterType="string" resultMap="postSelectMap">
-		SELECT post_title, post_date
-		FROM post
-		WHERE team_Code = #{value} AND post_type = '4'
-		LIMIT 2
 	</select>
 	
 	<!--게시물 작성-->

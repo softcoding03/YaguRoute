@@ -4,48 +4,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <style>
-		button[type="button"]:hover {
-			background-color: #99BEFF;
-		}
-		
-		button[type="button"] {
-			width: 100%;
-			height: 35px;
-			background-color: #ffffff;
-			color: #000000;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			cursor: pointer;
-			font-size: 15px;
-			text-align: center;
-		}
-    </style>
+button[type="button"]:hover {
+	background-color: #99BEFF;
+}
+
+button[type="button"] {
+	width: 100%;
+	height: 35px;
+	background-color: #ffffff;
+	color: #000000;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 15px;
+	text-align: center;
+}
+
+h5 {
+	font-family: "Gwangyang";
+}
+
+button[disabled] {
+	opacity: 0.5; /* 비활성화 효과를 주기 위한 투명도 설정 */
+	cursor: not-allowed; /* 마우스 커서 모양 변경 */
+	pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+}
+
+</style>
 	<script type="text/javascript">
-	 
+
 	$(function() {
+		//유효성 검사 일반 댓글
+		$('textarea.body').keyup(function(){
+			var value = $(this).val();
+			console.log(value);
+			var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+			var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+			
+			if(value.length < 3){
+				$("#commentBody").html("댓글은 최소 3자 이상 입력해야합니다.");
+				$("#commentBody").attr("color", "#dc3545");
+				$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+			} else if (value.length > 100){
+				$("#commentBody").html("댓글은 최대 100자까지 입력 가능합니다.");
+				$("#commentBody").attr("color", "#dc3545");
+				$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
+			} else {
+				$("#commentBody").html("작성 가능");
+				$("#commentBody").attr("color", "#4caf50");
+				$('button:contains("작성하기")').prop('disabled', false); // 버튼 활성화	
+			}
+		}); //검사 끝
+		
 		
 		//대댓글작성창 출력(reply 클릭)
 		$(document).on("click", ".reply", function() {
+			//대댓글 출력된거 유효성 검사
+			$(document).on("keyup", "textarea.add", function() {
+			    var value = $(this).val();
+			    console.log(value);
+			    var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+			    var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+
+			    if (value.length < 3) {
+			      $("#add").html("댓글은 최소 3자 이상 입력해야합니다.");
+			      $("#add").attr("color", "#dc3545");
+			      $('button.addComment').prop('disabled', true); // 버튼 비활성화
+			    } else if (value.length > 100) {
+			      $("#add").html("댓글은 최대 100자까지 입력 가능합니다.");
+			      $("#add").attr("color", "#dc3545");
+			      $('button.addComment').prop('disabled', true); // 버튼 비활성화
+			    } else {
+			      $("#add").html("작성 가능");
+			      $("#add").attr("color", "#4caf50");
+			      $('button.addComment').prop('disabled', false); // 버튼 활성화	
+			    }
+			});//검사 끝
+			
 			var insertPosition = $(this).closest('.comment-item');
 			var commentNo = insertPosition.find("input[name='commentNo']").val();
 			var secondComment =   "<div class=\"comment-item answer addSecond\">"
 									  	 +	"<form>"								
 							          +   	   "<div class=\"item\">"
-							          +    	          "<span>댓글을 입력해주세요. (100자 제한)</span>"
-							          +    	          "<textarea name=\"commentContents\"></textarea>"
+							          +    	          "<span id=\"add\">댓글을 입력해주세요. (최소 3자 이상 100자 미만)</span>"
+							          +    	          "<textarea name=\"commentContents\" class=\"add\"></textarea>"
 							          +    	 "</div>"
 								       +  	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
 								       +  	"<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
 								   	 + "</form>"
-							          + "<button type=\"button\" class=\"addComment\">댓글 작성</button>"
+							          + "<button disabled type=\"button\" class=\"addComment\">작성하기<i class=\"fi fi-ss-pencil\"></i></button>"
 							   	 	 +"</div>";
 			if(insertPosition.find(".comment-item.answer.addSecond").length === 0){ //작성창 출력된 상태 x 
 				insertPosition.append(secondComment);
@@ -57,6 +110,28 @@
 var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 		//수정창 출력(수정 클릭)
 		$(document).on("click", ".quote.update", function() {
+			//수정창 출력된거 유효성 검사
+			$(document).on("keyup", "textarea.update", function() {
+			    var value = $(this).val();
+			    console.log(value);
+			    var regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s]+$/;
+			    var specialChars = /[~`!@#$%^&*()-_=+|<>?]/g;
+
+			    if (value.length < 3) {
+			      $("#update").html("댓글은 최소 3자 이상 입력해야합니다.");
+			      $("#update").attr("color", "#dc3545");
+			      $('button.updateComment').prop('disabled', true); // 버튼 비활성화
+			    } else if (value.length > 100) {
+			      $("#update").html("댓글은 최대 100자까지 입력 가능합니다.");
+			      $("#update").attr("color", "#dc3545");
+			      $('button.updateComment').prop('disabled', true); // 버튼 비활성화
+			    } else {
+			      $("#update").html("작성 가능");
+			      $("#update").attr("color", "#4caf50");
+			      $('button.updateComment').prop('disabled', false); // 버튼 활성화	
+			    }
+			});//검사 끝
+			
 			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
 			var postNo = $("#postNo").val();
 			var replacePosition = $(this).closest(".info");
@@ -64,10 +139,11 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 			var commentContents = $(this).closest(".info").find(".contents").text();
 			var commentBody = "<form>"
 						         +   	"<div class=\"item\">"
-						         +  	     "<textarea name=\"commentContents\">"+commentContents+"</textarea>"
+						         +				"<span id=\"update\">댓글을 입력해주세요. (최소 3자 이상 100자 미만)</span>"
+						         +  	     "<textarea name=\"commentContents\" class=\"update\">"+commentContents+"</textarea>"
 							      + 	   "</div>"
 									+		"<div class=\"col-md-6\" style=\"text-align:right;\">"
-						         +   		"<button type=\"button\" class=\"updateComment\">수정 하기</button>"
+						         +   		"<button disabled type=\"button\" class=\"updateComment\">수정 하기</button>"
 						         +		"</div>"
 						         +		"<div class=\"col-md-6\" style=\"text-align:right;\">"
 						         +   		"<button type=\"button\" class=\"cancelUpdate\">취소</button>"
@@ -193,9 +269,6 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 				})
 	 		}
 		});
-		
-		
-		
 	});
 	
 	</script>
@@ -203,18 +276,22 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 </head>
 
 <body>
+<hr>
        	<div class="comments-wrap">
-           <h4>댓 글</h4>
+           <h5><i class="fi fi-rr-comment-alt"></i> 댓글</h5>
            <!-- 1번레이어 for문 시작 -->
            <c:forEach var="list1" items="${commentList1}">
 				<div class="comment-item">
 						<div class="avatar"><img src="${list1.user.userImage}" alt="author-avatar"></div>
 						<div class="info">
 							<div class="date"><a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
-								<c:if test="${list1.changed != 2 && user.userId eq list1.user.userId }">
-									<a href="javascript:;" class="quote update">수정</a><br>
-									<a href="javascript:;" class="quote delete">삭제</a>
-								</c:if>
+								<c:if test="${list1.changed !=2 && user.userId eq list1.user.userId && user.role ne 'admin'}">
+	                        <a href="javascript:;" class="quote update">수정</a><br>
+	                        <a href="javascript:;" class="quote delete">삭제</a>
+                        </c:if>
+                        <c:if test="${user.role eq 'admin'}">
+                        	<a href="javascript:;" class="quote delete">삭제</a>
+                        </c:if>
 								<c:if test="${list1.changed == 1}"><a style="color:#b4b4b4;">(수정됨)</a>	</c:if>
 							</div>
 							<c:if test="${list1.changed !=2}">
@@ -239,6 +316,9 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 					                        <a href="javascript:;" class="quote update">수정</a><br>
 					                        <a href="javascript:;" class="quote delete">삭제</a>
 				                        </c:if>
+				                        <c:if test="${user.role eq 'admin' && user.userId ne list2.user.userId}">
+				                        	<a href="javascript:;" class="quote delete">삭제</a>
+				                        </c:if>
 				                        <c:if test="${list2.changed == 1}"><a style="color:#b4b4b4;">(수정됨)</a></c:if>
 				                    </div>
 				                    <c:if test="${list2.changed ==2}">
@@ -254,15 +334,15 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 		           	</c:forEach><!-- 2번레이어 for문 끝 -->	
 	           </div><!-- 하나의 comment-item 끝 -->
            </c:forEach><!-- 1번레이어 for문 끝 -->
-				           
+				<hr>
            <div class="leave-comment-wrap">
-               <h4>댓글 작성</h4>	
+               <h5><i class="fi fi-rr-pencil"></i>댓글 작성 </h5>	
                <form>								
                    <div class="row">
                        <div class="col-md-12">
                            <div class="item">
                                <label>
-                                   <span>댓글을 입력해주세요. (100자 제한)</span>
+                                   <span id="commentBody">댓글을 입력해주세요. (최소 3자 이상 100자 미만)</span>
                                    <textarea name="commentContents" class="body"></textarea>
                                </label>
                            </div>
@@ -271,7 +351,7 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
                    </div>
                    <input type="hidden" name="postNo" id="postNo" value="${post.postNo}">
                </form>
-               <button type="button" class="addComment">댓글 작성</button>
+               <button disabled type="button" class="addComment">작성하기<i class="fi fi-ss-pencil"></i></button>
            </div>
        </div>
 
