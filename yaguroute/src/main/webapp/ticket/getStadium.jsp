@@ -16,11 +16,13 @@
 	margin-top: 50px;
 	transform: scale(1.2);
 }
-
+p,.captain-bage {
+	font-family: "Gwangyang" !important;
+	font-size: 17px !important;
+}
 h1, h4 {
 	color: white;
 }
-
 .text-overlay {
 	position: absolute;
 	top: 50%;
@@ -72,13 +74,12 @@ button[type="button"] {
 
 <body>
 	<!--PLAYER SINGLE WRAP BEGIN-->
-	<section class="player-single-wrap">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
 					<div class="text-overlay">
-						<h1>${game.homeTeam.teamNickName}vs ${game.awayTeam.teamNickName}</h1>
+						<h1>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h1>
 						<h4>${game.gameDate}
 							/ ${game.gameTime}
 							</h5>
@@ -105,7 +106,6 @@ button[type="button"] {
 				</div>
 			</div>
 		</div>
-	</section>
 
 	<!--PLAYER SINGLE WRAP END-->
 

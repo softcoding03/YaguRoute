@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,16 +16,16 @@
    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-		$(document).ready(function() {
-			var refundableDate = "${transaction.refundableDate}";
-			var tranDate ="${transaction.tranDate}";
-			var formattedDateTime1 = refundableDate.replace("T", " ");
-			var formattedDateTime2 = tranDate.replace("T", " ");
-			$("div.refundableDate").text(formattedDateTime1+" 이전까지");
-			$("div.tranDate").text(formattedDateTime2);
-		});
 		
 		$(function(){
+			var refundPrice = $(".refundPrice").text();
+			var purchasePrice = $(".purchasePrice").text();
+			console.log(refundPrice+"&"+purchasePrice);
+			refundPrice = Number(refundPrice).toLocaleString();
+			purchasePrice = Number(purchasePrice).toLocaleString();
+			$(".refundPrice").text(refundPrice+"원");
+			$(".purchasePrice").text(purchasePrice+"원");
+			
 		 	//환불
 		 	$('.refundTransaction').on("click" , function() {
 		 		var refundableDate = new Date("${transaction.refundableDate}");
@@ -98,7 +99,9 @@
 			margin: 50px;
 			height: 100px;
 		}
-
+		div.player-info.h3 {
+			font-family:"Gwangyang" !important;
+		}
 		
 </style>
 </head>
@@ -142,7 +145,7 @@
 							<hr>
 							<div class="row">
 						  		<div class="col-xs-4 col-md-4"><strong>경기 일시</strong></div>
-								<div class="col-xs-8 col-md-8" id="tranDate">${ticketList[0].game.gameDate} &nbsp;&nbsp;${ticketList[0].game.gameTime}</div>
+								<div class="col-xs-8 col-md-8" id="tranDate">${ticketList[0].game.gameDate}</div>
 							</div>
 							<hr/>
 							<div class="row">
@@ -158,13 +161,14 @@
 									<th>티켓번호</th>
 									<th>좌석번호</th>
 									<th>가격</th>
+									
 								</tr>
 				  				<c:forEach var="ticket" items="${ticketList}" varStatus="status">
 				  				<tr>
 				  					<td align="left">${status.index + 1}</td>
 				  					<td align="center">${ticket.ticketNo}</td>
 					            <td align="left">${ticket.seatCode}</td>
-					            <td align="left">${ticket.seatPrice}</td>
+					            <td align="left" >${ticket.seatPrice}</td>
 				  				</tr>
 				  				</c:forEach>
 							</table>
@@ -172,8 +176,10 @@
 						<c:if test="${transaction.refundStatus eq 0}">
 							<h3>결제 내역</h3>
 							<div class="row">
+								<fmt:parseDate value="${transaction.refundableDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					 		 	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
 						  		<div class="col-xs-4 col-md-2"><strong>결제 시각</strong></div>
-								<div class="col-xs-8 col-md-4 tranDate"></div>
+								<div class="col-xs-8 col-md-4 tranDate">${DateTime}</div>
 							</div>
 							<hr/>
 							<div class="row">
@@ -183,7 +189,7 @@
 							<hr/>
 							<div class="row">
 						  		<div class="col-xs-4 col-md-2"><strong>결제 금액</strong></div>
-								<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
+								<div class="col-xs-8 col-md-4 purchasePrice">${transaction.tranTotalPrice}</div>
 							</div>
 							<hr/>
 							<div class="row">
@@ -196,8 +202,10 @@
 						<c:if test="${transaction.refundStatus eq 1}">
 							<h3>취소 내역</h3>
 							<div class="row">
+								<fmt:parseDate value="${transaction.tranDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					 		 	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
 						  		<div class="col-xs-4 col-md-2"><strong>결제 취소 시각</strong></div>
-								<div class="col-xs-8 col-md-4 tranDate"></div>
+								<div class="col-xs-8 col-md-4 tranDate">${DateTime}</div>
 							</div>
 							<hr>
 							<div class="row">
@@ -207,7 +215,7 @@
 							<hr>
 							<div class="row">
 						  		<div class="col-xs-4 col-md-2"><strong>취소 금액</strong></div>
-								<div class="col-xs-8 col-md-4">${transaction.tranTotalPrice}</div>
+								<div class="col-xs-8 col-md-4 refundPrice">${transaction.tranTotalPrice}</div>
 							</div>
 						</c:if>      
 					</div>

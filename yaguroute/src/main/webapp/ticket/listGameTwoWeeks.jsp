@@ -101,6 +101,7 @@ button[type="button"] {
 	background-color: rgba(203, 203, 203, 0.5); /* 흰색 배경과 투명도 조절 */
 	border-radius: 20px;
 }
+
 </style>
 <script type="text/javascript">
     
@@ -113,7 +114,7 @@ button[type="button"] {
 			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
 			var url = "/ticket/getStadium?gameCode="+gameCode;
 			var width = 1200;  // 창의 너비
-			var height = 700;  // 창의 높이
+			var height = 800;  // 창의 높이
 			var left = (window.screen.width - width) / 2;  // 창의 가로 위치
 			var top = (window.screen.height - height) / 2;  // 창의 세로 위치
 			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;

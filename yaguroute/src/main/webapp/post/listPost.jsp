@@ -280,7 +280,9 @@
           <h6>Notice</h6>
           <c:forEach var="notice" items="${noticeList}">
 	          <div class="item">
-	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
+	          	  <fmt:parseDate value="${notice.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					  <fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
+	              <div class="date"><span>${DateTime}</span> in <span>Notice</span></div>
 	              <input type="hidden" class="notice" value="${notice.postNo}">
 	              <a href="javascript:;" class="getNotice">${notice.postTitle}</a>
 	          </div>
@@ -344,7 +346,7 @@
 		      	</div>
 	            <div class="wrap">
 	            <fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 DD일 hh시 mm분" var="DateTime"/>
+					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
 	                <a href="news-single.html">${DateTime}</a> by <a href="news-single.html">${post.user.userNickName}</a>
 	        		</div>
 	    			<p>${post.postContents}</p>
