@@ -460,11 +460,11 @@
                             
                            	<div class="cont">
 							  <!-- 네이버 로그인 버튼 -->
-							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://192.168.0.116:8080/users/naverLogin" class="link-login">
+							  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=SLklwWhn8OnVgyPdEeSU&redirect_uri=http://http://www.yaguroute.online/users/naverLogin" class="link-login">
 							    <img src="/images/user/naverTitle.png" alt="네이버" /> 네이버로 로그인
 							  </a>
 							  <!-- 카카오 로그인 버튼 -->
-							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://192.168.0.116:8080/users/kakaoLogin" class="kakao-login">
+							  <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=de7a7191e54450e6a2c21681d9443c93&redirect_uri=http://http://www.yaguroute.online/users/kakaoLogin" class="kakao-login">
 							    <svg viewBox="0 0 32 32" focusable="false" role="presentation" class="withIcon_icon__2KxnX SNSButtonList_kakaoIcon__1s6gw" aria-hidden="true">
 							      <path d="M16 4.64c-6.96 0-12.64 4.48-12.64 10.08 0 3.52 2.32 6.64 5.76 8.48l-.96 4.96 5.44-3.6 2.4.16c6.96 0 12.64-4.48 12.64-10.08S22.96 4.56 16 4.64z"></path>
 							    </svg>
@@ -480,10 +480,10 @@
                 </div>
 	                <div class="corp_area">
 	                <ul class="list_corp">
-		                <li class="corp_item"><a target="_blank" href="https://www.navercorp.com/naver/proposalGuide">제휴제안 </a></li>
-		                <li class="corp_item"><a target="_blank" href="https://www.naver.com/policy/service.html">이용약관</a></li>
-		                <li class="corp_item"><a target="_blank" href="https://www.naver.com/policy/privacy.html">개인정보처리방침 </a></li>
-		                <li class="corp_item"><a target="_blank" href="https://policy.naver.com/policy/service_group.html">네이버 정책 </a></li>
+		                <li class="corp_item"><a target="_blank" href="/user/PartnershipProposal.html">제휴제안</a></li>
+		                <li class="corp_item"><a target="_blank" href="/user/TermsofUse.html">이용약관</a></li>
+		                <li class="corp_item"><a target="_blank" href="/user/private.html">개인정보처리방침 </a></li>
+		                <li class="corp_item"><a target="_blank" href="/user/manage.html">야구Route 정책 </a></li>
 		                <li class="corp_item"><a target="_blank" href="/images/user/rockseongface.jpg"><strong>야구Route CEO 소개</strong></a></li>
 	                </ul>
 	                </div>

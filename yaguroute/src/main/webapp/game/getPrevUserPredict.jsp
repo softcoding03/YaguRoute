@@ -19,7 +19,7 @@
 	}
 	.imgSize{
 		width:130px !important;
-		height:110px !important;
+		height:130px !important;
 	}
 	.middle{
 		vertical-align: middle !important;
@@ -77,6 +77,7 @@
 		}
 </style>
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section class="image-header" style="min-height: 150px;height: 150px;">
 	<div class="row">
@@ -171,8 +172,8 @@
 <div class="oneGame">
         <div class="container">
             <div class="row">
-            <hr>
-            	<div class="col-md-12 transparency" style="margin-top: 20px;">
+            	<div class="col-md-12 transparency">
+            		<hr>
 					<div class="col-md-3"></div>
 					<div class="col-md-2"><h6>승리팀 배당 <br><fmt:formatNumber value="${game.winningTeamAllocation}" pattern="#,##0.0" />배</h6></div>
 					<div class="col-md-2" style="padding-right: 50px;">
@@ -211,7 +212,7 @@
 	                                </div>
                             </div> 
                             </a>
-                              <div class="border margin-left"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.homeTeam.teamCode) ? 'flex' : 'none'};"></i></div>
+                              <div class="border margin-left"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
                         </div>
                         <div class="col-md-2" style="text-align: center;">
                             <c:if test="${game.gameStatusCode eq 3}">
@@ -234,7 +235,7 @@
                         </div>
                         
                         <div class="team right col-md-5">
-                        	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.awayTeam.teamCode) ? 'flex' : 'none'};"></i></div>
+                        	<div class="border margin-right"><i class="fa fa-check fa-3x" aria-hidden="true" style="display: ${(predSize ne 0 and pred.predWinningTeamCode eq game.homeTeam.teamCode) ? 'flex' : 'none'};"></i></div>
                             <a class="a-css" style="padding-left: 50px;">
 	                            <div class="text">
 	                                ${game.homeTeam.teamNickName}

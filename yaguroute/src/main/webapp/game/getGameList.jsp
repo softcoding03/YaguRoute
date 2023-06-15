@@ -138,6 +138,18 @@
 		  object-fit: cover;
 		}
     </style>
+    <script type="text/javascript">
+    	function goWantDat(dayId){
+    		var plus = 500;
+    		
+    		var container = $('html,body');
+    		var ele = document.getElementById(dayId);
+    		if(ele){
+    			var scrollTo = ele.offsetTop+plus;
+    			container.animate({scrollTop:scrollTo},500);
+    		}
+    	}
+    </script>
 </head>
 
 
@@ -253,7 +265,7 @@
                                            				<td style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};">${dateTmp+1}</td>
                                            			</c:if>
                                            			<c:if test="${bool ne teamCodeIndex}">
-                                           				<td class="activeCal" style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};"><a href="#${currentDateList[dateTmp]}">${dateTmp+1}</a></td>
+                                           				<td class="activeCal" style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};"><a role="button" onclick="goWantDat('${currentDateList[dateTmp]}');">${dateTmp+1}</a></td>
                                            			</c:if>
                                            			<c:set var="gameIndex" value="${gameIndex+teamCodeIndex}"/>
                                            		</c:if>

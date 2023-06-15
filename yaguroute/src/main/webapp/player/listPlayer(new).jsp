@@ -338,7 +338,7 @@
 <div class="coach_area">
 </div>
 </div>
-<div class="tab_list large" style="font-family: 'Gwangyang';">
+<div class="tab_list large" style="font-family: 'Gwangyang'; pointer-events: none;">
     <ul class="nav nav-tabs" role="tablist">
             <c:forEach var="team" items="${allTeam}">
                 <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">

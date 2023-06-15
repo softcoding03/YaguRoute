@@ -120,6 +120,7 @@ function preventEvent(){
 } */
 </script>
 <body>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section id="preventAll">
 <section class="image-header" style="min-height: 150px;height: 150px;">

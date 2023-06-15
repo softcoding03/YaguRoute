@@ -43,10 +43,10 @@
     <script type="text/javascript">
     	
 		$(window).on('load',function() {
-			$('.loading').fadeOut();
+			$('.loading').fadeOut("fast");
 		});
 		$(window).on("beforeunload", function() {
-			$(".loading").fadeIn();
+			$(".loading").fadeIn("fast");
 		});
 		$(window).on("unload", function() {
 		    $(".loading").hide();
