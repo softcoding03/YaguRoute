@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +65,7 @@
 	    display: flex;
 	    align-items: center;
 	  }
-		//따라다니는 퀵메뉴
+		/* 따라다니는 퀵메뉴 */
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
 		a {text-decoration:none;}
 		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
@@ -166,7 +167,7 @@
 		   });
 		   $("a.getNotice").on('click',function(){
 			   var postNo = $(this).siblings("input.notice").val();
-			   self.location = "/post/getNotice?postNo="+postNo;
+			   self.location = "/post/getPost?postNo="+postNo;
 		   });
     })
     
@@ -342,7 +343,9 @@
 		         </div>
 		      	</div>
 	            <div class="wrap">
-	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	            <fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 DD일 hh시 mm분" var="DateTime"/>
+	                <a href="news-single.html">${DateTime}</a> by <a href="news-single.html">${post.user.userNickName}</a>
 	        		</div>
 	    			<p>${post.postContents}</p>
 	            <input type="hidden" name="postNo" value="${post.postNo}">

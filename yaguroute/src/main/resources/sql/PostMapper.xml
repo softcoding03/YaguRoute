@@ -138,7 +138,7 @@
 			select last_insert_id()
 	</select>
 	
-	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 4개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, e.post_likes, c.post_comments
 		FROM post p
@@ -160,7 +160,7 @@
 		WHERE p.post_type NOT IN ('4')
 		</if>
 		ORDER BY post_likes DESC, post_views DESC
-		LIMIT 5
+		LIMIT 4
 	</select>
 	
 	<!-- 공지사항 list -->

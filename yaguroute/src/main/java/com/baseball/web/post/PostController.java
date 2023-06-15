@@ -187,15 +187,15 @@ public class PostController {
 			model.addAttribute("list",noticeList);
 			return "forward:/post/listNoticePost.jsp";
 	}
-	//공지사항 조회
-	@GetMapping("getNotice")
-	public String getNotice(Model model,@RequestParam(value="postNo", required = false) int postNo) throws Exception {
-			System.out.println("/post/getNotice : GET START");
-			Post post = postService.getPost(postNo);
-			System.out.println("결과 noticePost ?  "+post);
-			model.addAttribute("post",post);
-			return "forward:/post/getPost.jsp";
-	}
+	/*
+	 * //공지사항 조회
+	 * 
+	 * @GetMapping("getNotice") public String getNotice(Model
+	 * model,@RequestParam(value="postNo", required = false) int postNo) throws
+	 * Exception { System.out.println("/post/getNotice : GET START"); Post post =
+	 * postService.getPost(postNo); System.out.println("결과 noticePost ?  "+post);
+	 * model.addAttribute("post",post); return "forward:/post/getPost.jsp"; }
+	 */
 	
 	
 	//본인작성게시물 조회

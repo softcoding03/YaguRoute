@@ -89,11 +89,6 @@ public class MainController {
 				postDateList.add(postDateKorean);
 			}
 			
-		
-			/*
-			 * System.out.println("postDateList ? "+postDateList); // End
-			 */
-			
 			//loading_img session에 추가
 			String[] imgList = {
 					"/images/baseball/loading_img_01.png",
@@ -107,16 +102,12 @@ public class MainController {
 			
 			//BEST 게시물 5개 출력
 			List<Post> bestPostList = postService.getPostBestList("all");
-			/*
-			 * System.out.println("bestPostList ? "+bestPostList); // End
-			 */	
 			
 			//판매인기상품 출력
 			List<TranDetail> bestTranList = tranDetailService.getBestTranList();
 			for(TranDetail bestList : bestTranList) {
 				System.out.println(bestList);
 			}	
-			
 			
 			
 			model.addAttribute("noticeList", noticeList);

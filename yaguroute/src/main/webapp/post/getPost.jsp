@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -423,7 +424,9 @@ var postNo;
           <h6>Notice</h6>
           <c:forEach var="notice" items="${noticeList}">
 	          <div class="item">
-	              <div class="date"><span>${notice.postDate}</span> in <span>Notice</span></div>
+	          	<fmt:parseDate value="${notice.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 DD일 hh시 mm분" var="DateTime"/>
+	              <div class="date"><span>${DateTime}</span> in <span>Notice</span></div>
 	              <a href="javascript:;" class="getNotice">${notice.postTitle }</a>
 	          </div>
 			 </c:forEach>
@@ -463,7 +466,9 @@ var postNo;
 					</c:choose>
 					${post.postTitle}
 				</h3>
-            <div class="comment-quantity">Views: ${post.postViews}&nbsp;&nbsp;&nbsp;&nbsp; 작성일: ${post.postDate}&nbsp;&nbsp;&nbsp;&nbsp; 게시물 번호: ${post.postNo}</div>
+				<fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+				<fmt:formatDate pattern="yyyy년 MM월 DD일 HH시 mm분" value="${parsedDateTime}" var="DateTime"/>
+            <div class="comment-quantity">Views: ${post.postViews}&nbsp;&nbsp;&nbsp;&nbsp; 작성일: ${DateTime}&nbsp;&nbsp;&nbsp;&nbsp; 게시물 번호: ${post.postNo}</div>
         		<hr>
         		<c:if test="${post.user.userId eq user.userId}">
 	        		<div class="comment-quantity">
