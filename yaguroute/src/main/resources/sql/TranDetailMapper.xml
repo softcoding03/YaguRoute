@@ -137,12 +137,12 @@
 		LIMIT #{search.startRowNum}, #{search.pageSize}
 	</select>
 
-	<select id="getDlvyTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	<select id="getDlvyTranList" parameterType="search" resultMap="tranDetailSelectMap">
 	
 		SELECT td.*
 		FROM tranDetail td
 		ORDER BY tran_detail_no
-		
+		LIMIT #{startRowNum}, #{pageSize}		
 	</select>
 
 	<select id="getBestTranList" parameterType="search" resultMap="tranDetailSelectMap">
@@ -170,7 +170,7 @@
 	            </if>
 	        </where>
 	    ) countable
-	    LIMIT #{search.startRowNum}, #{search.pageSize}
+
 	</select>
 	
 

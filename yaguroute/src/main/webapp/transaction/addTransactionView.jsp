@@ -174,7 +174,9 @@ function requestPay(tranTotalPrice) { //아임포트로 전달할 결제정보 �
 				 		    	 console.log($("#impNo").val());
 				 		    	 console.log($("#merchantNo").val());
 				 		    	 console.log($("#payOption").val());
+				 		    	 console.log($("#receiverName").val());
 				 		    	 console.log($("#tranUsePoint").val());
+
 
 				 		    	 if (rsp.paid_amount == payAmount) { 				 		        
 				 		      			 // sendSMS 발송 ajax 시작
@@ -325,9 +327,14 @@ $(function(){
 
 
     <!--CHECKOUT WRAP BEGIN-->
+    
+
+	        <form name="detailForm">    					
 <section class="checkout-wrap">
     <div class="container">
         <div class="row">
+        
+
 			<h4>주문/결제</h4>
                			<div class="col-md-7 customer-info">
                				<div class="col-md-12">
@@ -364,7 +371,7 @@ $(function(){
                             	<h6>배송 정보 입력</h6>
                             	<hr style="border: solid 1px;">
                             </div>
-                            
+                   
                             <div class="col-md-6">
                                 <div class="item">
                                     <label>
@@ -432,7 +439,7 @@ $(function(){
 	                    	</tr>
 	              	  	</table>
 	              	 	
-						<form name="detailForm">
+
 						<!-- controller에 값 넘겨주기위한 hidden 목록 form안에 작성-->
 						<input type="hidden" id="userId" name="userId" value="${user.userId}" /> 
 						<input type="hidden" id="impNo" name="impNo" value="" /> 
@@ -468,8 +475,9 @@ $(function(){
 	                           
 	               </c:forEach>
 	               </div>
-	          </form>
+</div>
 			</div>
+
 			<div class="col-md-12">
 	                <h6>결제 정보</h6>
 	            </div>
@@ -479,6 +487,8 @@ $(function(){
 		                    	<th style="text-align: center;font-size: 14px;">결제 정보</th>
 	                    	</tr>
 	            </table>
+
+ 
 	                <div class="cart-total">
 	                	<div class="delivery-list">
 	               			<label class="item" style="text-align: center;">
@@ -487,18 +497,23 @@ $(function(){
 				            </label>
 				            <label class="item" style="text-align: center;">
 				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</span>
+				            	<input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
+
 				            </label>
 				            <input style="text-align: center;border: 0px;" type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="${totalPrice}"/>
 	               		</div>
-	                	<button class="proceed" id="goAddTran"> 결제 <i class="fa fa-check" aria-hidden="true"></i></button>   
+	                 	<a class="proceed btn" id="goAddTran" role="button"> 결제 <i class="fa fa-check" aria-hidden="true"></i></a>   
+	                 
 	                </div>
 	         </div>
 	            </div>
            	</div>
-           	</div>
-        </div>
-</section>
-     
+
+	</section>
+				             </form>
+ 
+
+ 
 <!--CHECKOUT WRAP END-->
 
 </body>

@@ -20,6 +20,31 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <style>
+/* 팀탑바 위한 style */
+.teamTopBar {
+	width: 100%;
+	height: auto;
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+h1 {
+	color: white;
+	font-family: "Gwangyang";
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+}
 .product-slider img {
     max-width: 100%;
     max-height: 100%;
@@ -74,10 +99,67 @@ hr {
     right: -60px;
   }
 }
+
+.btn-info:hover {
+	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
+}
+
+.btn-info {
+  border-radius: 20px;
+  background-color: #20B2AA;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  color: #000000; /* 글자색 설정 */
+}
+
+		
+    body {
+        background-image: url('/images/product/gettyimages.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+    }		
 </style>
 
 
 <script type="text/javascript">
+
+	function checkProdStock() { //재고수량 체크하는 함수
+		var check = true; // 초기값으로 true를 가지며 재고 수량 체크 결과를 저장한다.
+		$("input[type='number']").each(function(){	//type가 number인 필드를 선택, each()는 각가에 대해 반복 작업을 수행.
+			var stock = $(this).parent().parent().find("#prodStock").val(); //상품재고를 찾아서  값 저장.
+			var prodQuantity = $(this).val() //상품수량 체크
+			if(prodQuan>stock){
+				alert("재고 수량을 초과하였습니다.");
+				check = false;
+				return false;
+			}
+		})
+		return check;
+	}
+	
+	function checkInputData(){ //입력데이터를 체크하는 함수
+		var check = true;
+		$("input[type='number']").each(function(){
+			var value = $(this).val();
+			if(value<=0 || value === ''){ //변수에 저장된 값이 0보다 작거나 같거나 값이 비어있다면 !
+				alert("상품은 1개 이상 구매 가능합니다.") // 1.경고창 띄우기
+				check = false; //2.변수를 false로 변경하기
+				$(this).val(1);
+				return false; //메소드를 중지하고 반복문을 나온다.
+			}else if(!checkProdStock){
+				check = false;
+				$(this).val(1);
+				return false;
+			}
+		})
+		
+		return check;
+	}
+	
+
 	$(function() {
 
 		$("#addTran").on("click", function() {
@@ -117,6 +199,11 @@ hr {
         var stageImages = document.getElementById("stageImages");
         stageImages.innerHTML = '<li class="stage-item"><span class="store-badge new">new</span><img src="' + image.src + '" alt="product-main-img"></li>';
     }
+	
+
+
+	
+	
 </script>
 
 </head>
@@ -127,106 +214,92 @@ hr {
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
-
-
-    <!--PRODUCT SINGLE BEGIN-->
-
-		    <section class="product-single">
-		        <div class="container">
-		            <div class="row">
-		<div class="col-md-12">
-		    <h3>PRODUCT DETAIL</h3>
-		</div>
-		<div class="col-md-7">
-		    <div class="product-slider">
-		        <div class="connected-carousels">
-		            <div class="navigation jcarousel-skin-default">
-		                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
-		                    <ul>
-		                        <li>
-		                            <img src="${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
-		                        </li>
-		                        <li>
-		                            <img src="${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
-		                        </li>
-		                        <li>
-		                            <img src="${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
-		                        </li>
-		                    </ul>
-		                </div>
-		            </div>
-		            <div class="stage" style="overflow: hidden;">
-		                <div class="carousel carousel-stage" style="width: 100%; height: 500px; display: flex; align-items: center; justify-content: center;">
-		                    <ul id="stageImages">
-		                        <li class="stage-item">
-		                            <span class="store-badge new">new</span>
-		                            <img src="/images/product/${product.prodImageFirst}" alt="product-main-img">
-		                        </li>
-		                    </ul>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-                                
-                <div class="col-md-5">
-                    <div class="product-right-info">
-                        <div class="details">
-                        <h4> 엠블럼 </h4>
-                            <div class="content"><hr /></div> 
-                        </div>						
-						<h4>[${product.prodTeamCode}] ${product.prodName}</h4>
-                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
-                        <br>                    
-                        <div class="quantity-wrap">
-                        <div>
-                        	<input id="prodNo" type="hidden" value="${product.prodNo}">
-							<input id="userId" type="hidden" value="${user.userId}">
-							<input id="prodQuantity" type="hidden" value="1">
-                           상품수량: <input type="number" placeholder="1" value="1">
-                            <button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
-                            <button id="addTran" type="button" class="btn btn-warning">바로구매</button>
-                        </div>
-						<br> 
-						 <div class="details">
-						    <ul>
-						        <li><span>배송비: </span>무료</li>
-									<li>
-									    <span>적립: </span>
-									    <c:set var="accumulation" value="${product.prodPrice * 0.01}" />
-										<fmt:formatNumber value="${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation}" pattern="###,###"/> 포인트 </li> 
-									    <li style="font-size: 12px;"><span style="font-size: 12px;">구매금액의 1%가 포인트로 적립됩니다. </span></li>
-
-						    </ul>
-						</div>
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>티켓 구매</h1></div>
+</div>
+		
+		    <!--PRODUCT SINGLE BEGIN-->
+		
+ <section class="product-single"style="background-color: rgba(256, 256, 256, 0.5); height:1000px;"> 
+		 <div class="container">
+		    <div class="row">
+				<div class="col-md-12">
+				    <h1>PRODUCT DETAIL</h1>
+				</div>
+				<div class="col-md-7">
+				    <div class="product-slider">
+				        <div class="connected-carousels">
+				            <div class="navigation jcarousel-skin-default">
+				                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
+				                    <ul>
+				                        <li>
+				                            <img src="${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+				                        </li>
+				                        <li>
+				                            <img src="${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+				                        </li>
+				                        <li>
+				                            <img src="${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
+				                        </li>
+				                    </ul>
+				                </div>
+				            </div>
+				            <div class="stage" style="overflow: hidden;">
+				                <div class="carousel carousel-stage" style="width: 100%; height: 500px; display: flex; align-items: center; justify-content: center;">
+				                    <ul id="stageImages">
+				                        <li class="stage-item">
+				                            <img src="${product.prodImageFirst}" onerror="this.style.display='none'">
+				                        </li>
+				                    </ul>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+		                                
+		                <div class="col-md-5">
+		                    <div class="product-right-info">
+		                        <div class="details">
+		                        <h4> 엠블럼 </h4>
+		                            <div class="content"><hr /></div> 
+		                        </div>						
+								<h4>[${product.prodTeamCode}] ${product.prodName}</h4>
+		                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
+		                        <br>                    
+		                        <div class="quantity-wrap">
+		                        <div>
+		                        	<input id="prodNo" type="hidden" value="${product.prodNo}">
+									<input id="userId" type="hidden" value="${user.userId}">
+									<input id="prodStock" type="hidden" value="${product.prodStock}" id="prodStock" name="prodStock"/>
+									<input id="prodQuantity" type="hidden" value="1">
+		                           상품수량: <input type="number" placeholder="1" value="1">
+		                            <button id="addBasket" type="button" class="btn btn-info">장바구니 담기</button>
+		                            <button id="addTran" type="button" class="btn btn-info">바로구매</button>
+		                        </div>
+								<br> 
+								 <div class="details">
+								    <ul>
+								        <li><span>배송비: </span>무료</li>
+											<li>
+											    <span>적립: </span>
+											    <c:set var="accumulation" value="${product.prodPrice * 0.01}" />
+												<fmt:formatNumber value="${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation}" pattern="###,###"/> 포인트 </li> 
+											    <li style="font-size: 12px;"><span style="font-size: 12px;">구매금액의 1%가 포인트로 적립됩니다. </span></li>
+		
+								    </ul>
+								</div>
+							</div>
 					</div>
-			</div>
-   </div>
-   
-   </div>
-   </div>
-   
-   </section>
-   
-   <br>
-      <br>
+		   </div>
+		</div>
+	</div>   
+</section>
+		   
+		   <br>
+		      <br>
 
 
-        <div class="product-tab-wrap">
-            <div class="tab-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ul>
-                                <li><a href="#description"></a></li>
-                                <li ><a href="#reviews"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
         <!--STORE BANNER BEGIN-->
    

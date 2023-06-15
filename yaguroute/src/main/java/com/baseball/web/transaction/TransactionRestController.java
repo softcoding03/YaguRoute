@@ -70,7 +70,6 @@ public class TransactionRestController {
 		if(result.equals("success")) {
 			System.out.println("환불 성공");
 			tranDetailService.getTranDetail(tranDetailNo);
-			tranDetailService.updateRefundStatusCode(tranDetail);
 
 			contents = user.getUserName()+"님께서 결제하신 상품의 취소가 완료 되었습니다." +
 					"[야구루트 결제 취소내역] \n 결제 취소 금액: "+tranDetail.getTranDetailTran().getTranTotalPrice()+"원"+
