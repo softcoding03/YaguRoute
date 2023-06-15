@@ -115,6 +115,31 @@
         background-size: cover;
         background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
     }	
+    /* 팀탑바 위한 style */
+.teamTopBar {
+	width: 100%;
+	height: auto;
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+h1 {
+	color: white;
+	font-family: "Gwangyang";
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+}
 </style>
 
 
@@ -123,6 +148,11 @@
 		<!-- ToolBar Start /////////////////////////////////////-->
 				<jsp:include page="/common/topBar.jsp"/>
 		<!-- ToolBar End /////////////////////////////////////-->
+		
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>상품 구매</h1></div>
+</div>
 
 		<form name="detailForm">
 

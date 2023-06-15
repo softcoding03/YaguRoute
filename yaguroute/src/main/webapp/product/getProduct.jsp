@@ -20,6 +20,31 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <style>
+/* 팀탑바 위한 style */
+.teamTopBar {
+	width: 100%;
+	height: auto;
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+h1 {
+	color: white;
+	font-family: "Gwangyang";
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+}
 .product-slider img {
     max-width: 100%;
     max-height: 100%;
@@ -189,6 +214,10 @@ hr {
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>티켓 구매</h1></div>
+</div>
 		
 		    <!--PRODUCT SINGLE BEGIN-->
 		
