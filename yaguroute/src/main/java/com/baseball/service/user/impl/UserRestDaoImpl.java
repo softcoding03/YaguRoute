@@ -51,7 +51,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		// HTTP 요청 필요한 파라미터 설정
 		String postParams = "grant_type=authorization_code" + 
 				"&client_id=" + "SLklwWhn8OnVgyPdEeSU" +
-				"&redirect_uri=" + "223.130.133.54:80/user/naver" + 
+				"&redirect_uri=" + "kbo.yaguroute.online/user/naver" + 
 				"&code=" + authorizationCode +
 				"&client_secret=" + "qV43i4IrXX";
 		
@@ -164,7 +164,7 @@ public class UserRestDaoImpl implements UserRestDao{
 		// HTTP 요청에 필요한 파라미터 설정
 		String postParams = "grant_type=authorization_code" +
 			"&client_id=" + "492090239797ebad0d3181db65216b78" +
-			"&redirect_uri=" + "223.130.133.54:80/users/kakaoLogin" +
+			"&redirect_uri=" + "kbo.yaguroute.online/users/kakaoLogin" +
 			"&code=" + authorizationCode;
 		
 		

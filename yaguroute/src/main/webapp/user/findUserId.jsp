@@ -244,13 +244,9 @@
 
     $(function(){
       $("#phoneCheckButton").on("click", function(){
-        alert("인증버튼 클릭");
 
         var verify = $("#phoneCheck").val();
         var rnd = $("#rnd").val();
-
-        alert("verify:" + verify);
-        alert("rnd" + rnd);
 
         if(verify == rnd){
           alert("인증이 완료되었습니다.");

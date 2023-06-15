@@ -571,7 +571,6 @@
 		function fncAddUser() {
 
 			var userId = $("#userId").val();
-			alert(userId);
 			
 			// 1. userId 유효성 검증
 			 $.ajax({
@@ -601,7 +600,6 @@
 			
 			// 2. password 유효성 검증
 			var password = $("#password").val();
-			alert(password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
@@ -617,8 +615,6 @@
 			}
 			
 			var passwordCheck = $("#passwordCheck").val();
-			alert("password : "+password);
-			alert("passwordCheck : "+passwordCheck);
 			
 			if(passwordCheck == null){
 				alert("패스워드 확인을 해 주세요.");
@@ -630,7 +626,6 @@
 			
 			// 3. userName 유효성 검증
 			var userName = $("#userName").val();
-			alert("3. userName : "+userName);
 			
 			if(userName.length > 10){
 				alert("이름은 10자까지 가능합니다.");
@@ -642,7 +637,6 @@
 			
 			// 6. userNickName 유효성 검증
 			var userNickName = $("input[name='userNickName']").val();
-			alert("userNickName : "+userNickName);
 			
 			$.ajax({
 				url : "/user/userNickNameCheck",
@@ -700,7 +694,6 @@
 	 		var addr2 = $("input[name='addr2']").val();
 			var addr = addr1+"   "+addr2;
 			$("#userAddr").val(addr);
-			alert(addr);
 			
 			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
@@ -709,7 +702,6 @@
 			
 			// 9. userEmail 유효성 검증
 			var userEmail = $("#userEmail").val();
-			alert("userEmail : "+userEmail);
 			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
 			if(!emailCheck.test(userEmail)){

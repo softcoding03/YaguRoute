@@ -1138,7 +1138,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				return;
 				
 			}else{
-				alert("5. userBirth 통과");
 				var value = userBirth.replace(/-/g, "");
 				$("#userBirth").val(value);
 			}
@@ -1151,7 +1150,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	 		var addr2 = $("input[name='addr2']").val();
 			var addr = addr1+"   "+addr2;
 			$("#userAddr").val(addr);
-			alert(addr);
 			
 			if(addr.length < 2){
 				alert("주소를 입력해 주시기 바랍니다.");
@@ -1164,11 +1162,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			
 			// 9. userEmail 유효성 검증
 			var userEmail = $("#userEmail").val();
-			alert("userEmail : "+userEmail);
 			var emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			
 			if(emailCheck.test(userEmail)){
-				alert("9. 이메일 통과");
 			}else if(userEmail.length > 40 ){
 				alert("이메일은 최대 40자 까지 입력 가능합니다.");
 				return;
@@ -1205,7 +1201,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				data: JSON.stringify(user),
 				contentType: "application/json",
   				success: function(response) {
-    				alert("컨트롤러 전송 완료!");
     				window.location.href="/users/getUser";
   				},
   				error: function(xhr, status, error) {
@@ -1283,12 +1278,11 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			            data: formData,
 			            dataType: "json",
 			            success: function(data, status) {
-			            	
+			            	console.log(data);
 			            	if(data == null){
 				            	alert("다시 드롭 해 주세요.");
 			            	}else{
 			            		console.log(data.image_path);
-			            		
 			            		
 			            		// hidden 속성 추가
 			            		var newDiv = document.createElement("div");
@@ -1350,7 +1344,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지" id="userImage">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
