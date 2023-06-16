@@ -467,7 +467,7 @@ var postNo;
 					${post.postTitle}
 				</h3>
 				<fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-				<fmt:formatDate pattern="yyyy년 MM월 DD일 HH시 mm분" value="${parsedDateTime}" var="DateTime"/>
+				<fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분" value="${parsedDateTime}" var="DateTime"/>
             <div class="comment-quantity">Views: ${post.postViews}&nbsp;&nbsp;&nbsp;&nbsp; 작성일: ${DateTime}&nbsp;&nbsp;&nbsp;&nbsp; 게시물 번호: ${post.postNo}</div>
         		<hr>
         		<c:if test="${post.user.userId eq user.userId}">

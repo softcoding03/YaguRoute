@@ -808,6 +808,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		
 		$("#password").keyup(function(){
 			
+			var button = document.getElementById("passwordCheck");
+			button.disabled = true;
+			
 			var password = $("#password").val();
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			if(password.length < 10){
@@ -1013,14 +1016,17 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		function fncUpdateUser() {
 			
 			// 2. password 유효성 검증
-			var userId = $("#userId").val();
+			var userId = $("input[name='userId']").val();
 			var password = $("#password").val();
 			//alert(password);
+			
+			alert("userId"+userId);
+			alert("password"+password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
 			if(password === userId){
-				//alert("아마 카카오나 네이버 유저 ");
+				alert("아마 카카오나 네이버 유저 ");
 			}
 			else if(password.length > 50){
 				alert("패스워드는 50자 까지 가능합니다.");
@@ -1169,8 +1175,15 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			// PATH!!!
 			
 			// ajax(User) -> Controller
+			
+/* 			var userImageSearch = $("#userImage").val();
+			
+			if(userImageSearch == null){
+				userImageSearch = $("input[name]")
+			} */
+			
 			var user = {
-				userId : $("#userId").val(),
+				userId : $("input[name='userId']").val(),
 				password : $("#password").val(),
 				userName : $("#userName").val(),
 				userPhone : $("#userPhone").val(),
@@ -1181,7 +1194,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
 				teamCode : $("#teamCode").val(),
-				userImage : $("#userImage").val()
+				userImage : $("input[name='userImage']").val()
 			};
 
 			$.ajax({
@@ -1273,16 +1286,23 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			            	}else{
 			            		console.log(data.image_path);
 			            		
+			            		// 바꾼 이미지 재등록
+			            		document.getElementById("userImage").value = "";
+			            		var newValue = data.image_path;
+			            		
+			            		document.getElementById("userImage").value = newValue;
+			            		
 			            		// hidden 속성 추가
-			            		var newDiv = document.createElement("div");
+			            		/* var newDiv = document.createElement("div");
 			            		var hiddenDiv = document.createElement('input');
 			               		hiddenDiv.type = "hidden";
 			            		hiddenDiv.value = data.image_path;
 			            		hiddenDiv.id = 'userImage';
-			            		hiddenDiv.name = 'userImage';
 			            		newDiv.appendChild(hiddenDiv);
-			            		document.body.appendChild(newDiv);
+			            		document.body.appendChild(newDiv); */
 			            		
+			            		
+			            		// 이미지 미리보기
 			            		var previewImage = data.image_path;
 			            		
 			            		var img = document.createElement("img");
@@ -1333,7 +1353,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지" id="userImage">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
@@ -1341,6 +1361,9 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                 <p class="userId" id="userId">${user.userId}</p>
             </div>
         </div>
+        
+        <input type="hidden" name="userImage" id="userImage" value="${user.userImage}">
+        
         <a href="/users/logout" style="text-align: center; width: 10px; color: gray;
     border-radius: 28px;
     display: inline-block;
@@ -1450,7 +1473,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                                 <div class="form-inline">
                                     <label for="userId" id="userIdNone" style="display: block">
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">아이디 <br>
-                                        <input type="text" name="userId" id="userId" style="width: 405px; height: 40px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
+                                        <input type="text" name="userId" style="width: 405px; height: 40px;"  placeholder="아이디" readonly="readonly" value="${user.userId}">
                                         </a>
                                     </label>
                                     	<font id="id_use" size="2"></font>

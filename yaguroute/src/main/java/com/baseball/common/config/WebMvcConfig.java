@@ -41,7 +41,9 @@ import com.baseball.common.interceptor.LogonCheckInterceptor;
 	 "/users/findUserId/","/users/findPassword","/user/userIdCheck/", "/users/userImage", "/user/userIdCheck",
 	 "/users/kakaoLogin?code=_-hgs0Ne6YuKKPi1xiLUgR9F6UfqUxDdtbPO2H5zmp2F4CCegTziSJ5q9F3uIKLyet2V1wo9cusAAAGIvLZHmA",
 	 "/users/addUser", "/user/userNickNameCheck", "/user/userNickNameCheck", "/user/PartnershipProposal.html", "/user/TermsofUse.html",
-	 "/user/private.html", "/user/manage.html") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
+	 "/user/private.html", "/user/manage.html", "http://192.168.0.116:8080/","/users/kakaoLogin?code=LcevSKMqC7cHzOZoXuo3-NsC0K9Lj8ehzaHfWVM9cmurY81Dm3-hueoqJuQ7nEcXVOVpGAoqJVIAAAGIvesKag",
+	 
+	 "/resources/static/index.html","/index.html","index.html","/user/favicon.ico","/","/error") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
 	 .excludePathPatterns("/js/**", "/css/**", "/images/**"); // 정적 파일 경로 패턴 추가 
 	 
 	 registry.addInterceptor((HandlerInterceptor)loadingImageInterceptor).addPathPatterns("/main/**","/game/**")

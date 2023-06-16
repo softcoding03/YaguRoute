@@ -156,7 +156,7 @@ public class UserController {
 				try {
 			        response.setContentType("text/html; charset=utf-8");
 			        PrintWriter w = response.getWriter();
-			        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/loginTest(new).jsp';</script>");
+			        w.write("<script>alert('탈퇴한 회원입니다. 회원가입이 필요합니다.');location.href='/user/loginTest(new).jsp';</script>");
 			        w.flush();
 			        w.close();
 			    } catch(Exception e) {

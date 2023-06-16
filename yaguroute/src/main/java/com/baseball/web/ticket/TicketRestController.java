@@ -172,6 +172,8 @@ public class TicketRestController {
 									Model model,HttpSession session) throws Exception{
 		System.out.println("/ticket/rest/addTicketPurchase : POST START");
 		System.out.println("넘어온 데이터?"+transaction+"//"+ticket);
+		
+		//리스트형태로 ticketNo 넘어온거 파싱 
 		String regex = "(?<=\\G.{21})";
 		String[] split = ticket.split(regex);
 		User user = (User)session.getAttribute("user");
@@ -186,6 +188,44 @@ public class TicketRestController {
 		LocalDateTime refundDateTime = refundDate.atTime(23, 0, 0);
 		System.out.println("refundDateTime??"+refundDateTime); 
 		transaction.setRefundableDate(refundDateTime);
+		//결제수단 저장
+		if(transaction.getTranPaymentOption().equals("card")) {
+			transaction.setTranPaymentOption("신용카드");
+		} else if(transaction.getTranPaymentOption().equals("trans")){
+			transaction.setTranPaymentOption("실시간계좌이체");
+		} else if(transaction.getTranPaymentOption().equals("vbank")){
+			transaction.setTranPaymentOption("가상계좌");
+		} else if(transaction.getTranPaymentOption().equals("phone")){
+			transaction.setTranPaymentOption("휴대폰소액결제");
+		} else if(transaction.getTranPaymentOption().equals("samsung")){
+			transaction.setTranPaymentOption("삼성페이");
+		} else if(transaction.getTranPaymentOption().equals("kpay")){
+			transaction.setTranPaymentOption("KPay앱");
+		} else if(transaction.getTranPaymentOption().equals("kakaopay")){
+			transaction.setTranPaymentOption("카카오페이");
+		} else if(transaction.getTranPaymentOption().equals("payco")){
+			transaction.setTranPaymentOption("페이코");
+		} else if(transaction.getTranPaymentOption().equals("lpay")){
+			transaction.setTranPaymentOption("LPAY");
+		} else if(transaction.getTranPaymentOption().equals("ssgpay")){
+			transaction.setTranPaymentOption("토스간편결제");
+		} else if(transaction.getTranPaymentOption().equals("cultureland")){
+			transaction.setTranPaymentOption("문화상품권");
+		} else if(transaction.getTranPaymentOption().equals("smartculture")){
+			transaction.setTranPaymentOption("스마트문상");
+		} else if(transaction.getTranPaymentOption().equals("happymoney")){
+			transaction.setTranPaymentOption("해피머니");
+		} else if(transaction.getTranPaymentOption().equals("booknlife")){
+			transaction.setTranPaymentOption("도서문화상품권");
+		} else if(transaction.getTranPaymentOption().equals("wechat")){
+			transaction.setTranPaymentOption("위쳇페이");
+		}  else if(transaction.getTranPaymentOption().equals("alipay")){
+			transaction.setTranPaymentOption("알리페이");
+		}  else if(transaction.getTranPaymentOption().equals("unionpay")){
+			transaction.setTranPaymentOption("유니온페이");
+		}  else if(transaction.getTranPaymentOption().equals("tenpay")){
+			transaction.setTranPaymentOption("텐페이");
+		}
 		
 		System.out.println(":: transaction add 하기 위한 setting? "+transaction);
 		int tranNo = transactionService.addTransaction(transaction);  //transaction add 하면서 tran_no 생성하고 그 tran_no 바로 리턴해줌

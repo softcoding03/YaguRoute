@@ -50,7 +50,6 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background-color: mintcream;
     }
 
     .card-title {
@@ -128,10 +127,11 @@
 	    border: 2px solid #ccc;
 	    width: 100%;
 	    background: #fff;
-	    font-size: 14px;
+	    font-size: 15px;
 	    color: #666;
 	    line-height: normal;
 	    outline: 0;
+	    border-radius: 15px;
 	}
 	
 	.buttonColor {
@@ -213,11 +213,19 @@
   </style>
 
   <script type="text/javascript">
+  
     $(function(){
-      $('#phoneButton').on("click", function(){
+    	
+      $('#phoneButton').on("click", function() {
+    	  
         var userPhone = $("#userPhone").val(); // 휴대폰 번호
         var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
 
+        if(userPhone.length != 11){
+        	alert("휴대폰 번호를 다시 입력해 주세요.");
+        	return;
+        }
+        
         var newDiv = document.createElement("div");
         var hiddenDiv = document.createElement('input');
         hiddenDiv.type = "hidden";
@@ -244,16 +252,27 @@
 
     $(function(){
       $("#phoneCheckButton").on("click", function(){
-
+    	  
+    	console.log("폰 췍 버튼");
+    	  
         var verify = $("#phoneCheck").val();
         var rnd = $("#rnd").val();
 
+        var userPhone = $("#userPhone").val();
+        console.log(userPhone);
+        
+        if(userPhone != 11){
+        	alert("먼저 휴대폰을 입력 해 주세요.");
+        	return;
+        }
+        
         if(verify == rnd){
           alert("인증이 완료되었습니다.");
           openModal();
         }
         else{
           alert("인증에 실패하였습니다.");
+          return;
         }
       });
     });
@@ -301,7 +320,9 @@
 	
     // 모달 닫기 버튼
     function closeModal() {
-      document.getElementById("modal").style.display = "none";
+    	
+    	window.close();
+      	document.getElementById("modal").style.display = "none";
     }
     
     // 모달 주변 클릭 닫기
@@ -322,11 +343,11 @@
         <div class="findUser">
         <a style="font-size: 13px;">휴대폰</a>
         <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="휴대폰번호 입력" autofocus required>
-        <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px;" value="인증번호 전송"><br>
+        <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; background-color: #19376D;" value="인증번호 전송"><br>
         <div><br>
         <a style="font-size: 13px;">인증번호</a>
           <input type="text" id="phoneCheck" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="인증번호 입력">
-          <input type="button" class="buttonColor" id="phoneCheckButton" style="width: 250px; margin: auto;" value="인증번호 확인">
+          <input type="button" class="buttonColor" id="phoneCheckButton" style="width: 250px; margin: auto; background-color: #19376D;" value="인증번호 확인">
         </div>
       </div>
       </div>
@@ -334,12 +355,13 @@
 
     <!-- 모달 창 -->
     <div id="modal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content" id="">
+      	<!--  -->
       	<h2 style="text-align: left; margin-bottom: 5px;"><b>야구ROUTE ID 찾기</b></h2>
       	<a style="font-size: 11px;">고객님의 정보와 일치하는 야구ROUTE ID 입니다.</a>
       	  
-	        <div id="idListUser" style="margin-bottom: 40px;">
-	        <p class="totalCount" id="totalCount" style="font-size: 14px; text-align: center;"></p>
+	        <div id="idListUser" style="margin-bottom: 40px; overflow: auto;">
+	        <p class="totalCount" id="totalCount" style="font-size: 14px; text-align: center; width: 395px;"></p>
 	        	<table id="idList" style="color: #000000">
 	        	<caption>아이디 목록</caption>
 		        	<thead>
