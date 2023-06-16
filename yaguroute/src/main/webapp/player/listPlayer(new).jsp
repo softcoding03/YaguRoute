@@ -217,18 +217,26 @@
     
 	function fncGetPlayerList(currentPage) {
 		
+		alert("현재 페이지");
+		
 		$("#currentPage").val(currentPage);
-		 $("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
 		
-		/* self.location.href="/player/listPlayer?currentPage="+currentPage; */
+		alert(currentPage);
+		//$("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
 		
-		}
+		self.location = "/player/listPlayer?currentPage="+currentPage+"&teamCode="+teamCode;
+	}
 	
 	$(function() {
 		 
 		// teamCode 누르면 조회되는 방식
 		$("button.btn-success").on("click", function() {
+			
+			alert("팀 코드 클릭");
 			$("#playerTeamCode").val($(this).val());
+			
+			//var teamCode = $("#playerTeamCode").val($(this).val());
+			
 			fncGetPlayertList(1);
 		});
 		
@@ -236,9 +244,10 @@
 			 
 			 var searchKeyword = $("#searchKeyword").val();
 			    
-			 if(searchKeyword.length <= 1){
+			 if(searchKeyword.length <= 2){
 			    	alert("최소 두 자 이상 검색해 주세요.");
-			    	return;
+			    	
+			    	window.location.href="/player/listPlayer";
 			 }
 			 
 			fncGetPlayerList(1);
@@ -246,11 +255,14 @@
 		 
 		 $("a[href='teamCodeHref']").on('click',function(){
 			 
-	         teamCode = $(this).find("input[name='teamCode']").val()
+	         teamCode = $(this).find("input[name='teamCode']").val();
+	         currentPage = $("#currentPage").val();
+	         alert(currentPage);
 	    	 self.location = "/player/listPlayer?teamCode="+teamCode;
 		});
 	});
 	
+	// 엔터 시 선수 검색
 	$(document).keydown(function(event) {
 		  if (event.which === 13) {
 		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
@@ -259,7 +271,8 @@
 		    
 		    if(searchKeyword.length <= 1){
 		    	alert("최소 두 자 이상 검색해 주세요.");
-		    	return;
+		    	window.location.href="/player/listPlayer";
+		    	
 		    }
 		    
 		    fncGetPlayerList(1);
@@ -338,10 +351,10 @@
 <div class="coach_area">
 </div>
 </div>
-<div class="tab_list large" style="font-family: 'Gwangyang'; pointer-events: none;">
+<div class="tab_list large" style="font-family: 'Gwangyang';"> <!-- pointer-events: none; -->
     <ul class="nav nav-tabs" role="tablist">
             <c:forEach var="team" items="${allTeam}">
-                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+                <li class="${team.teamCode eq (teamCode == null ? 'ALL' : teamCode) ? 'active' : ''}" role="presentation">
                     <a href="teamCodeHref" role="tab" data-toggle="tab">
                         <img alt="img" src="${team.teamEmblem}" style="width: 37px; height: 33px;" >
                         <span class="info">
@@ -493,7 +506,7 @@
         <div class="td td_ar_bp bp_100140601">
             <span class="span_bp1" style="">${player.playerSalary}만원</span>
         </div>
-        <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
+        <div class="td td_ar_score"><span>${player.hitter }</span></div>
         </tr>
         </c:forEach>
         <jsp:include page="/common/pageNavigator_all.jsp">

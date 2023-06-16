@@ -90,7 +90,7 @@
 	SELECT *
 	FROM player
 		<where>
-			<if test="searchKeyword !='' ">
+			<if test="searchKeyword !=''">
  				player_name LIKE '%${searchKeyword}%'
 			</if>
 		</where>
@@ -107,4 +107,8 @@
 		from team
 	</select>
 	
+	<select id="getAllPlayer" resultMap="playerSelectMap">
+		select *
+		from player
+	</select>
 </mapper>

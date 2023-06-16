@@ -79,45 +79,42 @@ public class PlayerController {
 	private int pageSize;
 	
 	@GetMapping("listPlayer")
-	public String listPlayer(@ModelAttribute("search") Search search, Model model, @RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
+	public String listPlayer(@RequestParam("currentPage") int currentPage, @ModelAttribute("search") Search search, Model model, @RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
 		
-		System.out.println("search" + search);
 		System.out.println("/player/listPlayer : GET ");
-
-		search.setTeamCode(teamCode);
+		System.out.println("가져온 teamCode : "+teamCode);
+		System.out.println("가져온 currentPAge : "+currentPage);
 		
-		System.out.println(teamCode);
+		
+		if(search.getTeamCode() == null) {
+			search.setTeamCode("ALL");
+		}
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		
-		System.out.println("Search : "+search);
+		search.setTeamCode(teamCode);
 		search.setPageSize(pageSize);
-		
 		// B/L 수행
+		/* 여기서 Serivice의 map을 가져옴...*/
 		Map<String, Object> map = playerService.getPlayerList(search);
-		System.out.println("search :::"+search);
-		System.out.println("map : "+map);
+		
+		Page resultPage = new Page(search.getCurrentPage(), (int)map.get("totalCount"), pageUnit, pageSize);
+		
+		System.out.println("현 페이지 : "+resultPage);
+		
+		// 페이지에 현재 페이지 + 전체 선수인 totalCount, 몇명 출력할건지, 몇개의 페이지 번호를 출력할 것인지?
 		List<Player> totalPlayerList = (List<Player>) map.get("list");
-		List<String> playerTeam =new ArrayList<>();
-		
-		for(Player player : totalPlayerList) {
-			playerTeam.add(player.getPlayerId());
-		}
-		
-		System.out.println("playerTeam : "+playerTeam);
-		
-		Page resultPage = new Page(search.getCurrentPage(), (int) map.get("totalCount"), pageUnit, pageSize);
-		
 		List<Team> allTeam = playerDao.getAllTeam();
+		
 		// Model And View Connect...
-
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("allTeam", allTeam);
 		model.addAttribute("teamCode", teamCode);
+		
 		
 		return "forward:/player/listPlayer(new).jsp";
 	}

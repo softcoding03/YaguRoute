@@ -168,7 +168,7 @@ public class PlayerTests {
 							String teamCoding = "";
 							
 							if (teamCode.equals("LG")) teamCoding = "LG";
-							else if (teamCode.equals("SSG")) teamCoding = "SS";
+							else if (teamCode.equals("SSG")) teamCoding = "SK";
 							else if (teamCode.equals("롯데")) teamCoding = "LT";
 							else if (teamCode.equals("두산")) teamCoding = "OB";
 							else if (teamCode.equals("NC")) teamCoding = "NC";

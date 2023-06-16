@@ -24,4 +24,6 @@ public interface PlayerDao {
 	public void addForeignKey();
 	
 	public List<Team> getAllTeam();
+	
+	public List<Player> getAllPlayer();
 }
