@@ -71,19 +71,8 @@
 	.ui-helper-hidden-accessible {
 	  display: none;
 	}
-	#back-img {
-	  position: fixed;
-	  width: 100%;
-	  height: 100vh;
-	  overflow: hidden;
-	  background-image: url("/images/product/baseballStadium.png");
-	  background-size: 1100px;
-	  background-repeat: no-repeat;
-	  background-position:  left;
-	  opacity: 0.5;
-	  }
-  
-  
+
+
 	.product-status {
 	  color: black;
 	}
@@ -91,6 +80,33 @@
 	.out-of-stock {
 	  color: red;
 	}
+	
+    /* 팀탑바 위한 style */	
+	.teamTopBar {
+	width: 1300px;
+	height:380px;
+	margin-top:25px;
+	margin-left: 15px;	
+}
+	
+	.image-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+h1 {
+	color: white;
+	font-family: "Gwangyang";
+}
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+}
+    /* 팀탑바 위한 style */	
 </style>
 
 
@@ -111,7 +127,7 @@
 			fncGetProductList(1);
 		});
 
-		$(".ct_list_pop td:nth-child(2)").on("click", function() {
+		$(".ct_list_pop td:nth-child(5)").on("click", function() {
 			var prodNo = $(this).children('input:hidden').val();
 			self.location = "/product/updateProduct?prodNo=" + prodNo;
 		});
@@ -155,12 +171,15 @@
 
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
   <jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
-
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>판매상품리스트</h1></div>
+</div>
 	<!--  화면구성 div Start /////////////////////////////////////-->
 				
 	<form name="detailForm">
@@ -209,14 +228,16 @@
 
 							<thead>
 								<tr>
-									<th align="center" style="font-size: 14px;">번호</th>
+									<th align="center" style="font-size: 14px;"></th>
+									<th align="center" style="font-size: 14px;">상품번호</th>		
+									<th align="center" style="font-size: 14px;">상품이미지</th>		
+									<th align="center" style="font-size: 14px;">구단</th>													
 									<th align="center" style="font-size: 14px;">제품명</th>
 									<th align="center" style="font-size: 14px;">가격</th>
 									<th align="center" style="font-size: 14px;">등록일</th>
 									<th align="center" style="font-size: 14px;">재고</th>
 									<th align="center" style="font-size: 14px;">카테고리</th>
-									<th align="center" style="font-size: 14px;">팀 코드</th>
-									<th align="center" style="font-size: 14px;">상품상태</th>
+									<th align="center" style="font-size: 14px; width: 100px;">상품상태</th>
 								</tr>
 							</thead>
 
@@ -226,7 +247,12 @@
 									<c:set var="i" value="${ i+1 }" />
 									<tr class="ct_list_pop">
 										<td align="center">${ i }</td>
-										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>							
+										<td align="left" height="30"> ${product.prodNo}</td>	
+										<td align="left">
+											  <img src="${product.prodImageFirst}" alt="Product Image" width="100" height="100">
+											</td>												
+										<td align="left">${product.prodTeamCode}</td>											
+										<td align="left"><input type="hidden" value="${product.prodNo}" />${product.prodName}</td>															
 										<td align="left"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/></td>
 										<td align="left">${product.prodRegDate}</td>
 										<td align="left"><fmt:formatNumber value="${product.prodStock}" pattern="###,###"/>
@@ -234,12 +260,11 @@
 														<c:choose>
 															    <c:when test="${product.prodCategory eq 1}">유니폼</c:when>
 															    <c:when test="${product.prodCategory eq 2}">모자</c:when>
-															    <c:when test="${product.prodCategory eq 3}">야구용품</c:when>
-															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>
+															    <c:when test="${product.prodCategory eq 3}">의류</c:when>
+															    <c:when test="${product.prodCategory eq 4}">야구용품</c:when>
+															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>															    
 															  </c:choose>
 															</td>
-										
-										<td align="left">${product.prodTeamCode}</td>
 											<td>
 											  <span class="product-status ${product.prodStock < 1 ? 'out-of-stock' : ''}">
 											    ${product.prodTranCode eq 'hidden' ? '숨김' : (product.prodStock < 1 ? '품절' : '판매중')}

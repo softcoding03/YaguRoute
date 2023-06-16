@@ -94,7 +94,12 @@
 .ui-helper-hidden-accessible {
   display: none;
 }
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
 
+    
 #searchButton:hover {
 	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
 }
@@ -105,20 +110,23 @@
   color: white;
   font-size: 16px;
   border: none;
-  padding: 10px 20px; /* 안쪽 여백 설정 */
+  padding: 5px 20px; /* 안쪽 여백 설정 */
   color: #000000; /* 글자색 설정 */
+  margin-bottom: 18px;
 }
 
     body {
-        background-image: url('/images/product/gettyimages.jpg');
+        background-image: url('/images/productBack/home-plate.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
     }	
     /* 팀탑바 위한 style */
 .teamTopBar {
-	width: 100%;
-	height: auto;
+	width: 1430px;
+	height:380px;
+	margin-left: 250px;
+	margin-top:25px;
 }
 
 .image-container {
@@ -140,6 +148,7 @@ h1 {
 	font-size: 18px;
 	margin-left: 300px;
 }
+
 </style>
 
 
@@ -156,7 +165,7 @@ h1 {
 
 		<form name="detailForm">
 
-			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; ">
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; margin-left:40px;">
 			    <div class="broadcast-tabs-wrapper">
 			        <ul class="nav nav-tabs" role="tablist">
 			            <c:forEach var="team" items="${allTeam}">
@@ -173,13 +182,9 @@ h1 {
 			        </ul>
 			    </div>
 			</div>
-
-
 	<div class="container">
-		<div class="page-header text-info">
 			<div class="row">
-			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
-			
+			<div style="width: 98%; margin-left: 50px; margin-top: 20px;">		
 			        <!-- Search -->
 				<div class="search-container" style="display: flex; justify-content: flex-end; align-items: center;">
 				    <div class="form-group" >
@@ -201,7 +206,7 @@ h1 {
 		    <div class="store-wrap">
 		        <div class="container">
 		            <div class="row row-offcanvas row-offcanvas-left">
-		                <div class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
+		                <div class="sidebar col-xs-6 col-sm-6 col-md-4 sidebar-offcanvas" id="sidebar">
 		                    <div class="filter-wrap">
 		                 </div>
 		                </div>
@@ -209,7 +214,7 @@ h1 {
 		                    <h6>${product.prodTeamCode}</h6>
 		                    <div class="row">
 		                           <c:forEach var="product" items="${list}">
-		                        <div class="col-md-4 col-sm-6">
+		                        <div class="col-md-3 col-sm-8">
 		                            <div class="store-list-item">         
 		                                <div>
 		                                        <img src="${product.prodImageFirst}"  alt="product">
@@ -256,7 +261,7 @@ h1 {
     <!--STORE WRAP END-->
 
 				</div>
-		</div>
+
 </div>
 
 </form>

@@ -381,9 +381,11 @@
 														<option value="2"
 															${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
 														<option value="3"
-															${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
+															${ product.prodCategory ==3 ? "selected" : ""}>의류</option>
 														<option value="4"
-															${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
+															${ product.prodCategory ==4 ? "selected" : ""}>야구용품</option>
+														<option value="5"
+															${ product.prodCategory ==5 ? "selected" : ""}>잡화</option>															
 												</select>
 												</label>
 											</div>
