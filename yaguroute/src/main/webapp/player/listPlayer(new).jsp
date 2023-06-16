@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-      
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  
 <!DOCTYPE html>
 <!-- saved from url=(0040)https://fifaonline4.nexon.com/datacenter -->
 <html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,14 +35,14 @@
 	    width: 91px;
 	}
 		#middle.sub>div.datacenter {
-	    background: #fff url(/images/user/image.png) center 0 no-repeat;
+	    background: #fff url(//ssl.nexon.com/s2/game/fo4/obt/sub_header/bg_sub_datacenter.png) center 0 no-repeat;
 	}
 		.sub .datacenter .tab_list.large ul li a {
-	    background-color: #2a2ac7;
+	    /*background-color: #2a2ac7;*/
 	}
-		.sub .datacenter .tab_list.large ul li {
+		/* .sub .datacenter .tab_list.large ul li {
 	    border-color: #000000;
-	}
+	} */
 	.pointer_popup .content_header .pay_side {
 	    position: absolute;
 	    top: 29px;
@@ -217,26 +219,18 @@
     
 	function fncGetPlayerList(currentPage) {
 		
-		alert("현재 페이지");
-		
 		$("#currentPage").val(currentPage);
+		 $("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
 		
-		alert(currentPage);
-		//$("form").attr("method" , "GET").attr("action" , "/player/listPlayer").submit();
+		/* self.location.href="/player/listPlayer?currentPage="+currentPage; */
 		
-		self.location = "/player/listPlayer?currentPage="+currentPage+"&teamCode="+teamCode;
-	}
+		}
 	
 	$(function() {
 		 
 		// teamCode 누르면 조회되는 방식
 		$("button.btn-success").on("click", function() {
-			
-			alert("팀 코드 클릭");
 			$("#playerTeamCode").val($(this).val());
-			
-			//var teamCode = $("#playerTeamCode").val($(this).val());
-			
 			fncGetPlayertList(1);
 		});
 		
@@ -244,10 +238,10 @@
 			 
 			 var searchKeyword = $("#searchKeyword").val();
 			    
-			 if(searchKeyword.length <= 2){
+			 if(searchKeyword.length <= 1){
 			    	alert("최소 두 자 이상 검색해 주세요.");
-			    	
-			    	window.location.href="/player/listPlayer";
+			    	document.getElementById("searchKeyword").value = "";
+			    	window.location.href = "/player/listPlayer";
 			 }
 			 
 			fncGetPlayerList(1);
@@ -255,14 +249,11 @@
 		 
 		 $("a[href='teamCodeHref']").on('click',function(){
 			 
-	         teamCode = $(this).find("input[name='teamCode']").val();
-	         currentPage = $("#currentPage").val();
-	         alert(currentPage);
+	         teamCode = $(this).find("input[name='teamCode']").val()
 	    	 self.location = "/player/listPlayer?teamCode="+teamCode;
 		});
 	});
 	
-	// 엔터 시 선수 검색
 	$(document).keydown(function(event) {
 		  if (event.which === 13) {
 		    // 엔터 키를 눌렀을 때 수행할 동작을 여기에 작성
@@ -271,8 +262,8 @@
 		    
 		    if(searchKeyword.length <= 1){
 		    	alert("최소 두 자 이상 검색해 주세요.");
-		    	window.location.href="/player/listPlayer";
-		    	
+		    	document.getElementById("searchKeyword").value = "";
+		    	window.location.href = "/player/listPlayer";
 		    }
 		    
 		    fncGetPlayerList(1);
@@ -294,10 +285,19 @@
 	 	        data: {playerId: playerId},
 	 	        success: function(Player) {
 	 	        	console.log(Player);
+	 	        	
+	 	        	var playerBirth = Player.playerBirth;
+	 	        	
+	 	        	var year  = playerBirth.slice(0,4);
+	 	        	var month = playerBirth.slice(4,6);
+	 	        	var day = playerBirth.slice(6,8);
+	 	        	
+	 	        	var settingBirth = year+"-"+month+"-"+day;
+	 	        	
 	 	        	$("#playerName1").text(Player.playerName);
 	 	        	$("#playerName2").text(Player.playerName);
 	 	        	$("#playerHeight").text(Player.playerHeight+"cm");
-	 	        	$("#playerBirth").text(Player.playerBirth);
+	 	        	$("#playerBirth").text(settingBirth);
 	 	        	$("#playerWeight").text(Player.playerWeight+"kg");
 	 	        	$("#playerPosition").text(Player.playerPosition);
 	 	        	$("#playerNumber1").text(Player.playerNumber);
@@ -346,11 +346,13 @@
 			 window.location.href="/player/listPlayer";
 		 });
 	 });
+
 </script>
 
 <div class="coach_area">
 </div>
 </div>
+
 <div class="tab_list large" style="font-family: 'Gwangyang';"> <!-- pointer-events: none; -->
     <ul class="nav nav-tabs" role="tablist">
             <c:forEach var="team" items="${allTeam}">
@@ -365,11 +367,14 @@
                 </li>
             </c:forEach>
         </ul>
-</div>                
+</div> 
+
+
+ 
 </div>
 
 			
-			<form role="form" id="form1" >	
+			
             <div class="player_view">
                 <div class="header">
                     <div class="tit" style="font-family: 'Gwangyang'">선수 검색</div>
@@ -384,20 +389,20 @@
 					</select>
 				</div> --%>
                 
-       			<input type="hidden" id="playerTeamCode" name="playerTeamCode" value="${player.teamCode}" /> 
+                <form role="form" id="form1" >
+	                <div class="search_panel">
+	                    <div class="search_input_name">
+	                        <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
+	                    <div class="search_input_detail">
+	                    </div>
+	                    <div class="search_input_submit">
+	                        <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
+	                        <button type="button" class="btn_reset" style="font-family: 'Gwangyang'" >초기화</button>
+	                    </div>
+	                </div>
+                <input type="hidden" id="playerTeamCode" name="teamCode" value="${search.teamCode}" /> 
 				<input type="hidden" id="currentPage" name="currentPage" value="" />
-                
-                <div class="search_panel">
-                    <div class="search_input_name">
-                        <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
-                    <div class="search_input_detail">
-                    </div>
-                    <div class="search_input_submit">
-                        <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
-                        <button type="button" class="btn_reset" style="font-family: 'Gwangyang'" >초기화</button>
-                    </div>
-                </div>
-                </form>
+              	</form> 
             <div class="player_list">
                 <div class="content">
                     <div class="player_list_wrap">
@@ -473,10 +478,12 @@
             </div>
         <div class="td td_ar">
                 <span>
-                    <span class="skillData_100140601" data-type="sprintspeed">
-                        ${player.playerBirth}
+                    <span class="skillData_100140601" data-type="sprintspeed" id="castBirth">
+                    	<c:set var="birthYear" value="${fn:substring(player.playerBirth, 0, 4)}" />
+            			<c:set var="birthMonth" value="${fn:substring(player.playerBirth, 4, 6)}" />
+            			<c:set var="birthDay" value="${fn:substring(player.playerBirth, 6, 8)}" />
+                       	${birthYear}-${birthMonth}-${birthDay}
                     </span>
-                    
                 </span>
         </div>
         <div class="td td_ar">
@@ -492,7 +499,6 @@
                     <span class="skillData_100140601" data-type="strength">
                         ${player.playerWeight}kg
                     </span>
-                    
                 </span>
         </div>
         <div class="td td_ar">
@@ -502,11 +508,13 @@
                     </span>
                 </span>
         </div>
-
         <div class="td td_ar_bp bp_100140601">
-            <span class="span_bp1" style="">${player.playerSalary}만원</span>
-        </div>
-        <div class="td td_ar_score"><span>${player.hitter }</span></div>
+        	<c:set var="salary" value="${player.playerSalary}"/>
+            	<span class="span_bp1">
+            		<fmt:formatNumber value="${salary * 10000}" pattern="#,###"/>원
+            </span>
+        </div>        
+        <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
         </tr>
         </c:forEach>
         <jsp:include page="/common/pageNavigator_all.jsp">

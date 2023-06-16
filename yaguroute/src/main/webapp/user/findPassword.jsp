@@ -46,14 +46,13 @@
 	    font-size: 17px;
 	    padding: 9px 15px;
 	    text-decoration: none;
-	    text-shadow: rgb(47, 102, 39) 0px 1px 0px;
+	    text-shadow: 0px 0px 0px !important;
 	}
     .card {
       height: auto;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background-color: mintcream;
     }
 
     .card-title {
@@ -253,34 +252,44 @@
 	   		var userId = $("#userId").val();
 	   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
 	   		
-	   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
-	   		// rnd에 대한 HTML 요소 생성
-	
-	   		var newDiv = document.createElement("div");
-	
-			// hidden 속성 추가
-			var hiddenDiv = document.createElement('input');
-	   		hiddenDiv.type = "hidden";
-			hiddenDiv.value = rnd;
-			hiddenDiv.id = 'rnd';
-			newDiv.appendChild(hiddenDiv);
-			document.body.appendChild(newDiv);
-			
-	   		$.ajax({
-	               url: "/users/phoneCheck/",
-	               method: "POST",
-	               dataType: "json",
-	               data: {userPhone : userPhone,
-	               		rnd : rnd}, // 수정: userId로 변경
-	               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
-	               success: function(result) {
-	               	alert("인증번호를 발송하였습니다.");
-	               },
-	               error: function() {
-	               	alert("서버 오류 발생");
-	                   return;
-	           }
-	   		});
+	   		if(userId.length < 1){
+	   			alert("아이디를 먼저 입력 해 주세요.");
+	   			return;
+	   		}else if(userPhone.length != 11 && (!userPhone.includes("010")) || !userPhone.includes("011")){
+	   			alert("휴대폰 번호를 다시 확인 해 주세요.");
+	   			return;
+	   		}else if(!/[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()]/.test(userPhone)) {
+	   			
+		   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+		   		// rnd에 대한 HTML 요소 생성
+		
+		   		var newDiv = document.createElement("div");
+				
+				// hidden 속성 추가
+				var hiddenDiv = document.createElement('input');
+		   		hiddenDiv.type = "hidden";
+				hiddenDiv.value = rnd;
+				hiddenDiv.id = 'rnd';
+				newDiv.appendChild(hiddenDiv);
+				document.body.appendChild(newDiv);
+				
+		   		$.ajax({
+		               url: "/users/phoneCheck/",
+		               method: "POST",
+		               dataType: "json",
+		               data: {userPhone : userPhone,
+		               		rnd : rnd}, // 수정: userId로 변경
+		               // userId앞에는 클라이언트단, 뒤에는 서버단이다.
+		               success: function(result){
+		            	   
+		               	   alert("인증번호를 발송하였습니다.");
+		               },
+		               error: function() {
+		               	alert("서버 오류 발생");
+		                   return;
+		           }
+		   	 });
+	   		}
 	   	  });
 	   	});
 		
@@ -288,6 +297,18 @@
 		$(function(){
 	    	
 	    	$("#phoneCheckButton").on("click", function(){
+	    		
+	    		var userId = $("#userId").val();
+	    		var userPhone = $("#userPhone").val();
+	    		
+	    		if(userId.length < 1){
+	    			alert("아이디를 먼저 입력 해 주세요.");
+	    			return;
+	    		}
+	    		else if(userPhone.length != 11){
+	    			alert("휴대폰 번호를 먼저 입력 해 주세요.");
+	    			return;
+	    		}
 	    		
 	    		var verify = $("#phoneCheck").val();
 	        	var rnd = $("#rnd").val();
@@ -297,6 +318,7 @@
 	        	}
 	        	else{
 	        		alert("인증에 실패하였습니다.");
+	        		return;
 	        	}
 	    	});
 	   });
@@ -346,6 +368,7 @@
     }
 	      
 	    function closeModal() {
+	    	window.close();
 	        document.getElementById("modal").style.display = "none";
 	    }
 		
@@ -405,15 +428,15 @@ BREADCRUMBS END
         <h4 class="card-title"><strong>비밀번호 찾기</strong></h4>
         <a style="text-align: center; margin-bottom: 60px; font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;패스워드를 찾기위해 휴대폰과 인증번호가 필요합니다.</a><br><br>
         <div class="findUser">
-        <a style="font-size: 13px;">아이디</a>
-        <input type="text" name="userId" id="userId" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="아이디 입력" autofocus required>
+        <a style="font-size: 13px; font-family: Gwangyang !important;">아이디</a>
+        <input type="text" name="userId" id="userId" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="아이디 입력" autofocus required>
         <a style="font-size: 13px;">휴대폰</a>
-        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="휴대폰번호 입력" autofocus required>
-        <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; margin-bottom: 10px;" value="인증번호 전송"><br>
+        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="휴대폰번호 입력" autofocus required>
+        <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; margin-bottom: 10px; background-color: #19376D; " value="인증번호 전송"><br>
         <div>
         <a style="font-size: 13px;">인증번호</a>
-          <input type="text" id="phoneCheck" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="인증번호 입력">
-          <input type="button" class="buttonColor" id="phoneCheckButton" style="width: 250px; margin: auto;" value="인증번호 확인">
+          <input type="text" id="phoneCheck" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="인증번호 입력">
+          <input type="button" class="buttonColor" id="phoneCheckButton" style="width: 250px; margin: auto; background-color: #19376D;" value="인증번호 확인">
       </div>
       </div>
       </div>

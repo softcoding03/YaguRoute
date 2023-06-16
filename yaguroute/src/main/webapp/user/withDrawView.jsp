@@ -462,6 +462,30 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
 <script type="text/javascript">
 	
+//패스워드 더블체크
+$(function() {
+	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	
+	$( "#passwordCheck" ).keyup(function() {
+		
+		var passwordCheck = $("#passwordCheck").val();
+		var password = $("#password").val();
+		
+		if(password.length < 2 ){
+			$('#passwordCheck_use').html('먼저 비밀번호를 확인해 주시기 바랍니다.');
+			$("#passwordCheck_use").attr('color', '#dc3545');
+		}
+		else if(password == passwordCheck){
+			$('#passwordCheck_use').html('입력한 비밀번호와 같습니다.');
+			$('#passwordCheck_use').attr('color', '#2fb380');
+		}
+		else{
+			$('#passwordCheck_use').html('입력한 비밀번호와 일치하지 않습니다.');
+			$("#passwordCheck_use").attr('color', '#dc3545');
+		}
+	});
+});	
+	
 	// 카카오, 네이버 로그인 잡기
 	$(function(){
 		
@@ -507,7 +531,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	// 메인화면으로 이동
 	function mainGoFunction() {
 		
-		window.location.href="/main.jsp";
+		window.location.href="/main/getMain";
 	}
 	
 	// 내 정보 보기로 이동
@@ -522,9 +546,14 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
         $("#withDraw").on("click", function() {
         	
         	var password1 = $("#password").val();
-        	alert("password : "+password1);
+        	var passwordCheck = $("#passwordCheck").val();
+        	
+        	if(password1 !== passwordCheck){
+        		alert("패스워드가 불일치합니다.");
+        	}
         	
         	$.ajax({
+        		
                 url: "/users/withDraw",
                 type: "POST",
                 data: { password : password1 },
@@ -536,9 +565,13 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                         alert("탈퇴 처리되었습니다.");
                         window.location.href="/user/loginTest(new).jsp";
                     } 
-                    else {
-                        alert("비밀번호가 일치하지 않습니다.");
+                    else if(password1 == '' || password1 == null){
+                    	alert("탈퇴하시려면 비밀번호를 입력해 주세요.");
                         return;
+                    }
+                    else{
+                    	alert("비밀번호가 일치하지 않습니다.");
+                    	return;
                     }
                 },
                 error: function() {
@@ -546,9 +579,24 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                     alert(password1);
                 }
             });
-        })
-    })
+        });
+    });
 	
+	$(function(){
+		
+		$("passwordCheck").on("click", function(){
+			
+			alert("ㅎㅇㅎㅇ");
+			
+			var password = $("#password").val();
+			var passwordCheck = $("#passwordCheck").val();
+			
+			if(password !== passwordCheck){
+				alert("패스워드와 패스워드 확인이 불일치합니다.");
+				return;
+			}
+		});
+	});
 </script>
 
 <jsp:include page="/common/topBar.jsp"></jsp:include>
@@ -713,6 +761,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                                     <label for="passwordCheck">
                                     	<a class="weaving"> <br>
                                         <input type="password" name="passwordCheck" id="passwordCheck" style="width: 375px; height: 50px; margin-bottom: 20px;"  placeholder="비밀번호를 한번 더 입력해 주세요." >
+										<br>
+                                        <font id="passwordCheck_use" size="2"></font>
                                         </a>
                                     </label>
                                 </div>
@@ -725,51 +775,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                        </form>  
                    </div>
                 </div>
-                               
-<!-- <div class="subindex_item">
-    <div class="subindex_onebox">
-        <div class="onebox_title desc">
-            <h2 class="subindex_title">배송지 관리</h2>
-        </div>
-        <a href="https://new-m.pay.naver.com/member/shipping/list" class="link_right" onclick="nclk(this,'imn.addcheck','','',event)">
-                    <span class="case">총4건</span>
-        </a>
-        <div class="subindex_desc">쇼핑, 예약 등에서 사용하신 배송지를 관리할 수 있어요.</div>
-    </div>
-</div> -->
-
-<!--개인정보 이용내역-->
-<!-- <div class="subindex_item">
-    <div class="subindex_onebox">
-        <div class="onebox_title">
-            <h2 class="subindex_title">개인정보 이용내역</h2>
-            <a href="javascript:;" id="info3" class="link_info" aria-expanded="false"><span class="blind">도움말</span></a>
-            <div id="info3ToolTip" class="info_tooltip" aria-hidden="true" style="display: none;">
-                <p class="info_desc">내 개인정보가 어떻게 이용되고 있는지 확인할 수 있어요.</p>
-                <button type="button" id="infoExit3" class="btn_exit"><span class="blind">닫기</span></button>
-            </div>
-
-        </div>
-        <button type="button" id="personalInfoHistoryButton" class="btn_edit" onclick="nclk(this,'imn.privacychk','','',event)">
-            <span class="text">조회</span>
-        </button>
-    </div>
-</div> -->
-
-<!--회원탈퇴-->
-<!-- <div class="subindex_link">
-    <div class="drop_link">
-        <a href="javascript:;" class="btn_link" onclick="goMemberDelete()">
-            <span class="text">회원탈퇴</span>
-        </a>
-    </div>
-		</div>  
-		</div>
-      </div>
-        //container
-    </div>
-</div> -->
-
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

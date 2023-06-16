@@ -716,7 +716,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 	// 메인화면으로 이동
 	function mainGoFunction() {
 		
-		window.location.href="/main.jsp";
+		window.location.href="/main/getMain";
 	}
 	
 	function getUserFunction() {
@@ -728,6 +728,56 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 
  <script type="text/javascript">
  
+ 
+ 	$(function(){
+ 		
+ 		$("#userPhone").on("click", function(){
+ 			
+ 			var inputElement = document.getElementById("userPhone");
+ 		    inputElement.readOnly = false;
+ 			
+ 		    inputElement.value = "";
+ 		    
+ 		    var inputPasswordCheck = document.getElementById("phoneCheck");
+ 		   inputPasswordCheck.value = "";
+ 		});
+ 	
+ 		
+ 		$("#nicknameCheck").on("click", function(){
+ 			
+ 			var inputElement = document.getElementById("nicknameCheck");
+ 		    inputElement.readOnly = false;
+ 		    
+ 		    inputElement.value = "";
+ 		});
+ 	
+ 		
+		$("#userEmail").on("click", function(){
+ 			
+ 			var inputElement = document.getElementById("userEmail");
+ 		    inputElement.readOnly = false;
+ 		    
+ 		    inputElement.value = "";
+ 		});
+ 
+ 		
+		$("#userAddrButton").on("click", function(){
+ 			
+ 			var inputElement = document.getElementById("sample6_detailAddress");
+ 		    inputElement.readOnly = false;
+ 		    
+ 		    inputElement.value = "";
+ 		});
+		
+		$("#userName").on("click", function(){
+ 			
+ 			var inputElement = document.getElementById("userName");
+ 		    inputElement.readOnly = false;
+ 		    
+ 		    inputElement.value = "";
+ 		});
+ 	});
+ 	
  	// 처음에 userBirth 있는 값 출력하기
  	$(function(){
  		
@@ -796,14 +846,14 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
  
  	// userId 수정 불가 알림
     $(function(){
-		$('#userId').on("click", function(){
+		$("input[name='userId']").on("click", function(){
 			let id = $('#userId').val(); // 입력 중인 id의 val을 변수에 선언한다.
 			$("#id_use").html('아이디는 수정할 수 없습니다.');
 			$("#id_use").attr('color','#dc3545');
 		});
 	});
     
-	// 패스워드 체크
+ // 패스워드 체크
 	$(function(){
 		
 		$("#password").keyup(function(){
@@ -943,6 +993,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		if(userPhone.length == 11){
 			alert("인증번호를 발송하였습니다.");
 			document.getElementById('phoneCheckId').style.display = 'block';
+			document.getElementById('phoneCheck').value = '';
 		}
 		else{
 			alert("휴대폰 번호를 다시 입력해주세요.");
@@ -978,6 +1029,12 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
         	
         	if(verify == rnd){
         		alert("인증이 완료되었습니다.");
+        		var button1 = document.getElementById('phoneCheckButton');
+        		var button2 = document.getElementById('phoneButton');
+        		var phoneCheck = document.getElementById('phoneCheck');
+        		button1.style.display = 'none';
+        		button2.style.display = 'none';
+        		phoneCheck.style.display = 'none';
         	}
         	else{
         		alert("인증에 실패하였습니다.");
@@ -1015,11 +1072,16 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			// 2. password 유효성 검증
 			var userId = $("#userId").val();
 			var password = $("#password").val();
+			var phoneCheck = $("#phoneCheck").val();
 			//alert(password);
 			
 			var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
 			
-			if(password === userId){
+			if(phoneCheck == null || phoneCheck == ''){
+				alert("휴대폰 인증이 필요합니다.");
+				return;
+			}
+			else if(password === userId){
 				//alert("아마 카카오나 네이버 유저 ");
 			}
 			else if(password.length > 50){
@@ -1032,7 +1094,6 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				alert("패스워드는 영문, 숫자 조합이어야 합니다.");
 				return;
 			}
-			
 			var passwordCheck = $("#passwordCheck").val();
 			
 			if(passwordCheck == null){
@@ -1170,7 +1231,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			
 			// ajax(User) -> Controller
 			var user = {
-				userId : $("#userId").val(),
+				userId : $("input[name='userId']").val(),
 				password : $("#password").val(),
 				userName : $("#userName").val(),
 				userPhone : $("#userPhone").val(),
@@ -1181,7 +1242,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 				userEmail : $("#userEmail").val(),
 				userNickName : $("input[name='userNickName']").val(),
 				teamCode : $("#teamCode").val(),
-				userImage : $("#userImage").val()
+				userImage : $("input[name='userImage']").val()
 			};
 
 			$.ajax({
@@ -1274,14 +1335,17 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			            		console.log(data.image_path);
 			            		
 			            		// hidden 속성 추가
-			            		var newDiv = document.createElement("div");
+			            		/* var newDiv = document.createElement("div");
 			            		var hiddenDiv = document.createElement('input');
 			               		hiddenDiv.type = "hidden";
 			            		hiddenDiv.value = data.image_path;
 			            		hiddenDiv.id = 'userImage';
 			            		hiddenDiv.name = 'userImage';
 			            		newDiv.appendChild(hiddenDiv);
-			            		document.body.appendChild(newDiv);
+			            		document.body.appendChild(newDiv); */
+			            		
+			            		document.getElementById("userImage").value = "";
+			            		document.getElementById("userImage").value = data.image_path;
 			            		
 			            		var previewImage = data.image_path;
 			            		
@@ -1333,13 +1397,16 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
     <div class="profile_area">
         <div class="profile_inner">
             <a href="#" onclick="updateUserFunction()" class="photo">
-                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지" id="userImage">
+                <img src="${user.userImage}" onerror="this.src=&#39;/images/user/defaultProfile.png&#39;" width="84" height="84" alt="프로필 이미지">
                 <span class="photo_edit"></span>
             </a>
             <div class="profile">
                 <p class="useid">${user.userNickName}</p>
                 <p class="userId" id="userId">${user.userId}</p>
             </div>
+            
+            <input type="hidden" name="userImage" id="userImage" value="${user.userImage}">
+            
         </div>
         <a href="/users/logout" style="text-align: center; width: 10px; color: gray;
     border-radius: 28px;
@@ -1474,7 +1541,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                             	<div class="form-inline">
                                     <label for="passwordCheck" id="userNameNone" style="display: block">
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; height: 40px;">이름<br>
-                                        <input type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름" value="${user.userName}">
+                                        <input readonly="readonly" type="text" id="userName" name="userName" style="width: 405px; height: 35px;" placeholder="이름" value="${user.userName}">
                                         </a>
                                     </label>
                                     	<font id="userName_use" size="2"></font>
@@ -1483,7 +1550,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 								<div class="form-inline">
                                     <label for="nickname">
                                     	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">닉네임<br>
-                                        <input type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임" value="${user.userNickName}"/>
+                                        <input readonly="readonly" type="text" id="nicknameCheck" name="userNickName" style="width: 405px; height: 35px;" placeholder="닉네임" value="${user.userNickName}"/>
                                         </a>
                                     </label>
                                     	<font id="nickname_use" size="2"></font>
@@ -1508,8 +1575,8 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                                 </div>
                                 <div class="form-inline">
                             		<label for="userPhone" id="phoneNone" style="display: block;">
-                            		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">휴대폰 번호<br>
-		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" placeholder="휴대폰 번호" value="${user.userPhone}"/>&nbsp;&nbsp;
+                            		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium; ">휴대폰 번호<br>
+		    						<input readonly="readonly" type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" placeholder="휴대폰 번호" value="${user.userPhone}"/>&nbsp;&nbsp;
 		    						</a>
 		    						<button type="button" id="phoneButton" style=" background-color: #2c74bb; border-radius: 21px;" >인증번호 발송</button>
 		    						</label>
@@ -1517,7 +1584,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                             	<div class="form-inline">
                             		<label>
                             		<a id="phoneCheckId" style="display: none;">
-		    						<input type="text" id="phoneCheck" name="userPhoneCheck" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="인증번호를 입력해주세요."/>&nbsp;&nbsp;
+		    						<input type="text" id="phoneCheck" name="userPhoneCheck" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="인증번호를 입력해주세요." value="${user.userPhone}"/>&nbsp;&nbsp;
 		    						<button type="button" id="phoneCheckButton" style="background-color: slategray;">인증번호 확인</button>
 		    						</a>
 		    						</label>
@@ -1525,22 +1592,22 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
                             	<div class="form-inline">
                             		<label for="email" id="emailNone" style="display: block;">
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">이메일<br>
-		    						<input type="text" name="userEmail" id="userEmail" style="width: 405px; height: 35px; margin-bottom: 10px;" placeholder="이메일" value="${user.userEmail}"/>
+		    						<input readonly="readonly" type="text" name="userEmail" id="userEmail" style="width: 405px; height: 35px; margin-bottom: 10px;" placeholder="이메일" value="${user.userEmail}"/>
 		    						</a>
 		    						</label>
                             	</div> 
                             	<div class="form-inline">
                             		<label>
                             		<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">주소<br>
-		    						<input readonly disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
-		    						<button type="button" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: #2c74bb; border-radius: 21px;">주소&nbsp;선택</button>
+		    						<input disabled type="text" id="sample6_address" name="addr1" style="width: 270px; height: 35px; margin-bottom: 10px; margin-block: auto;" value="${user.userAddr}" placeholder="주소">&nbsp;&nbsp;
+		    						<button type="button" id="userAddrButton" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px; background-color: #2c74bb; border-radius: 21px;">주소&nbsp;선택</button>
 		    						<input type ="hidden" id="userAddr" name="userAddr"> 
 									</a>
 		    						</label>
                             	</div>
                             	<div class="form-inline">
                             		<label>
-		    						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 405px; height: 35px;">
+		    						<input readonly="readonly" type="text" id="sample6_detailAddress" placeholder="상세주소" name="addr2" style="width: 405px; height: 35px;">
 		    						</label>
                             	</div>
                             	<a class="weaving" style="margin-bottom: 10px; font-weight: bold; font-size: medium;">선호구단<br>

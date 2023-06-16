@@ -354,8 +354,13 @@
 		$("#userName").keyup(function(){
 			
 			var userName = $("#userName").val();
+			var pattern = /[!@#$%^&*(),.-?+=_":{}|<>]/;
 			
-			if(userName.length > 10){
+			if(pattern.test(userName)){
+				$("#userName_use").html('특수문자는 사용 불가합니다.');
+				$("#userName_use").attr('color', '#dc3545');
+			}
+			else if(userName.length > 10){
 				$("#userName_use").html('이름은 10자 이하만 가능합니다.');
 				$("#userName_use").attr('color', '#dc3545');
 			}
@@ -434,6 +439,13 @@
         	if(verify == rnd){
         		alert("인증이 완료되었습니다.");
         		$("#phoneCheck").prop("disabled", true);
+        		
+        		var button1 = document.getElementById('phoneCheckButton');
+        		var button2 = document.getElementById('phoneButton');
+        		var phoneCheck = document.getElementById('phoneCheck');
+        		button1.style.display = 'none';
+        		button2.style.display = 'none';
+        		phoneCheck.style.display = 'none';
         	}
         	else{
         		alert("인증에 실패하였습니다.");
@@ -637,6 +649,7 @@
 			
 			// 6. userNickName 유효성 검증
 			var userNickName = $("input[name='userNickName']").val();
+			var pattern = /[!@#$%^&*(),.-=_?":{}|<>]/; 
 			
 			$.ajax({
 				url : "/user/userNickNameCheck",
@@ -649,6 +662,9 @@
 						return;
 					}else if(userNickName < 1){
 						alert("닉네임을 최소 2자리 이상 입력 해 주시기 바랍니다.");
+						return;
+					}else if(pattern.test(userNickName)){
+						alert("특수문자는 불가합니다.");
 						return;
 					}else if(userNickName > 20){
 						alert("닉네임은 최대 20자리까지 가능합니다.");
@@ -669,11 +685,15 @@
 			}
 			
 			var phoneCheck = $("#phoneCheck").val();
+			var randomNumber = $("#rnd").val();
+			
 			if(phoneCheck.length != 5){
-				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
+				alert("인증번호를 다시 입력 해 주세요.");
+				return;
+			}else if(phoneCheck != randomNumber){
+				alert("인증번호를 다시 입력 해 주세요.");
 				return;
 			}
-			
 			// 5. userBirth 유효성 검증
 			var userBirth=$("#birthday").val();
 			

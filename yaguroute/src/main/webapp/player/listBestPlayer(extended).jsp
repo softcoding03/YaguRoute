@@ -4857,7 +4857,7 @@
     	  
     	  var bestDate = dates[index-1]; 
     	  
-    	  alert(dates[index-1]);
+    	  /* alert(dates[index-1]); */
     	  
 	      self.location.href = "/player/bestListPlayerGroup?bestDate=" + bestDate; 
 	      
