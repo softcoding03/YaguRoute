@@ -47,14 +47,6 @@ public class GameController {
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
 	
-	@Autowired
-	@Qualifier("commentServiceImpl")
-	private CommentService commentService;
-	
-	@Autowired
-	@Qualifier("gamePredictServiceImpl")
-	private GamePredictService gamePredictService;
-	
 	@GetMapping("getGameList")
 	public String getGameList(@RequestParam(value = "year", required = false) String year,@RequestParam(value = "month", required = false) String month
 			, @RequestParam(value = "teamCode", required = false) String teamCode,HttpServletRequest requset) {		
@@ -114,16 +106,8 @@ public class GameController {
 		Game game = gameService.getGameInfo(gameCode);
 		GameRecord gameRecord = gameService.getGameRecord(game);
 		List<Game> todayGame = gameService.getGameListByDate(game.getGameDate());
+
 		
-		
-		Comment comment = new Comment();
-		comment.setGameCode(gameCode);
-		Map<String, Object> map = commentService.getCommentList(comment);
-		List<Comment> list1 = (List<Comment>)map.get("list1"); //1레이어 댓글
-		List<Comment> list2 = (List<Comment>)map.get("list2"); //2레이어 댓글
-		
-		request.setAttribute("commentList1", list1);
-		request.setAttribute("commentList2", list2);
 		request.setAttribute("gameRecord", gameRecord);
 		request.setAttribute("todayGame", todayGame);
 		
@@ -146,7 +130,7 @@ public class GameController {
 	}
 	
 	@GetMapping("getTeam")
-	public String getGameTeam(@RequestParam("teamCode") String teamCode,HttpServletRequest request) throws Exception{
+	public String getTeamInfo(@RequestParam("teamCode") String teamCode,HttpServletRequest request) throws Exception{
 		
 		if(teamCode == "ALL") {
 			teamCode = "HH";
