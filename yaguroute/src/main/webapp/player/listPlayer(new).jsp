@@ -286,13 +286,34 @@
 	 	        success: function(Player) {
 	 	        	console.log(Player);
 	 	        	
+	 	        	// 생년월일 로직
 	 	        	var playerBirth = Player.playerBirth;
-	 	        	
 	 	        	var year  = playerBirth.slice(0,4);
 	 	        	var month = playerBirth.slice(4,6);
 	 	        	var day = playerBirth.slice(6,8);
-	 	        	
 	 	        	var settingBirth = year+"-"+month+"-"+day;
+	 	        	
+	 	        	var teamCode = "${teamCode}";
+	 	        	var allTeamString = "${allTeam}";
+
+	 	        	// JSTL 표현식 내의 따옴표와 공백 제거
+	 	        	allTeamString = allTeamString.replace(/["'\s]/g, '');
+
+	 	        	// 리스트로 변환
+	 	        	var allTeam = allTeamString.split(',');
+
+	 	        	var extractedTeamCode = null;
+
+	 	        	// teamCode 추출
+	 	        	for (var i = 0; i < allTeam.length; i++) {
+	 	        	  var currentTeamCode = allTeam[i].split('=')[1]; // "teamCode=값"에서 값을 추출
+	 	        	  if (currentTeamCode === teamCode) {
+	 	        	    extractedTeamCode = currentTeamCode;
+	 	        	    break;
+	 	        	  }
+	 	        	}
+
+	 	        	console.log(extractedTeamCode);
 	 	        	
 	 	        	$("#playerName1").text(Player.playerName);
 	 	        	$("#playerName2").text(Player.playerName);
@@ -310,6 +331,7 @@
 	 	        	$("#threeOut").text(Player.threeOut);
 	 	        	$("#homeRun").text(Player.homeRun);
 	 	        	$('#playerImage1').attr('src', Player.playerImage);
+	 	        	$('#teamCode').attr(Player.teamCode);
 	 	        },
 	 	        error: function(xhr, status, error) {
 	 	            alert("오류 발생(이유) : " + error);
@@ -388,7 +410,7 @@
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>선수이름</option>
 					</select>
 				</div> --%>
-                
+                <%-- <p>${allTeam}</p> --%>
                 <form role="form" id="form1" >
 	                <div class="search_panel">
 	                    <div class="search_input_name">
@@ -504,14 +526,18 @@
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="stamina">
-                        ${player.teamCode}
+                    	<c:forEach var="team" items="${allTeam}">
+	                    	<c:if test="${team.teamCode eq player.teamCode }">
+	                        	<img alt="구단 엠블럼" src="${team.teamEmblem}" style="width: 50px; height: 51px; position: inherit; top: -16px;"> 
+	                    	</c:if>
+                    	</c:forEach>
                     </span>
                 </span>
         </div>
         <div class="td td_ar_bp bp_100140601">
         	<c:set var="salary" value="${player.playerSalary}"/>
             	<span class="span_bp1">
-            		<fmt:formatNumber value="${salary * 10000}" pattern="#,###"/>원
+            		<fmt:formatNumber value="${salary * 10000}" pattern="#,###"/>₩
             </span>
         </div>        
         <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
@@ -565,17 +591,30 @@
         <div class="content_header">
             <a href="#" class="btn_delete"><em></em><em></em></a>
             <div class="thumb icontm _ICONTM" >
-                <div class="card_back"><img src="/images/player/icon.png" alt=""></div>
+                <div class="card_back"><img src="/images/player/icon.png" alt="카드 이미지"></div>
                 <div class="img"><img id="playerImage1" src="" alt="" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"></div>
                 <div class="live_wrap">
 				
                 </div>
-                <div class="name_wrap"><div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div><div class="name" id="playerName1"></div></div>
+                <div class="name_wrap">
+                	<div class="season">
+	                	<c:forEach var="team" items="${allTeam}">
+		                	<c:if test="${team.teamCode eq player.teamCode}">
+		                		<img src="${team.teamEmblem}" alt="구단 이미지1">
+		                	</c:if>
+	                	</c:forEach>
+                	</div>
+                	<div class="name" id="playerName1"></div>
+                	</div>
                 <div class="pay" id="playerNumber1"></div>
             </div>
             <div class="info_wrap">
                 <div class="info_line info_name">
-                    <div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div>
+                    <div class="season"><c:forEach var="team" items="${allTeam}">
+		                	<c:if test="${team.teamCode eq player.teamCode}">
+		                		<img src="${team.teamEmblem}" alt="구단 이미지2">
+		                	</c:if>
+	                	</c:forEach></div>
                     <div class="name" id="playerName2" style="font-size: 25px;"></div>
                 </div>
                 <div class="info_line info_ab" style="position: inherit;">

@@ -118,6 +118,8 @@ public class PlayerController {
 		List<Team> allTeam = playerDao.getAllTeam();
 		// Model And View Connect...
 
+		System.out.println("allTeam : "+allTeam);
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
