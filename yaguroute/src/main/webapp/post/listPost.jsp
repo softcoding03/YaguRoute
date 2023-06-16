@@ -202,6 +202,11 @@
 	</div>
 </section>
 
+<div>
+	<img src="http://ehtchbycawbt17844417.cdn.ntruss.com/postimage/efae8aa1-946f-4e22-be3b-785ac070155f.png?type=h&h=400">
+</div>
+
+
 <section class="h1">
 	<h1>커뮤니티 게시판</h1>
 </section>

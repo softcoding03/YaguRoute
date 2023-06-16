@@ -34,7 +34,7 @@
   
 
   
-    	$(function() {
+    $(function() {
 	    	//유효성 검사
 	    	var title=false;
 	    	var contents=false;
@@ -89,25 +89,26 @@
 	    		});
  			//유효성 검사 끝
     		
-    		$( "button.btn.btn-default").on("click" , function() {
-    			event.preventDefault();
-    			var post ={
-    					postType: $("select.form-control").val(),
-    					postTitle: $("input[name='postTitle']").val(),
-    					postContents: $("#summernote").val()
-    			}
-  		      $.ajax({
-	  		        type: 'POST',
-	  		        url: '/post/rest/addPost',
-	  		        data: post,
-	  		        success: function(response) {
-	  		         if(response === "success"){
-	  		        		window.close();
-	  		        		opener.location.reload();
-	  		         }
-	  		        }
-  		      });
-    		}); 
+	    		$( "button.btn.btn-default").on("click" , function() {
+	    			event.preventDefault();
+	    			
+	    			var post ={
+	    					postType: $("select.form-control").val(),
+	    					postTitle: $("input[name='postTitle']").val(),
+	    					postContents: $("#summernote").val()
+	    			}
+	  		      $.ajax({
+		  		        type: 'POST',
+		  		        url: '/post/rest/addPost',
+		  		        data: post,
+		  		        success: function(response) {
+		  		         if(response === "success"){
+		  		        		window.close();
+		  		        		opener.location.reload();
+		  		         }
+		  		        }
+	  		      });
+	    		}); 
     		
     		
     		var toolbar = [
@@ -127,27 +128,45 @@
     		    ['height', ['height']]
     		  ];
     		
+			var imageCount = 0; //이미지 업로드 갯수 제한을 위한 변수
+			
+				$('#summernote').on('summernote.change', function() {
+						imageCount = $("img").length;
+						console.log("이미지 개수는 ?"+imageCount)
+				})
+  			
   			var setting = {
+  				  popover:{
+  					  image:[
+  					    ['float', ['floatLeft', 'floatRight', 'floatNone']],
+  					    ['remove', ['removeMedia']]
+  					  ]
+  				  },
               height : 400,
               minHeight : null,
               maxHeight : null,
               focus : true,
               lang : 'ko-KR',
               toolbar : toolbar,
-              //콜백 함수
+              //이미지 업로드 콜백 함수
               callbacks : { 
-              	onImageUpload : function(files, editor, welEditable) {
-              // 파일 업로드(다중업로드를 위해 반복문 사용)
-              for (var i = files.length - 1; i >= 0; i--) {
-              uploadSummernoteImageFile(files[i],this);
-              		}
-              	}
+	              	onImageUpload : function(files, editor, welEditable) {
+		           	  	console.log(imageCount)
+	              		if(imageCount < 3){	//이미지 3장까지만 업로드 가능하도록 
+		              		for (var i = files.length - 1; i >= 0; i--) {
+				             	uploadSummernoteImageFile(files[i],this);
+				           }
+		           	   } else {
+		           	 		 alert("사진은 최대 3장까지 업로드 가능합니다.")
+	              	   }
+	              	}
               }
            };
     	
            $('#summernote').summernote(setting);
     	});
-          
+	    
+			
     	function uploadSummernoteImageFile(file, el) {
   			data = new FormData();
   			data.append("file", file);
@@ -163,6 +182,9 @@
   				}
   			});
 		}
+    	
+    	
+    	
     </script>
      
    

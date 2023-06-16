@@ -130,13 +130,16 @@ public class PostRestController {
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 			String savedFileName = UUID.randomUUID().toString() + extension;	//저장될 파일 명
 			System.out.println("savedFileName ?"+savedFileName);
-			
-			String fileName = "postimage/"+savedFileName;
+			String fileName = savedFileName;
+			//String fileName = "postimage/"+savedFileName;
 			String resultURL = s3Uploader.uploadFiles(multipartFile, fileName);
 			System.out.println("resultURL ? "+resultURL); //오브젝트스토리지 올라간 파일 총 경로
-	        
-			jsonObject.addProperty("url", resultURL);
-			String result = jsonObject.toString();
+			String imageOptimizer = "?type=f&w=450&h=300";
+			//String imageOptimizer = "?type=h&h=200";
+	        String result = "http://jmsmoufzcvqi17847679.cdn.ntruss.com/"+fileName+imageOptimizer;
+			jsonObject.addProperty("url", result);
+			result = jsonObject.toString();
+			System.out.println("result ??"+result);
 			return result;
 		}
 		

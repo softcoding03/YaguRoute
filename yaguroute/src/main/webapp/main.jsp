@@ -226,8 +226,7 @@
 		.quickmenu ul li a {position:relative;float:left;width:100%;height:50px;line-height:50px;text-align:center;color:#999;font-size:9.5pt;}
 		.quickmenu ul li a:hover {color:#000;}
 		.quickmenu ul li:last-child {border-bottom:0;}
-		.content {position:relative;min-height:1000px;}		
-		.quickmenu .submenu {display: none;}
+		.content {position:relative;min-height:1000px;}
 		
 		div,span,a,h2,td,th,tr{
 			font-family:"Gwangyang" !important;

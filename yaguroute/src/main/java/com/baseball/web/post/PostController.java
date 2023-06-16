@@ -97,8 +97,13 @@ public class PostController {
 				System.out.println("2레이어 댓글"+b);	
 			}
 			
+			//팀탑바 데이터
 			Team team = gameService.getTeamInfo(teamCode);
 			
+			//사이드바 공지사항 데이터
+			List<Post> noticeList = postService.getNoticeList();
+			
+			model.addAttribute("noticeList",noticeList);
 			model.addAttribute("commentList1", list1);
 			model.addAttribute("commentList2", list2);
 			model.addAttribute("emote", emote);
@@ -180,10 +185,9 @@ public class PostController {
 			System.out.println("/post/getNoticeList : GET START");
 			
 			List<Post> noticeList = postService.getNoticeList();
-			for(Post post:noticeList) {
-				System.out.println("noticePost ?"+post);
-			}
-			
+			/*
+			 * for(Post post:noticeList) { System.out.println("noticePost ?"+post); }
+			 */
 			model.addAttribute("list",noticeList);
 			return "forward:/post/listNoticePost.jsp";
 	}

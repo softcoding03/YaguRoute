@@ -50,7 +50,7 @@
 			text-align: center;
 		}
 		
-		//따라다니는 퀵메뉴
+		/* 따라다니는 퀵메뉴 */
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
 		a {text-decoration:none;}
 		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}

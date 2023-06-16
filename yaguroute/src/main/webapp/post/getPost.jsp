@@ -470,12 +470,15 @@ var postNo;
 				<fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분" value="${parsedDateTime}" var="DateTime"/>
             <div class="comment-quantity">Views: ${post.postViews}&nbsp;&nbsp;&nbsp;&nbsp; 작성일: ${DateTime}&nbsp;&nbsp;&nbsp;&nbsp; 게시물 번호: ${post.postNo}</div>
         		<hr>
-        		<c:if test="${post.user.userId eq user.userId}">
+        		<c:if test="${post.user.userId eq user.userId || user.role eq 'admin'}">
 	        		<div class="comment-quantity">
+	        			<c:if test="${post.user.userId eq user.userId}">
 	        			<a href="javascript:;" class="updatePost">수정</a>&nbsp;&nbsp;/&nbsp;&nbsp; 
-	        			<a href="javascript:;" class="deletePost">삭제</a>
+	        			</c:if>
+        				<a href="javascript:;" class="deletePost">삭제</a>
 	        		</div>
         		</c:if>
+        		
         </div>
         <div class="post-text">${post.postContents}</div>
         <div class="author-box">

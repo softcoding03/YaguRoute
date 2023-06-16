@@ -44,22 +44,24 @@ public class S3Uploader {
 	// 단일 업로드 시
 	public String upload(File uploadFile, String fileName) {
     //String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
-      String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+      System.out.println("uploadFile? "+uploadFile +" // "+"fileName? "+fileName);
+	  String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
       System.out.println("uploadImageUrl : "+uploadImageUrl);
       removeNewFile(uploadFile);
       return uploadImageUrl;
 	}
 	
 	
-	public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
+	public String uploadFiles(MultipartFile multipartFile, String fileName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-        return upload(uploadFile, dirName);
+        return upload(uploadFile, fileName);
     }
 	
 	// S3로 업로드
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        System.out.println("amazonS3Client?"+amazonS3Client.getUrl(bucketName, fileName)); 
         return amazonS3Client.getUrl(bucketName, fileName).toString();
     }
     
