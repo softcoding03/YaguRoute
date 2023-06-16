@@ -113,7 +113,9 @@ public class GamePredictController {
 	
 	@GetMapping("deleteUserPredict")
 	public String deleteUserPredict(@RequestParam("date") String date, @ModelAttribute("addPred") Predict addPred) throws Exception {
-		System.out.println(addPred.getAddPred().get(0).getPredUserId());
+		for(Predict predTmp : addPred.getAddPred()) {
+			System.out.println(predTmp);
+		}
 		System.out.println(date);
 		gamePredictService.deleteUserPred(addPred.getAddPred().get(0).getPredUserId(), date);;
 		
