@@ -101,7 +101,6 @@
 					if(JSONData.length != 0){
 						for(var i=0;i<JSONData.length;i++){
 							var game = JSONData[i];
-							console.log(game.gameDate)
 							$(".main-lates-matches").append(
 									'<a '+(i === 0 ? 'id="select"' : 'id')+' role="button" class="item '+game.gameCode+'" data-target="#myCarousel" data-slide-to="'+i+'">'
 							        +'<span class="championship">'+game.gameTime+' / '+game.homeTeam.stadiumName+'</span>'
