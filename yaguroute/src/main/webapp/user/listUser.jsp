@@ -77,6 +77,8 @@
     
     <script type="text/javascript">
     
+   
+    		
 	function fncGetUserList(currentPage) {
 		
 		$("#currentPage").val(currentPage);
@@ -89,6 +91,8 @@
 			fncGetUserList(1);
 		});
 	 });
+	
+	$(function(){
 	
 	$(function(){
 		
@@ -104,14 +108,14 @@
 	$(function(){
 	$("#playerList").on("click", function(){
 		window.location.href="/player/listPlayer";
-		});
+	});
 	});
 	
 	$(function(){
     $("#getBestPlayerList").on("click", function(){
 
 		window.location.href="/player/listBestPlayer";
-		});
+	});
 	});
 	
 	// enter 시 검색 버튼

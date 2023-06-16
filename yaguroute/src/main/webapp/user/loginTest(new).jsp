@@ -298,23 +298,23 @@
 			$("form").attr("method","POST").attr("action","/users/login").attr("target","_parent").submit();
 		};	
     
-		function signupFunction() {
-	        $.ajax({
-	            url: "/user/addUser.jsp",
-	            success: function(result) {
-	            	
-	                var popup = window.open("", "회원가입", "width=600,height=1300");
+    function signupFunction() {
+        $.ajax({
+            url: "/user/addUser.jsp",
+            success: function(result) {
+            	
+                var popup = window.open("", "회원가입", "width=600,height=1300");
 
-	                popup.document.write(result);
-	                popup.document.close();
+                popup.document.write(result);
+                popup.document.close();
 
-	                // 팝업 창이 로드된 후 자동 크기 조정 함수 호출
-	                $(popup).on("load", function() {
-	                    autoResizePopup(popup);
-	                });
-	            }
-	        });
-	    }
+                // 팝업 창이 로드된 후 자동 크기 조정 함수 호출
+                $(popup).on("load", function() {
+                    autoResizePopup(popup);
+                });
+            }
+        });
+    }
     
     
     function findUserIdFunction(){
@@ -334,7 +334,8 @@
             }
         });
     	
-    }    
+    }
+    
     function findPasswordFunction(){
     	$.ajax({
             url: "/user/findPassword.jsp",
@@ -442,7 +443,7 @@
 	                        <input type="password" id="password" name="password" class="password" placeholder="비밀번호 입력">
 	                        
 	                        <br><br>
-
+	                              
 	                   		<button type="button" id="login" class="comment-submit" style="margin-bottom: 15px;" onclick="loginFunction()"><b>로 그 인</b></button>
                             <a href="javascript:void(0);" onclick="signupFunction()" style="font-size: 15px; color: #19376D;"> 회원 가입</a> 
                             <a href="javascript:void(0);" onclick="findPasswordFunction()" style="font-size: 15px; float: right; color: #19376D;" >패스워드 찾기</a> 

@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest; import
 	  String msg = "세션이 만료되었습니다. 다시 로그인 해 주세요.";
 	  String url = "/user/loginTest(new).jsp";
 	  
-	  //System.out.println("세션 만료 새기야 ㅋㅋ"+request.getRequestURL());
-	  
 	  try {
 	        response.setContentType("text/html; charset=utf-8");
 	        PrintWriter w = response.getWriter();
