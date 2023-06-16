@@ -166,7 +166,7 @@ public class TransactionController {
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
 		
-			    return "forward:/transaction/listTransaction.jsp";
+			    return "forward:/transaction/addTransaction.jsp";
 	}
 	
 	@RequestMapping("getTransaction")
@@ -248,10 +248,15 @@ public class TransactionController {
 	@RequestMapping("updateTranStatusCode")
 	public ModelAndView updateTranStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
 		
+
+		System.out.println("들어오니???? "+tranDetail);
 		tranDetailService.updateTranStatusCode(tranDetail);
-		
+		if(tranDetail.getRefundStatusCode().equals("2")){
+			System.out.println("hello");
+		}
+		System.out.println(tranDetail.getRefundStatusCode());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/transaction/listTransaction");
+		modelAndView.setViewName("forward:/transaction/dlvyTranList");
 
 		return modelAndView;
 		
@@ -259,11 +264,12 @@ public class TransactionController {
 	
 	@RequestMapping("updateRefundStatusCode")
 	public ModelAndView updateRefundStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
-		
+
+		System.out.println("refunddddddd들어오니???? "+tranDetail);		
 		tranDetailService.updateRefundStatusCode(tranDetail);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/transaction/dlvyTranList");
+		modelAndView.setViewName("forward:/transaction/listTransaction");
 
 		return modelAndView;
 		

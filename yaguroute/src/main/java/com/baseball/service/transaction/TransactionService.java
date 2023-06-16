@@ -18,7 +18,5 @@ public interface TransactionService {
 	
 	public Map<String, Object> getTransactionList(Search search, String userId, String tranType) throws Exception;
 
-//	public List<Transaction> getDlvyTranList(Search search, int tranNo, String tranType) throws Exception;
-
 	public List<Transaction> getSalesList(String gameCode) throws Exception;
 }

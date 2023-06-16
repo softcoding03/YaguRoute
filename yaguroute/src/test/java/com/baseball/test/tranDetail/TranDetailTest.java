@@ -79,17 +79,17 @@ public class TranDetailTest {
 		System.out.println("updateTranStatusCode:: "+tranDetail);
 	}
 	
-	//@Test
+	@Test
 	public void testUpdateRefundStatusCode() throws Exception {
 
 		TranDetail tranDetail = new TranDetail();
 		
-		tranDetail.setTranDetailNo(5);
-		tranDetail.setRefundStatusCode("1");
-		
+		tranDetail.setTranDetailNo(30);
+		tranDetail.setRefundStatusCode("2");
+		System.out.println("updateRefundStatusCode:: "+tranDetail);
 		tranDetailService.updateRefundStatusCode(tranDetail);
 		
-		System.out.println("updateRefundStatusCode:: "+tranDetail);
+		
 		
 	}
 

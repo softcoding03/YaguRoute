@@ -34,7 +34,35 @@
             $("form").attr("method", "GET").attr("action", "/transaction/listTransaction")
                 .submit();
         }
-
+        $(function() {
+  		  $(".refund").on("click", function() {
+  		    var tranDetailNo = $(this).attr("id"); // 환불 대상 거래번호 가져오기
+  	
+  		    var confirmation = confirm("구매를 취소하시겠습니까?");
+  	
+  		    if (confirmation) {
+  		      $.ajax({
+  		        url: "/transaction/rest/refund/" + tranDetailNo,
+  		        method: "GET",
+  		        dataType: "text",
+  		        headers: {
+  		          "Accept": "application/json",
+  		          "Content-Type": "application/json"
+  		        },
+  		        success: function(data, status) {
+  		          if (data === "success") {
+  		            alert("결제 취소가 완료되었습니다.");
+  		          } else {
+  		            alert("결제 취소에 실패했습니다.");
+  		          }
+  		        },
+  		        error: function(xhr, status, error) {
+  		          alert("환불 요청 중 오류가 발생했습니다.");
+  		        }
+  		      });
+  		    }
+  		  });
+  		});
 
 </script>
 
@@ -69,94 +97,86 @@
 
 <form name="detailForm" >
 
-		<div class="container">
-		<div class="page-header text-info">
-			<div class="row">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" >
-	<tr>
-		<td colspan="30" >
-		전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
-	</tr>
-	<tr>
-        <td class="ct_list_b_black">구매일자</td>
-        <td class="ct_list_b_black">구단</td>
-        <td class="ct_list_b_black">상품명</td>
-        <td class="ct_list_b_black">상품가격</td>
-        <td class="ct_list_b_black">구매수량</td>
-        <td class="ct_list_b_black">사용포인트</td>
-        <td class="ct_list_b_black">총 결제금액</td>
-        <td class="ct_list_b_black">구매상태</td>
-        <td class="ct_list_b_black">배송</td>
-        <td class="ct_list_b_black">결제수단</td>
-        <td class="ct_list_b_black">환불상태</td>
-    </tr>
-
-	<c:set var="i" value="0"/>
-		<c:forEach var="tranDetail" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
-			<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>		
-		<tr class="ct_list_pop">
-			<td align="center"><input type="hidden" value="${tranDetail.tranDetailNo}" />${tranDetail.tranDetailTran.tranDate}</td>	
-	
-			<td align="center">
-					  <c:choose>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
-					    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
-					    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
-					  </c:choose>
+					<div class="container">
+					<div class="page-header text-info">
+						<div class="row">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+				<tr>
+					<td colspan="30" >
+					전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
+				</tr>
+				<tr>
+			        <td class="ct_list_b_black">구매일자</td>
+			        <td class="ct_list_b_black">tranCode</td>	
+			        <td class="ct_list_b_black">refundCode</td>				        		        
+			        <td class="ct_list_b_black">구단</td>
+			        <td class="ct_list_b_black">상품명</td>
+			        <td class="ct_list_b_black">상품가격</td>
+			        <td class="ct_list_b_black">구매수량</td>
+			        <td class="ct_list_b_black">사용포인트</td>
+			        <td class="ct_list_b_black">총 결제금액</td>
+			        <td class="ct_list_b_black">구매상태</td>
+			        <td class="ct_list_b_black">배송</td>
+			        <td class="ct_list_b_black">결제수단</td>
+			        <td class="ct_list_b_black">환불상태</td>
+			    </tr>
+			
+				<c:set var="i" value="0"/>
+					<c:forEach var="tranDetail" items="${list}">
+						<c:set var="i" value="${ i+1 }" />
+						<c:set var= "tranCode" value="${tranDetail.tranStatusCode}"/>
+						<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>		
+					<tr class="ct_list_pop">
+						<td align="center"><input type="hidden" value="${tranDetail.tranDetailNo}" />${tranDetail.tranDetailTran.tranDate}</td>
+<td align="left">${tranDetail.tranStatusCode}</td>
+<td align="left">${tranDetail.refundStatusCode}</td>
+						<td align="center">
+								  <c:choose>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SS'}">삼성</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'OB'}">두산</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'KT'}">KT</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'WO'}">키움</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LG'}">LG</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'SK'}">SSG</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'LT'}">롯데</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HT'}">기아</c:when>
+								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'NC'}">NC</c:when>
+								    <c:otherwise>${tranDetail.tranDetailProd.prodTeamCode}</c:otherwise>
+								  </c:choose>
+								</td>
+						<td align="center">${tranDetail.tranDetailProd.prodName}</td>
+						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailProd.prodPrice}" pattern="###,###"/></td>
+						<td align="left">${tranDetail.tranQuantity}</td>
+						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranUsePoint}" pattern="###,###"/></td>
+						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranTotalPrice}" pattern="###,###"/></td>
+						<td align="left"> 현재	
+								<c:if test="${tranDetail.tranStatusCode eq 1 && tranDetail.refundStatusCode eq 1 }">
+									구매완료
+								</c:if>
+								<c:if test="${tranDetail.tranStatusCode eq 2}">
+									배송완료
+								</c:if>
+								<c:if test="${tranDetail.refundStatusCode eq 2}">
+									환불 완료
+								</c:if>													
+									상태 입니다.</td>
+					<td align="left"> 
+					<c:if test="${tranDetail.tranStatusCode eq 2}"> 배송도착 </c:if>
 					</td>
-			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
-			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailProd.prodPrice}" pattern="###,###"/></td>
-			<td align="left">${tranDetail.tranQuantity}</td>
-			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranUsePoint}" pattern="###,###"/></td>
-			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranTotalPrice}" pattern="###,###"/></td>
-			
-			
-			<td align="left"> 현재	
-					<c:if test="${tranCode eq 1 && refundStatusCode eq 1 }">
-						구매완료
-					</c:if>
-					<c:if test="${refundStatusCode eq 2}">
-						배송중
-					</c:if>
-					<c:if test="${tranCode eq 2}">
-						배송완료
-					</c:if>
-					<c:if test="${tranCode eq 3}">
-						환불요청 진행
-					</c:if>	
-					<c:if test="${refundStatusCode eq 3}">
-						환불 완료
-					</c:if>													
-						상태 입니다.</td>
-		<td align="left"> 
-		
-		<c:if test="${tranCode eq 2}">
-			<a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=2">배송도착</a>
-		</c:if>
-		</td>
-		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
-			<td align="left">
-			  <c:choose>
-			    <c:when test="${tranDetail.refundStatusCode eq 1 and tranCode eq 1}">
-			      <a href="updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranCode=3">환불요청</a>
-			    </c:when>
-			    <c:when test="${tranDetail.refundStatusCode eq 3}">환불완료
-			    </c:when>
-			  </c:choose>
-			</td>
-	</tr>
-	</c:forEach>
-</table>
+					<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>
+						<td align="left">
+						  <c:choose>
+						    <c:when test="${tranDetail.refundStatusCode eq 1 and tranCode eq 1}">
+						      <a class="refund"  id="${tranDetail.tranDetailNo}"  href="/transaction/updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2">환불</a>
+						    </c:when>
+						    <c:when test="${tranDetail.refundStatusCode eq 2}">환불완료
+						    </c:when>
+						  </c:choose>
+						</td>
+				</tr>
+				</c:forEach>
+			</table>
 						</div>
 				</div>
 		</div>

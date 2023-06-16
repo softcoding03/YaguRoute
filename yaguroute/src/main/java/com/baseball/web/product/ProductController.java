@@ -100,11 +100,14 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
-	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+	public String getProduct(@RequestParam("prodNo") int prodNo,
+							@RequestParam("teamCode") String teamCode, Model model) throws Exception {
 
 		System.out.println("/product/getProduct 작동 시작");
 		Product product = productService.getProduct(prodNo);
-
+		
+		//팀탑바이미지 출력을 위한 team 정보 저장
+		Team team = gameService.getTeamInfo(teamCode);
 		// model and view 연결
 		model.addAttribute("product", product);
 
@@ -198,9 +201,12 @@ public class ProductController {
 		
 		//팀 정보 조회
 		List<Team> allTeam = gameService.getAllTeam();
-
 		
+		//팀탑바이미지 출력을 위한 team 정보 저장
+		Team team = gameService.getTeamInfo(prodTeamCode);
+		System.out.println("team???"+team);
 		// Model 과 View 연결
+		model.addAttribute("team", team);
 		model.addAttribute("prodTeamCode", prodTeamCode);
 		model.addAttribute("list", map.get("salesList"));
 		model.addAttribute("resultPage", resultPage);

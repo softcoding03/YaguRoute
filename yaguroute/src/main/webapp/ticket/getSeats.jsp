@@ -239,8 +239,6 @@
 					data : post,
 					dataType : "text",
 					success : function(Data, status) {
-						alert(status);
-						alert("결제결과 ? " + Data);
 						if (Data == "success") {
 							window.close();
 							window.opener.location.href = "/ticket/getTicketPurchaseList";
@@ -330,7 +328,7 @@ button.reload {
 				<div class="col-md-12">
 					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
 					<div class="text-overlay">
-						<h1>${game.homeTeam.teamNickName}vs ${game.awayTeam.teamNickName}</h1>
+						<h1>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h1>
 						<h4>${game.gameDate}/ ${game.gameTime}</h4>
 						<button type="button" class="back">이전단계</button>
 						&nbsp;&nbsp;
@@ -387,7 +385,8 @@ button.reload {
 						</div>
 					</div>
 					<div class="col-md-12">
-						<p>1인 최대 4매까지 구매 가능합니다.</p>
+						<p style="color:red;">*1인 최대 4매까지 구매 가능합니다.</p>
+						<p style="color:red;">*구매한 티켓은 경기시작 하루 전 23시까지 취소 가능합니다.</p>
 					</div>
 					<input type="hidden" id="tranTotalPrice" name="tranTotalPrice" value="" />
 					<input type="hidden" id="payMethod" name="tranPaymentOption" value="" />

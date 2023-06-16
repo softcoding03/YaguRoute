@@ -56,6 +56,7 @@ public class TranDetailServiceImpl implements TranDetailService {
 
 	@Override
 	public void updateRefundStatusCode(TranDetail tranDetail) throws Exception {
+		System.out.println("ㅋㅋㅋ 진짜 들어와야됨"+tranDetail);
 		tranDetailDao.updateRefundStatusCode(tranDetail);
 		
 	}

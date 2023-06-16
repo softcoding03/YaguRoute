@@ -127,6 +127,19 @@ public class TicketController {
 		
 		Transaction transaction2 = transactionService.getTransaction(tranNo);//결제번호로 해당 결제정보 가져옴
 		List<Ticket> listTicket = ticketService.getTicketPurchaseList(tranNo); //결제번호로 해당 티켓 정보들 가져옴+티켓에 game 정보도 있음
+		////////game 정보(화면에 어느 경기를 예매한건지 경기정보 출력해주기 위함/////
+	 		
+		//형식 변환
+	 		String gameDate = listTicket.get(0).getGame().getGameDate();
+	 		String gameTime = listTicket.get(0).getGame().getGameTime();
+	 		String gameDateTime = gameDate.concat(" ").concat(gameTime);
+	 		System.out.println("gameDateTime"+gameDateTime);
+	 		SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	 		SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+            Date date = inputFormat.parse(gameDateTime);
+            String formattedDate = outputFormat.format(date);
+            System.out.println("형식변경한 gameDate ? " +formattedDate);  // 출력: 2023년 06월 21일 18시 30분
+            listTicket.get(0).getGame().setGameDate(formattedDate);
 		System.out.println("보내주는 listTicket?"+listTicket);
 		System.out.println("보내주는 transaction2"+transaction2);
 		model.addAttribute("ticketList", listTicket);//티켓정보+게임정보

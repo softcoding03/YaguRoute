@@ -200,7 +200,7 @@
 								$("#"+JSONData.basketNo+" .total").html("");
 								$("#"+JSONData.basketNo+" .total").append('<input type="hidden" value='+updateTotalPrice+'>'
 										+formatter.format(JSONData.product.prodPrice)+' x '+ JSONData.prodQuantity+' = '
-										+'<h3>'+formatter.format(updateTotalPrice)+'</h3>')
+										+'<h3>'+formatter.format(updateTotalPrice)+'원</h3>')
 								
 								var sum = 0;
 								$(".total input").each(function(index,elem){

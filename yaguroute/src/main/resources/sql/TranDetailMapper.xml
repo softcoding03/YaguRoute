@@ -112,7 +112,7 @@
 		tran_status_code = #{tranStatusCode}		
 		</set>
 		WHERE tran_detail_no = #{tranDetailNo}
-	
+		
 	</update>
 	
 
@@ -134,15 +134,15 @@
 		INNER JOIN transaction t
 		ON td.tran_no = t.tran_no
 		WHERE t.user_id = #{userId}
-		
+		LIMIT #{search.startRowNum}, #{search.pageSize}
 	</select>
 
-	<select id="getDlvyTranList" parameterType="java.util.Map" resultMap="tranDetailSelectMap">
+	<select id="getDlvyTranList" parameterType="search" resultMap="tranDetailSelectMap">
 	
 		SELECT td.*
 		FROM tranDetail td
 		ORDER BY tran_detail_no
-		
+		LIMIT #{startRowNum}, #{pageSize}		
 	</select>
 
 	<select id="getBestTranList" parameterType="search" resultMap="tranDetailSelectMap">
@@ -170,6 +170,7 @@
 	            </if>
 	        </where>
 	    ) countable
+
 	</select>
 	
 

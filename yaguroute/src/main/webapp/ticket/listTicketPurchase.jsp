@@ -190,7 +190,7 @@
 		        </thead>
 				  <tbody>
 				  	  <c:if test="${empty transaction}">
-				  	  		예매 내역이 없습니다.
+				  	  		<h3>예매 내역이 없습니다.</h3>
 				  	  </c:if>
 					  <c:if test="${not empty transaction}">
 					  		<input type="hidden" name="transaction" value="${transaction}">
@@ -201,12 +201,17 @@
 							  <td align="left" valign="middle">${transaction[i].tranNo}</td>
 							  <td align="left"><img src="${game[i].homeTeam.teamEmblem}" style="width:50px;"> vs <img src="${game[i].awayTeam.teamEmblem}" style="width:50px;"></td>
 							  <td align="left">${game[i].gameDate}</td>
-							  <td align="left" class="tranDate${i}">${transaction[i].tranDate}</td>
+							  
+							  	<fmt:parseDate value="${transaction[i].tranDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					 		 	<fmt:formatDate value="${parsedDateTime}" pattern="MM월 dd일 hh시 mm분" var="DateTime"/>
+							  <td align="left" class="tranDate${i}">${DateTime}</td>
 							  <c:if test="${transaction[i].refundStatus ==1}">
 							  		<td align="left" style="color:red;">결제 취소</td>
 							  </c:if>
 							  <c:if test="${transaction[i].refundStatus ==0}">
-							  		<td align="left" class="refundableDate${i}">${transaction[i].refundableDate}이전까지</td>
+							  		<fmt:parseDate value="${transaction[i].refundableDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					 		 		<fmt:formatDate value="${parsedDateTime}" pattern="MM월 dd일 hh시 mm분" var="DateTime"/>
+							  		<td align="left" class="refundableDate${i}">${DateTime} 이전까지</td>
 							  </c:if>
 							  <td align="left">
 							  		<input type="hidden" name="tranNo" value="${transaction[i].tranNo}">

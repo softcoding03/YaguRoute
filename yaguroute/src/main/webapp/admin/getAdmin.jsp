@@ -439,11 +439,11 @@ a {
 </style>
 
 <script type="text/javascript">
-	$("a.getSalesList").on("click", function() {
+/* 	$("a.getSalesList").on("click", function() {
 		var currentDate = new Date();
 		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
 		self.location = "/ticket/getSalesList?month=" + currentMonth;
-	});
+	}); */
 	
 </script>
 
@@ -478,12 +478,12 @@ a {
 	                    <div class="menu_text "><b>상품배송관리</b></div>
 	                </a>
 	            </li>
-	        <ul class="left_link"></ul>    
+	        <!-- <ul class="left_link"></ul>    
 	            <li>
 	            	<a href="/ticket/getSalesList?month=6" class="left_item getSalesList" role="menuitem" aria-current="">
 	                    <div class="menu_text "><b>티켓매출내역</b></div>
 	                </a>
-	            </li>
+	            </li> -->
 	        <ul class="left_link"></ul>    
 	            <li>
 	            	<a href="/channel/listChannel" class="left_item" role="menuitem">
