@@ -26,8 +26,17 @@
         $("form").attr("method", "GET").attr("action", "/product/salesProdList")
         .submit();
     }
+ 
 
     $(function() {
+    	
+    	$(".categoryNo").on("click",function(){
+    		var cateNo = $(this).attr("id");
+    		console.log(cateNo)
+    		$("#category").val(cateNo);
+    		fncGetSalesProdList(1);
+    	})
+    	
         $("a[href='teamCodeHref']").on('click', function() {
             teamCode = $(this).find("input[name='teamCode']").val();
             self.location = "/product/salesProdList?prodTeamCode=" + teamCode;    
@@ -94,7 +103,12 @@
 .ui-helper-hidden-accessible {
   display: none;
 }
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
 
+    
 #searchButton:hover {
 	background-color: #FACC2E; /* 마우스 오버 시 배경색 변경 */
 }
@@ -105,20 +119,24 @@
   color: white;
   font-size: 16px;
   border: none;
-  padding: 10px 20px; /* 안쪽 여백 설정 */
+  padding: 5px 20px; /* 안쪽 여백 설정 */
   color: #000000; /* 글자색 설정 */
+  margin-bottom: 18px;
 }
 
     body {
-        background-image: url('/images/product/gettyimages.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+    background-image: url('/images/productBack/baseball.png');
+    background-repeat: no-repeat;
+    background-size: 80% ; /* Adjust the size as per your requirement */
+    background-color: rgba(0, 0, 0, 0.7);
+    background-position: center;
     }	
     /* 팀탑바 위한 style */
 .teamTopBar {
-	width: 100%;
-	height: auto;
+    display:inline-block;
+	width: 96%;
+	margin:0 auto;
+	
 }
 
 .image-container {
@@ -129,7 +147,7 @@
 
 h1 {
 	color: white;
-	font-family: "Gwangyang";
+	font-family: "Gwangyang" !important; 
 }
 
 .text-overlay {
@@ -140,6 +158,30 @@ h1 {
 	font-size: 18px;
 	margin-left: 300px;
 }
+
+    .Category .row {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .Category button {
+        margin: 0 5px;
+        padding: 8px 12px;
+        width:150px;
+        height:50px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        color: #333;
+        font-size: 20px;
+        font-family: "Gwangyang";
+        cursor: pointer;
+    }
+
+    .Category button:hover {
+        background-color: #e0e0e0;
+    }
 </style>
 
 
@@ -149,14 +191,14 @@ h1 {
 				<jsp:include page="/common/topBar.jsp"/>
 		<!-- ToolBar End /////////////////////////////////////-->
 		
-<div class="image-container">
+<div class="container image-container" style="display: flex; margin-top:25px;">
   <img class="teamTopBar" src="${team.teamTopBar}">
   <div class="text-overlay"><h1>상품 구매</h1></div>
 </div>
 
 		<form name="detailForm">
 
-			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; ">
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; margin-left:40px;">
 			    <div class="broadcast-tabs-wrapper">
 			        <ul class="nav nav-tabs" role="tablist">
 			            <c:forEach var="team" items="${allTeam}">
@@ -173,16 +215,26 @@ h1 {
 			        </ul>
 			    </div>
 			</div>
-
-
-	<div class="container">
-		<div class="page-header text-info">
-			<div class="row">
-			<div style="width: 98%; margin-left: 10px; margin-top: 20px;">
 			
+			<div class="Category">
+			    <div class="row">
+			        <input id="category" type="hidden" name="category" value="${search.category}">
+			        <button class="categoryNo" id="1">유니폼</button>
+			        <button class="categoryNo" id="2">모자</button>
+			        <button class="categoryNo" id="3">의류</button>
+			        <button class="categoryNo" id="4">야구용품</button>
+			        <button class="categoryNo" id="5">잡화</button>
+			    </div>
+			</div>
+			
+	<div class="container">
+			<div class="row">
+			
+			<div style="width: 98%; margin-left: 50px; margin-top: 20px;">		
 			        <!-- Search -->
 				<div class="search-container" style="display: flex; justify-content: flex-end; align-items: center;">
 				    <div class="form-group" >
+				    
 				        <select class="form-control" name="searchCondition">
 				            <option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
 				        </select>
@@ -193,7 +245,6 @@ h1 {
 				    <button type="button" class="btn btn-default" id="searchButton">검색</button>
 				</div>
 				<!-- Search -->
-
 						<input type="hidden" id="prodTeamCode" name="prodTeamCode" value="${prodTeamCode}" /> 
 						<input type="hidden" id="currentPage" name="currentPage" value="" />				
 
@@ -201,7 +252,7 @@ h1 {
 		    <div class="store-wrap">
 		        <div class="container">
 		            <div class="row row-offcanvas row-offcanvas-left">
-		                <div class="sidebar col-xs-6 col-sm-6 col-md-3 sidebar-offcanvas" id="sidebar">
+		                <div class="sidebar col-xs-6 col-sm-6 col-md-4 sidebar-offcanvas" id="sidebar">
 		                    <div class="filter-wrap">
 		                 </div>
 		                </div>
@@ -209,7 +260,7 @@ h1 {
 		                    <h6>${product.prodTeamCode}</h6>
 		                    <div class="row">
 		                           <c:forEach var="product" items="${list}">
-		                        <div class="col-md-4 col-sm-6">
+		                        <div class="col-md-3 col-sm-8">
 		                            <div class="store-list-item">         
 		                                <div>
 		                                        <img src="${product.prodImageFirst}"  alt="product">
@@ -256,7 +307,7 @@ h1 {
     <!--STORE WRAP END-->
 
 				</div>
-		</div>
+
 </div>
 
 </form>

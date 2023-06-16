@@ -43,6 +43,20 @@
 	  color: white;
 	  font-size: 16px;
 	  border: none;
+	  padding: 7px 18px; /* 안쪽 여백 설정 */
+	  color: #000000; /* 글자색 설정 */
+	}
+	
+ #deleteButton:hover {
+	background-color: #E0F7E7; /* 마우스 오버 시 배경색 변경 */
+}
+
+	#deleteButton {
+	  border-radius: 20px;
+	  background-color: #FACC2E;
+	  color: white;
+	  font-size: 16px;
+	  border: none;
 	  padding: 10px 20px; /* 안쪽 여백 설정 */
 	  color: #000000; /* 글자색 설정 */
 	}
@@ -71,19 +85,8 @@
 	.ui-helper-hidden-accessible {
 	  display: none;
 	}
-	#back-img {
-	  position: fixed;
-	  width: 100%;
-	  height: 100vh;
-	  overflow: hidden;
-	  background-image: url("/images/product/baseballStadium.png");
-	  background-size: 1100px;
-	  background-repeat: no-repeat;
-	  background-position:  left;
-	  opacity: 0.5;
-	  }
-  
-  
+
+
 	.product-status {
 	  color: black;
 	}
@@ -91,6 +94,56 @@
 	.out-of-stock {
 	  color: red;
 	}
+	
+    /* 팀탑바 위한 style */	
+	.teamTopBar {
+	width: 1300px;
+	height:380px;
+	margin-top:25px;
+	margin-left: 15px;	
+}
+	
+	.image-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+h1 {
+	color: white;
+	font-family: "Gwangyang";
+}
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+}
+    /* 팀탑바 위한 style */	
+        .Category .row {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .Category button {
+        margin: 0 5px;
+        padding: 8px 12px;
+        width:150px;
+        height:50px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        color: #333;
+        font-size: 20px;
+        font-family: "Gwangyang";
+        cursor: pointer;
+    }
+
+    .Category button:hover {
+        background-color: #e0e0e0;
+    }
 </style>
 
 
@@ -101,7 +154,25 @@
 		.submit();
 	}
 
+	
+
 	$(function() {
+	
+	$(".categoryNo").on("click",function(){
+		   		var cateNo = $(this).attr("id");
+		    	console.log(cateNo)
+		   		$("#category").val(cateNo);
+		   		fncGetProductList(1);
+		   	})
+		   	
+		   	$(".stockNo").on("click", function(){
+		   		var stockNo = $(this)	.attr("id");
+		   		console.log(stockNo);
+		   		$("#stock").val(stockNo); //input의 Id
+		   		fncGetProductList(1);
+		   		
+		   	})
+		   	
 		$("button.btn-success").on("click", function() {
 			$("#prodTeamCode").val($(this).val());
 			fncGetProductList(1);
@@ -111,7 +182,7 @@
 			fncGetProductList(1);
 		});
 
-		$(".ct_list_pop td:nth-child(2)").on("click", function() {
+		$(".ct_list_pop td:nth-child(5)").on("click", function() {
 			var prodNo = $(this).children('input:hidden').val();
 			self.location = "/product/updateProduct?prodNo=" + prodNo;
 		});
@@ -121,10 +192,9 @@
     		teamCode = $(this).find("input[name='teamCode']").val()
     		self.location = "/product/listProduct?prodTeamCode="+teamCode;
 	   });
+		
 
 	});
-	
-	
 	
 	 $( function() {
 		 
@@ -150,17 +220,38 @@
 	 					
 	 				});
 			 });
-					
+	 
+/* 	 function fncDeleteProduct() {
+			$("form").attr("method", "GET").attr("action", "/product/deleteProduct")
+			.submit();
+		} */
+
+			$(function() {
+				
+				$("a:contains('삭제')").on("click", function() {
+					console.log("button Click");
+					//$("#prodNo").val($(this).val());
+					var prodNo = $(this).children().val();
+					alert(prodNo);
+					//$("form").attr("method", "GET").attr("action", "/product/deleteProduct?prodNo="+prodNo).submit();
+					self.location = "/product/deleteProduct?prodNo="+prodNo;
+				});
+				
+			});	
+				
 </script>
 
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
   <jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
-
+<div class="image-container">
+  <img class="teamTopBar" src="${team.teamTopBar}">
+  <div class="text-overlay"><h1>판매상품리스트</h1></div>
+</div>
 	<!--  화면구성 div Start /////////////////////////////////////-->
 				
 	<form name="detailForm">
@@ -182,6 +273,18 @@
 			        </ul>
 			    </div>
 			</div>
+			
+			<div class="Category">
+			    <div class="row">
+			        <input id="category" type="hidden" name="category" value="${search.category}">
+			        <button class="categoryNo" id="1">유니폼</button>
+			        <button class="categoryNo" id="2">모자</button>
+			        <button class="categoryNo" id="3">의류</button>
+			        <button class="categoryNo" id="4">야구용품</button>
+			        <button class="categoryNo" id="5">잡화</button>
+			    </div>
+			</div>
+			
 		<div class="container">
 		<div class="page-header text-info">
 			<div class="row">
@@ -193,7 +296,7 @@
 					<div class="search-container">
 						<div class="form-group" style="width: 100px;">
 							<select class="form-control" name="searchCondition">
-								<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+								<option value="0"  selected>상품명</option>
 							</select>
 						</div>
 						<div class="form-group" style="width: 230px;">
@@ -203,20 +306,30 @@
 						<button type="button" class="btn btn-default" id="searchButton">검색</button>
 						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
 					</div>
-					
+				<div class="Stock">
+			    <div class="row">
+			        <input id="stock" type="hidden" name="standard" value="${search.standard }"> <%-- 디폴트 null --%>
+			        <button class="stockNo" id="1">전체</button>
+			        <button class="stockNo" id="2">판매중</button>
+			        <button class="stockNo" id="3">품절</button>
+			    </div>
+			</div>				
 
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 
 							<thead>
 								<tr>
-									<th align="center" style="font-size: 14px;">번호</th>
+									<th align="center" style="font-size: 14px;"></th>
+									<th align="center" style="font-size: 14px;">상품번호</th>		
+									<th align="center" style="font-size: 14px;">상품이미지</th>		
+									<th align="center" style="font-size: 14px;">구단</th>													
 									<th align="center" style="font-size: 14px;">제품명</th>
 									<th align="center" style="font-size: 14px;">가격</th>
 									<th align="center" style="font-size: 14px;">등록일</th>
 									<th align="center" style="font-size: 14px;">재고</th>
 									<th align="center" style="font-size: 14px;">카테고리</th>
-									<th align="center" style="font-size: 14px;">팀 코드</th>
-									<th align="center" style="font-size: 14px;">상품상태</th>
+									<th align="center" style="font-size: 14px; width: 100px;">상품상태</th>
+									<th align="center" style="font-size: 14px; width: 100px;">삭제</th>									
 								</tr>
 							</thead>
 
@@ -226,7 +339,12 @@
 									<c:set var="i" value="${ i+1 }" />
 									<tr class="ct_list_pop">
 										<td align="center">${ i }</td>
-										<td align="left" height="30"><input type="hidden" value="${product.prodNo}" /> ${product.prodName}</td>							
+										<td align="left" height="30"> ${product.prodNo}</td>	
+										<td align="left">
+											  <img src="${product.prodImageFirst}" alt="Product Image" width="100" height="100">
+											</td>												
+										<td align="left">${product.prodTeamCode}</td>											
+										<td align="left"><input type="hidden" id="prodNo" value="${product.prodNo}" />${product.prodName}</td>															
 										<td align="left"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/></td>
 										<td align="left">${product.prodRegDate}</td>
 										<td align="left"><fmt:formatNumber value="${product.prodStock}" pattern="###,###"/>
@@ -234,17 +352,22 @@
 														<c:choose>
 															    <c:when test="${product.prodCategory eq 1}">유니폼</c:when>
 															    <c:when test="${product.prodCategory eq 2}">모자</c:when>
-															    <c:when test="${product.prodCategory eq 3}">야구용품</c:when>
-															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>
+															    <c:when test="${product.prodCategory eq 3}">의류</c:when>
+															    <c:when test="${product.prodCategory eq 4}">야구용품</c:when>
+															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>															    
 															  </c:choose>
 															</td>
-										
-										<td align="left">${product.prodTeamCode}</td>
 											<td>
 											  <span class="product-status ${product.prodStock < 1 ? 'out-of-stock' : ''}">
 											    ${product.prodTranCode eq 'hidden' ? '숨김' : (product.prodStock < 1 ? '품절' : '판매중')}
 											  </span>
 											</td>
+										<td align="left">
+											  	<a role="button"  class="btn btn-delete"  id="deleteButton">
+											  		삭제
+											  		<input type="hidden" id="prodNo" value="${product.prodNo}" />
+											  	</a>
+											</td>												
 									</tr>
 									</c:forEach>
 								</tbody>
@@ -252,7 +375,7 @@
 				      </div>
 			    	</div>
 				</div>
-		</div>
+			</div>
 						<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
 					<jsp:param name="id" value="product" />

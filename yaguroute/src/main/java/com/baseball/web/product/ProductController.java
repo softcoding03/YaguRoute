@@ -100,18 +100,30 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
-	public String getProduct(@RequestParam("prodNo") int prodNo,
-							@RequestParam("teamCode") String teamCode, Model model) throws Exception {
+	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 
 		System.out.println("/product/getProduct 작동 시작");
 		Product product = productService.getProduct(prodNo);
 		
 		//팀탑바이미지 출력을 위한 team 정보 저장
-		Team team = gameService.getTeamInfo(teamCode);
+		//Team team = gameService.getTeamInfo(teamCode);
 		// model and view 연결
 		model.addAttribute("product", product);
 
 		return "forward:/product/getProduct.jsp";
+	}
+	
+	@RequestMapping(value = "deleteProduct", method = RequestMethod.GET)
+	public String deleteProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+		
+		System.out.println("/product/deleteProduct 작동 시작");
+		
+		productService.deleteProduct(prodNo);
+		
+		
+		
+		return "forward:/product/listProduct?prodTeamCode=ALL";
+		
 	}
 
 	@GetMapping("listProduct")
@@ -128,7 +140,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(15);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -150,6 +162,9 @@ public class ProductController {
 		
 		//팀 정보 조회
 		List<Team> allTeam = gameService.getAllTeam();
+		
+		Team team = gameService.getTeamInfo(prodTeamCode);
+		//System.out.println("team???"+team);
 
 		// Model 과 View 연결
 		model.addAttribute("prodTeamCode", prodTeamCode);
@@ -157,6 +172,7 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		model.addAttribute("allTeam", allTeam);
+		model.addAttribute("team",team);
 
 		return "forward:/product/listProduct.jsp";
 	}
@@ -175,7 +191,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(6);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -204,7 +220,7 @@ public class ProductController {
 		
 		//팀탑바이미지 출력을 위한 team 정보 저장
 		Team team = gameService.getTeamInfo(prodTeamCode);
-		System.out.println("team???"+team);
+		//System.out.println("team???"+team);
 		// Model 과 View 연결
 		model.addAttribute("team", team);
 		model.addAttribute("prodTeamCode", prodTeamCode);
@@ -253,6 +269,7 @@ public class ProductController {
 		return "forward:/product/updateProduct.jsp";
 
 	}
+	
 	
 
 }

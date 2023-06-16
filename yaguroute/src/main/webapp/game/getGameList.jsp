@@ -212,7 +212,7 @@
                         <div class="widget widget_calendar">
                         	<div class="item" style="margin-top:20px;justify-content: center;display: flex">
 								<label style="margin-right: 20px;">
-								<span class="background" style="margin-top: 20px !important;">연도</span>
+								<span class="background" style="margin-top: 20px !important;margin-bottom: 20px !important">연도</span>
 								<select class="year basic" id="yearSelect">
 								<c:forEach begin="2009" end="2023" var="year" >
 									<option value="${year}" ${year eq nowYear ? 'selected' : ''}>${year}</option>
@@ -221,7 +221,7 @@
 								</select>
 								</label>
 								<label>
-								<span class="background" style="margin-top: 20px !important;">월</span>
+								<span class="background" style="margin-top: 20px !important;margin-bottom: 20px !important">월</span>
 								<select class="month basic" id="monthSelect">
 								<c:forEach begin="1" end="12" var="month" >
 									<option value="${month}" ${month eq nowMonth ? 'selected' : ''} >${month}</option>
@@ -230,9 +230,8 @@
 								</select>
 								</label>
 							</div>
-                            <div id="calendar_wrap" class="calendar_wrap">
+                            <div id="calendar_wrap" class="calendar_wrap" style="margin-top: 20px;">
                                 <table id="wp-calendar">
-                                    <caption>${nowYear}-${nowMonth}</caption>
                                     <thead>
                                         <tr>
                                             <th scope="col" title="Monday">월</th>
