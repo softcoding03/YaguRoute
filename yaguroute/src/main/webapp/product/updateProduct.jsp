@@ -37,25 +37,21 @@
 <style>
 	.container {
 		max-width: 600px;
-		margin: 0 auto;
+		margin-top: 150px;
+		height:550px;
 		padding: 20px;
 		border-radius: 8px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 		font-size: 20px;
-		background-color: rgba(244, 244, 244, 0.9);
+	    background-color: rgba(256, 256, 256, 0.5);
 	}
 
-#back-img {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url('/images/product/baseaballStradium.png');
-  background-size: 800px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: 0.4;
-}
+    body {
+        background-image: url('/images/baseball/predict_background_img.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+    }	
 
 	.transparency{
 		background-color: rgba(256,256,256,0.3);
@@ -118,7 +114,7 @@
 <tr>
 	<td width="104" class="ct_write"style="font-size: 16px;">상품 이미지 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
 	<td bgcolor="D6D6D6" width="1"></td>
-	<td class="ct_write01"style="font-size: 16px;">
+	<td class="ct_write01"style="font-size: 16px; height:50px;">
 		<img src="${product.prodImageFirst}"  style="width: 100px;" onerror="this.style.display='none'"/>
 		<img src="${product.prodImageSecond}"  style="width: 100px;" onerror="this.style.display='none'"/>
 		<img src="${product.prodImageThird}"style="width: 100px;" onerror="this.style.display='none'"/>
@@ -143,11 +139,14 @@
 				모자
 			</c:when>
 			<c:when test="${product.prodCategory eq '3'}">
-				야구용품
+				의류
 			</c:when>
 			<c:when test="${product.prodCategory eq '4'}">
-				잡화
+				야구용품
 			</c:when>
+			<c:when test="${product.prodCategory eq '5'}">
+				잡화
+			</c:when>			
 			<c:otherwise>
 				${product.prodCategory}
 			</c:otherwise>
