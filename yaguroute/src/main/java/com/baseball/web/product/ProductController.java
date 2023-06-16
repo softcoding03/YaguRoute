@@ -112,6 +112,19 @@ public class ProductController {
 
 		return "forward:/product/getProduct.jsp";
 	}
+	
+	@RequestMapping(value = "deleteProduct", method = RequestMethod.GET)
+	public String deleteProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+		
+		System.out.println("/product/deleteProduct 작동 시작");
+		
+		productService.deleteProduct(prodNo);
+		
+		
+		
+		return "forward:/product/listProduct?prodTeamCode=ALL";
+		
+	}
 
 	@GetMapping("listProduct")
 	public String listProduct(@ModelAttribute("search") Search search, Model model,
@@ -127,7 +140,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(10);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -178,7 +191,7 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 
-		search.setPageSize(8);
+		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
 
 		// Map B/L 수행
@@ -256,6 +269,7 @@ public class ProductController {
 		return "forward:/product/updateProduct.jsp";
 
 	}
+	
 	
 
 }

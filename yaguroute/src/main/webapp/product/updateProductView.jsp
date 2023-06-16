@@ -153,8 +153,11 @@ $(function() {
 			  var prodNo = $("#prodNo").val();
 		    fncUpdateProduct(prodNo);
 		  });
+		  $(".addProduct-submit:contains('취소')").on("click", function() {
+				self.location = "../product/listProduct?prodTeamCode=ALL";
+		  });
 			  
-		});
+	});
 	
 	//drag&drop용
 	$(function(){
@@ -270,7 +273,6 @@ $(function() {
 	border: 2px dashed #ccc;
 	border-radius: 10px;
 	text-align: center;
-
 }
 /* 이미지 드래그 드랍 CSS 종료*/
 
@@ -336,8 +338,8 @@ $(function() {
 						<div class="container" style="border: 3px;  width: 600px; border-radius: 10px;    margin-left: auto;
                               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
 
-					<div class="customer-info">
-						<form>
+			<div class="customer-info">
+				<form>
 						<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo }" />			
 					    <br>
 							<div class="row">

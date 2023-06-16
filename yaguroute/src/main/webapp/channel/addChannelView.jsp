@@ -131,7 +131,7 @@
 				    	var formData = new FormData();
 				        formData.append('image', files[0]);
 				        $.ajax({
-				            url: "http://223.130.133.52:3000/image/channel",
+				            url: "http://223.130.133.54:3000/image/channel",
 				            type: "POST",
 				            processData: false,
 				            contentType: false,

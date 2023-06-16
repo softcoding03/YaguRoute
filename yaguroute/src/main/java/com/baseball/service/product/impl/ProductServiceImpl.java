@@ -47,8 +47,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int deleteProduct(int product) throws Exception {
-		return productDao.deleteProduct(product);
+	public void deleteProduct(int product) throws Exception {
+		 productDao.deleteProduct(product);
 	}
 
 	@Override
