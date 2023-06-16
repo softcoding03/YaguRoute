@@ -25,12 +25,6 @@ public class Team {
 	private String teamLostScoreAvg;
 	private String headToHeadRecord;//상대전적
 	private String lastFiveGameGrade;
-	private String hit;
-	private String homerun;
-	private String steal;
-	private String strikeOut;
-	private String doubleLife;
-	private String error;
 	private String teamTopBar;
 	private String teamColor;
 	
@@ -135,42 +129,6 @@ public class Team {
 	public String getHeadToHeadRecord() {
 		return headToHeadRecord;
 	}
-	public String getHit() {
-		return hit;
-	}
-	public void setHit(String hit) {
-		this.hit = hit;
-	}
-	public String getHomerun() {
-		return homerun;
-	}
-	public void setHomerun(String homerun) {
-		this.homerun = homerun;
-	}
-	public String getSteal() {
-		return steal;
-	}
-	public void setSteal(String steal) {
-		this.steal = steal;
-	}
-	public String getStrikeOut() {
-		return strikeOut;
-	}
-	public void setStrikeOut(String strikeOut) {
-		this.strikeOut = strikeOut;
-	}
-	public String getDoubleLife() {
-		return doubleLife;
-	}
-	public void setDoubleLife(String doubleLife) {
-		this.doubleLife = doubleLife;
-	}
-	public String getError() {
-		return error;
-	}
-	public void setError(String error) {
-		this.error = error;
-	}
 	public String getLastFiveGameGrade() {
 		return lastFiveGameGrade;
 	}
@@ -233,8 +191,7 @@ public class Team {
 				+ winCount + ", loseCount=" + loseCount + ", tieCount=" + tieCount + ", winRate=" + winRate
 				+ ", lastTenMatch=" + lastTenMatch + ", teamBattingAvg=" + teamBattingAvg + ", teamLostScoreAvg="
 				+ teamLostScoreAvg + ", headToHeadRecord=" + headToHeadRecord + ", lastFiveGameGrade="
-				+ lastFiveGameGrade + ", hit=" + hit + ", homerun=" + homerun + ", steal=" + steal + ", strikeOut="
-				+ strikeOut + ", doubleLife=" + doubleLife + ", error=" + error + ", teamTopBar=" + teamTopBar
+				+ lastFiveGameGrade + ", teamTopBar=" + teamTopBar
 				+ ", teamColor=" + teamColor + "]";
 	}
 	

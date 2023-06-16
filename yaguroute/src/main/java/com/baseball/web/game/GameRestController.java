@@ -43,7 +43,7 @@ public class GameRestController {
 	}
 	
 	@PostMapping("getTeam")
-	public List<Team> getGameTeam() throws Exception{
+	public List<Team> getTeamInfo() throws Exception{
 		
 		List<Team> teamRank = gameService.getAllTeamRanking();
 
