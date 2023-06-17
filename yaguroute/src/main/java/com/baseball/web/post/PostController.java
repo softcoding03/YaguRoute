@@ -116,15 +116,17 @@ public class PostController {
 	@GetMapping("getPostList")
 	public String getPostList(@RequestParam(value="teamCode", required = false) String teamCode,
 							@RequestParam(value="postType", required = false) String postType,
-							@RequestParam(value="currentPage", required = false) Integer currentPage ,
+							//@RequestParam(value="currentPage", required = false) Integer currentPage ,
 							@ModelAttribute("search") Search search,
 							Model model, HttpSession session) throws Exception {
 			System.out.println("/post/getPostList : GET START");
-			System.out.println("-- 넘어온 데이터 ? "+teamCode+"//"+postType+"//"+currentPage+"//"+search);	
+			System.out.println("-- 넘어온 데이터 ? "+teamCode+"//"+postType+"//"+search.getCurrentPage()+"//"+search);	
 			User user = (User)session.getAttribute("user");
 			teamCode = (teamCode == null) ? user.getTeamCode() : teamCode;	
-			currentPage = (currentPage == null) ? 1 : currentPage;
-			search.setCurrentPage(currentPage);
+			if(search.getCurrentPage() ==0) {
+				search.setCurrentPage(1);
+			}
+			//search.setCurrentPage(currentPage);
 			search.setPageSize(pageSize);
 			
 			Map<String, Object> map = new HashMap<String,Object>();

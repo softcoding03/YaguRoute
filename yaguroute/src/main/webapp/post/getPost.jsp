@@ -185,11 +185,6 @@ a {
     
     <script type="text/javascript">
 	
-    function fncGetPostList(currentPage){
-    		var teamCode = $("#teamCode");
-			$("#currentPage").val(currentPage);
-			$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
-	 }
     
     $(function(){
     	var teamCode = "${teamCode}";
@@ -199,27 +194,12 @@ a {
 	    	$( "td:nth-child(3)" ).on("click" , function() {
 	    		 self.location ="/post/getPost?postNo="+$(this).siblings("td:nth-child(1)").text();
 	    	});
-	    	$( "i.fa.fa-search").on("click" , function() {
-				fncGetPostList(1);
-			});
 			
 			//#태그 핸들러
 			$("a[href='teamCodeHref']").on('click',function(){
 	    		teamCode = $(this).find("input[name='foreachTeamCode']").val()
 	    		self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
-			$("a.talk").on("click",function(){
-				self.location = "/post/getPostList?postType=0&teamCode="+teamCode;
-			});
-			$("a.cheer").on("click",function(){
-				self.location = "/post/getPostList?postType=1&teamCode="+teamCode;
-			});
-			$("a.buy").on("click",function(){
-				self.location = "/post/getPostList?postType=2&teamCode="+teamCode;
-			});
-			$("a.sell").on("click",function(){
-				self.location = "/post/getPostList?postType=3&teamCode="+teamCode;
-			});
 		   $("a.getPostList").on('click',function(){
 			   self.location = "/post/getPostList?teamCode="+teamCode;
 		   });
@@ -399,27 +379,6 @@ var postNo;
             </li>
         </ul>
     </div>
-	   <!-- Search -->
-		<div class="sidebar-search-wrap">
-		  <h6>Search</h6>
-		  <form>
-		    <div class="wrap">
-		      <label>
-		        <select class="year basic" name="searchCondition">
-		          <option value="0" ${!empty search.searchCondition && search.searchCondition==0 ? "selected" : ""}>ID</option>
-		          <option value="1" ${!empty search.searchCondition && search.searchCondition==1 ? "selected" : ""}>제목</option>
-		        </select>
-		      </label>
-		      <label class="sr-only" for="searchKeyword">검색어</label>
-		      <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="검색어" value="${!empty search.searchKeyword ? search.searchKeyword : ''}">
-		    	<button><i class="fa fa-search" aria-hidden="true"></i></button>
-		    <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-		    <input type="hidden" id="currentPage" name="currentPage" value="" />
-		    <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}" />
-		    </div>
-		  </form>
-		</div>
-		<!-- Search -->
     <div class="recent-news">
           <h6>Notice</h6>
           <c:forEach var="notice" items="${noticeList}">
@@ -431,15 +390,6 @@ var postNo;
 	          </div>
 			 </c:forEach>
       </div>
-    <div class="sidebar-tags-wrap">
-        <h6>Tags</h6>
-        <div class="tags">
-            <a href="javascript:;" class="talk">잡담</a>
-            <a href="javascript:;" class="cheer">응원</a>
-            <a href="javascript:;" class="buy">중고구매</a>
-            <a href="javascript:;" class="sell">중고판매</a>
-        </div>
-    </div>
 </section>	
 <!--SIEDBAR END-->
 </c:if>

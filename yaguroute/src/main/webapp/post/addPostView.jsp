@@ -48,8 +48,8 @@
 						$("#postTitle").attr("color", "#dc3545");
 						$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
 						title = false;
-	    			} else if (value.length > 20){
-	    				$("#postTitle").html("제목은 최대 20자까지 입력 가능합니다.");
+	    			} else if (value.length > 40){
+	    				$("#postTitle").html("제목은 최대 40자까지 입력 가능합니다.");
 						$("#postTitle").attr("color", "#dc3545");
 						$('button:contains("작성하기")').prop('disabled', true); // 버튼 비활성화
 						title = false;

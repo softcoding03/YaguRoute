@@ -115,8 +115,9 @@
 	//따라다니는 퀵메뉴 끝
 	
     function fncGetPostList(currentPage){
-    		var teamCode = $("#teamCode");
-			$("#currentPage").val(currentPage);
+    		var teamCode = $("#teamCode").val();
+    		alert(currentPage);
+			$("input[name='currentPage']").val(currentPage);
 			$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
 	 }
     
@@ -175,9 +176,18 @@
     		$("a.addPostView").on('click',function(){
     			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
 		   });
-    })
+    		
+    		//검색창에서 엔터키
+    		var input = $("#searchKeyword");
+    		input.on("keyup", function(event) {
+				if (event.keyCode === 13) {
+					console.log("엔터")
+						fncGetPostList(1);
+				}
+			});
 
-   </script>
+	})
+				</script>
 	
 </head>
 <!-- Google tag (gtag.js) -->
@@ -275,7 +285,7 @@
 		    	<button><i class="fa fa-search" aria-hidden="true"></i></button>
 		    <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 		    <input type="hidden" id="currentPage" name="currentPage" value="" />
-		    <input type="hidden" id="teamCode" name="teamCode" value="${list[0].teamCode}" />
+		    <input type="hidden" id="teamCode" name="teamCode" value="${teamCode}" />
 		    </div>
 		  </form>
 		</div>
