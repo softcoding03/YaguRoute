@@ -1,0 +1,16 @@
+<div id="targetElement">마우스를 올려보세요</div>
+
+<div id="modal">모달창</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// targetElement 요소에 마우스가 진입했을 때 모달창을 표시하는 이벤트 핸들러 등록
+$("#targetElement").mouseenter(function() {
+  $("#modal").show();
+});
+
+// targetElement 요소에서 마우스가 벗어났을 때 모달창을 숨기는 이벤트 핸들러 등록
+$("#targetElement").mouseleave(function() {
+  $("#modal").hide();
+});
+</script>

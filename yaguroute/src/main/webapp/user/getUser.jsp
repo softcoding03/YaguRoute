@@ -502,7 +502,7 @@ a {
 	// 메인화면으로 이동
 	function mainGoFunction() {
 		
-		window.location.href="/main.jsp";
+		window.location.href="/main/getMain";
 	}
 	
 	// 내 정보 보기로 이동

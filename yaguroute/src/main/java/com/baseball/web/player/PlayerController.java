@@ -79,11 +79,16 @@ public class PlayerController {
 	private int pageSize;
 	
 	@GetMapping("listPlayer")
-	public String listPlayer(@ModelAttribute("search") Search search, Model model, @RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
+	public String listPlayer(@ModelAttribute("search") Search search, Model model, 
+			@RequestParam(value = "teamCode", required = false) String teamCode) throws Exception {
 		
 		System.out.println("search" + search);
 		System.out.println("/player/listPlayer : GET ");
-
+		
+		if(search.getTeamCode() == null) {
+			teamCode = "ALL";
+		}
+		
 		search.setTeamCode(teamCode);
 		
 		System.out.println(teamCode);
@@ -113,6 +118,8 @@ public class PlayerController {
 		List<Team> allTeam = playerDao.getAllTeam();
 		// Model And View Connect...
 
+		System.out.println("allTeam : "+allTeam);
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);

@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-      
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  
 <!DOCTYPE html>
 <!-- saved from url=(0040)https://fifaonline4.nexon.com/datacenter -->
 <html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,14 +35,14 @@
 	    width: 91px;
 	}
 		#middle.sub>div.datacenter {
-	    background: #fff url(/images/user/image.png) center 0 no-repeat;
+	    background: #fff url(//ssl.nexon.com/s2/game/fo4/obt/sub_header/bg_sub_datacenter.png) center 0 no-repeat;
 	}
 		.sub .datacenter .tab_list.large ul li a {
-	    background-color: #2a2ac7;
+	    /*background-color: #2a2ac7;*/
 	}
-		.sub .datacenter .tab_list.large ul li {
+		/* .sub .datacenter .tab_list.large ul li {
 	    border-color: #000000;
-	}
+	} */
 	.pointer_popup .content_header .pay_side {
 	    position: absolute;
 	    top: 29px;
@@ -238,7 +240,8 @@
 			    
 			 if(searchKeyword.length <= 1){
 			    	alert("최소 두 자 이상 검색해 주세요.");
-			    	return;
+			    	document.getElementById("searchKeyword").value = "";
+			    	window.location.href = "/player/listPlayer";
 			 }
 			 
 			fncGetPlayerList(1);
@@ -259,7 +262,8 @@
 		    
 		    if(searchKeyword.length <= 1){
 		    	alert("최소 두 자 이상 검색해 주세요.");
-		    	return;
+		    	document.getElementById("searchKeyword").value = "";
+		    	window.location.href = "/player/listPlayer";
 		    }
 		    
 		    fncGetPlayerList(1);
@@ -281,10 +285,40 @@
 	 	        data: {playerId: playerId},
 	 	        success: function(Player) {
 	 	        	console.log(Player);
+	 	        	
+	 	        	// 생년월일 로직
+	 	        	var playerBirth = Player.playerBirth;
+	 	        	var year  = playerBirth.slice(0,4);
+	 	        	var month = playerBirth.slice(4,6);
+	 	        	var day = playerBirth.slice(6,8);
+	 	        	var settingBirth = year+"-"+month+"-"+day;
+	 	        	
+	 	        	var teamCode = "${teamCode}";
+	 	        	var allTeamString = "${allTeam}";
+
+	 	        	// JSTL 표현식 내의 따옴표와 공백 제거
+	 	        	allTeamString = allTeamString.replace(/["'\s]/g, '');
+
+	 	        	// 리스트로 변환
+	 	        	var allTeam = allTeamString.split(',');
+
+	 	        	var extractedTeamCode = null;
+
+	 	        	// teamCode 추출
+	 	        	for (var i = 0; i < allTeam.length; i++) {
+	 	        	  var currentTeamCode = allTeam[i].split('=')[1]; // "teamCode=값"에서 값을 추출
+	 	        	  if (currentTeamCode === teamCode) {
+	 	        	    extractedTeamCode = currentTeamCode;
+	 	        	    break;
+	 	        	  }
+	 	        	}
+
+	 	        	console.log(extractedTeamCode);
+	 	        	
 	 	        	$("#playerName1").text(Player.playerName);
 	 	        	$("#playerName2").text(Player.playerName);
 	 	        	$("#playerHeight").text(Player.playerHeight+"cm");
-	 	        	$("#playerBirth").text(Player.playerBirth);
+	 	        	$("#playerBirth").text(settingBirth);
 	 	        	$("#playerWeight").text(Player.playerWeight+"kg");
 	 	        	$("#playerPosition").text(Player.playerPosition);
 	 	        	$("#playerNumber1").text(Player.playerNumber);
@@ -297,6 +331,7 @@
 	 	        	$("#threeOut").text(Player.threeOut);
 	 	        	$("#homeRun").text(Player.homeRun);
 	 	        	$('#playerImage1').attr('src', Player.playerImage);
+	 	        	$('#teamCode').attr(Player.teamCode);
 	 	        },
 	 	        error: function(xhr, status, error) {
 	 	            alert("오류 발생(이유) : " + error);
@@ -333,15 +368,17 @@
 			 window.location.href="/player/listPlayer";
 		 });
 	 });
+
 </script>
 
 <div class="coach_area">
 </div>
 </div>
-<div class="tab_list large" style="font-family: 'Gwangyang'; pointer-events: none;">
+
+<div class="tab_list large" style="font-family: 'Gwangyang';"> <!-- pointer-events: none; -->
     <ul class="nav nav-tabs" role="tablist">
             <c:forEach var="team" items="${allTeam}">
-                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+                <li class="${team.teamCode eq (teamCode == null ? 'ALL' : teamCode) ? 'active' : ''}" role="presentation">
                     <a href="teamCodeHref" role="tab" data-toggle="tab">
                         <img alt="img" src="${team.teamEmblem}" style="width: 37px; height: 33px;" >
                         <span class="info">
@@ -352,11 +389,14 @@
                 </li>
             </c:forEach>
         </ul>
-</div>                
+</div> 
+
+
+ 
 </div>
 
 			
-			<form role="form" id="form1" >	
+			
             <div class="player_view">
                 <div class="header">
                     <div class="tit" style="font-family: 'Gwangyang'">선수 검색</div>
@@ -370,21 +410,21 @@
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>선수이름</option>
 					</select>
 				</div> --%>
-                
-       			<input type="hidden" id="playerTeamCode" name="playerTeamCode" value="${player.teamCode}" /> 
+                <%-- <p>${allTeam}</p> --%>
+                <form role="form" id="form1" >
+	                <div class="search_panel">
+	                    <div class="search_input_name">
+	                        <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
+	                    <div class="search_input_detail">
+	                    </div>
+	                    <div class="search_input_submit">
+	                        <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
+	                        <button type="button" class="btn_reset" style="font-family: 'Gwangyang'" >초기화</button>
+	                    </div>
+	                </div>
+                <input type="hidden" id="playerTeamCode" name="teamCode" value="${search.teamCode}" /> 
 				<input type="hidden" id="currentPage" name="currentPage" value="" />
-                
-                <div class="search_panel">
-                    <div class="search_input_name">
-                        <input type="text" id="searchKeyword" name="searchKeyword" style="font-family: 'Gwangyang'" placeholder="선수명을 입력해주세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }"></div>
-                    <div class="search_input_detail">
-                    </div>
-                    <div class="search_input_submit">
-                        <button type="button" class="btn_search" id="searching" style="font-family: 'Gwangyang'" >검색</button>
-                        <button type="button" class="btn_reset" style="font-family: 'Gwangyang'" >초기화</button>
-                    </div>
-                </div>
-                </form>
+              	</form> 
             <div class="player_list">
                 <div class="content">
                     <div class="player_list_wrap">
@@ -460,10 +500,12 @@
             </div>
         <div class="td td_ar">
                 <span>
-                    <span class="skillData_100140601" data-type="sprintspeed">
-                        ${player.playerBirth}
+                    <span class="skillData_100140601" data-type="sprintspeed" id="castBirth">
+                    	<c:set var="birthYear" value="${fn:substring(player.playerBirth, 0, 4)}" />
+            			<c:set var="birthMonth" value="${fn:substring(player.playerBirth, 4, 6)}" />
+            			<c:set var="birthDay" value="${fn:substring(player.playerBirth, 6, 8)}" />
+                       	${birthYear}-${birthMonth}-${birthDay}
                     </span>
-                    
                 </span>
         </div>
         <div class="td td_ar">
@@ -479,20 +521,25 @@
                     <span class="skillData_100140601" data-type="strength">
                         ${player.playerWeight}kg
                     </span>
-                    
                 </span>
         </div>
         <div class="td td_ar">
                 <span>
                     <span class="skillData_100140601" data-type="stamina">
-                        ${player.teamCode}
+                    	<c:forEach var="team" items="${allTeam}">
+	                    	<c:if test="${team.teamCode eq player.teamCode }">
+	                        	<img alt="구단 엠블럼" src="${team.teamEmblem}" style="width: 50px; height: 51px; position: inherit; top: -16px;"> 
+	                    	</c:if>
+                    	</c:forEach>
                     </span>
                 </span>
         </div>
-
         <div class="td td_ar_bp bp_100140601">
-            <span class="span_bp1" style="">${player.playerSalary}만원</span>
-        </div>
+        	<c:set var="salary" value="${player.playerSalary}"/>
+            	<span class="span_bp1">
+            		<fmt:formatNumber value="${salary * 10000}" pattern="#,###"/>₩
+            </span>
+        </div>        
         <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
         </tr>
         </c:forEach>
@@ -544,17 +591,30 @@
         <div class="content_header">
             <a href="#" class="btn_delete"><em></em><em></em></a>
             <div class="thumb icontm _ICONTM" >
-                <div class="card_back"><img src="/images/player/icon.png" alt=""></div>
+                <div class="card_back"><img src="/images/player/icon.png" alt="카드 이미지"></div>
                 <div class="img"><img id="playerImage1" src="" alt="" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"></div>
                 <div class="live_wrap">
 				
                 </div>
-                <div class="name_wrap"><div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div><div class="name" id="playerName1"></div></div>
+                <div class="name_wrap">
+                	<div class="season">
+	                	<c:forEach var="team" items="${allTeam}">
+		                	<c:if test="${team.teamCode eq player.teamCode}">
+		                		<img src="${team.teamEmblem}" alt="구단 이미지1">
+		                	</c:if>
+	                	</c:forEach>
+                	</div>
+                	<div class="name" id="playerName1"></div>
+                	</div>
                 <div class="pay" id="playerNumber1"></div>
             </div>
             <div class="info_wrap">
                 <div class="info_line info_name">
-                    <div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div>
+                    <div class="season"><c:forEach var="team" items="${allTeam}">
+		                	<c:if test="${team.teamCode eq player.teamCode}">
+		                		<img src="${team.teamEmblem}" alt="구단 이미지2">
+		                	</c:if>
+	                	</c:forEach></div>
                     <div class="name" id="playerName2" style="font-size: 25px;"></div>
                 </div>
                 <div class="info_line info_ab" style="position: inherit;">

@@ -284,11 +284,9 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-image: url('https://cdn.pixabay.com/photo/2018/10/28/13/22/baseball-3778774_1280.png');
-  background-size: 1200px;
+  background-image: url("/images/productBack/gettyimages.jpg");
   background-repeat: no-repeat;
-  background-position:  center;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 	.transparency{
@@ -320,16 +318,14 @@
 				<!--CHECKOUT WRAP BEGIN-->
 <br>
 	<br>
-	      <div class="container" style="display: flex; justify-content: center;">
+	      <div class="container" style="display: flex; ">
 		  <br>
 			  <br>
 				  <div class="row">
 				  <div class="transparency" >
-					 <h3 class="title" style="text-align: center; margin: 20 auto; font-weight: bold;">상품 등록</h3>
+					 <h3 class="title" style="text-align: center; margin: 20 auto; font-weight: bold; ">상품 등록</h3>
 					 <br>
-						<div class="container" style="border: 3px; padding: 10px; width: 700px; border-radius: 10px; 
-                              margin-top: 50px; margin-left: auto; margin-right: 200px;
-                              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+							<div class="container" style="border: 3px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 700px; border-radius: 10px; margin-top: 50px; margin-left: auto; margin-right: 200px;">
     
 
 							<div class="col-md-12" > 
@@ -339,7 +335,7 @@
 											<div class="col-md-12">
 												<div class="item">
 													<label> 
-														<span>상품명<i>*</i></span> 
+														<span><b>상품명</b><i>*</i></span> 
 														<input type="text" placeholder="상품명을 입력하세요" name="prodName"/>
 														<font id="prodName" size="2"></font>
 													</label>
@@ -349,11 +345,11 @@
 										<div class="col-md-12">
 											<div class="item">
 											<label>
-											  <span>상품 이미지</span>
+											  <span><b>상품 이미지</b><i>*</i></span>
 											  <!-- <input type="file" name="prodImages" multiple="multiple" style="border: 1px solid #ccc; padding: 10px; "> -->
 											  	<div id="image-drop">								
 													<div class="thumbnail-area" id="image-result">
-														<caption>이미지를 드랍해 주세요</caption>													
+														<caption><b>이미지를 드랍해 주세요</b></caption>													
 													</div>									
 													<div class="drop-area" id="drop-area">,</div>		
 												</div>
@@ -364,7 +360,7 @@
 										<div class="col-md-12">
 											<div class="item">
 												<label> 
-													<span>가격 <i>*</i></span> 
+													<span><b>가격</b> <i>*</i></span> 
 													<input type="text" placeholder="가격을 입력하세요" name="prodPrice"/>
 													<font id="prodPrice" size="2"></font>
 												</label>
@@ -373,7 +369,7 @@
 		
 										<div class="col-md-6">
 											<div class="item">
-												<label> <span>상품카테고리 <i>*</i></span> <select class="basic" name="prodCategory">
+												<label> <span><b>상품 카테고리</b> <i>*</i></span> <select class="basic" name="prodCategory">
 														<option value="0"
 															${ product.prodCategory ==0 ? "selected" : ""}>상품 카테고리를 선택하세요</option>
 														<option value="1"
@@ -381,9 +377,11 @@
 														<option value="2"
 															${ product.prodCategory ==2 ? "selected" : ""}>모자</option>
 														<option value="3"
-															${ product.prodCategory ==3 ? "selected" : ""}>야구용품</option>
+															${ product.prodCategory ==3 ? "selected" : ""}>의류</option>
 														<option value="4"
-															${ product.prodCategory ==4 ? "selected" : ""}>잡화</option>
+															${ product.prodCategory ==4 ? "selected" : ""}>야구용품</option>
+														<option value="5"
+															${ product.prodCategory ==5 ? "selected" : ""}>잡화</option>															
 												</select>
 												</label>
 											</div>
@@ -391,7 +389,7 @@
 		
 										<div class="col-md-6">
 											<div class="item">
-													<label> <span>구단<i>*</i></span> <select class="basic" name="prodTeamCode">
+													<label> <span><b>구단</b><i>*</i></span> <select class="basic" name="prodTeamCode">
 														<option value="OB"
 															${ product.prodTeamCode ==OB ? "selected" : ""}>두산베어스</option>
 														<option value="LT"
@@ -421,7 +419,7 @@
 											<div class="col-md-9">
 												<div class="item">
 													<label> 
-														<span>상품재고 <i>*</i></span> 
+														<span><b>상품재고</b> <i>*</i></span> 
 														<input type="text" placeholder="수량을 입력하세요" name="prodStock">
 														<font id="prodStock" size="2"></font>
 													</label>
@@ -434,18 +432,16 @@
 			    	</div>
 			    </div>
 		   </div>
-	   <br>
 
-	<div class="col-md-12 text-center">
-		<br>
-	    <button class="addProduct-submit" type="button"> 등록 </button>
-		<button class="addProduct-submit" type="button"> 취소 </button>
+		<div class="col-md-8 text-center">
+			<br>
+		    <button class="addProduct-submit" type="button"> 등록 </button>
+			<button class="addProduct-submit" type="button"> 취소 </button>
+		</div>
+		
+		</form>
+		</div>
 	</div>
-	<br>
-	
-	</form>
-	</div>
-</div>
 </body>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>

@@ -41,25 +41,14 @@
 <style>
 	.container {
 		max-width: 600px;
-		margin: 0 auto;
-		padding: 20px;
-		background-color: #f4f4f4;
-		border-radius: 8px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		font-size: 20px;
+		margin-top: 100px;
+	    padding: 20px;
+	    background-color: rgba(256, 256, 256, 0.5);
+	    border-radius: 8px;
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	    font-size: 20px;
+		
 	}
-
-#back-img {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url('/images/product/baseaballStradium.png');
-  background-size: 800px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: 0.4;
-}
 
 	.transparency{
 		background-color: rgba(256,256,256,0.3);
@@ -85,20 +74,23 @@
   padding: 10px 20px; /* 안쪽 여백 설정 */
   color: #000000; /* 글자색 설정 */
 }	
+
+    body {
+        background-image: url('/images/baseball/predict_background_img.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+    }	
 </style>
 
 
 <body>
 
-  <div class="row">
-	 <div class="col-md-12">
-		  <div id="back-img"></div>
-		      </div>
-		    </div>
+
 	<section class="hockey-stats">	    
 			<div class="container">
 				<div class="transparency col-md-12"  >
-					<h3 style="font-family: 'Open Sans', sans-serif;">상품등록이 완료되었습니다</h3>
+					<h3 style="font-family: ''gwangyang'';">상품등록이 완료되었습니다</h3>
 
 	<hr style="border: none; border-top: 1px solid #000; margin-top: 10px;">
 
@@ -174,11 +166,14 @@
 				모자
 			</c:when>
 			<c:when test="${product.prodCategory eq '3'}">
+				의류
+			</c:when>
+			<c:when test="${product.prodCategory eq '4'}">
 				야구용품
 			</c:when>
 			<c:when test="${product.prodCategory eq '4'}">
 				잡화
-			</c:when>
+			</c:when>			
 			<c:otherwise>
 				${product.prodCategory}
 			</c:otherwise>

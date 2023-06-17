@@ -183,9 +183,18 @@ public class UserController {
 	}
 
 	@GetMapping(value = "logout")
-	public String logout(HttpSession session) throws Exception {
+	public String logout(HttpSession session, HttpServletResponse response) throws Exception {
 
 		session.invalidate();
+		try {
+	        response.setContentType("text/html; charset=utf-8");
+	        PrintWriter w = response.getWriter();
+	        w.write("<script>alert('로그아웃되었습니다.');location.href='/user/loginTest(new).jsp';</script>");
+	        w.flush();
+	        w.close();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
 		return "redirect:/user/loginTest(new).jsp";
 	}
 

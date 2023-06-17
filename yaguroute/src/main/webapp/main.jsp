@@ -101,7 +101,6 @@
 					if(JSONData.length != 0){
 						for(var i=0;i<JSONData.length;i++){
 							var game = JSONData[i];
-							console.log(game.gameDate)
 							$(".main-lates-matches").append(
 									'<a '+(i === 0 ? 'id="select"' : 'id')+' role="button" class="item '+game.gameCode+'" data-target="#myCarousel" data-slide-to="'+i+'">'
 							        +'<span class="championship">'+game.gameTime+' / '+game.homeTeam.stadiumName+'</span>'
@@ -136,11 +135,11 @@
 					    	'<a class="first-slide" href="'+location+'">'+
 						    	'<div style="position: relative;" class="score">'+
 						          	'<img src="'+tmpGame.homeTeam.teamTopBar+'" alt="First slide" style="width: auto;height: 245px;">'+
-						          	'<h1 style="position: absolute; top: 20%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.homeTeam.teamNickName+'</h1>'+
-						          	'<h5 class="'+tmpClass+'" style="position: absolute; top: 50%; transform: translateY(-80%); right: 175px;">'+message+'</h5>'+
+						          	'<h1 style="position: absolute; top: 20%; transform: translateY(-50%); right: 5%;color:#EEEEEE;">'+tmpGame.homeTeam.teamNickName+'</h1>'+
+						          	'<h5 class="'+tmpClass+'" style="position: absolute; top: 50%; transform: translateY(-80%); right: 80%;">'+message+'</h5>'+
 						          	'<img class="first-slide" src="/images/ticket/vs.png" alt="vs" style="width: auto;height: 200px; position: absolute; top: 50%; transform: translateY(-55%); right: 0;">'+
 						          	'<img class="first-slide" src="'+tmpGame.awayTeam.teamTopBar+'" alt="Second slide" style="width: auto;height: 245px;">'+
-						          	'<h1 style="position: absolute; top: 70%; transform: translateY(-50%); right: 60px;color:#EEEEEE;">'+tmpGame.awayTeam.teamNickName+'</h1>'+
+						          	'<h1 style="position: absolute; top: 70%; transform: translateY(-50%); right: 5%;color:#EEEEEE;">'+tmpGame.awayTeam.teamNickName+'</h1>'+
 						        '</div>'+
 					    	'</a>'+
 					    	'</div>'
@@ -373,8 +372,8 @@
 						    </a> -->
 					</div>
 				</div>
-				<div class="col-md-12">
-					<h2 style="text-align: center; padding-bottom: 0px;">팀 순위</h2>
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<h2 style="text-align: center; margin-top: 100px;">팀 순위</h2>
 				</div>
 				<div class="col-md-12">
 					<h4 id="nowYear"></h4>
@@ -401,6 +400,9 @@
 <hr>
 <div class="container">
 	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<h2 style="text-align: center; margin-top: 50px;">Best Player</h2>
+		</div>
 		<div class="col-md-12" style="text-align: center; ">
 			<a href="/player/listBestPlayer">
 				<img src="/images/player/KBOLEGEND_2.png" style="width:70%;">
@@ -408,8 +410,8 @@
 		</div>
 	</div>
 </div>
-<hr>
-        <!--MAIN SPONSOR SLIDER BEGIN-->
+<!-- <hr> -->
+    <!--     MAIN SPONSOR SLIDER BEGIN
 <div id="main-sponsor-slider" class="carousel slide main-sponsor-slider" data-ride="carousel">
     <div class="carousel-inner" role="listbox">
         <div class="item active">
@@ -445,7 +447,7 @@
                 </div>
             </div>	
         </div>
-        <!-- Controls -->
+        Controls
         <a class="nav-arrow left-arrow" href="#main-sponsor-slider" role="button" data-slide="prev">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
                 <span class="sr-only">Previous</span>
@@ -456,7 +458,7 @@
         </a>
     </div>	
 </div>
-<!--MAIN SPONSOR SLIDER END-->
+MAIN SPONSOR SLIDER END -->
 
 
 
@@ -504,7 +506,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="store-list-item">
                                 <div>
-                                    <a href="product.html">
+                                    <a>
                                         <span class="store-badge hot">hot</span>
                                         <img src="${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
                                     </a>

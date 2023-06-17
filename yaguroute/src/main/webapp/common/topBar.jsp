@@ -70,9 +70,9 @@ img.logo{
                     		</ul>
                     </li>
                     <li><a href="/channel/listStreaming"><span class="topbar">실시간 중계</span></a></li>
-                    <li>  <a href="/player/listPlayer"><span class="topbar">선수 조회</span></a>
+                    <li>  <a href="/player/listPlayer?teamCode=ALL"><span class="topbar">선수 조회</span></a>
                         <ul>
-                        	 <li><a href="/player/listPlayer"><span class="topbar">선수 리스트</span></a></li>
+                        	 <li><a href="/player/listPlayer?teamCode=ALL"><span class="topbar">선수 리스트</span></a></li>
                             <li><a href="/player/listBestPlayer"><span class="topbar">이 주의 선수</span></a></li>
                         </ul>
                     </li>
@@ -102,7 +102,7 @@ img.logo{
 	                        </ul> -->
 	                    </li>
                     </c:if>
-               	  <li><a href="#other"><span class="topbar">마이페이지</span></a>
+               	  <li><a href="/users/getUser"><span class="topbar">마이페이지</span></a>
                         <ul>
                         	<li><a href="/users/getUser"><span class="topbar">내 정보 보기</span></a></li>
                             <li><a href="/transaction/listTransaction"><span class="topbar">상품구매목록조회</span></a></li>
@@ -139,11 +139,6 @@ img.logo{
 
 
 <script type="text/javascript">
-	$("a.getSalesList").on("click", function() {
-		var currentDate = new Date();
-		var currentMonth = currentDate.getMonth() + 1; //현재 월. 0~11
-		self.location = "/ticket/getSalesList?month=" + currentMonth;
-	});
 	
 	//Main에 데이터 뿌려주기 위한 req
 	$("a.getMain").on("click", function() {

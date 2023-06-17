@@ -99,8 +99,6 @@
 		    top: 18%;
 		    left: 59%;
 		}
-		
-		
 		        .player.forward2 {
 		    top: 44.3%;
 		    left: 36.5%;
@@ -194,6 +192,29 @@
 
         // 이미지 경로 설정
         image.src = "${list[0].playerImage }";
+    });
+
+    function showModal(imageElement) {
+    	
+    	alert(imageElement);
+    	
+        var modal = document.getElementById('myModal');
+        var modalImage = document.getElementById('modal-image');
+        var modalPlayerName = document.getElementById('modal-player-name');
+        
+        // 이미지 소스와 플레이어 이름을 모달창에 설정
+        modalImage.src = imageElement.src;
+        modalPlayerName.innerText = imageElement.nextSibling.innerText;
+        
+        // 모달창 보이기
+        modal.style.display = 'block';
+    }
+
+    // 모달창 닫기 버튼 클릭 시 모달창 숨기기
+    document.getElementById('modal').addEventListener('click', function(event) {
+        if (event.target === this) {
+            this.style.display = 'none';
+        }
     });
     </script>
 </head>
@@ -529,17 +550,101 @@
                                                                 </div>
 		
 	   <div class="soccer-field" style="margin-bottom: 180px;">
-	   		
-	        <div class="player defender1"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="1번 선수" src="${list[0].playerImage }"><div class="player-name" ><a style="color: firebrick; font-size: 14px;">NO.${list[0].playerNumber}</a> ${list[0].playerName }</div></div></div>
-	        <div class="player defender2"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="2번 선수" src="${list[1].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[1].playerNumber}</a> ${list[1].playerName }</div></div></div>
-	        <div class="player defender3"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="3번 선수" src="${list[2].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[2].playerNumber}</a> ${list[2].playerName }</div></div></div>
-	        <div class="player defender4"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="4번 선수" src="${list[3].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[3].playerNumber}</a> ${list[3].playerName }</div></div></div>
-	        <div class="player midfielder1"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="5번 선수" src="${list[4].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[4].playerNumber}</a> ${list[4].playerName }</div></div></div>
-	        <div class="player midfielder2"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="6번 선수" src="${list[5].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[5].playerNumber}</a> ${list[5].playerName }</div></div></div>
-	        <div class="player midfielder3"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="7번 선수" src="${list[6].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[6].playerNumber}</a> ${list[6].playerName }</div></div></div>
-	        <div class="player forward1"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="8번 선수" src="${list[7].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[7].playerNumber}</a> ${list[7].playerName }</div></div></div>
-	        <div class="player forward2"><div class="player-card"><img class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="9번 선수" src="${list[8].playerImage }"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[8].playerNumber}</a> ${list[8].playerName }</div></div></div>
+	        <div class="player defender1"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="1번 선수" src="${list[0].playerImage }" style="z-index: 999"><div class="player-name" ><a style="color: firebrick; font-size: 14px;">NO.${list[0].playerNumber}</a> ${list[0].playerName }<input hidden="hidden" id="playerId1" value="${list[0].playerId}"></div></div></div>
+	        <div class="player defender2"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="2번 선수"  src="${list[1].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[1].playerNumber}</a> ${list[1].playerName }<input hidden="hidden" id="playerId1" value="${list[1].playerId}"></div></div></div>
+	        <div class="player defender3"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="3번 선수"src="${list[2].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[2].playerNumber}</a> ${list[2].playerName }<input hidden="hidden" id="playerId1" value="${list[2].playerId}"></div></div></div>
+	        <div class="player defender4"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="4번 선수"  src="${list[3].playerImage }" style="z-index: 9999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[3].playerNumber}</a> ${list[3].playerName }<input hidden="hidden" id="playerId1" value="${list[3].playerId}"></div></div></div>
+	        <div class="player midfielder1"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="5번 선수"  src="${list[4].playerImage }" style="z-index: 9999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[4].playerNumber}</a> ${list[4].playerName }<input hidden="hidden" id="playerId1" value="${list[4].playerId}"></div></div></div>
+	        <div class="player midfielder2"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="6번 선수"  src="${list[5].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[5].playerNumber}</a> ${list[5].playerName }<input hidden="hidden" id="playerId1" value="${list[5].playerId}"></div></div></div>
+	        <div class="player midfielder3"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="7번 선수" src="${list[6].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[6].playerNumber}</a> ${list[6].playerName }<input hidden="hidden" id="playerId1" value="${list[6].playerId}"></div></div></div>
+	        <div class="player forward1"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="8번 선수" src="${list[7].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[7].playerNumber}</a> ${list[7].playerName }<input hidden="hidden" id="playerId1" value="${list[7].playerId}"></div></div></div>
+	        <div class="player forward2"><div class="player-card"><img onclick="openModal()" class="player-image" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'" alt="9번 선수" src="${list[8].playerImage }" style="z-index: 999"><div class="player-name"><a style="color: firebrick; font-size: 14px;">NO.${list[8].playerNumber}</a> ${list[8].playerName }<input hidden="hidden" id="playerId1" value="${list[8].playerId}"></div></div></div>
 	    </div>
+	    
+	    <!-- 모달 창 -->
+<div id="myModal" class="modal">
+<div class="modal-content">
+<div id="playerPreview" class="pointer_popup layer_preview" style="display: block; position: absolute;  left: -0.8px; left: -1px; height: 407px; width: 700px;">
+<div class="layer_content">
+    <div class="wrap">
+        <div class="content_header">
+            <a href="#" class="btn_delete"><em></em><em></em></a>
+            <div class="thumb icontm _ICONTM" >
+                <div class="card_back"><img src="/images/player/icon.png" alt=""></div>
+                <div class="img"><img id="playerImage1" src="" alt="" onerror="this.src = 'https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"></div>
+                <div class="live_wrap">
+				
+                </div>
+                <div class="name_wrap"><div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div><div class="name" id="playerName1"></div></div>
+                <div class="pay" id="playerNumber1"></div>
+            </div>
+            <div class="info_wrap">
+                <div class="info_line info_name">
+                    <div class="season"><img src="https://ssl.nexon.com/s2/game/fo4/obt/externalAssets/season/ICONTM.png" alt=""></div>
+                    <div class="name" id="playerName2" style="font-size: 25px;"></div>
+                </div>
+                <div class="info_line info_ab" style="position: inherit;">
+                        <span class="position fw">
+                        	<div>
+                       	 		<span class="txt" id="playerPosition" style="font-family: 'Gwangyang'; font-size: 23px;"></span>
+                       	 		<span class="skillData_100190045 value" id="playerNumber2"></span>
+                        	</div>                        
+                    </span>
+                </div>
+                <div class="info_line info_etc">
+                	<div class="info"><br>
+                    <span class="etc birth" id="playerBirth"></span>
+                    <span class="etc height" id="playerHeight"></span>
+                    <span class="etc weight" id="playerWeight"></span>
+                    </div>
+                </div>
+                <div class="info_line">
+                    <div class="etc team">
+
+                    </div>
+                </div>
+            </div>
+            <div class="pay_side" id="playerNumber3"></div>
+        </div>
+        <div class="content_middle">
+            <ul>
+                    <li class="ab">
+                        <div class="txt">평균 자책점</div>
+                        <div class="value over120" id="era"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">타율</div>
+                        <div class="value over120" id="battingAvg"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">타수</div>
+                        <div class="value over120" id="hitter"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">홈런 수</div>
+                        <div class="value over120" id="homeRun"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">도루 수</div>
+                        <div class="value over80" id="stolenBase"></div>
+                    </li>
+                    <li class="ab">
+                        <div class="txt">삼진 수</div>
+                        <div class="value over110" id="threeOut"></div>
+                    </li>
+            </ul>
+        	</div>
+   		 </div>
+   		         		<div class="closed" id="close">
+			<span class="close">&times;</span>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- 모달 창 종료 -->
 </body>
+
+
 
 </html>

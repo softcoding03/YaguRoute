@@ -87,15 +87,21 @@
 	</select>
 	
 	<sql id="playerList">
-	SELECT *
-	FROM player
-		<where>
-			<if test="searchKeyword !='' ">
- 				player_name LIKE '%${searchKeyword}%'
-			</if>
-		</where>
-		ORDER BY player_name
-	</sql>
+    SELECT *
+    FROM player
+    <where>
+        <if test="searchKeyword != '' || searchKeyword != null">
+         	AND player_name LIKE '%${searchKeyword}%'
+        </if>
+        <if test="teamCode == 'ALL'">
+         	AND team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
+         </if>
+         <if test="teamCode != 'ALL'">
+          	AND team_code = #{teamCode}
+          </if>
+    </where>
+    ORDER BY player_name
+</sql>
 	
 	<select id="getTotalCount" parameterType="search" resultType="int">
 		SELECT COUNT(*)
@@ -107,4 +113,8 @@
 		from team
 	</select>
 	
+	<select id="getAllPlayer" resultMap="playerSelectMap">
+		select *
+		from player
+	</select>
 </mapper>

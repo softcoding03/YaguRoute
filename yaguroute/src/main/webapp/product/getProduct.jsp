@@ -21,21 +21,6 @@
 
 <style>
 /* 팀탑바 위한 style */
-.teamTopBar {
-	width: 100%;
-	height: auto;
-}
-
-.image-container {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-}
-
-h1 {
-	color: white;
-	font-family: "Gwangyang";
-}
 
 .text-overlay {
 	position: absolute;
@@ -214,14 +199,11 @@ hr {
 <jsp:include page="/common/topBar.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
 
-<div class="image-container">
-  <img class="teamTopBar" src="${team.teamTopBar}">
-  <div class="text-overlay"><h1>티켓 구매</h1></div>
-</div>
+
 		
 		    <!--PRODUCT SINGLE BEGIN-->
 		
- <section class="product-single"style="background-color: rgba(256, 256, 256, 0.5); height:1000px;"> 
+ <section class="product-single"style="background-color: rgba(256, 256, 256, 0.5); width:1400px; height:1000px; display: inline-block;"> 
 		 <div class="container">
 		    <div class="row">
 				<div class="col-md-12">

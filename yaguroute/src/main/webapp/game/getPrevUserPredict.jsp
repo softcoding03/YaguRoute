@@ -97,7 +97,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 transparency">
-			<div class="text-right"><h4>${user.userName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
+			<div class="text-right"><h4>${user.userNickName}님 보유 포인트 : ${user.userPoint} Point</h4></div>
 				<div class="main-award-slider" style="padding-bottom: 10px;">
 		   			<div id="main-award-slider" class="carousel slide" data-ride="carousel">
 					<div class="text-center">
