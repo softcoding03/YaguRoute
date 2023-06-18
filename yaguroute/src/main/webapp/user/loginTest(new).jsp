@@ -484,7 +484,7 @@
 		                <li class="corp_item"><a target="_blank" href="/user/TermsofUse.html">이용약관</a></li>
 		                <li class="corp_item"><a target="_blank" href="/user/private.html">개인정보처리방침 </a></li>
 		                <li class="corp_item"><a target="_blank" href="/user/manage.html">야구Route 정책 </a></li>
-		                <li class="corp_item"><a target="_blank" href="/images/user/rockseongface.jpg"><strong>야구Route CEO 소개</strong></a></li>
+		                <!-- <li class="corp_item"><a target="_blank" href="/images/user/rockseongface.jpg"><strong>야구Route CEO 소개</strong></a></li> -->
 	                </ul>
 	                </div>
                 </div>
