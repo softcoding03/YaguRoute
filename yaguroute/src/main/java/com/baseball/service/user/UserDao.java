@@ -20,8 +20,6 @@ public interface UserDao {
 	
 	public int getTotalCount(Search search) throws Exception;
 	
-	public List<String> getUserAutoComplete() throws Exception;
-	
 	public void updateUser(User user) throws Exception;
 	
 	public void withDraw(User user) throws Exception;

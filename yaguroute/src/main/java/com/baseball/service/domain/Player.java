@@ -21,7 +21,6 @@ public class Player {
     private String teamCode;
     
     //method
-	
 	public String getPlayerPosition() {
 		return playerPosition;
 	}
@@ -118,7 +117,6 @@ public class Player {
 	public void setTeamCode(String teamCode) {
 		this.teamCode = teamCode;
 	}
-	
 	@Override
 	public String toString() {
 		return "Player [playerId=" + playerId + ", playerPosition=" + playerPosition + ", playerName=" + playerName

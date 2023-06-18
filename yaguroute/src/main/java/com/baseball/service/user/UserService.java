@@ -14,8 +14,6 @@ public interface UserService {
 	
 	public Map<String, Object>getUserList(Search search) throws Exception;
 	
-	public List<String> getUserAutoComplete(Search search) throws Exception;
-	
 	public void updateUser(User user) throws Exception;
 	
 	public void withDraw(User user) throws Exception;
@@ -23,7 +21,5 @@ public interface UserService {
 	public void updatePoint(User user) throws Exception;
 
 	public boolean checkDuplication(String userId) throws Exception;
-	
-	public boolean phoneCheck(String userPhone) throws Exception;
 	
 }

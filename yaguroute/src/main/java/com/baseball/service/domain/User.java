@@ -13,7 +13,6 @@ public class User {
 	private String userEmail;
 	private String userAddr;
 	private String password;
-	private String passwordCheck;
 	private String userPhone;
 	private int phoneCheck;
 	private String role;
@@ -68,12 +67,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getPasswordCheck() {
-		return passwordCheck;
-	}
-	public void setPasswordCheck(String passwordCheck) {
-		this.passwordCheck = passwordCheck;
-	}
 	public String getUserPhone() {
 		return userPhone;
 	}
@@ -126,15 +119,12 @@ public class User {
 	public void setTeamCode(String teamCode) {
 		this.teamCode = teamCode;
 	}
-	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", userNickName=" + userNickName + ", userBirth="
 				+ userBirth + ", userPoint=" + userPoint + ", userEmail=" + userEmail + ", userAddr=" + userAddr
-				+ ", password=" + password + ", passwordCheck=" + passwordCheck + ", userPhone=" + userPhone
-				+ ", phoneCheck=" + phoneCheck + ", role=" + role + ", userImage=" + userImage + ", gender=" + gender
-				+ ", withDraw=" + withDraw + ", teamCode=" + teamCode + "]";
+				+ ", password=" + password + ", userPhone=" + userPhone + ", phoneCheck=" + phoneCheck + ", role="
+				+ role + ", userImage=" + userImage + ", gender=" + gender + ", withDraw=" + withDraw + ", teamCode="
+				+ teamCode + "]";
 	}
-	
-
 }
