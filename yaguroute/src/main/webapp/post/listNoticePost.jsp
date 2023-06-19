@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,9 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
    <style type="text/css">
+   	div, a{
+   		font-family:"Gwangyang" !important;
+   	}
     	.background {
 		  display: flex;
 		  justify-content: center;
@@ -232,7 +236,10 @@
 		         </div>
 		      	</div>
 	            <div class="wrap">
-	                <a href="news-single.html">${post.postDate}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	            	<fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					  	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
+	                <a href="news-single.html">${DateTime}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	                <img src="${post.user.userImage}" style="width:30px;">
 	        		</div>
 	    			<p>${post.postContents}</p>
 	            <input type="hidden" name="postNo" value="${post.postNo}">

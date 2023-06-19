@@ -66,10 +66,6 @@ public class PostRestController {
 		@Qualifier("postServiceImpl")
 		private PostService postService;
 		
-		@Autowired
-		@Qualifier("userServiceImpl")
-		private UserService userService;
-		
 	    private S3Uploader s3Uploader;
 	    
 	    @Autowired

@@ -98,7 +98,7 @@ button[type="button"] {
 						<div class="captain-bage">남은 좌석</div>
 						<p>${salesTicket}/ 60</p>
 					</div>
-					<button type="button" class="getSeats">경기 예매</button>
+					<button type="button" class="getSeats">좌석 선택</button>
 					<input type="hidden" name="gameCode" value="${game.gameCode}" />
 				</div>
 				<div class="col-md-12">

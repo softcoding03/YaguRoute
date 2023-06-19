@@ -173,9 +173,13 @@
     })
     
     $(function(){
-    		$("a.addPostView").on('click',function(){
-    			window.open("/post/addPostView.jsp","게시물 작성",'width=1000,height=700');
-		   });
+	    	$("a.addPostView").on('click', function() {
+	    	    var left = (window.innerWidth - 1000) / 2; // 새 창의 가로 위치
+	    	    var top = (window.innerHeight - 700) / 2; // 새 창의 세로 위치
+	    	    var options = 'width=1000,height=700,left=' + left + ',top=' + top + ',location=no';
+	    	    window.open("/post/addPostView.jsp", "게시물 작성", options);
+	    	});
+
     		
     		//검색창에서 엔터키
     		var input = $("#searchKeyword");
@@ -362,7 +366,9 @@
 	            <div class="wrap">
 	            <fmt:parseDate value="${post.postDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
 					<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
-	                <a href="news-single.html">${DateTime}</a> by <a href="news-single.html">${post.user.userNickName}</a>
+	                <a href="news-single.html">${DateTime}</a> by 
+	                <a href="news-single.html">${post.user.userNickName}</a>
+	                <img src="${post.user.userImage}" style="width:30px;">
 	        		</div>
 	    			<p>${post.postContents}</p>
 	            <input type="hidden" name="postNo" value="${post.postNo}">

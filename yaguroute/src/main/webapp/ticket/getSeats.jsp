@@ -85,54 +85,42 @@
 		});
 
 		//결제버튼 클릭
-		$(document)
-				.on(
-						"click",
-						"button.addPurchase",
-						function() {
-							if (priceTag != 0) { //0원이 아닐때(좌석선택필수)
-								$
-										.ajax({ //좌석 상태 check ajax
-											url : "/ticket/rest/checkStatus/"
-													+ ticketNoList,
+		$(document).on("click","button.addPurchase",function() {
+			if (priceTag != 0) { //0원이 아닐때(좌석선택필수)
+				$.ajax({ //좌석 상태 check ajax
+						url : "/ticket/rest/checkStatus/"+ ticketNoList,
+						method : "GET",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(Data, status) {
+							console.log("ajax 결과는?" + Data);
+							if (Data.length == 0) {
+								$.ajax({ //update 1 ajax
+											url : "/ticket/rest/updateTicketStatus1/"+ ticketNoList,
 											method : "GET",
 											dataType : "json",
 											headers : {
 												"Accept" : "application/json",
 												"Content-Type" : "application/json"
 											},
-											success : function(Data, status) {
-												console.log("ajax 결과는?" + Data);
-												if (Data.length == 0) {
-													requestPay(); //결제 시작
-													$
-															.ajax({ //update 1 ajax
-																url : "/ticket/rest/updateStatus1/"
-																		+ ticketNoList,
-																method : "GET",
-																dataType : "json",
-																headers : {
-																	"Accept" : "application/json",
-																	"Content-Type" : "application/json"
-																},
-																success : function(
-																		Data,
-																		status) {
-																	console
-																			.log(Data);
-																}
-															}); //update 1 ajax 끝
-												} else if (Data.length > 0) {
-													alert("이미 판매된 좌석입니다. 다른좌석을 선택해주세요. \n판매된 좌석 => "
-															+ Data);
-													location.reload();
-												}
+											success : function(Data,status) {
+												console.log(Data);
 											}
-										});//check ajax 끝
-							} else {
-								alert("좌석을 선택하지 않으셨습니다.")
+								}); //update 1 ajax 끝
+								requestPay(); //결제 시작
+							} else if (Data.length > 0) {
+								alert("이미 판매된 좌석입니다. 다른좌석을 선택해주세요. \n판매된 좌석 => "+ Data);
+								location.reload();
 							}
-						});
+						}
+					});//check ajax 끝
+			} else {
+				alert("좌석을 선택하지 않으셨습니다.")
+			}
+		});
 
 		//아임포트 변수
 		var UID = new Date().getTime().toString(20); //유니크한 값 + 제품 번호
@@ -142,8 +130,7 @@
 
 		function requestPay() {
 			console.log("pay시작");
-			IMP
-					.request_pay(
+			IMP.request_pay(
 							{ // 요청객체
 								pg : "html5_inicis",
 								merchant_uid : UID, // 주문번호
@@ -167,54 +154,52 @@
 										console.log("가격검증 및 결제성공.");
 										fncAddPurchase(); //db 저장할 때 결제번호라든지 결제 정보도 추가 저장해주기 (컬럼만들고)
 										//SMS 발송 ajax
-										$
-												.ajax({
-													url : "/ticket/rest/sendSMS/${ticketList[0].game.gameCode}",
-													method : "GET",
-													dataType : "text",
-													headers : {
-														"Accept" : "application/json",
-														"Content-Type" : "application/json"
-													},
-													success : function(Data,
-															status) {
-													}
-												});//SMS 발송 끝
+										$.ajax({
+												url : "/ticket/rest/sendSMS/${ticketList[0].game.gameCode}",
+												method : "GET",
+												dataType : "text",
+												headers : {
+													"Accept" : "application/json",
+													"Content-Type" : "application/json"
+												},
+												success : function(Data,status) {
+												}
+										});//SMS 발송 끝
 									} else {
-										alert("결제 실패 : 가격이 위조 되었습니다.");
-										$
-												.ajax({ //update 0 ajax
-													url : "/ticket/rest/updateStatus0/"
-															+ ticketNoList,
-													method : "GET",
-													dataType : "json",
-													headers : {
-														"Accept" : "application/json",
-														"Content-Type" : "application/json"
-													},
-													success : function(Data,
-															status) {
-														console.log(Data);
+										$.ajax({ //update 0 ajax
+												url : "/ticket/rest/updateTicketStatus0/"+ ticketNoList,
+												method : "GET",
+												dataType : "text",
+												headers : {
+													"Accept" : "application/json",
+													"Content-Type" : "application/json"
+												},
+												success : function(Data,status) {
+													console.log(Data);
+													if(Data=="success"){
+														location.reload();
 													}
-												}); //update 0 ajax 끝
+												}
+										}); //update 0 ajax 끝
+										alert("결제 실패 : 가격이 위조 되었습니다.");
 									}
 								} else {
-									alert("결제에 실패하였습니다. 에러 내용: "
-											+ rsp.error_msg);
 									$.ajax({ //update 0 ajax
-										url : "/ticket/rest/updateStatus0/"
-												+ ticketNoList,
+										url : "/ticket/rest/updateTicketStatus0/"+ ticketNoList,
 										method : "GET",
-										dataType : "json",
+										dataType : "text",
 										headers : {
 											"Accept" : "application/json",
 											"Content-Type" : "application/json"
 										},
 										success : function(Data, status) {
 											console.log(Data);
+											if(Data=="success"){
+												location.reload();
+											}
 										}
 									}); //update 0 ajax 끝
-									location.reload();
+									alert("결제에 실패하였습니다. 에러 내용: "+ rsp.error_msg);
 								}
 							});
 		}

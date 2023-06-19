@@ -23,6 +23,10 @@
 	left: 30%;
 	transform: translate(-30%, -30%);
 }
+div.button {
+	display:flex;
+	justify-content:center;
+}
 
 .disabled-button {
 	opacity: 0.5; /* 비활성화 효과를 주기 위한 투명도 설정 */
@@ -32,6 +36,10 @@
 </style>
   <script type="text/javascript">
     	$(function() {
+    		$( "button.exit").on("click" , function() {
+				window.close();
+    		})
+    		
 	    	//유효성 검사
 	    	var title=false;
 	    	var contents=false;
@@ -87,7 +95,7 @@
  			//유효성 검사 끝
  			
  			
-    		$( "button.btn.btn-default").on("click" , function() {
+    		$( "button.update").on("click" , function() {
     			event.preventDefault();
     			var post ={
     					teamCode: "${post.teamCode}",
@@ -221,7 +229,10 @@
 			    <div class="col-sm-offset-2 col-sm-10">
 			    	<a> 본 게시물은 본인 선호구단 게시판에 업로드됩니다.</a><br>
 			   	 <a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
-			      <button type="submit" class="btn btn-default">수정하기</button>
+			   </div>
+			   <div class="col-sm-offset-2 col-sm-10 button">
+			      <button type="submit" class="btn btn-default update">수정하기</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			      <button class="btn btn-default exit">취소</button>
 			    </div>
 			  </div>
 		</form>	

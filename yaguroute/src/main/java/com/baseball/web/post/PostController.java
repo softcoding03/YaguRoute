@@ -28,7 +28,6 @@ import com.baseball.service.domain.Post;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
 import com.baseball.service.post.PostService;
-import com.baseball.service.user.UserService;
 
 
 //==> 게시판관리 Controller
@@ -40,10 +39,6 @@ public class PostController {
 	@Autowired
 	@Qualifier("postServiceImpl")
 	private PostService postService;
-	
-	@Autowired
-	@Qualifier("userServiceImpl")
-	private UserService userService;
 	
 	@Autowired
 	@Qualifier("gameServiceImpl")
@@ -270,22 +265,22 @@ public class PostController {
 			return "redirect:/post/getPostList?teamCode="+teamCode;
 	}
 	
-	//작성중
-	@GetMapping("getCommentList")
-	public String getCommentList(@RequestParam("postNo") int postNo, Model model) throws Exception {
-			System.out.println("/post/getCommentList : GET START");
-			System.out.println("-- 넘어온 데이터 ? "+postNo);	
-			
-			Map<String, Object> map = new HashMap<String,Object>();
-			map = postService.getPostList(map);
-			
-			List<Post> list = (List<Post>)map.get("postList");
-			for(Post post:list) {
-				System.out.println(post);
-			}
-			
-			return "forward:/post/listComment.jsp";
-	}
+	/*
+	 * //작성중
+	 * 
+	 * @GetMapping("getCommentList") public String
+	 * getCommentList(@RequestParam("postNo") int postNo, Model model) throws
+	 * Exception { System.out.println("/post/getCommentList : GET START");
+	 * System.out.println("-- 넘어온 데이터 ? "+postNo);
+	 * 
+	 * Map<String, Object> map = new HashMap<String,Object>(); map =
+	 * postService.getPostList(map);
+	 * 
+	 * List<Post> list = (List<Post>)map.get("postList"); for(Post post:list) {
+	 * System.out.println(post); }
+	 * 
+	 * return "forward:/post/listComment.jsp"; }
+	 */
 	
 	
 	

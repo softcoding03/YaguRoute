@@ -176,7 +176,7 @@
 						<c:if test="${transaction.refundStatus eq 0}">
 							<h3>결제 내역</h3>
 							<div class="row">
-								<fmt:parseDate value="${transaction.refundableDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+								<fmt:parseDate value="${transaction.tranDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
 					 		 	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
 						  		<div class="col-xs-4 col-md-2"><strong>결제 시각</strong></div>
 								<div class="col-xs-8 col-md-4 tranDate">${DateTime}</div>
@@ -193,8 +193,10 @@
 							</div>
 							<hr/>
 							<div class="row">
+								<fmt:parseDate value="${transaction.refundableDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+					 		 	<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 hh시 mm분" var="DateTime"/>
 						  		<div class="col-xs-4 col-md-2"><strong>결제 취소가능기간</strong></div>
-								<div class="col-xs-8 col-md-4 refundableDate"></div>
+								<div class="col-xs-8 col-md-4 refundableDate">${DateTime}</div>
 							</div>
 							<hr>
 							

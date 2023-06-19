@@ -175,8 +175,33 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 				         +    "<div class=\"avatar\"><img src="+json.user.userImage+" alt=\"author-avatar\"></div>"
 				         +       "<div class=\"info\">"
 				         +           "<div class=\"date\">"
-				         +               "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>"
-				         +					"<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
+				         +               "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>";
+				         
+				         if(json.user.teamCode == "HH"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/HH.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "HT"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/HT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "KT"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/KT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LG"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/LG.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LT"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/LT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "NC"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/NC.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "OB"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/OB.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SK"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/SK.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SS"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/SS.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "WO"){
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/WO.png\" style=\"width:30px;\">";
+				         } else {
+				        	 	addComment1 += "<img src=\"/images/teamEmblem/KBO.png\" style=\"width:30px;\">";
+				         }
+				         
+				         addComment1 +=		"<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
 						   + 					"<a href=\"javascript:;\" class=\"quote delete\">삭제</a>"
 				         +				"</div>"
 				         +   		   "<p class=\"contents\">"+json.commentContents+"</p>"
@@ -190,8 +215,33 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 			           +     "<div class=\"avatar\"><img src="+json.user.userImage+" alt=\"author-avatar\"></div>"
 			           +     "<div class=\"info\">"
 			           +         "<div class=\"date\">" 
-			           +             "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>"
-				        +                "<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
+			           +             "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>";
+			           
+				         if(json.user.teamCode == "HH"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/HH.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "HT"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/HT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "KT"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/KT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LG"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/LG.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LT"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/LT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "NC"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/NC.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "OB"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/OB.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SK"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/SK.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SS"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/SS.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "WO"){
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/WO.png\" style=\"width:30px;\">";
+				         } else {
+				        	 	addComment2 += "<img src=\"/images/teamEmblem/KBO.png\" style=\"width:30px;\">";
+				         }
+			           
+				        addComment2 +=                "<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
 				        +                "<a href=\"javascript:;\" class=\"quote delete\">삭제</a>"
 			           +         "</div>"
 			           +         "<p class=\"contents\">"+json.commentContents+"</p>"
@@ -227,8 +277,33 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 						var userId = json.user.userId;
 						var updateComment =
 						  "<div class=\"date\">"
-                   +     "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>"
-	                +        "<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
+                   +     "<a>"+json.commentDate+"</a> by <a>"+json.user.userNickName+"</a>";
+                   
+				         if(json.user.teamCode == "HH"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/HH.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "HT"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/HT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "KT"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/KT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LG"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/LG.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "LT"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/LT.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "NC"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/NC.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "OB"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/OB.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SK"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/SK.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "SS"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/SS.png\" style=\"width:30px;\">";
+				         } else if (json.user.teamCode == "WO"){
+				        	 updateComment += "<img src=\"/images/teamEmblem/WO.png\" style=\"width:30px;\">";
+				         } else {
+				        	 updateComment += "<img src=\"/images/teamEmblem/KBO.png\" style=\"width:30px;\">";
+				         }
+                   
+	                updateComment +=   "<a href=\"javascript:;\" class=\"quote update\">수정</a><br>"
 	                +        "<a href=\"javascript:;\" class=\"quote delete\">삭제</a>"
                    +     "<a style=\"color:#b4b4b4;\">(수정됨)</a>"
                    + "</div>"
@@ -284,7 +359,20 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 				<div class="comment-item">
 						<div class="avatar"><img src="${list1.user.userImage}" alt="author-avatar"></div>
 						<div class="info">
-							<div class="date"><a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a>
+							<div class="date"><a>${list1.commentDate}</a> by <a>${list1.user.userNickName}</a> 
+								<c:choose>
+									<c:when test="${list1.user.teamCode eq 'HH'}"><img src="/images/teamEmblem/HH.png" style="width:30px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'HT'}"><img src="/images/teamEmblem/HT.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'KT'}"><img src="/images/teamEmblem/KT.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'LG'}"><img src="/images/teamEmblem/LG.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'LT'}"><img src="/images/teamEmblem/LT.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'NC'}"><img src="/images/teamEmblem/NC.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'OB'}"><img src="/images/teamEmblem/OB.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'SK'}"><img src="/images/teamEmblem/SK.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'SS'}"><img src="/images/teamEmblem/SS.png" style="width:35px;"></c:when>
+									<c:when test="${list1.user.teamCode eq 'WO'}"><img src="/images/teamEmblem/WO.png" style="width:35px;"></c:when>
+									<c:otherwise><img src="/images/teamEmblem/KBO.png" style="width:35px;"></c:otherwise>
+								</c:choose>
 								<c:if test="${list1.changed !=2 && user.userId eq list1.user.userId && user.role ne 'admin'}">
 	                        <a href="javascript:;" class="quote update">수정</a><br>
 	                        <a href="javascript:;" class="quote delete">삭제</a>
@@ -312,6 +400,19 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 				                <div class="info">
 				                    <div class="date">
 				                        <a>${list2.commentDate}</a> by <a>${list2.user.userNickName}</a>
+				                        <c:choose>
+													<c:when test="${list2.user.teamCode eq 'HH'}"><img src="/images/teamEmblem/HH.png" style="width:30px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'HT'}"><img src="/images/teamEmblem/HT.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'KT'}"><img src="/images/teamEmblem/KT.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'LG'}"><img src="/images/teamEmblem/LG.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'LT'}"><img src="/images/teamEmblem/LT.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'NC'}"><img src="/images/teamEmblem/NC.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'OB'}"><img src="/images/teamEmblem/OB.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'SK'}"><img src="/images/teamEmblem/SK.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'SS'}"><img src="/images/teamEmblem/SS.png" style="width:35px;"></c:when>
+													<c:when test="${list2.user.teamCode eq 'WO'}"><img src="/images/teamEmblem/WO.png" style="width:35px;"></c:when>
+													<c:otherwise><img src="/images/teamEmblem/KBO.png" style="width:35px;"></c:otherwise>
+												</c:choose>
 				                        <c:if test="${list2.changed !=2 && user.userId eq list2.user.userId}">
 					                        <a href="javascript:;" class="quote update">수정</a><br>
 					                        <a href="javascript:;" class="quote delete">삭제</a>

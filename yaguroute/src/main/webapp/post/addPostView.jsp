@@ -29,12 +29,24 @@
 	cursor: not-allowed; /* 마우스 커서 모양 변경 */
 	pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
 }
+
+div.button {
+	display:flex;
+	justify-content:center;
+}
+
+
 </style>
   <script type="text/javascript">
   
 
   
     $(function() {
+    	$( "button.exit").on("click" , function() {
+				window.close();
+    	})
+    	
+    	
 	    	//유효성 검사
 	    	var title=false;
 	    	var contents=false;
@@ -138,7 +150,7 @@
   			var setting = {
   				  popover:{
   					  image:[
-  					    ['float', ['floatLeft', 'floatRight', 'floatNone']],
+  					    /* ['float', ['floatLeft', 'floatRight', 'floatNone']], */
   					    ['remove', ['removeMedia']]
   					  ]
   				  },
@@ -154,7 +166,11 @@
 		           	  	console.log(imageCount)
 	              		if(imageCount < 3){	//이미지 3장까지만 업로드 가능하도록 
 		              		for (var i = files.length - 1; i >= 0; i--) {
-				             	uploadSummernoteImageFile(files[i],this);
+		              			if(files[0].size <= 1048576){
+		              				uploadSummernoteImageFile(files[i],this);	
+		              			} else {
+		              				alert("이미지 파일은 최대 1MB까지 업로드 가능합니다.")
+		              			}
 				           }
 		           	   } else {
 		           	 		 alert("사진은 최대 3장까지 업로드 가능합니다.")
@@ -226,13 +242,18 @@
 			    <div class="col-sm-10">
 			    	<textarea id="summernote" name="postContents"></textarea>
 			    	<font id="postContents" size="2" color="red">내용은 최소 10자 이상 최대 500자까지 허용됩니다.</font>
+			    	<br>
+			    	<font id="alert" size="2" color="black">이미지 파일은 최대 3개, 최대 1MB로 업로드 가능합니다. </font>
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
 			   	 <a> 본 게시물은 본인 선호구단 게시판에 업로드됩니다.</a><br>
 			   	 <a> 게시물 작성 규정에 어긋나는 글은 운영자가 언제든 삭제할 수 있습니다.</a>
-			      <button disabled type="submit" class="btn btn-default">작성하기</button>
+			    </div>
+			    <div class="col-sm-offset-2 col-sm-10 button">
+			    	<button disabled type="submit" class="btn btn-default">작성하기</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			      <button class="btn btn-default exit">취소</button>
 			    </div>
 			  </div>
 		</form>	

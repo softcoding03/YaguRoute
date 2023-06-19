@@ -739,8 +739,7 @@ a {
                 <li>
                 
                     <div class="myphoto">
-                        <img src="${team.teamEmblem}"
-                             width="56" height="56" alt="내 프로필 이미지">
+                        <img src="${team.teamEmblem}" width="56" height="56" alt="내 프로필 이미지" onerror="this.src=&#39;/images/teamEmblem/KBO.png&#39;">
                     </div>
                 </li>
                 <li>

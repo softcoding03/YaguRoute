@@ -540,7 +540,7 @@
             		<fmt:formatNumber value="${salary * 10000}" pattern="#,###"/>₩
             </span>
         </div>        
-        <div class="td td_ar_score"><span>${player.playerNumber}</span></div>
+        <div class="td td_ar_score"><span>${player.era}</span></div>
         </tr>
         </c:forEach>
         <jsp:include page="/common/pageNavigator_all.jsp">

@@ -33,14 +33,6 @@ public class CommentRestController {
 	
 	///Field
 	@Autowired
-	@Qualifier("postServiceImpl")
-	private PostService postService;
-	
-	@Autowired
-	@Qualifier("userServiceImpl")
-	private UserService userService;
-	
-	@Autowired
 	@Qualifier("commentServiceImpl")
 	private CommentService commentService;
 	

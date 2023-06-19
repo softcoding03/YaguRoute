@@ -91,9 +91,7 @@
 			fncGetUserList(1);
 		});
 	 });
-	
-	$(function(){
-	
+
 	$(function(){
 		
 		$("td:nth-child(2)").on("click", function(){
@@ -198,7 +196,16 @@
 						  <td align="left">${user.userName}</td>
 						  <td align="left">${user.userPhone}</td>
 						  <td align="left">${user.userAddr}</td>
-						  <td align="left">${user.withDraw}</td>
+						  <td align="left">
+						  	<c:choose>
+							  <c:when test="${user.withDraw == 0}">
+							    X
+							  </c:when>
+							  <c:when test="${user.withDraw == 1}">
+							    O
+							  </c:when>
+							</c:choose>
+						  </td>
 						  <td align="left">${user.userPoint}</td>
 					    </tr>
           			</c:forEach>
