@@ -232,7 +232,15 @@ public class UserRestDaoImpl implements UserRestDao {
 		String userName = properties.get("nickname").toString();
 		String userImage = properties.get("profile_image").toString();
 		String userEmail = kakaoAccount.get("email").toString();
-		String gender = kakaoAccount.get("gender").toString();
+		
+		String gender;
+		
+		if(kakaoAccount.get("gender").toString() == null && kakaoAccount.get("gender").toString().equals("")) {
+		
+		   gender = "M";
+		}else {
+			gender = kakaoAccount.get("gender").toString();
+		}
 
 		System.out.println("userId : " + userId);
 		System.out.println("userName : " + userName);
