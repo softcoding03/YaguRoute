@@ -232,9 +232,9 @@ public class UserRestDaoImpl implements UserRestDao {
 		String userName = properties.get("nickname").toString();
 		String userImage = properties.get("profile_image").toString();
 		String userEmail = kakaoAccount.get("email").toString();
-		String gender = " ";
+		String gender = " "; // null 값 뜸.. 
 		
-		if(kakaoAccount.get("gender").toString() == null || kakaoAccount.get("gender").toString().equals(" ") || kakaoAccount.get("gender").toString().equals("")) {
+		if(kakaoAccount.get("gender") == null || kakaoAccount.get("gender").toString().equals(" ") || kakaoAccount.get("gender").toString().equals("") || kakaoAccount.get("gender").toString().equals(null)) {
 		   gender = "M";
 		}else {
 			gender = kakaoAccount.get("gender").toString();
