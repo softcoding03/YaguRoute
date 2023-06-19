@@ -220,7 +220,7 @@
  		
  		var userPhone = $("#userPhone").val(); // 휴대폰 번호
  		
- 		if(userPhone.length != 11 && (!userPhone.includes("010")) || !userPhone.includes("011"))){
+ 		if(userPhone.length != 11 && (!userPhone.includes("010"))){
  			alert("휴대폰 번호를 다시 확인 해 주세요.");
  			return;
  			
@@ -259,6 +259,7 @@
  		}
  	  });
  	});
+ 	
     $(function(){
       $("#phoneCheckButton").on("click", function(){
     	  
@@ -270,7 +271,7 @@
         var userPhone = $("#userPhone").val();
         console.log(userPhone);
         
-        if(userPhone != 11){
+        if(userPhone.length != 11){
         	alert("먼저 휴대폰을 입력 해 주세요.");
         	return;
         }

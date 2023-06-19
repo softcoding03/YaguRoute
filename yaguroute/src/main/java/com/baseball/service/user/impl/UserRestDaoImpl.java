@@ -161,7 +161,7 @@ public class UserRestDaoImpl implements UserRestDao {
 
 		// HTTP 요청에 필요한 파라미터 설정
 		String postParams = "grant_type=authorization_code" + "&client_id=" + "492090239797ebad0d3181db65216b78"
-				+ "&redirect_uri=" + "kbo.yaguroute.online/users/kakaoLogin" + "&code=" + authorizationCode;
+				+ "&redirect_uri=" + "http://kbo.yaguroute.online/users/kakaoLogin" + "&code=" + authorizationCode;
 
 		// HTTP 요청 본문에 파라미터 추가
 		con.setDoOutput(true);

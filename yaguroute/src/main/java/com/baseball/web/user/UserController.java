@@ -565,6 +565,8 @@ public class UserController {
 	@GetMapping( value="kakaoLogin")
 	public String kakaoLogin(@RequestParam(value= "code", required = false) String code,User user, HttpSession session, HttpServletRequest request, Model model) throws Exception{
 		
+		System.out.println("카카오 로그인 : GET");
+		
 		System.out.println("Authorization Code : "+code);
 		
 		// 카카오에서 토큰 발급 요청
