@@ -9,11 +9,7 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Team HTML</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+    <title>야구루트</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -216,7 +212,7 @@
     		padding-left: 0px !important;
     	}
 <%-- end of 최성락 css --%>
-/* 따라다니는 퀵메뉴 */
+		/* 따라다니는 퀵메뉴 */
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
 		a {text-decoration:none;}
 		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
@@ -226,6 +222,10 @@
 		.quickmenu ul li a:hover {color:#000;}
 		.quickmenu ul li:last-child {border-bottom:0;}
 		.content {position:relative;min-height:1000px;}
+		.glyphicon {
+ 			font-family: 'Glyphicons Halflings' !important;
+		}
+		/*퀵메뉴 끝*/
 		
 		div,span,a,h2,td,th,tr{
 			font-family:"Gwangyang" !important;

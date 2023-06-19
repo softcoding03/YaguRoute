@@ -288,8 +288,12 @@ var postNo;
 		
 	 	//수정 및 삭제
 	 	$('.updatePost').on("click" , function() {
-	 		var url = "/post/updatePost?postNo="+postNo;
-	 		window.open(url,"게시물 수정",'width=1000,height=700');
+	 		
+	 		 var left = (window.innerWidth - 1000) / 2; // 새 창의 가로 위치
+    	    var top = (window.innerHeight - 700) / 2; // 새 창의 세로 위치
+    	    var options = 'width=1000,height=700,left=' + left + ',top=' + top + ',location=no';
+    	    var url = "/post/updatePost?postNo="+postNo;
+	 		window.open(url,"게시물 수정",options);
 	 		
 		});
 	 	$('.deletePost').on("click" , function() {
@@ -435,7 +439,21 @@ var postNo;
             <div class="top">
                 <div class="avatar"><img src="${post.user.userImage}" alt="author-avatar"></div>
                 <div class="info">
-                    <div class="name">${post.user.userNickName}</div>
+                    <div class="name">${post.user.userNickName}
+                        <c:choose>
+									<c:when test="${post.user.teamCode eq 'HH'}"><img src="/images/teamEmblem/HH.png" style="width:30px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'HT'}"><img src="/images/teamEmblem/HT.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'KT'}"><img src="/images/teamEmblem/KT.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'LG'}"><img src="/images/teamEmblem/LG.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'LT'}"><img src="/images/teamEmblem/LT.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'NC'}"><img src="/images/teamEmblem/NC.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'OB'}"><img src="/images/teamEmblem/OB.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'SK'}"><img src="/images/teamEmblem/SK.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'SS'}"><img src="/images/teamEmblem/SS.png" style="width:35px;"></c:when>
+									<c:when test="${post.user.teamCode eq 'WO'}"><img src="/images/teamEmblem/WO.png" style="width:35px;"></c:when>
+									<c:otherwise><img src="/images/teamEmblem/KBO.png" style="width:35px;"></c:otherwise>
+								</c:choose>
+						  </div>
                     <div class="name">${post.user.userEmail}</div>
                 </div>
             </div>
