@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baseball.common.domain.Page;
 import com.baseball.common.domain.Search;
 import com.baseball.common.domain.Team;
+import com.baseball.service.comment.CommentService;
+import com.baseball.service.domain.Comment;
 import com.baseball.service.domain.Product;
 import com.baseball.service.domain.User;
 import com.baseball.service.game.GameService;
@@ -40,6 +42,10 @@ public class ProductController {
 	@Qualifier("gameServiceImpl")
 	private GameService gameService;
 
+	@Autowired
+	@Qualifier("commentServiceImpl")
+	private CommentService commentService;	
+	
 	public ProductController() {
 		System.out.println(this.getClass());
 
@@ -108,6 +114,23 @@ public class ProductController {
 		//팀탑바이미지 출력을 위한 team 정보 저장
 		//Team team = gameService.getTeamInfo(teamCode);
 		// model and view 연결
+		
+		//commentList 가져오기
+		Comment comment = new Comment();
+		comment.setProdNo(prodNo);
+		Map<String, Object> map = commentService.getCommentList(comment);
+		List<Comment> list1 = (List<Comment>)map.get("list1"); //1레이어 댓글
+		List<Comment> list2 = (List<Comment>)map.get("list2"); //2레이어 댓글
+		for(Comment a:list1) {
+			System.out.println("1레이어 댓글"+a);	
+		}
+		System.out.println("----------------------");
+		for(Comment b:list2) {
+			System.out.println("2레이어 댓글"+b);	
+		}
+		
+		model.addAttribute("commentList1", list1);
+		model.addAttribute("commentList2", list2);
 		model.addAttribute("product", product);
 
 		return "forward:/product/getProduct.jsp";
