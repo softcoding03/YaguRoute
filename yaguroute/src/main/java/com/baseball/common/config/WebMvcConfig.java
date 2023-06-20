@@ -25,7 +25,7 @@ import com.baseball.common.interceptor.LogonCheckInterceptor;
  @Override public void addInterceptors(InterceptorRegistry registry) { 
 	 
 	 registry.addInterceptor((HandlerInterceptor) logonCheckInterceptor)
-	
+	 
 	 .addPathPatterns("/**") // 인터셉터를 적용할 URL 패턴을 지정합니다.
 	 .excludePathPatterns("/user/loginTest(new).jsp",
 	 "/users/login","/user/index.jsp",
@@ -34,15 +34,12 @@ import com.baseball.common.interceptor.LogonCheckInterceptor;
 	 "/users/naverLogin?code=4vyS2vLJzYxTHVCq0x&state=",
 	 "/users/naverLogin", "/users/kakaoLogin", 
 	 "/users/kakaoLogin?code=DvELPXw684Zq5Ov50XzWk28z9FuoGFMm909En_hXF92FUBH7IpMSw-9MVmbNR11fLB4WngorDSAAAAGIvJtbTw",
-	 "/users/kakaoLogin?code=QNkyEFxhPgHWb_ocx-qgKEZZjm64x1fsTkMgP86ztH8Uq82nm5glkV3mmKXRBkA6jYGZ9Ao9dGkAAAGIt2DqaQ",
-	 "/users/kakaoLogin?code=ilwcYt3Tnu_wUL-x7EMFHmrlT9zACzSUpN_tGl4DXGFJgyljRa4JrXUixr855sdk45ykdQo9dBEAAAGIvKK-5g",
 	 "/user/userNickNameCheck","/users/phoneCheck/", "/users/addNaverUser", "/users/addKakaoUser",
 	 "https://sens.apigw.ntruss.com/sms/v2/services/",
 	 "/users/findUserId/","/users/findPassword","/user/userIdCheck/", "/users/userImage", "/user/userIdCheck",
 	 "/users/kakaoLogin?code=_-hgs0Ne6YuKKPi1xiLUgR9F6UfqUxDdtbPO2H5zmp2F4CCegTziSJ5q9F3uIKLyet2V1wo9cusAAAGIvLZHmA",
 	 "/users/addUser", "/user/userNickNameCheck", "/user/userNickNameCheck", "/user/PartnershipProposal.html", "/user/TermsofUse.html",
-	 "/user/private.html", "/user/manage.html", "http://192.168.0.116:8080/","/users/kakaoLogin?code=LcevSKMqC7cHzOZoXuo3-NsC0K9Lj8ehzaHfWVM9cmurY81Dm3-hueoqJuQ7nEcXVOVpGAoqJVIAAAGIvesKag",
-	 "/resources/static/index.html","/index.html","index.html","/user/favicon.ico","/","/error") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
+	 "/user/private.html", "/user/manage.html", "/resources/static/index.html","/index.html","index.html","/user/favicon.ico","/","/error","/users/kakaoLogin?code=630aYEFc39fUvcs6LovODJo03YwcEzCLX3ogx1b5VTG_1LUG__s1sLSq8c5K4EJnoVhljAo9cusAAAGI0gVWwA") // 인터셉터를 적용하지 않을 URL 패턴을 지정할 수도 있습니다. 
 	 .excludePathPatterns("/js/**", "/css/**", "/images/**"); // 정적 파일 경로 패턴 추가 
 	 
 	 registry.addInterceptor((HandlerInterceptor)loadingImageInterceptor).addPathPatterns("/main/**","/game/**")
