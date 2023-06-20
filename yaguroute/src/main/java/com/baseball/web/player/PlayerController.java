@@ -63,6 +63,7 @@ public class PlayerController {
 	private BestPlayerDao bestPlayerDao;
 	
 	@Scheduled(cron = "0 0 5 ? * MON")
+	/*@Scheduled(cron = "0 9/10 * * * ?")*/
 	public void addPlayer() throws Exception{
 		
 		System.out.println("addPlayer ㅎㅇ");
@@ -235,7 +236,8 @@ public class PlayerController {
 		return "forward:/player/listBestPlayerGroup(new).jsp";
 	}
 	
-//	@Scheduled(fixedRate = 30000)
+	
+	/* @Scheduled(cron = "0 6/10 * * * ?") */
 	@Scheduled(cron = "0 0 3 ? * MON")
 	public void addBestPlayer() throws Exception {
 		System.out.println("addBestPlayer");

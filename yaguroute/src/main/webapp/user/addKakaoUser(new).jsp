@@ -5,6 +5,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<%-- <c:if test="${ empty user.userId }">
+ 		<c:redirect url="/main/getMain"/>
+	</c:if> --%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -375,59 +378,65 @@
 			// 4. userPhone 유효성 검증
 			var userPhone = $("#userPhone").val();
 			
-			if(userPhone.length != 11){
-				alert("'-'를 제외하고 11자리를 입력해 주시기 바랍니다.");
+			var pattern = /010/;
+			
+			if(userPhone.length != 11 || !pattern.test(userPhone)){
+				alert("'-'를 제외하고 휴대폰 번호 11자리를 입력해 주시기 바랍니다.");
 				return;
+			}else if(userPhone.length == 11 && pattern.test(userPhone)){
+				alert("확인");
+				// 5. userBirth 유효성 검증
+				var userBirth=$("#birthday").val();
+				
+				if(userBirth == null){
+					alert("생일을 입력 해 주세요.");
+					return;
+					
+				}else{
+					var value = userBirth.replace(/-/g, "");
+					$("#userBirth").val(value);
+				}
+				
+				// 7. userAddr 유효성 검증
+				var addr1 = $("input[name='addr1']").val();
+		 		var addr2 = $("input[name='addr2']").val();
+				var addr = addr1+" "+addr2;
+				$("#userAddr").val(addr);
+				
+				if(addr1.length < 3){
+					alert("주소를 입력해 주시기 바랍니다.");
+					return;
+				}
+				
+				var userId = "${user.userId}";
+				var userName = "${user.userName}";
+				var userBirth = "${user.userBirth}";
+				var userEmail = "${user.userEmail}";
+				var userPassword = "${user.password}";
+				var userPhone = "${user.userPhone}";
+				var gender = "${user.gender}";
+				var userImage = "${user.userImage}"
+				var teamCode = $("select[name='teamCode']").val();
+				var userNickName = $("input[name='userNickName']").val();
+				var teamCode = $("input[name='teamCode']").val();
+				
+				// userAddr logic...
+				var addr1 = $("input[name='addr1']").val();
+		 		var addr2 = $("input[name='addr2']").val();
+				var userAddr = addr1+addr2;
+				$("#userAddr").val(userAddr);
+				
+				$("form").attr("method", "POST").attr("action", "/users/addNaverUser").submit();
+				
 			}
 			
-			var phoneCheck = $("#phoneCheck").val();
+			/* var phoneCheck = $("#phoneCheck").val();
 			if(phoneCheck.length != 5){
 				alert("휴대폰 체크를 다시 해 주시기 바랍니다.");
 				return;
-			}
+			} */
+
 			
-			// 5. userBirth 유효성 검증
-			var userBirth=$("#birthday").val();
-			
-			if(userBirth == null){
-				alert("생일을 입력 해 주세요.");
-				return;
-				
-			}else{
-				var value = userBirth.replace(/-/g, "");
-				$("#userBirth").val(value);
-			}
-			
-			// 7. userAddr 유효성 검증
-			var addr1 = $("input[name='addr1']").val();
-	 		var addr2 = $("input[name='addr2']").val();
-			var addr = addr1+"   "+addr2;
-			$("#userAddr").val(addr);
-			
-			if(addr.length < 2){
-				alert("주소를 입력해 주시기 바랍니다.");
-				return;
-			}
-			
-			var userId = "${user.userId}";
-			var userName = "${user.userName}";
-			var userBirth = "${user.userBirth}";
-			var userEmail = "${user.userEmail}";
-			var userPassword = "${user.password}";
-			var userPhone = "${user.userPhone}";
-			var gender = "${user.gender}";
-			var userImage = "${user.userImage}"
-			var teamCode = $("select[name='teamCode']").val();
-			var userNickName = $("input[name='userNickName']").val();
-			var teamCode = $("input[name='teamCode']").val();
-			
-			// userAddr logic...
-			var addr1 = $("input[name='addr1']").val();
-	 		var addr2 = $("input[name='addr2']").val();
-			var userAddr = addr1+addr2;
-			$("#userAddr").val(userAddr);
-			
-			$("form").attr("method", "POST").attr("action", "/users/addNaverUser").submit();
 
 		};
 	 
@@ -502,7 +511,6 @@
                                     <label for="userPhone">
                                         <input type="text" name="userPhone" id="userPhone" style="width: 300px; height: 42px; margin-bottom: 10px;"  placeholder="' - ' 를 제외한 휴대폰 번호를 입력해주세요."/>
                                     </label>
-                                    	<font id="nickname_use" size="2"></font>
                             	</div>
                             	
                             	
