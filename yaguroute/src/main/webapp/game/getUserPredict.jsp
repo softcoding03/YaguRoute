@@ -123,7 +123,7 @@ function preventEvent(){
 <jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 <section id="preventAll">
-<section class="image-header" style="min-height: 150px;height: 150px;">
+<section class="image-header" style="min-height: 0px;height: 0px;"">
 	<div class="row">
 		<div class="col-md-12" >
            	<img id="back-img" src="/images/baseball/predict_background_img.jpg" alt="img">
@@ -164,9 +164,15 @@ function preventEvent(){
 </c:forEach>
 
 <c:if test="${gameSize eq 0}">
+<div class="container">
+		<div class="row">
+			<div class="col-md-12 transparency" style="text-align: center;">
 	<div class="text-center">
 		<h4>경기가 없습니다.</h4>
 	</div>
+		</div>
+	</div>
+</div>
 </c:if>
 <c:if test="${gameSize ne 0}">
 	<div class="container">

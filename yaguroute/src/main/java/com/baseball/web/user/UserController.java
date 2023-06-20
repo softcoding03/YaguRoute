@@ -189,7 +189,7 @@ public class UserController {
 		try {
 	        response.setContentType("text/html; charset=utf-8");
 	        PrintWriter w = response.getWriter();
-	        w.write("<script>alert('로그아웃되었습니다.');location.href='/user/loginTest(new).jsp';</script>");
+	        w.write("<script>location.href='/user/loginTest(new).jsp';</script>");
 	        w.flush();
 	        w.close();
 	    } catch(Exception e) {
@@ -209,7 +209,9 @@ public class UserController {
 //		else {
 //			user.setUserImage(userImage);
 //		}
-		
+		if(user.getUserImage() == null) {
+			user.setUserImage("/images/user/defaultProfile.png");
+		}
 		userService.addUser(user);
 
 		session.setAttribute("user", user);

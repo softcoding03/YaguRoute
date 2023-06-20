@@ -76,7 +76,8 @@ public class GamePredictController {
 		user = userService.getUser(user.getUserId());
 		session.setAttribute("user", user);
 		
-		
+		System.out.println(game.size());
+		System.out.println(pred.size());
 		request.setAttribute("minTimeString", minTimeString.split("[:]"));
 		request.setAttribute("predSize", pred.size());
 		request.setAttribute("gameSize", game.size());

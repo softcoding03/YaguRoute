@@ -124,13 +124,13 @@
   margin-bottom: 18px;
 }
 
-    body {
-    background-image: url('/images/productBack/baseball.png');
+    /* body {
+    background-image: url('https://png.pngtree.com/background/20211215/original/pngtree-baseball-baseball-bat-on-green-background-picture-image_1468909.jpg');
     background-repeat: no-repeat;
     background-size: 80% ; /* Adjust the size as per your requirement */
     background-color: rgba(0, 0, 0, 0.7);
     background-position: center;
-    }	
+    } */	
     /* 팀탑바 위한 style */
 .teamTopBar {
     display:inline-block;
@@ -182,6 +182,20 @@ h1 {
     .Category button:hover {
         background-color: #e0e0e0;
     }
+    #back-img {
+		  position: fixed;
+		  width: 100%;
+		  height: 100vh;
+		  overflow: hidden;
+	}
+	.transparency{
+		background-color: rgba(256,256,256,0.9);
+		/* background-color: rgba(0,0,0,0.6); */
+		
+	}
+	.categoryNo{
+		background-color: lightgrey !important;
+	}
 </style>
 
 
@@ -190,19 +204,27 @@ h1 {
 		<!-- ToolBar Start /////////////////////////////////////-->
 				<jsp:include page="/common/topBar.jsp"/>
 		<!-- ToolBar End /////////////////////////////////////-->
-		
-<div class="container image-container" style="display: flex; margin-top:25px;">
-  <img class="teamTopBar" src="${team.teamTopBar}">
-  <div class="text-overlay"><h1>상품 구매</h1></div>
+<section class="image-header" style="min-height: 0px;height: 0px;">
+	<div class="row">
+		<div class="col-md-12" >
+           	<img id="back-img" src="/images/baseball/prod_backImage.jpg" alt="img">
+        </div>	
+	</div>
+</section>
+<div class="mathc-live-broadcasts background" style="margin-top: 0px;">
+	<div class="broadcast-tabs-wrapper">
+		<ul class="nav nav-tabs" role="tablist" style="text-align: center">
+			<li style="border-radius: 30%;background: content-box;width: 100%"><h1 style="margin-left: 30px;margin-right: 30px;color:white;font-size: 50px;font-family:'Gwangyang'">상품 목록</h1></li>
+		</ul>
+	</div>
 </div>
-
 		<form name="detailForm">
-
-			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px; margin-left:40px;">
+		
+			<div class="mathc-live-broadcasts background" style="display: flex; justify-content: center; margin-top:30px;margin-bottom:50px; margin-left:40px;">
 			    <div class="broadcast-tabs-wrapper">
 			        <ul class="nav nav-tabs" role="tablist">
 			            <c:forEach var="team" items="${allTeam}">
-			                <li class="${team.teamCode eq teamCode ?'active':''}" role="presentation">
+			                <li class="${team.teamCode eq prodTeamCode ?'active':''}" role="presentation">
 			                    <a href="teamCodeHref" role="tab" data-toggle="tab">
 			                        <img alt="img" src="${team.teamEmblem}">
 			                        <span class="info">
@@ -215,10 +237,13 @@ h1 {
 			        </ul>
 			    </div>
 			</div>
-			
+			<div class="container">
+		<div class="row">
+			<div class="col-md-12 transparency">
 			<div class="Category">
 			    <div class="row">
 			        <input id="category" type="hidden" name="category" value="${search.category}">
+			        <button class="categoryNo" id="0">전체</button>
 			        <button class="categoryNo" id="1">유니폼</button>
 			        <button class="categoryNo" id="2">모자</button>
 			        <button class="categoryNo" id="3">의류</button>
@@ -227,16 +252,13 @@ h1 {
 			    </div>
 			</div>
 			
-	<div class="container">
-			<div class="row">
-			
-			<div style="width: 98%; margin-left: 50px; margin-top: 20px;">		
+			<div style="width: 100%; margin-top: 20px;">		
 			        <!-- Search -->
 				<div class="search-container" style="display: flex; justify-content: flex-end; align-items: center;">
 				    <div class="form-group" >
 				    
-				        <select class="form-control" name="searchCondition">
-				            <option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>상품명</option>
+				        <select class="form-control" name="searchCondition" disabled="disabled">
+				            <option value="0" >상품명</option>
 				        </select>
 				    </div>
 				    <div class="form-group" >
@@ -250,12 +272,6 @@ h1 {
 
     <!--STORE WRAP BEGIN-->
 		    <div class="store-wrap">
-		        <div class="container">
-		            <div class="row row-offcanvas row-offcanvas-left">
-		                <div class="sidebar col-xs-6 col-sm-6 col-md-4 sidebar-offcanvas" id="sidebar">
-		                    <div class="filter-wrap">
-		                 </div>
-		                </div>
 		                <div class="col-md-12">
 		                    <h6>${product.prodTeamCode}</h6>
 		                    <div class="row">
@@ -299,19 +315,16 @@ h1 {
 				</jsp:include>
 				<!-- PageNavigation End... -->
 
-			</div>
-		</div>
 	</div>
 </div>
-
+</div></div></div>
     <!--STORE WRAP END-->
 
-				</div>
-
-</div>
 
 </form>
-
+</div>
+</div>
+</div>
 </body>
 
 

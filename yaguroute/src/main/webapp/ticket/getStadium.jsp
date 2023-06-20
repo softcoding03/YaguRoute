@@ -87,7 +87,7 @@ button[type="button"] {
 				</div>
 				<div class="col-md-7">
 					<div class="player-photo">
-						<img src="${game.homeTeam.stadiumImageFile}" width="600" height="600" alt="player">
+						<img src="/images/stadium/${game.homeTeam.teamCode}.png" width="600" height="600" alt="player">
 					</div>
 				</div>
 				<div class="col-md-1"></div>

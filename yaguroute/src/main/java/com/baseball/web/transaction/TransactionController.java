@@ -166,7 +166,7 @@ public class TransactionController {
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
 		
-			    return "forward:/transaction/addTransaction.jsp";
+			    return "forward:/transaction/addTransaction";
 	}
 	
 	@RequestMapping("getTransaction")
@@ -177,7 +177,7 @@ public class TransactionController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("transaction", transactionService.getTransaction(tranNo));
-		modelAndView.setViewName("forward:/transaction/getTransaction.jsp");
+		modelAndView.setViewName("forward:/transaction/listTransaction");
 		
 		return modelAndView;
 	}

@@ -5042,9 +5042,9 @@
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="width: 1000px; margin: auto;">
     <!-- 슬라이드 아이템들 -->
     <div class="carousel-inner" style="width: 3000px; height: 500px; margin-right: 1000px; text-align: center;">
-        <c:forEach var="bestplayer" items="${list}">
+        <c:forEach var="bestplayer" items="${list}" varStatus="listStatus">
             <c:set var="i" value="${i+1}"/>
-            <div class="carousel-item${i == 1 ? ' active' : ''}">
+            <div class="carousel-item${listStatus.last ? ' active' : ''}">
                     <div class="col-md-4" style="width: 42%;">
                         <div class="carousel_carouselInner__MtCTb carousel_showNext__1wNbk">
                             <div class="carousel_carouselContentWrapper__1Ra4r">

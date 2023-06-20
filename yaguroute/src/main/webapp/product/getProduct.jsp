@@ -101,10 +101,10 @@ hr {
 
 		
     body {
-        background-image: url('/images/product/gettyimages.jpg');
+        background-image: url('/images/baseball/prod_backImage.jpg');
         background-repeat: no-repeat;
         background-size: cover;
-        background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
+        background-color: rgba(0, 0, 0, 0.8); /* 투명도 조절을 위한 배경색 설정 */
     }		
 </style>
 
@@ -151,31 +151,42 @@ hr {
 					var prodQuantity = $("input[type='number']").val();
 					var prodNo = "${product.prodNo}";
 					var prodPrice = "${product.prodPrice}";
-					var addTranUrl = "/transaction/addTransaction?prodNo="+ prodNo + "&prodQuantity=" + prodQuantity
-							+ "&prodPrice=" + prodPrice;
-					self.location = addTranUrl;
+					if(parseInt(prodQuantity) < 1){
+						alert("1개이상의 상품을 구매해야 합니다.");
+						$("input[type='number']").val(1);
+					}else{
+						var addTranUrl = "/transaction/addTransaction?prodNo="+ prodNo + "&prodQuantity=" + prodQuantity
+						+ "&prodPrice=" + prodPrice;
+						self.location = addTranUrl;
+					}
+					
 				});
 		
 		$("#addBasket").on("click", function() {
 			let productNo = $("#prodNo").val();
 			let userId = $("#userId").val();
-			$.ajax({
-				url : "/basket/json/addBasket/" + productNo,
-				method : "POST",
-				dataType : "text",
-				data : JSON.stringify({
-					userId : userId,
-					prodQuantity : $("input[type='number']").val()
-				}),
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				success : function(data, status) {
-					alert(data)
-				}
-			})
-
+			if(parseInt($("input[type='number']").val())<1){
+				alert("1개이상의 상품을 담아야 합니다.");
+				$("input[type='number']").val(1);
+			}else{
+				$.ajax({
+					url : "/basket/json/addBasket/" + productNo,
+					method : "POST",
+					dataType : "text",
+					data : JSON.stringify({
+						userId : userId,
+						prodQuantity : $("input[type='number']").val()
+					}),
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(data, status) {
+						alert(data)
+					}
+				})
+			}//end of else
+			
 		})
 
 	})
@@ -215,13 +226,13 @@ hr {
 				            <div class="navigation jcarousel-skin-default">
 				                <div class="carousel carousel-navigation jcarousel-vertical" style="max-height: 500px; overflow: hidden;">
 				                    <ul>
-				                        <li>
+				                        <li style="height: auto;">
 				                            <img src="${product.prodImageFirst}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 				                        </li>
-				                        <li>
+				                        <li style="height: auto;">
 				                            <img src="${product.prodImageSecond}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 				                        </li>
-				                        <li>
+				                        <li style="height: auto;">
 				                            <img src="${product.prodImageThird}" alt="product-thumb" onclick="changeStageImage(this)"onerror="this.style.display='none'">
 				                        </li>
 				                    </ul>
@@ -260,11 +271,11 @@ hr {
 		                            <button id="addTran" type="button" class="btn btn-info">바로구매</button>
 		                        </div>
 								<br> 
-								 <div class="details">
+								 <div class="details" >
 								    <ul>
-								        <li><span>배송비: </span>무료</li>
-											<li>
-											    <span>적립: </span>
+								        <li style="color: blanchedalmond"><span style="color: black;">배송비: </span>무료</li>
+											<li style="color: blanchedalmond">
+											    <span style="color: black;">적립: </span>
 											    <c:set var="accumulation" value="${product.prodPrice * 0.01}" />
 												<fmt:formatNumber value="${accumulation % 1 eq 0 ? accumulation.intValue() : accumulation}" pattern="###,###"/> 포인트 </li> 
 											    <li style="font-size: 12px;"><span style="font-size: 12px;">구매금액의 1%가 포인트로 적립됩니다. </span></li>

@@ -132,16 +132,11 @@
 		  overflow: hidden;
 		}
 		
-		#back-img img {
-		  width: 100%;
-		  height: 100%;
-		  object-fit: cover;
-		}
     </style>
     <script type="text/javascript">
     	function goWantDat(dayId){
-    		var plus = 500;
-    		
+    		var plus = 350;
+    		console.log(plus)
     		var container = $('html,body');
     		var ele = document.getElementById(dayId);
     		if(ele){
@@ -156,7 +151,7 @@
 <body>
 <jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header" style="min-height: 150px;height: 150px;">
+<section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
 		<div class="col-md-12" >
            	<img id="back-img" src="/images/baseball/baseball_stadium.png" alt="img">
@@ -252,7 +247,7 @@
                                            <c:forEach var="dateTmp" begin="0" end="${daysInMonth-1}" varStatus="tmpDateIndex">
                                            		<c:set var="bool" value="0"/>
                                            		<c:if test="${gameList[gameIndex].gameDate ne currentDateList[dateTmp]}">
-                                           			<td>${dateTmp+1}</td>
+                                           			<td style="${currentDateList[dateTmp] eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};">${dateTmp+1}</td>
                                            		</c:if>
                                            		<c:if test="${gameList[gameIndex].gameDate eq currentDateList[dateTmp]}">
                                            			<c:forEach var="hello" begin="0" end="${teamCodeIndex-1}">
@@ -261,7 +256,7 @@
                                            				</c:if>
                                            			</c:forEach>
                                            			<c:if test="${bool eq teamCodeIndex}">
-                                           				<td style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};">${dateTmp+1}</td>
+                                           				<td>${dateTmp+1}</td>
                                            			</c:if>
                                            			<c:if test="${bool ne teamCodeIndex}">
                                            				<td class="activeCal" style="${gameList[gameIndex].gameDate eq todayDate ? 'border: 2.5px solid #f03a3a' : ''};"><a role="button" onclick="goWantDat('${currentDateList[dateTmp]}');">${dateTmp+1}</a></td>
@@ -347,7 +342,7 @@
 						<c:if test="${game.gameStatusCode eq 1}">
 							<%-- <a class="team" href="#">실시간 중계</a>--%><span role="button"  class="stream" style="font-family: 'FontAwesome';">LIVE</span>
 						</c:if>
-						<c:if test="${game.gameStatusCode eq 2}">
+						<c:if test="${game.gameStatusCode eq 2 or game.gameStatusCode eq 4}">
 							<%-- <a class="team" href="/game/getGameRecord?gameCode=${game.gameCode}">경기 기록</a>--%><span role="button"  class="atag" style="font-family: 'FontAwesome';">경기 기록</span>
 						</c:if>
 						<c:if test="${game.gameStatusCode eq 3}">

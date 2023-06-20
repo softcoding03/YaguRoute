@@ -123,10 +123,11 @@
 					    var tmpItem = "";
 					    for(var k=0;k<JSONData.length;k++){
 					    	var tmpGame = JSONData[k];
+					    	console.log(tmpGame.gameCode)
 					    	var gameState = tmpGame.gameStatusCode 
 					    	var message = (gameState === '0' ? '준비중' : (gameState === '1' ? 'LIVE' : (gameState === '2' || gameState === '4' ? '경기종료' : '경기취소')));
 					    	var tmpClass = (gameState === '1' ? 'stream' : (gameState === '0' || gameState === '2' || gameState === '4' ? 'atag' : 'cancel'));
-					    	var location = (gameState === '0' ? '/game/getGamePreview?gameCode='+game.gameCode : (gameState === '1' ? '/channel/getStreaming?gameCode='+game.gameCode : (gameState === '2' || gameState === '4' ? '/game/getGameRecord?gameCode='+game.gameCode : '경기취소')));
+					    	var location = (gameState === '0' ? '/game/getGamePreview?gameCode='+tmpGame.gameCode : (gameState === '1' ? '/channel/getStreaming?gameCode='+tmpGame.gameCode : (gameState === '2' || gameState === '4' ? '/game/getGameRecord?gameCode='+tmpGame.gameCode : '경기취소')));
 					    	tmpItem += '<div id="'+tmpGame.gameCode+'" class="item '+(k===0 ? 'active' : '')+ '">'+
 					    	'<a class="first-slide" href="'+location+'">'+
 						    	'<div style="position: relative;" class="score">'+
@@ -275,6 +276,7 @@
 
 <body>
 <a type="hidden" id="top"/>
+<jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 
 <!-- <section class="image-header" style="min-height: 0px;height: 0px;  z-index: -1;">
@@ -343,6 +345,9 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<h2 style="text-align: center; margin-top: 50px;">Today's Match</h2>
 				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center; display: none;">
+					<h1 id="noGame">안녕하세요</h1>
+				</div>
 				<div class="col-md-6 col-sm-12 col-xs-12">
 					<div id="myCarousel" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
@@ -390,9 +395,7 @@
 						</tr>
 					</table>
 				</div>
-				<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center; display: none;">
-					<h1 id="noGame">안녕하세요</h1>
-				</div>
+				
 			</div>
 		</div>
 	</section>

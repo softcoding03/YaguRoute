@@ -129,29 +129,36 @@
 			font-size: 50px;
 			font-family:"Gwangyang";
   		}
+  		.text-overlay {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  font-size: 18px;
+		  margin-left:400px;
+		}
+		.teamTopBar {
+		  width: 100%;
+		  height: auto;
+		}
+		.image-container {
+		  position: relative;
+		  display: inline-block;
+		  width: 100%;
+		}
     </style>
 </head>
 <body>
 
+<jsp:include page="/common/loading.jsp"/>
 <!-- topBar start -->
 <jsp:include page="/common/topBar.jsp"/>
 <!-- topBar End -->
 <section class="image-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="info">
-                    <div class="wrap">
-                        <ul class="breadcrumbs">
-                            <li><a href="index.html">Main</a>/</li>
-                            <li>Streaming Match</li>
-                        </ul>
-                        <h1>실시간 중계 목록</h1>
-                    </div>
-                </div>
-            </div>	
-        </div>
-    </div>
+    <div class="image-container">
+	  <img class="teamTopBar" src="/images/teamTopBar/ALL.jpg">
+	  <div class="text-overlay"><h1 style="color: white;">실시간 중계 목록</h1></div>
+	</div>
 </section>
 
 <c:if test="${list[0].gameInfo.gameCode eq null}">
@@ -177,7 +184,7 @@
 	            			<div class="item-header" id="headingOne">
 	            				<div class="row">
 	            					<div class="col-md-1 col-sm-2">
-					                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+					                    <a data-toggle="collapse" data-parent="#accordion" class="arrow"><i class="glyphicon glyphicon-facetime-video" aria-hidden="true"></i></a>
 					                </div>
 					                
 					                <div class="col-md-7 col-sm-10">
@@ -201,13 +208,12 @@
 					                </div>
 					                <div class="col-md-4 col-sm-12">
 					                    <div class="channel">
-					                        <img src="https://kr.object.ncloudstorage.com/mainpjt/images/01baa05b-180a-49d8-8c19-cdbcd389d1b9Haerin.gif" width="60" height="60" alt="channel-logo">
 					                        <span class="info">
 					                            <span class="what"> 장소 : ${channel.gameInfo.homeTeam.stadiumName}</span>
 					                            <span class="then"> start : ${channel.gameInfo.gameTime}</span>
 					                            
 					                            <div>
-					                            <c:if test="${channel.gameInfo.gameStatusCode eq 1 || channel.gameInfo.gameStatusCode eq 0}">
+					                            <c:if test="${channel.gameInfo.gameStatusCode eq 1 || channel.gameInfo.gameStatusCode eq 0}"><!--  -->
 					                            	<button class="recording-button">
 					                            		<span>
 					                            			Live
@@ -217,11 +223,11 @@
 					                            </c:if>
 					                            
 					                            <c:if test="${channel.gameInfo.gameStatusCode eq 0 }">
-					                            	<button class="custom-button">준비 중</button>
+					                            	<button class="custom-button" disabled="disabled">준비 중</button>
 					                            </c:if>
 					                            
 					                            <c:if test="${channel.gameInfo.gameStatusCode eq 2 || channel.gameInfo.gameStatusCode eq 4}">
-					                            	<button class="custom-button">결과</button>
+					                            	<button class="custom-button" disabled="disabled">결과</button>
 					                            </c:if>
 					                            
 					                            <c:if test="${channel.gameInfo.gameStatusCode eq 3 }">

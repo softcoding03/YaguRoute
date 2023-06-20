@@ -73,6 +73,9 @@
 	.col-md-6 {
 	    width: 44% !important;
 	}
+	.pagination{
+		width: 50% !important;
+	}
     </style>
     
     <script type="text/javascript">
@@ -144,13 +147,13 @@
 
     <!--PLAYER SINGLE WRAP BEGIN-->
     
-    <section class="player-single-wrap">
+    <section class="player-single-wrap" style="text-align: center;width: 100%;display: inline-flex;">
         <!--LAST MATCHES BEGIN-->
 <div class="container last-hockey-macthes">
     <div class="row">
-        <div class="col-md-12 overflow-scroll">
+        <div class="col-md-12 overflow-scroll" style="display: grid;justify-items: center;">
         	
-            <h4 style="font-family: 'Gwangyang'; margin-bottom: 45px; text-align: center;">회원 목록 조회</h4>
+            <h4 style="font-family: 'Gwangyang'; margin-bottom: 70px;margin-top:70px; text-align: center;">회원 목록 조회</h4>
             <form style="text-align: -webkit-center;">
             	<!-- <button type="button" id="playerList">선수 리스트</button>
 	            <button type="button" id="getBestPlayerList">이주의 선수 조회</button> -->

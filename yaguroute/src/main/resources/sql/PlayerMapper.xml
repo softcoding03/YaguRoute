@@ -90,14 +90,14 @@
     SELECT *
     FROM player
     <where>
-        <if test="searchKeyword != '' || searchKeyword != null">
-         	AND player_name LIKE '%${searchKeyword}%'
+        <if test="searchKeyword != null">
+         	player_name LIKE '%${searchKeyword}%'
         </if>
-        <if test="teamCode == 'ALL'">
-         	AND team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
-         </if>
          <if test="teamCode != 'ALL'">
-          	AND team_code = #{teamCode}
+          	<if test="searchKeyword != null">
+          		AND
+          	</if>
+          	team_code = #{teamCode}
           </if>
     </where>
     ORDER BY player_name

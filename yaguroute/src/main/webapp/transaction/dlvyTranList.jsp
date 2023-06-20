@@ -24,8 +24,13 @@
 <head>
 
 <style>
-
-
+	.pagination{
+		width: 50% !important;
+	}
+	.pagination-wrap{
+		display: grid;
+    	justify-items: center;
+	}
 </style>
 
 
@@ -52,20 +57,13 @@ function fncGetDlvyTranList(currentPage) {
 
 				<!--BREADCRUMBS BEGIN-->
 
-						      <div class="col-md-8" style="margin-top: 60px; margin-left:30px;">
-						        <div class="info">
-						          <div class="wrap">
-						            <h1>상품배송관리</h1>
-						          </div>
-						        </div>
-						      </div>
+						      <h4 style="font-family: 'Gwangyang'; margin-top: 70px;margin-bottom:30px; text-align: center;">상품배송관리</h4>
 
 
 				<!--BREADCRUMBS END-->
 
 
-<div style="width:98%; margin-left:10px;">
-
+<div style="width: 100%;display: grid;justify-items: center;">
 <form name="detailForm">
 
 		<div class="container">
@@ -147,13 +145,16 @@ function fncGetDlvyTranList(currentPage) {
 <!-- PageNavigation Start... -->
 
 	</form>
-			
-			
+	
+<div class="container">
+    <div class="row">			
 					<!-- PageNavigation Start... -->
 				<jsp:include page="../common/pageNavigator_all.jsp">
 					<jsp:param name="id" value="dlvyTran" />
 				</jsp:include>
 				<!-- PageNavigation End... -->
+		</div>		
+</div>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

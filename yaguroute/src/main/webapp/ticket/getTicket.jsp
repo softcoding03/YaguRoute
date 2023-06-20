@@ -224,10 +224,10 @@
 				</div>
 				<hr>
 				<div class="col-md-12">
-					<p style="color:red;">*티켓 취소는 경기 시작 하루 전 23:00까지 가능합니다. ex) 5월12일 14:00 경기 -> 5월11일 23:00까지 취소 가능</p>
+					<p style="color:red;">*티켓 취소는 경기 시작 하루 전 23:00까지 가능합니다.<br> ex) 5월12일 14:00 경기 -> 5월11일 23:00까지 취소 가능</p>
 				</div>
 				<hr>
-				<div style=" text-align: center;" class="col-md-6">
+				<div style="text-align: center;margin-bottom:30px;" class="col-md-6">
 					<button type="button" class="closeWindow" style=" display: inline-block;">확인</button>
 					<c:if test="${transaction.refundStatus eq 0}">
 					<button type="button" class="refundTransaction" style=" display: inline-block;">결제취소</button>

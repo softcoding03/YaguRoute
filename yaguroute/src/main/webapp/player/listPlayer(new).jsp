@@ -35,7 +35,7 @@
 	    width: 91px;
 	}
 		#middle.sub>div.datacenter {
-	    background: #fff url(//ssl.nexon.com/s2/game/fo4/obt/sub_header/bg_sub_datacenter.png) center 0 no-repeat;
+	    background: #fff //ssl.nexon.com/s2/game/fo4/obt/sub_header/bg_sub_datacenter.pngrl(\) center 0 no-repeat;
 	}
 		.sub .datacenter .tab_list.large ul li a {
 	    /*background-color: #2a2ac7;*/

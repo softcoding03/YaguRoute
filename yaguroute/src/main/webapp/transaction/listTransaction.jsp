@@ -81,8 +81,11 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 
 				<!--BREADCRUMBS BEGIN-->
-
-						      <div class="col-md-8" style="margin-top: 40px; margin-left:150px;">
+<div class="container">
+	<div class="row">
+	
+	
+						      <div class="col-md-8" style="margin-top: 40px;">
 						        <div class="info">
 						          <div class="wrap">
 						            <h1>구매목록조회</h1>
@@ -90,7 +93,8 @@
 						          </div>
 						        </div>
 						      </div>
-
+	</div>
+</div>
 				<!--BREADCRUMBS END-->
 
 <div style="width:98%; margin-left:10px;">
@@ -107,8 +111,8 @@
 				</tr>
 				<tr>
 			        <td class="ct_list_b_black">구매일자</td>
-			        <td class="ct_list_b_black">tranCode</td>	
-			        <td class="ct_list_b_black">refundCode</td>				        		        
+<!-- 			        <td class="ct_list_b_black">tranCode</td>	
+			        <td class="ct_list_b_black">refundCode</td>	 -->			        		        
 			        <td class="ct_list_b_black">구단</td>
 			        <td class="ct_list_b_black">상품명</td>
 			        <td class="ct_list_b_black">상품가격</td>
@@ -128,8 +132,8 @@
 						<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>		
 					<tr class="ct_list_pop">
 						<td align="center"><input type="hidden" value="${tranDetail.tranDetailNo}" />${tranDetail.tranDetailTran.tranDate}</td>
-<td align="left">${tranDetail.tranStatusCode}</td>
-<td align="left">${tranDetail.refundStatusCode}</td>
+<%-- <td align="left">${tranDetail.tranStatusCode}</td>
+<td align="left">${tranDetail.refundStatusCode}</td> --%>
 						<td align="center">
 								  <c:choose>
 								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>

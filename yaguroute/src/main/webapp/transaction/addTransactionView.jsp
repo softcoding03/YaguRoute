@@ -43,19 +43,19 @@
 			
 			if(value.length < 1 || value == null){
 				caption.html("최소글자(1)이상을 입력하여야합니다.");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
-		 } else if (value.length > 20) {
-			 	caption.html("최대글자(20)을 초과하였습니다.");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
-		 } else if (!stringREG.test(value)) {
-			 caption.html("한글과 영어만 입력 가능합니다.");
-			 caption.attr("color", "#dc3545");
-			 $("#goAddTran").prop('disabled', true); // 버튼 비활성화		
-		 } else {
-			 caption.html("");
-			 $("#goAddTran").prop('disabled', false);  
+				caption.attr("style", "color:rgb(220, 53, 69)");
+					$("#goAddTran").hide() // 버튼 비활성화
+			 } else if (value.length > 20) {
+				 	caption.html("최대글자(20)을 초과하였습니다.");
+				 	caption.attr("style", "color:rgb(220, 53, 69)");
+					$("#goAddTran").hide(); // 버튼 비활성화
+			 } else if (!stringREG.test(value)) {
+				 caption.html("한글과 영어만 입력 가능합니다.");
+				 caption.attr("style", "color:rgb(220, 53, 69)");
+				 $("#goAddTran").hide(); // 버튼 비활성화		
+			 } else {
+				 caption.html("");
+				 $("#goAddTran").show();  
 			}
 		})
 		
@@ -67,11 +67,11 @@
 			
 			if(!stringREG.test(value)){
 				caption.html("유효하지 않은 핸드폰 번호입니다.");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
+				caption.attr("style", "color:rgb(220, 53, 69)");
+				$("#goAddTran").hide(); // 버튼 비활성화
 		 	} else {
 				 caption.html("");
-				 $("#goAddTran").prop('disabled', false);  
+				 $("#goAddTran").show();  
 			}
 		})
 		
@@ -83,11 +83,11 @@
 			
 			if(!stringREG.test(value)){
 				caption.html("유효하지 않은 이메일주소 입니다.");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
+				caption.attr("style", "color:rgb(220, 53, 69)");
+				$("#goAddTran").hide(); // 버튼 비활성화
 		 	} else {
 				 caption.html("");
-				 $("#goAddTran").prop('disabled', false);  
+				 $("#goAddTran").show();  
 			}
 		})
 		
@@ -98,11 +98,11 @@
 			
 			if(value.length < 1 || value === null){
 				caption.html("주소를 반드시 입력해 주세요");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
+				caption.attr("style", "color:rgb(220, 53, 69)");
+				$("#goAddTran").hide(); // 버튼 비활성화
 		 	} else {
 				 caption.html("");
-				 $("#goAddTran").prop('disabled', false);  
+				 $("#goAddTran").show();  
 			}
 		})
 		
@@ -113,11 +113,11 @@
 			
 			if(value.length > 100){
 				caption.html("요청사항이 100자를 초과하였습니다.");
-				caption.attr("color", "#dc3545");
-				$("#goAddTran").prop('disabled', true); // 버튼 비활성화
+				caption.attr("style", "color:rgb(220, 53, 69)");
+				$("#goAddTran").hide(); // 버튼 비활성화
 		 	} else {
 				 caption.html("");
-				 $("#goAddTran").prop('disabled', false);  
+				 $("#goAddTran").show();  
 			}
 		})
 	});
@@ -478,10 +478,10 @@ $(function(){
 </div>
 			</div>
 
-			<div class="col-md-12">
+			<div class="col-md-5">
 	                <h6>결제 정보</h6>
 	            </div>
-			<div class="col-md-12">
+			<div class="col-md-5">
 				<table class="cart-table">
 			              	<tr>
 		                    	<th style="text-align: center;font-size: 14px;">결제 정보</th>

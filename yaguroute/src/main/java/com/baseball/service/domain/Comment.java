@@ -6,14 +6,10 @@ public class Comment {
 	
 	private int commentNo;
 	private int postNo;
-	private String gameCode;
-	private int prodNo;
 	private int secondCommentNo;
 	private User user;
 	private Date commentDate;
 	private String commentContents;
-	private String commentImage;
-	private String grade;
 	private int changed; //0:default, 1:수정됨, 2:삭제됨, 3:본문이 삭제됨
 	
 	public Comment(){
@@ -31,20 +27,6 @@ public class Comment {
     }
     public void setPostNo(int postNo) {
         this.postNo = postNo;
-    }
-
-    public String getGameCode() {
-        return gameCode;
-    }
-    public void setGameCode(String gameCode) {
-        this.gameCode = gameCode;
-    }
-
-    public int getProdNo() {
-        return prodNo;
-    }
-    public void setProdNo(int prodNo) {
-        this.prodNo = prodNo;
     }
 
     public int getSecondCommentNo() {
@@ -75,20 +57,7 @@ public class Comment {
         this.commentContents = commentContents;
     }
 
-    public String getCommentImage() {
-        return commentImage;
-    }
-    public void setCommentImage(String commentImage) {
-        this.commentImage = commentImage;
-    }
 
-    public String getGrade() {
-        return grade;
-    }
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-    
     public int getChanged() {
         return changed;
     }
@@ -96,11 +65,11 @@ public class Comment {
         this.changed = changed;
     }
 
-	// Override
+	@Override
 	public String toString() {
-		return "CommnetVO : [commentNo]" + commentNo
-		+ "[postNo]" + postNo+ "[gameCode]" + gameCode + "[prodNo]" + prodNo + "[secondCommentNo]" + secondCommentNo+ "[user]" + user
-		+ "[commentDate]" + commentDate+ "[commentContents]" 
-		+ commentContents+ "[commentImage]" + commentImage+ "[grade]" + grade+ "[changed]" + changed;
-	}	
+		return "Comment [commentNo=" + commentNo + ", postNo=" + postNo + ", secondCommentNo=" + secondCommentNo
+				+ ", user=" + user + ", commentDate=" + commentDate + ", commentContents=" + commentContents
+				+ ", changed=" + changed + "]";
+	}
+	
 }

@@ -79,7 +79,7 @@
 <body>
 <jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
-<section class="image-header" style="min-height: 150px;height: 150px;">
+<section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
 		<div class="col-md-12" >
            	<img id="back-img" src="/images/baseball/predict_background_img.jpg" alt="img">

@@ -104,12 +104,11 @@ img.logo{
                     </c:if>
                	  <li><a href="/users/getUser"><span class="topbar">마이페이지</span></a>
                         <ul>
-                        	<li><a href="/users/getUser"><span class="topbar">내 정보 보기</span></a></li>
-                            <li><a href="/transaction/listTransaction"><span class="topbar">상품구매목록조회</span></a></li>
-                            
+                        	<li><a href="/users/getUser"><span class="topbar">내 정보</span></a></li>
+                            <li><a href="/transaction/listTransaction"><span class="topbar">구매 목록</span></a></li>
                         </ul>
                     </li>
-                    <li class="cart full">
+                    <li class="cart">
                         <a href="/basket/getBasketList">
                             <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
                         </a>

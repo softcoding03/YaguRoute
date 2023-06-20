@@ -635,17 +635,17 @@ function getTime(){
   </div>
 </div>
 
-<div class="match-live-date">
+<%-- <div class="match-live-date">
 	<div class="container" id="space">
 		<div class="row">
 			<div class="col-md-6"><div class="date">${channel.gameInfo.gameDate}</div></div>
 		</div>
 	</div>
-</div>
+</div> --%>
 
 <div id=countdown></div>
 
-<div class="match">
+<div class="match" style="margin-top: 50px;">
 	<div class="container" id="space">
 		<div class="row">
 			<div class="col-md-12">
@@ -662,9 +662,8 @@ function getTime(){
 						</div>						
 						
 						<div class="score" id="score">
-	            				${channel.gameInfo.gameScore}       
-	            		</div>
-	            			            		
+	            				${channel.gameInfo.gameScore}    
+	            		</div>    		
             			<div class="team right  wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
             				<div class="text">
             					<h4>${channel.gameInfo.awayTeam.teamNickName}</h4>
@@ -674,10 +673,10 @@ function getTime(){
             				</div>
             			</div>
             			
-						</div>
 					</div>
-					<div class="title">
-					</div>
+					<div class="text-center">${channel.gameInfo.gameDate}</div>
+				</div>
+					
 				</div>
 			</div>
 		</div>
