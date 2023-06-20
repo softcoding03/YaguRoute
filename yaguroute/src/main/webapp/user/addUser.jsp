@@ -386,24 +386,23 @@
    		
    		var userPhone = $("#userPhone").val(); // 휴대폰 번호
    		
-   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
-   		// rnd에 대한 HTML 요소 생성
 
-   		var newDiv = document.createElement("div");
-
-		// hidden 속성 추가
-		var hiddenDiv = document.createElement('input');
-   		hiddenDiv.type = "hidden";
-		hiddenDiv.value = rnd;
-		hiddenDiv.id = 'rnd';
-		newDiv.appendChild(hiddenDiv);
-		document.body.appendChild(newDiv);
-		
-		if(userPhone.length == 11){
+		if(userPhone.length == 11 && userPhone.includes("010")){
 			alert("인증번호를 발송하였습니다.");
 			document.getElementById('phoneCheckId').style.display = 'block';
 			$("#userPhone").prop("disabled", true);
-			
+			var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+	   		// rnd에 대한 HTML 요소 생성
+
+	   		var newDiv = document.createElement("div");
+
+			// hidden 속성 추가
+			var hiddenDiv = document.createElement('input');
+	   		hiddenDiv.type = "hidden";
+			hiddenDiv.value = rnd;
+			hiddenDiv.id = 'rnd';
+			newDiv.appendChild(hiddenDiv);
+			document.body.appendChild(newDiv);
 	   		$.ajax({
 	               url: "/users/phoneCheck/",
 	               method: "POST",

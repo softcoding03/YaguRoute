@@ -78,14 +78,16 @@
 	}
     
     $(function(){
+    	
 		$(".getTicketPurchaseDetail").on("click" , function() {
 			var tranNo = $(this).siblings("input[name='tranNo']").val();
 			var url = "/ticket/getTicketPurchaseDetail?tranNo="+tranNo;
 			var width = 700;  // 창의 너비
-			var height = 1200;  // 창의 높이
-			var left = (window.screen.width - width) / 2;  // 창의 가로 위치
-			var top = (window.screen.height - height) / 2;  // 창의 세로 위치
-			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top + ', toolbar=no'; // 주소 표시줄이 숨겨진 옵션 추가
+			var height = 700;  // 창의 높이
+			var left = (window.screen.width  / 2) - (width / 2) ;  // 창의 가로 위치
+			var top = (window.screen.height / 2) - (height / 2);  // 창의 세로 위치
+			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top; // 주소 표시줄이 숨겨진 옵션 추가
+			console.log(options)
 			window.open(url,"경기 티켓 예매",options);	
 		});
 		

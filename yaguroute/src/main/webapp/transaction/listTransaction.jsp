@@ -81,8 +81,11 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 
 				<!--BREADCRUMBS BEGIN-->
-
-						      <div class="col-md-8" style="margin-top: 40px; margin-left:150px;">
+<div class="container">
+	<div class="row">
+	
+	
+						      <div class="col-md-8" style="margin-top: 40px;">
 						        <div class="info">
 						          <div class="wrap">
 						            <h1>구매목록조회</h1>
@@ -90,7 +93,8 @@
 						          </div>
 						        </div>
 						      </div>
-
+	</div>
+</div>
 				<!--BREADCRUMBS END-->
 
 <div style="width:98%; margin-left:10px;">

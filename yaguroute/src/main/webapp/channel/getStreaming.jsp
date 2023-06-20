@@ -241,6 +241,7 @@
 	</head>
 	
 	<body>
+		<jsp:include page="/common/loading.jsp"/>
 		<!-- topBar start -->
 		<jsp:include page="/common/topBar.jsp"/>
 		<!-- topBar End -->

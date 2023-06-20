@@ -110,7 +110,7 @@
 }
 h1 {
 	color: white;
-	font-family: "Gwangyang";
+	font-family: "Gwangyang" !important;
 }
 .text-overlay {
 	position: absolute;
@@ -144,6 +144,13 @@ h1 {
     .Category button:hover {
         background-color: #e0e0e0;
     }
+    .pagination{
+		width: 50% !important;
+	}
+	.pagination-wrap{
+		display: grid;
+    	justify-items: center;
+	}
 </style>
 
 
@@ -163,15 +170,15 @@ h1 {
 		    	console.log(cateNo)
 		   		$("#category").val(cateNo);
 		   		fncGetProductList(1);
-		   	})
+		   	});
 		   	
-		   	$(".stockNo").on("click", function(){
+/* 		   	$(".stockNo").on("click", function(){
 		   		var stockNo = $(this)	.attr("id");
 		   		console.log(stockNo);
 		   		$("#stock").val(stockNo); //input의 Id
 		   		fncGetProductList(1);
 		   		
-		   	})
+		   	}); */
 		   	
 		$("button.btn-success").on("click", function() {
 			$("#prodTeamCode").val($(this).val());
@@ -246,14 +253,12 @@ h1 {
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-  <jsp:include page="/admin/getAdmin.jsp"/>
+<jsp:include page="/admin/getAdmin.jsp"/>
 	<!-- ToolBar End /////////////////////////////////////-->
-<div class="image-container">
-  <img class="teamTopBar" src="${team.teamTopBar}">
-  <div class="text-overlay"><h1>판매상품리스트</h1></div>
-</div>
+<div class="container">
+    <div class="row" style="display: grid;justify-items: center;">	
+<h4 style="font-family: 'Gwangyang'; margin-top: 70px;margin-bottom:70px; text-align: center;">판매 상품 리스트</h4>
 	<!--  화면구성 div Start /////////////////////////////////////-->
-				
 	<form name="detailForm">
 			
 			<div class="mathc-live-broadcasts background" style="margin-top:20px; margin-left:10px;">
@@ -275,8 +280,9 @@ h1 {
 			</div>
 			
 			<div class="Category">
-			    <div class="row">
+			    <div class="row col-md-12">
 			        <input id="category" type="hidden" name="category" value="${search.category}">
+			        <button class="categoryNo" id="0">전체</button>
 			        <button class="categoryNo" id="1">유니폼</button>
 			        <button class="categoryNo" id="2">모자</button>
 			        <button class="categoryNo" id="3">의류</button>
@@ -304,16 +310,16 @@ h1 {
 								value="${!empty search.searchKeyword ? search.searchKeyword : ''}"> </div>
 
 						<button type="button" class="btn btn-default" id="searchButton">검색</button>
-						<p class="text" style="font-family: 'Montserrat', sans-serif; ">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
+						<p class="text" style="font-family: 'Montserrat', sans-serif;text-align: left;">전체 ${resultPage.totalCount} 건, 현재 ${resultPage.currentPage} 페이지</p>
 					</div>
-				<div class="Stock">
+<%-- 				<div class="Stock">
 			    <div class="row">
-			        <input id="stock" type="hidden" name="standard" value="${search.standard }"> <%-- 디폴트 null --%>
+			        <input id="stock" type="hidden" name="standard" value="${search.standard }"> 디폴트 null
 			        <button class="stockNo" id="1">전체</button>
 			        <button class="stockNo" id="2">판매중</button>
 			        <button class="stockNo" id="3">품절</button>
 			    </div>
-			</div>				
+			</div>	 --%>			
 
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 
@@ -382,7 +388,7 @@ h1 {
 				</jsp:include>
 				<!-- PageNavigation End... -->
 	</form>
-
+</div></div>
 
 </body>
 

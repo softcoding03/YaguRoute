@@ -56,7 +56,7 @@
 		    SELECT best_date, GROUP_CONCAT(player_id) AS players
 		    FROM best_player
 		    GROUP BY best_date
-		    ORDER BY best_date DESC
+		    ORDER BY best_date
 		</select>
 		
 <!-- 		<select id="getPlayerByBestPlayer" parameterType="player" resultMap="playerSelectMap">

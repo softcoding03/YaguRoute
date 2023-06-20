@@ -279,7 +279,7 @@
   color: #000000; /* 글자색 설정 */
 }
 
-#back-img {
+/* #back-img {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -287,7 +287,7 @@
   background-image: url("/images/productBack/gettyimages.jpg");
   background-repeat: no-repeat;
   opacity: 0.5;
-}
+} */
 
 	.transparency{
 		background-color: rgba(256,256,256,0.3);
@@ -305,13 +305,13 @@
 <body >
   <jsp:include page="/admin/getAdmin.jsp"/>
 
-    <div class="row">
+<!--     <div class="row">
       <div class="col-md-12">
         <div id="back-img"></div>
       </div>
-</div>
+</div> -->
 
-<div class="container">
+<div class="container" style="display: grid;justify-items: center;">
 <div class= "row">
 
 <form name="detailForm">
@@ -325,7 +325,7 @@
 				  <div class="transparency" >
 					 <h3 class="title" style="text-align: center; margin: 20 auto; font-weight: bold; ">상품 등록</h3>
 					 <br>
-							<div class="container" style="border: 3px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 700px; border-radius: 10px; margin-top: 50px; margin-left: auto; margin-right: 200px;">
+							<div class="container" style="background-color: #e8ebe9;border: 3px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 700px; border-radius: 10px; margin-top: 50px; margin-left: auto; margin-right: 200px;">
     
 
 							<div class="col-md-12" > 
@@ -433,7 +433,7 @@
 			    </div>
 		   </div>
 
-		<div class="col-md-8 text-center">
+		<div class="col-md-12 text-center">
 			<br>
 		    <button class="addProduct-submit" type="button"> 등록 </button>
 			<button class="addProduct-submit" type="button"> 취소 </button>

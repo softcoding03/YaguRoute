@@ -135,8 +135,8 @@
     </style>
     <script type="text/javascript">
     	function goWantDat(dayId){
-    		var plus = 500;
-    		
+    		var plus = 350;
+    		console.log(plus)
     		var container = $('html,body');
     		var ele = document.getElementById(dayId);
     		if(ele){

@@ -65,7 +65,6 @@ public class PlayerController {
 	@Scheduled(cron = "0 0 5 ? * MON")
 	public void addPlayer() throws Exception{
 		
-		System.out.println("addPlayer ㅎㅇ");
 		playerCrawlingDao.addPlayer();
 	}
 	

@@ -22,6 +22,9 @@
 <style>
 /* 화면 비율 맞추기*/
 	.broadcast-wrap {
+		background: none !important;
+	   	padding-top: 0px !important;
+	   	padding-bottom: 0px !important;
 		display: flex !important;
 		overflow: hidden !important;
 		flex-wrap: wrap !important;
@@ -74,6 +77,12 @@
 
 <script type="text/javascript">
 			$(function(){
+				
+				//event 추가
+				$("a").on("click",function(){
+					
+				})
+				
 				
 				$("button:contains('중계보기')").on("click", function(){
 					console.log("중계보기 클릭했다");
@@ -138,7 +147,7 @@
 							$("#channelName").attr("color", "#dc3545");
 						}
 					})
-					 
+					
 					$("#confirmButton").on("click", function(){
 						var channelName = $("#channelNameInput").val();
 						console.log(channelName);
@@ -195,25 +204,25 @@
 	</div>
 
 	
-
 	<div class="broadcast-wrap">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-9">
-	            	<h4>Channel Management</h4>                
+				<div class="col-md-12">
+	            	<h4 style="font-family: 'Gwangyang'; margin-bottom: 70px;margin-top:70px; text-align: center;">채널 관리</h4>              
 	            </div>
 	            
-				<div class="basic col-md-9">
+				<div class="basic col-md-12" style="text-align: center;margin-left: -23%;">
 					<button class="modal-button">채널 생성</button>
 				</div>
-				
+				<div class="col-md-12" style="width: 50%;margin-left: 24%;">
 				<c:set var="i" value="0"/>
+				<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
 				<c:forEach var="channel" items="${list}">
 					<c:set var="i" value="${i+1}"/>
-					<div class="col-md-9">
-						<div class="broadcast-list" id="accordion" role="tablist" aria-multiselectable="true">
+					
+						
 							<div class="broadcast-item">
-								<div class="item-header" id="headingOne">
+								<div class="item-header" id="headingOne${i}">
 									<div class="row">
 										<div class="col-md-1 col-sm-1">
 				                    		<a data-toggle="collapse" data-parent="#accordion" href="#${channel.channelName}" class="arrow"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -247,10 +256,10 @@
 								</div>
 								
 								<!-- collaspe start-->
-								<div id="${channel.channelName}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+								<div id="${channel.channelName}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne${i}">
 									<div class="img-wrap">
-									
-										<div class="item-body">
+									</div>
+									<div class="item-body">
 											<div class="row">
 												<div class="col-md-12">
 													<h4>Channel details</h4>
@@ -291,22 +300,19 @@
 												</div>
 											</div>
 										</div>
-										
-									</div>
 								</div>
 								<!-- collaspe End-->								
-							</div>
-						</div>
-					</div>					
-				</c:forEach>
+							</div>	
+					</c:forEach>
+				</div>	
+				</div>
 			</div>
 		</div>
 	</div>
 
 
 
-
-	<script type="text/javascript" src="/js/library/jquery.js"></script>
+<!-- 	<script type="text/javascript" src="/js/library/jquery.js"></script>
 	<script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 	<script type="text/javascript" src="/js/library/bootstrap.js"></script>
 	<script type="text/javascript" src="/js/library/jquery.sticky.js"></script>
@@ -368,6 +374,6 @@
 	<script type="text/javascript" src="/js/footer_slides.js"></script>
 	<script type="text/javascript" src="/js/player_test.js"></script>
 
-	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src="/js/main.js"></script> -->
 </body>
 </html>

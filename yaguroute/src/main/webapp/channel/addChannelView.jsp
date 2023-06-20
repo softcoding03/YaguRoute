@@ -317,8 +317,7 @@ body{
 			</div>
 		</div>
 	</section>		
-		
-<jsp:include page="/common/addLoading.jsp"/>
+	
 
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
