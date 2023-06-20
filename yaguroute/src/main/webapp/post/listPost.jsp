@@ -116,7 +116,6 @@
 	
     function fncGetPostList(currentPage){
     		var teamCode = $("#teamCode").val();
-    		alert(currentPage);
 			$("input[name='currentPage']").val(currentPage);
 			$("form").attr("method" ,"GET").attr("action" , "/post/getPostList?teamCode="+teamCode).submit();
 	 }

@@ -109,9 +109,9 @@ img.logo{
                             
                         </ul>
                     </li>
-                    <li class="cart full">
+                    <li class="cart">
                         <a href="/basket/getBasketList">
-                            <span><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                            <span><i class="fa-2x fa fa-shopping-cart" aria-hidden="true"></i></span>
                         </a>
                     </li>
                 </ul>

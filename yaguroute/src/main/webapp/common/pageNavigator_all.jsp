@@ -136,7 +136,7 @@
 			      <c:if test="${param.id == 'ticket'}">
 			        <a href="javascript:fncGetTicketPurchaseList('${resultPage.endUnitPage+1}')">
 			      </c:if>
-			    <i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+			    <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 				</li>
 		    </c:if>
 		  </ul>

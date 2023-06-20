@@ -25,25 +25,21 @@
 	SELECT *
 	FROM product
 	<where>
-		<if test="search.searchKeyword  != '' and search.searchKeyword != null">
+		<if test="search.searchKeyword != null and search.searchKeyword != ''">
 				prod_name LIKE '%${search.searchKeyword}%'
-		</if>
-		<if test="prodTeamCode == 'ALL'">
-				AND prod_team_code IN ('NC', 'OB', 'HH', 'HT', 'KT', 'LG', 'LT', 'SK', 'SS', 'WO')
 		</if>
 		<if test="prodTeamCode != 'ALL'">
 				AND prod_team_code = #{prodTeamCode}
 		</if>
 		
-		<if test="search.category !=  null">
+		<if test="search.category !=  null and search.category != '' and search.category != 0">
 			AND prod_category = #{search.category}
 		</if>
-		
 		<if test="search.standard == '3'">
 			AND prod_stock = 0
 		</if>
 		<if test="search.standard == '2'">
-				AND prod_stock > 0
+			AND prod_stock > 0
 		</if>
 	</where>
 	ORDER BY prod_no

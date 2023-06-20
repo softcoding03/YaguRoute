@@ -72,7 +72,7 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			driver.get("https://sports.news.naver.com/kbaseball/schedule/index");
 			
 			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div.selected"));
-//			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div:nth-child()"));
+//			WebElement todayGame = driver.findElement(By.cssSelector("#calendarWrap > div:nth-child(18)"));
 			if(!todayGame.getAttribute("class").contains("nogame")) {
 				String date = todayGame.findElement(By.cssSelector("table > tbody > tr:nth-child(1) > td:nth-child(1) > span.td_date > strong")).getText();
 				
@@ -131,15 +131,14 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 					game.setGameScore(oneGame.findElement(By.cssSelector(".td_score")).getText());
 					if(game.getGameStatusCode().equals("2")) {
 						String[] scoreTmp = game.getGameScore().split("[:]");
-						if(scoreTmp[0]==scoreTmp[1])
+						if(scoreTmp[0].equals(scoreTmp[1])) {
 							game.setGameStatusCode("4");
-						System.out.println(scoreTmp[0]+""+scoreTmp[1]);
+						}
 						game.setWinningTeamCode((Integer.parseInt(scoreTmp[0]) < Integer.parseInt(scoreTmp[1])?game.getHomeTeam().getTeamCode():(Integer.parseInt(scoreTmp[0]) > Integer.parseInt(scoreTmp[1])?game.getAwayTeam().getTeamCode():null)));
 					}
 					String gameTmp = strFromat.format(dateFromat.parse(game.getGameDate()))+game.getAwayTeam().getTeamCode()+game.getHomeTeam().getTeamCode()+"0"+(Integer.parseInt(nowYear)<=2015?"":nowYear);
 					
 					game.setGameCode(gameTmp);
-					
 					thisDateGameList.add(game);
 					}
 				}else {

@@ -139,10 +139,12 @@ public class ProductController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
+		if(prodTeamCode == null) {
+			prodTeamCode = "ALL";
+		}
 
 		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
-
 		// Map B/L 수행
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("teamCode", teamCode);
@@ -155,7 +157,8 @@ public class ProductController {
 		for (Product prod : list) {
 			System.out.println(prod);
 		}
-
+		
+		System.out.println(search.getCurrentPage());
 		// 페이지 객체 생성 & map에서 product totalCount(총 개수) 출력
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -190,19 +193,23 @@ public class ProductController {
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-
+		if(prodTeamCode == null) {
+			prodTeamCode = "ALL";
+		}
+		
 		search.setPageSize(pageSize);
 		System.out.println("데이터가 들어간" + search);
-
+		
 		// Map B/L 수행
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("teamCode", teamCode);
 		map.put("prodTeamCode", prodTeamCode);
 		map.put("search", search);
 		map = productService.getSalesProdList(map);
 		// Product list 출력
 		
 		System.out.println("totallllll"+map.get("totalCount"));
+		
+		System.out.println(search.getCurrentPage());
 		List<Product> list = (List<Product>) map.get("salesList");	
 		for (Product salesProd : list) {
 			System.out.println(salesProd);

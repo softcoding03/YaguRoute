@@ -107,8 +107,8 @@
 				</tr>
 				<tr>
 			        <td class="ct_list_b_black">구매일자</td>
-			        <td class="ct_list_b_black">tranCode</td>	
-			        <td class="ct_list_b_black">refundCode</td>				        		        
+<!-- 			        <td class="ct_list_b_black">tranCode</td>	
+			        <td class="ct_list_b_black">refundCode</td>	 -->			        		        
 			        <td class="ct_list_b_black">구단</td>
 			        <td class="ct_list_b_black">상품명</td>
 			        <td class="ct_list_b_black">상품가격</td>
@@ -128,8 +128,8 @@
 						<c:set var= "refundStatusCode" value="${tranDetail.refundStatusCode}"/>		
 					<tr class="ct_list_pop">
 						<td align="center"><input type="hidden" value="${tranDetail.tranDetailNo}" />${tranDetail.tranDetailTran.tranDate}</td>
-<td align="left">${tranDetail.tranStatusCode}</td>
-<td align="left">${tranDetail.refundStatusCode}</td>
+<%-- <td align="left">${tranDetail.tranStatusCode}</td>
+<td align="left">${tranDetail.refundStatusCode}</td> --%>
 						<td align="center">
 								  <c:choose>
 								    <c:when test="${tranDetail.tranDetailProd.prodTeamCode eq 'HH'}">한화</c:when>

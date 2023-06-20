@@ -343,6 +343,9 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<h2 style="text-align: center; margin-top: 50px;">Today's Match</h2>
 				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center; display: none;">
+					<h1 id="noGame">안녕하세요</h1>
+				</div>
 				<div class="col-md-6 col-sm-12 col-xs-12">
 					<div id="myCarousel" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
@@ -390,9 +393,7 @@
 						</tr>
 					</table>
 				</div>
-				<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center; display: none;">
-					<h1 id="noGame">안녕하세요</h1>
-				</div>
+				
 			</div>
 		</div>
 	</section>

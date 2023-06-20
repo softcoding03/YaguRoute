@@ -112,8 +112,8 @@
 			GAME_TIME = #{gameTime}
 			<if test="winningTeamCode != null">
 				, winning_team_code = #{winningTeamCode}
-				, game_score= #{gameScore}
 			</if>
+			, game_score= #{gameScore}
 		</set>
 		<where>
 			GAME_CODE = #{gameCode}

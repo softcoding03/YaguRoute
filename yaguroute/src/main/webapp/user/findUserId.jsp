@@ -212,7 +212,7 @@
 	}
   </style>
 
-  <script type="text/javascript">
+<script type="text/javascript">
   
   $(function(){
  		
@@ -220,12 +220,10 @@
  		
  		var userPhone = $("#userPhone").val(); // 휴대폰 번호
  		
- 		if(userPhone.length != 11 && (!userPhone.includes("010")) || !userPhone.includes("011"))){
+ 		if(userPhone.length != 11 && (!userPhone.includes("010"))){
  			alert("휴대폰 번호를 다시 확인 해 주세요.");
  			return;
- 			
- 		}
-	  	else if(!/[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()]/.test(userPhone)) {
+ 		}else if(!/[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()]/.test(userPhone)) {
  			
 	   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
 	   		// rnd에 대한 HTML 요소 생성
@@ -254,11 +252,12 @@
 	               error: function() {
 	               	alert("서버 오류 발생");
 	                   return;
-	           }
-	   	 });
+	           		}
+	   	 	});
  		}
  	  });
  	});
+ 	
     $(function(){
       $("#phoneCheckButton").on("click", function(){
     	  
@@ -270,7 +269,7 @@
         var userPhone = $("#userPhone").val();
         console.log(userPhone);
         
-        if(userPhone != 11){
+        if(userPhone.length != 11){
         	alert("먼저 휴대폰을 입력 해 주세요.");
         	return;
         }
@@ -329,7 +328,6 @@
 	
     // 모달 닫기 버튼
     function closeModal() {
-    	
     	window.close();
       	document.getElementById("modal").style.display = "none";
     }

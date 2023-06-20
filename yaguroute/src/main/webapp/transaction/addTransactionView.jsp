@@ -478,10 +478,10 @@ $(function(){
 </div>
 			</div>
 
-			<div class="col-md-12">
+			<div class="col-md-5">
 	                <h6>결제 정보</h6>
 	            </div>
-			<div class="col-md-12">
+			<div class="col-md-5">
 				<table class="cart-table">
 			              	<tr>
 		                    	<th style="text-align: center;font-size: 14px;">결제 정보</th>

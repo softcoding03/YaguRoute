@@ -255,7 +255,7 @@
 	   		if(userId.length < 1){
 	   			alert("아이디를 먼저 입력 해 주세요.");
 	   			return;
-	   		}else if(userPhone.length != 11 && (!userPhone.includes("010")) || !userPhone.includes("011")){
+	   		}else if(userPhone.length != 11 && (!userPhone.includes("010"))){
 	   			alert("휴대폰 번호를 다시 확인 해 주세요.");
 	   			return;
 	   		}else if(!/[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()]/.test(userPhone)) {
