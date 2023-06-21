@@ -251,10 +251,11 @@ public class TransactionController {
 
 		System.out.println("들어오니???? "+tranDetail);
 		tranDetailService.updateTranStatusCode(tranDetail);
-		if(tranDetail.getRefundStatusCode().equals("2")){
-			System.out.println("hello");
-		}
-		System.out.println(tranDetail.getRefundStatusCode());
+		/*
+		 * if(tranDetail.getRefundStatusCode().equals("2")){
+		 * System.out.println("hello"); }
+		 * System.out.println(tranDetail.getRefundStatusCode());
+		 */
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/transaction/dlvyTranList");
 
@@ -265,7 +266,7 @@ public class TransactionController {
 	@RequestMapping("updateRefundStatusCode")
 	public ModelAndView updateRefundStatusCode(@ModelAttribute("tranDetail")TranDetail tranDetail) throws Exception {
 
-		System.out.println("refunddddddd들어오니???? "+tranDetail);		
+		//System.out.println("refunddddddd들어오니???? "+tranDetail);		
 		tranDetailService.updateRefundStatusCode(tranDetail);
 		
 		ModelAndView modelAndView = new ModelAndView();
