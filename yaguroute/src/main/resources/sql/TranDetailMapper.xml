@@ -141,7 +141,7 @@
 	
 		SELECT td.*
 		FROM tranDetail td
-		ORDER BY tran_detail_no
+		ORDER BY tran_detail_no DESC
 		LIMIT #{startRowNum}, #{pageSize}		
 	</select>
 

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -78,6 +78,8 @@ function fncGetDlvyTranList(currentPage) {
 		<td class="ct_list_b" >주문번호</td>
 		<td class="ct_list_b" >구단</td>
 		<td class="ct_list_b" >상품명</td>
+		<td class="ct_list_b" >상품가격</td>		
+		<td class="ct_list_b" >사용한 포인트</td>		
 		<td class="ct_list_b">총 결제금액</td>
 		<td class="ct_list_b">구매상태</td>
 		<td class="ct_list_b">배송</td>
@@ -109,7 +111,10 @@ function fncGetDlvyTranList(currentPage) {
 			  </c:choose>
 			</td>
 			<td align="center">${tranDetail.tranDetailProd.prodName}</td>
-			<td align="left">${tranDetail.tranDetailTran.tranTotalPrice}</td>
+			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailProd.prodPrice}" pattern="###,###"/> 원</td>				
+			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranUsePoint}" pattern="###,###"/> 포인트</td>			
+			<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranTotalPrice}" pattern="###,###"/> 원</td>
+
 			<td align="left"> 현재	
 					<c:if test="${tranCode eq 1 && refundStatusCode eq 1 }">
 						구매완료
@@ -124,7 +129,7 @@ function fncGetDlvyTranList(currentPage) {
             <td align="left">
                <c:choose>
                      <c:when  test="${tranCode eq 1 and tranDetail.refundStatusCode eq 1}">
-                       <a href="/transaction/updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2"style="color: blue; text-decoration: underline;">배송시작</a>
+                       <a href="/transaction/updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2" style="color: blue; text-decoration: underline;">배송시작</a>
                       </c:when>
                       <c:when test="${tranDetail.tranStatusCode eq 2}">배송완료
                       </c:when>

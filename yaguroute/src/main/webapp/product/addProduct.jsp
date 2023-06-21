@@ -171,7 +171,7 @@
 			<c:when test="${product.prodCategory eq '4'}">
 				야구용품
 			</c:when>
-			<c:when test="${product.prodCategory eq '4'}">
+			<c:when test="${product.prodCategory eq '5'}">
 				잡화
 			</c:when>			
 			<c:otherwise>

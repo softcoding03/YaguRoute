@@ -359,7 +359,7 @@ h1 {
 															    <c:when test="${product.prodCategory eq 2}">모자</c:when>
 															    <c:when test="${product.prodCategory eq 3}">의류</c:when>
 															    <c:when test="${product.prodCategory eq 4}">야구용품</c:when>
-															    <c:when test="${product.prodCategory eq 4}">잡화</c:when>															    
+															    <c:when test="${product.prodCategory eq 5}">잡화</c:when>															    
 															  </c:choose>
 															</td>
 											<td>
