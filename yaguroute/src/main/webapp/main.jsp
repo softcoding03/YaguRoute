@@ -17,7 +17,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
     	//따라다니는 퀵메뉴
-		$(document).ready(function(){
+		/* $(document).ready(function(){
 			var currentPosition = parseInt($(".quickmenu").css("top"));
 			$(window).scroll(function() {
 		   	var position = $(window).scrollTop(); 
@@ -31,7 +31,7 @@
 		  	$('.quickmenu li a[href="#forward"]').click(function(e) {
 			   history.forward();
 		 	});
-		});
+		}); */
 		//따라다니는 퀵메뉴 끝
     
     	// 로그아웃 버튼 구현
@@ -212,8 +212,8 @@
     		width: 200px;
     		padding-left: 0px !important;
     	}
-<%-- end of 최성락 css --%>
-		/* 따라다니는 퀵메뉴 */
+    	/* 따라다니는 퀵메뉴 */
+		/* 
 		div, ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
 		a {text-decoration:none;}
 		.quickmenu {position:absolute;width:50px;top:70%;margin-top:-70px;right:10px;background:#fff;}
@@ -226,8 +226,8 @@
 		.glyphicon {
  			font-family: 'Glyphicons Halflings' !important;
 		}
+		 */
 		/*퀵메뉴 끝*/
-		
 		div,span,a,h2,td,th,tr{
 			font-family:"Gwangyang" !important;
 		}
@@ -275,7 +275,7 @@
 </script>
 
 <body>
-<a type="hidden" id="top"/>
+<!-- <a type="hidden" id="top"/> -->
 <jsp:include page="/common/loading.jsp"/>
 <jsp:include page="/common/topBar.jsp"/>
 
@@ -538,16 +538,17 @@ MAIN SPONSOR SLIDER END -->
     <!--MAIN TEAM STORE END-->
 
 <!-- 퀵메뉴 -->
-<div class="quickmenu">
+<!-- <div class="quickmenu">
   <ul>
     <li><a href="#top"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></li>
     <li><a href="#bottom"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></li>
     <li><a href="#back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>
     <li><a href="#forward"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>
   </ul>
-</div>     
+</div>    -->  
+<jsp:include page="/common/quickMenu.jsp"/>
 
-<a type="hidden" id="bottom"/>
+<!-- <a type="hidden" id="bottom"/> -->
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

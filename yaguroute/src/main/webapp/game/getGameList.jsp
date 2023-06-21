@@ -136,7 +136,6 @@
     <script type="text/javascript">
     	function goWantDat(dayId){
     		var plus = 350;
-    		console.log(plus)
     		var container = $('html,body');
     		var ele = document.getElementById(dayId);
     		if(ele){
@@ -281,7 +280,6 @@
                                 </table>
                             </div>
                         </div>
-                        <div> <button id="scrollBtn" onclick="scrollToTop()">↑</button></div>
                     </div>
 	</div>
 </section>            
@@ -364,6 +362,7 @@
 		</div>
 	</div>
 	</body>
+	<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript">
 	$(function(){
 		

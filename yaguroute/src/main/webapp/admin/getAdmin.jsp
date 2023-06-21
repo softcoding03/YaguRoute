@@ -569,5 +569,5 @@ a {
 
 <script type="text/javascript" src="/js/main.js"></script>
 </body>
-
+<jsp:include page="/common/quickMenu.jsp"/>
 </html>

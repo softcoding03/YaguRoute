@@ -440,6 +440,7 @@
 </section>
 </div>
 </body>
+<jsp:include page="/common/quickMenu.jsp"/>
 <%-- 
 이닝 ${pitcher.innings}
 피안타 ${pitcher.getHit} | 자책 ${pitcher.myLostScore}

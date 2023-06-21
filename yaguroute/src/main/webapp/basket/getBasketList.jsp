@@ -122,6 +122,7 @@
 </section>
 
 </body>
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript">
 
 	function checkProdStock(){
