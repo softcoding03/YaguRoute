@@ -46,6 +46,9 @@ body {
   color: #fff;
   font-family: arial;
 }
+body.container.comment {
+  font-family: "Gwangyang";
+}
 .content {
   width: 800px;
   margin: 0 auto;
@@ -100,12 +103,12 @@ hr {
 }
 
 		
-    body {
-        background-image: url('/images/baseball/prod_backImage.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-color: rgba(0, 0, 0, 0.8); /* 투명도 조절을 위한 배경색 설정 */
-    }		
+body {
+    background-image: url('/images/baseball/prod_backImage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.8); /* 투명도 조절을 위한 배경색 설정 */
+}		
 </style>
 
 
@@ -284,7 +287,7 @@ hr {
 								</div>
 							</div>
 					</div>
-		   </div>
+			</div>
 		</div>
 	</div>   
 </section>

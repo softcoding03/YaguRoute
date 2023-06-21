@@ -10,6 +10,7 @@
 	<resultMap id="commentSelectMap" type="comment">
 		<result property="commentNo" 		column="comment_no" 		jdbcType="INTEGER"/>
 		<result property="postNo"			column="post_no" 			jdbcType="INTEGER"/>
+		<result property="prodNo" 			column="prod_no" 			jdbcType="INTEGER"/>
 		<result property="secondCommentNo" 	column="second_comment_no" 	jdbcType="INTEGER"/>
 		<result property="commentDate" 		column="comment_date" 		jdbcType="TIMESTAMP"/>
 		<result property="commentContents" 	column="comment_contents" 	jdbcType="VARCHAR"/>
@@ -35,10 +36,12 @@
 	</resultMap>
 
 	<insert id="addComment" parameterType="comment">
-		INSERT INTO comment (post_no, second_comment_no, user_id, comment_date, comment_contents)
+		INSERT INTO comment (post_no, prod_no, second_comment_no, user_id, comment_date, comment_contents)
 	  	VALUES (
 	    	<if test="postNo != 0">#{postNo}</if>
 	    	<if test="postNo == 0">NULL</if>,
+	    	<if test="prodNo != 0">#{prodNo}</if>
+	    	<if test="prodNo == 0">NULL</if>,
 	    	<if test="secondCommentNo != 0">#{secondCommentNo}</if>
 	    	<if test="secondCommentNo == 0">NULL</if>,
 	    	#{user.userId},sysdate(),#{commentContents}
@@ -63,6 +66,7 @@
 	<select id="getCommentList1" parameterType="comment" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
+		<if test="prodNo != 0">WHERE prod_no = #{prodNo}</if>
 		AND second_comment_no IS NULL
 	</select>
 	
@@ -70,6 +74,7 @@
 	<select id="getCommentList2" parameterType="comment" resultMap="commentSelectMap">
 		SELECT * FROM comment
 		<if test="postNo != 0">WHERE post_no = #{postNo}</if>
+		<if test="prodNo != 0">WHERE prod_no = #{prodNo}</if>
 		AND second_comment_no IS NOT NULL
 	</select>
 	

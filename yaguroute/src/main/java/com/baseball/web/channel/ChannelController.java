@@ -138,7 +138,7 @@ public class ChannelController {
 		modelAndView.addObject("channel", channel);
 		modelAndView.addObject("lineUp", lineUp);
 		modelAndView.addObject("gameRecord", gameRecord);
-		modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
+		modelAndView.setViewName("forward:/channel/getStreaming.jsp");
 
 		
 		System.out.println("getChannel End...");
@@ -161,7 +161,7 @@ public class ChannelController {
 		modelAndView.addObject("lineUp", lineUp);
 		modelAndView.addObject("channel", channel);
 		modelAndView.addObject("gameRecord", gameRecord);
-		modelAndView.setViewName("forward:/channel/getStreamingTest.jsp");
+		modelAndView.setViewName("forward:/channel/getStreaming.jsp");
 		
 		System.out.println("getStreaming End...");
 		

@@ -130,7 +130,7 @@ public class PostRestController {
 			//String fileName = "postimage/"+savedFileName;
 			String resultURL = s3Uploader.uploadFiles(multipartFile, fileName);
 			System.out.println("resultURL ? "+resultURL); //오브젝트스토리지 올라간 파일 총 경로
-			String imageOptimizer = "?type=f&w=450&h=300";
+			String imageOptimizer = "?type=w&w=350";
 			//String imageOptimizer = "?type=h&h=200";
 	        String result = "http://jmsmoufzcvqi17847679.cdn.ntruss.com/"+fileName+imageOptimizer;
 			jsonObject.addProperty("url", result);

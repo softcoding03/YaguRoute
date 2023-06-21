@@ -6,6 +6,7 @@ public class Comment {
 	
 	private int commentNo;
 	private int postNo;
+	private int prodNo;
 	private int secondCommentNo;
 	private User user;
 	private Date commentDate;
@@ -21,7 +22,12 @@ public class Comment {
     public void setCommentNo(int commentNo) {
         this.commentNo = commentNo;
     }
-
+    public int getProdNo() {
+        return prodNo;
+    }
+    public void setProdNo(int prodNo) {
+        this.prodNo = prodNo;
+    }
     public int getPostNo() {
         return postNo;
     }
@@ -67,9 +73,11 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [commentNo=" + commentNo + ", postNo=" + postNo + ", secondCommentNo=" + secondCommentNo
-				+ ", user=" + user + ", commentDate=" + commentDate + ", commentContents=" + commentContents
-				+ ", changed=" + changed + "]";
+		return "Comment [commentNo=" + commentNo + ", postNo=" + postNo + ", prodNo=" + prodNo + ", secondCommentNo="
+				+ secondCommentNo + ", user=" + user + ", commentDate=" + commentDate + ", commentContents="
+				+ commentContents + ", changed=" + changed + "]";
 	}
+
+
 	
 }

@@ -372,9 +372,9 @@
 	    			<p>${post.postContents}</p>
 	            <input type="hidden" name="postNo" value="${post.postNo}">
 	            <a href="javascript:;"  class="getPost">Continue Reading</a>
-	            <div class="comment-quantity">${post.postViews} Views</div>
-	            <div class="comment-quantity">${post.postLikes} <i class="fi fi-sr-heart fa-2x"></i> &nbsp;&nbsp;</div>
-	            <div class="comment-quantity">${post.postComments} <i class="fi fi-rr-comment-alt"></i> &nbsp;&nbsp;</div>
+	            <div class="comment-quantity">Views ${post.postViews}</div>
+	            <div class="comment-quantity"><i class="fi fi-sr-heart fa-2x"></i> ${post.postLikes} &nbsp;&nbsp;</div>
+	            <div class="comment-quantity"><i class="fi fi-rr-comment-alt"></i> ${post.postComments} &nbsp;&nbsp;</div>
 	        </div>
 	    </div>
     </c:forEach>

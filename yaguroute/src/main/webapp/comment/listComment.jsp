@@ -10,7 +10,7 @@
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <style>
-button[type="button"]:hover {
+ button[type="button"]:hover {
 	background-color: #99BEFF;
 }
 
@@ -34,7 +34,8 @@ button[disabled] {
 	opacity: 0.5; /* 비활성화 효과를 주기 위한 투명도 설정 */
 	cursor: not-allowed; /* 마우스 커서 모양 변경 */
 	pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
-}
+} 
+
 
 </style>
 	<script type="text/javascript">
@@ -94,9 +95,14 @@ button[disabled] {
 							          +   	   "<div class=\"item\">"
 							          +    	          "<span id=\"add\">댓글을 입력해주세요. (최소 3자 이상 100자 미만)</span>"
 							          +    	          "<textarea name=\"commentContents\" class=\"add\"></textarea>"
-							          +    	 "</div>"
-								       +  	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"
-								       +  	"<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
+							          +    	 "</div>";
+							          if(postNo != null){
+							        	  	secondComment += 	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"; 
+							          } else if(prodNo != null) {
+							        	  	secondComment += 	"<input type=\"hidden\" name=\"prodNo\" value=\"${product.prodNo}\">"; 
+							          }
+								       
+								       secondComment +=  	"<input type=\"hidden\" name=\"secondCommentNo\" value="+commentNo+">"
 								   	 + "</form>"
 							          + "<button disabled type=\"button\" class=\"addComment\">작성하기<i class=\"fi fi-ss-pencil\"></i></button>"
 							   	 	 +"</div>";
@@ -106,7 +112,8 @@ button[disabled] {
 				insertPosition.find(".comment-item.answer.addSecond").remove(); //작성창 출력된 상태 o
 			}
 		});
-		
+var postNo = $("#postNo").val();
+var prodNo = $("#prodNo").val();		
 var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 		//수정창 출력(수정 클릭)
 		$(document).on("click", ".quote.update", function() {
@@ -133,7 +140,6 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 			});//검사 끝
 			
 			var commentNo = $(this).closest('.comment-item').find("input[name='commentNo']").val();
-			var postNo = $("#postNo").val();
 			var replacePosition = $(this).closest(".info");
 			currentComment = replacePosition.html(); // 기존 댓글 저장
 			var commentContents = $(this).closest(".info").find(".contents").text();
@@ -148,9 +154,14 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 						         +		"<div class=\"col-md-6\" style=\"text-align:right;\">"
 						         +   		"<button type=\"button\" class=\"cancelUpdate\">취소</button>"
 						         +		"</div>"
-						         +	"<input type=\"hidden\" name=\"commentNo\" value="+commentNo+">"
-						         +	"<input type=\"hidden\" name=\"postNo\" value="+postNo+">"
-						         +"</form>";
+						         commentBody +=	"<input type=\"hidden\" name=\"commentNo\" value="+commentNo+">";
+						         
+						         if(postNo != null){
+						        	 	commentBody += 	"<input type=\"hidden\" name=\"postNo\" value=\"${post.postNo}\">"; 
+						          } else if(prodNo != null) {
+						        	  	commentBody += 	"<input type=\"hidden\" name=\"prodNo\" value=\"${product.prodNo}\">"; 
+						         }
+						        	commentBody +="</form>";
 			replacePosition.html(commentBody);
 		});
 		
@@ -435,8 +446,8 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
 		           	</c:forEach><!-- 2번레이어 for문 끝 -->	
 	           </div><!-- 하나의 comment-item 끝 -->
            </c:forEach><!-- 1번레이어 for문 끝 -->
-				<hr>
-           <div class="leave-comment-wrap">
+				
+           <div class="leave-comment-wrap"><hr>
                <h5><i class="fi fi-rr-pencil"></i>댓글 작성 </h5>	
                <form>								
                    <div class="row">
@@ -450,7 +461,12 @@ var currentComment; // 수청 취소 시 기존 댓글로 복구 위함
                        </div>
                       
                    </div>
+                   <c:if test="${post ne null}">
                    <input type="hidden" name="postNo" id="postNo" value="${post.postNo}">
+                   </c:if>
+                   <c:if test="${product ne null}">
+                   <input type="hidden" name="prodNo" id="prodNo" value="${product.prodNo}">
+                   </c:if>
                </form>
                <button disabled type="button" class="addComment">작성하기<i class="fi fi-ss-pencil"></i></button>
            </div>
