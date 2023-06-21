@@ -235,13 +235,20 @@
 	}
 </script>
 <style>
+div.seat{
+	transform: scale(0.9);
+}
+body{
+	text-align:center;
+	font-family: "Gwangyang" !important;
+}
 .col-md-2 {
 	width: 10%; /* 가로줄에 10개를 띄우기 위해 10%로 설정 */
 	float: left; /* 가로 정렬을 위해 float 속성 사용 */
 	transform: scale(2.0); /* 크기 조정 */
 }
 
-h1, h4 {
+h3, h4 {
 	color: white;
 }
 
@@ -251,7 +258,7 @@ h1, h4 {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	font-size: 18px;
-	margin-left: 300px;
+	margin-left: 200px;
 	/* 기타 스타일 속성 설정 */
 }
 
@@ -311,9 +318,9 @@ button.reload {
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
+					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}" width="900">
 					<div class="text-overlay">
-						<h1>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h1>
+						<h3>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h3>
 						<h4>${game.gameDate}/ ${game.gameTime}</h4>
 						<button type="button" class="back">이전단계</button>
 						&nbsp;&nbsp;
@@ -321,9 +328,7 @@ button.reload {
 					</div>
 				</div>
 			</div>
-			<br>
-			<br>
-			<div class="row">
+			<div class="row seat">
 				<div class="col-md-8">
 					<div>
 						<img class="ground" src="/images/ticket/ground.png">

@@ -12,15 +12,15 @@
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <style>
+
+body{
+	text-align:center;
+}
 .col-md-4 {
 	margin-top: 50px;
-	transform: scale(1.2);
+	
 }
-p,.captain-bage {
-	font-family: "Gwangyang" !important;
-	font-size: 17px !important;
-}
-h1, h4 {
+h3, h4 {
 	color: white;
 }
 .text-overlay {
@@ -28,8 +28,8 @@ h1, h4 {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-size: 18px;
-	margin-left: 300px;
+	font-size: 6px;
+	margin-left: 200px;
 	/* 기타 스타일 속성 설정 */
 }
 
@@ -68,7 +68,6 @@ button[type="button"] {
 		dataLayer.push(arguments);
 	}
 	gtag('js', new Date());
-
 	gtag('config', 'G-L1DH7W8BRC');
 </script>
 
@@ -77,27 +76,27 @@ button[type="button"] {
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}">
+					<img class="teamTopBar" src="${game.homeTeam.teamTopBar}" width="900">
 					<div class="text-overlay">
-						<h1>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h1>
-						<h4>${game.gameDate}
-							/ ${game.gameTime}
-							</h5>
+						<h3>${game.homeTeam.teamNickName} &nbsp;vs&nbsp; ${game.awayTeam.teamNickName}</h3>
+						<h4>${game.gameDate} / ${game.gameTime}</h4>
 					</div>
 				</div>
-				<div class="col-md-7">
+				<div class="col-md-6">
 					<div class="player-photo">
-						<img src="/images/stadium/${game.homeTeam.teamCode}.png" width="600" height="600" alt="player">
+						<img src="/images/stadium/${game.homeTeam.teamCode}.png" width="400" height="400" alt="player">
 					</div>
 				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="player-info">
 						<div class="captain-bage">경기 장소</div>
 						<p>${game.homeTeam.stadiumName}</p>
 						<div class="captain-bage">남은 좌석</div>
 						<p>${salesTicket}/ 60</p>
+						<p style="color:red;">*1인 최대 4매까지 구매 가능합니다.</p>
+						<p style="color:red;">*구매한 티켓은 경기시작 하루 전 23시까지 취소 가능합니다.</p>
 					</div>
+					<hr>
 					<button type="button" class="getSeats">좌석 선택</button>
 					<input type="hidden" name="gameCode" value="${game.gameCode}" />
 				</div>

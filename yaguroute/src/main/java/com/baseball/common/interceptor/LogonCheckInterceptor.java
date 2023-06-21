@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest; import
   if (session.getAttribute("user") == null) { // 로그인되지 않은 경우
 	  
 	  String msg = "세션이 만료되었습니다. 다시 로그인 해 주세요.";
-	  String url = "/user/loginTest(new).jsp";
+	  String url = "/user/login.jsp";
 	  
 	  try {
 	        response.setContentType("text/html; charset=utf-8");

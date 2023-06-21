@@ -113,10 +113,10 @@ button[type="button"] {
 		$(".getStadium").on("click" , function() {
 			var gameCode = $(this).closest(".channel").find("input[name='gameCode']").val();
 			var url = "/ticket/getStadium?gameCode="+gameCode;
-			var width = 1200;  // 창의 너비
-			var height = 800;  // 창의 높이
-			var left = (window.screen.width - width) / 2;  // 창의 가로 위치
-			var top = (window.screen.height - height) / 2;  // 창의 세로 위치
+			var width = 1000;  // 창의 너비
+			var height = 600;  // 창의 높이
+			var left = (window.innerWidth  - width) / 2;  // 창의 가로 위치
+			var top = (window.innerHeight  - height) / 2;  // 창의 세로 위치
 			var options = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
 			window.open(url,"경기 티켓 예매",options);			
 		});

@@ -1,301 +1,900 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		
-		<!-- Video.js CDN, CSS CDN -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video.min.js"></script>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video-js.min.css" rel="stylesheet">
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-		
-		
-		<!-- bootstreap template -->
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	    <meta name="description" content="" />
-	    <meta name="keywords" content="" />
-	    <meta name="viewport" content="width=device-width,initial-scale=1">
-	    <title>Team HTML</title>
-	    <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
-	    <link rel="icon" href="favicon.ico" type="image/x-icon">
-	    <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
-	    
-		<!-- socket.io CDN -->
-		<script src="https://cdn.socket.io/3.1.3/socket.io.min.js"></script>
-		
-		<style>
-		    
-		</style>
-		
-		<script type="text/javascript">
-			$(function(){
-				
-				//socket ¿¬°á
-				var socket = io.connect('http://223.130.133.54:3000', {
-					withCredentials: true,
-					 extraHeaders: {
-						'Access-Control-Allow-Origin': 'http://223.130.133.54:3000'
-					 },
-					 path: '/socket.io',
-					 query: {
-						 gameCode: '${channel.gameInfo.gameCode}',
-						 userID: '${sessionScope.user.userId}'
-					 }
-				});
-				
-				$(window).on("load", function(){
-					console.log("1. Ã¤³Î »óÅÂ È®ÀÎ");
-					socket.emit('join');
-					socket.emit('getMessageData');
-										
-					$.ajax({
-						url:"/channel/rest/status?channelID=${channel.channelID}",
-						method:"GET",
-						dataType : "json",
-						success : function(jsonData, status){
-							if(status=="success"){
-								var channel = jsonData.channelState;
-								if(channel=='PUBLISHING'){
-									console.log("channel ¼ÛÃâ Áß");
-									var player = videojs('streaming', {
-										sources : [
-											{src:"${channel.channelCDN}", type:"application/x-mpegURL"}
-										],
-										poster: '${channel.gameInfo.homeTeam.teamEmblem}',
-										controls: true,
-										platsinline : true,
-						 				muted : true,
-						 				preload : "auto",
-						 				width : 1050,
-						 				height : 480										
-									});
-								} else {
-									console.log("¹æ¼Û ½ÃÀÛ Àü");
-									$('video').attr("poster", "${channel.gameInfo.homeTeam.teamEmblem}");
-									//var html = "<img src='${channel.gameInfo.homeTeam.teamEmblem}' width='854' heigth='480'/>"
-								}
-										
-							}		
-						}
-					});
-				});
-							
-				$(document).ready(function(){
-					//homeClick
-					$("#homeClick").on('click', function(e){
-						socket.emit('homeClick', 1);
-						
-						var fireworkHome = $('<div class="fireworkHome"></div>');
-						
-						fireworkHome.css({
-					    	top: e.pageY - 10, // ¸¶¿ì½º Å¬¸¯ ½Ã Ä¿¼­ À§Ä¡·Î ¼³Á¤
-					        left: e.pageX - 10
-					    });
-						
-						$('body').append(fireworkHome);
-						
-						setTimeout(function() {
-							fireworkHome.remove(); // ÀÏÁ¤ ½Ã°£ ÈÄ¿¡ ÆøÁ× ¿ä¼Ò Á¦°Å
-					    }, 1000);
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-					});
-					
-					//awayClick
-					$("#awayClick").on('click', function(e){
-						socket.emit('awayClick', 1);
-						
-						var fireworkAway = $('<div class="fireworkAway"></div>');
-						
-						fireworkAway.css({
-					    	top: e.pageY - 10, // ¸¶¿ì½º Å¬¸¯ ½Ã Ä¿¼­ À§Ä¡·Î ¼³Á¤
-					        left: e.pageX - 10
-					    });
-						
-						$('body').append(fireworkAway);
-						
-						setTimeout(function() {
-							fireworkAway.remove(); // ÀÏÁ¤ ½Ã°£ ÈÄ¿¡ ÆøÁ× ¿ä¼Ò Á¦°Å
-					    }, 1000);
-					});
-				
-				});
-				
-				
-				
-				//click ¹Ş±â
-				socket.on('homeCount', (data) => {
-					$('#homeClick').text("${channel.gameInfo.homeTeam.teamNickName} : "+data);
-				});
-				
-				socket.on('awayCount', (data) => {
-					$('#awayClick').text("${channel.gameInfo.awayTeam.teamNickName} : "+data);
-				})
-				
-				
-				//Ã¤ÆÃ ¼Û¼ö½Å
-				$('#chat-form').submit(function(e) {
-				    e.preventDefault();
-				    var message = $('#message-input').val().trim();
-				    if (message) {
-				      socket.emit('sendMessage', message);
-				      $('#message-input').val('');
-				    }
-				  });
-				
-				socket.on("responseMessage", (data) => {
-					console.log(data);
-					$('#chat-messages').append($('<div>').text(data));
-					$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
-				});
-				
-				socket.on("getChattingData", (data) => {
-					console.log(data);
-					
-					for(i in data){
-						if(data[i].user_id != null){
-							if(data[i].message == null){
-								$('#chat-messages').append($('<div>').text(data[i].user_id+" : "));
-								$('#chat-messages').append($('<div>').append($('<img>').attr('src', data[i].chat_image).attr('width', 200).attr('heigth', 200)));
+<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
+<!-- <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/> -->
+<link href="/css/style.min.css" rel="stylesheet" type="text/css" />
+
+
+<!-- socket.io CDN -->
+<script src="https://cdn.socket.io/3.1.3/socket.io.min.js"></script>
+<!-- jquery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+<!-- Video.js CDN, CSS CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.4/video-js.min.css" rel="stylesheet">
+
+
+<style>
+/* body{
+	background-image:
+		url('../images/baseball/empty_ground.png');
+} */
+
+video{
+	border-radius: 10px;
+}
+
+.blind{
+	position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 10px;
+    margin: -1px;
+    overflow: hidden;
+}
+#space {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 90%
+}
+
+.match-lineup {
+  width: 80%; 
+  margin: 0 auto; 
+}
+
+.match {
+	background-color: #ffffff;
+	color: #dddddd;
+	font-family: Open Sans, sans-serif;
+}
+
+.chat-container {
+	display: "flex";
+	align-items: flex-start;
+	margin: auto;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	background-color: #fff;
+	border-radius: 20px;
+}
+
+.background{
+	display: "flex";
+	align-items: flex-start;
+	margin: auto;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	background-color: #fff;
+	border-radius: 20px;
+}
+
+#message-input {
+	width: 460px;
+	height: 30px;
+	margin-bottom: 20px;
+	padding : 10px;
+	background-color: #f2f2f2;
+}
+
+.button-container {
+	background-color: #fff;
+	margin: 50px auto;
+	width: 100%;
+	border-radius: 10px;
+}
+
+.chat-messages {
+	background-color: #f2f2f2;
+	padding: 10px;
+	border-radius: 20px;
+	height: 430px;
+	width : 100%;
+	overflow-y: auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.chat-message {
+	display: flex;
+	align-items: flex-start;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+.message-bubble {
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	margin-right: 10px;
+	margin-left: 5px;
+	font-size: 5px;
+}
+
+.content {
+	color: #666;
+}
+
+.chat-message .sender {
+	font-weight: bold;
+	color: #333;
+}
+
+.chat-message .content {
+	margin-top: 5px;
+	color: #666;
+}
+
+.fireworkAway {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	background-image:
+		url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
+	background-size: cover;
+}
+
+.fireworkHome {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	background-image:
+		url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png');
+	background-size: cover;
+}
+
+.drop-area {
+	display: none;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+
+.drop-area.active {
+	display: block;
+	color : white;
+	border-radius: 10px;
+	text-align: center;
+	font-family:"Gwangyang";
+}
+
+.table-container {
+	background-color : #f2f2f2;
+	display: flex;
+	border-radius: 10px;
+	
+}
+
+.table-wrapper {
+  margin-left: 10px; /* í…Œì´ë¸” ì‚¬ì´ì˜ ê°„ê²© ì¡°ì • */
+  margin-right: 10px; /* í…Œì´ë¸” ì‚¬ì´ì˜ ê°„ê²© ì¡°ì • */
+  padding : 10px;
+}
+
+.table-container table {
+	flex: 1;
+}
+
+/*score table*/
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 3px;
+}
+
+.team-name {
+  width: 100px; /* ë„ˆë¹„ ì¡°ì • */
+}
+
+/*ìŠ¤íŠ¸ë¦¬ë°*/
+.broadCast, #streaming {
+	width: 100%;
+	height: 550px;
+}
+
+.userImg img {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: gray;
+}
+
+.content img {
+	display: inline-block;
+	width: 200px;
+	height: 200px;
+	background-color: gray;
+}
+
+.teamTopBar {
+	width: auto;
+	height: auto;
+}
+
+.image-container {
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	width: auto;
+	heigth: auto;
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	margin-left: 300px;
+	/* ê¸°íƒ€ ìŠ¤íƒ€ì¼ ì†ì„± ì„¤ì • */
+}
+
+.home{
+	background-color: ${channel.gameInfo.homeTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+  	margin-bottom: 20px;
+}
+
+.homeCount{
+	color: #fff; 
+}
+
+.home:active{
+	transform: scale(0.95);
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+}
+
+.away{
+	background-color: ${channel.gameInfo.awayTeam.teamColor};
+	border-radius: 10px;
+	padding: 10px;
+  	display: inline-block;
+  	cursor: pointer;
+  	transition: transform 0.3s;
+  	width : 100%;
+  	color: #fff;
+}
+
+.away:active{
+	transform: scale(0.95);
+}
+
+.radius{
+	border-radius: 10px !important;
+}
+
+.time{
+	/* opacity: 70%; */
+	background-image:
+		url('https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg');
+	width : 100%;
+	height : 600px;
+}
+
+.alarm-text{
+	font-family:"Gwangyang";
+	text-align: center;
+	color: white;
+	padding : 50px;
+	margin-top : 40px;
+	font-size: 30px;
+}
+
+.time-text{
+	font-family:"Gwangyang";
+	text-align: center;
+	color: white;
+	padding : 50px;
+	margin-top : 40px;
+	font-size: 50px;
+	background-color : black;
+	border-radius: 10px;
+	display: flex;
+	justify-content : center;
+}
+
+.align{
+	display: flex;
+	justify-content : center;
+}
+</style>
+
+
+<script type="text/javascript">
+
+function getTime(){
+	var startTime = "${channel.gameInfo.gameTime}";
+	var currentDate = new Date();
+	var targetTime = new Date();	
+	targetTime.setHours(Number(startTime.split(':')[0]));
+	targetTime.setMinutes(Number(startTime.split(':')[1]));
+	targetTime.setSeconds(Number(00));
+	var timeDiff = targetTime - currentDate;
+	console.log(timeDiff);
+	if (timeDiff > 0) {
+		var seconds = Math.floor(timeDiff / 1000); //ë‚¨ì€ ì‹œê°„ ì´ˆë¡œ ê³„ì‚°
+		var min = Math.floor(seconds / 60);//ë¶„ìœ¼ë¡œ ë³€í™˜
+		var hour = Math.floor(min / 60);//ì‹œê°„ìœ¼ë¡œ ë³€í™˜
+		
+		$(".hour").text(hour+"ì‹œ");
+		$(".min").text(min%60+"ë¶„");
+		$(".sec").text(seconds%60+"ì´ˆ");
+		return true;
+	} else {
+		return false;
+	}
+	
+}
+
+	$(function(){
+		var socket = io.connect('http://223.130.133.54:3000' , {
+			withCredentials: true,
+			 extraHeaders: {
+				'Access-Control-Allow-Origin': 'http://223.130.133.54:3000' 
+			 },
+			 path: '/socket.io',
+			 query: {
+				 gameCode: '${channel.gameInfo.gameCode}',
+				 userID: '${sessionScope.user.userId}'
+			 }
+		});
+		
+		$(window).on("load", function(){
+			socket.emit('join');
+			socket.emit('getMessageData');
+			console.log("${gameRecord}");		
+			$.ajax({
+				url:"/channel/rest/status?channelID=${channel.channelID}",
+				method:"GET",
+				dataType : "json",
+				success : function(jsonData, status){
+					if(status=="success"){
+						var channel = jsonData.channelState;
+						if(channel=='PUBLISHING'){
+							console.log("channel ì†¡ì¶œ ì¤‘");
+							var player = videojs('streaming', {
+								sources : [
+									{src:"${channel.channelCDN}", type:"application/x-mpegURL"}
+								],
+								poster: '${channel.gameInfo.homeTeam.teamEmblem}',
+								controls: true,
+								platsinline : true,
+				 				muted : true,
+				 				preload : "auto",
+				 				height: "700px"
+							});
+						} else {
+							console.log("ë°©ì†¡ ì‹œì‘ ì „");
+							$("#streaming").remove();
+							var time = $('<div class="time radius"></div>');
+							var timemessage = $('<div class="alarm-text">ê²½ê¸°ê°€ ê³§ ì‹œì‘ë©ë‹ˆë‹¤.</div>');
+							var blind = $('<span class="blind">ë‚¨ì€ ì‹œê°„</span>');
+							var timeBox = $('<div>').append(
+									  $('<div>').addClass('row align').append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('hour time-text').text('00'))
+									  )
+									  .append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('min time-text').text('00'))
+									  )
+									  .append(
+									    $('<div>').addClass('col-xs-3').append($('<div>').addClass('sec time-text').text('00'))
+									  )
+									);
+							time.append(blind, timemessage, timeBox);
+							$("#title1").append(time);
+							getTime();
+							if(getTime() === true){
+								setInterval(getTime, 1000);	
 							} else {
-								$('#chat-messages').append($('<div>').text(data[i].user_id+" : "+data[i].message));	
-							}
-							console.log(data[i].user_id+" : "+data[i].message);
-						} else{
-							console.log("Ã¤ÆÃ ³»¿ªÀÌ ¾ø½À´Ï´Ù.");
-						}
-					}
-				});
+								var video = $("<video id='streaming' class='video-js vjs-big-play-button vjs-big-play-centered'></video>")
+								video.attr("poster", "https://ssl.pstatic.net/static/sports/common/livecenter/new/bg_live_baseball.jpg").attr("height", "700px");
+							}							
+						}								
+					}		
+				}
+			});
+
+		});
+		
+		$(document).ready(function(){
+			//homeClick
+			$("#homeClick").on('click', function(e){
+				socket.emit('homeClick', 1);
 				
-				//ÀÌ¹ÌÁö ÆÄÀÏ ¹Ş±â
-				socket.on("responseImage", (data)=>{
-					console.log(data);
-					$('#chat-messages').append($('<div>').text(data.userID+" : "));
-					$('#chat-messages').append($('<div>').append($('<img>').attr('src', data.Image).attr('width',200).attr('heigth', 200)));
-				})
+				var fireworkHome = $('<div class="fireworkHome"></div>');
 				
-				//ÀÌ¹ÌÁö ¾÷·Îµå ÇÏ±â
-				$('#uploadForm').submit(function(e){
-					e.preventDefault();
-					
-					var formData = new FormData();
-					var fileInput = $('#fileInput')[0].files[0];
-					formData.append('image', fileInput);
-					
-					$.ajax({
-						url: "http://192.168.0.36:3001/image/upload",
-						type: "POST",
-						processData: false,
-				        contentType: false,
-						data: formData,
-						dataType: "json",
-						success: function(data, status){
-							console.log(data);
-							socket.emit("image", data.image_path);
-						}
-						
-					})
+				fireworkHome.css({
+			    	top: e.pageY - 10, // ë§ˆìš°ìŠ¤ í´ë¦­ ì‹œ ì»¤ì„œ ìœ„ì¹˜ë¡œ ì„¤ì •
+			        left: e.pageX - 10
+			    });
+				
+				$('body').append(fireworkHome);
+				
+				fireworkHome.animate({
+					top: "-=100px",
+		            opacity: 0
+				}, 1000, function(){
+					$(this).remove();
 				});
 			});
-		
-		</script>
-		
-		<style>
-		  
-		  .chat-container {
-	      max-width: 500px;
-	      margin: 50px auto;
-	      }
-	      
-	      .chat-messages {
-	      height: 300px;
-	      overflow-y: scroll;
-	      border: 1px solid #ccc;
-	      padding: 10px;
-	      }
-	      
-	      .fireworkAway {
-		      position: absolute;
-		      width: 30px;
-		      height: 30px;
-		      background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png'); /* ÀÌ¹ÌÁö °æ·Î¸¦ ÀûÀıÈ÷ ¼öÁ¤ÇÏ¼¼¿ä */
-      		  background-size: cover;
-		    }
-		    
-		    .fireworkHome {
-		      position: absolute;
-		      width: 30px;
-		      height: 30px;
-		      background-image: url('https://kr.object.ncloudstorage.com/mainpjt/Imogi/like.png'); /* ÀÌ¹ÌÁö °æ·Î¸¦ ÀûÀıÈ÷ ¼öÁ¤ÇÏ¼¼¿ä */
-      		  background-size: cover;
-		    }
-		</style>
-	</head>
-	
-	<body>
-		<jsp:include page="/common/loading.jsp"/>
-		<!-- topBar start -->
-		<jsp:include page="/common/topBar.jsp"/>
-		<!-- topBar End -->
+			
+			//awayClick
+			$("#awayClick").on('click', function(e){
+				socket.emit('awayClick', 1);
 				
-		<div class='row'>
-			<div class="col-xs-12 col-md-8">
-		  		<video id="streaming" class="video-js vjs-big-play-button vjs-big-play-centered">
-				</video>
+				var fireworkAway = $('<div class="fireworkAway"></div>');
+				
+				fireworkAway.css({
+			    	top: e.pageY - 10, // ë§ˆìš°ìŠ¤ í´ë¦­ ì‹œ ì»¤ì„œ ìœ„ì¹˜ë¡œ ì„¤ì •
+			        left: e.pageX - 10
+			    });
+				
+				$('body').append(fireworkAway);
+				
+				fireworkAway.animate({
+					top: "-=100px",
+		            opacity: 0
+				}, 1000, function(){
+					$(this).remove();
+				});
+			});
+			
+			//ì´ë¯¸ì§€ ë“œë˜ê·¸&ë‹¤ìš´
+			var dropZone = $('#drop-area');
+			dropZone.hide();
+			
+			$(document).on('dragenter', function(event) {
+				dropZone.addClass('active');
+				dropZone.show();
+			});
+			
+			dropZone.on('dragover', function(event) {
+				event.preventDefault();
+			});
+			
+			dropZone.on('drop', function(event){
+				event.preventDefault();
+		 		handleFileSelect(event.originalEvent);
+		 		dropZone.hide();
+		 	});
+		 	
+			$(document).on('dragleave', function(event) {
+				if (event.originalEvent.pageX <= 0 || event.originalEvent.pageY <= 0) {
+					event.preventDefault();
+					dropZone.removeClass('active');
+					dropZone.hide();
+				}
+			});
+			 
+			function handleFileSelect(event) {
+				    event.stopPropagation();
+				    event.preventDefault();
+				    dropZone.removeClass('active');
+				    
+				    var files = event.target.files || event.dataTransfer.files;;
+				    // íŒŒì¼ ì—…ë¡œë“œ ì²˜ë¦¬ ë¡œì§ì„ ì—¬ê¸°ì— êµ¬í˜„í•˜ì„¸ìš”.
+				    if (files.length > 0) {
+				    	var formData = new FormData();
+				        formData.append('image', files[0]);
+				        $.ajax({
+				            url: "http://223.130.133.54:3000/image/upload",
+				            type: "POST",
+				            processData: false,
+				            contentType: false,
+				            data: formData,
+				            dataType: "json",
+				            success: function(data, status) {
+				              console.log(data);
+				              socket.emit("image", data.image_path);
+				            }
+				          });
+				    	
+				    }
+			}
+		});
+		
+		
+		
+		//click ë°›ê¸°
+		socket.on('homeCount', (data) => {
+			$('#homeCount').text(data);
+		});
+		
+		socket.on('awayCount', (data) => {
+			$('#awayCount').text(data);
+		})
+		
+		
+		//ì±„íŒ… ì†¡ìˆ˜ì‹ 
+		$('#chat-form').submit(function(e) {
+		    e.preventDefault();
+		    var message = $('#message-input').val().trim();
+		    if (message) {
+		      socket.emit('sendMessage', message);
+		      $('#message-input').val('');
+		    }
+		  });
+		
+		socket.on("responseMessage", (data) => {
+			var chatMessage = $('<div class="chat-message"></div>');
+			var messageBubble = $('<div class="message-bubble"></div>');
+			var userProfileImg = $('<img></img>').attr("src", data.userImage).attr("alt", "ì´ë¯¸ì§€ ì—†ìŒ");
+			
+			var userImage = $('<span class="userImg"></span>').append(userProfileImg);
+			var sender = $('<span class="sender"></span>').text(data.nickName + " : ");
+			var content = $('<span class="content"></span>').text(data.data);
+			messageBubble.append(userImage, sender, content);
+			chatMessage.append(messageBubble);
+			$('#chat-messages').append(chatMessage);
+			$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+		});
+		
+		socket.on("getChattingData", (data) => {
+			console.log(data);
+			
+			for(i in data){
+				if(data[i].user_id != null){
+					if(data[i].message == null){
+						var chatMessage = $('<div class="chat-message"></div>'); // ì±„íŒ… ë©”ì‹œì§€ë¥¼ ê°ì‹¸ëŠ” ìš”ì†Œ ìƒì„±
+						var messageBubble = $('<div class="message-bubble"></div>');
+						var userProfileImg = $('<img></img>').attr("src", data[i].userImage).attr("alt", "ì´ë¯¸ì§€ ì—†ìŒ");
+						
+						var userImage = $('<span class="userImg"></span>').append(userProfileImg);
+						var sender = $('<span class="sender"></span>').text(data[i].user_id + " : ");
+						var content = $('<span class="content "></span>').append($('<img></img>').attr("src", data[i].chat_image));
+
+						messageBubble.append(userImage, sender, content);
+						chatMessage.append(messageBubble);
+						$('#chat-messages').append(chatMessage); // ì±„íŒ… ë©”ì‹œì§€ ìš”ì†Œë¥¼ ì±„íŒ… ì˜ì—­ì— ì¶”ê°€
+					} else {
+						var chatMessage = $('<div class="chat-message"></div>');
+						
+						var messageBubble = $('<div class="message-bubble"></div>');
+						var userProfileImg = $('<img></img>').attr("src", data[i].userImage).attr("alt", "ì´ë¯¸ì§€ ì—†ìŒ");
+						
+						var userImage = $('<span class="userImg"></span>').append(userProfileImg);
+						var sender = $('<span class="sender"></span>').text(data[i].user_id + " : ");
+						var content = $('<span class="content"></span>').text(data[i].message);
+						messageBubble.append(userImage, sender, content);
+						chatMessage.append(messageBubble);
+						$('#chat-messages').append(chatMessage);
+					}
+					
+					$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+				} else{
+					console.log("ì±„íŒ… ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
+				}
+			}
+		});
+		
+		//ì´ë¯¸ì§€ íŒŒì¼ ë°›ê¸°
+		socket.on("responseImage", (data)=>{
+			console.log(data);
+			var chatMessage = $('<div class="chat-message"></div>');
+			var messageBubble = $('<div class="message-bubble"></div>');
+			var userProfileImg = $('<img></img>').attr("src", data.userImage).attr("alt", "ì´ë¯¸ì§€ ì—†ìŒ");
+			
+			var userImage = $('<span class="userImg"></span>').append(userProfileImg);
+			var sender = $('<span class="sender"></span>').text(data.userID + " : ");
+			var content = $('<span class="content"></span>').append($('<img></img>').attr("src", data.Image));
+			
+			messageBubble.append(userImage, sender, content);
+			chatMessage.append(messageBubble);
+			$('#chat-messages').append(chatMessage);
+			$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+		});
+	});
+</script>
+</head>
+
+<body>
+<!-- topBar start -->
+<jsp:include page="/common/topBar.jsp"/>
+<!-- topBar End -->
+
+
+<div class="image-container">
+  <div class="row">
+  	<div class=" col-md-6">
+		<img class="teamTopBar" src="${channel.gameInfo.homeTeam.teamTopBar}">
+	</div>
+	<div class=" col-md-6">
+		<img class="teamTopBar col-md-6" src="${channel.gameInfo.awayTeam.teamTopBar}">
+	</div>
+  </div>
+</div>
+
+<%-- <div class="match-live-date">
+	<div class="container" id="space">
+		<div class="row">
+			<div class="col-md-6"><div class="date">${channel.gameInfo.gameDate}</div></div>
+		</div>
+	</div>
+</div> --%>
+
+<div id=countdown></div>
+
+<div class="match" style="margin-top: 50px;">
+	<div class="container" id="space">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="match-live-info">
+					<div class="text-center"> ${channel.gameInfo.homeTeam.teamNickName} â€“ ${channel.gameInfo.awayTeam.teamNickName} </div>
+					<div class="match-info">
+						<div class="team wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
+							<div class="avatar">
+								<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt="team-logo">
+							</div>
+							<div class="text">
+								<h4>${channel.gameInfo.homeTeam.teamNickName}</h4>
+							</div>
+						</div>						
+						
+						<div class="score" id="score">
+	            				${channel.gameInfo.gameScore}    
+	            		</div>    		
+            			<div class="team right  wpb_animate_when_almost_visible wpb_flipInX flipInX wpb_start_animation animated">
+            				<div class="text">
+            					<h4>${channel.gameInfo.awayTeam.teamNickName}</h4>
+            				</div>
+            				<div class="avatar">
+            					<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt="team-logo">
+            				</div>
+            			</div>
+            			
+					</div>
+					<div class="text-center">${channel.gameInfo.gameDate}</div>
+				</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--BROADCASTS BEGIN ìŠ¤íŠ¸ë¦¬ë° êµ¬ì—­-->
+
+<div class="container" id="space">
+	<div class="row">
+		<div class="col-md-8">
+			<h3>broadcasts</h3>	
+			<div class="mathc-live-broadcasts">
+				<div class="background">
+					<div class="tab-content">
+						<div class="tab-pane fade in active" role="tabpanel" id="title1">
+							<video id="streaming" class="video-js vjs-big-play-button vjs-big-play-centered">
+							</video>
+						</div>
+						
+						<div class="table-container">
+							<div class="table-wrapper">
+								<table id="gameScore">
+								<caption class="blind">ìŠ¤ì½”ì–´ ë³´ë“œ ì¢…í•©</caption>
+								<thead>
+									<tr>
+										<th scope="col" class="team-name radius">íŒ€ ëª…</th>						
+										<th scope="col" class="team-name radius">1</th>
+										<th scope="col" class="team-name radius">2</th>
+										<th scope="col" class="team-name radius">3</th>
+										<th scope="col" class="team-name radius">4</th>
+										<th scope="col" class="team-name radius">5</th>
+										<th scope="col" class="team-name radius">6</th>
+										<th scope="col" class="team-name radius">7</th>
+										<th scope="col" class="team-name radius">8</th>
+										<th scope="col" class="team-name radius">9</th>
+									</tr>
+								</thead>
+									
+								<tbody>
+									<tr>
+										<td class="radius">${channel.gameInfo.awayTeam.teamNickName}</td>
+										<c:set var="i" value="0"/>
+										<c:forEach var="awayScoreList" items="${gameRecord.awayScoreList}">
+											<td>${gameRecord.awayScoreList[i]}</td>
+											<c:set var="i" value="${i+1}"/>
+										</c:forEach>
+									</tr>
+									
+									<tr>
+										<td class="radius">${channel.gameInfo.homeTeam.teamNickName}</td>
+										<c:set var="i" value="0"/>
+										<c:forEach var="homeScoreList" items="${gameRecord.homeScoreList}">
+											<td>${gameRecord.homeScoreList[i]}</td>
+											<c:set var="i" value="${i+1}"/>
+										</c:forEach>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+							
+							<div class="table-wrapper">
+									<table id="totalScore">
+									<thead>
+										<tr>
+											<th scope="col" class="team-name blind">blind</th>
+											<th scope="col" class="team-name radius">R</th>						
+											<th scope="col" class="team-name radius">H</th>
+											<th scope="col" class="team-name radius">E</th>
+											<th scope="col" class="team-name radius">B</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+									
+										<tr>
+											<td class="blind">blind</td>
+											<c:set var="i" value="0"/>
+											<c:forEach var="awayRecord" items="${gameRecord.awayRecord}">
+												<td>${gameRecord.awayRecord[i]}</td>
+												<c:set var="i" value="${i+1}"/>
+											</c:forEach>
+										</tr>
+										
+										<tr>
+											<td class="blind">blind</td>
+											<c:set var="i" value="0"/>
+											<c:forEach var="homeRecord" items="${gameRecord.homeRecord}">
+												<td>${gameRecord.homeRecord[i]}</td>
+												<c:set var="i" value="${i+1}"/>
+											</c:forEach>
+										</tr>									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- ì±„íŒ… êµ¬ì—­ -->
+		<div class="col-md-4">
+		<br/><br/>
+			<div class="container button-container" id="space">					
+				<div class="cheer">
+					<span class="text-center">
+						<h3>ë‹¹ì‹ ì˜ íŒ€ì„ ì‘ì›í•˜ì„¸ìš”</h3>
+					</span>
+								
+					<div class="row">
+						<div class="col-md-6 text-left">
+							<div class="home">
+								<div id="homeClick">
+									<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="homeCount" class="homeCount">${channel.homeClick}</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6 text-right">
+							<div class="away">
+								<div id="awayClick">
+									<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
+									<div id="awayCount" class="homeCount">${channel.awayClick}</div>
+								</div>
+							</div>						
+						</div>						
+					</div>
+				</div>	
 			</div>
 			
-			<div class="col-xs-6 col-md-4">
-				<h2>Ã¤ÆÃÇÒ ÀÚ¸®</h2>
-				<div class="col-xs-3 col-md-2">
-					<img src="${channel.gameInfo.homeTeam.teamEmblem}" alt width="50" height="50"/>
-					<button class="btn btn-primary" type="button" id="homeClick">
-						ÀÀ¿ø1
-						<span class="badge" id="homeCount">${channel.homeClick}</span>
-					</button>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="container chat-container" id="space">
+						
+						<div class="chat-messages" id="chat-messages">
+							<!-- ì±„íŒ… ë©”ì‹œì§€ë¥¼ í‘œì‹œí•  ì˜ì—­ -->
+							<div class="drop-area" id="drop-area">ì—¬ê¸°ì— ë“œëí•˜ì„¸ìš”</div>
+						</div>
+						
+					    <form id="chat-form">
+					     	<div class="input-group">
+					        	<input type="text" id="message-input" class="radius" placeholder="ë©”ì‹œì§€ë¥¼ ì…ë ¥í•˜ì„¸ìš”" width="200px"/>
+					    	</div>
+				    	</form>
+				    </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<section class="blind">blind</section>
+<!-- line Up -->
+<section>
+	<div class="col-md-12 mt-3">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center">
+					<h3>lineups</h3>
 				</div>
-				
-				<div class="col-xs-3 col-md-2">
-					<img src="${channel.gameInfo.awayTeam.teamEmblem}" alt width="50" height="50"/>
-					<button class="btn btn-primary" type="button" id="awayClick">
-						ÀÀ¿ø
-						<span class="badge" id="awayCount">${channel.awayClick}</span>
-					</button>
+				<div class='match-lineup'>
+					<div class="no-gutter">					
+						<div class="col-md-6">
+							<div class="head radius">
+								<div class="name">${channel.gameInfo.homeTeam.teamNickName} ì„ ë°œ</div>
+							</div>
+							
+							<div class="team-wrap">
+								<c:set var="i" value="0"/>
+								<c:forEach var="homePlayerList" items="${lineUp.homePlayerList}">
+									<div class="member">
+										<img src="${lineUp.homePlayerList[i].playerImage}" alt="member-avatar" widtg="150" height="150">
+										<div class="info">
+											<div class="wrap">
+												<div class="name">${lineUp.homePlayerList[i].playerName}</div>
+												<div class="country">${lineUp.homePlayerList[i].playerPosition}</div>
+											</div>
+										</div>
+									</div>
+									<hr/>
+									<c:set var="i" value="${i+1}"/>
+								</c:forEach>								
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="head radius">
+								<div class="name right">${channel.gameInfo.awayTeam.teamNickName} ì„ ë°œ</div>
+							</div>
+							
+							<div class="team-wrap right radius">
+								<c:set var="i" value="0"/>
+								<c:forEach var="homePlayerList" items="${lineUp.awayPlayerList}">
+									<div class="member">
+										
+										<div class="info">
+											<div class="wrap">
+												<div class="name right">${lineUp.awayPlayerList[i].playerName}</div>
+												<div class="country">${lineUp.awayPlayerList[i].playerPosition}</div>
+											</div>
+										</div>
+										<img src="${lineUp.awayPlayerList[i].playerImage}" alt="member-avatar" widtg="150" height="150">
+									</div>
+									<hr/>
+									<c:set var="i" value="${i+1}"/>
+								</c:forEach>								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-  		 </div>
-  		 
-  		 <div class="container chat-container">
-		 	<div class="chat-messages" id="chat-messages">
-		    	<!-- Ã¤ÆÃ ¸Ş½ÃÁö¸¦ Ç¥½ÃÇÒ ¿µ¿ª -->
-		    </div>
+		</div>
+	</div>
+</section>
 
-		    <form id="chat-form">
-		     	<div class="input-group">
-		        	<input type="text" id="message-input" class="form-control" placeholder="¸Ş½ÃÁö¸¦ ÀÔ·ÂÇÏ¼¼¿ä">
-			        <div class="input-group-append">
-			        	<button type="button" class="btn btn-primary">Àü¼Û</button>
-			        </div>
-		    	</div>
-		    </form>
-		    
-		    <form id="uploadForm" enctype="multipart/form-data">
-			    <input type="file" name="file" id="fileInput">
-			    <button type="submit">+</button>
-		  	</form>
-  		</div>
-  		
-  		
-
-	</body>
-<link href="css/style.min.css" rel="/stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>
@@ -341,6 +940,7 @@
 <script type="text/javascript" src="/js/library/chartist-plugin-legend.js"></script>
 <script type="text/javascript" src="/js/library/chartist-plugin-threshold.js"></script>
 <script type="text/javascript" src="/js/library/chartist-plugin-pointlabels.js"></script>
+
 <script type="text/javascript" src="/js/treshold.js"></script>
 <script type="text/javascript" src="/js/visible.js"></script>
 <script type="text/javascript" src="/js/anchor.js"></script>
@@ -355,4 +955,6 @@
 <script type="text/javascript" src="/js/player_test.js"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
+
+</body>
 </html>

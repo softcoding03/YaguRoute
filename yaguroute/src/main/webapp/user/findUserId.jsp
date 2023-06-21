@@ -287,7 +287,7 @@
 
     $(function(){
       $("#backback").on("click", function(){
-        window.location.href = "/user/loginTest(new).jsp";
+        window.location.href = "/user/login.jsp";
       });
     });
 

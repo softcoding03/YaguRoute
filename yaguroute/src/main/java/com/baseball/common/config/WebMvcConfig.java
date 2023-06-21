@@ -27,7 +27,7 @@ import com.baseball.common.interceptor.LogonCheckInterceptor;
 	 registry.addInterceptor((HandlerInterceptor) logonCheckInterceptor)
 	 
 	 .addPathPatterns("/**") // 인터셉터를 적용할 URL 패턴을 지정합니다.
-	 .excludePathPatterns("/user/loginTest(new).jsp",
+	 .excludePathPatterns("/user/login.jsp",
 	 "/users/login","/user/index.jsp",
 	 "/user/addKakaoUser.jsp","/user/addNaverUser.jsp",
 	 "/users/findPassword","/users/findUserId", "/user/addUser.jsp",

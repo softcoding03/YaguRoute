@@ -126,7 +126,7 @@ public class PlayerController {
 		model.addAttribute("allTeam", allTeam);
 		model.addAttribute("teamCode", teamCode);
 		
-		return "forward:/player/listPlayer(new).jsp";
+		return "forward:/player/listPlayer.jsp";
 	}
 	
 	@GetMapping("getPlayer")
@@ -177,7 +177,7 @@ public class PlayerController {
 		
 		model.addAttribute("list", bestDateMap.get("list"));
 		
-		return "forward:/player/listBestPlayer(extended).jsp";
+		return "forward:/player/listBestPlayer.jsp";
 	} 
 	
 	// 해당 날짜에 해당하는 선수의 playerId로 Player객체를 가져와 리스트에 담기
@@ -232,7 +232,7 @@ public class PlayerController {
 		model.addAttribute("search", search);
 		model.addAttribute("bestDate", bestDate);
 		
-		return "forward:/player/listBestPlayerGroup(new).jsp";
+		return "forward:/player/listBestPlayerGroup.jsp";
 	}
 	
 	
