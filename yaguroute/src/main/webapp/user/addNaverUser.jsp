@@ -198,7 +198,7 @@
 		 window.onbeforeunload = function() {
 		        // 새로고침 시 특정 동작 수행
 		        alert("다시 로그인 해 주세요.");
-		        window.location.href = "/user/loginTest(new).jsp";
+		        window.location.href = "/user/login.jsp";
 		    };
 	});
 	

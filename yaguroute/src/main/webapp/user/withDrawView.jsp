@@ -563,7 +563,7 @@ $(function() {
                     // 서버로부터의 응답 처리
                     if (result == 1) {
                         alert("탈퇴 처리되었습니다.");
-                        window.location.href="/user/loginTest(new).jsp";
+                        window.location.href="/user/login.jsp";
                     } 
                     else if(password1 == '' || password1 == null){
                     	alert("탈퇴하시려면 비밀번호를 입력해 주세요.");

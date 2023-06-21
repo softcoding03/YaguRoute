@@ -156,7 +156,7 @@ public class UserController {
 				try {
 			        response.setContentType("text/html; charset=utf-8");
 			        PrintWriter w = response.getWriter();
-			        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/loginTest(new).jsp';</script>");
+			        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/login.jsp';</script>");
 			        w.flush();
 			        w.close();
 			    } catch(Exception e) {
@@ -171,7 +171,7 @@ public class UserController {
 			try {
 		        response.setContentType("text/html; charset=utf-8");
 		        PrintWriter w = response.getWriter();
-		        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/loginTest(new).jsp';</script>");
+		        w.write("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.');location.href='/user/login.jsp';</script>");
 		        w.flush();
 		        w.close();
 		    } catch(Exception e) {
@@ -189,13 +189,13 @@ public class UserController {
 		try {
 	        response.setContentType("text/html; charset=utf-8");
 	        PrintWriter w = response.getWriter();
-	        w.write("<script>location.href='/user/loginTest(new).jsp';</script>");
+	        w.write("<script>location.href='/user/login.jsp';</script>");
 	        w.flush();
 	        w.close();
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
-		return "redirect:/user/loginTest(new).jsp";
+		return "redirect:/user/login.jsp";
 	}
 
 	@PostMapping(value = "addUser")
@@ -235,7 +235,7 @@ public class UserController {
 
 		} else {
 
-			return "redirect:/user/loginTest(new).jsp";
+			return "redirect:/user/login.jsp";
 		}
 	}
 
@@ -562,7 +562,7 @@ public class UserController {
 			return "forward:/user/addNaverUser.jsp";
 			}
 		System.out.println("아무 값이 입력되지 않은 관계로 처음 로그인 화면 돌아갑니다.");
-		return "redirect:/user/loginTest(new).jsp";
+		return "redirect:/user/login.jsp";
 	}
 	@GetMapping( value="kakaoLogin")
 	public String kakaoLogin(@RequestParam(value= "code", required = false) String code,User user, HttpSession session, HttpServletRequest request, Model model) throws Exception{
@@ -644,7 +644,7 @@ public class UserController {
 			return "forward:/user/addKakaoUser.jsp";
 	}
 		System.out.println("아무 값이 입력되지 않은 관계로 처음 로그인 화면 돌아갑니다.");
-		return "redirect:/user/loginTest(new).jsp";
+		return "redirect:/user/login.jsp";
 	}
 	
 	@PostMapping(value="addKakaoUser")
