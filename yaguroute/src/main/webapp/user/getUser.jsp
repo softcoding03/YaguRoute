@@ -400,8 +400,10 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 		
 		if(gender === 'M'){
 			document.getElementById('genderSetting').textContent = '남성';
-		}else{
+		}else if(gender === 'W'){
 			document.getElementById('genderSetting').textContent = '여성';
+		}else{
+			document.getElementById('genderSetting').textContent = ' ';
 		}
 	});
 

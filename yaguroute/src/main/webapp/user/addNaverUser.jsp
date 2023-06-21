@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	
+	<c:if test="${ empty user.userId }">
+ 		<c:redirect url="/main/getMain"/>
+	</c:if>
+	
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -180,7 +185,6 @@
 	    animation: ring 1.5s infinite;
 	    
 	}
-	
 	#id_use, #password_use, #passwordCheck_use, #userName_use, #nickname_use{
     display: block;
     margin-top: 5px;
@@ -197,7 +201,7 @@
 		        window.location.href = "/user/loginTest(new).jsp";
 		    };
 	});
-    
+	
 	// 닉네임 체크
 	$(function(){
 		
@@ -287,10 +291,10 @@
 			// 7. userAddr 유효성 검증
 			var addr1 = $("input[name='addr1']").val();
 	 		var addr2 = $("input[name='addr2']").val();
-			var addr = addr1+"   "+addr2;
+			var addr = addr1+" "+addr2;
 			$("#userAddr").val(addr);
 			
-			if(addr.length < 2){
+			if(addr1.length < 3){
 				alert("주소를 입력해 주시기 바랍니다.");
 				return;
 			}
