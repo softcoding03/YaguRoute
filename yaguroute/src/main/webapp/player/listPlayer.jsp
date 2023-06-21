@@ -22,6 +22,7 @@
 	    color: #7a7984;
 	    width: 439px;
 	}
+	
 	.player_list .player_list_wrap .thead .th {
 	    line-height: 60px;
 	    font-size: 14px;
@@ -55,14 +56,6 @@
 	    height: 38px;
 	    margin-top: 5px;
 	}
-	.pointer_popup .content_middle {
-		    width: 700px;
-		    height: 165px;
-		    background: #edeff8;
-		    overflow: hidden;
-		    box-shadow: inset 0 8px 22px rgba(0,0,0,.4);
-		    border-radius: 6px;
-		}
 	.pointer_popup .content_header .info_wrap .info_line.info_etc span {
 		    display: unset;
 		    position: relative;
@@ -111,12 +104,16 @@
 		}
 
         .close {
-        	position: inherit;
+		    position: absolute;
 		    color: #aaa;
 		    float: inline-end;
 		    font-size: 44px;
 		    font-weight: bold;
 		    cursor: pointer;
+		    /* margin: auto; */
+		    padding: 78px;
+		    /* text-align: center; */
+		    left: 260px;
 		}
         
         .pointer_popup .content_header .info_wrap .info_line {
@@ -212,6 +209,13 @@
 	#middle.sub .board_header {
     	height: 480px;
     	position: relative;
+	}
+	.pointer_popup .content_middle {
+	    width: 698px !important;
+	    /* height: 80px; */
+	    background: #edeff8 !important;
+	    overflow: hidden !important;
+	    box-shadow: inset 0 8px 22px rgba(0,0,0,.1) !important;
 	}
     </style>
     
