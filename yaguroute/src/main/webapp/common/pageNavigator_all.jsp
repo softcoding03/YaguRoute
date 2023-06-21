@@ -124,7 +124,7 @@
 			      <c:if test="${param.id == 'salesProd'}">
 			        <a href="javascript:fncGetSalesProdList('${resultPage.endUnitPage+1}')">
 			      </c:if>
-			      <c:if test="${param.id == 'Transaction'}">
+			      <c:if test="${param.id == 'transaction'}">
 			        <a href="javascript:fncGetTransactionList('${resultPage.endUnitPage+1}')">
 			      </c:if>
 			      <c:if test="${param.id == 'dlvyTran'}">

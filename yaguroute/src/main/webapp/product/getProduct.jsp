@@ -13,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>getProduct</title>
+	<title>야구ROUTE</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -256,9 +256,8 @@ body {
 		                                
 		                <div class="col-md-5">
 		                    <div class="product-right-info">
-		                        <div class="details">
-		                        <h4> 엠블럼 </h4>
-		                            <div class="content"><hr /></div> 
+		                        <div class="details" style="padding-bottom: 0;">
+		                        	<img style="width: 110px;height: auto;" alt="productImage" src="${prodTeam.teamEmblem}">
 		                        </div>						
 								<h4>[${product.prodTeamCode}] ${product.prodName}</h4>
 		                        <div class="price"><input type="hidden" value="${product.prodPrice}"><fmt:formatNumber value="${product.prodPrice}" pattern="###,###"/>원</div>   
@@ -302,7 +301,7 @@ body {
 
    
 </body>
-
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

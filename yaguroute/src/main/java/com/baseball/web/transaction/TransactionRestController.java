@@ -102,7 +102,8 @@ public class TransactionRestController {
 		} else {
 			System.out.println("환불 실패");
 			resultData = "fail";
-		}  
+		} 
+		System.out.println(resultData);
 		return resultData;
 	}
 

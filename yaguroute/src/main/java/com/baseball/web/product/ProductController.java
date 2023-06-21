@@ -129,9 +129,12 @@ public class ProductController {
 			System.out.println("2레이어 댓글"+b);	
 		}
 		
+		;
+		
 		model.addAttribute("commentList1", list1);
 		model.addAttribute("commentList2", list2);
 		model.addAttribute("product", product);
+		model.addAttribute("prodTeam", gameService.getTeamInfo(product.getProdTeamCode()));
 
 		return "forward:/product/getProduct.jsp";
 	}

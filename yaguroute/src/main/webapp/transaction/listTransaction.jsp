@@ -13,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>listTransaction</title>
+	<title>야구ROUTE</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -34,13 +34,14 @@
             $("form").attr("method", "GET").attr("action", "/transaction/listTransaction")
                 .submit();
         }
+        //환불
         $(function() {
   		  $(".refund").on("click", function() {
-  		    var tranDetailNo = $(this).attr("id"); // 환불 대상 거래번호 가져오기
-  	
+  		    var tranDetailNo = $(this).attr("id"); // 환불 대상 거래번호 가져오기	
   		    var confirmation = confirm("구매를 취소하시겠습니까?");
   	
   		    if (confirmation) {
+  		    	console.log("취소 ajax 시작");
   		      $.ajax({
   		        url: "/transaction/rest/refund/" + tranDetailNo,
   		        method: "GET",
@@ -50,19 +51,12 @@
   		          "Content-Type": "application/json"
   		        },
   		        success: function(data, status) {
-  		          if (data === "success") {
-  		            alert("결제 취소가 완료되었습니다.");
-  		          } else {
-  		            alert("결제 취소에 실패했습니다.");
-  		          }
-  		        },
-  		        error: function(xhr, status, error) {
-  		          alert("환불 요청 중 오류가 발생했습니다.");
   		        }
-  		      });
-  		    }
+  		        })
+  		      }
+  		    });
   		  });
-  		});
+
 
 </script>
 
@@ -72,6 +66,11 @@
         background-color: black !important;
         color: white;
     }
+    
+    .pagination-wrap {
+    width: 800px;
+    margin-left: 650px;}
+    
 </style>
 <body >
 	<!-- ToolBar Start /////////////////////////////////////-->
@@ -172,7 +171,7 @@
 						<td align="left">
 						  <c:choose>
 						    <c:when test="${tranDetail.refundStatusCode eq 1 and tranCode eq 1}">
-						      <a class="refund"  id="${tranDetail.tranDetailNo}"  href="/transaction/updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2">환불</a>
+						      <a class="refund"  id="${tranDetail.tranDetailNo}"  href="/transaction/updateRefundStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&refundStatusCode=2" style="color: blue; text-decoration: underline;">환불</a>
 						    </c:when>
 						    <c:when test="${tranDetail.refundStatusCode eq 2}">환불완료
 						    </c:when>
@@ -203,6 +202,7 @@
 
 </div>
 </body>
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

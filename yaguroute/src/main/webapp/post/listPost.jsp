@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	<meta charset="UTF-8">
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
@@ -176,7 +177,8 @@
 	    	    var left = (window.innerWidth - 1000) / 2; // 새 창의 가로 위치
 	    	    var top = (window.innerHeight - 700) / 2; // 새 창의 세로 위치
 	    	    var options = 'width=1000,height=700,left=' + left + ',top=' + top + ',location=no';
-	    	    window.open("/post/addPostView.jsp", "게시물 작성", options);
+	    	    var teamCode = $("#teamCode").val()
+	    	    window.open("/post/addPostView?teamCode="+teamCode, "게시물 작성", options);
 	    	});
 
     		
@@ -203,7 +205,7 @@
 </script>
 
 <body>
-<a type="hidden" id="top"/>
+
 <jsp:include page="/common/topBar.jsp"/>
 
 
@@ -252,7 +254,7 @@
     <div class="sidebar-menu-wrap">
         <h6>Categories</h6>
         <ul class="categories-list">
-        <c:if test="${user.teamCode eq teamCode}">
+        <c:if test="${user.teamCode eq teamCode || teamCode eq 'ALL'}">
             <li>
                 <a href="javascript:;" class="addPostView"><span class="count 1">-</span>게시물 작성하기</a>
             </li>
@@ -265,7 +267,7 @@
             </li>
             
             <li>
-                <a href="javascript:;" class="getBestList"><span class="count 4">-</span>Best5 게시글 보기</a>
+                <a href="javascript:;" class="getBestList"><span class="count 4">-</span>Best4 게시글 보기</a>
             </li>
             <li>
                 <a href="javascript:;" class="getNoticeList"><span class="count 5">-</span>공지사항 보기</a>
@@ -403,7 +405,7 @@
   </ul>
 </div>     
 
-<a type="hidden" id="bottom"/>
+<jsp:include page="/common/quickMenu.jsp"/>
  	
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

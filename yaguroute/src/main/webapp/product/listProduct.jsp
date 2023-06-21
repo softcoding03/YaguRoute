@@ -12,7 +12,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>listProduct</title>
+	<title>야구ROUTE</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -239,7 +239,6 @@ h1 {
 					console.log("button Click");
 					//$("#prodNo").val($(this).val());
 					var prodNo = $(this).children().val();
-					alert(prodNo);
 					//$("form").attr("method", "GET").attr("action", "/product/deleteProduct?prodNo="+prodNo).submit();
 					self.location = "/product/deleteProduct?prodNo="+prodNo;
 				});
@@ -391,7 +390,7 @@ h1 {
 </div></div>
 
 </body>
-
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

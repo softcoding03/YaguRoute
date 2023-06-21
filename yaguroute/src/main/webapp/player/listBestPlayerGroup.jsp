@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Player Of The Week</title>
+    <title>야구ROUTE</title>
     <link type="text/css" rel="stylesheet" href="./netflix_files/WebsiteDetect" data-uia="botLink">
     <script type="text/javascript">function OptanonWrapper() { };</script>
     <link type="text/css" rel="stylesheet" href="./netflix_files/error-page.b122c37502204303115a.css" data-uia="botLink">
@@ -644,7 +644,6 @@
 </div>
 <!-- 모달 창 종료 -->
 </body>
-
 
 
 </html>

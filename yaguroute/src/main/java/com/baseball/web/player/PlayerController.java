@@ -62,8 +62,8 @@ public class PlayerController {
 	@Qualifier("bestPlayerDao")
 	private BestPlayerDao bestPlayerDao;
 	
-	@Scheduled(cron = "0 0 5 ? * MON")
-	/*@Scheduled(cron = "0 9/10 * * * ?")*/
+	/* @Scheduled(cron = "0 0 5 ? * MON") */
+	/* @Scheduled(cron = "0 18 15 * * ?") */
 	public void addPlayer() throws Exception{
 		
 		playerCrawlingDao.addPlayer();
@@ -291,6 +291,5 @@ public class PlayerController {
 		
 		System.out.println(bestPlayerService.getBestPlayerList(search));
 		
-		System.out.println("호날두");
 	}
 }

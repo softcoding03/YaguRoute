@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -333,7 +334,6 @@ var postNo;
   gtag('config', 'G-L1DH7W8BRC');
 </script>
 <body>
-<a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
 <section class="image-header" style="min-height: 0px;height: 0px;">
@@ -522,9 +522,9 @@ var postNo;
   </ul>
 </div>   
 
-<a type="hidden" id="bottom"/> 	
 
 </body>
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

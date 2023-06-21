@@ -166,7 +166,7 @@ public class TransactionController {
 			    model.addAttribute("tranDetail", tranDetail);
 			    model.addAttribute("transaction", transaction);
 		
-			    return "forward:/transaction/addTransaction";
+			    return "forward:/transaction/listTransaction";
 	}
 	
 	@RequestMapping("getTransaction")
@@ -182,7 +182,7 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-	@GetMapping("listTransaction")
+	@RequestMapping("listTransaction")
 	public String getTranDetailList (@ModelAttribute("search")Search search, HttpSession session, Model model) throws Exception {
 		
 		System.out.println("search" +search); //당연히 값 없음

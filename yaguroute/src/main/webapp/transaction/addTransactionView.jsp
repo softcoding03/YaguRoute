@@ -11,7 +11,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<title>Insert title here</title>
+<title>야구ROUTE</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
@@ -419,7 +419,7 @@ $(function(){
                            <div class="col-md-12">
                                 <div class="item">
                                     <label>
-                                        <span>배송 요청 사항 (100자 이내)<i> *</i></span>
+                                        <span>배송 요청 사항 (100자 이내)</span>
                                         <div>
 	                                        <input type="text" id="dlvyRequest" name="dlvyRequest"  > 
 	                                        <p></p>
@@ -515,7 +515,7 @@ $(function(){
 
  
 <!--CHECKOUT WRAP END-->
-
+<jsp:include page="/common/quickMenu.jsp"/>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

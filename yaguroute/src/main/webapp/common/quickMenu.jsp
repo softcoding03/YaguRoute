@@ -85,7 +85,7 @@ a {
 .quickmenu {
 	position: absolute;
 	width: 50px;
-	top: 70%;
+	top: 50%;
 	margin-top: -70px;
 	right: 10px;
 	background: #fff;

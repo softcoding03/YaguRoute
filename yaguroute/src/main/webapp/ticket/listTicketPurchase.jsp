@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -139,7 +140,7 @@
 </script>
 
 <body>
-<a type="hidden" id="top"/>
+
 <jsp:include page="/common/topBar.jsp"/>
 
 <!-- <section class="image-header" style="min-height: 150px;height: 150px;">
@@ -245,7 +246,7 @@
   </ul>
 </div>
 
-<a type="hidden" id="bottom"/>
+<jsp:include page="/common/quickMenu.jsp"/>
       
 </div>
 </body>

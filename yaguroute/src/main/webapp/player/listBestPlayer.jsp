@@ -34,7 +34,7 @@
         href="https://cxm-api.fifa.com/fifaplusweb/api/headerManagement?locale=en" as="fetch" data-react-helmet="true">
     <link rel="stylesheet" type="text/css" href="/css/player/50.6ab169e1.chunk.css">
     <script charset="utf-8" src="/js/player/50.7bd3162f.chunk.js"></script>
-    <title>금주의 선수™</title>
+    <title>야구ROUTE</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -5394,7 +5394,7 @@
         </div>
     </div>
 </body>
-
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/jquery.sticky.js"></script>

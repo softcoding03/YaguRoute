@@ -2,7 +2,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <html>
 <head>
-<title>게시물 작성</title>
+<title>야구ROUTE</title>
     <meta charset="UTF-8">
     
    <!-- include libraries(jQuery, bootstrap) -->

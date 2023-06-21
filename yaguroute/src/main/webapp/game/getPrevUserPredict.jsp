@@ -180,7 +180,7 @@
 						<h6>예측 포인트<br><fmt:formatNumber value="${pred.predPoint}" pattern="###,###" /> P</h6><input type="hidden" value="${pred.predPoint}" class="predPoint">
 					</div>
 					<div class="col-md-2" style="padding-right: 70px;">
-						<h6>획득 포인트<br><fmt:formatNumber value="${pred.afterGamePredPoint}" pattern="###,###" /> P</h6>
+						<h6>배당 적용 포인트<br><fmt:formatNumber value="${pred.afterGamePredPoint}" pattern="###,###" /> P</h6>
 		                <input type="hidden" value="${pred.afterGamePredPoint}" class="afterPredPoint">
 					</div>
 				</div>

@@ -155,6 +155,13 @@ public class PostController {
 			model.addAttribute("team", team);
 			return "forward:/post/listPost.jsp";
 	}
+	@RequestMapping("addPostView")
+	public String addPostView(@RequestParam("teamCode") String teamCode,HttpServletRequest request) {
+		
+		request.setAttribute("teamCode", teamCode);
+		return "forward:/post/addPostView.jsp";
+	}
+	
 	//Best 게시물 조회
 	@GetMapping("getBestList")
 	public String getBestList(@RequestParam("teamCode") String teamCode, Model model,@RequestParam(value="currentPage", required = false) Integer currentPage ,@ModelAttribute("search") Search search) throws Exception {

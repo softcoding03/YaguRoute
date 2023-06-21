@@ -76,7 +76,7 @@ public class PlayerTests {
 		
 		/* 1. 셀레니움 사용 위한 인스턴스 생성하기 */
 		String WEB_DRIVER_ID = "webdriver.chrome.driver";
-		String WEB_DRIVER_PATH = "C:\\chromeDriver\\chromedriver.exe";
+		String WEB_DRIVER_PATH = "src/main/resources/chromedriver_win32/chromedriver.exe";
 		
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		

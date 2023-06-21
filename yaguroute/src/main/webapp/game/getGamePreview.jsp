@@ -143,7 +143,7 @@ $(function(){
            		<li class="left-border-wid" style="${toGame.gameCode eq gamePreview.gameInfo.gameCode ? 'border: 3px solid #f03a3a' : ''};">
            			<div>
 	           		<c:if test="${toGame.gameStatusCode eq 2 or toGame.gameStatusCode eq 4}">
-	           			<div class="text">경기종료</div>
+	           			<div class="text" style="font-size: 12px; text-align: center;">경기종료</div>
 	           			<a href="/game/getGameRecord?gameCode=${toGame.gameCode}">
 			           		<div>
 			           			<span class="side-font-size"><img width="22px" height="22px" alt="awayImg" src="${toGame.awayTeam.teamEmblem}">${toGame.awayTeam.teamNickName}</span><span style="float:right; font-size: 15px;">${fn:split(toGame.gameScore,':')[0]}</span>

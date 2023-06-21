@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	 <meta charset="UTF-8">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -150,7 +151,7 @@ button[type="button"] {
 </script>
 
 <body>
-<a type="hidden" id="top"/>
+
 <jsp:include page="/common/topBar.jsp"/>
 <!-- <section class="image-header" style="min-height: 0px;height: 0px;">
 	<div class="row">
@@ -261,7 +262,7 @@ button[type="button"] {
   </ul>
 </div>     
 
-<a type="hidden" id="bottom"/>
+<jsp:include page="/common/quickMenu.jsp"/>
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

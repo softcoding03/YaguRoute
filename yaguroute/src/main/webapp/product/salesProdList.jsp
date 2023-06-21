@@ -13,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>salesProdList</title>
+	<title>야구ROUTE</title>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -279,7 +279,7 @@ h1 {
 		                        <div class="col-md-3 col-sm-8">
 		                            <div class="store-list-item">         
 		                                <div>
-		                                        <img src="${product.prodImageFirst}"  alt="product">
+		                                        <img style="height: 250px;" src="${product.prodImageFirst}"  alt="product">
 		                                    <div class="info">
 		                                        <span class="name">
 														  <c:choose>
@@ -327,7 +327,7 @@ h1 {
 </div>
 </body>
 
-
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/library/bootstrap.js"></script>

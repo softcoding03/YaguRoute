@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	 <meta charset="UTF-8">
     <meta name="description" content="" />
     <meta name="keywords" content="" />

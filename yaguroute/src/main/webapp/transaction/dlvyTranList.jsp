@@ -13,7 +13,7 @@
 	<meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>dlvyTranList</title>
+	<title>야구ROUTE</title>
 	   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -121,11 +121,15 @@ function fncGetDlvyTranList(currentPage) {
 						환불 완료
 					</c:if>													
 						상태 입니다.</td>
-				<td align="left">
-				  <c:if test="${tranCode eq 1 and tranDetail.refundStatusCode eq 1}">
-			    <a href="/transaction/updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2">배송시작</a> 
-				  </c:if>
-				</td>
+            <td align="left">
+               <c:choose>
+                     <c:when  test="${tranCode eq 1 and tranDetail.refundStatusCode eq 1}">
+                       <a href="/transaction/updateTranStatusCode?tranDetailNo=${tranDetail.tranDetailNo}&tranStatusCode=2"style="color: blue; text-decoration: underline;">배송시작</a>
+                      </c:when>
+                      <c:when test="${tranDetail.tranStatusCode eq 2}">배송완료
+                      </c:when>
+                    </c:choose>
+            </td>
 		<td align="left">${tranDetail.tranDetailTran.tranPaymentOption}</td>	
 				<td align="left">
 				  <c:choose>

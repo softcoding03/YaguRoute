@@ -2,7 +2,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <html>
 <head>
-<title>게시물 작성</title>
+<title>야구ROUTE</title>
     <meta charset="UTF-8">
     
    <!-- include libraries(jQuery, bootstrap) -->
@@ -109,9 +109,10 @@ div.button {
 	    					postTitle: $("input[name='postTitle']").val(),
 	    					postContents: $("#summernote").val()
 	    			}
+	    			var teamCode = $("#teamCode").val();
 	  		      $.ajax({
 		  		        type: 'POST',
-		  		        url: '/post/rest/addPost',
+		  		        url: '/post/rest/addPost/'+teamCode,
 		  		        data: post,
 		  		        success: function(response) {
 		  		         if(response === "success"){
@@ -256,6 +257,7 @@ div.button {
 			      <button class="btn btn-default exit">취소</button>
 			    </div>
 			  </div>
+			  <input type="hidden" value="${teamCode}" id="teamCode">
 		</form>	
 		    
 </body>

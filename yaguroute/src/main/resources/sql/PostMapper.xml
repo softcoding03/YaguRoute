@@ -63,8 +63,10 @@
     		 user u ON p.user_id = u.user_id
  		LEFT JOIN
     		 comment c ON c.post_no = p.post_no
-		WHERE
-		    p.team_code = #{teamCode}
+		<where>
+			<if test="teamCode != 'ALL'">
+				p.team_code = #{teamCode}
+			</if>
 		    <if test="postType != null">
 		    	AND post_type = #{postType}
 		    </if>
@@ -77,6 +79,7 @@
 		    	</if>
 		    </if>
 		    AND post_type not in ('4')
+		</where>
 		GROUP BY
     		 p.post_no 
 		ORDER BY
@@ -138,7 +141,7 @@
 			select last_insert_id()
 	</select>
 	
-	<!--특정 팀의 게시글중에서 추천수가 가장 많은 4개 게시물 list-->
+	<!--특정 팀의 게시글중에서 추천수가 가장 많은 5개 게시물 list-->
 	<select id="getPostBestList" parameterType="string" resultMap="postSelectMap">
 		SELECT p.*, e.post_likes, c.post_comments
 		FROM post p
@@ -153,10 +156,10 @@
 		    FROM comment
 		    GROUP BY post_no
 		) c ON p.post_no = c.post_no
-		<if test="teamCode != 'all'">
+		<if test="teamCode != 'ALL'">
 		WHERE p.team_code = #{value} AND p.post_type NOT IN ('4')
 		</if>
-		<if test="teamCode == 'all'">
+		<if test="teamCode == 'ALL'">
 		WHERE p.post_type NOT IN ('4')
 		</if>
 		ORDER BY post_likes DESC, post_views DESC

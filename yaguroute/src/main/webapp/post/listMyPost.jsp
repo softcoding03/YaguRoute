@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>야구ROUTE</title>
 	<meta charset="UTF-8">
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
@@ -186,7 +187,6 @@
 </script>
 
 <body>
-<a type="hidden" id="top"/>
 <jsp:include page="/common/topBar.jsp"/>
 
 
@@ -279,7 +279,7 @@
     <input type="hidden" id="currentPage" name="currentPage" value="" />
  </form>
 
-<a type="hidden" id="bottom"/>
+<jsp:include page="/common/quickMenu.jsp"/>
  	
 </body>
 <script type="text/javascript" src="/js/library/jquery.js"></script>

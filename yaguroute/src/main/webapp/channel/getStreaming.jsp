@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title>야구ROUTE</title>
 <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
 <!-- <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/> -->
 <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -893,7 +893,7 @@ function getTime(){
 		</div>
 	</div>
 </section>
-
+<jsp:include page="/common/quickMenu.jsp"/>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

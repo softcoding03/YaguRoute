@@ -848,7 +848,7 @@
                                 </div>
                                 <div class="form-inline">
                             		<label>
-		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="휴대폰 번호"/>&nbsp;&nbsp;
+		    						<input type="text" name="userPhone" id="userPhone" style="width: 270px; height: 35px; margin-bottom: 10px;" placeholder="휴대폰 번호 ('-' 제외)"/>&nbsp;&nbsp;
 		    						<button type="button" id="phoneButton" >인증번호 발송</button>
 		    						</label>
                             	</div>
