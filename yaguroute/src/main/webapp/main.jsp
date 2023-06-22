@@ -497,6 +497,8 @@ MAIN SPONSOR SLIDER END -->
 <hr>
 
 <!-- 상품 시작 -->
+
+						
 <div class="main-store-list">
     <div class="container">
         <div class="tab-content">
@@ -511,7 +513,7 @@ MAIN SPONSOR SLIDER END -->
                                 <div>
                                     <a>
                                         <span class="store-badge hot">hot</span>
-                                        <img src="${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
+                                        <img style="height: 250px;" src="${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
                                     </a>
                                     <div class="info">
                                         <span class="name">${bestTran.tranDetailProd.prodName}</span>
@@ -519,6 +521,7 @@ MAIN SPONSOR SLIDER END -->
                                         <fmt:formatNumber value="${bestTran.tranDetailProd.prodPrice}" pattern="###,###"/>원 </span>	 
                                         <div class="btn-wrap">
                                              <a href="/product/getProduct?prodNo=${bestTran.tranDetailProd.prodNo}" class="btn btn-detail">상세보기</a>
+                                             <br>
                                         </div>
                                     </div>
                                 </div>

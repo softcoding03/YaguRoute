@@ -78,13 +78,6 @@ public class TransactionTest {
 		System.out.println("testUpdateTransaction:: "+transaction);
 		
 	}
-	
-	//@Test
-	public void testDeleteTransaction() throws Exception {
-		
-		transactionService.deleteTransaction(1);
-		System.out.println("testDeleteTransaction:: ");
-	}
 
 	
 	//@Test
