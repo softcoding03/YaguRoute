@@ -248,6 +248,12 @@
 		SELECT COUNT(*)
 		FROM (<include refid="postList"/>) countTable
 	</select>
+	
+	<!-- getPostList의 전체 레코드 수 -->
+	<select id="getMyPostTotalCount" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*)
+		FROM (<include refid="myPostList"/>) countTable
+	</select>
 	<!-- 해당 게시물에 좋아요 했는지 안했는지 확인 위함 -->
 	<select id="getEmote" parameterType="emote" resultMap="emoteSelectMap">
 		SELECT *

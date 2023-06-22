@@ -31,5 +31,6 @@ public interface PostDao {
 	public void addDislike(Post post) throws Exception;
 	public void addViews(int postNo) throws Exception;
 	public int getTotalCount(Map<String,Object> map) throws Exception;
+	public int getMyPostTotalCount(Map<String,Object> map) throws Exception;
 	public int getLastPostNo() throws Exception;
 }
