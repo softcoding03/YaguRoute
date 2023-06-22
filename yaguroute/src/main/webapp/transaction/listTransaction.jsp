@@ -62,15 +62,20 @@
 
 </head>
 <style>
+
     .ct_list_b_black {
         background-color: black !important;
-        color: white;
-    }
+        color: white; }
+    
     
     .pagination-wrap {
     width: 800px;
     margin-left: 650px;}
     
+   
+	div {font-family: "Gwangyang"; } 
+   h1  {font-family: "Gwangyang"; } 
+   
 </style>
 <body >
 	<!-- ToolBar Start /////////////////////////////////////-->
@@ -84,14 +89,15 @@
 	<div class="row">
 	
 	
-						      <div class="col-md-8" style="margin-top: 40px;">
-						        <div class="info">
-						          <div class="wrap">
-						            <h1>구매목록조회</h1>
-						            <p style="margin-bottom: 10px;"> ★ [ ${user.userNickName} ] 님의 구매내역입니다.</p>
-						          </div>
-						        </div>
-						      </div>
+				   <div class="col-md-8" style="margin-top: 40px;">
+					  <div class="info">
+						     <div class="wrap">
+						      <h1>구매목록조회</h1>
+			    	   <p style="margin-bottom: 10px;"> ★ [ ${user.userNickName} ] 님의 구매내역입니다.</p>
+	           			<p style="margin-bottom: 10px;">보유 포인트: <fmt:formatNumber value="${user.userPoint}" pattern="###,###"/> point</p>		          
+			       </div>
+		      </div>
+	     </div>
 	</div>
 </div>
 				<!--BREADCRUMBS END-->
@@ -102,16 +108,10 @@
 
 					<div class="container">
 					<div class="page-header text-info">
-						<div class="row">
+					<div class="row">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" >
 				<tr>
-					<td colspan="30" >
-					전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
-				</tr>
-				<tr>
-			        <td class="ct_list_b_black">구매일자</td>
-<!-- 			        <td class="ct_list_b_black">tranCode</td>	
-			        <td class="ct_list_b_black">refundCode</td>	 -->			        		        
+			        <td class="ct_list_b_black">구매일자</td>		        		        
 			        <td class="ct_list_b_black">구단</td>
 			        <td class="ct_list_b_black">상품명</td>
 			        <td class="ct_list_b_black">상품가격</td>

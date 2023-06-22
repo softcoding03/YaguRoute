@@ -24,6 +24,9 @@
 
 	function fncAddTransaction() { 
 		console.log("AddTransaction 시작")
+		if($("#tranUsePoint").val() === "" || $("#tranUsePoint").val() === null){
+			$("#tranUsePoint").val("0");
+		}
 		$("form").attr("method" ,"POST").attr("action" , "/transaction/addTransaction").submit();
 	}
 	
@@ -493,7 +496,7 @@ $(function(){
 	                	<div class="delivery-list">
 	               			<label class="item" style="text-align: center;">
 	               				<div style="margin-bottom: 30px;"><span>보유 포인트 : </span><span class="userPointText"><fmt:formatNumber value="${user.userPoint}" pattern="###,###"/> Point</span><input class="userPoint" type="hidden" value="${user.userPoint}" /></div>
-								<div class="input-wrapper"><input type="text" id="tranUsePoint" name="tranUsePoint" value="${transaction.tranUsePoint}" class="ct_input_g" style="width: 60%;margin-right:20px;text-align: center;border:solid 1px;background-color: #D4D8DA;"><span class="input-text">point</span><a id="applyPointButton" class="btn small">적용</a>  </div> 
+								<div class="input-wrapper"><input type="text" id="tranUsePoint" name="tranUsePoint" value="" class="ct_input_g" style="width: 60%;margin-right:20px;text-align: center;border:solid 1px;background-color: #D4D8DA;"><span class="input-text">point</span><a id="applyPointButton" class="btn small">적용</a>  </div> 
 				            </label>
 				            <label class="item" style="text-align: center;">
 				            	<span class="span-left" style="margin-right:10px;">결제 금액 : </span><span class="span-right totalSpan"><fmt:formatNumber value="${totalPrice}" pattern="###,###"/>원</span>

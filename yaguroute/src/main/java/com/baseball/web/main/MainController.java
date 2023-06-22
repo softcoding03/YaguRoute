@@ -108,13 +108,14 @@ public class MainController {
 			 */
 			
 			//BEST 게시물 5개 출력
-			List<Post> bestPostList = postService.getPostBestList("all");
+			List<Post> bestPostList = postService.getPostBestList("ALL");
+			System.out.println(bestPostList);
 			
 			//판매인기상품 출력
 			List<TranDetail> bestTranList = tranDetailService.getBestTranList();
-			for(TranDetail bestList : bestTranList) {
-				System.out.println(bestList);
-			}	
+			/*
+			 * for(TranDetail bestList : bestTranList) { System.out.println(bestList); }
+			 */
 			
 
 			
