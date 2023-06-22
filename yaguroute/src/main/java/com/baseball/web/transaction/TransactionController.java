@@ -66,7 +66,7 @@ public class TransactionController {
 			@RequestParam("prodQuantity") List<Integer> prodQuantity, @RequestParam List<Integer> prodPrice) throws Exception {
 
 		System.out.println("---/transaction/addTransactionView 작동 시작---");
-		
+
 		List<TranDetail> tranDetailList = new ArrayList<>();
 		List<Basket> basketList = new ArrayList<>();
 		List<Product> prodList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class TransactionController {
 	public String addTransaction(@ModelAttribute("transaction") Transaction transaction,
 	        @RequestParam("prodNo") List<String> prodNo, @RequestParam("userId") String userId,
 	        @RequestParam("impNo") String impNo, @RequestParam("merchantNo") String merchantNo,
-	        @RequestParam("prodQuantity") int prodQuantity, Model model)
+	        @RequestParam("prodQuantity") int prodQuantity, Model model, HttpSession session)
 	        throws Exception {
 		
 			    System.out.println("---/transaction/addTransaction 작동 시작---");
@@ -142,7 +142,10 @@ public class TransactionController {
 			
 			    int tranNo = transactionService.addTransaction(transaction);
 			    //System.out.println("add된 transaction 정보:: "+transaction);
-	
+			    
+			    User user2 = userService.getUser(userId);
+			    session.setAttribute("user", user2);   //로직이 적용된 포인트를 listTran에서 보여주기 위함
+			    
 			    transaction.setTranNo(tranNo);
 			    //TranDetail 객체 설정하고 add 시작
 			    //System.out.println("setting된 tranNo 정보:: "+transaction);

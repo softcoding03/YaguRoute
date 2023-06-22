@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.baseball.common.domain.Search;
 import com.baseball.service.basket.BasketDao;
-import com.baseball.service.domain.Basket;
-import com.baseball.service.domain.Product;
-import com.baseball.service.domain.TranDetail;
 import com.baseball.service.domain.Transaction;
 import com.baseball.service.domain.User;
 import com.baseball.service.product.ProductDao;
@@ -65,6 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		transactionDao.addTransaction(transaction);			
 		userDao.updatePoint(user);
+		
 		
 		return transactionDao.getLastTranNo();
 		
