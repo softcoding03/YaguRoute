@@ -198,6 +198,7 @@
 								
 								var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
 								console.log(JSONData.basketNo)
+								$("#"+JSONData.basketNo+" input[name='prodQuantity']").val(JSONData.prodQuantity)
 								$("#"+JSONData.basketNo+" .total").html("");
 								$("#"+JSONData.basketNo+" .total").append('<input type="hidden" value='+updateTotalPrice+'>'
 										+formatter.format(JSONData.product.prodPrice)+' x '+ JSONData.prodQuantity+' = '
@@ -210,7 +211,7 @@
 									sum = sum + parseInt(num);
 								})
 								$("#totalPrice").attr("value",sum)
-								$("#name").text(formatter.format(sum));
+								$("#name").text(formatter.format(sum)+'원');
 							}
 							
 						})

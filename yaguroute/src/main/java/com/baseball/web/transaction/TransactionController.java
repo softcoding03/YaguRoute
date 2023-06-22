@@ -66,7 +66,7 @@ public class TransactionController {
 			@RequestParam("prodQuantity") List<Integer> prodQuantity, @RequestParam List<Integer> prodPrice) throws Exception {
 
 		System.out.println("---/transaction/addTransactionView 작동 시작---");
-
+		
 		List<TranDetail> tranDetailList = new ArrayList<>();
 		List<Basket> basketList = new ArrayList<>();
 		List<Product> prodList = new ArrayList<>();
