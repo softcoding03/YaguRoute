@@ -91,6 +91,163 @@
 		}
 </style>
 <script type="text/javascript">
+
+function remaindTime() {
+    var now = new Date();
+    var end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),${minTimeString[0]},${minTimeString[1]},${minTimeString[2]});
+    var open = new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
+  
+    var nt = now.getTime();
+    var ot = open.getTime();
+    var et = end.getTime();
+  
+   if(nt<et){
+	   $("h4.time-title").html("경기 예측 마감까지 남은 시간");
+	     sec =parseInt(et - nt) / 1000;
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".hours").html(hour);
+	      $(".minutes").html(min);
+	      $(".seconds").html(sec);
+	      return false;
+   }else {
+      $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
+      sec = parseInt(ot - nt) / 1000;
+      day = parseInt(sec/60/60/24);
+      sec = (sec - (day * 60 * 60 * 24));
+      hour = parseInt(sec/60/60);
+      sec = (sec - (hour*60*60));
+      min = parseInt(sec/60);
+      sec = parseInt(sec-(min*60));
+      if(hour<10){hour="0"+hour;}
+      if(min<10){min="0"+min;}
+      if(sec<10){sec="0"+sec;}
+       $(".hours").html(hour);
+       $(".minutes").html(min);
+       $(".seconds").html(sec);
+       return true;
+   }
+ }
+
+
+function validation(){
+	var radioCount = 0;
+	var check = true;
+	var regex = /^[1-9]\d*$/;
+	
+	if(!check){return false}
+	$("input[type='number']").each(function(){
+		var value = $(this).val();
+		if(value.trim() === ''){
+			alert('비어있는 예측 포인트가 있습니다.')
+			$(this).focus();
+			check = false;
+			return false;
+		}else if(!regex.test(value)){
+			alert('예측 포인트는 숫자만 입력 가능합니다.')
+			$(this).focus();
+			check = false;
+			return false;
+		}
+	})
+	
+	if(!check){return false}
+	
+	var sum = 0;
+	$("input[type='number']").each(function(){
+		var value = $(this).val();
+		sum = sum + parseInt(value);
+	})
+	
+	if(sum > parseInt(${user.userPoint})){
+		alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
+		check = false;
+		return false;
+	}
+	
+	$(".predTeamCode").each(function(){
+		if($(this).val() === ''){
+			alert('모든 경기 예측에 참여해야 합니다.')
+			$(this).focus();
+			check = false
+			return false;
+		}
+	})
+	
+	return check;
+	
+}
+function number_validation(){
+	
+}
+	$(function(){
+		
+		$('input[type="number"]').on('input', function() {
+			  var value = $(this).val();
+			  var regex = /^[1-9]\d*$/;
+			  check = true;
+			  if (!regex.test(value)) {
+				  $(this).val("")
+				  $(this).parent().parent().parent().find("p.warn-message").text("숫자만 입력해 주세요.(0~9)");
+				  $(this).focus()
+				  check = false;
+				  return check;
+			  }else if (regex.test(value)) {
+				  $(this).parent().parent().parent().find("p.warn-message").text("");
+				  $(this).focus()
+				  return check;
+			  }
+		});
+		
+		
+		
+		if(${predSize} === 0 && !remaindTime()){
+			$(".oneGame").each(function(){
+				var elem = $(this)
+				$(this).find(".homeGame").on("click",function(){
+					$(this).find("i").attr("style","display : flex;")
+					$(elem).find(".awayGame i").attr("style","display : none;")
+					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
+				})
+				$(this).find(".awayGame").on("click",function(){
+					$(this).find("i").attr("style","display : flex;")
+					$(elem).find(".homeGame i").attr("style","display : none;")
+					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
+				})
+			})
+		}
+		
+		if(remaindTime()){
+			preventEvent();
+		}
+		
+		$("#addPred").on("click",function(){
+			if(validation()){
+				$("form").attr("method","GET").attr("action","/predict/addUserPredict").submit();
+			}
+		})
+		
+		$("#deletePred").on("click",function(){
+			$("form").attr("method","GET").attr("action","/predict/deleteUserPredict").submit();
+		})
+		
+		$("#prevDay").on("click",function(){
+			self.location = "/predict/getUserPredict?date=${otherDay}";
+		})
+		
+		setInterval(remaindTime,1000);
+		
+	})
+	
+</script>
+<script type="text/javascript">
 function preventEvent(){
 	
 	$("#preventAll").on('mousedown',function(event){
@@ -322,161 +479,7 @@ function preventEvent(){
 </section>
 </body>
 <jsp:include page="/common/quickMenu.jsp"/>
-<script type="text/javascript">
 
-function remaindTime() {
-    var now = new Date();
-    var end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),${minTimeString[0]},${minTimeString[1]},${minTimeString[2]});
-    var open = new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
-  
-    var nt = now.getTime();
-    var ot = open.getTime();
-    var et = end.getTime();
-  
-   if(nt<et){
-	   $("h4.time-title").html("경기 예측 마감까지 남은 시간");
-	     sec =parseInt(et - nt) / 1000;
-	     day  = parseInt(sec/60/60/24);
-	     sec = (sec - (day * 60 * 60 * 24));
-	     hour = parseInt(sec/60/60);
-	     sec = (sec - (hour*60*60));
-	     min = parseInt(sec/60);
-	     sec = parseInt(sec-(min*60));
-	     if(hour<10){hour="0"+hour;}
-	     if(min<10){min="0"+min;}
-	     if(sec<10){sec="0"+sec;}
-	      $(".hours").html(hour);
-	      $(".minutes").html(min);
-	      $(".seconds").html(sec);
-	      return false;
-   }else {
-      $("h4.time-title").html("(예측 마감)경기 예측 결과 확인까지 남은 시간");
-      sec = parseInt(ot - nt) / 1000;
-      day = parseInt(sec/60/60/24);
-      sec = (sec - (day * 60 * 60 * 24));
-      hour = parseInt(sec/60/60);
-      sec = (sec - (hour*60*60));
-      min = parseInt(sec/60);
-      sec = parseInt(sec-(min*60));
-      if(hour<10){hour="0"+hour;}
-      if(min<10){min="0"+min;}
-      if(sec<10){sec="0"+sec;}
-       $(".hours").html(hour);
-       $(".minutes").html(min);
-       $(".seconds").html(sec);
-       return true;
-   }
- }
-
-
-function validation(){
-	var radioCount = 0;
-	var check = true;
-	var regex = /^[1-9]\d*$/;
-	
-	if(!check){return false}
-	$("input[type='number']").each(function(){
-		var value = $(this).val();
-		if(value.trim() === ''){
-			alert('비어있는 예측 포인트가 있습니다.')
-			$(this).focus();
-			check = false;
-			return false;
-		}else if(!regex.test(value)){
-			alert('예측 포인트는 숫자만 입력 가능합니다.')
-			$(this).focus();
-			check = false;
-			return false;
-		}
-	})
-	
-	if(!check){return false}
-	
-	var sum = 0;
-	$("input[type='number']").each(function(){
-		var value = $(this).val();
-		sum = sum + parseInt(value);
-	})
-	
-	if(sum > parseInt(${user.userPoint})){
-		alert('예측 포인트가 보유한 포인트를 초과하였습니다.');
-		check = false;
-		return false;
-	}
-	
-	$(".predTeamCode").each(function(){
-		if($(this).val() === ''){
-			alert('모든 경기 예측에 참여해야 합니다.')
-			$(this).focus();
-			check = false
-			return false;
-		}
-	})
-	
-	return check;
-	
-}
-function number_validation(){
-	
-}
-	$(function(){
-		
-		$('input[type="number"]').on('input', function() {
-			  var value = $(this).val();
-			  var regex = /^[1-9]\d*$/;
-			  check = true;
-			  if (!regex.test(value)) {
-				  $(this).val("")
-				  $(this).parent().parent().parent().find("p.warn-message").text("숫자만 입력해 주세요.(0~9)");
-				  $(this).focus()
-				  check = false;
-				  return check;
-			  }else if (regex.test(value)) {
-				  $(this).parent().parent().parent().find("p.warn-message").text("");
-				  $(this).focus()
-				  return check;
-			  }
-		});
-		
-		if(remaindTime()){
-			preventEvent();
-		}
-		
-		if(${predSize} === 0){
-			$(".oneGame").each(function(){
-				var elem = $(this)
-				$(this).find(".homeGame").on("click",function(){
-					$(this).find("i").attr("style","display : flex;")
-					$(elem).find(".awayGame i").attr("style","display : none;")
-					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
-				})
-				$(this).find(".awayGame").on("click",function(){
-					$(this).find("i").attr("style","display : flex;")
-					$(elem).find(".homeGame i").attr("style","display : none;")
-					$(elem).find("input.predTeamCode").val($(this).find("img").attr("id"))
-				})
-			})
-		}
-		
-		$("#addPred").on("click",function(){
-			if(validation()){
-				$("form").attr("method","GET").attr("action","/predict/addUserPredict").submit();
-			}
-		})
-		
-		$("#deletePred").on("click",function(){
-			$("form").attr("method","GET").attr("action","/predict/deleteUserPredict").submit();
-		})
-		
-		$("#prevDay").on("click",function(){
-			self.location = "/predict/getUserPredict?date=${otherDay}";
-		})
-		
-		setInterval(remaindTime,1000);
-		
-	})
-	
-</script>
 
 <script type="text/javascript" src="/js/library/jquery.js"></script>
 <script type="text/javascript" src="/js/library/jquery-ui.js"></script>

@@ -257,7 +257,7 @@
 					$("#totalPrice").val(newTotal)
 					
 					var formatter = new Intl.NumberFormat('en-US',{style:'decimal'})
-					$("#name").text(formatter.format(newTotal));
+					$("#name").text(formatter.format(newTotal)+'원');
 					var bsize = parseInt($("#basketSize").val())-1
 					$("#basketSize").val(bsize)
 					if(bsize === 0){

@@ -89,7 +89,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Map<String,Object> getMyPostList(Map<String,Object> map) throws Exception {
 		List<Post> list = postDao.getMyPostList(map);
-		int totalCount = postDao.getTotalCount(map);
+		int totalCount = postDao.getMyPostTotalCount(map);
 		
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("postList", list);
