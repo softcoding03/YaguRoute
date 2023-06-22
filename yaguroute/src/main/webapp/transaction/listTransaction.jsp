@@ -94,7 +94,6 @@
 						     <div class="wrap">
 						      <h1>구매목록조회</h1>
 			    	   <p style="margin-bottom: 10px;"> ★ [ ${user.userNickName} ] 님의 구매내역입니다.</p>
-	           			<p style="margin-bottom: 10px;">보유 포인트: <fmt:formatNumber value="${user.userPoint}" pattern="###,###"/> point</p>		          
 			       </div>
 		      </div>
 	     </div>
@@ -118,6 +117,7 @@
 			        <td class="ct_list_b_black">구매수량</td>
 			        <td class="ct_list_b_black">사용포인트</td>
 			        <td class="ct_list_b_black">총 결제금액</td>
+			        <td class="ct_list_b_black">적립 포인트</td>			        
 			        <td class="ct_list_b_black">구매상태</td>
 			        <td class="ct_list_b_black">배송</td>
 			        <td class="ct_list_b_black">결제수단</td>
@@ -153,6 +153,7 @@
 						<td align="left">${tranDetail.tranQuantity}</td>
 						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranUsePoint}" pattern="###,###"/></td>
 						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranTotalPrice}" pattern="###,###"/></td>
+						<td align="left"><fmt:formatNumber value="${tranDetail.tranDetailTran.tranAddPoint}" pattern="###,###"/></td>	
 						<td align="left"> 현재	
 								<c:if test="${tranDetail.tranStatusCode eq 1 && tranDetail.refundStatusCode eq 1 }">
 									구매완료
