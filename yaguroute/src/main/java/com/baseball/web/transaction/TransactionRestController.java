@@ -112,13 +112,14 @@ public class TransactionRestController {
 
 	@GetMapping("sendSMS")
 	public String sendSMS(HttpSession session) throws Exception {
-//		System.out.println("tranDetailNo"+tranDetailNo);
 		System.out.println("sendSMS 작동 시작");
-//		TranDetail tranDetail = tranDetailService.getTranDetail(tranDetailNo);
+
 		User user = (User)session.getAttribute("user");
+		
 		String userPhone = user.getUserPhone();
 		String contents;
-		contents = user.getUserName()+"님께서 주문하신 상품이 결제 완료 되었습니다.";
+		contents = "[결제 내역] \n"+user.getUserName()+"님께서 주문하신 상품이 결제 완료 되었습니다. \n"+
+		"- 야구 루트-";
 		
 		String result = importAPIRestService.sendSMS(contents, userPhone); // 번호와 내용을 변수로 보내는 것
 		System.out.println("sendSMS 작동 종료?"+result);
