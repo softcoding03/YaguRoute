@@ -150,7 +150,21 @@ public class UserController {
 				//session.setMaxInactiveInterval(6);
 
 				return "redirect:/main/getMain";
-			} else {
+			}else if (dbUser.getWithDraw() == 1) {
+				System.out.println("탈퇴한 회원입니다.");
+				
+				try {
+			        response.setContentType("text/html; charset=utf-8");
+			        PrintWriter w = response.getWriter();
+			        w.write("<script>alert('탈퇴한 회원은 로그인할 수 없습니다.');location.href='/user/login.jsp';</script>");
+			        w.flush();
+			        w.close();
+			    } catch(Exception e) {
+			        e.printStackTrace();
+			    }
+				return "redirect:/user/index.jsp";
+			}
+			else {
 				System.out.println("아이디 혹은 비밀번호가 일치하지 않습니다.");
 				
 				try {
@@ -515,7 +529,7 @@ public class UserController {
 	}
 	
 	@GetMapping( value="naverLogin")
-	public String naverLogin(@RequestParam(value = "code", required = false) String code, User user, Model model, HttpSession session, HttpServletRequest request) throws Exception{
+	public String naverLogin(@RequestParam(value = "code", required = false) String code, User user, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		System.out.println("Authorization Code : "+code);
 		
@@ -546,14 +560,25 @@ public class UserController {
 			System.out.println(dbUser);
 			
 			if (dbUser.getUserId().equals(user.getUserId())) {
-
+				
 				System.out.println("이미 존재하는 아이디입니다.");
 				//System.out.println("첫 가입 유저... userPoint 올려드림.");
 				session.setAttribute("user", dbUser);
 				
 				//return "redirect:/main.jsp";
 				return "redirect:/main/getMain";
+				
+			}else if(dbUser.getWithDraw() == 1) {
+				System.out.println("탈퇴한 회원입니다.");
+			        response.setContentType("text/html; charset=utf-8");
+			        PrintWriter w = response.getWriter();
+			        w.write("<script>alert('탈퇴한 회원입니다.');location.href='/user/login.jsp';</script>");
+			        w.flush();
+			        w.close();
+				
+				return "redirect:/user/login.jsp";
 			}
+			
 		}
 		else {
 			System.out.println("추가 정보 입력");
@@ -564,6 +589,7 @@ public class UserController {
 		System.out.println("아무 값이 입력되지 않은 관계로 처음 로그인 화면 돌아갑니다.");
 		return "redirect:/user/login.jsp";
 	}
+	
 	@GetMapping( value="kakaoLogin")
 	public String kakaoLogin(@RequestParam(value= "code", required = false) String code,User user, HttpSession session, HttpServletRequest request, Model model) throws Exception{
 		
