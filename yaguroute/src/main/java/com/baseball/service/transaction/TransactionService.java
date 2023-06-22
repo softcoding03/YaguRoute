@@ -14,8 +14,6 @@ public interface TransactionService {
 
 	public void updateTransaction(Transaction transaction) throws Exception;
 	
-	public int deleteTransaction(int tranNo) throws Exception;
-	
 	public Map<String, Object> getTransactionList(Search search, String userId, String tranType) throws Exception;
 
 	public List<Transaction> getSalesList(String gameCode) throws Exception;

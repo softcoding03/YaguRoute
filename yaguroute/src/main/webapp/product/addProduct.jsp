@@ -49,6 +49,10 @@
 	    font-size: 20px;
 		
 	}
+	
+	div {
+	font-family: "Gwangyang" !important; 
+	}
 
 	.transparency{
 		background-color: rgba(256,256,256,0.3);
@@ -81,6 +85,7 @@
         background-size: cover;
         background-color: rgba(0, 0, 0, 0.5); /* 투명도 조절을 위한 배경색 설정 */
     }	
+
 </style>
 
 
@@ -90,7 +95,7 @@
 	<section class="hockey-stats">	    
 			<div class="container">
 				<div class="transparency col-md-12"  >
-					<h3 style="font-family: ''gwangyang'';">상품등록이 완료되었습니다</h3>
+					<h3 >상품등록이 완료되었습니다</h3>
 
 	<hr style="border: none; border-top: 1px solid #000; margin-top: 10px;">
 
@@ -130,12 +135,8 @@
 	<td bgcolor="D6D6D6" width="1"></td>
 	<td class="ct_write01">
 		<img src="${product.prodImageFirst}"  style="width: 120px;" onerror="this.style.display='none'"/>
-		<c:if test="${!product.prodImageSecond eq null}">
-			<img src="${product.prodImageSecond}"  style="width: 120px;" onerror="this.style.display='none'"/>
-		</c:if>
-		<c:if test="${!product.prodImageThird eq null}">
-			<img src="${product.prodImageThird}"  style="width: 120px;" onerror="this.style.display='none'"/>
-		</c:if>
+		<img src="${product.prodImageSecond}"  style="width: 120px;" onerror="this.style.display='none'"/>
+		<img src="${product.prodImageThird}"  style="width: 120px;" onerror="this.style.display='none'"/>
 	</td>
 </tr>
 		<%--  단일 상품 업로드 

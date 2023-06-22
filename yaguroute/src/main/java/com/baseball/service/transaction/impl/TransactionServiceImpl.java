@@ -81,10 +81,6 @@ public class TransactionServiceImpl implements TransactionService {
 		
 	}
 
-	@Override
-	public int deleteTransaction(int tranNo) throws Exception {
-		return transactionDao.deleteTransaction(tranNo);
-	}
 
 	@Override
 	public Map<String, Object> getTransactionList(Search search, String userId, String tranType) throws Exception {
