@@ -516,23 +516,12 @@ MAIN SPONSOR SLIDER END -->
                                         <img style="height: 250px;" src="${bestTran.tranDetailProd.prodImageFirst }" alt="product-image">
                                     </a>
                                     <div class="info">
-                                        <span class="name"><c:choose>
-														    <c:when test="${team.teamCode eq 'HH'}">[한화 이글스]</c:when>
-														    <c:when test="${team.teamCode eq 'SS'}">[삼성 라이온스]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'HT'}">[기아 타이거즈]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'SK'}">[SSG 랜더스]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'LG'}">[LG 트윈스]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'OB'}">[두산 베어스]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'KT'}">[KT 위즈]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'LT'}">[롯데 자이언츠]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'WO'}">[키움 히어로즈]</c:when>
-														    <c:when test="${product.prodTeamCode eq 'NC'}">[NC 다이노스]</c:when>
-														    <c:otherwise>팀 정보 없음</c:otherwise>
-														  </c:choose><br>${bestTran.tranDetailProd.prodName}</span>
+                                        <span class="name">${bestTran.tranDetailProd.prodName}</span>
                                         <span class="price"><input type="hidden" value="${bestTran.tranDetailProd.prodPrice}">
                                         <fmt:formatNumber value="${bestTran.tranDetailProd.prodPrice}" pattern="###,###"/>원 </span>	 
                                         <div class="btn-wrap">
                                              <a href="/product/getProduct?prodNo=${bestTran.tranDetailProd.prodNo}" class="btn btn-detail">상세보기</a>
+                                             <br>
                                         </div>
                                     </div>
                                 </div>
