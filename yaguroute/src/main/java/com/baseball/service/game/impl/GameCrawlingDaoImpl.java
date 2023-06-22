@@ -325,8 +325,8 @@ public class GameCrawlingDaoImpl implements GameCrawlingDao {
 			//실시간 경기 스코어
 			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_home__MPL6D > div.MatchBox_score_area__2bf1P
 			//#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ > div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_away__1rDsC > div.MatchBox_score_area__2bf1P
-			game.setGameScore(driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_home__MPL6D > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
-			+driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ div.MatchBox_comp_match_box__1oRmr.MatchBox_type_finished__1kK4- > div.MatchBox_away__1rDsC > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
+			game.setGameScore(driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ div.MatchBox_comp_match_box__1oRmr > div.MatchBox_home__MPL6D > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]+" : "
+			+driver.findElement(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ div.MatchBox_comp_match_box__1oRmr > div.MatchBox_away__1rDsC > div.MatchBox_score_area__2bf1P")).getText().split("[\\n]")[1]);
 	
 			// 경기 스코어
 			List<WebElement> homeAwayScore = driver.findElements(By.cssSelector("#content > div > div.Home_main_section__y9jR4 > section.Home_game_head__3EEZZ div.ScoreBox_comp_score_box__1jaYr > div > div.ScoreBox_round__1sOLq > table tbody td"));
