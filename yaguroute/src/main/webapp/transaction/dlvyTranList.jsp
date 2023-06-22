@@ -31,6 +31,11 @@
 		display: grid;
     	justify-items: center;
 	}
+	    .ct_list_b {
+        background-color: black !important;
+        color: white; }
+   	div {font-family: "Gwangyang"; } 
+    
 </style>
 
 
@@ -72,7 +77,7 @@ function fncGetDlvyTranList(currentPage) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" >
 	<tr>
 		<td colspan="30" >
-		전체 ${resultPage.totalCount}건, 현재 ${resultPage.currentPage} 페이지</td>
+	현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" >주문번호</td>

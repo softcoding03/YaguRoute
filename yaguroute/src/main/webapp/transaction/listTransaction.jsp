@@ -62,15 +62,19 @@
 
 </head>
 <style>
+
     .ct_list_b_black {
         background-color: black !important;
-        color: white;
-    }
+        color: white; }
+    
     
     .pagination-wrap {
     width: 800px;
     margin-left: 650px;}
     
+   
+	div {font-family: "Gwangyang"; } 
+   h1  {font-family: "Gwangyang"; } 
    
 </style>
 <body >
@@ -104,13 +108,10 @@
 
 					<div class="container">
 					<div class="page-header text-info">
-						<div class="row">
+					<div class="row">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" >
-
 				<tr>
-			        <td class="ct_list_b_black">구매일자</td>
-<!-- 			        <td class="ct_list_b_black">tranCode</td>	
-			        <td class="ct_list_b_black">refundCode</td>	 -->			        		        
+			        <td class="ct_list_b_black">구매일자</td>		        		        
 			        <td class="ct_list_b_black">구단</td>
 			        <td class="ct_list_b_black">상품명</td>
 			        <td class="ct_list_b_black">상품가격</td>
