@@ -87,7 +87,11 @@ public class TransactionRestController {
 			
 			user.setUserPoint(user.getUserPoint()+tranUsePoint-tranAddPoint); // userPoint 재 셋팅
 			
+			
 			userService.updatePoint(user);
+			
+		    User user2 = userService.getUser(userId);
+		    session.setAttribute("user", user2); 
 					
 			int tranQuantity = tranDetail.getTranQuantity(); // 구매한 총 수량
 			System.out.println("tranQuantity"+tranQuantity);
