@@ -924,7 +924,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
 						$("#nickname_use").attr('color', '#dc3545');
 					
-					}else if(nickname.length <= 20){
+					}else if(nickname.length >= 1 && nickname.length <= 20){
 						
 						$('#nickname_use').html('사용 가능한 닉네임입니다.');
 						$('#nickname_use').attr('color', '#2fb380');
@@ -1232,11 +1232,13 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 			
 			// ajax(User) -> Controller
 			var user = {
+					
 				userId : $("input[name='userId']").val(),
 				password : $("#password").val(),
 				userName : $("#userName").val(),
 				userPhone : $("#userPhone").val(),
 				phoneCheck : $("#phoneCheck").val(),
+				userPoint : $("#userPoint").val(),
 				userBirth : $("#userBirth").val(),
 				userAddr : $("#userAddr").val(),
 				gender : $("input[name='gender']:checked").val(),
@@ -1640,7 +1642,7 @@ a.gnb_service_all:hover, a.gnb_service_all:visited, a.gnb_service_all:active, a.
 								  </div>
 								  <!-- <button id="btn-upload-file">서버전송</button> -->
  								
- 								<input type="hidden" name="userPoint" id="userPoint" value="${user.userPoint}" readonly>
+ 								<input type="hidden" name="userPoint" id="userPoint" value="${user.userPoint}">
  								
                             	<div class="form-group">
                             	<label>

@@ -220,7 +220,7 @@
 						$("#nickname_use").html('이미 사용중인 닉네임입니다.');
 						$("#nickname_use").attr('color', '#dc3545');
 					
-					}else if(nickname.length <= 20){
+					}else if(nickname.length >= 1 && nickname.length <= 20){
 						
 						$('#nickname_use').html('사용 가능한 닉네임입니다.');
 						$('#nickname_use').attr('color', '#2fb380');
