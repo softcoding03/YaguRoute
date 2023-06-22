@@ -14,7 +14,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>야구ROUTE</title>
+    <title>Team HTML</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat%7COpen+Sans:700,400%7CRaleway:400,800,900" rel="stylesheet" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="/css/style.min.css" rel="stylesheet" type="text/css" />
@@ -85,6 +85,7 @@
 	  width: 400px;
 	  height: 430px;
 	  align-items: center;
+	  border-radius: 25px;
 	}
 	
 	.modal-content h6 {
@@ -429,9 +430,9 @@ BREADCRUMBS END
         <a style="text-align: center; margin-bottom: 60px; font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;패스워드를 찾기위해 휴대폰과 인증번호가 필요합니다.</a><br><br>
         <div class="findUser">
         <a style="font-size: 13px; font-family: Gwangyang !important;">아이디</a>
-        <input type="text" name="userId" id="userId" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="아이디" autofocus required>
+        <input type="text" name="userId" id="userId" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="아이디 입력" autofocus required>
         <a style="font-size: 13px;">휴대폰</a>
-        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="휴대폰번호  ('-' 제외)" autofocus required>
+        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px; border-radius: 15px;" placeholder="휴대폰번호 입력" autofocus required>
         <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; margin-bottom: 10px; background-color: #19376D; " value="인증번호 전송"><br>
         <div>
         <a style="font-size: 13px;">인증번호</a>

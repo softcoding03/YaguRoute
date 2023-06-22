@@ -15,7 +15,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title>야구ROUTE</title>
+  <title>로그인 폼</title>
   <style>
     @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
 
@@ -79,9 +79,10 @@
 	  margin: 20% auto;
 	  padding: 20px;
 	  border: 1px solid #888;
-	  width: 400px;
+	  width: 443px;
 	  height: 430px;
 	  align-items: center;
+	  border-radius: 25px;
 	}
 	
 	.modal-content h6 {
@@ -349,7 +350,7 @@
         <a style="text-align: center; margin-bottom: 60px; font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디를 찾기위해 휴대폰과 인증번호가 필요합니다.</a><br><br>
         <div class="findUser">
         <a style="font-size: 13px;">휴대폰</a>
-        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="휴대폰번호 ('-' 제외)" autofocus required>
+        <input type="text" name="userPhone" id="userPhone" class="form-control" style="width: 250px; margin-right: 100px;" placeholder="휴대폰번호 입력" autofocus required>
         <input type="button" class="buttonColor" id="phoneButton" style="width: 250px; margin-right: 100px; background-color: #19376D;" value="인증번호 전송"><br>
         <div><br>
         <a style="font-size: 13px;">인증번호</a>

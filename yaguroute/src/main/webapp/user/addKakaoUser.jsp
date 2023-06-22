@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<c:if test="${ empty user.userId }">
+	<%-- <c:if test="${ empty user.userId }">
  		<c:redirect url="/main/getMain"/>
-	</c:if>
+	</c:if> --%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -227,26 +227,26 @@
 	// 휴대폰 인증 클릭
 	$(function(){
    		$('#phoneButton').on("click", function(){
-   		
-   		var userPhone = $("#userPhone").val(); // 휴대폰 번호
-   		
-   		var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
-   		// rnd에 대한 HTML 요소 생성
-
-   		var newDiv = document.createElement("div");
-
-		// hidden 속성 추가
-		var hiddenDiv = document.createElement('input');
-   		hiddenDiv.type = "hidden";
-		hiddenDiv.value = rnd;
-		hiddenDiv.id = 'rnd';
-		newDiv.appendChild(hiddenDiv);
-		document.body.appendChild(newDiv);
 		
-		if(userPhone.length == 11){
+		if(userPhone.length == 11 && userPhone.includes("010")){
 			alert("인증번호를 발송하였습니다.");
+			
 			document.getElementById('phoneCheckId').style.display = 'block';
 			$("#userPhone").prop("disabled", true);
+			
+			var rnd = Math.floor(Math.random() * 90000) + 10000; //랜덤 수
+	   		// rnd에 대한 HTML 요소 생성
+			
+			var userPhone = $("#userPhone").val(); // 휴대폰 번호
+	   		var newDiv = document.createElement("div");
+			
+			// hidden 속성 추가
+			var hiddenDiv = document.createElement('input');
+	   		hiddenDiv.type = "hidden";
+			hiddenDiv.value = rnd;
+			hiddenDiv.id = 'rnd';
+			newDiv.appendChild(hiddenDiv);
+			document.body.appendChild(newDiv);
 			
 	   		$.ajax({
 	               url: "/users/phoneCheck/",
@@ -384,7 +384,6 @@
 				alert("'-'를 제외하고 휴대폰 번호 11자리를 입력해 주시기 바랍니다.");
 				return;
 			}else if(userPhone.length == 11 && pattern.test(userPhone)){
-				alert("확인");
 				// 5. userBirth 유효성 검증
 				var userBirth=$("#birthday").val();
 				
@@ -485,10 +484,10 @@
                     	<form>
 	                    	<input type="hidden" name="userId" value="${user.userId}" readonly="readonly"/>
 							<input type="hidden" name="userName" value="${user.userName}" readonly="readonly"/>
-							<input type="hidden" name="userBirth" value="${user.userBirth}" readonly="readonly"/>
+							<%-- <input type="hidden" name="userBirth" value="${user.userBirth}" readonly="readonly"/> --%>
 							<input type="hidden" name="userEmail" value="${user.userEmail}" readonly="readonly"/>
 							<input type="hidden" name="password" value="${user.password}" readonly="readonly"/>
-							<input type="hidden" name="userPhone" value="${user.userPhone}" readonly="readonly"/>
+							<%-- <input type="hidden" name="userPhone" value="${user.userPhone}" readonly="readonly"/> --%>
 							<input type="hidden" name="gender" value="${user.gender}" readonly="readonly"/>
 							<input type="hidden" name="userImage" value="${user.userImage}" readonly="readonly"/>
 							
@@ -502,7 +501,8 @@
                             	<a style="font-size: 17px; font-weight: bold;">생년월일</a>
                             	<div class="form-inline">
                                     <label for="userBirth">
-                                        <input type="date" class="birthday" name="userBirth" id="userBirth" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
+                                        <input type="date" class="birthday" name="birthday" id="birthday" style="width: 400px; height: 50px; margin-bottom: 20px;"  placeholder="닉네임"/>
+                                        <input type="hidden" name="userBirth" id="userBirth">
                                     </label>
                                     	<font id="nickname_use" size="2"></font>
                             	</div>
