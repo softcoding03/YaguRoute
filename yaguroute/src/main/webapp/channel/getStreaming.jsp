@@ -370,7 +370,7 @@ function getTime(){
 			 }
 		});
 		
-		$(window).on("load", function(){
+		$(document).ready(function(){
 			socket.emit('join');
 			socket.emit('getMessageData');
 			console.log("${gameRecord}");		
