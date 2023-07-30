@@ -14,6 +14,6 @@ DB: MySQL <br>
 API: PortOne, Naver SENS, Naver ObjectStorage, Naver ImageOptimizer <br>
 Naver Cloud: Server, VPC, CDN+, Cloud DB for MySQL, DNS <br>
 <br>
-Git Commit 수: 76/340(나/전체) <br>
-소스코드 라인 수: 8346/93210(나/전체) <br>
+Git Commit 수: 76/340(본인/전체) <br>
+소스코드 라인 수: 8346/93210(본인/전체) <br>
 맡은 모듈: 총 9개 중 2개(커뮤니티 게시판 관리, 티켓 관리) <br>
